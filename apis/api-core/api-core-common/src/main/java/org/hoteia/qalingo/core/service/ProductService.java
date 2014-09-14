@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -331,6 +332,38 @@ public class ProductService {
 
     public void deleteProductSkuAsset(final Asset productSkuAsset) {
         productDao.deleteProductSkuAsset(productSkuAsset);
+    }
+   
+    // PRODUCT SKU OPTION
+
+    public ProductSkuOptionDefinition getProductSkuOptionDefinitionById(final Long productSkuOptionDefinitionId, Object... params) {
+        return productDao.getProductSkuOptionDefinitionById(productSkuOptionDefinitionId, params);
+    }
+
+    public ProductSkuOptionDefinition getProductSkuOptionDefinitionById(final String rawProductSkuOptionDefinitionId, Object... params) {
+        long productSkuOptionDefinitionId = -1;
+        try {
+            productSkuOptionDefinitionId = Long.parseLong(rawProductSkuOptionDefinitionId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getProductSkuOptionDefinitionById(productSkuOptionDefinitionId, params);
+    }
+
+    public ProductSkuOptionDefinition getProductSkuOptionDefinitionByCode(final String productSkuOptionDefinitionCode, Object... params) {
+        return productDao.getProductSkuOptionDefinitionByCode(productSkuOptionDefinitionCode, params);
+    }
+
+    public List<ProductSkuOptionDefinition> findAllProductSkuOptionDefinitions(Object... params) {
+        return productDao.findAllProductSkuOptionDefinitions(params);
+    }
+    
+    public ProductSkuOptionDefinition saveOrUpdateProductSkuOptionDefinition(final ProductSkuOptionDefinition productSkuOptionDefinition) {
+        return productDao.saveOrUpdateProductSkuOptionDefinition(productSkuOptionDefinition);
+    }
+
+    public void deleteProductSkuOptionDefinition(final ProductSkuOptionDefinition productSkuOptionDefinition) {
+        productDao.deleteProductSkuOptionDefinition(productSkuOptionDefinition);
     }
     
     // PRODUCT BRAND
