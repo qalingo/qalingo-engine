@@ -81,4 +81,16 @@ public class CatalogService {
         return catalogDao.getVirtualCatalogByCode(virtualCatalogCode, params);
     }
 
+    public List<CatalogVirtual> findAllCatalogVirtuals(Object... params) {
+        return catalogDao.findAllCatalogVirtuals(params);
+    }
+
+    public void saveOrUpdateCatalogVirtual(final CatalogVirtual catalogVirtual) {
+        catalogDao.saveOrUpdateCatalogVirtual(catalogVirtual);
+    }
+
+    public void deleteCatalogVirtual(final CatalogVirtual catalogVirtual) {
+        catalogDao.deleteCatalogVirtual(catalogVirtual);
+    }
+    
 }

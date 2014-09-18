@@ -17,7 +17,6 @@ import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -139,6 +138,40 @@ public class CatalogDao extends AbstractGenericDao {
             catalog.setFetchPlan(fetchPlan);
         }
         return catalog;
+    }
+    
+    public List<CatalogVirtual> findAllCatalogVirtuals(Object... params) {
+        Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
+        
+        handleSpecificFetchMode(criteria, params);
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CatalogVirtual> catalogVirtuals = criteria.list();
+        return catalogVirtuals;
+    }
+    
+    public CatalogVirtual saveOrUpdateCatalogVirtual(final CatalogVirtual catalogVirtual) {
+        if(catalogVirtual.getDateCreate() == null){
+            catalogVirtual.setDateCreate(new Date());
+        }
+        catalogVirtual.setDateUpdate(new Date());
+        if (catalogVirtual.getId() != null) {
+            if(em.contains(catalogVirtual)){
+                em.refresh(catalogVirtual);
+            }
+            CatalogVirtual mergedCatalogVirtual = em.merge(catalogVirtual);
+            em.flush();
+            return mergedCatalogVirtual;
+        } else {
+            em.persist(catalogVirtual);
+            return catalogVirtual;
+        }
+    }
+    
+    public void deleteCatalogVirtual(final CatalogVirtual catalogVirtual) {
+        em.remove(catalogVirtual);
     }
 	
     @Override

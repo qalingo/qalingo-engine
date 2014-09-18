@@ -88,6 +88,11 @@ public class CatalogCategoryService {
         return getVirtualCatalogCategoryById(catalogCategoryId, params);
     }
 
+    public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String catalogCategoryCode, final String catalogVirtualCode, Object... params) {
+        CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryDao.getVirtualCatalogCategoryByVirtualCategoryCode(catalogCategoryCode, catalogVirtualCode, params);
+        return catalogCategoryVirtual;
+    }
+    
     public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String catalogCategoryCode, final String catalogVirtualCode, final String catalogMasterCode, Object... params) {
         // FIRST TRY TO LOAD A VIRTUAL CATEGORY BY THE MASTER CATEGORY CODE 
         CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryDao.getVirtualCatalogCategoryByMasterCategoryCode(catalogCategoryCode, catalogVirtualCode, catalogMasterCode, params);
