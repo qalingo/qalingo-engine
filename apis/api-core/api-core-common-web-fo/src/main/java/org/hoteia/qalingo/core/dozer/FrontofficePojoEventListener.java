@@ -27,6 +27,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.FoCartItemPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.FoDeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
+import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
@@ -39,15 +40,18 @@ public class FrontofficePojoEventListener implements DozerEventListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    @Autowired 
-    private HttpServletRequest httpServletRequest;
-    
     @Autowired
-    protected RequestUtil requestUtil;
+    protected EngineSettingService engineSettingService;
     
     @Autowired 
     protected UrlService urlService;
-    
+
+    @Autowired
+    protected RequestUtil requestUtil;
+
+    @Autowired 
+    private HttpServletRequest httpServletRequest;
+
     public FrontofficePojoEventListener() {
     }
 
@@ -78,7 +82,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     final Asset defaultPackshotImage = cartItem.getProductSku().getDefaultPackshotImage(ImageSize.SMALL.name());
                     if (defaultPackshotImage != null) {
-                        String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
+                        String summaryImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
                         cartItemPojo.setSummaryImage(summaryImage);
                     } else {
                         cartItemPojo.setSummaryImage("");
@@ -109,7 +113,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     final Asset defaultPackshotImage = productSku.getDefaultPackshotImage(ImageSize.SMALL.name());
                     if (defaultPackshotImage != null) {
-                        String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
+                        String summaryImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
                         productSkuPojo.setDefaultPackshotImage(summaryImage);
                     } else {
                         productSkuPojo.setDefaultPackshotImage("");

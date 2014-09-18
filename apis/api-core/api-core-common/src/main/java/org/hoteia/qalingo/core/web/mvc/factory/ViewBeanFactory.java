@@ -85,6 +85,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
 import org.hoteia.qalingo.core.service.CustomerProductCommentService;
+import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.ReferentialDataService;
@@ -180,6 +181,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     @Autowired
     protected ReferentialDataService referentialDataService;
 
+    @Autowired
+    protected EngineSettingService engineSettingService;
+    
     @Autowired
     protected UrlService urlService;
 
@@ -932,14 +936,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         final Asset defaultPackshotImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (defaultPackshotImage != null) {
-            final String defaultImage = requestUtil.getRetailerOrStoreImageWebPath(defaultPackshotImage);
+            final String defaultImage = engineSettingService.getRetailerOrStoreImageWebPath(defaultPackshotImage);
             storeViewBean.setDefaultImage(defaultImage);
         } else {
             storeViewBean.setDefaultImage("");
         }
         final Asset defaultIconImage = store.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
-            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(defaultIconImage);
+            final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(defaultIconImage);
             storeViewBean.setIconImage(iconImage);
         } else {
             storeViewBean.setIconImage("");
@@ -957,7 +961,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 		if(assets != null){
 	        List<String> sliders = new ArrayList<String>();
 	        for(Asset asset : assets ){
-	            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(asset);
+	            final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(asset);
 	            sliders.add(iconImage);
 	        }
 	        storeViewBean.setSliders(sliders);
@@ -1310,14 +1314,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             // ASSETS
             final Asset defaultBackgroundImage = catalogCategory.getDefaultBackgroundImage();
             if (defaultBackgroundImage != null) {
-                final String backgroundImage = requestUtil.getCatalogImageWebPath(defaultBackgroundImage);
+                final String backgroundImage = engineSettingService.getCatalogImageWebPath(defaultBackgroundImage);
                 catalogCategoryViewBean.setBackgroundImage(backgroundImage);
             } else {
                 catalogCategoryViewBean.setBackgroundImage("");
             }
             final Asset defaultSlideshowImage = catalogCategory.getDefaultSlideshowImage();
             if (defaultSlideshowImage != null) {
-                final String slideshowImage = requestUtil.getCatalogImageWebPath(defaultSlideshowImage);
+                final String slideshowImage = engineSettingService.getCatalogImageWebPath(defaultSlideshowImage);
                 catalogCategoryViewBean.setSlideshowImage(slideshowImage);
             } else {
                 catalogCategoryViewBean.setBackgroundImage("");
@@ -1325,14 +1329,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
             final Asset defaultPackshotImage = catalogCategory.getDefaultPackshotImage(ImageSize.SMALL.getPropertyKey());
             if (defaultPackshotImage != null) {
-                final String carouselImage = requestUtil.getCatalogImageWebPath(defaultPackshotImage);
+                final String carouselImage = engineSettingService.getCatalogImageWebPath(defaultPackshotImage);
                 catalogCategoryViewBean.setCarouselImage(carouselImage);
             } else {
                 catalogCategoryViewBean.setCarouselImage("");
             }
             final Asset defaultIconImage = catalogCategory.getDefaultThumbnailImage();
             if (defaultIconImage != null) {
-                final String iconImage = requestUtil.getCatalogImageWebPath(defaultIconImage);
+                final String iconImage = engineSettingService.getCatalogImageWebPath(defaultIconImage);
                 catalogCategoryViewBean.setIconImage(iconImage);
             } else {
                 catalogCategoryViewBean.setIconImage("");
@@ -1485,21 +1489,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // ASSETS
         final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
-            final String backgroundImage = requestUtil.getProductMarketingImageWebPath(defaultBackgroundImage);
+            final String backgroundImage = engineSettingService.getProductMarketingImageWebPath(defaultBackgroundImage);
             productMarketingViewBean.setBackgroundImage(backgroundImage);
         } else {
             productMarketingViewBean.setBackgroundImage("");
         }
         final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (defaultPackshotImage != null) {
-            final String carouselImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
+            final String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
             productMarketingViewBean.setCarouselImage(carouselImage);
         } else {
             productMarketingViewBean.setCarouselImage("");
         }
         final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
-            final String iconImage = requestUtil.getProductMarketingImageWebPath(defaultIconImage);
+            final String iconImage = engineSettingService.getProductMarketingImageWebPath(defaultIconImage);
             productMarketingViewBean.setIconImage(iconImage);
         } else {
             productMarketingViewBean.setIconImage("");
@@ -1590,21 +1594,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // ASSETS
         final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
-            String backgroundImage = requestUtil.getProductSkuImageWebPath(defaultBackgroundImage);
+            String backgroundImage = engineSettingService.getProductSkuImageWebPath(defaultBackgroundImage);
             productSkuViewBean.setBackgroundImage(backgroundImage);
         } else {
             productSkuViewBean.setBackgroundImage("");
         }
         final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (defaultPackshotImage != null) {
-            String carouselImage = requestUtil.getProductSkuImageWebPath(defaultPackshotImage);
+            String carouselImage = engineSettingService.getProductSkuImageWebPath(defaultPackshotImage);
             productSkuViewBean.setCarouselImage(carouselImage);
         } else {
             productSkuViewBean.setCarouselImage("");
         }
         final Asset defaultIconImage = productSku.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
-            String iconImage = requestUtil.getProductSkuImageWebPath(defaultIconImage);
+            String iconImage = engineSettingService.getProductSkuImageWebPath(defaultIconImage);
             productSkuViewBean.setIconImage(iconImage);
         } else {
             productSkuViewBean.setIconImage("");
@@ -1654,21 +1658,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
-            String backgroundImage = requestUtil.getProductMarketingImageWebPath(defaultBackgroundImage);
+            String backgroundImage = engineSettingService.getProductMarketingImageWebPath(defaultBackgroundImage);
             productAssociationLinkViewBean.setBackgroundImage(backgroundImage);
         } else {
             productAssociationLinkViewBean.setBackgroundImage("");
         }
         final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (defaultPackshotImage != null) {
-            String carouselImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
+            String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
             productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
         } else {
             productAssociationLinkViewBean.setCrossLinkImage("");
         }
         final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
-            String iconImage = requestUtil.getProductMarketingImageWebPath(defaultIconImage);
+            String iconImage = engineSettingService.getProductMarketingImageWebPath(defaultIconImage);
             productAssociationLinkViewBean.setIconImage(iconImage);
         } else {
             productAssociationLinkViewBean.setIconImage("");
@@ -1783,7 +1787,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         final Asset defaultPackshotImage = productSku.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (defaultPackshotImage != null) {
-            String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
+            String summaryImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
             cartItemViewBean.setSummaryImage(summaryImage);
         } else {
             cartItemViewBean.setSummaryImage("");

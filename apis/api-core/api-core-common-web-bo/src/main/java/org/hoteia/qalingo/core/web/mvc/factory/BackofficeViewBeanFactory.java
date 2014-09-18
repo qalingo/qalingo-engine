@@ -648,7 +648,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         assetViewBean.setFileSize("" + asset.getFileSize());
         assetViewBean.setIsDefault("" + asset.isDefault());
 
-        assetViewBean.setAbsoluteWebPath(requestUtil.getProductMarketingImageWebPath(asset));
+        assetViewBean.setAbsoluteWebPath(engineSettingService.getProductMarketingImageWebPath(asset));
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date createdDate = asset.getDateCreate();

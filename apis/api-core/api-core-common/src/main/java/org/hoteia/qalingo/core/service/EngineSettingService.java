@@ -12,8 +12,8 @@ package org.hoteia.qalingo.core.service;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.EngineSettingDao;
+import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -353,4 +353,101 @@ public class EngineSettingService {
         }
         return emailFileMirroringPath;
     }
+    
+    // ASSETS
+    
+    /**
+     * 
+     */
+    public String getRootAssetFilePath() throws Exception {
+        EngineSetting engineSetting = getAssetFileRootPath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        if (prefixPath.endsWith("/")) {
+            prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
+        }
+        return prefixPath;
+    }
+
+    /**
+     * 
+     */
+    public String getRootAssetWebPath() throws Exception {
+        EngineSetting engineSetting = getAssetWebRootPath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        if (prefixPath.endsWith("/")) {
+            prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
+        }
+        return prefixPath;
+    }
+
+    /**
+     * 
+     */
+    public String getCatalogImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getAssetCatalogFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (catalogImageWebPath.endsWith("/")) {
+            catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
+        }
+        return catalogImageWebPath;
+    }
+
+    /**
+     * 
+     */
+    public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getAssetProductMarketingFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (productMarketingImageWebPath.endsWith("/")) {
+            productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
+        }
+        return productMarketingImageWebPath;
+    }
+
+    /**
+     * 
+     */
+    public String getProductSkuImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getAssetPoductSkuFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (productSkuImageWebPath.endsWith("/")) {
+            productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
+        }
+        return productSkuImageWebPath;
+    }
+    
+    /**
+     * 
+     */
+    public String getRetailerOrStoreImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getAssetRetailerAndStoreFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String storeImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().toLowerCase() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (storeImageWebPath.endsWith("/")) {
+            storeImageWebPath = storeImageWebPath.substring(0, storeImageWebPath.length() - 1);
+        }
+        return storeImageWebPath;
+    }
+    
 }

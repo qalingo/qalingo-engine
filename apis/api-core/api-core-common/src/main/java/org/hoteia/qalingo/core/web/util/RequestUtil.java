@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractEngineSession;
-import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
@@ -86,9 +85,6 @@ public class RequestUtil {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    protected EngineSettingService engineSettingService;
-
     @Value("${env.name}")
     protected String environmentName;
 
@@ -121,6 +117,9 @@ public class RequestUtil {
     
     @Autowired
     protected UserService userService;
+    
+    @Autowired
+    protected EngineSettingService engineSettingService;
     
     @Autowired
     protected EngineSessionService engineSessionService;
@@ -848,100 +847,6 @@ public class RequestUtil {
         return handleUrl(url);
     }
     
-    /**
-     * 
-     */
-    public String getRootAssetFilePath() throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetFileRootPath();
-        String prefixPath = "";
-        if (engineSetting != null) {
-            prefixPath = engineSetting.getDefaultValue();
-        }
-        if (prefixPath.endsWith("/")) {
-            prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
-        }
-        return prefixPath;
-    }
-
-    /**
-     * 
-     */
-    public String getRootAssetWebPath() throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetWebRootPath();
-        String prefixPath = "";
-        if (engineSetting != null) {
-            prefixPath = engineSetting.getDefaultValue();
-        }
-        if (prefixPath.endsWith("/")) {
-            prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
-        }
-        return prefixPath;
-    }
-
-    /**
-     * 
-     */
-    public String getCatalogImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetCatalogFilePath();
-        String prefixPath = "";
-        if (engineSetting != null) {
-            prefixPath = engineSetting.getDefaultValue();
-        }
-        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (catalogImageWebPath.endsWith("/")) {
-            catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
-        }
-        return catalogImageWebPath;
-    }
-
-    /**
-     * 
-     */
-    public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetProductMarketingFilePath();
-        String prefixPath = "";
-        if (engineSetting != null) {
-            prefixPath = engineSetting.getDefaultValue();
-        }
-        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (productMarketingImageWebPath.endsWith("/")) {
-            productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
-        }
-        return productMarketingImageWebPath;
-    }
-
-    /**
-     * 
-     */
-    public String getProductSkuImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetPoductSkuFilePath();
-        String prefixPath = "";
-        if (engineSetting != null) {
-            prefixPath = engineSetting.getDefaultValue();
-        }
-        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (productSkuImageWebPath.endsWith("/")) {
-            productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
-        }
-        return productSkuImageWebPath;
-    }
-    
-    /**
-     * 
-     */
-    public String getRetailerOrStoreImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
-        String prefixPath = "";
-        if (engineSetting != null) {
-            prefixPath = engineSetting.getDefaultValue();
-        }
-        String storeImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().toLowerCase() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (storeImageWebPath.endsWith("/")) {
-            storeImageWebPath = storeImageWebPath.substring(0, storeImageWebPath.length() - 1);
-        }
-        return storeImageWebPath;
-    }
-
     /**
      * 
      */
