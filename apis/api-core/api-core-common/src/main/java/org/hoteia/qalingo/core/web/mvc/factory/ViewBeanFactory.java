@@ -1663,7 +1663,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } else {
             productAssociationLinkViewBean.setBackgroundImage("");
         }
-        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
+        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.HD.name());
         if (defaultPackshotImage != null) {
             String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
             productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
