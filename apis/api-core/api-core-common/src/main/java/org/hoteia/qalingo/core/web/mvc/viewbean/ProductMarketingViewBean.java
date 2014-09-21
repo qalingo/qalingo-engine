@@ -51,6 +51,9 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
     protected List<ProductAssociationLinkViewBean> productAssociationLinks = new ArrayList<ProductAssociationLinkViewBean>();
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
+    protected List<CatalogCategoryViewBean> categories = new ArrayList<CatalogCategoryViewBean>();
+    protected List<String> categoryCodes = new ArrayList<String>();
+
     protected CustomerProductRatesViewBean customerProductRates;
 
     protected String detailsUrl;
@@ -246,10 +249,8 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 
 	public String getAddToCartUrl() {
 		if (productSkus != null) {
-			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
-					.hasNext();) {
-				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator
-						.next();
+			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
 				if (productSkuViewBean.isDefault()) {
 					return productSkuViewBean.getAddToCartUrl();
 				}
@@ -280,10 +281,8 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 
 	public String getAddToWishlistUrl() {
 		if (productSkus != null) {
-			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
-					.hasNext();) {
-				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator
-						.next();
+			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
 				if (productSkuViewBean.isDefault()) {
 					return productSkuViewBean.getAddToWishlistUrl();
 				}
@@ -298,10 +297,8 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 
 	public String getPriceWithCurrencySign() {
 		if (productSkus != null) {
-			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
-					.hasNext();) {
-				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator
-						.next();
+			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
 				if (productSkuViewBean.isDefault()) {
 					if (productSkuViewBean.getPriceWithCurrencySign() != null) {
 						return productSkuViewBean.getPriceWithCurrencySign();
