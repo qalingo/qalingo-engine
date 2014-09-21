@@ -1327,7 +1327,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 catalogCategoryViewBean.setBackgroundImage("");
             }
 
-            final Asset defaultPackshotImage = catalogCategory.getDefaultPackshotImage(ImageSize.SMALL.getPropertyKey());
+            final Asset defaultPackshotImage = catalogCategory.getDefaultPackshotImage(ImageSize.HD.getPropertyKey());
             if (defaultPackshotImage != null) {
                 final String carouselImage = engineSettingService.getCatalogImageWebPath(defaultPackshotImage);
                 catalogCategoryViewBean.setCarouselImage(carouselImage);
@@ -1494,7 +1494,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } else {
             productMarketingViewBean.setBackgroundImage("");
         }
-        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
+        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.HD.name());
         if (defaultPackshotImage != null) {
             final String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
             productMarketingViewBean.setCarouselImage(carouselImage);
@@ -1599,7 +1599,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } else {
             productSkuViewBean.setBackgroundImage("");
         }
-        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
+        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.HD.name());
         if (defaultPackshotImage != null) {
             String carouselImage = engineSettingService.getProductSkuImageWebPath(defaultPackshotImage);
             productSkuViewBean.setCarouselImage(carouselImage);
