@@ -234,8 +234,7 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 		return productAssociationLinks;
 	}
 
-	public void setProductAssociationLinks(
-			List<ProductAssociationLinkViewBean> productAssociationLinks) {
+	public void setProductAssociationLinks(List<ProductAssociationLinkViewBean> productAssociationLinks) {
 		this.productAssociationLinks = productAssociationLinks;
 	}
 
@@ -247,7 +246,23 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 		this.assets = assets;
 	}
 
-	public String getAddToCartUrl() {
+	public List<CatalogCategoryViewBean> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CatalogCategoryViewBean> categories) {
+        this.categories = categories;
+    }
+
+    public List<String> getCategoryCodes() {
+        return categoryCodes;
+    }
+
+    public void setCategoryCodes(List<String> categoryCodes) {
+        this.categoryCodes = categoryCodes;
+    }
+
+    public String getAddToCartUrl() {
 		if (productSkus != null) {
 			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
