@@ -149,7 +149,7 @@ public class DocumentService {
     }
 
     public String getDefaultOrderConfirmationTemplate() {
-        EngineSetting defaultOrderConfirmationTemplateEngineSetting = engineSettingService.getDefaultOrderConfirmationTemplate();
+        EngineSetting defaultOrderConfirmationTemplateEngineSetting = engineSettingService.getSettingDefaultOrderConfirmationTemplate();
         String defaultOrderConfirmationTemplate = defaultOrderConfirmationTemplateEngineSetting.getDefaultValue();
         return defaultOrderConfirmationTemplate;
     }
@@ -237,7 +237,7 @@ public class DocumentService {
     }
 
     public String getDefaultShippingConfirmationTemplate() {
-        EngineSetting defaultShippingConfirmationTemplateEngineSetting = engineSettingService.getDefaultShippingConfirmationTemplate();
+        EngineSetting defaultShippingConfirmationTemplateEngineSetting = engineSettingService.getSettingDefaultShippingConfirmationTemplate();
         String defaultShippingConfirmationTemplate = defaultShippingConfirmationTemplateEngineSetting.getDefaultValue();
         return defaultShippingConfirmationTemplate;
     }
@@ -325,13 +325,13 @@ public class DocumentService {
     }
     
     public String getDefaultInvoiceTemplate() {
-        EngineSetting defaultInvoiceTemplateEngineSetting = engineSettingService.getDefaultInvoiceTemplate();
+        EngineSetting defaultInvoiceTemplateEngineSetting = engineSettingService.getSettingDefaultInvoiceTemplate();
         String defaultInvoiceTemplate = defaultInvoiceTemplateEngineSetting.getDefaultValue();
         return defaultInvoiceTemplate;
     }
     
     private String buildFilePathSegment(final OrderCustomer order){
-        final EngineSetting documentFileRootPathEngineSetting = engineSettingService.getDocumentFileRootPath();
+        final EngineSetting documentFileRootPathEngineSetting = engineSettingService.getSettingDocumentFileRootPath();
         String documentFileRootPath = documentFileRootPathEngineSetting.getDefaultValue();
         String filePathSegment = documentFileRootPath + "/" + order.getPrefixHashFolder() + "/";
         File file = new File(filePathSegment);
@@ -342,7 +342,7 @@ public class DocumentService {
     }
     
     private String buildWebPathSegment(final OrderCustomer order){
-        EngineSetting documentWebRootPathEngineSetting = engineSettingService.getDocumentWebRootPath();
+        EngineSetting documentWebRootPathEngineSetting = engineSettingService.getSettingDocumentWebRootPath();
         String documentWebRootPath = documentWebRootPathEngineSetting.getDefaultValue();
         if (documentWebRootPath != null && documentWebRootPath.endsWith("/")) {
             documentWebRootPath = documentWebRootPath.substring(0, documentWebRootPath.length() - 1);

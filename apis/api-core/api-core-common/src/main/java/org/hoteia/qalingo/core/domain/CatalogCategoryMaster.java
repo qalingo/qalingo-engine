@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,6 +40,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.comparator.CatalogCategoryMasterComparator;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
@@ -254,15 +254,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
         if (catalogCategories != null 
                 && Hibernate.isInitialized(catalogCategories)) {
             sortedCatalogCategories = new LinkedList<CatalogCategoryMaster>(catalogCategories);
-            Collections.sort(sortedCatalogCategories, new Comparator<CatalogCategoryMaster>() {
-                @Override
-                public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
-                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
-                        return o1.getRanking().compareTo(o2.getRanking());
-                    }
-                    return 0;
-                }
-            });
+            Collections.sort(sortedCatalogCategories, new CatalogCategoryMasterComparator());
         }
         return sortedCatalogCategories;
     }

@@ -73,7 +73,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 		
 		// STAR
 		String qualityOfServiceMax = "5";
-		EngineSetting engineSetting = engineSettingService.getProductMaxScoreValue();
+		EngineSetting engineSetting = engineSettingService.getSettingProductMaxScoreValue();
 		if(engineSetting != null){
 			qualityOfServiceMax = engineSetting.getDefaultValue();
 			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(EngineSettingService.ENGINE_SETTING_CONTEXT_STAR_SCORE_MAX);

@@ -104,12 +104,12 @@ public class RetailerService {
     }
     
     public String buildRetailerLogoFilePath(final Retailer retailer, final String logo) {
-          String assetfileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
+          String assetfileRootPath = engineSettingService.getSettingAssetFileRootPath().getDefaultValue();
           if (assetfileRootPath.endsWith("/")) {
               assetfileRootPath = assetfileRootPath.substring(0, assetfileRootPath.length() - 1);
           }
           
-          String retailerLogoFilePath = engineSettingService.getAssetRetailerAndStoreFilePath().getDefaultValue();
+          String retailerLogoFilePath = engineSettingService.getSettingAssetRetailerAndStoreFilePath().getDefaultValue();
           if (retailerLogoFilePath.endsWith("/")) {
               retailerLogoFilePath = retailerLogoFilePath.substring(0, retailerLogoFilePath.length() - 1);
           }
@@ -122,7 +122,7 @@ public class RetailerService {
     }
     
     public String buildRetailerLogoWebPath(final String logo) throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
+        EngineSetting engineSetting = engineSettingService.getSettingAssetRetailerAndStoreFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
@@ -133,7 +133,7 @@ public class RetailerService {
     }
     
     protected String buildRootAssetWebPath() throws Exception {
-        EngineSetting engineSetting = engineSettingService.getAssetWebRootPath();
+        EngineSetting engineSetting = engineSettingService.getSettingAssetWebRootPath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();

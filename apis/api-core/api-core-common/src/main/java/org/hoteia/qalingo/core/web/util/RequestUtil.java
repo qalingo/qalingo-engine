@@ -852,7 +852,7 @@ public class RequestUtil {
      */
     public String getCurrentThemeResourcePrefixPath(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        EngineSetting engineSetting = engineSettingService.getThemeResourcePrefixPath();
+        EngineSetting engineSetting = engineSettingService.getSettingThemeResourcePrefixPath();
         try {
             String contextValue = getCurrentContextNameValue(request);
             EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(contextValue);
@@ -1519,14 +1519,14 @@ public class RequestUtil {
 	 */
     protected EngineEcoSession initEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = new EngineEcoSession();
-        EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getEnvironmentStagingModeEnabled();
+        EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getSettingEnvironmentStagingModeEnabled();
         if (engineSettingEnvironmentStagingModeEnabled != null) {
             engineEcoSession.setEnvironmentStagingModeEnabled(BooleanUtils.toBoolean(engineSettingEnvironmentStagingModeEnabled.getDefaultValue()));
         } else {
             engineEcoSession.setEnvironmentStagingModeEnabled(false);
             logger.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
         }
-        EngineSetting engineSettingEnvironmentType = engineSettingService.getEnvironmentType();
+        EngineSetting engineSettingEnvironmentType = engineSettingService.getSettingEnvironmentType();
         if (engineSettingEnvironmentType != null) {
             String environmentType = engineSettingEnvironmentType.getDefaultValue();
             try {
@@ -1680,14 +1680,14 @@ public class RequestUtil {
 	 */
     protected EngineBoSession initBoSession(final HttpServletRequest request) throws Exception {
         final EngineBoSession engineBoSession = new EngineBoSession();
-        EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getEnvironmentStagingModeEnabled();
+        EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getSettingEnvironmentStagingModeEnabled();
         if (engineSettingEnvironmentStagingModeEnabled != null) {
             engineBoSession.setEnvironmentStagingModeEnabled(BooleanUtils.toBoolean(engineSettingEnvironmentStagingModeEnabled.getDefaultValue()));
         } else {
             engineBoSession.setEnvironmentStagingModeEnabled(false);
             logger.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
         }
-        EngineSetting engineSetting = engineSettingService.getEnvironmentType();
+        EngineSetting engineSetting = engineSettingService.getSettingEnvironmentType();
         if (engineSetting != null) {
             String environmentType = engineSetting.getDefaultValue();
             try {

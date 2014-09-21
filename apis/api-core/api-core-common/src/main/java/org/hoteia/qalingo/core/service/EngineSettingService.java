@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -176,122 +177,122 @@ public class EngineSettingService {
 
     // Common Engine Setting Value
 
-    public EngineSetting getEnvironmentStagingModeEnabled() {
+    public EngineSetting getSettingEnvironmentStagingModeEnabled() {
         return getEngineSettingByCode(ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED);
     }
 
-    public EngineSetting getEnvironmentType() {
+    public EngineSetting getSettingEnvironmentType() {
         return getEngineSettingByCode(ENGINE_SETTING_ENVIRONMENT_TYPE);
     }
 
-    public EngineSetting getAssetFileRootPath() {
+    public EngineSetting getSettingAssetFileRootPath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH);
     }
 
-    public EngineSetting getAssetWebRootPath() {
+    public EngineSetting getSettingAssetWebRootPath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_WEB_ROOT_PATH);
     }
 
-    public EngineSetting getAssetCatalogFilePath() {
+    public EngineSetting getSettingAssetCatalogFilePath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH);
     }
 
-    public EngineSetting getAssetProductMarketingFilePath() {
+    public EngineSetting getSettingAssetProductMarketingFilePath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH);
     }
 
-    public EngineSetting getAssetPoductSkuFilePath() {
+    public EngineSetting getSettingAssetPoductSkuFilePath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH);
     }
     
-    public EngineSetting getAssetRetailerAndStoreFilePath() {
+    public EngineSetting getSettingAssetRetailerAndStoreFilePath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_RETAILER_STORE_FILE_PATH);
     }
 
-    public EngineSetting getThemeResourcePrefixPath() {
+    public EngineSetting getSettingThemeResourcePrefixPath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);
     }
 
-    public EngineSetting withEscapeAccent() {
+    public EngineSetting getSettingWithEscapeAccent() {
         return getEngineSettingByCode(ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL);
     }
 
-    public EngineSetting getProductMaxScoreValue() {
+    public EngineSetting getSettingProductMaxScoreValue() {
         return getEngineSettingByCode(ENGINE_SETTING_CONTEXT_PRODUCT_SCORE_MAX);
     }
 
-    public EngineSetting getRetailerMaxScoreValue() {
+    public EngineSetting getSettingRetailerMaxScoreValue() {
         return getEngineSettingByCode(ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX);
     }
 
-    public EngineSetting getOAuthAppKeyOrId() {
+    public EngineSetting getSettingOAuthAppKeyOrId() {
         return getEngineSettingByCode(ENGINE_SETTING_OAUTH_APP_KEY_OR_ID);
     }
 
-    public EngineSetting getOAuthAppSecret() {
+    public EngineSetting getSettingOAuthAppSecret() {
         return getEngineSettingByCode(ENGINE_SETTING_OAUTH_APP_SECRET);
     }
 
-    public EngineSetting getOAuthAppPermissions() {
+    public EngineSetting getSettingOAuthAppPermissions() {
         return getEngineSettingByCode(ENGINE_SETTING_OAUTH_APP_PERMISSIONS);
     }
 
-    public EngineSetting getWebTrackingNumber() {
+    public EngineSetting getSettingWebTrackingNumber() {
         return getEngineSettingByCode(ENGINE_SETTING_WEB_TRACKING_NUMBER);
     }
 
-    public EngineSetting getWebTrackingName() {
+    public EngineSetting getSettingWebTrackingName() {
         return getEngineSettingByCode(ENGINE_SETTING_WEB_TRACKING_NAME);
     }
 
-    public EngineSetting getWebMonitoringNumber() {
+    public EngineSetting getSettingWebMonitoringNumber() {
         return getEngineSettingByCode(ENGINE_SETTING_WEB_MONITORING_NUMBER);
     }
 
-    public EngineSetting getWebMonitoringName() {
+    public EngineSetting getSettingWebMonitoringName() {
         return getEngineSettingByCode(ENGINE_SETTING_WEB_MONITORING_NAME);
     }
 
     // GEOLOC SETTINGS
 
-    public EngineSetting getGeolocCityFilePath() {
+    public EngineSetting getSettingGeolocCityFilePath() {
         return getEngineSettingByCode(ENGINE_SETTING_GEOLOC_CITY_DATABASE_PATH);
     }
 
-    public EngineSetting getGeolocCountryFilePath() {
+    public EngineSetting getSettingGeolocCountryFilePath() {
         return getEngineSettingByCode(ENGINE_SETTING_GEOLOC_COUNTRY_DATABASE_PATH);
     }
 
     // DOCUMENT SETTINGS
 
-    public EngineSetting getDocumentFileRootPath() {
+    public EngineSetting getSettingDocumentFileRootPath() {
         return getEngineSettingByCode(ENGINE_SETTING_DOCUMENT_FILE_FOLDER_PATH);
     }
 
-    public EngineSetting getDocumentWebRootPath() {
+    public EngineSetting getSettingDocumentWebRootPath() {
         return getEngineSettingByCode(ENGINE_SETTING_DOCUMENT_FILE_WEB_PATH);
     }
 
-    public EngineSetting getDefaultOrderConfirmationTemplate() {
+    public EngineSetting getSettingDefaultOrderConfirmationTemplate() {
         return getEngineSettingByCode(ENGINE_SETTING_DEFAULT_ORDER_CONFIRMATION_TEMPLATE);
     }
 
-    public EngineSetting getDefaultShippingConfirmationTemplate() {
+    public EngineSetting getSettingDefaultShippingConfirmationTemplate() {
         return getEngineSettingByCode(ENGINE_SETTING_DEFAULT_SHIPPING_CONFIRMATION_TEMPLATE);
     }
 
-    public EngineSetting getDefaultInvoiceTemplate() {
+    public EngineSetting getSettingDefaultInvoiceTemplate() {
         return getEngineSettingByCode(ENGINE_SETTING_DEFAULT_INVOICE_TEMPLATE);
     }
 
     // EMAIL SETTINGS
 
-    public EngineSetting getEmailFileMirroringActivated() {
+    public EngineSetting getSettingEmailFileMirroringActivated() {
         return getEngineSettingByCode(ENGINE_SETTING_EMAIL_FILE_MIRRORING_ACTIVATED);
     }
 
     public boolean getEmailFileMirroringActivated(String context) {
-        EngineSetting engineSetting = getEmailFileMirroringActivated();
+        EngineSetting engineSetting = getSettingEmailFileMirroringActivated();
         boolean emailFileMirroringActivated = false;
         if (engineSetting != null) {
             emailFileMirroringActivated = BooleanUtils.toBoolean(engineSetting.getDefaultValue());
@@ -303,12 +304,12 @@ public class EngineSettingService {
         return emailFileMirroringActivated;
     }
 
-    public EngineSetting getEmailFileMirroringFolderPath() {
+    public EngineSetting getSettingEmailFileMirroringFolderPath() {
         return getEngineSettingByCode(ENGINE_SETTING_EMAIL_FILE_MIRRORING_FOLDER_PATH);
     }
 
     public String getEmailFileMirroringFolderPath(String context) {
-        EngineSetting engineSetting = getEmailFileMirroringFolderPath();
+        EngineSetting engineSetting = getSettingEmailFileMirroringFolderPath();
         String emailFileMirroringFolderPath = "";
         if (engineSetting != null) {
             emailFileMirroringFolderPath = engineSetting.getDefaultValue();
@@ -320,12 +321,12 @@ public class EngineSettingService {
         return emailFileMirroringFolderPath;
     }
 
-    public EngineSetting getEmailFileMirroringWebPath() {
+    public EngineSetting getSettingEmailFileMirroringWebPath() {
         return getEngineSettingByCode(ENGINE_SETTING_EMAIL_FILE_MIRRORING_WEB_PATH);
     }
 
     public String getEmailFileMirroringWebPath(String context) {
-        EngineSetting engineSetting = getEmailFileMirroringWebPath();
+        EngineSetting engineSetting = getSettingEmailFileMirroringWebPath();
         String emailFileMirroringWebPath = "";
         if (engineSetting != null) {
             emailFileMirroringWebPath = engineSetting.getDefaultValue();
@@ -337,12 +338,12 @@ public class EngineSettingService {
         return emailFileMirroringWebPath;
     }
 
-    public EngineSetting getEmailFileMirroringExtension() {
+    public EngineSetting getSettingEmailFileMirroringExtension() {
         return getEngineSettingByCode(ENGINE_SETTING_EMAIL_FILE_MIRRORING_EXTENSION);
     }
 
     public String getEmailFileMirroringExtension(String context) {
-        EngineSetting engineSetting = getEmailFileMirroringExtension();
+        EngineSetting engineSetting = getSettingEmailFileMirroringExtension();
         String emailFileMirroringPath = "";
         if (engineSetting != null) {
             emailFileMirroringPath = engineSetting.getDefaultValue();
@@ -360,12 +361,12 @@ public class EngineSettingService {
      * 
      */
     public String getRootAssetFilePath() throws Exception {
-        EngineSetting engineSetting = getAssetFileRootPath();
+        EngineSetting engineSetting = getSettingAssetFileRootPath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        if (prefixPath.endsWith("/")) {
+        if (prefixPath.endsWith(File.separator)) {
             prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
         }
         return prefixPath;
@@ -375,12 +376,12 @@ public class EngineSettingService {
      * 
      */
     public String getRootAssetWebPath() throws Exception {
-        EngineSetting engineSetting = getAssetWebRootPath();
+        EngineSetting engineSetting = getSettingAssetWebRootPath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        if (prefixPath.endsWith("/")) {
+        if (prefixPath.endsWith(File.separator)) {
             prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
         }
         return prefixPath;
@@ -389,30 +390,62 @@ public class EngineSettingService {
     /**
      * 
      */
-    public String getCatalogImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = getAssetCatalogFilePath();
+    public String getCatalogImageFilePath(String assetType) throws Exception {
+        EngineSetting engineSetting = getSettingAssetCatalogFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (catalogImageWebPath.endsWith("/")) {
+        String catalogImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        if (catalogImageFilePath.endsWith(File.separator)) {
+            catalogImageFilePath = catalogImageFilePath.substring(0, catalogImageFilePath.length() - 1);
+        }
+        return catalogImageFilePath;
+    }
+    
+    /**
+     * 
+     */
+    public String getCatalogImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getSettingAssetCatalogFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
+        if (catalogImageWebPath.endsWith(File.separator)) {
             catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
         }
         return catalogImageWebPath;
     }
-
+    
     /**
      * 
      */
-    public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = getAssetProductMarketingFilePath();
+    public String getProductMarketingImageFilePath(String assetType) throws Exception {
+        EngineSetting engineSetting = getSettingAssetProductMarketingFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (productMarketingImageWebPath.endsWith("/")) {
+        String productMarketingImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        if (productMarketingImageFilePath.endsWith(File.separator)) {
+            productMarketingImageFilePath = productMarketingImageFilePath.substring(0, productMarketingImageFilePath.length() - 1);
+        }
+        return productMarketingImageFilePath;
+    }
+    
+    /**
+     * 
+     */
+    public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getSettingAssetProductMarketingFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
+        if (productMarketingImageWebPath.endsWith(File.separator)) {
             productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
         }
         return productMarketingImageWebPath;
@@ -421,14 +454,30 @@ public class EngineSettingService {
     /**
      * 
      */
-    public String getProductSkuImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = getAssetPoductSkuFilePath();
+    public String getProductSkuImageFilePath(String assetType) throws Exception {
+        EngineSetting engineSetting = getSettingAssetPoductSkuFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (productSkuImageWebPath.endsWith("/")) {
+        String productSkuImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        if (productSkuImageFilePath.endsWith(File.separator)) {
+            productSkuImageFilePath = productSkuImageFilePath.substring(0, productSkuImageFilePath.length() - 1);
+        }
+        return productSkuImageFilePath;
+    }
+    
+    /**
+     * 
+     */
+    public String getProductSkuImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getSettingAssetPoductSkuFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
+        if (productSkuImageWebPath.endsWith(File.separator)) {
             productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
         }
         return productSkuImageWebPath;
@@ -437,17 +486,33 @@ public class EngineSettingService {
     /**
      * 
      */
-    public String getRetailerOrStoreImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = getAssetRetailerAndStoreFilePath();
+    public String getRetailerOrStoreImageFilePath(String assetType) throws Exception {
+        EngineSetting engineSetting = getSettingAssetRetailerAndStoreFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String storeImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().toLowerCase() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (storeImageWebPath.endsWith("/")) {
-            storeImageWebPath = storeImageWebPath.substring(0, storeImageWebPath.length() - 1);
+        String retailerImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        if (retailerImageFilePath.endsWith(File.separator)) {
+            retailerImageFilePath = retailerImageFilePath.substring(0, retailerImageFilePath.length() - 1);
         }
-        return storeImageWebPath;
+        return retailerImageFilePath;
+    }
+    
+    /**
+     * 
+     */
+    public String getRetailerOrStoreImageWebPath(final Asset asset) throws Exception {
+        EngineSetting engineSetting = getSettingAssetRetailerAndStoreFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String retailerImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getScope().toLowerCase() + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
+        if (retailerImageWebPath.endsWith(File.separator)) {
+            retailerImageWebPath = retailerImageWebPath.substring(0, retailerImageWebPath.length() - 1);
+        }
+        return retailerImageWebPath;
     }
     
 }

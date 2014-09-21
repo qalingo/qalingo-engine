@@ -112,14 +112,14 @@ public abstract class AbstractQalingoController {
 		TrackingViewBean trackingViewBean = null;
     	final String contextValue = requestUtil.getCurrentContextNameValue(request);
 
-	    EngineSetting webTrackingNumberEngineSetting = engineSettingService.getWebTrackingNumber();
+	    EngineSetting webTrackingNumberEngineSetting = engineSettingService.getSettingWebTrackingNumber();
 	    EngineSettingValue webTrackingNumberEngineSettingValue = webTrackingNumberEngineSetting.getEngineSettingValue(contextValue);
 	    if(webTrackingNumberEngineSettingValue != null
 	    		&& StringUtils.isNotEmpty(webTrackingNumberEngineSettingValue.getValue())){
 	    	trackingViewBean = new TrackingViewBean();
 	    	trackingViewBean.setTrackingNumber(webTrackingNumberEngineSettingValue.getValue());
 	    	
-		    EngineSetting webTrackingNameEngineSetting = engineSettingService.getWebTrackingName();
+		    EngineSetting webTrackingNameEngineSetting = engineSettingService.getSettingWebTrackingName();
 		    EngineSettingValue webTrackingNameEngineSettingValue = webTrackingNameEngineSetting.getEngineSettingValue(contextValue);
 		    if(webTrackingNameEngineSettingValue != null){
 		    	trackingViewBean.setTrackingName(webTrackingNameEngineSettingValue.getValue());
@@ -147,7 +147,7 @@ public abstract class AbstractQalingoController {
 	protected MonitoringViewBean initMonitoring(final HttpServletRequest request, final Model model) throws Exception {
 		MonitoringViewBean monitoringViewBean = new MonitoringViewBean();
     	final String contextValue = requestUtil.getCurrentContextNameValue(request);
-	    EngineSetting webMonitoringNumberEngineSetting = engineSettingService.getWebMonitoringNumber();
+	    EngineSetting webMonitoringNumberEngineSetting = engineSettingService.getSettingWebMonitoringNumber();
 	    if(webMonitoringNumberEngineSetting != null){
 	        EngineSettingValue webMonitoringNumberEngineSettingValue = webMonitoringNumberEngineSetting.getEngineSettingValue(contextValue);
 	        if(webMonitoringNumberEngineSettingValue != null
@@ -155,7 +155,7 @@ public abstract class AbstractQalingoController {
 	            monitoringViewBean = new MonitoringViewBean();
 	            monitoringViewBean.setMonitoringNumber(webMonitoringNumberEngineSettingValue.getValue());
 	            
-	            EngineSetting webMonitoringNameEngineSetting = engineSettingService.getWebMonitoringName();
+	            EngineSetting webMonitoringNameEngineSetting = engineSettingService.getSettingWebMonitoringName();
 	            EngineSettingValue webMonitoringNameEngineSettingValue = webMonitoringNameEngineSetting.getEngineSettingValue(contextValue);
 	            if(webMonitoringNameEngineSettingValue != null){
 	                monitoringViewBean.setMonitoringName(webMonitoringNameEngineSettingValue.getValue());

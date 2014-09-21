@@ -70,15 +70,15 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 			try {
 
 			    // CLIENT ID
-			    EngineSetting clientIdEngineSetting = engineSettingService.getOAuthAppKeyOrId();
+			    EngineSetting clientIdEngineSetting = engineSettingService.getSettingOAuthAppKeyOrId();
 			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    // CLIENT SECRET
-			    EngineSetting clientSecretEngineSetting = engineSettingService.getOAuthAppSecret();
+			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
 			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    // CLIENT PERMISSIONS
-			    EngineSetting permissionsEngineSetting = engineSettingService.getOAuthAppPermissions();
+			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
 			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    if(clientIdEngineSettingValue != null

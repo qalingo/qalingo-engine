@@ -123,13 +123,13 @@ public class GeolocService {
     }
     
     protected File getCityDataBase(){
-        EngineSetting engineSetting = engineSettingService.getGeolocCityFilePath();
+        EngineSetting engineSetting = engineSettingService.getSettingGeolocCityFilePath();
         final File database = new File(engineSetting.getDefaultValue());
         return database;
     }
     
     protected File getCountryDataBase(){
-        EngineSetting engineSetting = engineSettingService.getGeolocCountryFilePath();
+        EngineSetting engineSetting = engineSettingService.getSettingGeolocCountryFilePath();
         final File database = new File(engineSetting.getDefaultValue());
         return database;
     }

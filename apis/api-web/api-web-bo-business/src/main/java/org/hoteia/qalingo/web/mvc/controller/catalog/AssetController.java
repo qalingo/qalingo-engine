@@ -106,12 +106,12 @@ public class AssetController extends AbstractBusinessBackofficeController {
 		try {
 			if (multipartFile.getSize() > 0) {
 				String pathProductMarketingImage = multipartFile.getOriginalFilename();
-				String assetFileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
+				String assetFileRootPath = engineSettingService.getSettingAssetFileRootPath().getDefaultValue();
 				assetFileRootPath.replaceAll("\\\\", "/");
 				if(assetFileRootPath.endsWith("/")){
 					assetFileRootPath = assetFileRootPath.substring(0, assetFileRootPath.length() - 1);
 				}
-				String assetProductMarketingFilePath = engineSettingService.getAssetProductMarketingFilePath().getDefaultValue();
+				String assetProductMarketingFilePath = engineSettingService.getSettingAssetProductMarketingFilePath().getDefaultValue();
 				assetProductMarketingFilePath.replaceAll("\\\\", "/");
 				if(assetProductMarketingFilePath.endsWith("/")){
 					assetProductMarketingFilePath = assetProductMarketingFilePath.substring(0, assetProductMarketingFilePath.length() - 1);

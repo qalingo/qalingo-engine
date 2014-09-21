@@ -43,15 +43,15 @@ public class ConnectTwitterController extends AbstractOAuthFrontofficeController
 		if(!requestUtil.hasKnownCustomerLogged(request)){
 			try {
 			    // CLIENT ID
-			    EngineSetting clientIdEngineSetting = engineSettingService.getOAuthAppKeyOrId();
+			    EngineSetting clientIdEngineSetting = engineSettingService.getSettingOAuthAppKeyOrId();
 			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    // CLIENT SECRET
-			    EngineSetting clientSecretEngineSetting = engineSettingService.getOAuthAppSecret();
+			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
 			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    // CLIENT PERMISSIONS
-			    EngineSetting permissionsEngineSetting = engineSettingService.getOAuthAppPermissions();
+			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
 			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    if(clientIdEngineSettingValue != null

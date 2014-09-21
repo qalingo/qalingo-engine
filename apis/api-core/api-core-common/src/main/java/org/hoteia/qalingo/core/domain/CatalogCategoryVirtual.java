@@ -41,6 +41,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.comparator.CatalogCategoryVirtualComparator;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
@@ -266,15 +267,7 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
         if (catalogCategories != null 
                 && Hibernate.isInitialized(catalogCategories)) {
             sortedCatalogCategories = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
-            Collections.sort(sortedCatalogCategories, new Comparator<CatalogCategoryVirtual>() {
-                @Override
-                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
-                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
-                        return o1.getRanking().compareTo(o2.getRanking());
-                    }
-                    return 0;
-                }
-            });
+            Collections.sort(sortedCatalogCategories, new CatalogCategoryVirtualComparator());
         }
         return sortedCatalogCategories;
     }

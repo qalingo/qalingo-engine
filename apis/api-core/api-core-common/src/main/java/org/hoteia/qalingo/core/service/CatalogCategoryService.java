@@ -9,9 +9,12 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hoteia.qalingo.core.comparator.CatalogCategoryMasterComparator;
+import org.hoteia.qalingo.core.comparator.CatalogCategoryVirtualComparator;
 import org.hoteia.qalingo.core.dao.CatalogCategoryDao;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
@@ -61,6 +64,7 @@ public class CatalogCategoryService {
     }
     
     public List<CatalogCategoryMaster> orderCategoryMasterList(final List<CatalogCategoryMaster> categories) {
+        Collections.sort(categories, new CatalogCategoryMasterComparator());
         return categories;
     }
     
@@ -135,9 +139,10 @@ public class CatalogCategoryService {
     }
     
     public List<CatalogCategoryVirtual> orderCategoryVirtualList(final List<CatalogCategoryVirtual> categories) {
+        Collections.sort(categories, new CatalogCategoryVirtualComparator());
         return categories;
     }
-
+    
     public CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
         return catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
     }
@@ -145,5 +150,5 @@ public class CatalogCategoryService {
     public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {
         catalogCategoryDao.deleteCatalogCategory(catalogCategory);
     }
-
+    
 }

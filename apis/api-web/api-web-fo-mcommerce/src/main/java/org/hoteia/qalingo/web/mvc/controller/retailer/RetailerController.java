@@ -59,7 +59,7 @@ public class RetailerController extends AbstractMCommerceController {
 		
 		// STAR
 		String qualityOfServiceMax = "5";
-		EngineSetting engineSetting = engineSettingService.getRetailerMaxScoreValue();
+		EngineSetting engineSetting = engineSettingService.getSettingRetailerMaxScoreValue();
 		if(engineSetting != null){
 			qualityOfServiceMax = engineSetting.getDefaultValue();
 			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(EngineSettingService.ENGINE_SETTING_CONTEXT_STAR_SCORE_MAX);
