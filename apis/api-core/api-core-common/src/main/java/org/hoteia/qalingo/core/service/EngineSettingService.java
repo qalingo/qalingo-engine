@@ -381,7 +381,7 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        if (prefixPath.endsWith(File.separator)) {
+        if (prefixPath.endsWith("/")) {
             prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
         }
         return prefixPath;
@@ -412,8 +412,8 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
-        if (catalogImageWebPath.endsWith(File.separator)) {
+        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (catalogImageWebPath.endsWith("/")) {
             catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
         }
         return catalogImageWebPath;
@@ -444,8 +444,8 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
-        if (productMarketingImageWebPath.endsWith(File.separator)) {
+        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (productMarketingImageWebPath.endsWith("/")) {
             productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
         }
         return productMarketingImageWebPath;
@@ -476,8 +476,8 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
-        if (productSkuImageWebPath.endsWith(File.separator)) {
+        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (productSkuImageWebPath.endsWith("/")) {
             productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
         }
         return productSkuImageWebPath;
@@ -508,8 +508,8 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String retailerImageWebPath = getRootAssetWebPath() + prefixPath + File.separator + asset.getScope().toLowerCase() + File.separator + asset.getType().toLowerCase() + File.separator + asset.getPath();
-        if (retailerImageWebPath.endsWith(File.separator)) {
+        String retailerImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().toLowerCase() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        if (retailerImageWebPath.endsWith("/")) {
             retailerImageWebPath = retailerImageWebPath.substring(0, retailerImageWebPath.length() - 1);
         }
         return retailerImageWebPath;
