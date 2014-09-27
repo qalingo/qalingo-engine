@@ -60,6 +60,21 @@ public class ProductBrandViewBean extends AbstractViewBean implements Serializab
 	public void setProductMarketings(List<ProductMarketingViewBean> productMarketings) {
 		this.productMarketings = productMarketings;
 	}
-	
+
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
+
+    public String getEditUrl() {
+        return editUrl;
+    }
+
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
 	
 }
