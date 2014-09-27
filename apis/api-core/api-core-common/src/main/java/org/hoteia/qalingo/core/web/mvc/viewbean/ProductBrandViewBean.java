@@ -26,6 +26,9 @@ public class ProductBrandViewBean extends AbstractViewBean implements Serializab
 
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
 
+    protected String detailsUrl;
+    protected String editUrl;
+
 	public String getCode() {
         return code;
     }
