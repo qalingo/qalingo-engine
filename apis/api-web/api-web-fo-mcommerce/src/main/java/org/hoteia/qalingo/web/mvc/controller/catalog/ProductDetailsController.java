@@ -44,14 +44,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
  */
 @Controller("productDetailsController")
-@SessionAttributes
 public class ProductDetailsController extends AbstractMCommerceController {
 
 	@Autowired
@@ -60,9 +58,9 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	@Autowired
 	protected ProductService productService;
 	
-    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
-    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public ProductDetailsController() {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));

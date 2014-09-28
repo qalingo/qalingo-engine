@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -106,14 +107,14 @@ public class Company extends AbstractEntity {
     @JoinTable(name = "TBO_COMPANY_LOCALIZATION_REL", joinColumns = @JoinColumn(name = "COMPANY_ID"), inverseJoinColumns = @JoinColumn(name = "LOCALIZATION_ID"))
     private Set<Localization> localizations = new HashSet<Localization>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
-    @JoinTable(name = "TBO_COMPANY_RETAILER_REL", joinColumns = @JoinColumn(name = "COMPANY_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
+    @JoinColumn(name = "COMPANY_ID")
     private Set<Retailer> retailers = new HashSet<Retailer>();
-
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
-    @JoinTable(name = "TBO_COMPANY_BRAND_REL", joinColumns = @JoinColumn(name = "COMPANY_ID"), inverseJoinColumns = @JoinColumn(name = "BRAND_ID"))
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
+    @JoinColumn(name = "COMPANY_ID")
     private Set<ProductBrand> brands = new HashSet<ProductBrand>();
-
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
