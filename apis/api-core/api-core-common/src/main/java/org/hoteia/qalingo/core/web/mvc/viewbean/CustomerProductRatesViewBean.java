@@ -9,9 +9,7 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
-
-public class CustomerProductRatesViewBean extends AbstractViewBean implements Serializable {
+public class CustomerProductRatesViewBean extends AbstractViewBean {
 	
     private static final long serialVersionUID = 1730581758207820023L;
 

@@ -9,20 +9,25 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-public class ProductViewBean extends AbstractViewBean {
+public class PickListViewBean extends AbstractViewBean {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = -980738567191707076L;
-	
-	protected String name;
+    protected String value;
+    protected String label;
 
-	public String getName() {
-		return name;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
 }

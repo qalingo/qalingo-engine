@@ -9,13 +9,12 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-public class MenuViewBean extends AbstractViewBean implements Serializable {
+public class MenuViewBean extends AbstractViewBean {
 
     /**
      * Generated UID

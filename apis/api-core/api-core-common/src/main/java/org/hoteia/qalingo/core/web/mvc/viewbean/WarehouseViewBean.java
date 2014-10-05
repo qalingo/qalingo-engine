@@ -9,12 +9,10 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 
-public class WarehouseViewBean extends AbstractViewBean implements Serializable {
+public class WarehouseViewBean extends AbstractViewBean {
 
 	/**
 	 * Generated UID

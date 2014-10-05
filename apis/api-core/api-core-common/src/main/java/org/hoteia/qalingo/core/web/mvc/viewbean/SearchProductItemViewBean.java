@@ -9,14 +9,12 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class SearchProductItemViewBean extends AbstractViewBean implements
-		Serializable {
+public class SearchProductItemViewBean extends AbstractViewBean {
 
 	/**
 	 * Generated UID

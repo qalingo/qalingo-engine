@@ -9,11 +9,10 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PaymentGatewayViewBean extends AbstractViewBean implements Serializable {
+public class PaymentGatewayViewBean extends AbstractViewBean {
 
     /**
      * Generated UID

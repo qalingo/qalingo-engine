@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class StoreLocatorFilterBean extends AbstractViewBean implements Serializable {
+public class StoreLocatorFilterBean extends AbstractViewBean {
 	/**
 	 * 
 	 */

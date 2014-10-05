@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-public class ProductMarketingViewBean extends AbstractViewBean implements Serializable {
+public class ProductMarketingViewBean extends AbstractViewBean {
 
 	/**
 	 * Generated UID

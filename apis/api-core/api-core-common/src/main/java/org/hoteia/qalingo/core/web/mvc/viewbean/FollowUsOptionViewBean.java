@@ -9,9 +9,7 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
-
-public class FollowUsOptionViewBean extends AbstractViewBean implements Serializable {
+public class FollowUsOptionViewBean extends AbstractViewBean {
 
 	/**
 	 * Generated UID

@@ -21,7 +21,7 @@ public abstract class AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 5246629091678484667L;
 
-    private boolean selected;
+    private boolean selected = false;
     
     private String dateCreate;
     private String dateUpdate;

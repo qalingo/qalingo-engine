@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-
 public class StoreBusinessHourViewBean extends AbstractViewBean {
 
     /**

@@ -9,9 +9,7 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.io.Serializable;
-
-public class OperationHourViewBean extends AbstractViewBean implements	Serializable {
+public class OperationHourViewBean extends AbstractViewBean {
 
 	/**
 	 * 
