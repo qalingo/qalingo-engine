@@ -21,8 +21,18 @@ public abstract class AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 5246629091678484667L;
 
+    private boolean selected;
+    
     private String dateCreate;
     private String dateUpdate;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
     public String getDateCreate() {
         if(StringUtils.isNotEmpty(dateCreate)){
