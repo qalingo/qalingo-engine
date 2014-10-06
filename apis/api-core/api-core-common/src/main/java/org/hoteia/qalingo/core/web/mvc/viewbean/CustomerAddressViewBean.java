@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-public class CustomerAddressViewBean extends AbstractViewBean {
+public class CustomerAddressViewBean extends AbstractAddressViewBean {
 
 	/**
 	 * Generated UID
