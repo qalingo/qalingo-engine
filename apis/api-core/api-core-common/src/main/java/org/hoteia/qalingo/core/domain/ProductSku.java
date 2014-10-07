@@ -99,8 +99,8 @@ public class ProductSku extends AbstractEntity {
     private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>();
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
-    @JoinTable(name = "TECO_PRODUCT_SKU_RETAILER_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
-    private Set<Retailer> retailers = new HashSet<Retailer>();
+    @JoinTable(name = "TECO_PRODUCT_SKU_STORE_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_ID"))
+    private Set<Store> stores = new HashSet<Store>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
@@ -299,13 +299,13 @@ public class ProductSku extends AbstractEntity {
 		this.stocks = stocks;
 	}
 	
-	public Set<Retailer> getRetailers() {
-		return retailers;
-	}
+	public Set<Store> getStors() {
+        return stores;
+    }
 	
-	public void setRetailers(Set<Retailer> retailers) {
-		this.retailers = retailers;
-	}
+	public void setStores(Set<Store> stores) {
+        this.stores = stores;
+    }
 	
 	public Set<CatalogCategoryMasterProductSkuRel> getCatalogCategoryMasterProductSkuRels() {
         return catalogCategoryMasterProductSkuRels;

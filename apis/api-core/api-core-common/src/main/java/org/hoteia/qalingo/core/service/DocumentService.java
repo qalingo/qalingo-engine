@@ -96,7 +96,7 @@ public class DocumentService {
                 orderItem.getProductSku().setPrices(null);
                 orderItem.getProductSku().setStocks(null);
                 orderItem.getProductSku().setProductMarketing(null);
-                orderItem.getProductSku().setRetailers(null);
+                orderItem.getProductSku().setStores(null);
             }
             
             final OrderCustomerPojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
@@ -184,7 +184,7 @@ public class DocumentService {
                 orderItem.getProductSku().setPrices(null);
                 orderItem.getProductSku().setStocks(null);
                 orderItem.getProductSku().setProductMarketing(null);
-                orderItem.getProductSku().setRetailers(null);
+                orderItem.getProductSku().setStores(null);
             }
             
             final OrderCustomerPojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
@@ -272,7 +272,7 @@ public class DocumentService {
                 orderItem.getProductSku().setPrices(null);
                 orderItem.getProductSku().setStocks(null);
                 orderItem.getProductSku().setProductMarketing(null);
-                orderItem.getProductSku().setRetailers(null);
+                orderItem.getProductSku().setStores(null);
             }
             
             final OrderCustomerPojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
