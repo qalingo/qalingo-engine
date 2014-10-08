@@ -299,7 +299,7 @@ public class ProductSku extends AbstractEntity {
 		this.stocks = stocks;
 	}
 	
-	public Set<Store> getStors() {
+	public Set<Store> getStores() {
         return stores;
     }
 	
