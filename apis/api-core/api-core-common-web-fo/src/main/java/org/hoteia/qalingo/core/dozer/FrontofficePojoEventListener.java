@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
@@ -121,7 +122,10 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     productSkuPojo.setI18nName(productSku.getI18nName(localizationCode));
                     
-                    productSkuPojo.setPriceWithStandardCurrencySign(productSku.getPrice(marketArea.getId(), retailer.getId()).getPriceWithStandardCurrencySign());
+                    ProductSkuPrice price = productSku.getPrice(marketArea.getId(), retailer.getId());
+                    if(price != null){
+                        productSkuPojo.setPriceWithStandardCurrencySign(price.getPriceWithStandardCurrencySign());
+                    }
 
                 } catch (Exception e) {
                     logger.error("postWritingDestinationValue error with ProductSkuPojo", e);
