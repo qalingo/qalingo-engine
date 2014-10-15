@@ -47,7 +47,7 @@ public class CustomerDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         Customer customer = (Customer) criteria.uniqueResult();
         if(customer != null){
             customer.setFetchPlan(fetchPlan);

@@ -51,7 +51,7 @@ public class WarehouseDao extends AbstractGenericDao {
 
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", warehouseCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(warehouseCode)));
         Warehouse warehouse = (Warehouse) criteria.uniqueResult();
         if(warehouse != null){
             warehouse.setFetchPlan(fetchPlan);

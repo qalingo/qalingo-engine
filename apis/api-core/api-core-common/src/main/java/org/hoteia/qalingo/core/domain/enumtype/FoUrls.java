@@ -151,7 +151,7 @@ public enum FoUrls {
 	public static final String STORE_LOCATION_VELOCITY_PAGE		= "store-location/store-location";
 
     public static final String STORE_DETAILS_KEY               = "store-details";
-    public static final String STORE_DETAILS_URL               = "/**/store-details-{" + RequestConstants.URL_PATTERN_STORE_CODE + ":[a-zA-Z0-9]+}.html";
+    public static final String STORE_DETAILS_URL               = "/**/store-details-{" + RequestConstants.URL_PATTERN_STORE_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String STORE_DETAILS_VELOCITY_PAGE     = "retailer/store-details";
 
 	public static final String NEWSLETTER_REGISTER_KEY				= "newsletter-register";
@@ -244,7 +244,7 @@ public enum FoUrls {
 	public static final String CUSTOMER_NEW_ACCOUNT_VALIDATION_VELOCITY_PAGE	= "customer/customer-new-account-validation";
 
 	public static final String RETAILER_DETAILS_KEY					= "retailer-details";
-	public static final String RETAILER_DETAILS_URL					= "/**/retailer-details-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String RETAILER_DETAILS_URL					= "/**/retailer-details-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String RETAILER_DETAILS_VELOCITY_PAGE		= "retailer/retailer-details";
 
 	public static final String RETAILER_CREATE_KEY					= "retailer-create";
@@ -252,39 +252,39 @@ public enum FoUrls {
 	public static final String RETAILER_CREATE_VELOCITY_PAGE		= "retailer/retailer-create";
 
 	public static final String RETAILER_CONTACT_KEY						= "retailer-contact";
-	public static final String RETAILER_CONTACT_URL						= "/**/retailer-contact-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String RETAILER_CONTACT_URL						= "/**/retailer-contact-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String RETAILER_CONTACT_FORM_VELOCITY_PAGE		= "retailer/retailer-contact";
 	public static final String RETAILER_CONTACT_SUCCESS_VELOCITY_PAGE	= "retailer/retailer-contact-succes";
 
 	public static final String RETAILER_COMMENT_KEY					= "retailer-comment";
-	public static final String RETAILER_COMMENT_URL					= "/**/retailer-comment-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String RETAILER_COMMENT_URL					= "/**/retailer-comment-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String RETAILER_COMMENT_FORM_VELOCITY_PAGE	= "retailer/retailer-comment";
-	public static final String RETAILER_VOTE_URL					= "/**/retailer-vote-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String RETAILER_VOTE_URL					= "/**/retailer-vote-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9-]+}.html";
 
 	public static final String BRAND_DETAILS_KEY					= "brand-details";
-	public static final String BRAND_DETAILS_URL					= "/**/brand-details-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String BRAND_DETAILS_URL					= "/**/brand-details-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String BRAND_DETAILS_VELOCITY_PAGE			= "catalog/brand-details";
 	
 	public static final String BRAND_LINE_KEY					= "brand-line";
-	public static final String BRAND_LINE_URL					= "/**/brand-line-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String BRAND_LINE_URL					= "/**/brand-line-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String BRAND_LINE_VELOCITY_PAGE			= "catalog/brand-line";
 
 	public static final String CATEGORY_AS_AXE_KEY					= "axe";
-	public static final String CATEGORY_AS_AXE_URL					= "/**/axe-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String CATEGORY_AS_AXE_URL					= "/**/axe-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String CATEGORY_AS_AXE_VELOCITY_PAGE        = "catalog/category-axe";
 
 	public static final String CATEGORY_AS_LINE_KEY					= "product-line";
-	public static final String CATEGORY_AS_LINE_URL					= "/**/product-line-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String CATEGORY_AS_LINE_URL					= "/**/product-line-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String CATEGORY_AS_LINE_VELOCITY_PAGE		= "catalog/product-line";
 
 	public static final String PRODUCT_DETAILS_KEY					= "product-details";
-	public static final String PRODUCT_DETAILS_URL					= "/**/product-details-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9]+}-pm-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9]+}-sku-{" + RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String PRODUCT_DETAILS_URL					= "/**/product-details-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}-pm-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9-]+}-sku-{" + RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String PRODUCT_DETAILS_VELOCITY_PAGE		= "catalog/product-details";
 
     public static final String PRODUCT_COMMENT_KEY                  = "product-comment";
-    public static final String PRODUCT_COMMENT_URL                  = "/**/product-comment-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9]+}.html";
+    public static final String PRODUCT_COMMENT_URL                  = "/**/product-comment-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String PRODUCT_COMMENT_VELOCITY_PAGE        = "product/product-comment";
-    public static final String PRODUCT_VOTE_URL                     = "/**/product-vote-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9]+}.html";
+    public static final String PRODUCT_VOTE_URL                     = "/**/product-vote-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9-]+}.html";
 
 	public static final String WISHLIST_ADD_PRODUCT_KEY				= "add-to-wishlist";
 	public static final String WISHLIST_ADD_PRODUCT_URL				= "/**/add-to-wishlist.html";

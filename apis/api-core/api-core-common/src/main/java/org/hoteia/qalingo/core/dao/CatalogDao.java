@@ -51,7 +51,7 @@ public class CatalogDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", masterCatalogCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(masterCatalogCode)));
 
         CatalogMaster catalog = (CatalogMaster) criteria.uniqueResult();
         if(catalog != null){

@@ -19,6 +19,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.util.CoreUtil;
 
 public abstract class AbstractGenericDao {  
 
@@ -27,6 +28,10 @@ public abstract class AbstractGenericDao {
 
     public Session getSession() {
         return (Session) em.getDelegate();
+    }
+    
+    protected String handleCodeValue(String code) {
+        return CoreUtil.replaceSpaceAndDash(code);
     }
     
     protected Criteria createDefaultCriteria(Class<?> entityClass) {

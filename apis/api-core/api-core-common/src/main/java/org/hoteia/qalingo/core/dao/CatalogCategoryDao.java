@@ -50,7 +50,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificFetchMasterCategoryMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", catalogCategoryCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(catalogCategoryCode)));
         
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("catalog.code", catalogMasterCode));
@@ -67,7 +67,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         handleSpecificFetchMasterCategoryMode(criteria, params);
         
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", catalogMasterCode));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogMasterCode)));
         criteria.add(Restrictions.isNull("parentCatalogCategory"));
         criteria.addOrder(Order.asc("id"));
 
@@ -81,7 +81,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         handleSpecificFetchMasterCategoryMode(criteria, params);
         
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", catalogMasterCode));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogMasterCode)));
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -159,7 +159,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", catalogVirtualCode));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogCategoryCode)));
         
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
@@ -176,13 +176,13 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", catalogVirtualCode));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogVirtualCode)));
 
         criteria.createAlias("categoryMaster", "categoryMaster", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("categoryMaster.code", catalogCategoryCode));
+        criteria.add(Restrictions.eq("categoryMaster.code", handleCodeValue(catalogCategoryCode)));
 
         criteria.createAlias("categoryMaster.catalog", "catalogMaster", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalogMaster.code", catalogMasterCode));
+        criteria.add(Restrictions.eq("catalogMaster.code", handleCodeValue(catalogMasterCode)));
         
         CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
         if(catalogCategory != null){
@@ -197,7 +197,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         handleSpecificFetchVirtualCategoryMode(criteria, params);
         
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", catalogVirtualCode));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogVirtualCode)));
         criteria.add(Restrictions.isNull("parentCatalogCategory"));
         
         criteria.addOrder(Order.asc("id"));
@@ -213,7 +213,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         handleSpecificFetchVirtualCategoryMode(criteria, params);
         
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", catalogVirtualCode));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogVirtualCode)));
         
         criteria.addOrder(Order.asc("id"));
 

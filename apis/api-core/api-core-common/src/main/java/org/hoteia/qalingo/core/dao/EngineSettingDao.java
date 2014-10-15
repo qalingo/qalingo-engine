@@ -45,7 +45,7 @@ public class EngineSettingDao extends AbstractGenericDao {
 	
 	public EngineSetting getEngineSettingByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(EngineSetting.class);
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         

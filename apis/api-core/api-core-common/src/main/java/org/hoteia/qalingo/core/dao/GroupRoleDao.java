@@ -46,7 +46,7 @@ public class GroupRoleDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificCustomerGroupFetchMode(criteria, params);
         
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
         if(customerGroup != null){
             customerGroup.setFetchPlan(fetchPlan);
@@ -104,7 +104,7 @@ public class GroupRoleDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificUserGroupFetchMode(criteria, params);
         
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         UserGroup userGroup = (UserGroup) criteria.uniqueResult();
         if(userGroup != null){
             userGroup.setFetchPlan(fetchPlan);

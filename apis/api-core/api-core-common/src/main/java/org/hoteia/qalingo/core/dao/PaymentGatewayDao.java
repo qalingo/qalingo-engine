@@ -46,7 +46,7 @@ public class PaymentGatewayDao extends AbstractGenericDao {
 
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", paymentGatewayCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(paymentGatewayCode)));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
         if(paymentGateway != null){
             paymentGateway.setFetchPlan(fetchPlan);

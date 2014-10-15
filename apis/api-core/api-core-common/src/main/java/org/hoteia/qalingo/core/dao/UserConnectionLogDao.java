@@ -45,7 +45,7 @@ public class UserConnectionLogDao extends AbstractGenericDao {
 	public List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(final Long userId, final String appCode, Object... params) {
         Criteria criteria = createDefaultCriteria(UserConnectionLog.class);
         criteria.add(Restrictions.eq("userId", userId));
-        criteria.add(Restrictions.eq("app", appCode));
+        criteria.add(Restrictions.eq("app", handleCodeValue(appCode)));
         
         criteria.addOrder(Order.asc("loginDate"));
 

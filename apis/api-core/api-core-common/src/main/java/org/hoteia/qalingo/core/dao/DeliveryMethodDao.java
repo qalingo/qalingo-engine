@@ -46,7 +46,7 @@ public class DeliveryMethodDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
         if(deliveryMethod != null){
             deliveryMethod.setFetchPlan(fetchPlan);

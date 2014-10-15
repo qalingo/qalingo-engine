@@ -27,7 +27,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractUrlService {
@@ -118,7 +118,7 @@ public abstract class AbstractUrlService {
     }
 
     public String getSeoSegmentMain(Locale locale) throws Exception {
-        return handleSeoSpecificEscape(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale));
+        return CoreUtil.handleSeoSpecificEscape(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale));
     }
 
     protected String getFullPrefixUrl(final RequestData requestData) throws Exception {
@@ -185,72 +185,7 @@ public abstract class AbstractUrlService {
     }
 
     protected String handleParamValue(String string) throws Exception {
-        if (StringUtils.isNotEmpty(string)) {
-            string = string.toLowerCase();
-        }
-        return string;
-    }
-
-    protected String handleSeoSpecificEscape(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = replaceSpaceAndUnderscore(stringToReturn);
-            stringToReturn = stringToReturn.replaceAll("[àáâãäå]", "a");
-            stringToReturn = stringToReturn.replaceAll("[ç]", "c");
-            stringToReturn = stringToReturn.replaceAll("[èéêë]", "e");
-            stringToReturn = stringToReturn.replaceAll("[ìíîï]", "i");
-            stringToReturn = stringToReturn.replaceAll("[ðòóôõö]", "o");
-            stringToReturn = stringToReturn.replaceAll("[ùúûü]", "u");
-            stringToReturn = stringToReturn.replaceAll("[ýÿ]", "y");
-
-            // REPLACE WITH NOTHING
-            stringToReturn = stringToReturn.replaceAll("[°'\"?]", "");
-
-            // REPLACE WITH DASH
-            stringToReturn = stringToReturn.replaceAll("[(){}<>'\";,/#]", "-");
-
-            stringToReturn = cleanDash(stringToReturn);
-
-            return lowerCase(stringToReturn);
-        }
-        return stringToReturn;
-    }
-
-    protected String replaceSpaceAndUnderscore(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = stringToReturn.replaceAll(" ", "-");
-            stringToReturn = stringToReturn.replaceAll("_", "-");
-
-            stringToReturn = cleanDash(stringToReturn);
-
-            return lowerCase(stringToReturn);
-        }
-        return stringToReturn;
-    }
-
-    protected String cleanDash(String stringToReturn) {
-        // SPECIFIC DASH
-        stringToReturn = stringToReturn.replaceAll("–", "-");
-
-        while (stringToReturn.contains("--")) {
-            stringToReturn = stringToReturn.replaceAll("--", "-");
-        }
-        if (stringToReturn.startsWith("-")) {
-            stringToReturn = stringToReturn.substring(1, stringToReturn.length());
-        }
-        if (stringToReturn.endsWith("-")) {
-            stringToReturn = stringToReturn.substring(0, stringToReturn.length() - 1);
-        }
-        return stringToReturn;
-    }
-
-    protected String lowerCase(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            return stringToReturn.toLowerCase().trim();
-        }
-        return stringToReturn;
+        return CoreUtil.replaceSpaceAndUnderscore(string);
     }
 
     protected String buildDefaultPrefix(final RequestData requestData) {

@@ -47,7 +47,7 @@ public class UserDao extends AbstractGenericDao {
     public User getUserByCode(final String userCode, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("code", userCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(userCode)));
         User user = (User) criteria.uniqueResult();
         if(user != null){
             user.setFetchPlan(fetchPlan);
@@ -128,7 +128,7 @@ public class UserDao extends AbstractGenericDao {
     public Company getCompanyByCode(final String companyCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Company.class);
         FetchPlan fetchPlan = handleCompanySpecificFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("code", companyCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(companyCode)));
         Company company = (Company) criteria.uniqueResult();
         if(company != null){
             company.setFetchPlan(fetchPlan);

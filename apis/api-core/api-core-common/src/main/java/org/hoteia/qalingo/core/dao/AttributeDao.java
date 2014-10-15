@@ -34,7 +34,7 @@ public class AttributeDao extends AbstractGenericDao {
 
     public AttributeDefinition getAttributeDefinitionByCode(final String code) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         AttributeDefinition attributeDefinition = (AttributeDefinition) criteria.uniqueResult();
         return attributeDefinition;
     }

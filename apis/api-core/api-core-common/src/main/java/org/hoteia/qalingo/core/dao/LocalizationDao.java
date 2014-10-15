@@ -35,7 +35,7 @@ public class LocalizationDao extends AbstractGenericDao {
 
 	public Localization getLocalizationByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(Localization.class);
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;
 	}
@@ -53,7 +53,7 @@ public class LocalizationDao extends AbstractGenericDao {
     public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
-        criteria.add(Restrictions.eq("code", marketAreaCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(marketAreaCode)));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
 
         List<Localization> localizations = new ArrayList<Localization>(marketArea.getLocalizations());

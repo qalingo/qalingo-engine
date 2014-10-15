@@ -34,7 +34,7 @@ public class CurrencyReferentialDao extends AbstractGenericDao {
 
 	public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CurrencyReferential.class);
-        criteria.add(Restrictions.eq("code", currencyReferentialCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(currencyReferentialCode)));
         CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
         return currencyReferential;
 	}

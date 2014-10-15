@@ -59,7 +59,7 @@ public class UrlService extends AbstractUrlService {
     }
 
     public String buildChangeBackofficeLanguageUrl(final RequestData requestData, final Localization localization) throws Exception {
-        return buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + replaceSpaceAndUnderscore(localization.getCode());
+        return buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleParamValue(localization.getCode());
     }
 
     public String buildChangeLanguageUrl(final RequestData requestData) throws Exception {
@@ -71,12 +71,12 @@ public class UrlService extends AbstractUrlService {
         final CurrencyReferential currency = requestData.getMarketAreaCurrency();
 
         String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?";
-        url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + replaceSpaceAndUnderscore(marketPlace.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + replaceSpaceAndUnderscore(market.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + replaceSpaceAndUnderscore(marketArea.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_LANGUAGE + "=" + replaceSpaceAndUnderscore(localization.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE + "=" + replaceSpaceAndUnderscore(retailer.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE + "=" + replaceSpaceAndUnderscore(currency.getCode());
+        url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleParamValue(marketPlace.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleParamValue(market.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleParamValue(marketArea.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_LANGUAGE + "=" + handleParamValue(localization.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE + "=" + handleParamValue(retailer.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE + "=" + handleParamValue(currency.getCode());
         return url;
     }
 
@@ -89,12 +89,12 @@ public class UrlService extends AbstractUrlService {
         final CurrencyReferential currency = requestData.getMarketAreaCurrency();
         
         String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_CONTEXT.getUrlWithoutWildcard() + "?";
-        url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + replaceSpaceAndUnderscore(marketPlace.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + replaceSpaceAndUnderscore(market.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + replaceSpaceAndUnderscore(marketArea.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_LANGUAGE + "=" + replaceSpaceAndUnderscore(localization.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE + "=" + replaceSpaceAndUnderscore(retailer.getCode());
-        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE + "=" + replaceSpaceAndUnderscore(currency.getCode());
+        url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleParamValue(marketPlace.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleParamValue(market.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleParamValue(marketArea.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_LANGUAGE + "=" + handleParamValue(localization.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE + "=" + handleParamValue(retailer.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE + "=" + handleParamValue(currency.getCode());
         return url;
     }
 
@@ -131,7 +131,7 @@ public class UrlService extends AbstractUrlService {
                     if (param instanceof Retailer) {
                         Retailer retailer = (Retailer) param;
                         urlParams.put(RequestConstants.URL_PATTERN_RETAILER_CODE, handleParamValue(retailer.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(retailer.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(retailer.getName()) + "/";
                     } else if (param instanceof ProductSku) {
                         ProductSku productSku = (ProductSku) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE, handleParamValue(productSku.getCode()));
@@ -139,19 +139,19 @@ public class UrlService extends AbstractUrlService {
                     } else if (param instanceof ProductMarketing) {
                         ProductMarketing productMarketing = (ProductMarketing) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(productMarketing.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productMarketing.getName()) + "/";
                     } else if (param instanceof CatalogCategoryVirtual) {
                         CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(category.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getName()) + "/";
                     } else if (param instanceof CatalogCategoryMaster) {
                         CatalogCategoryMaster category = (CatalogCategoryMaster) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(category.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getName()) + "/";
                     } else if (param instanceof ProductBrand) {
                         ProductBrand productBrand = (ProductBrand) param;
                         urlParams.put(RequestConstants.URL_PATTERN_BRAND_CODE, handleParamValue(productBrand.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(productBrand.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productBrand.getName()) + "/";
                     } else if (param instanceof CartItem) {
                         CartItem cartItem = (CartItem) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CART_ITEM_CODE, handleParamValue(cartItem.getId().toString()));

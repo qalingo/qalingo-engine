@@ -58,7 +58,7 @@ public class ProductDao extends AbstractGenericDao {
 	public ProductMarketing getProductMarketingByCode(final String productMarketingCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         FetchPlan fetchPlan = handleSpecificProductMarketingFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("code", productMarketingCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(productMarketingCode)));
         ProductMarketing productMarketing = (ProductMarketing) criteria.uniqueResult();
         if(productMarketing != null){
             productMarketing.setFetchPlan(fetchPlan);
@@ -111,7 +111,7 @@ public class ProductDao extends AbstractGenericDao {
         criteria.setFetchMode("productBrand", FetchMode.JOIN);
         criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
         
-        criteria.add(Restrictions.eq("productBrand.code", brandCode));
+        criteria.add(Restrictions.eq("productBrand.code", handleCodeValue(brandCode)));
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -332,7 +332,7 @@ public class ProductDao extends AbstractGenericDao {
     public ProductSku getProductSkuByCode(final String skuCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         FetchPlan fetchPlan = handleSpecificProductSkuFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("code", skuCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(skuCode)));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
         if(productSku != null){
             productSku.setFetchPlan(fetchPlan);
@@ -515,7 +515,7 @@ public class ProductDao extends AbstractGenericDao {
     public ProductSkuOptionDefinition getProductSkuOptionDefinitionByCode(final String productSkuOptionDefinitionCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuOptionDefinition.class);
         FetchPlan fetchPlan = handleSpecificProductSkuOptionDefinitionFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("code", productSkuOptionDefinitionCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(productSkuOptionDefinitionCode)));
         ProductSkuOptionDefinition productSkuOptionDefinition = (ProductSkuOptionDefinition) criteria.uniqueResult();
         if(productSkuOptionDefinition != null){
             productSkuOptionDefinition.setFetchPlan(fetchPlan);
@@ -578,7 +578,7 @@ public class ProductDao extends AbstractGenericDao {
     public ProductBrand getProductBrandByCode(final String productBrandCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrand.class);
         FetchPlan fetchPlan = handleSpecificProductBrandFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("code", productBrandCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(productBrandCode)));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
         if(productBrand != null){
             productBrand.setFetchPlan(fetchPlan);
@@ -604,7 +604,7 @@ public class ProductDao extends AbstractGenericDao {
         criteria.setFetchMode("productSku.defaultCatalogCategory", FetchMode.JOIN);
         criteria.createAlias("productSku.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
         
-        criteria.add(Restrictions.eq("defaultCatalogCategory.code", categoryCode));
+        criteria.add(Restrictions.eq("defaultCatalogCategory.code", handleCodeValue(categoryCode)));
 
         
         @SuppressWarnings("unchecked")

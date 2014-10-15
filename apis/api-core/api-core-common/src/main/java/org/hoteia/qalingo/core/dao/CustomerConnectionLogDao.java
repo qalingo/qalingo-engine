@@ -45,7 +45,7 @@ public class CustomerConnectionLogDao extends AbstractGenericDao {
 	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerConnectionLog.class);
         criteria.add(Restrictions.eq("customerId", customerId));
-        criteria.add(Restrictions.eq("appCode", appCode));
+        criteria.add(Restrictions.eq("appCode", handleCodeValue(appCode)));
         
         criteria.addOrder(Order.asc("loginDate"));
 

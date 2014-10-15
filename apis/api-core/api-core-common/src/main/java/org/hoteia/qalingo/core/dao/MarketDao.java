@@ -65,7 +65,7 @@ public class MarketDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
 
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
         if(marketPlace != null){
@@ -151,7 +151,7 @@ public class MarketDao extends AbstractGenericDao {
 
         FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
 
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         
         Market market = (Market) criteria.uniqueResult();
         if(market != null){
@@ -178,7 +178,7 @@ public class MarketDao extends AbstractGenericDao {
         handleSpecificFetchModeMarket(criteria, params);
         
         criteria.createAlias("marketPlace", "mp", JoinType.LEFT_OUTER_JOIN);
-        criteria.add( Restrictions.eq("mp.code", marketPlaceCode));
+        criteria.add( Restrictions.eq("mp.code", handleCodeValue(marketPlaceCode)));
         
         criteria.addOrder(Order.asc("code"));
 
@@ -238,7 +238,7 @@ public class MarketDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificFetchModeMarketArea(criteria, params);
         
-        criteria.add(Restrictions.eq("code", code));
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
         
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
         if(marketArea != null){

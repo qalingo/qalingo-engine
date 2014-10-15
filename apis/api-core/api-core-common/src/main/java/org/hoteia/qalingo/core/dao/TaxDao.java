@@ -45,7 +45,7 @@ public class TaxDao extends AbstractGenericDao {
 
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", taxCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(taxCode)));
         Tax tax = (Tax) criteria.uniqueResult();
         if(tax != null){
             tax.setFetchPlan(fetchPlan);

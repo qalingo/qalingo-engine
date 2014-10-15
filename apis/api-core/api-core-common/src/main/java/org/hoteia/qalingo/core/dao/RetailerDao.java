@@ -57,7 +57,7 @@ public class RetailerDao extends AbstractGenericDao {
 
         FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", retailerCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(retailerCode)));
         
         Retailer retailer = (Retailer) criteria.uniqueResult();
         if(retailer != null){
@@ -71,7 +71,7 @@ public class RetailerDao extends AbstractGenericDao {
 
         FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", retailerCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(retailerCode)));
         
         Retailer retailer = (Retailer) criteria.uniqueResult();
         if(retailer != null){
@@ -95,7 +95,7 @@ public class RetailerDao extends AbstractGenericDao {
     public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
-        criteria.add(Restrictions.eq("code", marketAreaCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(marketAreaCode)));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
 
         List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
@@ -273,7 +273,7 @@ public class RetailerDao extends AbstractGenericDao {
         
         FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", storeCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(storeCode)));
 
         criteria.addOrder(Order.asc("code"));
         
