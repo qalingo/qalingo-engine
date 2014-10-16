@@ -1488,7 +1488,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         // ASSETS
-        if(productMarketing.getAssets() != null){
+        if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
             for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 productMarketingViewBean.getAssets().add(buildViewBeanAsset(requestData, asset));
