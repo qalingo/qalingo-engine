@@ -125,30 +125,6 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 		this.positionItem = positionItem;
 	}
 
-	public String getBackgroundImage() {
-		return backgroundImage;
-	}
-
-	public void setBackgroundImage(String backgroundImage) {
-		this.backgroundImage = backgroundImage;
-	}
-
-	public String getCarouselImage() {
-		return carouselImage;
-	}
-
-	public void setCarouselImage(String carouselImage) {
-		this.carouselImage = carouselImage;
-	}
-
-	public String getIconImage() {
-		return iconImage;
-	}
-
-	public void setIconImage(String iconImage) {
-		this.iconImage = iconImage;
-	}
-
 	public boolean isDefault() {
 		return isDefault;
 	}
@@ -240,6 +216,16 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 	public List<AssetViewBean> getAssets() {
 		return assets;
 	}
+	
+    public String getAssetPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
+    }
 
 	public void setAssets(List<AssetViewBean> assets) {
 		this.assets = assets;

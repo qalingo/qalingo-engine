@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -34,6 +35,7 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -131,12 +133,22 @@ public class ProductDetailsController extends AbstractMCommerceController {
         
         model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, productMarketingViewBean.getI18nDescription());
         
-        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, productMarketingViewBean.getCarouselImage()));
+        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, productMarketingViewBean.getAssetPath("PACKSHOT")));
 
         Object[] params = { productMarketingViewBean.getI18nName() };
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
         
         return modelAndView;
 	}
+	
+    /**
+     * 
+     */
+    @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
+    protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
+        List<ProductBrand> productBrands = productService.findAllProductBrands();
+        List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
+        return productBrandViewBeans;
+    }
 
 }

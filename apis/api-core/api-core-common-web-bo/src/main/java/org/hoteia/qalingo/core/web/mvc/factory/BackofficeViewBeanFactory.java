@@ -646,7 +646,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             assetViewBean.setSize(asset.getSize());
         }
         assetViewBean.setFileSize("" + asset.getFileSize());
-        assetViewBean.setIsDefault("" + asset.isDefault());
+        assetViewBean.setIsDefault(asset.isDefault());
 
         assetViewBean.setAbsoluteWebPath(engineSettingService.getProductMarketingImageWebPath(asset));
 

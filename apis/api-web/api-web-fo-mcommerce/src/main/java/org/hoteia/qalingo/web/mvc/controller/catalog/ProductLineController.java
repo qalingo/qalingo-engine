@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
@@ -34,8 +35,8 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
@@ -44,6 +45,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -145,9 +147,6 @@ public class ProductLineController extends AbstractMCommerceController {
 		model.addAttribute("mode",mode);
 		model.addAttribute("totalPage", productList.getPageCount());
 		
-//		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), catalogCategory);
-//		model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
-		
 		loadRecentProducts(request, requestData, model, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
         
         // SEO
@@ -162,5 +161,15 @@ public class ProductLineController extends AbstractMCommerceController {
         
 		return modelAndView;
 	}
+	
+    /**
+     * 
+     */
+    @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
+    protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
+        List<ProductBrand> productBrands = productService.findAllProductBrands();
+        List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
+        return productBrandViewBeans;
+    }
     
 }

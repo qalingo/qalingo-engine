@@ -92,6 +92,7 @@ import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.service.openid.OpenProvider;
+import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeDefinitionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeValueViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
@@ -1487,29 +1488,37 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         // ASSETS
-        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            final String backgroundImage = engineSettingService.getProductMarketingImageWebPath(defaultBackgroundImage);
-            productMarketingViewBean.setBackgroundImage(backgroundImage);
-        } else {
-            productMarketingViewBean.setBackgroundImage("");
-        }
-        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.HD.name());
-        if (defaultPackshotImage != null) {
-            final String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
-            productMarketingViewBean.setCarouselImage(carouselImage);
-        } else {
-            productMarketingViewBean.setCarouselImage("");
-        }
-        final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
-        if (defaultIconImage != null) {
-            final String iconImage = engineSettingService.getProductMarketingImageWebPath(defaultIconImage);
-            productMarketingViewBean.setIconImage(iconImage);
-        } else {
-            productMarketingViewBean.setIconImage("");
+        if(productMarketing.getAssets() != null){
+            for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                productMarketingViewBean.getAssets().add(buildViewBeanAsset(requestData, asset));
+            }
         }
 
         return productMarketingViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public AssetViewBean buildViewBeanAsset(final RequestData requestData, final Asset asset) throws Exception {
+        final AssetViewBean assetViewBean = new AssetViewBean();
+        assetViewBean.setName(asset.getName());
+        assetViewBean.setDescription(asset.getDescription());
+        assetViewBean.setScope(asset.getScope());
+        assetViewBean.setType(asset.getType());
+        assetViewBean.setPath(asset.getPath());
+        assetViewBean.setSize(asset.getSize());
+        if(asset.getFileSize() != null){
+            assetViewBean.setFileSize(asset.getFileSize().toString());
+        }
+        assetViewBean.setIsDefault(asset.isDefault());
+
+        final String path = engineSettingService.getProductMarketingImageWebPath(asset);
+        assetViewBean.setRelativeWebPath(path);
+        assetViewBean.setAbsoluteWebPath(path);
+
+        return assetViewBean;
     }
     
     /**

@@ -496,10 +496,8 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         return catalogCategoryViewBeans;
     }
 
-    public List<ProductBrandViewBean> buildListViewBeanProductBrand(final RequestData requestData, final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
+    public List<ProductBrandViewBean> buildListViewBeanProductBrand(final RequestData requestData, final List<ProductBrand> productBrands) throws Exception {
         final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
-
-        List<ProductBrand> productBrands = productService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
         for (ProductBrand productBrand : productBrands) {
             ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, productBrand);
             productBrandViewBeans.add(productBrandViewBean);

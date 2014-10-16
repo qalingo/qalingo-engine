@@ -17,15 +17,15 @@ public class AssetViewBean extends AbstractViewBean {
 	private static final long serialVersionUID = -450913534322324076L;
 
 	protected String name;
-	protected String code;
 	protected String scope;
 	protected String type;
 	protected String description;
 	protected String path;
 	protected String size;
 	protected String fileSize;
-	protected String isDefault;
+	protected boolean isDefault;
 
+    protected String relativeWebPath;
 	protected String absoluteWebPath;
 
 	protected String detailsUrl;
@@ -40,14 +40,6 @@ public class AssetViewBean extends AbstractViewBean {
 		this.name = name;
 	}
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
 	public String getScope() {
 		return scope;
 	}
@@ -96,14 +88,22 @@ public class AssetViewBean extends AbstractViewBean {
 		this.fileSize = fileSize;
 	}
 
-	public String getIsDefault() {
+	public boolean isDefault() {
 		return isDefault;
 	}
 
-	public void setIsDefault(String isDefault) {
+	public void setIsDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
 
+	public String getRelativeWebPath() {
+        return relativeWebPath;
+    }
+	
+	public void setRelativeWebPath(String relativeWebPath) {
+        this.relativeWebPath = relativeWebPath;
+    }
+	
 	public String getAbsoluteWebPath() {
 		return absoluteWebPath;
 	}
