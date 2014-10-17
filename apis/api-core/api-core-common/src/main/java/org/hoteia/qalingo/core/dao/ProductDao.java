@@ -438,6 +438,20 @@ public class ProductDao extends AbstractGenericDao {
         return productSkus;
     }
     
+    public List<ProductSku> findProductSkusByStoreId(final Long storeId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
+        handleSpecificProductMarketingFetchMode(criteria, params);
+
+        criteria.createAlias("stores", "stores", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("stores.id", storeId));
+
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<ProductSku> productSkus = criteria.list();
+        return productSkus;
+    }
+    
     public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
         if(productSku.getDateCreate() == null){
             productSku.setDateCreate(new Date());

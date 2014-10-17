@@ -70,5 +70,4 @@ public class StoreController extends AbstractMCommerceController {
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
     
-    
 }

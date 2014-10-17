@@ -1561,6 +1561,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
+    public List<ProductSkuViewBean> buildListViewBeanProductSku(final RequestData requestData, final List<ProductSku> productSkus) throws Exception {
+        final List<ProductSkuViewBean> productSkuViewBeans = new ArrayList<ProductSkuViewBean>();
+        for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+            ProductSku productSku = (ProductSku) iterator.next();
+            productSkuViewBeans.add(buildViewBeanProductSku(requestData, productSku));
+        }
+        return productSkuViewBeans;
+    }
+    
+    /**
+     * 
+     */
     public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductSku productSku) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();

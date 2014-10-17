@@ -301,6 +301,11 @@ public class ProductService {
         }
         return productSkuIds;
     }
+    
+    public List<ProductSku> findProductSkusByStoreId(final Long storeId, Object... params) {
+        List<ProductSku> skus = productDao.findProductSkusByStoreId(storeId, params);
+        return skus;
+    }
 
     public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
         return productDao.saveOrUpdateProductSku(productSku);

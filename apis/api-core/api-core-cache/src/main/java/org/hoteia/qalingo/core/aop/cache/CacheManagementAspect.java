@@ -356,7 +356,7 @@ public class CacheManagementAspect {
             }
 
         } catch (Exception e) {
-            logger.error("Failed to load datas with Cache AOP!");
+            logger.error("Failed to load datas with Cache AOP!", e);
         }
         return returnObject;
     }
