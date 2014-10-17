@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;

@@ -53,7 +53,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         criteria.add(Restrictions.eq("code", handleCodeValue(catalogCategoryCode)));
         
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", catalogMasterCode));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogMasterCode)));
         
         CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
         if(catalogCategory != null){
@@ -161,7 +161,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogCategoryCode)));
         
-        criteria.add(Restrictions.eq("code", catalogCategoryCode));
+        criteria.add(Restrictions.eq("code", handleCodeValue(catalogCategoryCode)));
 
         CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
         if(catalogCategory != null){

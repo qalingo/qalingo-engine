@@ -33,6 +33,7 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,25 +93,25 @@ public class ProductAxeController extends AbstractMCommerceController {
 
         final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
 
-        // HIDE THIS PART : TEMPORARY : BUG
-//        final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), catalogCategory);
-//        model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
+        if(catalogCategory != null){
+            final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, 
+                    new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
+            model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 
-        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, 
-                                                                                           new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
-        model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
+            // SEO
+            model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, catalogCategoryViewBean.getI18nName());
 
-        // SEO
-        model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, catalogCategoryViewBean.getI18nName() );
-        
-        model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, catalogCategoryViewBean.getI18nDescription());
-        
-        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, catalogCategoryViewBean.getCarouselImage()));
+            model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, catalogCategoryViewBean.getI18nDescription());
 
-        Object[] params = { catalogCategoryViewBean.getI18nName() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_AXE.getKey(), params);
+            model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, catalogCategoryViewBean.getCarouselImage()));
 
-        return modelAndView;
+            Object[] params = { catalogCategoryViewBean.getI18nName() };
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_AXE.getKey(), params);
+
+            return modelAndView;
+        }
+        final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
     }
 	
     /**

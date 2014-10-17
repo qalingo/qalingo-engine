@@ -38,6 +38,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,63 +104,67 @@ public class ProductLineController extends AbstractMCommerceController {
         
 		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
 		
-		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, 
-		                                                                                   new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
-
-		String sortBy = request.getParameter("sortBy");
-        String orderBy = request.getParameter("orderBy");
-        String pageSizeParameter = request.getParameter("pageSize");
-        String pageParameter = request.getParameter("page");
-        String mode = request.getParameter("mode");
-        
-		int page = NumberUtils.toInt(pageParameter, 1) - 1;
-	    int pageSize = NumberUtils.toInt(pageSizeParameter, 9);
-		
-		List<ProductMarketingViewBean> productMarketings = catalogCategoryViewBean.getProductMarketings();
-		PagedListHolder<ProductMarketingViewBean> productList = new PagedListHolder<ProductMarketingViewBean>(productMarketings);
-		productList.setPageSize(pageSize);
-		productList.setPage(page);
-		
-		int pageCurrent = productList.getPage();
-        if (pageCurrent < page) { 
-        	for (int i = pageCurrent; i < page; i++) {
-        		productList.nextPage(); 
-			}
-        } else if (pageCurrent > page) { 
-        	for (int i = page; i < pageCurrent; i++) {
-        		productList.previousPage(); 
-			}
-        }
-		
-		catalogCategoryViewBean.setProductMarketings(productList.getPageList());
-
-		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
-        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
-	
-		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildViewBeanCatalogBreadcrumb(requestUtil.getRequestData(request) , catalogCategory);
-		model.addAttribute(ModelConstants.CATALOG_BREADCRUMB_VIEW_BEAN, catalogBreadcrumbViewBean);
-		
-		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
-		model.addAttribute("sortBy", sortBy);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("orderBy", orderBy);
-		model.addAttribute("currentPage", page);
-		model.addAttribute("mode",mode);
-		model.addAttribute("totalPage", productList.getPageCount());
-		
-		loadRecentProducts(request, requestData, model, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
-        
-        // SEO
-        model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, catalogCategoryViewBean.getI18nName() );
-        
-        model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, catalogCategoryViewBean.getI18nDescription());
-        
-        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, catalogCategoryViewBean.getCarouselImage()));
-
-        Object[] params = { catalogCategoryViewBean.getI18nName() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_LINE.getKey(), params);
-        
-		return modelAndView;
+		if(catalogCategory != null){
+    		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, 
+    		                                                                                   new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
+    
+    		String sortBy = request.getParameter("sortBy");
+            String orderBy = request.getParameter("orderBy");
+            String pageSizeParameter = request.getParameter("pageSize");
+            String pageParameter = request.getParameter("page");
+            String mode = request.getParameter("mode");
+            
+    		int page = NumberUtils.toInt(pageParameter, 1) - 1;
+    	    int pageSize = NumberUtils.toInt(pageSizeParameter, 9);
+    		
+    		List<ProductMarketingViewBean> productMarketings = catalogCategoryViewBean.getProductMarketings();
+    		PagedListHolder<ProductMarketingViewBean> productList = new PagedListHolder<ProductMarketingViewBean>(productMarketings);
+    		productList.setPageSize(pageSize);
+    		productList.setPage(page);
+    		
+    		int pageCurrent = productList.getPage();
+            if (pageCurrent < page) { 
+            	for (int i = pageCurrent; i < page; i++) {
+            		productList.nextPage(); 
+    			}
+            } else if (pageCurrent > page) { 
+            	for (int i = page; i < pageCurrent; i++) {
+            		productList.previousPage(); 
+    			}
+            }
+    		
+    		catalogCategoryViewBean.setProductMarketings(productList.getPageList());
+    
+    		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
+            modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
+    	
+    		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildViewBeanCatalogBreadcrumb(requestUtil.getRequestData(request) , catalogCategory);
+    		model.addAttribute(ModelConstants.CATALOG_BREADCRUMB_VIEW_BEAN, catalogBreadcrumbViewBean);
+    		
+    		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
+    		model.addAttribute("sortBy", sortBy);
+    		model.addAttribute("pageSize", pageSize);
+    		model.addAttribute("orderBy", orderBy);
+    		model.addAttribute("currentPage", page);
+    		model.addAttribute("mode",mode);
+    		model.addAttribute("totalPage", productList.getPageCount());
+    		
+    		loadRecentProducts(request, requestData, model, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
+            
+            // SEO
+            model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, catalogCategoryViewBean.getI18nName() );
+            
+            model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, catalogCategoryViewBean.getI18nDescription());
+            
+            model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, catalogCategoryViewBean.getCarouselImage()));
+    
+            Object[] params = { catalogCategoryViewBean.getI18nName() };
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_LINE.getKey(), params);
+            
+    		return modelAndView;
+	    }
+        final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
     /**
