@@ -273,12 +273,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         footerMenuViewBeans.add(footerMenuList);
 
         footerMenuList = new FooterMenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
-        footerMenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new FooterMenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
         footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
@@ -290,6 +284,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
         footerMenuViewBeans.add(footerMenuList);
 
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+        
         footerMenuList = new FooterMenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
@@ -1242,6 +1242,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productBrandViewBean.setCode(productBrand.getCode());
         productBrandViewBean.setName(productBrand.getName());
         productBrandViewBean.setDescription(productBrand.getDescription());
+        productBrandViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
         return productBrandViewBean;
     }
 
@@ -1400,6 +1401,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
 
         return catalogCategoryViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public List<ProductMarketingViewBean> buildListViewBeanProductMarketing(final RequestData requestData, final List<ProductMarketing> productMarketings) throws Exception {
+        final List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
+        for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
+            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+            productMarketingViewBeans.add(buildViewBeanProductMarketing(requestData, productMarketing));
+        }
+        return productMarketingViewBeans;
     }
     
     /**

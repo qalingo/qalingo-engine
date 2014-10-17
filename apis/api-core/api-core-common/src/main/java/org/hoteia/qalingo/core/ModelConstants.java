@@ -95,6 +95,7 @@ public class ModelConstants {
     public static final String CATALOG_CATEGORY_VIEW_BEAN           = "catalogCategory";
     public static final String CATALOG_CATEGORIES_VIEW_BEAN         = "catalogCategories";
     public static final String PRODUCT_MARKETING_VIEW_BEAN          = "productMarketing";
+    public static final String PRODUCT_MARKETINGS_VIEW_BEAN         = "productMarketings";
     public static final String PRODUCT_SKU_VIEW_BEAN                = "productSku";
     public static final String PRODUCT_BRANDS_VIEW_BEAN             = "productBrands";
     public static final String PRODUCT_BRAND_VIEW_BEAN              = "productBrand";

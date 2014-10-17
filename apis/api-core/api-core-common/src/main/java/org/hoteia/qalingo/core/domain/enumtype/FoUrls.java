@@ -63,6 +63,7 @@ public enum FoUrls {
     RETAILER_COMMENT(FoUrls.RETAILER_COMMENT_URL, FoUrls.RETAILER_COMMENT_KEY, FoUrls.RETAILER_COMMENT_FORM_VELOCITY_PAGE, true),
     RETAILER_VOTE(FoUrls.RETAILER_VOTE_URL, FoUrls.RETAILER_COMMENT_KEY, FoUrls.RETAILER_COMMENT_FORM_VELOCITY_PAGE, true),
 
+    BRAND_ALL(FoUrls.BRAND_ALL_URL, FoUrls.BRAND_ALL_KEY, FoUrls.BRAND_ALL_VELOCITY_PAGE, true),
     BRAND_DETAILS(FoUrls.BRAND_DETAILS_URL, FoUrls.BRAND_DETAILS_KEY, FoUrls.BRAND_DETAILS_VELOCITY_PAGE, true),
     BRAND_LINE(FoUrls.BRAND_LINE_URL, FoUrls.BRAND_LINE_KEY, FoUrls.BRAND_LINE_VELOCITY_PAGE, true),
 
@@ -261,13 +262,17 @@ public enum FoUrls {
 	public static final String RETAILER_COMMENT_FORM_VELOCITY_PAGE	= "retailer/retailer-comment";
 	public static final String RETAILER_VOTE_URL					= "/**/retailer-vote-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9-]+}.html";
 
+    public static final String BRAND_ALL_KEY                        = "all-brands";
+    public static final String BRAND_ALL_URL                        = "/**/all-brands.html";
+    public static final String BRAND_ALL_VELOCITY_PAGE              = "catalog/all-brands";
+
 	public static final String BRAND_DETAILS_KEY					= "brand-details";
 	public static final String BRAND_DETAILS_URL					= "/**/brand-details-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String BRAND_DETAILS_VELOCITY_PAGE			= "catalog/brand-details";
 	
-	public static final String BRAND_LINE_KEY					= "brand-line";
-	public static final String BRAND_LINE_URL					= "/**/brand-line-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
-	public static final String BRAND_LINE_VELOCITY_PAGE			= "catalog/brand-line";
+	public static final String BRAND_LINE_KEY                       = "brand-line";
+	public static final String BRAND_LINE_URL                       = "/**/brand-line-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
+	public static final String BRAND_LINE_VELOCITY_PAGE             = "catalog/brand-line";
 
 	public static final String CATEGORY_AS_AXE_KEY					= "axe";
 	public static final String CATEGORY_AS_AXE_URL					= "/**/axe-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}.html";

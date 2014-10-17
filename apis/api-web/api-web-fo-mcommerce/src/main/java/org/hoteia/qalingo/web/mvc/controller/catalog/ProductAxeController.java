@@ -54,9 +54,9 @@ public class ProductAxeController extends AbstractMCommerceController {
     @Autowired
     protected ProductService productService;
     
-    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
-    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public ProductAxeController() {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
