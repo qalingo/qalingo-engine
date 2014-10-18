@@ -70,6 +70,26 @@ public class StoreViewBean extends AbstractViewBean {
 		this.i18nName = i18nName;
 	}
 
+    public String getAddressOnLine() {
+        StringBuffer address = new StringBuffer();
+        if(address1 != null){
+            address.append(address1);
+        }
+        if(postalCode != null || city != null){
+            address.append(" - ");
+        }
+        if(postalCode != null){
+            address.append(postalCode);
+        }
+        if(city != null){
+            address.append(city);
+        }
+        if(countryCode != null){
+            address.append(" - " + countryCode);
+        }
+        return address.toString();
+    }
+
 	public String getAddress1() {
 		return address1;
 	}
@@ -90,8 +110,7 @@ public class StoreViewBean extends AbstractViewBean {
 		return addressAdditionalInformation;
 	}
 
-	public void setAddressAdditionalInformation(
-			String addressAdditionalInformation) {
+	public void setAddressAdditionalInformation(String addressAdditionalInformation) {
 		this.addressAdditionalInformation = addressAdditionalInformation;
 	}
 
