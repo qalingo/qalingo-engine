@@ -1462,7 +1462,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    protected ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
+    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
