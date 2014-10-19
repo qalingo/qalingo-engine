@@ -11,6 +11,8 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.List;
 
+import javax.persistence.Column;
+
 import org.apache.commons.lang.StringUtils;
 
 public class StoreViewBean extends AbstractViewBean {
@@ -33,6 +35,12 @@ public class StoreViewBean extends AbstractViewBean {
 	private String areaCode;
 	private String countryCode;
 	private String country;
+	
+    private String email;
+    private String phone;
+    private String fax;
+    private String website;
+    
 	private String longitude;
 	private String latitude;
 	private String defaultImage;
@@ -79,7 +87,7 @@ public class StoreViewBean extends AbstractViewBean {
             address.append(" - ");
         }
         if(postalCode != null){
-            address.append(postalCode);
+            address.append(postalCode + " ");
         }
         if(city != null){
             address.append(city);
@@ -162,7 +170,39 @@ public class StoreViewBean extends AbstractViewBean {
 		this.country = country;
 	}
 
-	public String getLongitude() {
+	public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getLongitude() {
 		return longitude;
 	}
 

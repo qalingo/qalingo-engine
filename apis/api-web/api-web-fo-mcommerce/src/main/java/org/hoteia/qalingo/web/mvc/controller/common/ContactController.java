@@ -24,7 +24,10 @@ import javax.validation.Valid;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -50,13 +53,31 @@ public class ContactController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.CONTACT_URL, method = RequestMethod.GET)
 	public ModelAndView displayContactForm(final HttpServletRequest request, Model model, @ModelAttribute("contactForm") ContactForm contactForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTACT.getVelocityPage());
-		
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
         modelAndView.addObject("withMap", true);
 		
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CONTACT.getKey());
 
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "contact", locale));
+        
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contact", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
         return modelAndView;
 	}
 

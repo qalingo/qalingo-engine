@@ -90,6 +90,18 @@ public class Store extends AbstractEntity {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
+    @Column(name = "EMAIL")
+    private String email;
+    
+    @Column(name = "PHONE")
+    private String phone;
+    
+    @Column(name = "FAX")
+    private String fax;
+    
+    @Column(name = "WEBSITE")
+    private String website;
+    
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
     @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
     private Retailer retailer;
@@ -225,6 +237,38 @@ public class Store extends AbstractEntity {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public Retailer getRetailer() {

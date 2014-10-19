@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.retailer;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,8 +20,11 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -44,8 +49,9 @@ public class StoreController extends AbstractMCommerceController {
 	@RequestMapping(FoUrls.STORE_DETAILS_URL)
 	public ModelAndView displayRetailerDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_DETAILS.getVelocityPage());
-		final RequestData requestData = requestUtil.getRequestData(request);
-		
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+	      
 		if(StringUtils.isNotEmpty(storeCode)){
 	        Store store = retailerService.getStoreByCode(storeCode);
 	        final List<Store> stores = retailerService.findStores();
@@ -63,6 +69,30 @@ public class StoreController extends AbstractMCommerceController {
 	        Object[] params = {storeViewBean.getI18nName()};
 	        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.STORE_DETAILS.getKey(), params);
 
+            // BREADCRUMB
+            BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+            breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "store_details", params, locale));
+            
+            List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+            MenuViewBean menu = new MenuViewBean();
+            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+            menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+            menuViewBeans.add(menu);
+            
+            menu = new MenuViewBean();
+            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+            menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+            menuViewBeans.add(menu);
+            
+            menu = new MenuViewBean();
+            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_details", params, locale));
+            menu.setUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
+            menu.setActive(true);
+            menuViewBeans.add(menu);
+            
+            breadcrumbViewBean.setMenus(menuViewBeans);
+            model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, breadcrumbViewBean);
+	        
 	        return modelAndView;
 		}
 		

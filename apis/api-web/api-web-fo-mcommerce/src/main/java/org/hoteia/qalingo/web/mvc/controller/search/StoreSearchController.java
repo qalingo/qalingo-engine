@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,13 +35,16 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.solr.service.AbstractSolrService;
 import org.hoteia.qalingo.core.solr.service.StoreSolrService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -107,10 +111,10 @@ public class StoreSearchController extends AbstractMCommerceController {
     
 	@RequestMapping(value = FoUrls.STORE_SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView search(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
-		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-
+        final Locale locale = requestData.getLocale();
+        
 		if (StringUtils.isEmpty(searchForm.getText())
 		        && searchForm.getPage() == 0) {
 			return displaySearch(request, model);
@@ -198,6 +202,25 @@ public class StoreSearchController extends AbstractMCommerceController {
 		
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.STORE_SEARCH.getKey());
 
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "store_location", locale));
+        
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
+        breadcrumbViewBean.setMenus(menuViewBeans);
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, breadcrumbViewBean);
+        
         return modelAndView;
 	}
 

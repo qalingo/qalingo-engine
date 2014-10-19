@@ -27,6 +27,8 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
 import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
@@ -55,6 +57,8 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		// SANITY CHECK: Customer logged
         final Customer currentCustomer = requestData.getCustomer();
 		if(currentCustomer != null){
@@ -68,6 +72,22 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		
 		modelAndView.addObject(ModelConstants.URL_BACK, lastUrl);
 		
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "customer_create_account", locale));
+        
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "customer_create_account", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.CUSTOMER_CREATE_ACCOUNT, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
         return modelAndView;
 	}
 

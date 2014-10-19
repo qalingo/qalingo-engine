@@ -932,6 +932,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         storeViewBean.setStateCode(store.getStateCode());
         storeViewBean.setCountry(store.getCountryCode());
         storeViewBean.setCountryCode(store.getCountryCode());
+        
+        storeViewBean.setEmail(store.getEmail());
+        storeViewBean.setPhone(store.getPhone());
+        storeViewBean.setFax(store.getFax());
+        storeViewBean.setWebsite(store.getWebsite());
+        
         storeViewBean.setLongitude(store.getLongitude());
         storeViewBean.setLatitude(store.getLatitude());
         
@@ -987,7 +993,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 if (storeBusinessHour.isMonday()) {
                     storeBusinessHourViewBean.setMonday(operationHourViewBean);
                 }
-
                 if (storeBusinessHour.isTuesday()) {
                     storeBusinessHourViewBean.setTuesday(operationHourViewBean);
                 }
@@ -1007,7 +1012,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     storeBusinessHourViewBean.setSunday(operationHourViewBean);
                 }
             }
-
         }
         return storeBusinessHourViewBean;
     }

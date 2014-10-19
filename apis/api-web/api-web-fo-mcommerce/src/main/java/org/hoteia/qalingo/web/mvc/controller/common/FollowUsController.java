@@ -9,14 +9,21 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.MarketService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
@@ -42,9 +49,27 @@ public class FollowUsController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.GET)
 	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute("followUsForm") FollowUsForm followUsForm) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US.getVelocityPage());
-		
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.FOLLOW_US.getKey());
 
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "follow_us", locale));
+        
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "follow_us", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
         return modelAndView;
 	}
 
