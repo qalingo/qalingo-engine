@@ -45,6 +45,9 @@ public class CartItem extends AbstractEntity {
     @JoinColumn(name = "CART_ID", insertable = true, updatable = true)
     private Cart cart;
     
+    @Column(name = "RETAILER_ID")
+    private Long retailerId;
+    
     @Column(name = "QUANTITY", nullable = false, columnDefinition = "int(11) default 0")
     private int quantity;
 
@@ -94,6 +97,14 @@ public class CartItem extends AbstractEntity {
         this.cart = cart;
     }
 
+    public Long getRetailerId() {
+        return retailerId;
+    }
+    
+    public void setRetailerId(Long retailerId) {
+        this.retailerId = retailerId;
+    }
+    
     public int getQuantity() {
         return quantity;
     }

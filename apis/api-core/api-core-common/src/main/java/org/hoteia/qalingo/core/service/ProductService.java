@@ -87,6 +87,11 @@ public class ProductService {
         List<ProductMarketing> productMarketings = productDao.findProductMarketings(params);
         return productMarketings;
     }
+    
+    public List<ProductMarketing> findProductMarketingByRandom(int maxResults, Object... params) {
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingByRandom(maxResults, params);
+        return productMarketings;
+    }
 
     public List<ProductMarketing> findProductMarketings(final String text, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketings(text, params);

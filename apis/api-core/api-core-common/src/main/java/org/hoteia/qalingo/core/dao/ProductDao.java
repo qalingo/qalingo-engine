@@ -75,6 +75,17 @@ public class ProductDao extends AbstractGenericDao {
         List<ProductMarketing> productMarketings = criteria.list();
 		return productMarketings;
 	}
+
+    public List<ProductMarketing> findProductMarketingByRandom(int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
+        handleSpecificProductMarketingFetchMode(criteria, params);
+        criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RAND(123)"));
+        criteria.setMaxResults(maxResults);
+
+        @SuppressWarnings("unchecked")
+        List<ProductMarketing> productMarketings = criteria.list();
+        return productMarketings;
+    }
 	
 	public List<ProductMarketing> findProductMarketings(final String text, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);

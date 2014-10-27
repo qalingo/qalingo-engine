@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
@@ -112,6 +111,14 @@ public class WebManagementService {
      * 
      */
     public void addToCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+        addToCart(requestData, retailer, catalogCategoryCode, productSkuCode, quantity);
+    }
+    
+    /**
+     * 
+     */
+    public void addToCart(final RequestData requestData, final Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         // SANITY CHECK : sku code is empty or null : no sense
         if (StringUtils.isEmpty(productSkuCode)) {
             throw new Exception("");
@@ -122,25 +129,34 @@ public class WebManagementService {
             throw new Exception("");
         }
 
-        Cart cart = requestData.getCart();
-        int finalQuantity = quantity;
-        if(cart != null){
-            Set<CartItem> cartItems = cart.getCartItems();
-            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-                CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
-                    finalQuantity = finalQuantity + cartItem.getQuantity();
-                }
-            }
-        }
+        final Cart cart = requestData.getCart();
+//        int finalQuantity = quantity;
+//        if(cart != null){
+//            Set<CartItem> cartItems = cart.getCartItems();
+//            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+//                CartItem cartItem = (CartItem) iterator.next();
+//                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)
+//                        && cartItem.getRetailerId().equals(retailer)) {
+//                    finalQuantity = finalQuantity + cartItem.getQuantity();
+//                }
+//            }
+//        }
         
-        cartService.addProductSkuToCart(cart, catalogCategoryCode, productSkuCode, quantity);
+        cartService.addProductSkuToCart(cart, retailer, catalogCategoryCode, productSkuCode, quantity);
     }
     
     /**
      * 
      */
     public void updateCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+        updateCart(requestData, retailer, catalogCategoryCode, productSkuCode, quantity);
+    }
+    
+    /**
+     * 
+     */
+    public void updateCart(final RequestData requestData, final Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         
         // SANITY CHECK : sku code is empty or null : no sense
@@ -159,7 +175,7 @@ public class WebManagementService {
             cart = engineEcoSession.addNewCart();
         }
         
-        cartService.updateCartItem(cart, catalogCategoryCode, productSkuCode, quantity);
+        cartService.updateCartItem(cart, retailer, catalogCategoryCode, productSkuCode, quantity);
         
         requestUtil.updateCurrentCart(request, cart);
     }
@@ -202,9 +218,17 @@ public class WebManagementService {
      * 
      */
     public void deleteCartItem(final RequestData requestData, final String productSkuCode) throws Exception {
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+        deleteCartItem(requestData, retailer, productSkuCode);
+    }
+    
+    /**
+     * 
+     */
+    public void deleteCartItem(final RequestData requestData, final Retailer retailer, final String productSkuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        Cart savedCart = cartService.deleteCartItem(cart, productSkuCode);
+        Cart savedCart = cartService.deleteCartItem(cart, retailer, productSkuCode);
         requestUtil.updateCurrentCart(request, savedCart);
     }
     

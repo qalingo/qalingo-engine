@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,25 +45,29 @@ public class CartService {
     private DeliveryMethodService deliveryMethodService;
     
     public void addProductSkuToCart(Cart cart, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+        addProductSkuToCart(cart, null, catalogCategoryCode, productSkuCode, quantity);
+    }
+    
+    public void addProductSkuToCart(Cart cart, Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         int finalQuantity = quantity;
         if (cart != null) {
             Set<CartItem> cartItems = cart.getCartItems();
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
+                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)
+                        && cartItem.getRetailerId().equals(retailer)) {
                     finalQuantity = finalQuantity + cartItem.getQuantity();
                 }
             }
         }
-
-        updateCartItem(cart, catalogCategoryCode, productSkuCode, finalQuantity);
-    }
-
-    public Cart updateCartItem(Cart cart, final String productSkuCode, final int quantity) throws Exception {
-        return updateCartItem(cart, null, productSkuCode, quantity);
+        updateCartItem(cart, retailer, catalogCategoryCode, productSkuCode, finalQuantity);
     }
     
-    public Cart updateCartItem(Cart cart, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public Cart updateCartItem(Cart cart, final String productSkuCode, final int quantity) throws Exception {
+        return updateCartItem(cart, null, null, productSkuCode, quantity);
+    }
+    
+    public Cart updateCartItem(Cart cart, Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         Set<CartItem> cartItems = cart.getCartItems();
         boolean productSkuIsNew = true;
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
@@ -81,6 +86,9 @@ public class CartService {
 
                 cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
                 cartItem.setQuantity(quantity);
+                if(retailer != null){
+                    cartItem.setRetailerId(retailer.getId());
+                }
 
                 if (StringUtils.isNotEmpty(catalogCategoryCode)) {
                     cartItem.setCatalogCategoryCode(catalogCategoryCode);
@@ -99,11 +107,16 @@ public class CartService {
     }
     
     public Cart deleteCartItem(Cart cart, final String productSkuCode) throws Exception {
+        return deleteCartItem(cart, null, productSkuCode);
+    }
+    
+    public Cart deleteCartItem(Cart cart, Retailer retailer, final String productSkuCode) throws Exception {
         if(cart != null){
             Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
             for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
+                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)
+                        && cartItem.getRetailerId().equals(retailer)) {
                     cartItems.remove(cartItem);
                 }
             }
@@ -151,21 +164,6 @@ public class CartService {
         return cart;
     }
     
-//    public Cart addToCart(final Cart cart) {
-//        saveOrUpdateCart(cart);
-//        return cart;
-//    }
-//
-//    public Cart updateToCart(final Cart cart) {
-//        saveOrUpdateCart(cart);
-//        return cart;
-//    }
-//
-//    public Cart deleteToCart(final Cart cart) {
-//        saveOrUpdateCart(cart);
-//        return cart;
-//    }
-
     public Cart getCartById(final Long cartId, Object... params) {
         return cartDao.getCartById(cartId, params);
     }

@@ -24,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.criteria.Order;
 
 @Entity
 @Table(name = "TECO_ORDER_ITEM")
@@ -39,6 +40,12 @@ public class OrderItem extends AbstractEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
+    @Column(name = "ORDER_ID")
+    private Long orderId;
+    
+    @Column(name = "RETAILER_ID")
+    private Long retailerId;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
@@ -69,6 +76,22 @@ public class OrderItem extends AbstractEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public Long getOrderId() {
+        return orderId;
+    }
+    
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+    
+    public Long getRetailerId() {
+        return retailerId;
+    }
+    
+    public void setRetailerId(Long retailerId) {
+        this.retailerId = retailerId;
     }
     
     public CurrencyReferential getCurrency() {
