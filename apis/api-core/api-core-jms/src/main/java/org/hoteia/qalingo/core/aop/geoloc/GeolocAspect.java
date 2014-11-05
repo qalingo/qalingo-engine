@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.aop.notification;
+package org.hoteia.qalingo.core.aop.geoloc;
 
 import java.net.InetAddress;
 
@@ -15,21 +15,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
+import org.hoteia.qalingo.core.domain.GeolocAddress;
+import org.hoteia.qalingo.core.domain.GeolocCity;
+import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageJms;
+import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.hoteia.qalingo.core.domain.Email;
-import org.hoteia.qalingo.core.jms.notification.producer.EmailNotificationMessageProducer;
-import org.hoteia.qalingo.core.jms.notification.producer.EmailNotificationMessageJms;
-
-@Component(value = "emailNotificationAspect")
-public class EmailNotificationAspect {
+@Component(value = "geolocAspect")
+public class GeolocAspect {
 
     protected final Log logger = LogFactory.getLog(getClass());
     
     @Autowired
-    private EmailNotificationMessageProducer emailNotificationMessageProducer;
+    private AddressGeolocMessageProducer addressGeolocMessageProducer;
     
     @Value("${env.name}")  
     protected String environmentName;
@@ -51,23 +51,25 @@ public class EmailNotificationAspect {
             logger.debug("EmailNotificationAspect, afterReturning");
         }
         try {
-            final Email email = (Email) result;
-            
-            final EmailNotificationMessageJms emailnotificationMessageJms = new EmailNotificationMessageJms();
-            emailnotificationMessageJms.setEnvironmentName(environmentName);
-            emailnotificationMessageJms.setEnvironmentId(environmentId);
-            emailnotificationMessageJms.setApplicationName(applicationName);
-            emailnotificationMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
-            emailnotificationMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
-            if(email != null){
-                emailnotificationMessageJms.setEmailType(email.getType());
+            final AddressGeolocMessageJms addressGeolocMessageJms = new AddressGeolocMessageJms();
+            addressGeolocMessageJms.setEnvironmentName(environmentName);
+            addressGeolocMessageJms.setEnvironmentId(environmentId);
+            addressGeolocMessageJms.setApplicationName(applicationName);
+            addressGeolocMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
+            addressGeolocMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
+            if(result != null && result instanceof GeolocAddress){
+                GeolocAddress geolocAddress = (GeolocAddress) result;
+                addressGeolocMessageJms.setGeolocType("GeolocAddress");
+            } else if(result != null && result instanceof GeolocCity){
+                GeolocCity geolocCity = (GeolocCity) result;
+                addressGeolocMessageJms.setGeolocType("GeolocCity");
             }
             
             // Generate and send the JMS message
-            emailNotificationMessageProducer.generateMessages(emailnotificationMessageJms);
+            addressGeolocMessageProducer.generateMessages(addressGeolocMessageJms);
             
         } catch (Exception e) {
-            logger.error("EmailNotificationAspect Target Object error: " + e);
+            logger.error("AddressGeolocAspect Target Object error: " + e);
         }
     }
 

@@ -716,14 +716,14 @@ public class WebBackofficeService {
 		retailer.setEcommerce(retailerForm.isEcommerce());
 		retailer.setOfficialRetailer(retailerForm.isOfficialRetailer());
 		
-		if(StringUtils.isNotBlank(retailerForm.getWarehouseId())){
-			final Warehouse warehouse = warehouseService.getWarehouseById(retailerForm.getWarehouseId());
-			if(warehouse != null){
-				retailer.setWarehouse(warehouse);
-			}
-		} else {
-			retailer.setWarehouse(null);
-		}
+//		if(StringUtils.isNotBlank(retailerForm.getWarehouseId())){
+//			final Warehouse warehouse = warehouseService.getWarehouseById(retailerForm.getWarehouseId());
+//			if(warehouse != null){
+//				retailer.setWarehouse(warehouse);
+//			}
+//		} else {
+//			retailer.setWarehouse(null);
+//		}
 		
         MultipartFile multipartFile = retailerForm.getFile();
         if (multipartFile != null

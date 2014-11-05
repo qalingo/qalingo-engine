@@ -97,7 +97,7 @@ public class EngineSettingService {
     // GEOLOC
     public static final String ENGINE_SETTING_GEOLOC_CITY_DATABASE_PATH         = "CITY_DATABASE_PATH";
     public static final String ENGINE_SETTING_GEOLOC_COUNTRY_DATABASE_PATH      = "COUNTRY_DATABASE_PATH";
-
+    public static final String ENGINE_SETTING_GOOGLE_GEOLOC_API_KEY             = "GOOGLE_GEOLOC_API_KEY";
     
     @Autowired
     private EngineSettingDao engineSettingDao;
@@ -263,6 +263,19 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_GEOLOC_COUNTRY_DATABASE_PATH);
     }
 
+    public EngineSetting getSettingGoogleGeolocationApiKey() {
+        return getEngineSettingByCode(ENGINE_SETTING_GOOGLE_GEOLOC_API_KEY);
+    }
+    
+    public String getGoogleGeolocationApiKey() throws Exception {
+        EngineSetting engineSetting = getSettingGoogleGeolocationApiKey();
+        String key = "";
+        if (engineSetting != null) {
+            key = engineSetting.getDefaultValue();
+        }
+        return key;
+    }
+    
     // DOCUMENT SETTINGS
 
     public EngineSetting getSettingDocumentFileRootPath() {

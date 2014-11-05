@@ -94,27 +94,27 @@ public class Retailer extends AbstractEntity {
     @Column(name = "RATIO_QUALITY_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private int ratioQualityPrice;
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "WAREHOUSE_ID")
-    private Warehouse warehouse;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
+    @JoinColumn(name = "RETAILER_ID")
+    private Set<Warehouse> warehouses = new HashSet<Warehouse>();
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerLink.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerLink> links = new HashSet<RetailerLink>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerAddress.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerAddress> addresses = new HashSet<RetailerAddress>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Asset.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<Store> stores = new HashSet<Store>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Asset.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerAttribute.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerAttribute> retailerAttributes = new HashSet<RetailerAttribute>();
 
@@ -249,12 +249,21 @@ public class Retailer extends AbstractEntity {
         this.ratioQualityPrice = ratioQualityPrice;
     }
 
-    public Warehouse getWarehouse() {
-        return warehouse;
+    public Warehouse getDefaultWarehouse() {
+        if(warehouses != null
+                && Hibernate.isInitialized(warehouses)
+                && warehouses.size() > 0){
+            return warehouses.iterator().next();
+        }
+        return null;
     }
     
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
+    public Set<Warehouse> getWarehouses() {
+        return warehouses;
+    }
+    
+    public void setWarehouses(Set<Warehouse> warehouses) {
+        this.warehouses = warehouses;
     }
     
     public Set<RetailerLink> getLinks() {

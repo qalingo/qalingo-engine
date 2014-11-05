@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.jms.notification.producer;
 
 import org.hoteia.qalingo.core.jms.cacheserveurmanagement.listener.AbstractMessageJms;
 
-public class EmailnotificationMessageJms extends AbstractMessageJms {
+public class EmailNotificationMessageJms extends AbstractMessageJms {
 
     private String emailType;
     

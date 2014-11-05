@@ -9,19 +9,32 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.hoteia.qalingo.core.dao.GeolocDao;
 import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.domain.GeolocAddress;
+import org.hoteia.qalingo.core.domain.GeolocCity;
 import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
+import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityResponse;
@@ -40,6 +53,89 @@ public class GeolocService {
     
     @Autowired
     protected EngineSettingService engineSettingService;
+    
+    @Autowired
+    protected GeolocDao geolocDao;
+    
+    // GEOLOC CITY
+    
+    public GeolocCity geolocByCityAndCountry(final String city, final String country){
+        GeolocCity geolocCity = null;
+        String address = city.replace(" ", "+") + "," + country.replace(" ", "+");
+        String key = null;
+        try {
+            key = engineSettingService.getGoogleGeolocationApiKey();
+        } catch (Exception e) {
+            logger.error("Google Geolocation API Key is mandatory!", e);
+        }
+        if(key != null && StringUtils.isNotEmpty(key)){
+            HttpPost request = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key);
+            HttpResponse response = null;
+            HttpClient httpClient = new DefaultHttpClient();
+            try {
+                response = httpClient.execute(request);
+                
+            } catch (ClientProtocolException e) {
+                logger.error("", e);
+            } catch (IOException e) {
+                logger.error("", e);
+            }
+
+            try {
+                BufferedReader streamReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                StringBuilder responseStrBuilder = new StringBuilder();
+
+                String inputStr;
+                while ((inputStr = streamReader.readLine()) != null){
+                    responseStrBuilder.append(inputStr);
+                }
+                String json = responseStrBuilder.toString();
+                
+                ObjectMapper mapper = new ObjectMapper();
+                GoogleGeoCode geoCode = mapper.readValue(json, GoogleGeoCode.class);
+                
+                geolocCity = new GeolocCity();
+                geolocCity.setCity(city);
+                geolocCity.setCountry(country);
+                geolocCity.setJson(json);
+                geolocCity.setLatitude(geoCode.getLatitude());
+                geolocCity.setLongitude(geoCode.getLongitude());
+                geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+                
+            } catch (IllegalStateException e) {
+                logger.error("", e);
+            } catch (IOException e) {
+                logger.error("", e);
+            }
+        }
+        return geolocCity;
+    }
+    
+    public GeolocCity getGeolocCityByCityAndCountry(final String city, final String country, Object... params) {
+        return geolocDao.getGeolocCityByCityAndCountry(city, country, params);
+    }
+    
+    public GeolocCity saveOrUpdateGeolocCity(final GeolocCity geolocCity) {
+        return geolocDao.saveOrUpdateGeolocCity(geolocCity);
+    }
+    
+    public void deleteGeolocCity(final GeolocCity geolocCity) {
+        geolocDao.deleteGeolocCity(geolocCity);
+    }
+    
+    // GEOLOC ADDRESS
+    
+    public GeolocAddress getGeolocAddressByAddress(final String address, Object... params) {
+        return geolocDao.getGeolocAddressByAddress(address, params);
+    }
+    
+    public GeolocAddress saveOrUpdateGeolocAddress(final GeolocAddress geolocCity) {
+        return geolocDao.saveOrUpdateGeolocAddress(geolocCity);
+    }
+    
+    public void deleteGeolocAddress(final GeolocAddress geolocCity) {
+        geolocDao.deleteGeolocAddress(geolocCity);
+    }
     
     /**
      * 

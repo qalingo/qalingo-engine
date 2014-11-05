@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.jms.notification.producer;
+package org.hoteia.qalingo.core.jms.geoloc.producer;
 
 import java.io.UnsupportedEncodingException;
 
@@ -26,12 +26,12 @@ import org.springframework.stereotype.Component;
 
 import org.hoteia.qalingo.core.mapper.XmlMapper;
 
-@Component(value = "emailNotificationMessageProducer")
-public class EmailNotificationMessageProducer {
+@Component(value = "addressGeolocMessageProducer")
+public class AddressGeolocMessageProducer {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    @Resource(name="emailNotificationJmsTemplate")
+    @Resource(name="addressGeolocJmsTemplate")
     private JmsTemplate jmsTemplate;
 
     @Autowired
@@ -42,7 +42,7 @@ public class EmailNotificationMessageProducer {
      * 
      * @throws UnsupportedEncodingException
      */
-    public void generateMessages(final EmailNotificationMessageJms emailnotificationMessageJms) throws JMSException, UnsupportedEncodingException {
+    public void generateMessages(final AddressGeolocMessageJms emailnotificationMessageJms) throws JMSException, UnsupportedEncodingException {
         try {
             final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(emailnotificationMessageJms);
 

@@ -438,8 +438,8 @@ public class BackofficeFormFactory {
     		retailerForm.setOfficialRetailer(retailer.isOfficialRetailer());
     		retailerForm.setEcommerce(retailer.isEcommerce());
     		
-    		if(retailer.getWarehouse() != null){
-    			retailerForm.setWarehouseId(retailer.getWarehouse().getId().toString());
+    		if(retailer.getDefaultWarehouse() != null){
+    			retailerForm.setWarehouseId(retailer.getDefaultWarehouse().getId().toString());
     		}
 
             if (retailer.getAddresses() != null) {

@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.jms.notification.listener;
+package org.hoteia.qalingo.core.jms.geoloc.listener;
 
 import java.beans.ExceptionListener;
 import java.io.IOException;
@@ -21,6 +21,8 @@ import javax.jms.TextMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageJms;
+import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -32,11 +34,8 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.hoteia.qalingo.core.jms.notification.producer.EmailNotificationMessageJms;
-import org.hoteia.qalingo.core.mapper.XmlMapper;
-
-@Component(value = "emailNotificationMessageListener")
-public class EmailNotificationQueueListener implements MessageListener, ExceptionListener {
+@Component(value = "addressGeolocMessageProducer")
+public class AddressGeolocQueueListener implements MessageListener, ExceptionListener {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
@@ -44,7 +43,7 @@ public class EmailNotificationQueueListener implements MessageListener, Exceptio
     protected JobLauncher jobLauncher;
     
     @Autowired
-    protected Job emailSyncJob;
+    protected Job gelocJob;
     
     @Autowired
     protected XmlMapper xmlMapper;
@@ -63,17 +62,17 @@ public class EmailNotificationQueueListener implements MessageListener, Exceptio
                 }
 
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
-                    final EmailNotificationMessageJms emailnotificationMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, EmailNotificationMessageJms.class);
+                    final AddressGeolocMessageJms addressGeolocMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, AddressGeolocMessageJms.class);
                     
                     // TRIGGER A BATCH TO PROCESS THE EMAIL
                     if (logger.isDebugEnabled()) {
-                        logger.debug("Trigger a new job for a new email, type: " + emailnotificationMessageJms.getEmailType());
+                        logger.debug("Trigger a new job for a new email, type: " + addressGeolocMessageJms.getGeolocType());
                     }
 
                     JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
                     jobParametersBuilder.addDate("date", new Date());
                     JobParameters params = jobParametersBuilder.toJobParameters();
-                    jobLauncher.run(emailSyncJob, params);
+                    jobLauncher.run(gelocJob, params);
                 }
             }
             

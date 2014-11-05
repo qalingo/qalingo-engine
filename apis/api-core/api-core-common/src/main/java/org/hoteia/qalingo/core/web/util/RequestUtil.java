@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.GeolocCity;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -69,6 +70,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 
 /**
@@ -1567,14 +1569,38 @@ public class RequestUtil {
         GeolocData geolocData = engineEcoSession.getGeolocData();
         if (geolocData == null) {
             geolocData = geolocService.getGeolocData(remoteAddress);
+            handleGeolocData(request, engineEcoSession, geolocData);
         } else {
             if (StringUtils.isNotEmpty(geolocData.getRemoteAddress()) 
                     && !geolocData.getRemoteAddress().equals(remoteAddress)) {
                 // IP ADDRESS HAS CHANGED - RELOAD
                 geolocData = geolocService.getGeolocData(remoteAddress);
+                handleGeolocData(request, engineEcoSession, geolocData);
             }
         }
+        return engineEcoSession;
+    }
+    
+    /**
+     * 
+     */
+    protected EngineEcoSession handleGeolocData(final HttpServletRequest request, EngineEcoSession engineEcoSession, final GeolocData geolocData) throws Exception {
         if (geolocData != null) {
+            // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
+            City city = geolocData.getCity();
+            Country country = geolocData.getCountry();
+            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(city.getName(), country.getName());
+            if (geolocCity != null) {
+                geolocData.setLatitude(geolocCity.getLatitude());
+                geolocData.setLongitude(geolocCity.getLongitude());
+            } else {
+                // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
+                geolocCity = geolocService.geolocByCityAndCountry(city.getName(), country.getName());
+                if (geolocCity != null) {
+                    geolocData.setLatitude(geolocCity.getLatitude());
+                    geolocData.setLongitude(geolocCity.getLongitude());
+                }
+            }
             engineEcoSession.setGeolocData(geolocData);
             engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
         }

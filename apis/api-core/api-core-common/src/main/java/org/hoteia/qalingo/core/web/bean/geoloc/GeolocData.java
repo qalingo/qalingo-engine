@@ -25,6 +25,9 @@ public class GeolocData implements Serializable {
     private Country country;
     private City city;
 
+    private String latitude;
+    private String longitude;
+    
     public GeolocData() {
     }
 
@@ -50,6 +53,22 @@ public class GeolocData implements Serializable {
     
     public void setCity(City city) {
         this.city = city;
+    }
+    
+    public String getLatitude() {
+        return latitude;
+    }
+    
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+    
+    public String getLongitude() {
+        return longitude;
+    }
+    
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
     
 }

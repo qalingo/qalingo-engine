@@ -165,7 +165,8 @@ INSERT INTO teco_engine_setting
 (id, name, description, code, default_value, version)
 VALUES 
 (201, 'Geoloc city database folder path', 'Geoloc city database folder path', 'CITY_DATABASE_PATH', '/home/tomcat/servers/datas/maxmind/GeoLite2-City.mmdb', 1),
-(202, 'Geoloc country database folder path', 'Geoloc country database folder path', 'COUNTRY_DATABASE_PATH', '/home/tomcat/servers/datas/maxmind/GeoLite2-Country.mmdb', 1);
+(202, 'Geoloc country database folder path', 'Geoloc country database folder path', 'COUNTRY_DATABASE_PATH', '/home/tomcat/servers/datas/maxmind/GeoLite2-Country.mmdb', 1),
+(210, 'Google Geolocation API KEY', 'Google Geolocation API KEY', 'GOOGLE_GEOLOC_API_KEY', 'xxxx', 1);
 
 -- Document folder path setting
 INSERT INTO teco_engine_setting 
