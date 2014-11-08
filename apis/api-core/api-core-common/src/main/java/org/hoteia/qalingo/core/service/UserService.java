@@ -14,6 +14,7 @@ import java.util.List;
 import org.hoteia.qalingo.core.dao.UserDao;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +62,34 @@ public class UserService {
 		userDao.deleteUser(user);
 	}
 	
+	// USER GROUP
+	
+    public UserGroup getUserGroupById(final Long userGroupId, Object... params) {
+        return userDao.getUserGroupById(userGroupId, params);
+    }
+
+    public UserGroup getUserGroupById(final String rawUserGroupId, Object... params) {
+        long userGroupId = -1;
+        try {
+            userGroupId = Long.parseLong(rawUserGroupId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getUserGroupById(userGroupId, params);
+    }
+
+    public UserGroup getUserGroupByCode(final String code, Object... params) {
+        return userDao.getUserGroupByCode(code, params);
+    }
+
+    public void saveOrUpdateUserGroup(final UserGroup userGroup) {
+        userDao.saveOrUpdateUserGroup(userGroup);
+    }
+
+    public void deleteUserGroup(final UserGroup userGroup) {
+        userDao.deleteUserGroup(userGroup);
+    }
+    
 	// COMPANY
 	
 	public Company getCompanyById(Long companyId, Object... params) {

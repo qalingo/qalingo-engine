@@ -43,6 +43,7 @@ public class CatalogCategoryMasterProductSkuRel extends AbstractEntity {
     private boolean isDefaultSku;
     
     public CatalogCategoryMasterProductSkuRel() {
+        this.pk = new CatalogCategoryMasterProductSkuPk();
     }
     
     public CatalogCategoryMasterProductSkuRel(final CatalogCategoryMaster catalogCategoryMaster, final ProductSku productSku) {

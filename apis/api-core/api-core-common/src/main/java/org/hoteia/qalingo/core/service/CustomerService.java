@@ -15,6 +15,7 @@ import java.util.List;
 import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
@@ -106,6 +107,34 @@ public class CustomerService {
 
     public void deleteCustomer(final Customer customer) {
         customerDao.deleteCustomer(customer);
+    }
+    
+    public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
+        return customerDao.getCustomerGroupById(customerGroupId, params);
+    }
+
+    public CustomerGroup getCustomerGroupById(final String rawCustomerGroupId, Object... params) {
+        long customerGroupId = -1;
+        try {
+            customerGroupId = Long.parseLong(rawCustomerGroupId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCustomerGroupById(customerGroupId, params);
+    }
+
+    // CUSTOMER GROUP
+    
+    public CustomerGroup getCustomerGroupByCode(final String code, Object... params) {
+        return customerDao.getCustomerGroupByCode(code, params);
+    }
+
+    public void saveOrUpdateCustomerGroup(final CustomerGroup customerGroup) {
+        customerDao.saveOrUpdateCustomerGroup(customerGroup);
+    }
+
+    public void deleteCustomerGroup(final CustomerGroup customerGroup) {
+        customerDao.deleteCustomerGroup(customerGroup);
     }
 
     // CREDENTIAL

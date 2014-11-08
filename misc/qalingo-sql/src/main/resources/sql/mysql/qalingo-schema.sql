@@ -2535,6 +2535,7 @@ DROP TABLE IF EXISTS `teco_retailer`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_retailer` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `IS_ACTIVE` tinyint(1) NOT NULL DEFAULT '0',
   `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
@@ -2925,6 +2926,7 @@ DROP TABLE IF EXISTS `teco_store`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_store` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `IS_ACTIVE` tinyint(1) NOT NULL DEFAULT '0',
   `ADDRESS1` varchar(255) DEFAULT NULL,
   `ADDRESS2` varchar(255) DEFAULT NULL,
   `ADDITIONAL_INFORMATION` varchar(255) DEFAULT NULL,
@@ -3187,4 +3189,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-05 20:27:39
+-- Dump completed on 2014-11-08 21:15:37

@@ -37,6 +37,11 @@ public class WarehouseMarketAreaRel extends AbstractEntity {
     private Integer ranking;
     
     public WarehouseMarketAreaRel() {
+        this.pk = new WarehouseMarketAreaPk();
+    }
+    
+    public WarehouseMarketAreaRel(final MarketArea marketArea, final Warehouse warehouse) {
+        this.pk = new WarehouseMarketAreaPk(marketArea, warehouse);
     }
 
     public WarehouseMarketAreaPk getPk() {
@@ -48,15 +53,6 @@ public class WarehouseMarketAreaRel extends AbstractEntity {
     }
     
     @Transient
-    public Warehouse getWarehouse() {
-        return getPk().getWarehouse();
-    }
-
-    public void setWarehouse(final Warehouse warehouse) {
-        pk.setWarehouse(warehouse);
-    }
-
-    @Transient
     public MarketArea getMarketArea() {
         return getPk().getMarketArea();
     }
@@ -65,6 +61,15 @@ public class WarehouseMarketAreaRel extends AbstractEntity {
         pk.setMarketArea(marketArea);
     }
 
+    @Transient
+    public Warehouse getWarehouse() {
+        return getPk().getWarehouse();
+    }
+
+    public void setWarehouse(final Warehouse warehouse) {
+        pk.setWarehouse(warehouse);
+    }
+    
     public Integer getRanking() {
         return ranking;
     }

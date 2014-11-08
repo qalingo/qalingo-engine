@@ -19,13 +19,12 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
-import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.security.helper.SecurityUtil;
+import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
@@ -56,17 +55,17 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
     protected CustomerService customerService;
 
     @Autowired
-    protected GroupRoleService customerGroupService;
-
-    @Autowired
     protected WebManagementService webManagementService;
 
     @Autowired
     protected AttributeService attributeService;
 
     @Autowired
-    protected SecurityUtil securityUtil;
+    protected SecurityRequestUtil securityRequestUtil;
 	
+    @Autowired
+    protected SecurityUtil securityUtil;
+    
 	void handleAuthenticationData(final HttpServletRequest request, final OpenIdAuthentication auth) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Market market = requestData.getMarket();
@@ -117,7 +116,7 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
 		}
 		
 		// Login the new customer
-		securityUtil.authenticationCustomer(request, customer);
+		securityRequestUtil.authenticationCustomer(request, customer);
 		
 		// Update the customer session
 		requestUtil.updateCurrentCustomer(request, customer);

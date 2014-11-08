@@ -60,6 +60,9 @@ public class Retailer extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean active;
+    
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
@@ -159,6 +162,14 @@ public class Retailer extends AbstractEntity {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getCode() {

@@ -23,7 +23,8 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.mapper.JsonMapper;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.security.helper.SecurityUtil;
+import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.tools.scribe.mapping.oauth.facebook.json.pojo.UserPojo;
 import org.scribe.builder.ServiceBuilder;
@@ -55,7 +56,10 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 	@Autowired
 	protected AttributeService attributeService;
 	
-	@Autowired
+    @Autowired
+    protected SecurityRequestUtil securityRequestUtil;
+    
+    @Autowired
     protected SecurityUtil securityUtil;
 
     @Autowired
@@ -198,7 +202,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 			if(StringUtils.isNotEmpty(customer.getEmail())){
 				
 				// Login the new customer
-				securityUtil.authenticationCustomer(request, customer);
+				securityRequestUtil.authenticationCustomer(request, customer);
 				
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);

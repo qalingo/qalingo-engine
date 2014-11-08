@@ -20,8 +20,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserGroup;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -54,7 +56,7 @@ public class UserDao extends AbstractGenericDao {
         }
         return user;
     }
-
+    
     public User getUserByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
@@ -112,6 +114,64 @@ public class UserDao extends AbstractGenericDao {
         }
     }
     
+    // USER GROUP
+    
+    public UserGroup getUserGroupById(final Long userGroupId, Object... params) {
+        Criteria criteria = createDefaultCriteria(UserGroup.class);
+        
+        FetchPlan fetchPlan = handleSpecificUserGroupFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("id", userGroupId));
+        UserGroup userGroup = (UserGroup) criteria.uniqueResult();
+        if(userGroup != null){
+            userGroup.setFetchPlan(fetchPlan);
+        }
+        return userGroup;
+    }
+    
+    public UserGroup getUserGroupByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(UserGroup.class);
+        
+        FetchPlan fetchPlan = handleSpecificUserGroupFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
+        UserGroup userGroup = (UserGroup) criteria.uniqueResult();
+        if(userGroup != null){
+            userGroup.setFetchPlan(fetchPlan);
+        }
+        return userGroup;
+    }
+    
+    public UserGroup saveOrUpdateUserGroup(UserGroup userGroup) {
+        if(userGroup.getDateCreate() == null){
+            userGroup.setDateCreate(new Date());
+        }
+        userGroup.setDateUpdate(new Date());
+        if (userGroup.getId() != null) {
+            if(em.contains(userGroup)){
+                em.refresh(userGroup);
+            }
+            UserGroup mergedUserGroup = em.merge(userGroup);
+            em.flush();
+            return mergedUserGroup;
+        } else {
+            em.persist(userGroup);
+            return userGroup;
+        }
+    }
+
+    public void deleteUserGroup(UserGroup userGroup) {
+        em.remove(userGroup);
+    }
+    
+    protected FetchPlan handleSpecificUserGroupFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
+        }
+    }
+    
     // COMPANY
     
     public Company getCompanyById(final Long companyId, Object... params) {
@@ -129,6 +189,17 @@ public class UserDao extends AbstractGenericDao {
         Criteria criteria = createDefaultCriteria(Company.class);
         FetchPlan fetchPlan = handleCompanySpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", handleCodeValue(companyCode)));
+        Company company = (Company) criteria.uniqueResult();
+        if(company != null){
+            company.setFetchPlan(fetchPlan);
+        }
+        return company;
+    }
+    
+    public Company getCompanyByName(final String companyName, Object... params) {
+        Criteria criteria = createDefaultCriteria(Company.class);
+        FetchPlan fetchPlan = handleCompanySpecificFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("name", handleCodeValue(companyName)));
         Company company = (Company) criteria.uniqueResult();
         if(company != null){
             company.setFetchPlan(fetchPlan);

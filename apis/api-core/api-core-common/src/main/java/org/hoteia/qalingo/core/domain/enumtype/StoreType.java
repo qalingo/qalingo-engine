@@ -17,22 +17,22 @@ public enum StoreType {
 	/**
 	 * 
 	 */
-	PACKSHOT("SHOP"),
+    SHOP("SHOP"),
 	
 	/**
 	 * 
 	 */
-	BACKGROUND("ONLINE"),
+    ONLINE("ONLINE"),
 	
 	/**
 	 * 
 	 */
-	ICON("CORNER"),
+    CORNER("CORNER"),
 	
 	/**
 	 * 
 	 */
-	APP("SHOWROOM");
+    SHOWROOM("SHOWROOM");
 	
 	private String propertyKey = "";
 

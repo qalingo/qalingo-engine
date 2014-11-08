@@ -22,12 +22,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.io.FilenameUtils;
@@ -62,7 +56,7 @@ import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.email.bean.UserNewAccountConfirmationEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;

@@ -32,6 +32,11 @@ public class WarehouseMarketAreaPk extends AbstractEntity {
 
     public WarehouseMarketAreaPk() {
     }
+    
+    public WarehouseMarketAreaPk(MarketArea marketArea, Warehouse warehouse) {
+        this.marketArea = marketArea;
+        this.warehouse = warehouse;
+    }
 
     public MarketArea getMarketArea() {
         return marketArea;

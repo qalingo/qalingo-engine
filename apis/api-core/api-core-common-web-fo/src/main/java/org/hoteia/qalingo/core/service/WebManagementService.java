@@ -46,7 +46,7 @@ import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
@@ -85,9 +85,6 @@ public class WebManagementService {
     
     @Autowired
     protected OrderCustomerService orderCustomerService;
-    
-    @Autowired
-    protected GroupRoleService customerGroupService;
     
     @Autowired
     protected EngineSessionService engineSessionService;
@@ -578,7 +575,7 @@ public class WebManagementService {
         // WE SAVE A FIRST TIME TO EVICT DETACH ENTITY ISSUE WITH CUSTOMERGROUP - NOT THE BEST WAY
         Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
-        CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
+        CustomerGroup customerGroup = customerService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
         customer.getGroups().add(customerGroup);
         
         savedCustomer = customerService.saveOrUpdateCustomer(customer);

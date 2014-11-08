@@ -25,7 +25,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
@@ -51,7 +51,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
     protected CustomerService customerService;
 	
 	@Autowired
-    protected SecurityUtil securityUtil;
+    protected SecurityRequestUtil securityRequestUtil;
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
@@ -127,7 +127,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
 
 		// Login the new customer
-		securityUtil.authenticationCustomer(request, newCustomer);
+		securityRequestUtil.authenticationCustomer(request, newCustomer);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -189,7 +189,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
 
         // Login the new customer
-        securityUtil.authenticationCustomer(request, newCustomer);
+        securityRequestUtil.authenticationCustomer(request, newCustomer);
         
         final String urlRedirect = urlService.generateUrl(FoUrls.CART_DELIVERY, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));

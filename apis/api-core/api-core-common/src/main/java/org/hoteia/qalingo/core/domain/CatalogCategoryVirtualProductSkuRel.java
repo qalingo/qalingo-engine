@@ -43,6 +43,7 @@ public class CatalogCategoryVirtualProductSkuRel extends AbstractEntity {
     private boolean isDefaultSku;
 
     public CatalogCategoryVirtualProductSkuRel() {
+        this.pk = new CatalogCategoryVirtualProductSkuPk();
     }
     
     public CatalogCategoryVirtualProductSkuRel(final CatalogCategoryVirtual catalogCategoryVirtual, final ProductSku productSku) {

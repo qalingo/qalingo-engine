@@ -21,6 +21,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
@@ -136,6 +137,64 @@ public class CustomerDao extends AbstractGenericDao {
 		em.remove(customer);
 	}
 	
+    // CUSTOMER GROUP
+
+    public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerGroup.class);
+
+        FetchPlan fetchPlan = handleSpecificCustomerGroupFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("id", customerGroupId));
+        CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
+        if (customerGroup != null) {
+            customerGroup.setFetchPlan(fetchPlan);
+        }
+        return customerGroup;
+    }
+
+    public CustomerGroup getCustomerGroupByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerGroup.class);
+
+        FetchPlan fetchPlan = handleSpecificCustomerGroupFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("code", handleCodeValue(code)));
+        CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
+        if (customerGroup != null) {
+            customerGroup.setFetchPlan(fetchPlan);
+        }
+        return customerGroup;
+    }
+
+    public CustomerGroup saveOrUpdateCustomerGroup(CustomerGroup customerGroup) {
+        if (customerGroup.getDateCreate() == null) {
+            customerGroup.setDateCreate(new Date());
+        }
+        customerGroup.setDateUpdate(new Date());
+        if (customerGroup.getId() != null) {
+            if (em.contains(customerGroup)) {
+                em.refresh(customerGroup);
+            }
+            CustomerGroup mergedCustomerGroup = em.merge(customerGroup);
+            em.flush();
+            return mergedCustomerGroup;
+        } else {
+            em.persist(customerGroup);
+            return customerGroup;
+        }
+    }
+
+    public void deleteCustomerGroup(CustomerGroup customerGroup) {
+        em.remove(customerGroup);
+    }
+
+    protected FetchPlan handleSpecificCustomerGroupFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
+        }
+    }
+	    
 	// CREDENTIAL
 	
 	public CustomerCredential saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {

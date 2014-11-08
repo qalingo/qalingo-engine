@@ -18,12 +18,10 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.service.openid.OpenIdException;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
@@ -48,9 +46,6 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	@Autowired
 	protected CustomerService customerService;
 	
-    @Autowired
-    protected GroupRoleService customerGroupService;
-    
 	@Autowired
 	protected WebManagementService webManagementService;
 	
@@ -58,7 +53,7 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	protected AttributeService attributeService;
 	
 	@Autowired
-    protected SecurityUtil securityUtil;
+    protected SecurityRequestUtil securityRequestUtil;
 	
 	protected static final Token EMPTY_TOKEN = null;
 

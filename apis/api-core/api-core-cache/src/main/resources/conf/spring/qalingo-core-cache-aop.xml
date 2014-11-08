@@ -85,10 +85,6 @@
             <aop:pointcut id="geolocServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.GeolocService.get*(..))" />
             <aop:around method="around" pointcut-ref="geolocServicePointcut" />
         </aop:aspect>
-        <aop:aspect id="triggerCacheGroupRoleService" ref="cacheManagementAspect">
-            <aop:pointcut id="groupRoleServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.GroupRoleService.get*(..))" />
-            <aop:around method="around" pointcut-ref="groupRoleServicePointcut" />
-        </aop:aspect>
         <aop:aspect id="triggerCacheLocalizationService" ref="cacheManagementAspect">
             <aop:pointcut id="localizationServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.LocalizationService.get*(..))" />
             <aop:around method="around" pointcut-ref="localizationServicePointcut" />
