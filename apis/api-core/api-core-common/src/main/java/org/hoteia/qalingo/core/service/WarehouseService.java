@@ -43,6 +43,10 @@ public class WarehouseService {
         return warehouseDao.getWarehouseByCode(code, params);
     }
 
+    public Long getMaxWarehouseId() {
+        return warehouseDao.getMaxWarehouseId();
+    }
+    
     public List<Warehouse> findWarehouses(Object... params) {
         return warehouseDao.findWarehouses(params);
     }

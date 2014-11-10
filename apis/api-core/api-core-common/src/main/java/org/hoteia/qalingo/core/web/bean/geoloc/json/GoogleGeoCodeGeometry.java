@@ -1,10 +1,12 @@
 package org.hoteia.qalingo.core.web.bean.geoloc.json;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class GoogleGeoCodeGeometry {
+public class GoogleGeoCodeGeometry implements Serializable {
 
     @JsonProperty("location")
     private GoogleGeoCodeGeometryLocation location;

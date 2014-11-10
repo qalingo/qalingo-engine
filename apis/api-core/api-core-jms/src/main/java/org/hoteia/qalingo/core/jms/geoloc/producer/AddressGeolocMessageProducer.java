@@ -19,12 +19,11 @@ import javax.jms.TextMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
-
-import org.hoteia.qalingo.core.mapper.XmlMapper;
 
 @Component(value = "addressGeolocMessageProducer")
 public class AddressGeolocMessageProducer {
@@ -42,9 +41,9 @@ public class AddressGeolocMessageProducer {
      * 
      * @throws UnsupportedEncodingException
      */
-    public void generateMessages(final AddressGeolocMessageJms emailnotificationMessageJms) throws JMSException, UnsupportedEncodingException {
+    public void generateMessages(final AddressGeolocMessageJms geolocMessageJms) throws JMSException, UnsupportedEncodingException {
         try {
-            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(emailnotificationMessageJms);
+            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(geolocMessageJms);
 
             jmsTemplate.send(new MessageCreator() {
                 public Message createMessage(Session session) throws JMSException {

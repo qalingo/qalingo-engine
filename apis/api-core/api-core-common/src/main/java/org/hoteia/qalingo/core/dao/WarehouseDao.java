@@ -16,6 +16,7 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.ProductSkuStock;
@@ -59,6 +60,13 @@ public class WarehouseDao extends AbstractGenericDao {
         return warehouse;
     }
 
+    public Long getMaxWarehouseId() {
+        Criteria criteria = createDefaultCriteria(Warehouse.class);
+        criteria.setProjection(Projections.max("id"));
+        Long maxId = (Long)criteria.uniqueResult();
+        return (maxId == null) ? new Long(0) : maxId;
+    }
+    
     public List<Warehouse> findWarehouses(Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 

@@ -1,12 +1,13 @@
 package org.hoteia.qalingo.core.web.bean.geoloc.json;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class GoogleGeoCode {
+public class GoogleGeoCode implements Serializable {
 
     @JsonProperty("results")
     private List<GoogleGeoCodeResult> results;
@@ -31,7 +32,8 @@ public class GoogleGeoCode {
     }
     
     public String getLongitude() {
-        if(results != null){
+        if(results != null
+                && results.size() > 0){
             GoogleGeoCodeResult result = results.iterator().next();
             if(result.getGeometry() != null
                     && result.getGeometry().getLocation() != null){
@@ -42,7 +44,8 @@ public class GoogleGeoCode {
     }
 
     public String getLatitude() {
-        if(results != null){
+        if(results != null
+                && results.size() > 0){
             GoogleGeoCodeResult result = results.iterator().next();
             if(result.getGeometry() != null
                     && result.getGeometry().getLocation() != null){

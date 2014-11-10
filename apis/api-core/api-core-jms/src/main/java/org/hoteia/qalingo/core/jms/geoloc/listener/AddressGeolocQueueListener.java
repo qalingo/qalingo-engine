@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.jms.geoloc.listener;
 
 import java.beans.ExceptionListener;
 import java.io.IOException;
-import java.util.Date;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -21,32 +20,28 @@ import javax.jms.TextMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hoteia.qalingo.core.domain.GeolocAddress;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageJms;
 import org.hoteia.qalingo.core.mapper.XmlMapper;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
+import org.hoteia.qalingo.core.service.GeolocService;
+import org.hoteia.qalingo.core.service.RetailerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component(value = "addressGeolocMessageProducer")
+@Component(value = "addressGeolocQueueListener")
 public class AddressGeolocQueueListener implements MessageListener, ExceptionListener {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    protected JobLauncher jobLauncher;
-    
-    @Autowired
-    protected Job gelocJob;
-    
-    @Autowired
     protected XmlMapper xmlMapper;
+    
+    @Autowired
+    protected RetailerService retailerService;
+    
+    @Autowired
+    protected GeolocService geolocService;
     
     /**
      * Implementation of <code>MessageListener</code>.
@@ -56,37 +51,42 @@ public class AddressGeolocQueueListener implements MessageListener, ExceptionLis
             if (message instanceof TextMessage) {
                 TextMessage tm = (TextMessage) message;
                 String valueJMSMessage = tm.getText();
-
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Processed message, value: " + valueJMSMessage);
-                }
-
+                
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
-                    final AddressGeolocMessageJms addressGeolocMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, AddressGeolocMessageJms.class);
+                    final AddressGeolocMessageJms doucmentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, AddressGeolocMessageJms.class);
                     
-                    // TRIGGER A BATCH TO PROCESS THE EMAIL
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Trigger a new job for a new email, type: " + addressGeolocMessageJms.getGeolocType());
-                    }
+                    String address = doucmentMessageJms.getAddress();
+                    String postalCode = doucmentMessageJms.getPostalCode();
+                    String city = doucmentMessageJms.getCity();
+                    String countryCode = doucmentMessageJms.getCountryCode();
 
-                    JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
-                    jobParametersBuilder.addDate("date", new Date());
-                    JobParameters params = jobParametersBuilder.toJobParameters();
-                    jobLauncher.run(gelocJob, params);
+                    final Store store = retailerService.getStoreById(doucmentMessageJms.getStoreId());
+                    if(store != null){
+                        GeolocAddress geolocAddress = geolocService.getGeolocAddressByAddress(address);
+                        if (geolocAddress != null) {
+                            store.setLatitude(geolocAddress.getLatitude());
+                            store.setLongitude(geolocAddress.getLongitude());
+                        } else {
+                            // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
+                            geolocAddress = geolocService.geolocByAddress(address, postalCode, city, countryCode);
+                            if (geolocAddress != null) {
+                                store.setLatitude(geolocAddress.getLatitude());
+                                store.setLongitude(geolocAddress.getLongitude());
+                            }
+                        }
+                        retailerService.saveOrUpdateStore(store);
+                    }
+                    
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Processed message, value: " + valueJMSMessage);
+                    }
+                } else {
+                    logger.warn("Document generation: Jms Message is empty");
                 }
             }
-            
         } catch (JMSException e) {
             logger.error(e.getMessage(), e);
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JobExecutionAlreadyRunningException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JobRestartException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JobInstanceAlreadyCompleteException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JobParametersInvalidException e) {
             logger.error(e.getMessage(), e);
         }
     }

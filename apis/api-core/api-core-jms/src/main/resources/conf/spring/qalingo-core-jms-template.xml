@@ -84,4 +84,11 @@
         <property name="defaultDestinationName" value="${document.trigger.queue.name}" />
     </bean>
     
+    <bean id="addressGeolocJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="sessionTransacted" value="true" />
+        <property name="receiveTimeout" value="-1" />
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultDestinationName" value="${geoloc.trigger.queue.name}" />
+    </bean>
+    
 </beans>

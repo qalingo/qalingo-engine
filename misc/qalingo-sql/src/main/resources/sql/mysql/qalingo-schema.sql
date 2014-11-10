@@ -1300,9 +1300,10 @@ CREATE TABLE `teco_geoloc_address` (
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `FORMATED_ADDRESS` varchar(255) DEFAULT NULL,
-  `JSON` longtext,
+  `JSON` longblob,
   `LATITUDE` varchar(255) DEFAULT NULL,
   `LONGITUDE` varchar(255) DEFAULT NULL,
+  `POSTAL_CODE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1321,7 +1322,7 @@ CREATE TABLE `teco_geoloc_city` (
   `COUNTRY` varchar(255) DEFAULT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
-  `JSON` longtext,
+  `JSON` longblob,
   `LATITUDE` varchar(255) DEFAULT NULL,
   `LONGITUDE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
@@ -3189,4 +3190,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-08 21:15:37
+-- Dump completed on 2014-11-10 12:22:47

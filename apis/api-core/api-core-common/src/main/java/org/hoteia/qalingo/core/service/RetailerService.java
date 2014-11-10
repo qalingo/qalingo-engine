@@ -57,6 +57,10 @@ public class RetailerService {
         return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode, params);
     }
 
+    public Long getMaxRetailerId() {
+        return retailerDao.getMaxRetailerId();
+    }
+    
     public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId, Object... params) {
         return retailerDao.findRetailers(marketAreaId, retailerId, params);
     }
@@ -182,6 +186,10 @@ public class RetailerService {
         return retailerDao.getStoreByCode(storeCode, params);
     }
 
+    public Long getMaxStoreId() {
+        return retailerDao.getMaxStoreId();
+    }
+    
     public List<Store> findStores(Object... params) {
         return retailerDao.findStores(params);
     }

@@ -10,10 +10,12 @@
 package org.hoteia.qalingo.core.service;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +24,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.hibernate.internal.util.SerializationHelper;
 import org.hoteia.qalingo.core.dao.GeolocDao;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.GeolocAddress;
@@ -61,7 +64,40 @@ public class GeolocService {
     
     public GeolocCity geolocByCityAndCountry(final String city, final String country){
         GeolocCity geolocCity = null;
-        String address = city.replace(" ", "+") + "," + country.replace(" ", "+");
+        String addressParam = encodeGoogleAddress(null, null, city, country);
+        GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
+        if(geoCode != null){
+            geolocCity = new GeolocCity();
+            geolocCity.setCity(city);
+            geolocCity.setCountry(country);
+            geolocCity.setJson(SerializationHelper.serialize(geoCode));
+            geolocCity.setLatitude(geoCode.getLatitude());
+            geolocCity.setLongitude(geoCode.getLongitude());
+            geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+        }
+        return geolocCity;
+    }
+    
+    public GeolocAddress geolocByAddress(final String address, final String postalCode, final String city, final String country){
+        GeolocAddress geolocAddress = null;
+        String addressParam = encodeGoogleAddress(address, postalCode, city, country);
+        GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
+        if(geoCode != null){
+            geolocAddress = new GeolocAddress();
+            geolocAddress.setAddress(address);
+            geolocAddress.setPostalCode(postalCode);
+            geolocAddress.setCity(city);
+            geolocAddress.setCountry(country);
+            geolocAddress.setJson(SerializationHelper.serialize(geoCode));
+            geolocAddress.setLatitude(geoCode.getLatitude());
+            geolocAddress.setLongitude(geoCode.getLongitude());
+            geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);
+        }
+        return geolocAddress;
+    }
+    
+    public GoogleGeoCode geolocGoogleWithAddress(final String address){
+        GoogleGeoCode geoCode = null;
         String key = null;
         try {
             key = engineSettingService.getGoogleGeolocationApiKey();
@@ -75,13 +111,6 @@ public class GeolocService {
             try {
                 response = httpClient.execute(request);
                 
-            } catch (ClientProtocolException e) {
-                logger.error("", e);
-            } catch (IOException e) {
-                logger.error("", e);
-            }
-
-            try {
                 BufferedReader streamReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
                 StringBuilder responseStrBuilder = new StringBuilder();
 
@@ -92,23 +121,38 @@ public class GeolocService {
                 String json = responseStrBuilder.toString();
                 
                 ObjectMapper mapper = new ObjectMapper();
-                GoogleGeoCode geoCode = mapper.readValue(json, GoogleGeoCode.class);
+                geoCode = mapper.readValue(json, GoogleGeoCode.class);
                 
-                geolocCity = new GeolocCity();
-                geolocCity.setCity(city);
-                geolocCity.setCountry(country);
-                geolocCity.setJson(json);
-                geolocCity.setLatitude(geoCode.getLatitude());
-                geolocCity.setLongitude(geoCode.getLongitude());
-                geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
-                
-            } catch (IllegalStateException e) {
+            } catch (ClientProtocolException e) {
                 logger.error("", e);
             } catch (IOException e) {
                 logger.error("", e);
+            } catch (IllegalStateException e) {
+                logger.error("", e);
             }
         }
-        return geolocCity;
+        return geoCode;
+    }
+    
+    public String encodeGoogleAddress(final String address, final String postalCode, final String city, final String country) {
+        StringBuffer encode  = new StringBuffer();
+        if(StringUtils.isNotEmpty(address)){
+            encode.append(address.replace(" ", "+"));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(city)){
+            encode.append(city.replace(" ", "+"));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(postalCode)){
+            encode.append(postalCode.replace(" ", "+"));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(country)){
+            encode.append(country.replace(" ", "+"));
+            encode.append(",");
+        }
+        return encode.toString();
     }
     
     public GeolocCity getGeolocCityByCityAndCountry(final String city, final String country, Object... params) {

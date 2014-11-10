@@ -13,8 +13,53 @@ import org.hoteia.qalingo.core.jms.cacheserveurmanagement.listener.AbstractMessa
 
 public class AddressGeolocMessageJms extends AbstractMessageJms {
 
+    private Long storeId;
+    private String address;
+    private String postalCode;
+    private String city;
+    private String countryCode;
     private String geolocType;
     
+    public Long getStoreId() {
+        return storeId;
+    }
+    
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
     public String getGeolocType() {
         return geolocType;
     }

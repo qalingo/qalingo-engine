@@ -46,6 +46,9 @@ public class GeolocAddress extends AbstractEntity {
     @Column(name = "FORMATED_ADDRESS")
     private String formatedAddress;
     
+    @Column(name = "POSTAL_CODE")
+    private String postalCode;
+    
     @Column(name = "CITY")
     private String city;
 
@@ -54,7 +57,7 @@ public class GeolocAddress extends AbstractEntity {
 
     @Column(name = "JSON")
     @Lob
-    private String json;
+    private byte[] json;
     
     @Column(name = "LONGITUDE")
     private String longitude;
@@ -110,6 +113,14 @@ public class GeolocAddress extends AbstractEntity {
         this.city = city;
     }
 	
+	public String getPostalCode() {
+        return postalCode;
+    }
+	
+	public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+	
 	public String getCountry() {
         return country;
     }
@@ -118,11 +129,11 @@ public class GeolocAddress extends AbstractEntity {
         this.country = country;
     }
 	
-	public String getJson() {
+	public byte[] getJson() {
         return json;
     }
 	
-	public void setJson(String json) {
+	public void setJson(byte[] json) {
         this.json = json;
     }
 	

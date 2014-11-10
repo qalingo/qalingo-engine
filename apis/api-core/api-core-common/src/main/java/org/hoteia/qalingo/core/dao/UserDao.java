@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
@@ -68,7 +69,14 @@ public class UserDao extends AbstractGenericDao {
         }
         return user;
     }
-
+    
+    public Long getMaxUserId() {
+        Criteria criteria = createDefaultCriteria(User.class);
+        criteria.setProjection(Projections.max("id"));
+        Long maxId = (Long)criteria.uniqueResult();
+        return (maxId == null) ? new Long(0) : maxId;
+    }
+    
     public List<User> findUsers(Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
         handleSpecificFetchMode(criteria, params);
@@ -205,6 +213,13 @@ public class UserDao extends AbstractGenericDao {
             company.setFetchPlan(fetchPlan);
         }
         return company;
+    }
+    
+    public Long getMaxCompanyId() {
+        Criteria criteria = createDefaultCriteria(Company.class);
+        criteria.setProjection(Projections.max("id"));
+        Long maxId = (Long)criteria.uniqueResult();
+        return (maxId == null) ? new Long(0) : maxId;
     }
     
     public List<Company> findCompanies(Object... params) {

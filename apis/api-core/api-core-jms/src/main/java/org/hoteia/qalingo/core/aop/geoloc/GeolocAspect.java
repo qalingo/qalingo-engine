@@ -15,10 +15,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
-import org.hoteia.qalingo.core.domain.GeolocAddress;
-import org.hoteia.qalingo.core.domain.GeolocCity;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageJms;
 import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageProducer;
+import org.hoteia.qalingo.core.service.GeolocService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -40,15 +40,18 @@ public class GeolocAspect {
     @Value("${app.name}")  
     protected String applicationName;
     
+    @Autowired
+    protected GeolocService geolocService;
+    
     public void before(final JoinPoint joinPoint) {
         if(logger.isDebugEnabled()){
-            logger.debug("EmailNotificationAspect, before");
+            logger.debug("GeolocAspect, before");
         }
     }
 
     public void afterReturning(final StaticPart staticPart, final Object result) {
         if(logger.isDebugEnabled()){
-            logger.debug("EmailNotificationAspect, afterReturning");
+            logger.debug("GeolocAspect, afterReturning");
         }
         try {
             final AddressGeolocMessageJms addressGeolocMessageJms = new AddressGeolocMessageJms();
@@ -57,19 +60,21 @@ public class GeolocAspect {
             addressGeolocMessageJms.setApplicationName(applicationName);
             addressGeolocMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
             addressGeolocMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
-            if(result != null && result instanceof GeolocAddress){
-                GeolocAddress geolocAddress = (GeolocAddress) result;
+            if(result != null && result instanceof Store){
+                Store store = (Store) result;
+                addressGeolocMessageJms.setStoreId(store.getId());
                 addressGeolocMessageJms.setGeolocType("GeolocAddress");
-            } else if(result != null && result instanceof GeolocCity){
-                GeolocCity geolocCity = (GeolocCity) result;
-                addressGeolocMessageJms.setGeolocType("GeolocCity");
+                addressGeolocMessageJms.setAddress(store.getAddress1());
+                addressGeolocMessageJms.setPostalCode(store.getPostalCode());
+                addressGeolocMessageJms.setCity(store.getCity());
+                addressGeolocMessageJms.setCountryCode(store.getCountryCode());
             }
             
             // Generate and send the JMS message
             addressGeolocMessageProducer.generateMessages(addressGeolocMessageJms);
             
         } catch (Exception e) {
-            logger.error("AddressGeolocAspect Target Object error: " + e);
+            logger.error("GeolocAspect Target Object error: " + e);
         }
     }
 

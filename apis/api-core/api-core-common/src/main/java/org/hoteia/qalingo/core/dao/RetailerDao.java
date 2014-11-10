@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -80,6 +81,13 @@ public class RetailerDao extends AbstractGenericDao {
 		return retailer;
 	}
 	
+    public Long getMaxRetailerId() {
+        Criteria criteria = createDefaultCriteria(Retailer.class);
+        criteria.setProjection(Projections.max("id"));
+        Long maxId = (Long)criteria.uniqueResult();
+        return (maxId == null) ? new Long(0) : maxId;
+    }
+    
     public List<Retailer> findAllRetailers(Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
@@ -284,6 +292,13 @@ public class RetailerDao extends AbstractGenericDao {
 		return store;
 	}
 	
+    public Long getMaxStoreId() {
+        Criteria criteria = createDefaultCriteria(Store.class);
+        criteria.setProjection(Projections.max("id"));
+        Long maxId = (Long)criteria.uniqueResult();
+        return (maxId == null) ? new Long(0) : maxId;
+    }
+    
 	public List<Store> findStores(Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         

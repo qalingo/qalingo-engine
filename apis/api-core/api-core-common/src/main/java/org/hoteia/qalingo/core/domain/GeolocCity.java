@@ -48,7 +48,7 @@ public class GeolocCity extends AbstractEntity {
 
     @Column(name = "JSON")
     @Lob
-    private String json;
+    private byte[] json;
     
     @Column(name = "LONGITUDE")
     private String longitude;
@@ -96,11 +96,11 @@ public class GeolocCity extends AbstractEntity {
         this.country = country;
     }
 	
-	public String getJson() {
+	public byte[] getJson() {
         return json;
     }
 	
-	public void setJson(String json) {
+	public void setJson(byte[] json) {
         this.json = json;
     }
 	

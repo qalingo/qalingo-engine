@@ -49,7 +49,11 @@ public class UserService {
 	public User getUserByLoginOrEmail(String usernameOrEmail, Object... params) {
 		return userDao.getUserByLoginOrEmail(usernameOrEmail, params);
 	}
-	
+
+    public Long getMaxUserId() {
+        return userDao.getMaxUserId();
+    }
+
 	public List<User> findUsers(Object... params) {
 		return userDao.findUsers(params);
 	}
@@ -108,6 +112,14 @@ public class UserService {
     
     public Company getCompanyByCode(String companyCode, Object... params) {
         return userDao.getCompanyByCode(companyCode, params);
+    }
+
+    public Company getCompanyByName(final String companyName, Object... params) {
+        return userDao.getCompanyByName(companyName, params);
+    }
+    
+    public Long getMaxCompanyId() {
+        return userDao.getMaxCompanyId();
     }
     
     public List<Company> findCompanies(Object... params) {
