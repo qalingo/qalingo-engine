@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import org.hoteia.qalingo.core.dao.RetailerDao;
 import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
@@ -200,6 +201,11 @@ public class RetailerService {
     
     public List<Store> findStoresByRetailerCode(final String retailerCode, Object... params) {
         return retailerDao.findStoresByRetailerCode(retailerCode, params);
+    }
+    
+    public List<Store> findStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        List<Store> stores = retailerDao.findStoresByGeoloc(latitude, longitude, distance, maxResults, params);
+        return stores;
     }
 
     public Store saveOrUpdateStore(final Store store) {

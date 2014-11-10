@@ -34,16 +34,16 @@ public class ModelConstants {
     public static final String SEO_PAGE_META_AUTHOR         = "seoPageMetaAuthor";
     public static final String SEO_PAGE_META_KEYWORDS       = "seoPageMetaKeywords";
     public static final String SEO_PAGE_META_DESCIPRTION    = "seoPageMetaDescription";
-    public static final String SEO_PAGE_TITLE          = "seoPageTitle";
+    public static final String SEO_PAGE_TITLE               = "seoPageTitle";
 
     public static final String PAGE_META_OG_TITLE       = "metaOgTitle";
     public static final String PAGE_META_OG_DESCRIPTION = "metaOgDescription";
     public static final String PAGE_META_OG_IMAGE       = "metaOgImage";
 
-    public static final String MAIN_CONTENT_TITLE           = "mainContentTitle";
+    public static final String MAIN_CONTENT_TITLE       = "mainContentTitle";
 
     // CHECKOUT PROCESS
-    public static final String CHECKOUT_STEP                = "checkoutStep";
+    public static final String CHECKOUT_STEP            = "checkoutStep";
 
     // WORDING
     public static final String WORDING = "wording";
@@ -75,6 +75,7 @@ public class ModelConstants {
 
     public static final String RETAILERS_VIEW_BEAN                  = "retailers";
     public static final String RETAILER_VIEW_BEAN                   = "retailer";
+    public static final String STORES_VIEW_BEAN                     = "stores";
     public static final String STORE_VIEW_BEAN                      = "store";
     public static final String STORE_LIST_URL                       = "storeListUrl";
     

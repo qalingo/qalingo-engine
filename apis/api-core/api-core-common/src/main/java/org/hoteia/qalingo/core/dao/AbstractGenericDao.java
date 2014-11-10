@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -42,6 +43,11 @@ public abstract class AbstractGenericDao {
         Criteria criteria = getSession().createCriteria(entityClass, alias);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria;
+    }
+    
+    protected Query createSqlQuery(String queryString) {
+        Query query = em.createNativeQuery(queryString);
+        return query;
     }
     
     protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params){

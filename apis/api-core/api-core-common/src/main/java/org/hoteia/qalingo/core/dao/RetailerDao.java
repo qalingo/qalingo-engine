@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Query;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
@@ -338,6 +340,21 @@ public class RetailerDao extends AbstractGenericDao {
 
         @SuppressWarnings("unchecked")
         List<Store> stores = criteria.list();
+        return stores;
+    }
+    
+    public List<Store> findStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        Float latitudeFloat = new Float(latitude);
+        Float longitudeFloat = new Float(longitude);
+        String queryString = "SELECT store.*, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store HAVING distance <= :distanceValue ORDER BY distance ASC";
+        Query query = createSqlQuery(queryString);
+        query.setParameter("latitude", latitudeFloat.floatValue());
+        query.setParameter("longitude", longitudeFloat.floatValue());
+        query.setParameter("distanceValue", distance);
+        query.setMaxResults(maxResults);
+        
+        @SuppressWarnings("unchecked")
+        List<Store> stores = query.getResultList();
         return stores;
     }
     
