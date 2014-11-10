@@ -89,6 +89,7 @@ public class GeolocService {
             geolocAddress.setCity(city);
             geolocAddress.setCountry(country);
             geolocAddress.setJson(SerializationHelper.serialize(geoCode));
+            geolocAddress.setFormatedAddress(addressParam);
             geolocAddress.setLatitude(geoCode.getLatitude());
             geolocAddress.setLongitude(geoCode.getLongitude());
             geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);
@@ -169,8 +170,8 @@ public class GeolocService {
     
     // GEOLOC ADDRESS
     
-    public GeolocAddress getGeolocAddressByAddress(final String address, Object... params) {
-        return geolocDao.getGeolocAddressByAddress(address, params);
+    public GeolocAddress getGeolocAddressByFormatedAddress(final String formatedAddress, Object... params) {
+        return geolocDao.getGeolocAddressByFormatedAddress(formatedAddress, params);
     }
     
     public GeolocAddress saveOrUpdateGeolocAddress(final GeolocAddress geolocCity) {

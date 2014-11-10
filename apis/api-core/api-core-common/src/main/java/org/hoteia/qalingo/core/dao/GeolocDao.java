@@ -69,12 +69,12 @@ public class GeolocDao extends AbstractGenericDao {
 	    
 	// GEOLOC ADDRESS
     
-	public GeolocAddress getGeolocAddressByAddress(final String address, Object... params) {
+	public GeolocAddress getGeolocAddressByFormatedAddress(final String formatedAddress, Object... params) {
         Criteria criteria = createDefaultCriteria(GeolocAddress.class);
         
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria);
         
-        criteria.add(Restrictions.eq("address", address));
+        criteria.add(Restrictions.eq("formatedAddress", formatedAddress));
         GeolocAddress geolocAddress = (GeolocAddress) criteria.uniqueResult();
         if(geolocAddress != null){
             geolocAddress.setFetchPlan(fetchPlan);

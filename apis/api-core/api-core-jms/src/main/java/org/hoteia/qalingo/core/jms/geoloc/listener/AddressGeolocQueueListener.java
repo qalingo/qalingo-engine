@@ -62,7 +62,7 @@ public class AddressGeolocQueueListener implements MessageListener, ExceptionLis
 
                     final Store store = retailerService.getStoreById(doucmentMessageJms.getStoreId());
                     if(store != null){
-                        GeolocAddress geolocAddress = geolocService.getGeolocAddressByAddress(address);
+                        GeolocAddress geolocAddress = geolocService.getGeolocAddressByFormatedAddress(address);
                         if (geolocAddress != null) {
                             store.setLatitude(geolocAddress.getLatitude());
                             store.setLongitude(geolocAddress.getLongitude());
