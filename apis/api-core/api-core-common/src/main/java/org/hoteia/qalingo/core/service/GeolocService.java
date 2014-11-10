@@ -10,12 +10,10 @@
 package org.hoteia.qalingo.core.service;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 
 import org.apache.commons.lang.StringUtils;
