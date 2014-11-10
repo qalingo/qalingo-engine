@@ -64,7 +64,12 @@ public class GeolocService {
         GeolocCity geolocCity = null;
         String addressParam = encodeGoogleAddress(null, null, city, country);
         GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
-        if(geoCode != null){
+        if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
+            logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+            return geolocCity;
+        }
+        
+        if(geoCode != null) {
             geolocCity = new GeolocCity();
             geolocCity.setCity(city);
             geolocCity.setCountry(country);
@@ -80,7 +85,12 @@ public class GeolocService {
         GeolocAddress geolocAddress = null;
         String addressParam = encodeGoogleAddress(address, postalCode, city, country);
         GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
-        if(geoCode != null){
+        if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
+            logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+            return geolocAddress;
+        }
+        
+        if(geoCode != null) {
             geolocAddress = new GeolocAddress();
             geolocAddress.setAddress(address);
             geolocAddress.setPostalCode(postalCode);

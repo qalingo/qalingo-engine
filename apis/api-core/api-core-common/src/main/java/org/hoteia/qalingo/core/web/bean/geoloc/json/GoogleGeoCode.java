@@ -14,6 +14,9 @@ public class GoogleGeoCode implements Serializable {
     
     @JsonProperty("status")
     private String status;
+
+    @JsonProperty("error_message")
+    private String errorMessage;
     
     public List<GoogleGeoCodeResult> getResults() {
         return results;
@@ -29,6 +32,14 @@ public class GoogleGeoCode implements Serializable {
     
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+    
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
     
     public String getLongitude() {
