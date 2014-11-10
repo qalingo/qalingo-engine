@@ -15,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.text.ParseException;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
@@ -66,6 +68,7 @@ public class GeolocService {
         GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
         if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
             logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+            engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocCity;
         }
         
@@ -87,6 +90,7 @@ public class GeolocService {
         GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
         if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
             logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+            engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
         }
         
@@ -105,40 +109,46 @@ public class GeolocService {
         return geolocAddress;
     }
     
-    public GoogleGeoCode geolocGoogleWithAddress(final String address){
+    public GoogleGeoCode geolocGoogleWithAddress(final String formatedAddress){
         GoogleGeoCode geoCode = null;
-        String key = null;
+        boolean googleGelocIsOverQuota;
         try {
-            key = engineSettingService.getGoogleGeolocationApiKey();
-        } catch (Exception e) {
-            logger.error("Google Geolocation API Key is mandatory!", e);
-        }
-        if(key != null && StringUtils.isNotEmpty(key)){
-            HttpPost request = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key);
-            HttpResponse response = null;
-            HttpClient httpClient = new DefaultHttpClient();
-            try {
-                response = httpClient.execute(request);
-                
-                BufferedReader streamReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-                StringBuilder responseStrBuilder = new StringBuilder();
-
-                String inputStr;
-                while ((inputStr = streamReader.readLine()) != null){
-                    responseStrBuilder.append(inputStr);
+            googleGelocIsOverQuota = engineSettingService.isGoogleGeolocationApiStillOverQuotas(new Date());
+            if (googleGelocIsOverQuota == false) {
+                String key = null;
+                try {
+                    key = engineSettingService.getGoogleGeolocationApiKey();
+                } catch (Exception e) {
+                    logger.error("Google Geolocation API Key is mandatory!", e);
                 }
-                String json = responseStrBuilder.toString();
-                
-                ObjectMapper mapper = new ObjectMapper();
-                geoCode = mapper.readValue(json, GoogleGeoCode.class);
-                
-            } catch (ClientProtocolException e) {
-                logger.error("", e);
-            } catch (IOException e) {
-                logger.error("", e);
-            } catch (IllegalStateException e) {
-                logger.error("", e);
+                if (key != null && StringUtils.isNotEmpty(key)) {
+                    HttpPost request = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?address=" + formatedAddress + "&key=" + key);
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpResponse response = httpClient.execute(request);
+
+                    BufferedReader streamReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                    StringBuilder responseStrBuilder = new StringBuilder();
+
+                    String inputStr;
+                    while ((inputStr = streamReader.readLine()) != null) {
+                        responseStrBuilder.append(inputStr);
+                    }
+                    String json = responseStrBuilder.toString();
+
+                    ObjectMapper mapper = new ObjectMapper();
+                    geoCode = mapper.readValue(json, GoogleGeoCode.class);
+                }
+            } else {
+                logger.warn("Google Geolocation API still over Quota! We can't use geolocation for this address: " + formatedAddress);
             }
+        } catch (ClientProtocolException e) {
+            logger.error("", e);
+        } catch (IOException e) {
+            logger.error("", e);
+        } catch (IllegalStateException e) {
+            logger.error("", e);
+        } catch (ParseException e) {
+            logger.error("", e);
         }
         return geoCode;
     }

@@ -10,9 +10,13 @@
 package org.hoteia.qalingo.core.service;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.EngineSettingDao;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.EngineSetting;
@@ -98,6 +102,9 @@ public class EngineSettingService {
     public static final String ENGINE_SETTING_GEOLOC_CITY_DATABASE_PATH         = "CITY_DATABASE_PATH";
     public static final String ENGINE_SETTING_GEOLOC_COUNTRY_DATABASE_PATH      = "COUNTRY_DATABASE_PATH";
     public static final String ENGINE_SETTING_GOOGLE_GEOLOC_API_KEY             = "GOOGLE_GEOLOC_API_KEY";
+    public static final String ENGINE_SETTING_GOOGLE_GEOLOC_OVER_QUOTA_KEY      = "GOOGLE_GEOLOC_OVER_QUOTA_TIMESTAMP";
+
+    public static SimpleDateFormat timestampPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     
     @Autowired
     private EngineSettingDao engineSettingDao;
@@ -267,6 +274,10 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_GOOGLE_GEOLOC_API_KEY);
     }
     
+    public EngineSetting getSettingGoogleGeolocationApiQuotaTimeStamp() {
+        return getEngineSettingByCode(ENGINE_SETTING_GOOGLE_GEOLOC_OVER_QUOTA_KEY);
+    }
+    
     public String getGoogleGeolocationApiKey() throws Exception {
         EngineSetting engineSetting = getSettingGoogleGeolocationApiKey();
         String key = "";
@@ -274,6 +285,40 @@ public class EngineSettingService {
             key = engineSetting.getDefaultValue();
         }
         return key;
+    }
+    
+    public boolean isGoogleGeolocationApiOverQuotas() throws Exception {
+        EngineSetting engineSetting = getSettingGoogleGeolocationApiQuotaTimeStamp();
+        String timestamp = null;
+        if (engineSetting != null) {
+            timestamp = engineSetting.getDefaultValue();
+        }
+        if(timestamp != null){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isGoogleGeolocationApiStillOverQuotas(final Date newDate) throws ParseException {
+        EngineSetting engineSetting = getSettingGoogleGeolocationApiQuotaTimeStamp();
+        String timestamp = null;
+        if (engineSetting != null) {
+            timestamp = engineSetting.getDefaultValue();
+        }
+        if(timestamp != null){
+            Date dateOverQuota = timestampPattern.parse(timestamp);
+            if(newDate.getTime() > (dateOverQuota.getTime() + Constants.MILLISECONDS_IN_A_DAY.longValue())){
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    public void flagSettingGoogleGeolocationApiOverQuota() {
+        EngineSetting engineSetting = getSettingGoogleGeolocationApiQuotaTimeStamp();
+        engineSetting.setDefaultValue(timestampPattern.format(new Date()));
+        saveOrUpdateEngineSetting(engineSetting);
     }
     
     // DOCUMENT SETTINGS
