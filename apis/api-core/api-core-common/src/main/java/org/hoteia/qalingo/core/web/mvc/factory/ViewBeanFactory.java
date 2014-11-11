@@ -964,6 +964,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             storeViewBean.setDateUpdate(dateFormat.format(store.getDateUpdate()));
         }
         
+        storeViewBean.setBusinessHour(buildViewBeanStoreBusinessHour(store));
+        
 		final List<Asset> assets = store.getSlideShows();
 		if(assets != null){
 	        List<String> sliders = new ArrayList<String>();
@@ -982,34 +984,38 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store) {
-        List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
         StoreBusinessHourViewBean storeBusinessHourViewBean = null;
-        if (storeBusinessHours != null && storeBusinessHours.size() > 0) {
-            storeBusinessHourViewBean = new StoreBusinessHourViewBean();
-            for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
-                OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
-                operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
-                operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
-                if (storeBusinessHour.isMonday()) {
-                    storeBusinessHourViewBean.setMonday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isTuesday()) {
-                    storeBusinessHourViewBean.setTuesday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isWednesday()) {
-                    storeBusinessHourViewBean.setWednesday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isThursday()) {
-                    storeBusinessHourViewBean.setThursday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isFriday()) {
-                    storeBusinessHourViewBean.setFriday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isSaturday()) {
-                    storeBusinessHourViewBean.setSaturday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isSunday()) {
-                    storeBusinessHourViewBean.setSunday(operationHourViewBean);
+        if (Hibernate.isInitialized(store.getStoreBusinessHours()) &&
+                store.getStoreBusinessHours() != null) {
+            List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
+            if (storeBusinessHours != null 
+                    && storeBusinessHours.size() > 0) {
+                storeBusinessHourViewBean = new StoreBusinessHourViewBean();
+                for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
+                    OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
+                    operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
+                    operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
+                    if (storeBusinessHour.isMonday()) {
+                        storeBusinessHourViewBean.setMonday(operationHourViewBean);
+                    }
+                    if (storeBusinessHour.isTuesday()) {
+                        storeBusinessHourViewBean.setTuesday(operationHourViewBean);
+                    }
+                    if (storeBusinessHour.isWednesday()) {
+                        storeBusinessHourViewBean.setWednesday(operationHourViewBean);
+                    }
+                    if (storeBusinessHour.isThursday()) {
+                        storeBusinessHourViewBean.setThursday(operationHourViewBean);
+                    }
+                    if (storeBusinessHour.isFriday()) {
+                        storeBusinessHourViewBean.setFriday(operationHourViewBean);
+                    }
+                    if (storeBusinessHour.isSaturday()) {
+                        storeBusinessHourViewBean.setSaturday(operationHourViewBean);
+                    }
+                    if (storeBusinessHour.isSunday()) {
+                        storeBusinessHourViewBean.setSunday(operationHourViewBean);
+                    }
                 }
             }
         }

@@ -45,6 +45,11 @@ public abstract class AbstractGenericDao {
         return criteria;
     }
     
+    protected Query createSqlQuery(String queryString) {
+        Query query = em.createNativeQuery(queryString);
+        return query;
+    }
+    
     protected Query createSqlQuery(Class<?> entityClass, String queryString) {
         Query query = em.createNativeQuery(queryString, entityClass);
         return query;
