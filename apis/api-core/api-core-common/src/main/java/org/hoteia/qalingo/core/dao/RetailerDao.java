@@ -354,7 +354,7 @@ public class RetailerDao extends AbstractGenericDao {
         query.setMaxResults(maxResults);
         
         @SuppressWarnings("unchecked")
-        List<Store> stores = query.getResultList();
+        List<Store> stores = (List<Store>) query.getResultList();
         return stores;
     }
     
