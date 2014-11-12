@@ -51,7 +51,6 @@ import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,10 +69,10 @@ public class CatalogSearchController extends AbstractMCommerceController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	public ProductService productMarketingService;
+	protected ProductService productMarketingService;
 	
 	@Autowired
-	public ProductMarketingSolrService productMarketingSolrService;
+	protected ProductMarketingSolrService productMarketingSolrService;
 
     protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
@@ -217,20 +216,6 @@ public class CatalogSearchController extends AbstractMCommerceController {
         return formFactory.buildSearchForm(requestData);
     }
     
-	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKeyPagedListHolder, final ProductMarketingResponseBean productMarketingResponseBean,
-			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder, final SearchForm searchForm) throws Exception{
-		int pageSize = searchForm.getPageSize();
-		String sortBy = searchForm.getSortBy();
-        String order = searchForm.getOrder();
-		List<SearchProductItemViewBean> searchtItems = frontofficeViewBeanFactory.buildListViewBeanSearchProductItem(requestUtil.getRequestData(request), productMarketingResponseBean);
-		productsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchtItems);
-		productsViewBeanPagedListHolder.setPageSize(pageSize);
-		productsViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
-		productsViewBeanPagedListHolder.resort();
-        request.getSession().setAttribute(sessionKeyPagedListHolder, productsViewBeanPagedListHolder);
-        return productsViewBeanPagedListHolder;
-	}
-	
     // TODO : Temporary
     
     @Autowired

@@ -11,6 +11,8 @@ package org.hoteia.qalingo.core.solr.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -48,9 +50,9 @@ public class ProductMarketingSolrService extends AbstractSolrService {
     @Autowired
     protected ProductService productService;
     
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.ProductMarketingSolrService#addOrUpdateProductMarketing(fr.hoteia.qalingo.core.domain.ProductMarketing)
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public void addOrUpdateProductMarketing(final ProductMarketing productMarketing, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productMarketing.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
@@ -87,9 +89,9 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         productMarketingSolrServer.commit();
     }
 
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.ProductMarketingSolrService#searchProductMarketing(java.lang.String, java.lang.String, java.lang.String)
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
         return searchProductMarketing(searchBy, searchText, facetField, null, null);
     }
@@ -100,24 +102,54 @@ public class ProductMarketingSolrService extends AbstractSolrService {
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField, BigDecimal priceStart, BigDecimal priceEnd) throws SolrServerException, IOException {
     	return searchProductMarketing(searchBy, searchText, facetField, priceStart, priceEnd, null);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public ProductMarketingResponseBean searchProductMarketing(final String searchBy, final String searchText, final String facetField, 
                                                                final BigDecimal priceStart, final BigDecimal priceEnd, final List<String> catalogCategories) throws SolrServerException, IOException {
-    	SolrQuery solrQuery = new SolrQuery();
-    	solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
-    	
-    	if (StringUtils.isEmpty(searchBy)) {
+        String searchQuery = null;
+        if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
         }
 
         if (StringUtils.isEmpty(searchText)) {
-            solrQuery.setQuery(searchBy + ":*");
+            searchQuery = searchBy + ":*";
         } else {
-            solrQuery.setQuery(searchBy + ":" + searchText + "*");
+            searchQuery = searchBy + ":" + searchText + "*";
         }
+
+        List<String> filterQueries = new ArrayList<String>();
+        if(priceStart != null && priceEnd != null){
+            String fq = String.format("price:[%1$,.0f TO %2$,.0f]", priceStart.doubleValue(), priceEnd.doubleValue());
+            filterQueries.add(fq);
+        }
+        
+        if(catalogCategories != null && catalogCategories.size() > 0){
+            StringBuilder fq = new StringBuilder("catalogCategories:(");
+            for (int i = 0; i < catalogCategories.size(); i++) {
+                String cate = catalogCategories.get(i);
+                fq.append(cate);
+                if(i < catalogCategories.size() - 1){
+                    fq.append(" OR ");
+                }
+            }
+            fq.append(")");
+            filterQueries.add(fq.toString());
+        }
+        
+        return searchProductMarketing(searchQuery, facetField, priceStart, priceEnd, filterQueries);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final String facetField, 
+                                                               final BigDecimal priceStart, final BigDecimal priceEnd, final List<String> filterQueries) throws SolrServerException, IOException {
+    	SolrQuery solrQuery = new SolrQuery();
+    	solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+
+        solrQuery.setQuery(searchQuery);
 
         if (StringUtils.isNotEmpty(facetField)) {
             solrQuery.setFacet(true);
@@ -126,22 +158,9 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             solrQuery.addFacetField(facetField);
         }
         
-        if(priceStart != null && priceEnd != null){
-        	String fq = String.format("price:[%1$,.0f TO %2$,.0f]", priceStart.doubleValue(), priceEnd.doubleValue());
-        	solrQuery.addFilterQuery(fq);
-        }
-        
-        if(catalogCategories != null && catalogCategories.size() > 0){
-        	StringBuilder fq = new StringBuilder("catalogCategories:(");
-        	for (int i = 0; i < catalogCategories.size(); i++) {
-				String cate = catalogCategories.get(i);
-				fq.append(cate);
-				if(i < catalogCategories.size() - 1){
-					fq.append(" OR ");
-				}
-			}
-        	fq.append(")");
-        	solrQuery.addFilterQuery(fq.toString());
+        for (Iterator<String> iterator = filterQueries.iterator(); iterator.hasNext();) {
+            String filterQuery = (String) iterator.next();
+            solrQuery.addFilterQuery(filterQuery);
         }
 
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
