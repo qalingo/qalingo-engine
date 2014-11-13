@@ -145,7 +145,8 @@ public class ProductMarketingSolrService extends AbstractSolrService {
      * {@inheritDoc}
      */
     public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final String facetField, 
-                                                               final BigDecimal priceStart, final BigDecimal priceEnd, final List<String> filterQueries) throws SolrServerException, IOException {
+                                                               final BigDecimal priceStart, final BigDecimal priceEnd, 
+                                                               final List<String> filterQueries) throws SolrServerException, IOException {
     	SolrQuery solrQuery = new SolrQuery();
     	solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
 

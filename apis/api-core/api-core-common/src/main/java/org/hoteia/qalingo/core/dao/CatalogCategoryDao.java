@@ -159,7 +159,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
         FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogCategoryCode)));
+        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogVirtualCode)));
         
         criteria.add(Restrictions.eq("code", handleCodeValue(catalogCategoryCode)));
 
