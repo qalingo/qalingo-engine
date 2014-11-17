@@ -73,10 +73,13 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             productSolr.setDefaultCategoryCode(defaultVirtualCatalogCategory.getCode());
         }
         
-        ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());
-        if(productSkuPrice != null){
-            BigDecimal salePrice = productSkuPrice.getSalePrice();
-            productSolr.setPrice(salePrice.floatValue());
+        if(marketArea != null 
+                && retailer != null){
+            ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());
+            if(productSkuPrice != null){
+                BigDecimal salePrice = productSkuPrice.getSalePrice();
+                productSolr.setPrice(salePrice.floatValue());
+            }
         }
         
         if(catalogCategories != null){

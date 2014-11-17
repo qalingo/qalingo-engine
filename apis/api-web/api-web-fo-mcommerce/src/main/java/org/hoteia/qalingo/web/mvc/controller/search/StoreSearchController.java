@@ -270,7 +270,6 @@ public class StoreSearchController extends AbstractMCommerceController {
     @RequestMapping(value = "/**/search-load-store-index.html", method = RequestMethod.GET)
     public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea marketArea = requestData.getMarketArea();
 
         List<Retailer> retailers = retailerService.findAllRetailers();;
         
@@ -278,7 +277,7 @@ public class StoreSearchController extends AbstractMCommerceController {
             List<Store> stores = retailerService.findStoresByRetailerId(retailer.getId());
             for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
                 Store store = (Store) iterator.next();
-                storeSolrService.addOrUpdateStore(store, marketArea);
+                storeSolrService.addOrUpdateStore(store);
             }
         }
 

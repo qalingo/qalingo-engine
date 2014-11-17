@@ -65,7 +65,7 @@ public class StoreSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankID() throws SolrServerException, IOException {
         store.setId(null);
-        storeSolrService.addOrUpdateStore(store, marketArea);
+        storeSolrService.addOrUpdateStore(store);
     }
 
 	/**
@@ -74,7 +74,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testIndexData() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexDataSecond()");
-        storeSolrService.addOrUpdateStore(store, marketArea);
+        storeSolrService.addOrUpdateStore(store);
 
     }
 
