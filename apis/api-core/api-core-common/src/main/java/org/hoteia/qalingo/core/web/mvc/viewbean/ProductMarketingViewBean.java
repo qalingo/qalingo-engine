@@ -226,6 +226,26 @@ public class ProductMarketingViewBean extends AbstractViewBean {
         }
         return null;
     }
+    
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
 
 	public void setAssets(List<AssetViewBean> assets) {
 		this.assets = assets;
