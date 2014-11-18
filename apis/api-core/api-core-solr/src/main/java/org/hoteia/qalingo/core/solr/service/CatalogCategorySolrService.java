@@ -40,9 +40,6 @@ public class CatalogCategorySolrService extends AbstractSolrService {
     @Autowired
     public SolrServer catalogCategorySolrServer;
     
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.CategorySolrService#addOrUpdateCategory(fr.hoteia.qalingo.core.domain.CatalogCategoryMaster)
-	 */
 	public void addOrUpdateCatalogCategory(final CatalogCategoryMaster catalogCategoryMaster, final MarketArea marketArea) throws SolrServerException, IOException {
         if (catalogCategoryMaster.getId() == null) {
             throw new IllegalArgumentException("Id cannot be blank or null.");
@@ -58,25 +55,18 @@ public class CatalogCategorySolrService extends AbstractSolrService {
         categorySolr.setDateUpdate(catalogCategoryMaster.getDateUpdate());
         categorySolr.setName(catalogCategoryMaster.getName());
 
-        // Adding Been in to solr for indexing
         catalogCategorySolrServer.addBean(categorySolr);
         catalogCategorySolrServer.commit();
         
         logger.debug("Fields has been added sucessfully ");
     }
 
-	/*
-	 * Method for  product search  with given parameter 
-	 */
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.CatalogCategorySolrService#searchCatalogCategory(java.lang.String, java.lang.String, java.lang.String)
-	 */
 	public CatalogCategoryResponseBean searchCatalogCategory(String searchBy,String searchText, String facetField) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         
         if (StringUtils.isEmpty(searchBy)) {
-            throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
+            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
         }
 
         if (StringUtils.isEmpty(searchText)) {
@@ -92,34 +82,26 @@ public class CatalogCategorySolrService extends AbstractSolrService {
             solrQuery.addFacetField(facetField);
         }
 
-        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
-        QueryResponse response = new QueryResponse(catalogCategorySolrServer.request(request), catalogCategorySolrServer);
-        logger.debug("QueryResponse Obj: " + response);
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
 
-        List<CatalogCategorySolr> categorySolrList = response.getBeans(CatalogCategorySolr.class);
-        logger.debug(" categorySolrList: " + categorySolrList);
+        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
+
+        QueryResponse response = new QueryResponse(catalogCategorySolrServer.request(request), catalogCategorySolrServer);
         
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<CatalogCategorySolr> solrList = response.getBeans(CatalogCategorySolr.class);
         CatalogCategoryResponseBean catalogCategoryResponseBean = new CatalogCategoryResponseBean();
-        catalogCategoryResponseBean.setCatalogCategorySolrList(categorySolrList);
-        
-        logger.debug("categorySolrList add sucessflly in productResponseBeen ");
+        catalogCategoryResponseBean.setCatalogCategorySolrList(solrList);
         
         if (StringUtils.isNotEmpty(facetField)) {
-            List<FacetField> categorySolrFacetFieldList = response.getFacetFields();
-            logger.debug("ProductFacetFileList: " + categorySolrFacetFieldList);
-            catalogCategoryResponseBean.setCatalogCategorySolrFacetFieldList(categorySolrFacetFieldList);
-            logger.debug(" categoryFacetFileList Add sucessflly in categoryResponseBeen  ");
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            catalogCategoryResponseBean.setCatalogCategorySolrFacetFieldList(solrFacetFieldList);
         }
         
         return catalogCategoryResponseBean;
     }
 
-	/*
-	 * Method for  CatalogCategory search by given parameter
-	 * */ 
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.CatalogCategorySolrService#searchCatalogCategory()
-	 */
     public CatalogCategoryResponseBean searchCatalogCategory() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
@@ -129,15 +111,21 @@ public class CatalogCategorySolrService extends AbstractSolrService {
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
         solrQuery.addFacetField("code");
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
-        // request.setPath(getRequestPath());
+
         QueryResponse response = new QueryResponse(catalogCategorySolrServer.request(request), catalogCategorySolrServer);
-        List<CatalogCategorySolr> productSolrList = response.getBeans(CatalogCategorySolr.class);
-        List<FacetField> productSolrFacetFieldList = response.getFacetFields();
+        
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<CatalogCategorySolr> solrList = response.getBeans(CatalogCategorySolr.class);
+        List<FacetField> solrFacetFieldList = response.getFacetFields();
 
         CatalogCategoryResponseBean catalogCategoryResponseBean = new CatalogCategoryResponseBean();
-        catalogCategoryResponseBean.setCatalogCategorySolrList(productSolrList);
-        catalogCategoryResponseBean.setCatalogCategorySolrFacetFieldList(productSolrFacetFieldList);
+        catalogCategoryResponseBean.setCatalogCategorySolrList(solrList);
+        catalogCategoryResponseBean.setCatalogCategorySolrFacetFieldList(solrFacetFieldList);
         return catalogCategoryResponseBean;
     }
 

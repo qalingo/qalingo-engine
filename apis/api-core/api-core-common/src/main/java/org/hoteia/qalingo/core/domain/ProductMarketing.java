@@ -222,9 +222,9 @@ public class ProductMarketing extends AbstractEntity {
 	
 	public ProductSku getDefaultProductSku() {
 		ProductSku defaultProductSku = null;
-		Set<ProductSku> productSkus = getProductSkus();
 		if(productSkus != null
-		        && Hibernate.isInitialized(productSkus)){
+		        && Hibernate.isInitialized(productSkus)
+		        && productSkus.size() > 0){
 			for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSku productSku = (ProductSku) iterator.next();
 				if(productSku.isDefault()){
@@ -242,7 +242,8 @@ public class ProductMarketing extends AbstractEntity {
 	public List<String> getSkuCodes() {
         List<String> skuCodes = new ArrayList<String>();
         if(productSkus != null
-                && Hibernate.isInitialized(productSkus)){
+                && Hibernate.isInitialized(productSkus)
+                && productSkus.size() > 0){
             for (Iterator<ProductSku> iterator = getProductSkus().iterator(); iterator.hasNext();) {
                 ProductSku sku = (ProductSku) iterator.next();
                 skuCodes.add(sku.getCode());

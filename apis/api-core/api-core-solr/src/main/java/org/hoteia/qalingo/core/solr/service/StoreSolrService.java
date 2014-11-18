@@ -39,9 +39,6 @@ public class StoreSolrService extends AbstractSolrService {
     @Autowired
     protected SolrServer storeSolrServer;
     
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#addOrUpdateStore(fr.hoteia.qalingo.core.domain.Store)
-	 */
     public void addOrUpdateStore(final Store store) throws SolrServerException, IOException {
         if (store.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
@@ -61,23 +58,17 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolrServer.commit();
     }
     
-    /* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
-	 */
     public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields) throws SolrServerException, IOException {
     	return searchStore(searchBy, searchText, facetFields, null, null);
     }
 
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
-	 */
     public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields,
                                          List<String> cities, List<String> countries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         
         if (StringUtils.isEmpty(searchBy)) {
-            throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
+            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
         }
 
         if (StringUtils.isEmpty(searchText)) {
@@ -85,7 +76,6 @@ public class StoreSolrService extends AbstractSolrService {
         } else {
             solrQuery.setQuery(searchBy + ":" + searchText + "*");
         }
-
         
         if (facetFields != null && facetFields.size() > 0) {
             solrQuery.setFacet(true);
@@ -94,7 +84,6 @@ public class StoreSolrService extends AbstractSolrService {
             for( String facetField : facetFields){
             	solrQuery.addFacetField(facetField);
             }
-            
         }
 
         if(cities != null && cities.size() > 0){
@@ -122,34 +111,25 @@ public class StoreSolrService extends AbstractSolrService {
         	solrQuery.addFilterQuery(fq.toString());
         }
         
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
 
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
 
         QueryResponse response = new QueryResponse(storeSolrServer.request(request), storeSolrServer);
-        logger.debug("QueryResponse Obj: " + response);
-        List<StoreSolr> storeSolrList = response.getBeans(StoreSolr.class);
-        logger.debug(" storeSolrList: " + storeSolrList);
+
+        logger.debug("QueryResponse Obj: " + response.toString());
+        
+        List<StoreSolr> solrList = response.getBeans(StoreSolr.class);
         StoreResponseBean storeResponseBean = new StoreResponseBean();
-        storeResponseBean.setStoreSolrList(storeSolrList);
+        storeResponseBean.setStoreSolrList(solrList);
 
-        logger.debug("storeSolrList add sucessflly in StoreResponseBeen ");
         if (facetFields != null && facetFields.size() > 0) {
-            List<FacetField> storeSolrFacetFieldList = response.getFacetFields();
-            logger.debug("storeFacetFileList: " + storeSolrFacetFieldList);
-            storeResponseBean.setStoreSolrFacetFieldList(storeSolrFacetFieldList);
-
-            logger.debug(" StoreFacetFileList Add sucessflly in StoreResponseBeen  ");
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            storeResponseBean.setStoreSolrFacetFieldList(solrFacetFieldList);
         }
         return storeResponseBean;
     }
 	
-	/**
-	 * Method for Default Store search.
-	 *
-	 * @return the store response bean
-	 * @throws SolrServerException the solr server exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
     public StoreResponseBean searchStore() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
@@ -159,14 +139,20 @@ public class StoreSolrService extends AbstractSolrService {
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
         solrQuery.addFacetField("name");
+        
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
-        // request.setPath(getRequestPath());
+        
         QueryResponse response = new QueryResponse(storeSolrServer.request(request), storeSolrServer);
-        List<StoreSolr> storeSolrList = response.getBeans(StoreSolr.class);
-        List<FacetField> storeSolrFacetFieldList = response.getFacetFields();
+        
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<StoreSolr> solrList = response.getBeans(StoreSolr.class);
+        List<FacetField> solrFacetFieldList = response.getFacetFields();
         StoreResponseBean storeResponseBean = new StoreResponseBean();
-        storeResponseBean.setStoreSolrList(storeSolrList);
-        storeResponseBean.setStoreSolrFacetFieldList(storeSolrFacetFieldList);
+        storeResponseBean.setStoreSolrList(solrList);
+        storeResponseBean.setStoreSolrFacetFieldList(solrFacetFieldList);
         return storeResponseBean;
     }
     

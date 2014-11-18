@@ -48,9 +48,6 @@ public class ProductSkuSolrService extends AbstractSolrService {
     @Autowired
     protected ProductService productService;
     
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.ProductSkuSolrService#addOrUpdateProductSku(fr.hoteia.qalingo.core.domain.ProductSku)
-	 */
     public void addOrUpdateProductSku(final ProductSku productSku, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productSku.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
@@ -81,15 +78,12 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolrServer.commit();
     }
 
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.ProductSkuSolrService#searchProductSku(java.lang.String, java.lang.String, java.lang.String)
-	 */
     public ProductSkuResponseBean searchProductSku(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         
         if (StringUtils.isEmpty(searchBy)) {
-            throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
+            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
         }
 
         if (StringUtils.isEmpty(searchText)) {
@@ -105,26 +99,25 @@ public class ProductSkuSolrService extends AbstractSolrService {
             solrQuery.addFacetField(facetField);
         }
 
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
+
         QueryResponse response = new QueryResponse(productSkuSolrServer.request(request), productSkuSolrServer);
-        logger.debug("QueryResponse Obj: " + response);
-        List<ProductSkuSolr> productSkuSolrList = response.getBeans(ProductSkuSolr.class);
-        logger.debug(" productSkuSolrList: " + productSkuSolrList);
+        
+        logger.debug("QueryResponse Obj: " + response.toString());
+        
+        List<ProductSkuSolr> solrList = response.getBeans(ProductSkuSolr.class);
         ProductSkuResponseBean productResponseBean = new ProductSkuResponseBean();
-        productResponseBean.setProductSkuSolrList(productSkuSolrList);
-        logger.debug("productSkuSolrList add sucessflly in productResponseBeen ");
+        productResponseBean.setProductSkuSolrList(solrList);
+        
         if (StringUtils.isNotEmpty(facetField)) {
-            List<FacetField> productSkuSolrFacetFieldList = response.getFacetFields();
-            logger.debug("ProductFacetFileList: " + productSkuSolrFacetFieldList);
-            productResponseBean.setProductSkuSolrFacetFieldList(productSkuSolrFacetFieldList);
-            logger.debug(" ProductFacetFileList Add sucessflly in productResponseBeen  ");
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            productResponseBean.setProductSkuSolrFacetFieldList(solrFacetFieldList);
         }
         return productResponseBean;
     }
 
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.ProductSkuSolrService#searchProductSku()
-	 */
     public ProductSkuResponseBean searchProductSku() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
@@ -135,20 +128,23 @@ public class ProductSkuSolrService extends AbstractSolrService {
         solrQuery.setFacetLimit(8);
         solrQuery.addFacetField("name");
         solrQuery.addFacetField("code");
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+        
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
-        // request.setPath(getRequestPath());
+        
         QueryResponse response = new QueryResponse(productSkuSolrServer.request(request), productSkuSolrServer);
-        logger.debug("QueryResponse Obj: " + response);
-        List<ProductSkuSolr> productSkuSolrList = response.getBeans(ProductSkuSolr.class);
-        logger.debug(" productSkuSolrList: " + productSkuSolrList);
-        List<FacetField> productSkuSolrFacetFieldList = response.getFacetFields();
-        logger.debug("ProductFacetFileList: " + productSkuSolrFacetFieldList);
+
+        logger.debug("QueryResponse Obj: " + response.toString());
+        
+        List<ProductSkuSolr> solrList = response.getBeans(ProductSkuSolr.class);
+        List<FacetField> solrFacetFieldList = response.getFacetFields();
+        
         ProductSkuResponseBean productSkuResponseBean = new ProductSkuResponseBean();
-        productSkuResponseBean.setProductSkuSolrList(productSkuSolrList);
-        productSkuResponseBean.setProductSkuSolrFacetFieldList(productSkuSolrFacetFieldList);
-        logger.debug("productSkuSolrList  And ProductFacetFileList Add sucessflly in productSkuResponseBeen  ");
+        productSkuResponseBean.setProductSkuSolrList(solrList);
+        productSkuResponseBean.setProductSkuSolrFacetFieldList(solrFacetFieldList);
+        
         return productSkuResponseBean;
     }
 
 }
-

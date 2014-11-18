@@ -113,11 +113,13 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                         final ProductMarketing productMarketing = productService.getProductMarketingById(objectId, new FetchPlan(productMarketingFetchPlans));
                         if(productMarketing != null){
                             ProductSku productSku = productMarketing.getDefaultProductSku();
-                            List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId()); 
-                            try {
-                                productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, null, null);
-                            } catch (SolrServerException e) {
-                                logger.error("Processed message to indexing failed, value: " + valueJMSMessage);
+                            if(productSku != null){
+                                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId()); 
+                                try {
+                                    productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, null, null);
+                                } catch (SolrServerException e) {
+                                    logger.error("Processed message to indexing failed, value: " + valueJMSMessage);
+                                }
                             }
                         }
                     } else if("ProductSku".equals(doucmentMessageJms.getObjectType())){

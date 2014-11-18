@@ -40,9 +40,6 @@ public class CustomerSolrService extends AbstractSolrService {
     @Autowired
     public SolrServer customerSolrServer;
     
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.CustomerSolrService#addOrUpdateCustomer(fr.hoteia.qalingo.core.domain.Customer)
-	 */
     public void addOrUpdateCustomer(final Customer customer, final MarketArea marketArea) throws SolrServerException, IOException, IllegalArgumentException {
         if (customer.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
@@ -61,15 +58,12 @@ public class CustomerSolrService extends AbstractSolrService {
         customerSolrServer.commit();
     }
 	
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.CustomerSolrService#searchCustomer(java.lang.String, java.lang.String, java.lang.String)
-	 */
     public CustomerResponseBean searchCustomer(String searchBy, String searchText, String facetField) throws IllegalArgumentException, SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         
         if (StringUtils.isEmpty(searchBy)) {
-            throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
+            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
         }
 
         if (StringUtils.isEmpty(searchText)) {
@@ -85,27 +79,25 @@ public class CustomerSolrService extends AbstractSolrService {
             solrQuery.addFacetField(facetField);
         }
 
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
 
         QueryResponse response = new QueryResponse(customerSolrServer.request(request), customerSolrServer);
-        logger.debug("QueryResponse Obj: " + response);
-        List<CustomerSolr> customerSolrList = response.getBeans(CustomerSolr.class);
-        logger.debug(" customerSolrList: " + customerSolrList);
+
+        logger.debug("QueryResponse Obj: " + response.toString());
+        
+        List<CustomerSolr> solrList = response.getBeans(CustomerSolr.class);
         CustomerResponseBean customerResponseBean = new CustomerResponseBean();
-        customerResponseBean.setCustomerSolrList(customerSolrList);
-        logger.debug("customerSolrList add sucessflly in customerResponseBeen ");
+        customerResponseBean.setCustomerSolrList(solrList);
+        
         if (StringUtils.isNotEmpty(facetField)) {
-            List<FacetField> customerSolrFacetFieldList = response.getFacetFields();
-            logger.debug("CustomerFacetFileList: " + customerSolrFacetFieldList);
-            customerResponseBean.setCustomerSolrFacetFieldList(customerSolrFacetFieldList);
-            logger.debug(" CustomerFacetFileList Add sucessflly in customerResponseBeen  ");
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            customerResponseBean.setCustomerSolrFacetFieldList(solrFacetFieldList);
         }
         return customerResponseBean;
     }
 	
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.CustomerSolrService#searchCustomer()
-	 */
     public CustomerResponseBean searchCustomer() throws IllegalArgumentException, SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
@@ -115,14 +107,21 @@ public class CustomerSolrService extends AbstractSolrService {
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
         solrQuery.addFacetField("lastname");
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
-        // request.setPath(getRequestPath());
+        
         QueryResponse response = new QueryResponse(customerSolrServer.request(request), customerSolrServer);
-        List<CustomerSolr> customerSolrList = response.getBeans(CustomerSolr.class);
-        List<FacetField> customerSolrFacetFieldList = response.getFacetFields();
+        
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<CustomerSolr> solrList = response.getBeans(CustomerSolr.class);
+        List<FacetField> solrFacetFieldList = response.getFacetFields();
+        
         CustomerResponseBean customerResponseBean = new CustomerResponseBean();
-        customerResponseBean.setCustomerSolrList(customerSolrList);
-        customerResponseBean.setCustomerSolrFacetFieldList(customerSolrFacetFieldList);
+        customerResponseBean.setCustomerSolrList(solrList);
+        customerResponseBean.setCustomerSolrFacetFieldList(solrFacetFieldList);
         return customerResponseBean;
     }
 

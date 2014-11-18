@@ -50,9 +50,6 @@ public class ProductMarketingSolrService extends AbstractSolrService {
     @Autowired
     protected ProductService productService;
     
-    /**
-     * {@inheritDoc}
-     */
     public void addOrUpdateProductMarketing(final ProductMarketing productMarketing, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productMarketing.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
@@ -92,28 +89,19 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         productMarketingSolrServer.commit();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
         return searchProductMarketing(searchBy, searchText, facetField, null, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField, BigDecimal priceStart, BigDecimal priceEnd) throws SolrServerException, IOException {
     	return searchProductMarketing(searchBy, searchText, facetField, priceStart, priceEnd, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public ProductMarketingResponseBean searchProductMarketing(final String searchBy, final String searchText, final String facetField, 
                                                                final BigDecimal priceStart, final BigDecimal priceEnd, final List<String> catalogCategories) throws SolrServerException, IOException {
         String searchQuery = null;
         if (StringUtils.isEmpty(searchBy)) {
-            throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
+            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank");
         }
 
         if (StringUtils.isEmpty(searchText)) {
@@ -144,9 +132,6 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         return searchProductMarketing(searchQuery, facetField, priceStart, priceEnd, filterQueries);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final String facetField, 
                                                                final BigDecimal priceStart, final BigDecimal priceEnd, 
                                                                final List<String> filterQueries) throws SolrServerException, IOException {
@@ -167,35 +152,24 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             solrQuery.addFilterQuery(filterQuery);
         }
 
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);
 
-        logger.debug("QueryResponse Obj: " + response);
+        logger.debug("QueryResponse Obj: " + response.toString());
 
-        List<ProductMarketingSolr> ProductMarketingSolrList = response.getBeans(ProductMarketingSolr.class);
-
-        logger.debug("ProductMarketingSolrList: " + ProductMarketingSolrList);
-
+        List<ProductMarketingSolr> solrList = response.getBeans(ProductMarketingSolr.class);
         ProductMarketingResponseBean productMarketingResponseBean = new ProductMarketingResponseBean();
-        productMarketingResponseBean.setProductMarketingSolrList(ProductMarketingSolrList);
-
-        logger.debug("ProductMarketingSolrList add sucessflly in productResponseBeen ");
+        productMarketingResponseBean.setProductMarketingSolrList(solrList);
 
         if (StringUtils.isNotEmpty(facetField)) {
-            List<FacetField> productSolrFacetFieldList = response.getFacetFields();
-
-            logger.debug("ProductFacetFileList: " + productSolrFacetFieldList);
-
-            productMarketingResponseBean.setProductMarketingSolrFacetFieldList(productSolrFacetFieldList);
-
-            logger.debug("ProductFacetFileList was successfully added in productResponseBeen  ");
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            productMarketingResponseBean.setProductMarketingSolrFacetFieldList(solrFacetFieldList);
         }
         return productMarketingResponseBean;
     }
 
-	/* (non-Javadoc)
-	 * @see fr.hoteia.qalingo.core.solr.service.ProductMarketingSolrService#searchProductMarketing()
-	 */
     public ProductMarketingResponseBean searchProductMarketing() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
@@ -204,25 +178,21 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
         solrQuery.addFacetField(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
+        
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         
         QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);
         
-        logger.debug("QueryResponse Obj: " + response);
+        logger.debug("QueryResponse Obj: " + response.toString());
         
-        List<ProductMarketingSolr> productMarketingSolrList = response.getBeans(ProductMarketingSolr.class);
-        
-        logger.debug("ProductMarketingSolrList: " + productMarketingSolrList);
-        
-        List<FacetField> productSolrFacetFieldList = response.getFacetFields();
-        
-        logger.debug("ProductFacetFileList: " + productSolrFacetFieldList);
+        List<ProductMarketingSolr> solrList = response.getBeans(ProductMarketingSolr.class);
+        List<FacetField> solrFacetFieldList = response.getFacetFields();
         
         ProductMarketingResponseBean productMarketingResponseBean = new ProductMarketingResponseBean();
-        productMarketingResponseBean.setProductMarketingSolrList(productMarketingSolrList);
-        productMarketingResponseBean.setProductMarketingSolrFacetFieldList(productSolrFacetFieldList);
-        
-        logger.debug("ProductMarketingSolrList And ProductFacetFileList was successfully added in productResponseBeen");
+        productMarketingResponseBean.setProductMarketingSolrList(solrList);
+        productMarketingResponseBean.setProductMarketingSolrFacetFieldList(solrFacetFieldList);
         
         return productMarketingResponseBean;
     }
