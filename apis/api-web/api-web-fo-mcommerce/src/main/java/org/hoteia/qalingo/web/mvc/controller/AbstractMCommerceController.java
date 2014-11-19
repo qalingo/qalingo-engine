@@ -71,7 +71,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
         productsViewBeanPagedListHolder.setPageSize(pageSize);
         productsViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
         productsViewBeanPagedListHolder.resort();
-        request.getSession().setAttribute(sessionKeyPagedListHolder, productsViewBeanPagedListHolder);
+//        request.getSession().setAttribute(sessionKeyPagedListHolder, productsViewBeanPagedListHolder);
         return productsViewBeanPagedListHolder;
     }
 }
