@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -70,11 +71,17 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
     @Autowired
     protected StoreSolrService storeSolrService;
     
+    protected List<SpecificFetchMode> categoryFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public IndexingObjectQueueListener() {
+        categoryFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalog.getName()));
+        categoryFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
+        categoryFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
+        categoryFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.attributes.getName()));
+        
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
@@ -114,7 +121,7 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                         if(productMarketing != null){
                             ProductSku productSku = productMarketing.getDefaultProductSku();
                             if(productSku != null){
-                                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId()); 
+                                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId(), new FetchPlan(categoryFetchPlans)); 
                                 try {
                                     productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, null, null);
                                 } catch (SolrServerException e) {
