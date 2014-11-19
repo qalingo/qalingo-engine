@@ -35,10 +35,13 @@ public class ProductSkuSolr {
     private String defaultCategoryCode;
     
     @Field
+    private String price;
+    
+    @Field
     private List<String> catalogCode = new ArrayList<String>();
     
     @Field
-    private String price;
+    private List<String> catalogCategories = new ArrayList<String>();
     
     @Field("datecreate")
     private Date dateCreate;
@@ -94,6 +97,14 @@ public class ProductSkuSolr {
         this.defaultCategoryCode = defaultCategoryCode;
     }
     
+    public String getPrice() {
+        return price;
+    }
+    
+    public void setPrice(String price) {
+        this.price = price;
+    }
+    
     public List<String> getCatalogCode() {
         return catalogCode;
     }
@@ -102,12 +113,30 @@ public class ProductSkuSolr {
         this.catalogCode = catalogCode;
     }
     
-    public String getPrice() {
-        return price;
+    public void addCatalogCode(String catalogCode){
+        if(this.catalogCode == null){
+            this.catalogCode = new ArrayList<String>();
+        }
+        if(!this.catalogCode.contains(catalogCode)){
+            this.catalogCode.add(catalogCode);
+        }
     }
     
-    public void setPrice(String price) {
-        this.price = price;
+    public List<String> getCatalogCategories() {
+        return catalogCategories;
+    }
+
+    public void setCatalogCategories(List<String> catalogCategories) {
+        this.catalogCategories = catalogCategories;
+    }
+    
+    public void addCatalogCategories(String catalogCategoryCode){
+        if(this.catalogCategories == null){
+            this.catalogCategories = new ArrayList<String>();
+        }
+        if(!this.catalogCategories.contains(catalogCategoryCode)){
+            this.catalogCategories.add(catalogCategoryCode);
+        }
     }
     
     public Date getDateCreate() {

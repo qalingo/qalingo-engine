@@ -70,18 +70,21 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             productSolr.setDefaultCategoryCode(defaultVirtualCatalogCategory.getCode());
         }
         
+        if(catalogCategories != null){
+            for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
+                String catalogCode = catalogCategoryVirtual.getCatalog().getCode(); 
+                productSolr.addCatalogCode(catalogCode);
+                String catalogCategoryCode = catalogCategoryVirtual.getCatalog().getCode() + "_" + catalogCategoryVirtual.getCode(); 
+                productSolr.addCatalogCategories(catalogCategoryCode);
+            }
+        }
+        
         if(marketArea != null 
                 && retailer != null){
             ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());
             if(productSkuPrice != null){
                 BigDecimal salePrice = productSkuPrice.getSalePrice();
                 productSolr.setPrice(salePrice.floatValue());
-            }
-        }
-        
-        if(catalogCategories != null){
-            for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
-                productSolr.addCatalogCategories(catalogCategoryVirtual.getCode());
             }
         }
         

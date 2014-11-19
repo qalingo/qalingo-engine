@@ -37,20 +37,20 @@ public class ProductMarketingSolr {
 	@Field
 	private String defaultProductSkuCode;
 
+	@Field
+	private Float price;
+
     @Field
     private List<String> catalogCode = new ArrayList<String>();
     
-	@Field
-	private Float price;
+    @Field
+    private List<String> catalogCategories = new ArrayList<String>();
 
 	@Field("datecreate")
 	private Date dateCreate;
 
 	@Field("dateupdate")
 	private Date dateUpdate;
-
-	@Field
-	private List<String> catalogCategories = new ArrayList<String>();
 
 	public String getName() {
         return name;
@@ -108,6 +108,14 @@ public class ProductMarketingSolr {
 		this.defaultProductSkuCode = defaultProductSkuCode;
 	}
 
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+    
 	public List<String> getCatalogCode() {
         return catalogCode;
     }
@@ -115,14 +123,32 @@ public class ProductMarketingSolr {
 	public void setCatalogCode(List<String> catalogCode) {
         this.catalogCode = catalogCode;
     }
-	
-	public Float getPrice() {
-		return price;
-	}
+    
+    public void addCatalogCode(String catalogCode){
+        if(this.catalogCode == null){
+            this.catalogCode = new ArrayList<String>();
+        }
+        if(!this.catalogCode.contains(catalogCode)){
+            this.catalogCode.add(catalogCode);
+        }
+    }
+    
+    public List<String> getCatalogCategories() {
+        return catalogCategories;
+    }
 
-	public void setPrice(Float price) {
-		this.price = price;
-	}
+    public void setCatalogCategories(List<String> catalogCategories) {
+        this.catalogCategories = catalogCategories;
+    }
+    
+    public void addCatalogCategories(String catalogCategoryCode){
+        if(this.catalogCategories == null){
+            this.catalogCategories = new ArrayList<String>();
+        }
+        if(!this.catalogCategories.contains(catalogCategoryCode)){
+            this.catalogCategories.add(catalogCategoryCode);
+        }
+    }
 
 	public Date getDateCreate() {
 		return dateCreate;
@@ -138,23 +164,6 @@ public class ProductMarketingSolr {
 
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
-	}
-
-	public List<String> getCatalogCategories() {
-		return catalogCategories;
-	}
-
-	public void setCatalogCategories(List<String> catalogCategories) {
-		this.catalogCategories = catalogCategories;
-	}
-	
-	public void addCatalogCategories(String catalogCategoryCode){
-		if(this.catalogCategories == null){
-			this.catalogCategories = new ArrayList<String>();
-		}
-		if(!this.catalogCategories.contains(catalogCategoryCode)){
-			this.catalogCategories.add(catalogCategoryCode);
-		}
 	}
 
     @Override
