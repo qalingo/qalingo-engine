@@ -132,7 +132,7 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                     } else if("ProductSku".equals(doucmentMessageJms.getObjectType())){
                         final ProductSku productSku = productService.getProductSkuById(objectId, new FetchPlan(productSkuFetchPlans));
                         if(productSku != null){
-                            List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId()); 
+                            List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId(), new FetchPlan(categoryFetchPlans)); 
                             try {
                                 productSkuSolrService.addOrUpdateProductSku(productSku, catalogCategories, null, null);
                             } catch (SolrServerException e) {
