@@ -10,9 +10,13 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class StoreLocatorCityFilterBean extends AbstractViewBean {
+    
 	/**
 	 * 
 	 */
@@ -48,5 +52,22 @@ public class StoreLocatorCityFilterBean extends AbstractViewBean {
 		}
 		this.stores.add(store);
 	}
-
+	
+    public void sortStores() {
+        List<StoreViewBean> sortedObjects = new LinkedList<StoreViewBean>(stores);
+        Collections.sort(sortedObjects, new Comparator<StoreViewBean>() {
+            @Override
+            public int compare(StoreViewBean o1, StoreViewBean o2) {
+                if (o1 != null && o2 != null) {
+                    int compare = o1.getName().compareTo(o2.getName());
+                    if (compare != 0) {
+                        return compare;
+                    }
+                    return o1.getName().compareTo(o2.getName());
+                }
+                return 0;
+            }
+        });
+    }
+	
 }

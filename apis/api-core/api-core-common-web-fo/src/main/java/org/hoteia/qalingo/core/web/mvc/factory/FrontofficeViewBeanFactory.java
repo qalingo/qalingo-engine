@@ -580,9 +580,9 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 countryFilter.addCity(cityFilter);
                 cityFilterMap.put(city, cityFilter);
             }
-
             cityFilter.addStore(store);
         }
+        filter.sortCountries();
         return filter;
     }
     

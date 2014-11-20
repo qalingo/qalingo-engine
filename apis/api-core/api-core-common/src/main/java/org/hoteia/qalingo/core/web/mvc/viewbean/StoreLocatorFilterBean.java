@@ -10,15 +10,17 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class StoreLocatorFilterBean extends AbstractViewBean {
+    
 	/**
 	 * 
 	 */
@@ -38,14 +40,26 @@ public class StoreLocatorFilterBean extends AbstractViewBean {
 		}
 		this.countries.add(country);
 	}	
-	
-	public String toJSON(){
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.writeValueAsString(countries);
-		} catch (JsonProcessingException e) {
-			logger.warn(e.getMessage(), e);
-		}
-		return null;
-	}
+
+    public void sortCountries() {
+        List<StoreLocatorCountryFilterBean> sortedObjects = new LinkedList<StoreLocatorCountryFilterBean>(countries);
+        Collections.sort(sortedObjects, new Comparator<StoreLocatorCountryFilterBean>() {
+            @Override
+            public int compare(StoreLocatorCountryFilterBean o1, StoreLocatorCountryFilterBean o2) {
+                if (o1 != null && o2 != null) {
+                    int compare = o1.getName().compareTo(o2.getName());
+                    if (compare != 0) {
+                        return compare;
+                    }
+                    return o1.getName().compareTo(o2.getName());
+                }
+                return 0;
+            }
+        });
+        for (Iterator<StoreLocatorCountryFilterBean> iterator = sortedObjects.iterator(); iterator.hasNext();) {
+            StoreLocatorCountryFilterBean bean = (StoreLocatorCountryFilterBean) iterator.next();
+            bean.sortCities();
+        }
+    }
+    
 }

@@ -28,6 +28,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * 
  */
@@ -48,7 +51,12 @@ public class StoreLocationController extends AbstractMCommerceController {
         modelAndView.addObject("stores", storeViewBeans);
 
         final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
-		modelAndView.addObject("storeFilter", storeFilter);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter));
+        } catch (JsonProcessingException e) {
+            logger.warn(e.getMessage(), e);
+        }
 		
         modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
 		

@@ -55,6 +55,11 @@ public abstract class AbstractGenericDao {
         return query;
     }
     
+    protected Query createSqlQuery(String resultSetMapping, String queryString) {
+        Query query = em.createNativeQuery(queryString, resultSetMapping);
+        return query;
+    }
+    
     protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params){
         if (params != null) {
             FetchPlan globalFetchPlan = new FetchPlan(new ArrayList<SpecificFetchMode>());

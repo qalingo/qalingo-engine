@@ -347,7 +347,7 @@ public class RetailerDao extends AbstractGenericDao {
         Float latitudeFloat = new Float(latitude);
         Float longitudeFloat = new Float(longitude);
         String queryString = "SELECT store.*, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store HAVING distance <= :distanceValue ORDER BY distance ASC";
-        Query query = createSqlQuery(Store.class, queryString);
+        Query query = createSqlQuery("GeolocatedStore", queryString);
         query.setParameter("latitude", latitudeFloat.floatValue());
         query.setParameter("longitude", longitudeFloat.floatValue());
         query.setParameter("distanceValue", distance);

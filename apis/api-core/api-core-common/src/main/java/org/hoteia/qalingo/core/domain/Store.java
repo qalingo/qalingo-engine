@@ -19,16 +19,20 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
+import javax.persistence.FieldResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -39,6 +43,18 @@ import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name = "TECO_STORE")
+@SqlResultSetMapping(
+        name="GeolocatedStore",
+        entities={
+            @EntityResult(entityClass=Store.class),
+            @EntityResult(
+                entityClass=Store.class,
+                fields={
+                    @FieldResult(name="distance", column="distance"),
+                }
+            )
+        }
+    )
 public class Store extends AbstractEntity {
 
     /**
@@ -127,6 +143,9 @@ public class Store extends AbstractEntity {
     @Column(name = "LATITUDE")
     private String latitude;
 
+    @Transient
+    private Float distance;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -360,6 +379,14 @@ public class Store extends AbstractEntity {
         this.latitude = latitude;
     }
 
+    public Float getDistance() {
+        return distance;
+    }
+    
+    public void setDistance(Float distance) {
+        this.distance = distance;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }

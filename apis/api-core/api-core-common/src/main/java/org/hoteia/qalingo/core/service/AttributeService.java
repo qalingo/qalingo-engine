@@ -223,19 +223,19 @@ public class AttributeService {
     protected List<AttributeDefinition> sortAttributes(List<AttributeDefinition> attributeDefinitions){
         if (attributeDefinitions != null) {
             List<AttributeDefinition> sortedObjects = new LinkedList<AttributeDefinition>(attributeDefinitions);
-                Collections.sort(sortedObjects, new Comparator<AttributeDefinition>() {
-                    @Override
-                    public int compare(AttributeDefinition o1, AttributeDefinition o2) {
-                        if (o1 != null && o2 != null) {
-                            int compare = o1.getOrdering().compareTo(o2.getOrdering());
-                            if(compare != 0){
-                                return compare;
-                            }
-                            return o1.getCode().compareTo(o2.getCode());
+            Collections.sort(sortedObjects, new Comparator<AttributeDefinition>() {
+                @Override
+                public int compare(AttributeDefinition o1, AttributeDefinition o2) {
+                    if (o1 != null && o2 != null) {
+                        int compare = o1.getOrdering().compareTo(o2.getOrdering());
+                        if (compare != 0) {
+                            return compare;
                         }
-                        return 0;
+                        return o1.getCode().compareTo(o2.getCode());
                     }
-                });
+                    return 0;
+                }
+            });
             return sortedObjects;
         }
         return attributeDefinitions;
