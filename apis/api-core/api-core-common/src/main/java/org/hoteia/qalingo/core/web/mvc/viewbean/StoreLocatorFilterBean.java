@@ -60,6 +60,7 @@ public class StoreLocatorFilterBean extends AbstractViewBean {
             StoreLocatorCountryFilterBean bean = (StoreLocatorCountryFilterBean) iterator.next();
             bean.sortCities();
         }
+        this.countries = sortedObjects;
     }
     
 }

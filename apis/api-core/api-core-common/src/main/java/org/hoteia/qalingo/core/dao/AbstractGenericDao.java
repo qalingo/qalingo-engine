@@ -46,16 +46,26 @@ public abstract class AbstractGenericDao {
     }
     
     protected Query createSqlQuery(String queryString) {
-        Query query = em.createNativeQuery(queryString);
+        Query query = em.createQuery(queryString);
         return query;
     }
     
     protected Query createSqlQuery(Class<?> entityClass, String queryString) {
+        Query query = em.createQuery(queryString, entityClass);
+        return query;
+    }
+    
+    protected Query createNativeQuery(String queryString) {
+        Query query = em.createNativeQuery(queryString);
+        return query;
+    }
+    
+    protected Query createNativeQuery(Class<?> entityClass, String queryString) {
         Query query = em.createNativeQuery(queryString, entityClass);
         return query;
     }
     
-    protected Query createSqlQuery(String resultSetMapping, String queryString) {
+    protected Query createNativeQuery(String resultSetMapping, String queryString) {
         Query query = em.createNativeQuery(queryString, resultSetMapping);
         return query;
     }

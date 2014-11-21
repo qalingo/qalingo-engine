@@ -68,6 +68,7 @@ public class StoreLocatorCityFilterBean extends AbstractViewBean {
                 return 0;
             }
         });
+        this.stores = sortedObjects;
     }
 	
 }

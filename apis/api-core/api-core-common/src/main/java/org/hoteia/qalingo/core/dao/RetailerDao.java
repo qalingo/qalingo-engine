@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,16 +19,21 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
 import org.slf4j.Logger;
@@ -343,18 +349,28 @@ public class RetailerDao extends AbstractGenericDao {
         return stores;
     }
     
-    public List<Store> findStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+    public List<GeolocatedStore> findStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         Float latitudeFloat = new Float(latitude);
         Float longitudeFloat = new Float(longitude);
-        String queryString = "SELECT store.*, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store HAVING distance <= :distanceValue ORDER BY distance ASC";
-        Query query = createSqlQuery("GeolocatedStore", queryString);
+        String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store HAVING distance <= :distanceValue ORDER BY distance ASC";
+        Query query = createNativeQuery(queryString);
         query.setParameter("latitude", latitudeFloat.floatValue());
         query.setParameter("longitude", longitudeFloat.floatValue());
         query.setParameter("distanceValue", distance);
         query.setMaxResults(maxResults);
+        query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
         
         @SuppressWarnings("unchecked")
-        List<Store> stores = query.getResultList();
+        List<Object[]> objects = query.getResultList();
+        List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
+        for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
+            Object[] object = iterator.next();
+            GeolocatedStore geolocatedStore = new GeolocatedStore();
+            geolocatedStore.setId((Long)object[0]);
+            geolocatedStore.setCode((String)object[1]);
+            geolocatedStore.setDistance((Double)object[2]);
+            stores.add(geolocatedStore);
+        }
         return stores;
     }
     

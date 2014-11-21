@@ -43,6 +43,7 @@ public class StoreViewBean extends AbstractViewBean {
     
 	private String longitude;
 	private String latitude;
+    private String distance;
 	private String defaultImage;
 	private String iconImage;
 	
@@ -219,6 +220,14 @@ public class StoreViewBean extends AbstractViewBean {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	
+	public String getDistance() {
+        return distance;
+    }
+	
+	public void setDistance(String distance) {
+        this.distance = distance;
+    }
 
 	public String getDefaultImage() {
 		return defaultImage;

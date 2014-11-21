@@ -19,6 +19,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -202,9 +203,9 @@ public class RetailerService {
         return retailerDao.findStoresByRetailerCode(retailerCode, params);
     }
     
-    public List<Store> findStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        List<Store> stores = retailerDao.findStoresByGeoloc(latitude, longitude, distance, maxResults, params);
-        return stores;
+    public List<GeolocatedStore> findStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        List<GeolocatedStore> geolocatedStores = retailerDao.findStoresByGeoloc(latitude, longitude, distance, maxResults, params);
+        return geolocatedStores;
     }
 
     public Store saveOrUpdateStore(final Store store) {

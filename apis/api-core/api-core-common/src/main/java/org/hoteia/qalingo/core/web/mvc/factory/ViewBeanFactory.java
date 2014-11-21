@@ -11,6 +11,8 @@ package org.hoteia.qalingo.core.web.mvc.factory;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -140,8 +142,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
-import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -940,6 +940,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         storeViewBean.setLongitude(store.getLongitude());
         storeViewBean.setLatitude(store.getLatitude());
+        
+        if(store.getDistance() != null){
+            NumberFormat formatter = new DecimalFormat("#0.00");     
+            storeViewBean.setDistance(formatter.format(store.getDistance()));
+        }
         
         final Asset defaultPackshotImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (defaultPackshotImage != null) {
