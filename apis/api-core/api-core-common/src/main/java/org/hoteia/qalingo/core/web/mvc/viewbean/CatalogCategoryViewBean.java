@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,16 +32,14 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
     protected String i18nName;
     protected String i18nDescription;
 
-    protected String backgroundImage;
-    protected String carouselImage;
-    protected String slideshowImage;
-    protected String iconImage;
     protected boolean isRoot;
     protected int countProduct;
     
     protected CatalogCategoryViewBean masterCategory;
     protected CatalogCategoryViewBean defaultParentCategory;
 
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    
     private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
     private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
 
@@ -49,8 +48,6 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
     protected int countProductMarketings = 0;
     protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
     protected List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
-
-    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
     protected String productAxeUrl;
     protected String productLineUrl;
@@ -112,38 +109,6 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
         this.i18nDescription = i18nDescription;
     }
 
-    public String getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    public void setBackgroundImage(String backgroundImage) {
-        this.backgroundImage = backgroundImage;
-    }
-
-    public String getCarouselImage() {
-        return carouselImage;
-    }
-
-    public void setCarouselImage(String carouselImage) {
-        this.carouselImage = carouselImage;
-    }
-
-    public String getSlideshowImage() {
-        return handleString(slideshowImage);
-    }
-    
-    public void setSlideshowImage(String slideshowImage) {
-        this.slideshowImage = slideshowImage;
-    }
-    
-    public String getIconImage() {
-        return handleString(iconImage);
-    }
-
-    public void setIconImage(String iconImage) {
-        this.iconImage = iconImage;
-    }
-
     public boolean isRoot() {
         return isRoot;
     }
@@ -183,6 +148,44 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
         this.defaultParentCategory = defaultParentCategory;
     }
 
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public String getAssetPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
+
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
+    }
+    
     public Map<String, AttributeValueViewBean> getGlobalAttributes() {
         return globalAttributes;
     }
@@ -257,14 +260,6 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
 
     public void setFeaturedProductMarketings(List<ProductMarketingViewBean> featuredProductMarketings) {
         this.featuredProductMarketings = featuredProductMarketings;
-    }
-    
-    public List<AssetViewBean> getAssets() {
-        return assets;
-    }
-    
-    public void setAssets(List<AssetViewBean> assets) {
-        this.assets = assets;
     }
     
     public String getProductAxeUrl() {

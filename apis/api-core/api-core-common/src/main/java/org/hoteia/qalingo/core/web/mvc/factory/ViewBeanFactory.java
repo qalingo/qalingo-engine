@@ -74,6 +74,7 @@ import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.Tax;
+import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -142,14 +143,14 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
-import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 
 /**
  * 
@@ -919,6 +920,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final StoreViewBean storeViewBean = new StoreViewBean();
         storeViewBean.setCode(store.getCode());
         storeViewBean.setName(store.getName());
+        
+        String i18nStoreName = store.getI18nName(localization);
+        if(StringUtils.isNotEmpty(i18nStoreName)){
+            storeViewBean.setCity(i18nStoreName);
+        }
+        
         storeViewBean.setAddress1(store.getAddress1());
         storeViewBean.setAddress2(store.getAddress2());
         storeViewBean.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
@@ -948,19 +955,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             storeViewBean.setDistance(formatter.format(store.getDistance()));
         }
         
-        final Asset defaultPackshotImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
-        if (defaultPackshotImage != null) {
-            final String defaultImage = engineSettingService.getRetailerOrStoreImageWebPath(defaultPackshotImage);
-            storeViewBean.setDefaultImage(defaultImage);
-        } else {
-            storeViewBean.setDefaultImage("");
-        }
-        final Asset defaultIconImage = store.getDefaultThumbnailImage();
-        if (defaultIconImage != null) {
-            final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(defaultIconImage);
-            storeViewBean.setIconImage(iconImage);
-        } else {
-            storeViewBean.setIconImage("");
+        // ASSETS
+        if (Hibernate.isInitialized(store.getAssets()) && store.getAssets() != null) {
+            for (Iterator<Asset> iterator = store.getAssets().iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                storeViewBean.getAssets().add(assetViewBean);
+            }
         }
         
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -973,15 +977,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         storeViewBean.setBusinessHour(buildViewBeanStoreBusinessHour(store));
         
-		final List<Asset> assets = store.getSlideShows();
-		if(assets != null){
-	        List<String> sliders = new ArrayList<String>();
-	        for(Asset asset : assets ){
-	            final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(asset);
-	            sliders.add(iconImage);
-	        }
-	        storeViewBean.setSliders(sliders);
-		}
+        List<String> sliders = new ArrayList<String>();
+        for (Iterator<Asset> iterator = store.getAssets().iterator(); iterator.hasNext();) {
+            Asset asset = (Asset) iterator.next();
+            if(AssetType.SLIDESHOW.getPropertyKey().equals(asset.getType())){
+                final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(asset);
+                sliders.add(iconImage);
+            }
+        }
+	    storeViewBean.setSliders(sliders);
+	    
         storeViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
         
         return storeViewBean;
@@ -1331,34 +1336,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
             
             // ASSETS
-            final Asset defaultBackgroundImage = catalogCategory.getDefaultBackgroundImage();
-            if (defaultBackgroundImage != null) {
-                final String backgroundImage = engineSettingService.getCatalogImageWebPath(defaultBackgroundImage);
-                catalogCategoryViewBean.setBackgroundImage(backgroundImage);
-            } else {
-                catalogCategoryViewBean.setBackgroundImage("");
-            }
-            final Asset defaultSlideshowImage = catalogCategory.getDefaultSlideshowImage();
-            if (defaultSlideshowImage != null) {
-                final String slideshowImage = engineSettingService.getCatalogImageWebPath(defaultSlideshowImage);
-                catalogCategoryViewBean.setSlideshowImage(slideshowImage);
-            } else {
-                catalogCategoryViewBean.setBackgroundImage("");
-            }
-
-            final Asset defaultPackshotImage = catalogCategory.getDefaultPackshotImage(ImageSize.HD.getPropertyKey());
-            if (defaultPackshotImage != null) {
-                final String carouselImage = engineSettingService.getCatalogImageWebPath(defaultPackshotImage);
-                catalogCategoryViewBean.setCarouselImage(carouselImage);
-            } else {
-                catalogCategoryViewBean.setCarouselImage("");
-            }
-            final Asset defaultIconImage = catalogCategory.getDefaultThumbnailImage();
-            if (defaultIconImage != null) {
-                final String iconImage = engineSettingService.getCatalogImageWebPath(defaultIconImage);
-                catalogCategoryViewBean.setIconImage(iconImage);
-            } else {
-                catalogCategoryViewBean.setIconImage("");
+            if (Hibernate.isInitialized(catalogCategory.getAssets()) && catalogCategory.getAssets() != null) {
+                for (Iterator<Asset> iterator = catalogCategory.getAssets().iterator(); iterator.hasNext();) {
+                    Asset asset = (Asset) iterator.next();
+                    AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                    final String path = engineSettingService.getCatalogImageWebPath(asset);
+                    assetViewBean.setRelativeWebPath(path);
+                    assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                    catalogCategoryViewBean.getAssets().add(assetViewBean);
+                }
             }
 
             if (catalogCategory.isRoot()) {
@@ -1521,7 +1507,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
             for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
-                productMarketingViewBean.getAssets().add(buildViewBeanAsset(requestData, asset));
+                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                final String path = engineSettingService.getProductMarketingImageWebPath(asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                productMarketingViewBean.getAssets().add(assetViewBean);
             }
         }
 
@@ -1543,10 +1533,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             assetViewBean.setFileSize(asset.getFileSize().toString());
         }
         assetViewBean.setIsDefault(asset.isDefault());
-
-        final String path = engineSettingService.getProductMarketingImageWebPath(asset);
-        assetViewBean.setRelativeWebPath(path);
-        assetViewBean.setAbsoluteWebPath(path);
 
         return assetViewBean;
     }
@@ -1643,26 +1629,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         // ASSETS
-        final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            String backgroundImage = engineSettingService.getProductSkuImageWebPath(defaultBackgroundImage);
-            productSkuViewBean.setBackgroundImage(backgroundImage);
-        } else {
-            productSkuViewBean.setBackgroundImage("");
-        }
-        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.HD.name());
-        if (defaultPackshotImage != null) {
-            String carouselImage = engineSettingService.getProductSkuImageWebPath(defaultPackshotImage);
-            productSkuViewBean.setCarouselImage(carouselImage);
-        } else {
-            productSkuViewBean.setCarouselImage("");
-        }
-        final Asset defaultIconImage = productSku.getDefaultThumbnailImage();
-        if (defaultIconImage != null) {
-            String iconImage = engineSettingService.getProductSkuImageWebPath(defaultIconImage);
-            productSkuViewBean.setIconImage(iconImage);
-        } else {
-            productSkuViewBean.setIconImage("");
+        if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
+            for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                productSkuViewBean.getAssets().add(assetViewBean);
+            }
         }
         
         productSkuViewBean.setProductMarketing(buildViewBeanProductMarketing(requestData, productMarketing));
@@ -1707,28 +1682,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productAssociationLinkViewBean.setName(productMarketing.getI18nName(localizationCode));
         productAssociationLinkViewBean.setDescription(productMarketing.getDescription());
 
-        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            String backgroundImage = engineSettingService.getProductMarketingImageWebPath(defaultBackgroundImage);
-            productAssociationLinkViewBean.setBackgroundImage(backgroundImage);
-        } else {
-            productAssociationLinkViewBean.setBackgroundImage("");
+        // ASSETS
+        if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
+            for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                productAssociationLinkViewBean.getAssets().add(buildViewBeanAsset(requestData, asset));
+            }
         }
-        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.HD.name());
-        if (defaultPackshotImage != null) {
-            String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
-            productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
-        } else {
-            productAssociationLinkViewBean.setCrossLinkImage("");
-        }
-        final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
-        if (defaultIconImage != null) {
-            String iconImage = engineSettingService.getProductMarketingImageWebPath(defaultIconImage);
-            productAssociationLinkViewBean.setIconImage(iconImage);
-        } else {
-            productAssociationLinkViewBean.setIconImage("");
-        }
-
+        
         return productAssociationLinkViewBean;
     }
 

@@ -31,8 +31,8 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
-import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION")

@@ -118,6 +118,10 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
                 modelAndView.getModelMap().put(ModelConstants.CUSTOMER_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanCustomer(requestData, customer));
             }
             
+            if(requestData.getGeolocData() != null){
+                modelAndView.getModelMap().put(ModelConstants.GEOLOC_DATA_VIEW_BEAN, requestData.getGeolocData());
+            }
+            
             modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanLegalTerms(requestData));
             
             modelAndView.getModelMap().put(ModelConstants.HEADER_CART, frontofficeViewBeanFactory.buildViewBeanHeaderCart(requestData));

@@ -29,7 +29,7 @@ import org.hoteia.qalingo.core.dao.GeolocDao;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.GeolocAddress;
 import org.hoteia.qalingo.core.domain.GeolocCity;
-import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
+import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -471,6 +471,10 @@ public class Store extends AbstractEntity {
         return null;
     }
 
+    public String getI18nName(Localization localization) {
+        return (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_NAME, null, localization.getCode());
+    }
+    
     public String getI18nCity(Localization localization) {
         return (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY_NAME, null, localization.getCode());
     }
@@ -563,19 +567,6 @@ public class Store extends AbstractEntity {
         return defaultImage;
     }
  	
-	public List<Asset> getSlideShows() {
- 		List<Asset> slideShows = new ArrayList<Asset>();
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if(assetsIsGlobal != null){
- 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
- 				Asset storeImage = (Asset) iterator.next();
- 				if(AssetType.SLIDESHOW.getPropertyKey().equals(storeImage.getType())){
- 					slideShows.add(storeImage);
- 				}
- 			}
- 		}
- 		return slideShows;
- 	}
 	public List<StoreBusinessHour> getStoreBusinessHours (){
 		List<StoreBusinessHour> storeBusinessHours = null;
 		 if (businessHours != null 

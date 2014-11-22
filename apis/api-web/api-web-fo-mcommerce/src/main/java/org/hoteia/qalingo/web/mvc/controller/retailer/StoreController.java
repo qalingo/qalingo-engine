@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -50,7 +51,6 @@ public class StoreController extends AbstractMCommerceController {
 	public ModelAndView displayRetailerDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
 	      
 		if(StringUtils.isNotEmpty(storeCode)){
 	        Store store = retailerService.getStoreByCode(storeCode);
@@ -69,29 +69,7 @@ public class StoreController extends AbstractMCommerceController {
 	        Object[] params = {storeViewBean.getI18nName()};
 	        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.STORE_DETAILS.getKey(), params);
 
-            // BREADCRUMB
-            BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-            breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "store_details", params, locale));
-            
-            List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
-            MenuViewBean menu = new MenuViewBean();
-            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-            menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-            menuViewBeans.add(menu);
-            
-            menu = new MenuViewBean();
-            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
-            menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
-            menuViewBeans.add(menu);
-            
-            menu = new MenuViewBean();
-            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_details", params, locale));
-            menu.setUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
-            menu.setActive(true);
-            menuViewBeans.add(menu);
-            
-            breadcrumbViewBean.setMenus(menuViewBeans);
-            model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, breadcrumbViewBean);
+            model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, store));
 	        
 	        return modelAndView;
 		}
@@ -99,5 +77,35 @@ public class StoreController extends AbstractMCommerceController {
         final String urlRedirect = urlService.generateUrl(FoUrls.STORE_LOCATION, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
-    
+
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, Store store) {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Locale locale = requestData.getLocale();
+        Object[] params = { store.getI18nName(localization) };
+
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "store_details", params, locale));
+
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_details", params, locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+
+        breadcrumbViewBean.setMenus(menuViewBeans);
+        return breadcrumbViewBean;
+    }
+
 }

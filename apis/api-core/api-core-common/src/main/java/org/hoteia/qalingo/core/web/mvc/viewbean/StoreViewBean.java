@@ -9,9 +9,9 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.Column;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -44,13 +44,13 @@ public class StoreViewBean extends AbstractViewBean {
 	private String longitude;
 	private String latitude;
     private String distance;
-	private String defaultImage;
-	private String iconImage;
-	
+
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+
 	private String detailsUrl;
 	private String editUrl;
 
-	private List<String> sliders;
+    private List<String> sliders;
 
 	private StoreBusinessHourViewBean businessHour;
 	
@@ -229,21 +229,43 @@ public class StoreViewBean extends AbstractViewBean {
         this.distance = distance;
     }
 
-	public String getDefaultImage() {
-		return defaultImage;
-	}
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public String getAssetPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
 
-	public void setDefaultImage(String defaultImage) {
-		this.defaultImage = defaultImage;
-	}
-
-	public String getIconImage() {
-		return iconImage;
-	}
-
-	public void setIconImage(String iconImage) {
-		this.iconImage = iconImage;
-	}
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
+    }
 
 	public String getDetailsUrl() {
 		return detailsUrl;
@@ -306,9 +328,9 @@ public class StoreViewBean extends AbstractViewBean {
     public String toString() {
         return "StoreViewBean [code=" + code + ", name=" + name + ", i18nName=" + i18nName + ", address1=" + address1 + ", address2=" + address2 + ", addressAdditionalInformation="
                 + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode + ", countryCode=" + countryCode
-                + ", country=" + country + ", email=" + email + ", phone=" + phone + ", fax=" + fax + ", website=" + website + ", longitude=" + longitude + ", latitude=" + latitude
-                + ", defaultImage=" + defaultImage + ", iconImage=" + iconImage + ", detailsUrl=" + detailsUrl + ", editUrl=" + editUrl + ", sliders=" + sliders + ", businessHour=" + businessHour
-                + "]";
+                + ", country=" + country + ", email=" + email + ", phone=" + phone + ", fax=" + fax + ", website=" + website + ", longitude=" + longitude + ", latitude=" + latitude + ", distance="
+                + distance + ", detailsUrl=" + detailsUrl + ", editUrl=" + editUrl + "]";
     }
+
 	
 }

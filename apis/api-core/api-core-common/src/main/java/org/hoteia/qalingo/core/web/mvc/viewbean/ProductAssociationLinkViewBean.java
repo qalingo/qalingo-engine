@@ -9,6 +9,10 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class ProductAssociationLinkViewBean extends AbstractViewBean {
 
 	/**
@@ -20,9 +24,9 @@ public class ProductAssociationLinkViewBean extends AbstractViewBean {
 	protected String name;
 	protected String type;
 	protected String description;
-	protected String backgroundImage;
-	protected String crossLinkImage;
-	protected String iconImage;
+	
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+	
 	protected String productDetailsUrl;
 
 	public int getOrderItem() {
@@ -57,29 +61,43 @@ public class ProductAssociationLinkViewBean extends AbstractViewBean {
 		this.description = description;
 	}
 	
-	public String getBackgroundImage() {
-		return backgroundImage;
-	}
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public String getAssetPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
 
-	public void setBackgroundImage(String backgroundImage) {
-		this.backgroundImage = backgroundImage;
-	}
-	
-	public String getCrossLinkImage() {
-		return crossLinkImage;
-	}
-	
-	public void setCrossLinkImage(String crossLinkImage) {
-		this.crossLinkImage = crossLinkImage;
-	}
-
-	public String getIconImage() {
-		return iconImage;
-	}
-
-	public void setIconImage(String iconImage) {
-		this.iconImage = iconImage;
-	}
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
+    }
 
 	public String getProductDetailsUrl() {
 		return productDetailsUrl;

@@ -103,7 +103,8 @@ public class ProductAxeController extends AbstractMCommerceController {
 
             model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, catalogCategoryViewBean.getI18nDescription());
 
-            model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, catalogCategoryViewBean.getCarouselImage()));
+            String metaImage = catalogCategoryViewBean.getAssetAbsoluteWebPath("PACKSHOT");
+            model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, metaImage));
 
             Object[] params = { catalogCategoryViewBean.getI18nName() };
             overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_AXE.getKey(), params);

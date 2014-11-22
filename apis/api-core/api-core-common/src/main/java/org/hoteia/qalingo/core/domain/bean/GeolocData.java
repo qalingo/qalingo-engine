@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.web.bean.geoloc;
+package org.hoteia.qalingo.core.domain.bean;
 
 import java.io.Serializable;
 

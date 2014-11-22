@@ -138,6 +138,8 @@ public class ModelConstants {
     public static final String CUSTOMER_WISHLIST_VIEW_BEAN      = "customerWishlist";
     public static final String CUSTOMER_ADDRESSES_VIEW_BEAN     = "customerAddresses";
 
+    public static final String GEOLOC_DATA_VIEW_BEAN            = "geolocData";
+
     public static final String USER_VIEW_BEAN                   = "user";
     public static final String AUTHENTICATED_USER_VIEW_BEAN     = "authenticatedUser";
     public static final String COMPANY_VIEW_BEAN                = "company";
