@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageJms;
 import org.hoteia.qalingo.core.jms.geoloc.producer.AddressGeolocMessageProducer;
@@ -60,14 +61,25 @@ public class GeolocAspect {
             addressGeolocMessageJms.setApplicationName(applicationName);
             addressGeolocMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
             addressGeolocMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
+            
             if(result != null && result instanceof Store){
                 Store store = (Store) result;
-                addressGeolocMessageJms.setStoreId(store.getId());
+                addressGeolocMessageJms.setObjectId(store.getId());
+                addressGeolocMessageJms.setObjectType("Store");
                 addressGeolocMessageJms.setGeolocType("GeolocAddress");
                 addressGeolocMessageJms.setAddress(store.getAddress1());
                 addressGeolocMessageJms.setPostalCode(store.getPostalCode());
                 addressGeolocMessageJms.setCity(store.getCity());
                 addressGeolocMessageJms.setCountryCode(store.getCountryCode());
+            } else if(result != null && result instanceof Retailer){
+                Retailer retailer = (Retailer) result;
+                addressGeolocMessageJms.setObjectId(retailer.getId());
+                addressGeolocMessageJms.setObjectType("Retailer");
+                addressGeolocMessageJms.setGeolocType("GeolocAddress");
+                addressGeolocMessageJms.setAddress(retailer.getDefaultAddress().getAddress1());
+                addressGeolocMessageJms.setPostalCode(retailer.getDefaultAddress().getPostalCode());
+                addressGeolocMessageJms.setCity(retailer.getDefaultAddress().getCity());
+                addressGeolocMessageJms.setCountryCode(retailer.getDefaultAddress().getCountryCode());
             }
             
             // Generate and send the JMS message

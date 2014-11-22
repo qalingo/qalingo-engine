@@ -86,8 +86,8 @@ public class GeolocService {
     
     public GeolocAddress geolocByAddress(final String address, final String postalCode, final String city, final String country){
         GeolocAddress geolocAddress = null;
-        String addressParam = encodeGoogleAddress(address, postalCode, city, country);
-        GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
+        String formatedAddress = encodeGoogleAddress(address, postalCode, city, country);
+        GoogleGeoCode geoCode = geolocGoogleWithAddress(formatedAddress);
         if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
             logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
@@ -101,7 +101,7 @@ public class GeolocService {
             geolocAddress.setCity(city);
             geolocAddress.setCountry(country);
             geolocAddress.setJson(SerializationHelper.serialize(geoCode));
-            geolocAddress.setFormatedAddress(addressParam);
+            geolocAddress.setFormatedAddress(formatedAddress);
             geolocAddress.setLatitude(geoCode.getLatitude());
             geolocAddress.setLongitude(geoCode.getLongitude());
             geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);

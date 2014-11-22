@@ -56,7 +56,7 @@ public class RetailerController extends AbstractMCommerceController {
 	@Autowired
 	protected RetailerService retailerService;
 	
-	protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+	protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
     
 	public RetailerController() {

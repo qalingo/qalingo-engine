@@ -305,6 +305,20 @@ public class Retailer extends AbstractEntity {
         }
         return defaultAddress;
     }
+    
+    public RetailerAddress getAddressByValue(String address) {
+        if (StringUtils.isNotEmpty(address)
+                && addresses != null 
+                && Hibernate.isInitialized(addresses)) {
+            for (Iterator<RetailerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
+                RetailerAddress retailerAddress = (RetailerAddress) iterator.next();
+                if (address.equalsIgnoreCase(retailerAddress.getAddress1())) {
+                    return retailerAddress;
+                }
+            }
+        }
+        return null;
+    }
 
     public void setAddresses(Set<RetailerAddress> addresses) {
         this.addresses = addresses;
