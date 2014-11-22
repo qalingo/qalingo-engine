@@ -20,16 +20,15 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * 
@@ -67,29 +66,8 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
     
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
-		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
-		try {
-	        final RequestData requestData = requestUtil.getRequestData(request);
-	        final Locale locale = requestData.getLocale();
-	        
-			final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
-			if(countries != null){
-				Set<String> countriesKey = countries.keySet();
-				for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
-					final String countryKey = (String) iterator.next();
-					countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), countries.get(countryKey)));
-				}
-				Collections.sort(countriesValues, new Comparator<ValueBean>() {
-					@Override
-					public int compare(ValueBean o1, ValueBean o2) {
-						return o1.getValue().compareTo(o2.getValue());
-					}
-				});
-			}
-		} catch (Exception e) {
-			logger.error("", e);
-		}
-		return countriesValues;
+        final RequestData requestData = requestUtil.getRequestData(request);
+        return getCountries(requestData);
     }
     
     @ModelAttribute(ModelConstants.CUSTOMER_DETAILS_LINKS_VIEW_BEAN)

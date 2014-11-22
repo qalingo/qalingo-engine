@@ -10,22 +10,14 @@
 package org.hoteia.qalingo.web.mvc.controller.retailer;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -72,8 +64,6 @@ public class RetailerContactController extends AbstractMCommerceController {
 										   Model model, @ModelAttribute("retailerContactForm") RetailerContactForm retailerContactForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RETAILER_CONTACT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
 		
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
@@ -118,26 +108,7 @@ public class RetailerContactController extends AbstractMCommerceController {
 	
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
-		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
-		try {
-	        final RequestData requestData = requestUtil.getRequestData(request);
-	        final Locale locale = requestData.getLocale();
-	        
-			final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
-			Set<String> countriesKey = countries.keySet();
-			for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
-				final String countryKey = (String) iterator.next();
-				countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), countries.get(countryKey)));
-			}
-			Collections.sort(countriesValues, new Comparator<ValueBean>() {
-				@Override
-				public int compare(ValueBean o1, ValueBean o2) {
-					return o1.getValue().compareTo(o2.getValue());
-				}
-			});
-		} catch (Exception e) {
-		    logger.error("", e);
-		}
-		return countriesValues;
+        final RequestData requestData = requestUtil.getRequestData(request);
+        return getCountries(requestData);
     }
 }

@@ -15,8 +15,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -216,29 +214,8 @@ public class StoreController extends AbstractBusinessBackofficeController{
     
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
-		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
-		try {
-	        final RequestData requestData = requestUtil.getRequestData(request);
-	        final Locale locale = requestData.getLocale();
-	        
-			final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
-			if(countries != null){
-				Set<String> countriesKey = countries.keySet();
-				for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
-					final String countryKey = (String) iterator.next();
-					countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), countries.get(countryKey)));
-				}
-				Collections.sort(countriesValues, new Comparator<ValueBean>() {
-					@Override
-					public int compare(ValueBean o1, ValueBean o2) {
-						return o1.getValue().compareTo(o2.getValue());
-					}
-				});
-			}
-		} catch (Exception e) {
-			logger.error("", e);
-		}
-		return countriesValues;
+        final RequestData requestData = requestUtil.getRequestData(request);
+        return getCountries(requestData);
     }
     
     @ModelAttribute(ModelConstants.RETAILERS_VIEW_BEAN)

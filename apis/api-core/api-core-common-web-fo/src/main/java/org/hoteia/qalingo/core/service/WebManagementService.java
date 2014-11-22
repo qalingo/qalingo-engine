@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -315,9 +314,7 @@ public class WebManagementService {
         defaultAddress.setCountryCode(createAccountForm.getCountryCode());
         defaultAddress.setDefaultBilling(true);
         defaultAddress.setDefaultShipping(true);
-        Set<CustomerAddress> addresses = new HashSet<CustomerAddress>();
-        addresses.add(defaultAddress);
-        customer.setAddresses(addresses);
+        customer.getAddresses().add(defaultAddress);
         
         return buildAndSaveNewCustomer(requestData, market, marketArea, customer);
     }

@@ -22,7 +22,6 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
@@ -117,8 +116,6 @@ public class RetailerCommentController extends AbstractMCommerceController {
         }
 		
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
 		
 		Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
 		
@@ -140,8 +137,6 @@ public class RetailerCommentController extends AbstractMCommerceController {
 											  @Valid @ModelAttribute("retailerCommentForm") RetailerCommentForm retailerCommentForm,
 								BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
 		
 		if (result.hasErrors()) {

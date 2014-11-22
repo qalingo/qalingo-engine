@@ -87,9 +87,6 @@ public class RetailerAddress extends AbstractAddress {
 	@Column(name="LATITUDE")
 	private String latitude;
 	
-	@Column(name="RETAILER_ID")
-	private Long retailerId;
-	
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -245,14 +242,6 @@ public class RetailerAddress extends AbstractAddress {
 		this.latitude = latitude;
 	}
 	
-	public Long getRetailerId() {
-	    return retailerId;
-    }
-	
-	public void setRetailerId(Long retailerId) {
-	    this.retailerId = retailerId;
-    }
-	
     public Date getDateCreate() {
         return dateCreate;
     }
@@ -275,7 +264,6 @@ public class RetailerAddress extends AbstractAddress {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
         return result;
     }
 
@@ -298,11 +286,6 @@ public class RetailerAddress extends AbstractAddress {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (retailerId == null) {
-            if (other.retailerId != null)
-                return false;
-        } else if (!retailerId.equals(other.retailerId))
-            return false;
         return true;
     }
 
@@ -310,8 +293,7 @@ public class RetailerAddress extends AbstractAddress {
     public String toString() {
         return "RetailerAddress [id=" + id + ", version=" + version + ", address1=" + address1 + ", address2=" + address2 + ", addressAdditionalInformation=" + addressAdditionalInformation
                 + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode + ", countryCode=" + countryCode + ", phone=" + phone + ", mobile=" + mobile
-                + ", fax=" + fax + ", email=" + email + ", website=" + website + ", isDefault=" + isDefault + ", longitude=" + longitude + ", latitude=" + latitude + ", retailerId=" + retailerId
-                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", fax=" + fax + ", email=" + email + ", website=" + website + ", isDefault=" + isDefault + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
     
 }

@@ -44,8 +44,12 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
         if(city != null){
             address.append(city);
         }
-        if(countryCode != null){
-            address.append(" - " + countryCode);
+        if(country != null){
+            address.append(" - " + country);
+        } else {
+            if(countryCode != null){
+                address.append(" - " + countryCode);
+            }  
         }
         return address.toString();
     }

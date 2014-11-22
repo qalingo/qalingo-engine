@@ -10,8 +10,13 @@
 package org.hoteia.qalingo.core.web.mvc.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,6 +34,7 @@ import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MonitoringViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TrackingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -165,6 +171,29 @@ public abstract class AbstractQalingoController {
 		return monitoringViewBean;
 	}
 	
+	protected List<ValueBean> getCountries(final RequestData requestData) throws Exception {
+        List<ValueBean> countriesValues = new ArrayList<ValueBean>();
+        try {
+            final Locale locale = requestData.getLocale();
+            
+            final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
+            Set<String> countriesKey = countries.keySet();
+            for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
+                final String countryKey = (String) iterator.next();
+                countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), countries.get(countryKey)));
+            }
+            Collections.sort(countriesValues, new Comparator<ValueBean>() {
+                @Override
+                public int compare(ValueBean o1, ValueBean o2) {
+                    return o1.getValue().compareTo(o2.getValue());
+                }
+            });
+        } catch (Exception e) {
+            logger.error("", e);
+        }
+        return countriesValues;
+    }
+    
     /**
      * @throws Exception 
      * 
