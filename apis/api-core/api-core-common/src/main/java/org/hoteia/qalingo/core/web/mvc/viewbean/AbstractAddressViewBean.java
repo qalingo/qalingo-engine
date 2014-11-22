@@ -26,7 +26,7 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
     protected String areaCode;
     protected String areaLabel;
     protected String countryCode;
-    protected String countryLabel;
+    protected String country;
     protected String longitude;
     protected String latitude;
     
@@ -130,12 +130,12 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
     	this.countryCode = countryCode;
     }
 
-	public String getCountryLabel() {
-    	return countryLabel;
+	public String getCountry() {
+        return country;
     }
-
-	public void setCountryLabel(String countryLabel) {
-    	this.countryLabel = countryLabel;
+	
+	public void setCountry(String country) {
+        this.country = country;
     }
 
 	public String getLongitude() {

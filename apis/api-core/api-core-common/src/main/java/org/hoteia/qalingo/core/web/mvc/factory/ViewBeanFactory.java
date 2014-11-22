@@ -784,7 +784,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
 
                 String countryLabel = referentialDataService.getCountryByLocale(defaultAddress.getCountryCode(), locale);
-                retailerViewBean.getDefaultAddress().setCountryLabel(countryLabel);
+                retailerViewBean.getDefaultAddress().setCountry(countryLabel);
 
                 retailerViewBean.getDefaultAddress().setLongitude(defaultAddress.getLongitude());
                 retailerViewBean.getDefaultAddress().setLatitude(defaultAddress.getLatitude());
@@ -916,7 +916,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public StoreViewBean buildViewBeanStore(final RequestData requestData, final Store store) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
-
+        final Locale locale = requestData.getLocale();
+        
         final StoreViewBean storeViewBean = new StoreViewBean();
         storeViewBean.setCode(store.getCode());
         storeViewBean.setName(store.getName());
@@ -939,8 +940,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
 
         storeViewBean.setStateCode(store.getStateCode());
-        storeViewBean.setCountry(store.getCountryCode());
+        
         storeViewBean.setCountryCode(store.getCountryCode());
+        String coutryLabel = referentialDataService.getCountryByLocale(store.getCountryCode(), locale);
+        storeViewBean.setCountry(coutryLabel);
         
         storeViewBean.setEmail(store.getEmail());
         storeViewBean.setPhone(store.getPhone());
@@ -1240,7 +1243,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         customerAddressViewBean.setCountryCode(customerAddress.getCountryCode());
 
         String coutryLabel = referentialDataService.getCountryByLocale(customerAddress.getCountryCode(), locale);
-        customerAddressViewBean.setCountryLabel(coutryLabel);
+        customerAddressViewBean.setCountry(coutryLabel);
 
         customerAddressViewBean.setDefaultBilling(customerAddress.isDefaultBilling());
         customerAddressViewBean.setDefaultShipping(customerAddress.isDefaultShipping());
