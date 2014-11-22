@@ -53,7 +53,7 @@ public class StoreLocationController extends AbstractMCommerceController {
         final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
         ObjectMapper mapper = new ObjectMapper();
         try {
-            modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter));
+            modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter.getCountries()));
         } catch (JsonProcessingException e) {
             logger.warn(e.getMessage(), e);
         }
