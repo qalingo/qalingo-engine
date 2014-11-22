@@ -9,6 +9,10 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.retailer;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -16,12 +20,18 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -44,6 +54,13 @@ public class RetailerController extends AbstractMCommerceController {
 
 	@Autowired
 	protected RetailerService retailerService;
+	
+	protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+	
+	public RetailerController() {
+	    retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
+    }
 	
 	@RequestMapping(FoUrls.RETAILER_DETAILS_URL)
 	public ModelAndView displayRetailerDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode) throws Exception {
@@ -125,13 +142,42 @@ public class RetailerController extends AbstractMCommerceController {
 		// CREATE
 		
 		
-		
-		
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.RETAILER_CREATE.getKey());
 
         return modelAndView;
 	}
 	
+
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, Retailer retailer) {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Locale locale = requestData.getLocale();
+        Object[] params = { retailer.getI18nName(localization) };
+
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "retailer_details", params, locale));
+
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "retailer_details", params, locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+
+        breadcrumbViewBean.setMenus(menuViewBeans);
+        return breadcrumbViewBean;
+    }
+    
 	/**
 	 * 
 	 */

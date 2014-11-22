@@ -52,7 +52,7 @@ public class StoreController extends AbstractMCommerceController {
 	@Autowired
 	protected RetailerService retailerService;
 	
-    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public StoreController() {
         storeFetchPlans.add(new SpecificFetchMode(Store_.retailer.getName()));
@@ -61,7 +61,7 @@ public class StoreController extends AbstractMCommerceController {
     }
     
 	@RequestMapping(FoUrls.STORE_DETAILS_URL)
-	public ModelAndView displayRetailerDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
+	public ModelAndView displayStoreDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 	      

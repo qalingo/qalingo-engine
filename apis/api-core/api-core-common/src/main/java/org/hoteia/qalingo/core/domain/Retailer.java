@@ -28,7 +28,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -119,7 +118,7 @@ public class Retailer extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerAttribute.class)
     @JoinColumn(name = "RETAILER_ID")
-    private Set<RetailerAttribute> retailerAttributes = new HashSet<RetailerAttribute>();
+    private Set<RetailerAttribute> attributes = new HashSet<RetailerAttribute>();
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinTable(name = "TECO_RETAILER_BRAND_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "BRAND_ID"))
@@ -441,46 +440,12 @@ public class Retailer extends AbstractEntity {
         return defaultImage;
     }
     
-    public Set<RetailerAttribute> getRetailerAttributes() {
-        return retailerAttributes;
+    public Set<RetailerAttribute> getAttributes() {
+        return attributes;
     }
     
-    public void setRetailerAttributes(Set<RetailerAttribute> retailerAttributes) {
-        this.retailerAttributes = retailerAttributes;
-    }
-
-    public List<RetailerAttribute> getRetailerGlobalAttributes() {
-        List<RetailerAttribute> retailerGlobalAttributes = null;
-        if (retailerAttributes != null
-                && Hibernate.isInitialized(retailerAttributes)) {
-            retailerGlobalAttributes = new ArrayList<RetailerAttribute>();
-            for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
-                RetailerAttribute attribute = (RetailerAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && attributeDefinition.isGlobal()) {
-                    retailerGlobalAttributes.add(attribute);
-                }
-            }
-        }        
-        return retailerGlobalAttributes;
-    }
-
-    public List<RetailerAttribute> getRetailerMarketAreaAttributes(Long marketAreaId) {
-        List<RetailerAttribute> retailerMarketAreaAttributes = null;
-        if (retailerAttributes != null
-                && Hibernate.isInitialized(retailerAttributes)) {
-            retailerMarketAreaAttributes = new ArrayList<RetailerAttribute>();
-            for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
-                RetailerAttribute attribute = (RetailerAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && !attributeDefinition.isGlobal()) {
-                    retailerMarketAreaAttributes.add(attribute);
-                }
-            }
-        }        
-        return retailerMarketAreaAttributes;
+    public void setAttributes(Set<RetailerAttribute> attributes) {
+        this.attributes = attributes;
     }
 
     public Set<ProductBrand> getBrands() {
@@ -533,51 +498,32 @@ public class Retailer extends AbstractEntity {
 
     // ATTRIBUTES
 
-    public RetailerAttribute getCatalogCategoryAttribute(String attributeCode) {
-        return getRetailerAttribute(attributeCode, null, null);
+    public RetailerAttribute getAttribute(String attributeCode) {
+        return getAttribute(attributeCode, null, null);
     }
 
-    public RetailerAttribute getRetailerAttribute(String attributeCode, String localizationCode) {
-        return getRetailerAttribute(attributeCode, null, localizationCode);
+    public RetailerAttribute getAttribute(String attributeCode, String localizationCode) {
+        return getAttribute(attributeCode, null, localizationCode);
     }
 
-    public RetailerAttribute getProductCategoryAttribute(String attributeCode, Long marketAreaId) {
-        return getRetailerAttribute(attributeCode, marketAreaId, null);
+    public RetailerAttribute getAttribute(String attributeCode, Long marketAreaId) {
+        return getAttribute(attributeCode, marketAreaId, null);
     }
 
-    public RetailerAttribute getRetailerAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-        RetailerAttribute retailerAttributeToReturn = null;
-
-        // 1: GET THE GLOBAL VALUE
-        RetailerAttribute retailerGlobalAttribute = getRetailerAttribute(getRetailerGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
-
-        // 2: GET THE MARKET AREA VALUE
-        RetailerAttribute retailerMarketAreaAttribute = getRetailerAttribute(getRetailerMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
-
-        if (retailerMarketAreaAttribute != null) {
-            retailerAttributeToReturn = retailerMarketAreaAttribute;
-        } else if (retailerGlobalAttribute != null) {
-            retailerAttributeToReturn = retailerGlobalAttribute;
-        }
-
-        return retailerAttributeToReturn;
-    }
-
-    private RetailerAttribute getRetailerAttribute(List<RetailerAttribute> retailerAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
-        RetailerAttribute retailerAttributeToReturn = null;
-        List<RetailerAttribute> retailerAttributesFilter = new ArrayList<RetailerAttribute>();
-        if (retailerAttributes != null) {
-            // GET ALL CategoryAttributes FOR THIS ATTRIBUTE
-            for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
+    public RetailerAttribute getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
+        RetailerAttribute attributeToReturn = null;
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
+            List<RetailerAttribute> attributesFilter = new ArrayList<RetailerAttribute>();
+            for (Iterator<RetailerAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 RetailerAttribute attribute = (RetailerAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-                    retailerAttributesFilter.add(attribute);
+                    attributesFilter.add(attribute);
                 }
             }
-            // REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
             if (marketAreaId != null) {
-                for (Iterator<RetailerAttribute> iterator = retailerAttributesFilter.iterator(); iterator.hasNext();) {
+                for (Iterator<RetailerAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
                     RetailerAttribute attribute = (RetailerAttribute) iterator.next();
                     AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                     if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
@@ -586,64 +532,61 @@ public class Retailer extends AbstractEntity {
                         }
                     }
                 }
+                if (attributesFilter.size() == 0) {
+                    // TODO : throw error ?
+                }
             }
-            // FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
             if (StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<RetailerAttribute> iterator = retailerAttributesFilter.iterator(); iterator.hasNext();) {
+                for (Iterator<RetailerAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
                     RetailerAttribute attribute = (RetailerAttribute) iterator.next();
-                    String attributeLocalizationCode = attribute.getLocalizationCode();
-                    if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
-                        iterator.remove();
+                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
+                        String attributeLocalizationCode = attribute.getLocalizationCode();
+                        if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
+                            iterator.remove();
+                        }
                     }
                 }
-                if (retailerAttributesFilter.size() == 0) {
-                    // TODO : warning ?
+                if (attributesFilter.size() == 0) {
+                    // TODO : throw error ?
 
-                    // NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE -
-                    // GET A FALLBACK
-                    for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
+                    for (Iterator<RetailerAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                         RetailerAttribute attribute = (RetailerAttribute) iterator.next();
 
                         // TODO : get a default locale code from setting
                         // database ?
 
-                        if (Constants.DEFAULT_LOCALE_CODE.equals(attribute.getLocalizationCode())) {
-                            retailerAttributeToReturn = attribute;
+                        if (attribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)) {
+                            attributeToReturn = attribute;
                         }
                     }
                 }
             }
+            if (attributesFilter.size() == 1) {
+                attributeToReturn = attributesFilter.get(0);
+            } else {
+                // TODO : throw error ?
+            }
         }
-
-        if (retailerAttributesFilter.size() == 1) {
-            retailerAttributeToReturn = retailerAttributesFilter.get(0);
-        } else {
-            // TODO : throw error ?
-        }
-
-        return retailerAttributeToReturn;
+        return attributeToReturn;
     }
 
-    public Object getValue(String attributeCode) {
-        return getValue(attributeCode, null);
-    }
-
-    public Object getValue(String attributeCode, String localizationCode) {
-        RetailerAttribute productCategoryAttribute = getRetailerAttribute(attributeCode, localizationCode);
-        if (productCategoryAttribute != null) {
-            return productCategoryAttribute.getValue();
+    public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
+        RetailerAttribute storeAttribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if (storeAttribute != null) {
+            return storeAttribute.getValue();
         }
         return null;
     }
 
-    public String getI18nName(String localizationCode) {
-        String i18nName = (String) getValue(RetailerAttribute.RETAILER_ATTRIBUTE_I18N_NAME, localizationCode);
-        if (StringUtils.isEmpty(i18nName)) {
-            i18nName = getName();
+    public String getI18nName(Localization localization) {
+        String i18Name = (String) getValue(RetailerAttribute.RETAILER_ATTRIBUTE_I18N_NAME, null, localization.getCode());
+        if(StringUtils.isNotEmpty(i18Name)){
+            return i18Name;
         }
-        return i18nName;
+        return name;
     }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;

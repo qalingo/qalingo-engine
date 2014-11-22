@@ -390,81 +390,81 @@ public class Store extends AbstractEntity {
 
     // Attributes
 
-    public StoreAttribute getStoreAttribute(String attributeCode) {
-        return getStoreAttribute(attributeCode, null, null);
+    public StoreAttribute getAttribute(String attributeCode) {
+        return getAttribute(attributeCode, null, null);
     }
 
-    public StoreAttribute getStoreAttribute(String attributeCode, String localizationCode) {
-        return getStoreAttribute(attributeCode, null, localizationCode);
+    public StoreAttribute getAttribute(String attributeCode, String localizationCode) {
+        return getAttribute(attributeCode, null, localizationCode);
     }
 
-    public StoreAttribute getStoreAttribute(String attributeCode, Long marketAreaId) {
-        return getStoreAttribute(attributeCode, marketAreaId, null);
+    public StoreAttribute getAttribute(String attributeCode, Long marketAreaId) {
+        return getAttribute(attributeCode, marketAreaId, null);
     }
 
-    public StoreAttribute getStoreAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-        StoreAttribute storeAttributeToReturn = null;
+    public StoreAttribute getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
+        StoreAttribute attributeToReturn = null;
         if (attributes != null
                 && Hibernate.isInitialized(attributes)) {
-            List<StoreAttribute> storeAttributesFilter = new ArrayList<StoreAttribute>();
+            List<StoreAttribute> attributesFilter = new ArrayList<StoreAttribute>();
             for (Iterator<StoreAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                StoreAttribute storeAttribute = (StoreAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = storeAttribute.getAttributeDefinition();
+                StoreAttribute attribute = (StoreAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-                    storeAttributesFilter.add(storeAttribute);
+                    attributesFilter.add(attribute);
                 }
             }
             if (marketAreaId != null) {
-                for (Iterator<StoreAttribute> iterator = storeAttributesFilter.iterator(); iterator.hasNext();) {
-                    StoreAttribute storeAttribute = (StoreAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = storeAttribute.getAttributeDefinition();
+                for (Iterator<StoreAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
+                    StoreAttribute attribute = (StoreAttribute) iterator.next();
+                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                     if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        if (storeAttribute.getMarketAreaId() != null && BooleanUtils.negate(storeAttribute.getMarketAreaId().equals(marketAreaId))) {
+                        if (attribute.getMarketAreaId() != null && BooleanUtils.negate(attribute.getMarketAreaId().equals(marketAreaId))) {
                             iterator.remove();
                         }
                     }
                 }
-                if (storeAttributesFilter.size() == 0) {
+                if (attributesFilter.size() == 0) {
                     // TODO : throw error ?
                 }
             }
             if (StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<StoreAttribute> iterator = storeAttributesFilter.iterator(); iterator.hasNext();) {
-                    StoreAttribute storeAttribute = (StoreAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = storeAttribute.getAttributeDefinition();
+                for (Iterator<StoreAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
+                    StoreAttribute attribute = (StoreAttribute) iterator.next();
+                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                     if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        String attributeLocalizationCode = storeAttribute.getLocalizationCode();
+                        String attributeLocalizationCode = attribute.getLocalizationCode();
                         if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
                             iterator.remove();
                         }
                     }
                 }
-                if (storeAttributesFilter.size() == 0) {
+                if (attributesFilter.size() == 0) {
                     // TODO : throw error ?
 
                     for (Iterator<StoreAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                        StoreAttribute storeAttribute = (StoreAttribute) iterator.next();
+                        StoreAttribute attribute = (StoreAttribute) iterator.next();
 
                         // TODO : get a default locale code from setting
                         // database ?
 
-                        if (storeAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)) {
-                            storeAttributeToReturn = storeAttribute;
+                        if (attribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)) {
+                            attributeToReturn = attribute;
                         }
                     }
                 }
             }
-            if (storeAttributesFilter.size() == 1) {
-                storeAttributeToReturn = storeAttributesFilter.get(0);
+            if (attributesFilter.size() == 1) {
+                attributeToReturn = attributesFilter.get(0);
             } else {
                 // TODO : throw error ?
             }
         }
-        return storeAttributeToReturn;
+        return attributeToReturn;
     }
 
     public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
-        StoreAttribute storeAttribute = getStoreAttribute(attributeCode, marketAreaId, localizationCode);
+        StoreAttribute storeAttribute = getAttribute(attributeCode, marketAreaId, localizationCode);
         if (storeAttribute != null) {
             return storeAttribute.getValue();
         }
