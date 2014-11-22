@@ -298,6 +298,10 @@ public class Retailer extends AbstractEntity {
                     defaultAddress = retailerAddress;
                 }
             }
+            if(defaultAddress == null
+                    && addresses.size() > 0){
+                defaultAddress = addresses.iterator().next();
+            }
         }
         return defaultAddress;
     }

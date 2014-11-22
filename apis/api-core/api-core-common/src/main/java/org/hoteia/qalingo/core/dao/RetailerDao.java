@@ -30,8 +30,11 @@ import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.RetailerAddress;
+import org.hoteia.qalingo.core.domain.RetailerAttribute;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
+import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -197,7 +200,42 @@ public class RetailerDao extends AbstractGenericDao {
 	
 	public Retailer saveOrUpdateRetailer(final Retailer retailer) {
 		if(retailer.getDateCreate() == null){
-			retailer.setDateCreate(new Date());
+            retailer.setDateCreate(new Date());
+            if (retailer.getAddresses() != null && retailer.getAddresses().size() > 0) {
+                for (Iterator<RetailerAddress> iterator = retailer.getAddresses().iterator(); iterator.hasNext();) {
+                    RetailerAddress retailerAddress = (RetailerAddress) iterator.next();
+                    retailerAddress.setDateCreate(new Date());
+                    retailerAddress.setDateUpdate(new Date());
+                }
+            }
+            if (retailer.getAttributes() != null && retailer.getAttributes().size() > 0) {
+                for (Iterator<RetailerAttribute> iterator = retailer.getAttributes().iterator(); iterator.hasNext();) {
+                    RetailerAttribute retailerAttribute = (RetailerAttribute) iterator.next();
+                    retailerAttribute.setDateCreate(new Date());
+                    retailerAttribute.setDateUpdate(new Date());
+                }
+            }
+            if (retailer.getCustomerRates() != null && retailer.getCustomerRates().size() > 0) {
+                for (Iterator<RetailerCustomerRate> iterator = retailer.getCustomerRates().iterator(); iterator.hasNext();) {
+                    RetailerCustomerRate retailerCustomerRate = (RetailerCustomerRate) iterator.next();
+                    retailerCustomerRate.setDateCreate(new Date());
+                    retailerCustomerRate.setDateUpdate(new Date());
+                }
+            }
+            if (retailer.getCustomerComments() != null && retailer.getCustomerComments().size() > 0) {
+                for (Iterator<RetailerCustomerComment> iterator = retailer.getCustomerComments().iterator(); iterator.hasNext();) {
+                    RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
+                    retailerCustomerComment.setDateCreate(new Date());
+                    retailerCustomerComment.setDateUpdate(new Date());
+                }
+            }
+            if (retailer.getRetailerTags() != null && retailer.getRetailerTags().size() > 0) {
+                for (Iterator<RetailerTag> iterator = retailer.getRetailerTags().iterator(); iterator.hasNext();) {
+                    RetailerTag retailerTag = (RetailerTag) iterator.next();
+                    retailerTag.setDateCreate(new Date());
+                    retailerTag.setDateUpdate(new Date());
+                }
+            }
 		}
         if (StringUtils.isEmpty(retailer.getCode())) {
             retailer.setCode(UUID.randomUUID().toString());

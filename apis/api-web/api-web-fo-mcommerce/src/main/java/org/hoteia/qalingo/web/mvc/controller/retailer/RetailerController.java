@@ -60,6 +60,7 @@ public class RetailerController extends AbstractMCommerceController {
 	public RetailerController() {
 	    retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
     }
 	
 	@RequestMapping(FoUrls.RETAILER_DETAILS_URL)
