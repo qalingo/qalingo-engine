@@ -622,16 +622,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public LocalizationViewBean buildViewBeanLocalization(final RequestData requestData, final Localization localization) throws Exception {
         final Locale locale = requestData.getLocale();
-        final String localizationCodeNavigation = localization.getCode();
+        final String localizationCode = localization.getCode();
 
         final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
-        localizationViewBean.setCode(localizationCodeNavigation);
+        localizationViewBean.setCode(localizationCode);
         localizationViewBean.setDescription(localization.getDescription());
         localizationViewBean.setCountry(localization.getCountry());
         localizationViewBean.setLanguage(localization.getLanguage());
 
         localizationViewBean.setName(localization.getName());
-        String localizationCodeTranslation = localizationCodeNavigation;
+        String localizationCodeTranslation = localizationCode;
         if(localizationCodeTranslation.contains("-")){
             String[] split = localizationCodeTranslation.split("-");
             localizationCodeTranslation = split[0] + "-" + split[1].toUpperCase();
@@ -749,14 +749,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCodeNavigation = localization.getCode();
+        final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
 
         final RetailerViewBean retailerViewBean = new RetailerViewBean();
 
         retailerViewBean.setCode(retailer.getCode());
         retailerViewBean.setName(retailer.getName());
-        retailerViewBean.setI18nName(retailer.getI18nName(localizationCodeNavigation));
+        retailerViewBean.setI18nName(retailer.getI18nName(localizationCode));
 
         retailerViewBean.setDescription(retailer.getDescription());
 
@@ -916,13 +916,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public StoreViewBean buildViewBeanStore(final RequestData requestData, final Store store) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
         
         final StoreViewBean storeViewBean = new StoreViewBean();
         storeViewBean.setCode(store.getCode());
         storeViewBean.setName(store.getName());
         
-        String i18nStoreName = store.getI18nName(localization);
+        String i18nStoreName = store.getI18nName(localizationCode);
         if(StringUtils.isNotEmpty(i18nStoreName)){
             storeViewBean.setCity(i18nStoreName);
         }
@@ -934,7 +935,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         // I18n values
         storeViewBean.setCity(store.getCity());
-        String i18nCityName = store.getI18nCity(localization);
+        String i18nCityName = store.getI18nCity(localizationCode);
         if(StringUtils.isNotEmpty(i18nCityName)){
             storeViewBean.setCity(i18nCityName);
         }

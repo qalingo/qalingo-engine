@@ -471,16 +471,16 @@ public class Store extends AbstractEntity {
         return null;
     }
 
-    public String getI18nName(Localization localization) {
-        String i18Name = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_NAME, null, localization.getCode());
+    public String getI18nName(String localizationCodeNavigation) {
+        String i18Name = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_NAME, null, localizationCodeNavigation);
         if(StringUtils.isNotEmpty(i18Name)){
             return i18Name;
         }
         return name;
     }
     
-    public String getI18nCity(Localization localization) {
-        String i18City = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY_NAME, null, localization.getCode());
+    public String getI18nCity(String localizationCodeNavigation) {
+        String i18City = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY_NAME, null, localizationCodeNavigation);
         if(StringUtils.isNotEmpty(i18City)){
             return i18City;
         }

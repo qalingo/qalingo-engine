@@ -100,7 +100,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final Localization localization = requestData.getMarketAreaLocalization();
 
         final Locale locale = localization.getLocale();
-        final String localeCode = localization.getCode();
+        final String localizationCode = localization.getCode();
 
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 
@@ -118,7 +118,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), categoryFetchPlan);
                     
                     menu = new MenuViewBean();
-                    final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode);
+                    final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localizationCode);
                     menu.setName(seoCatalogCategoryName);
                     menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategoryReloaded));
 
@@ -129,7 +129,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                             final CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCatalogCategory.next();
                             final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), categoryFetchPlan);
                             final MenuViewBean subMenu = new MenuViewBean();
-                            final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode) + " " + subCatalogCategoryReloaded.getI18nName(localeCode);
+                            final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localizationCode) + " " + subCatalogCategoryReloaded.getI18nName(localizationCode);
                             subMenu.setName(seoSubCatalogCategoryName);
                             subMenu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, subCatalogCategoryReloaded));
                             subMenus.add(subMenu);
@@ -258,19 +258,19 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 //     */
 //    public SearchProductItemViewBean buildViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
 //        final Localization localization = requestData.getMarketAreaLocalization();
-//        final String localeCode = localization.getCode();
+//        final String localizationCode = localization.getCode();
 //
 //        final String productCode = productMarketingSolr.getCode();
 //        final ProductMarketing productMarketing = productService.getProductMarketingByCode(productCode);
 //        final ProductSku productSku = productService.getProductSkuByCode(productMarketing.getDefaultProductSku().getCode());
-//        final String productSkuName = productSku.getI18nName(localeCode);
+//        final String productSkuName = productSku.getI18nName(localizationCode);
 //        
 //        final SearchProductItemViewBean searchItemViewBean = new SearchProductItemViewBean();
 //        
 //        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
 //        String categoryName = "";
 //        if(catalogCategory != null){
-//            categoryName = catalogCategory.getI18nName(localeCode);
+//            categoryName = catalogCategory.getI18nName(localizationCode);
 //            searchItemViewBean.setCategoryCode(catalogCategory.getCode());
 //            searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
 //        }
@@ -343,7 +343,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     public SearchFacetViewBean buildViewBeanCatalogSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
         final Localization localization = requestData.getMarketAreaLocalization();
-        final String localeCode = localization.getCode();
+        final String localizationCode = localization.getCode();
         
         if(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
         	searchFacetViewBean.setName(facetField.getName());
@@ -351,7 +351,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
                 final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(count.getName(), requestData.getMasterCatalogCode());
-                ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localeCode) + "(" + count.getCount() + ")");                
+                ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localizationCode) + "(" + count.getCount() + ")");                
                 values.add(valueBean);
             }
             searchFacetViewBean.setValues(values);
@@ -488,7 +488,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> listProductSkuCodes, FetchPlan categoryVirtualFetchPlans, FetchPlan productMarketingFetchPlans, FetchPlan productSkuFetchPlans) throws Exception {
     	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
     	final Localization localization = requestData.getMarketAreaLocalization();
-        final String localeCode = localization.getCode();
+        final String localizationCode = localization.getCode();
     	for (String productSkuCode : listProductSkuCodes) {
     		RecentProductViewBean recentProductViewBean = new RecentProductViewBean();
             final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuCode, productSkuFetchPlans);
@@ -497,7 +497,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         	recentProductViewBean.setId(productMarketing.getId());
     		recentProductViewBean.setCode(productMarketing.getCode());
     		recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));	
-        	recentProductViewBean.setI18nName(productMarketing.getI18nName(localeCode));
+        	recentProductViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
         	recentProductViewBeans.add(recentProductViewBean);
     	}
     	return recentProductViewBeans;
