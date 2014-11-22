@@ -14,13 +14,13 @@ public class RetailerAddressViewBean extends AbstractAddressViewBean {
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = -359258454675030384L;
+    protected static final long serialVersionUID = -359258454675030384L;
 
-    private String phone;
-    private String mobile;
-    private String fax;
-    private String email;
-    private String website;
+    protected String phone;
+    protected String mobile;
+    protected String fax;
+    protected String email;
+    protected String website;
 
     public String getPhone() {
 	    return phone;

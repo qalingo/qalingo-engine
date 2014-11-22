@@ -20,29 +20,29 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = 2538607600492625532L;
+	protected static final long serialVersionUID = 2538607600492625532L;
 
-	private String code;
-	private String name;
-	private String i18nName;
+	protected String code;
+	protected String name;
+	protected String i18nName;
 
-    private String email;
-    private String phone;
-    private String fax;
-    private String website;
+    protected String email;
+    protected String phone;
+    protected String fax;
+    protected String website;
     
-	private String longitude;
-	private String latitude;
-    private String distance;
+	protected String longitude;
+	protected String latitude;
+    protected String distance;
 
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
-	private String detailsUrl;
-	private String editUrl;
+	protected String detailsUrl;
+	protected String editUrl;
 
-    private List<String> sliders;
+    protected List<String> sliders;
 
-	private StoreBusinessHourViewBean businessHour;
+	protected StoreBusinessHourViewBean businessHour;
 	
 	public String getCode() {
 		return code;
@@ -226,7 +226,7 @@ public class StoreViewBean extends AbstractAddressViewBean {
     public String toString() {
         return "StoreViewBean [code=" + code + ", name=" + name + ", i18nName=" + i18nName + ", address1=" + address1 + ", address2=" + address2 + ", addressAdditionalInformation="
                 + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode + ", countryCode=" + countryCode
-                + ", country=" + country + ", email=" + email + ", phone=" + phone + ", fax=" + fax + ", website=" + website + ", longitude=" + longitude + ", latitude=" + latitude + ", distance="
+                + ", email=" + email + ", phone=" + phone + ", fax=" + fax + ", website=" + website + ", longitude=" + longitude + ", latitude=" + latitude + ", distance="
                 + distance + ", detailsUrl=" + detailsUrl + ", editUrl=" + editUrl + "]";
     }
 

@@ -14,21 +14,21 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = 6696636885155166315L;
+    protected static final long serialVersionUID = 6696636885155166315L;
     
-    private String address1;
-    private String address2;
-    private String addressAdditionalInformation;
-    private String postalCode;
-    private String city;
-    private String stateCode;
-    private String stateLabel;
-    private String areaCode;
-    private String areaLabel;
-    private String countryCode;
-    private String countryLabel;
-    private String longitude;
-    private String latitude;
+    protected String address1;
+    protected String address2;
+    protected String addressAdditionalInformation;
+    protected String postalCode;
+    protected String city;
+    protected String stateCode;
+    protected String stateLabel;
+    protected String areaCode;
+    protected String areaLabel;
+    protected String countryCode;
+    protected String countryLabel;
+    protected String longitude;
+    protected String latitude;
     
     public String getAddressOnLine() {
         StringBuffer address = new StringBuffer();
