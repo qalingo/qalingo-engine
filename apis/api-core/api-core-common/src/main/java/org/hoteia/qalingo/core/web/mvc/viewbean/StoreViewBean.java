@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-public class StoreViewBean extends AbstractViewBean {
+public class StoreViewBean extends AbstractAddressViewBean {
 
 	/**
 	 * Generated UID
@@ -26,16 +26,6 @@ public class StoreViewBean extends AbstractViewBean {
 	private String name;
 	private String i18nName;
 
-	private String address1;
-	private String address2;
-	private String addressAdditionalInformation;
-	private String postalCode;
-	private String city;
-	private String stateCode;
-	private String areaCode;
-	private String countryCode;
-	private String country;
-	
     private String email;
     private String phone;
     private String fax;
@@ -79,98 +69,6 @@ public class StoreViewBean extends AbstractViewBean {
 
 	public void setI18nName(String i18nName) {
 		this.i18nName = i18nName;
-	}
-
-    public String getAddressOnLine() {
-        StringBuffer address = new StringBuffer();
-        if(address1 != null){
-            address.append(address1);
-        }
-        if(postalCode != null || city != null){
-            address.append(" - ");
-        }
-        if(postalCode != null){
-            address.append(postalCode + " ");
-        }
-        if(city != null){
-            address.append(city);
-        }
-        if(countryCode != null){
-            address.append(" - " + countryCode);
-        }
-        return address.toString();
-    }
-
-	public String getAddress1() {
-		return address1;
-	}
-
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-
-	public String getAddress2() {
-		return address2;
-	}
-
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-
-	public String getAddressAdditionalInformation() {
-		return addressAdditionalInformation;
-	}
-
-	public void setAddressAdditionalInformation(String addressAdditionalInformation) {
-		this.addressAdditionalInformation = addressAdditionalInformation;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getStateCode() {
-		return stateCode;
-	}
-
-	public void setStateCode(String stateCode) {
-		this.stateCode = stateCode;
-	}
-
-	public String getAreaCode() {
-		return areaCode;
-	}
-
-	public void setAreaCode(String areaCode) {
-		this.areaCode = areaCode;
-	}
-
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
 	}
 
 	public String getEmail() {

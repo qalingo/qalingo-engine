@@ -23,9 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -76,8 +76,8 @@ public class StoreSearchController extends AbstractMCommerceController {
     protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
 
     public StoreSearchController() {
-        storeFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
-        storeFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
     }
     
 	@RequestMapping(value = FoUrls.STORE_SEARCH_URL, method = RequestMethod.GET)

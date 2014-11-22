@@ -30,6 +30,26 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
     private String longitude;
     private String latitude;
     
+    public String getAddressOnLine() {
+        StringBuffer address = new StringBuffer();
+        if(address1 != null){
+            address.append(address1);
+        }
+        if(postalCode != null || city != null){
+            address.append(" - ");
+        }
+        if(postalCode != null){
+            address.append(postalCode + " ");
+        }
+        if(city != null){
+            address.append(city);
+        }
+        if(countryCode != null){
+            address.append(" - " + countryCode);
+        }
+        return address.toString();
+    }
+    
 	public String getAddress1() {
 		return address1;
 	}
