@@ -11,9 +11,11 @@ package org.hoteia.qalingo.core.service;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -35,6 +37,7 @@ import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
@@ -45,6 +48,8 @@ import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -405,10 +410,11 @@ public class WebManagementService {
      */
     public void buildAndSaveRetailerContactMail(final RequestData requestData, final RetailerContactForm retailerContactForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
         final String contextNameValue = requestData.getContextNameValue();
 
-        final Retailer retailerToContact = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerContactForm.getRetailerCode());
+        final List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+        final Retailer retailerToContact = retailerService.getRetailerByCode(retailerContactForm.getRetailerCode(), new FetchPlan(retailerFetchPlans));
         
         final RetailerContactEmailBean retailerContactEmailBean = new RetailerContactEmailBean();
         BeanUtils.copyProperties(retailerContactForm, retailerContactEmailBean);

@@ -21,10 +21,11 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Retailer_;
+import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -56,21 +57,24 @@ public class RetailerController extends AbstractMCommerceController {
 	protected RetailerService retailerService;
 	
 	protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
-	
+    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
+    
 	public RetailerController() {
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
 	    retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+        
+        storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
     }
 	
 	@RequestMapping(FoUrls.RETAILER_DETAILS_URL)
 	public ModelAndView displayRetailerDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RETAILER_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
 
-		Retailer retailer = retailerService.getRetailerByCode(currentMarketArea.getId(), currentRetailer.getId(), retailerCode);
+		Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
 		
 		RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
 		model.addAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
@@ -115,6 +119,8 @@ public class RetailerController extends AbstractMCommerceController {
 		model.addAttribute("withMap", true);
 		
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.RETAILER_DETAILS.getKey());
+
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, retailer));
 
         return modelAndView;
 	}

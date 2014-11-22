@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.retailer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,10 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
+import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.EngineSettingService;
@@ -51,11 +56,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("retailerCommentController")
 public class RetailerCommentController extends AbstractMCommerceController {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	protected RetailerService retailerService;
-	
+    @Autowired
+    protected RetailerService retailerService;
+
+    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+
+    public RetailerCommentController() {
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+    }
+	    
 	@RequestMapping(value = FoUrls.RETAILER_VOTE_URL, method = RequestMethod.GET)
 	public ModelAndView displayRetailerVoteForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode,
 												final Model model, @ModelAttribute("retailerCommentForm") RetailerCommentForm retailerCommentForm) throws Exception {
@@ -106,7 +120,7 @@ public class RetailerCommentController extends AbstractMCommerceController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Retailer currentRetailer = requestData.getMarketAreaRetailer();
 		
-		Retailer retailer = retailerService.getRetailerByCode(currentMarketArea.getId(), currentRetailer.getId(), retailerCode);
+		Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
 		
 		if(retailerCommentForm == null 
 	    		|| retailerCommentForm.equals(new RetailerCommentForm())){
@@ -165,7 +179,7 @@ public class RetailerCommentController extends AbstractMCommerceController {
 			return displayRetailerCommentForm(request, retailerCode, model, retailerCommentForm);
 		}
 		
-		final Retailer retailer = retailerService.getRetailerByCode(currentMarketArea.getId(), currentRetailer.getId(), retailerCode);
+		final Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
 		final Customer customer = requestData.getCustomer();
 		
 		if (qualityOfService != 0) {

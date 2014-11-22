@@ -27,7 +27,10 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
@@ -55,6 +58,15 @@ public class RetailerContactController extends AbstractMCommerceController {
 	@Autowired
 	protected RetailerService retailerService;
 	
+    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+
+    public RetailerContactController() {
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+    }
+        
 	@RequestMapping(value = FoUrls.RETAILER_CONTACT_URL, method = RequestMethod.GET)
 	public ModelAndView displayContactForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode,
 										   Model model, @ModelAttribute("retailerContactForm") RetailerContactForm retailerContactForm) throws Exception {
@@ -65,7 +77,7 @@ public class RetailerContactController extends AbstractMCommerceController {
 		
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
-		Retailer retailer = retailerService.getRetailerByCode(currentMarketArea.getId(), currentRetailer.getId(), retailerCode);
+		Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
 
 		// SANITY CHECK
 		if(retailer.getDefaultAddress() == null

@@ -729,15 +729,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public List<RetailerViewBean> buildListViewBeanRetailer(final RequestData requestData, final List<Retailer> retailers) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
-
         List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
         retailerViewBeans = new ArrayList<RetailerViewBean>();
         for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-            final Retailer retailerIt = (Retailer) iterator.next();
-            final Retailer reloadedRetailer = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerIt.getCode());
-            retailerViewBeans.add(buildViewBeanRetailer(requestData, reloadedRetailer));
+            final Retailer retailer = (Retailer) iterator.next();
+            retailerViewBeans.add(buildViewBeanRetailer(requestData, retailer));
         }
         return retailerViewBeans;
     }

@@ -77,20 +77,6 @@ public class RetailerDao extends AbstractGenericDao {
         }
         return retailer;
     }
-
-	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(Retailer.class);
-
-        FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
-
-        criteria.add(Restrictions.eq("code", handleCodeValue(retailerCode)));
-        
-        Retailer retailer = (Retailer) criteria.uniqueResult();
-        if(retailer != null){
-            retailer.setFetchPlan(fetchPlan);
-        }
-		return retailer;
-	}
 	
     public Long getMaxRetailerId() {
         Criteria criteria = createDefaultCriteria(Retailer.class);
