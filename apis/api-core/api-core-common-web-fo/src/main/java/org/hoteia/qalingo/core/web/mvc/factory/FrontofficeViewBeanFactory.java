@@ -17,14 +17,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
@@ -40,7 +38,6 @@ import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
@@ -51,7 +48,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
@@ -241,92 +237,92 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 //        return search;
 //    }
 
-    /**
-     * 
-     */
-    public List<SearchProductItemViewBean> buildListViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
-        final List<SearchProductItemViewBean> searchProductItems = new ArrayList<SearchProductItemViewBean>();
-        List<ProductMarketingSolr> productMarketings = productMarketingResponseBean.getProductMarketingSolrList();
-        for (Iterator<ProductMarketingSolr> iterator = productMarketings.iterator(); iterator.hasNext();) {
-            ProductMarketingSolr productMarketingSolr = (ProductMarketingSolr) iterator.next();
-            SearchProductItemViewBean searchItemViewBean = buildViewBeanSearchProductItem(requestData, productMarketingSolr);
-            if(searchItemViewBean != null){
-            	searchProductItems.add(searchItemViewBean);
-            }
-        }
-        return searchProductItems;
-    }
-
-    /**
-     * 
-     */
-    public SearchProductItemViewBean buildViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final String localeCode = localization.getCode();
-
-        final String productCode = productMarketingSolr.getCode();
-        final ProductMarketing productMarketing = productService.getProductMarketingByCode(productCode);
-        final ProductSku productSku = productService.getProductSkuByCode(productMarketing.getDefaultProductSku().getCode());
-        final String productSkuName = productSku.getI18nName(localeCode);
-        
-        final SearchProductItemViewBean searchItemViewBean = new SearchProductItemViewBean();
-        
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
-        String categoryName = "";
-        if(catalogCategory != null){
-            categoryName = catalogCategory.getI18nName(localeCode);
-            searchItemViewBean.setCategoryCode(catalogCategory.getCode());
-            searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
-        }
-        final String productName = productMarketing.getCode();
-
-        searchItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
-        searchItemViewBean.setDescription(productMarketing.getDescription());
-        searchItemViewBean.setCode(productCode);
-        searchItemViewBean.setCategoryName(categoryName);
-
-        Map<String, String> getParams = new HashMap<String, String>();
-        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
-
-        searchItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
-        
-        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            final String backgroundImage = engineSettingService.getProductMarketingImageWebPath(defaultBackgroundImage);
-            searchItemViewBean.setBackgroundImage(backgroundImage);
-        } else {
-        	searchItemViewBean.setBackgroundImage("");
-        }
-        
-        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
-        if (defaultPackshotImage != null) {
-            final String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
-            searchItemViewBean.setCarouselImage(carouselImage);
-        } else {
-        	searchItemViewBean.setCarouselImage("");
-        }
-        
-        final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
-        if (defaultIconImage != null) {
-            final String iconImage = engineSettingService.getProductMarketingImageWebPath(defaultIconImage);
-            searchItemViewBean.setIconImage(iconImage);
-        } else {
-        	searchItemViewBean.setIconImage("");
-        }
-        
-        Set<ProductSku> skus = productMarketing.getProductSkus();
-        if (skus != null) {
-            for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
-                final ProductSku productSkuTmp = (ProductSku) iterator.next();
-                final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuTmp.getCode());
-                searchItemViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
-            }
-        }
-        
-        searchItemViewBean.setCustomerProductRates(productService.calculateProductMarketingCustomerRatesByProductId(productMarketing.getId()));
-
-        return searchItemViewBean;
-    }
+//    /**
+//     * 
+//     */
+//    public List<SearchProductItemViewBean> buildListViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
+//        final List<SearchProductItemViewBean> searchProductItems = new ArrayList<SearchProductItemViewBean>();
+//        List<ProductMarketingSolr> productMarketings = productMarketingResponseBean.getProductMarketingSolrList();
+//        for (Iterator<ProductMarketingSolr> iterator = productMarketings.iterator(); iterator.hasNext();) {
+//            ProductMarketingSolr productMarketingSolr = (ProductMarketingSolr) iterator.next();
+//            SearchProductItemViewBean searchItemViewBean = buildViewBeanSearchProductItem(requestData, productMarketingSolr);
+//            if(searchItemViewBean != null){
+//            	searchProductItems.add(searchItemViewBean);
+//            }
+//        }
+//        return searchProductItems;
+//    }
+//
+//    /**
+//     * 
+//     */
+//    public SearchProductItemViewBean buildViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
+//        final Localization localization = requestData.getMarketAreaLocalization();
+//        final String localeCode = localization.getCode();
+//
+//        final String productCode = productMarketingSolr.getCode();
+//        final ProductMarketing productMarketing = productService.getProductMarketingByCode(productCode);
+//        final ProductSku productSku = productService.getProductSkuByCode(productMarketing.getDefaultProductSku().getCode());
+//        final String productSkuName = productSku.getI18nName(localeCode);
+//        
+//        final SearchProductItemViewBean searchItemViewBean = new SearchProductItemViewBean();
+//        
+//        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
+//        String categoryName = "";
+//        if(catalogCategory != null){
+//            categoryName = catalogCategory.getI18nName(localeCode);
+//            searchItemViewBean.setCategoryCode(catalogCategory.getCode());
+//            searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+//        }
+//        final String productName = productMarketing.getCode();
+//
+//        searchItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
+//        searchItemViewBean.setDescription(productMarketing.getDescription());
+//        searchItemViewBean.setCode(productCode);
+//        searchItemViewBean.setCategoryName(categoryName);
+//
+//        Map<String, String> getParams = new HashMap<String, String>();
+//        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+//
+//        searchItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+//        
+//        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+//        if (defaultBackgroundImage != null) {
+//            final String backgroundImage = engineSettingService.getProductMarketingImageWebPath(defaultBackgroundImage);
+//            searchItemViewBean.setBackgroundImage(backgroundImage);
+//        } else {
+//        	searchItemViewBean.setBackgroundImage("");
+//        }
+//        
+//        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
+//        if (defaultPackshotImage != null) {
+//            final String carouselImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
+//            searchItemViewBean.setCarouselImage(carouselImage);
+//        } else {
+//        	searchItemViewBean.setCarouselImage("");
+//        }
+//        
+//        final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
+//        if (defaultIconImage != null) {
+//            final String iconImage = engineSettingService.getProductMarketingImageWebPath(defaultIconImage);
+//            searchItemViewBean.setIconImage(iconImage);
+//        } else {
+//        	searchItemViewBean.setIconImage("");
+//        }
+//        
+//        Set<ProductSku> skus = productMarketing.getProductSkus();
+//        if (skus != null) {
+//            for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
+//                final ProductSku productSkuTmp = (ProductSku) iterator.next();
+//                final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuTmp.getCode());
+//                searchItemViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
+//            }
+//        }
+//        
+//        searchItemViewBean.setCustomerProductRates(productService.calculateProductMarketingCustomerRatesByProductId(productMarketing.getId()));
+//
+//        return searchItemViewBean;
+//    }
 
     /**
      * 
@@ -364,22 +360,6 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         return searchFacetViewBean;
     }
     
-    /**
-     * 
-     */
-    public List<SearchStoreItemViewBean> buildListViewBeanSearchStoreItem(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
-        final List<SearchStoreItemViewBean> searchStoreItems = new ArrayList<SearchStoreItemViewBean>();
-        List<StoreSolr> stores = storeResponseBean.getStoreSolrList();
-        for (Iterator<StoreSolr> iterator = stores.iterator(); iterator.hasNext();) {
-            StoreSolr storeSolr = (StoreSolr) iterator.next();
-            SearchStoreItemViewBean searchItemViewBean = buildViewBeanSearchStoreItem(requestData, storeSolr);
-            if(searchItemViewBean != null){
-                searchStoreItems.add(searchItemViewBean);
-            }
-        }
-        return searchStoreItems;
-    }
-
     /**
      * 
      */

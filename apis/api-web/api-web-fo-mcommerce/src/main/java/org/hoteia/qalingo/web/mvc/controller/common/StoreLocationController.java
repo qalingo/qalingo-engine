@@ -17,8 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
@@ -44,6 +46,13 @@ public class StoreLocationController extends AbstractMCommerceController {
 
 	@Autowired
     protected RetailerService retailerService;
+	
+    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
+
+	public StoreLocationController() {
+	    storeFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+    }
 	
 	@RequestMapping(FoUrls.STORE_LOCATION_URL)
 	public ModelAndView storeLocation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -88,6 +97,7 @@ public class StoreLocationController extends AbstractMCommerceController {
         menu = new MenuViewBean();
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
         menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menu.setActive(true);
         menuViewBeans.add(menu);
         
         breadcrumbViewBean.setMenus(menuViewBeans);

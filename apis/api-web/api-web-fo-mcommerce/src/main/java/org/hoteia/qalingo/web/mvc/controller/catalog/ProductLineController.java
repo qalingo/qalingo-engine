@@ -149,7 +149,7 @@ public class ProductLineController extends AbstractMCommerceController {
     		model.addAttribute("mode",mode);
     		model.addAttribute("totalPage", productList.getPageCount());
     		
-    		loadRecentProducts(request, requestData, model, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
+    		loadRecentProducts(requestData, model);
             
             // SEO
             model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, catalogCategoryViewBean.getI18nName() );
