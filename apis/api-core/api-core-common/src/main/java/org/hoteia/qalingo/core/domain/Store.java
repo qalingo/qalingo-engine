@@ -129,7 +129,7 @@ public class Store extends AbstractEntity {
     private String latitude;
 
     @Transient
-    private Float distance;
+    private Double distance;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -364,11 +364,11 @@ public class Store extends AbstractEntity {
         this.latitude = latitude;
     }
 
-    public Float getDistance() {
+    public Double getDistance() {
         return distance;
     }
     
-    public void setDistance(Float distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
     
