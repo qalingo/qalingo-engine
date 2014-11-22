@@ -98,9 +98,8 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
-
-        final Locale locale = localization.getLocale();
         final String localizationCode = localization.getCode();
+        final Locale locale = localization.getLocale();
 
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 

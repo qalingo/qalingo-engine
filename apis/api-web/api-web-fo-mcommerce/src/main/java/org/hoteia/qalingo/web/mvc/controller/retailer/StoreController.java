@@ -98,8 +98,9 @@ public class StoreController extends AbstractMCommerceController {
 
     protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, Store store) {
         final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
-        Object[] params = { store.getI18nName(localization) };
+        Object[] params = { store.getI18nName(localizationCode) };
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
