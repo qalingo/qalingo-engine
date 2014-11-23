@@ -921,7 +921,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         String i18nStoreName = store.getI18nName(localizationCode);
         if(StringUtils.isNotEmpty(i18nStoreName)){
-            storeViewBean.setCity(i18nStoreName);
+            storeViewBean.setI18nName(i18nStoreName);
         }
         
         storeViewBean.setAddress1(store.getAddress1());

@@ -249,7 +249,7 @@ public class StoreSearchController extends AbstractMCommerceController {
         List<StoreSolr> searchtItems = storeResponseBean.getStoreSolrList();
         for (Iterator<StoreSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {
             StoreSolr storeSolr = (StoreSolr) iterator.next();
-            Store store = retailerService.getStoreById(storeSolr.getId(), new FetchPlan(storeFetchPlans));
+            Store store = retailerService.getStoreByCode(storeSolr.getCode(), new FetchPlan(storeFetchPlans));
             StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestData, store);
             storeViewBeans.add(storeViewBean);
         }

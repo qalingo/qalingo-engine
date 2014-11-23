@@ -60,7 +60,7 @@ public class GeolocService {
     @Autowired
     protected GeolocDao geolocDao;
     
-    // GEOLOC CITY
+    // COMMON
     
     public GeolocCity geolocByCityAndCountry(final String city, final String country){
         GeolocCity geolocCity = null;
@@ -173,6 +173,8 @@ public class GeolocService {
         }
         return encode.toString();
     }
+    
+    // GEOLOC CITY
     
     public GeolocCity getGeolocCityByCityAndCountry(final String city, final String country, Object... params) {
         return geolocDao.getGeolocCityByCityAndCountry(city, country, params);

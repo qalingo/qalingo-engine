@@ -13,9 +13,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -87,6 +90,10 @@ public class RetailerAddress extends AbstractAddress {
 	@Column(name="LATITUDE")
 	private String latitude;
 	
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
+    @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
+    private Retailer retailer;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -242,6 +249,14 @@ public class RetailerAddress extends AbstractAddress {
 		this.latitude = latitude;
 	}
 	
+    public Retailer getRetailer() {
+        return retailer;
+    }
+    
+    public void setRetailer(Retailer retailer) {
+        this.retailer = retailer;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }
