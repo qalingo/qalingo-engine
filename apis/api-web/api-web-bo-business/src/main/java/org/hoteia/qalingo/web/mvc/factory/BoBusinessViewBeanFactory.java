@@ -41,27 +41,27 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
 		MenuViewBean menu = new MenuViewBean();
-		menu.setActive(currentUrl.contains(BoUrls.HOME.getUrlWithoutWildcard()));
+		menu.setActive(currentUrl.contains(BoUrls.HOME.getUrlPatternKey()));
 		menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
 
         List<String> catalogManagementUrls = new ArrayList<String>();
-        catalogManagementUrls.add(BoUrls.MASTER_CATALOG.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.VIRTUAL_CATALOG.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_DETAILS.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_ADD.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_EDIT.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_DETAILS.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_ADD.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_EDIT.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_DETAILS.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_ADD.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_EDIT.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.PRODUCT_SKU_DETAILS.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.PRODUCT_SKU_ADD.getUrlWithoutWildcard());
-        catalogManagementUrls.add(BoUrls.PRODUCT_SKU_EDIT.getUrlWithoutWildcard());
+        catalogManagementUrls.add(BoUrls.MASTER_CATALOG.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.VIRTUAL_CATALOG.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_DETAILS.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_ADD.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_EDIT.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_DETAILS.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_ADD.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_EDIT.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_DETAILS.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_ADD.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_EDIT.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.PRODUCT_SKU_DETAILS.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.PRODUCT_SKU_ADD.getUrlPatternKey());
+        catalogManagementUrls.add(BoUrls.PRODUCT_SKU_EDIT.getUrlPatternKey());
 	        
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, catalogManagementUrls));
@@ -71,21 +71,21 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
 		MenuViewBean subMenu = new MenuViewBean();
-		subMenu.setActive(currentUrl.contains(BoUrls.MASTER_CATALOG.getUrlWithoutWildcard()));
+		subMenu.setActive(currentUrl.contains(BoUrls.MASTER_CATALOG.getUrlPatternKey()));
 		subMenu.setName("Manage Master Catalog");
 		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData));
 		menu.getSubMenus().add(subMenu);
 		
 		subMenu = new MenuViewBean();
-		subMenu.setActive(currentUrl.contains(BoUrls.VIRTUAL_CATALOG.getUrlWithoutWildcard()));
+		subMenu.setActive(currentUrl.contains(BoUrls.VIRTUAL_CATALOG.getUrlPatternKey()));
 		subMenu.setName("Manage Virtual Catalog");
 		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
 		menu.getSubMenus().add(subMenu);
 		
 		List<String> wareHouseUrls = new ArrayList<String>();
-		wareHouseUrls.add(BoUrls.WAREHOUSE_LIST.getUrlWithoutWildcard());
-        wareHouseUrls.add(BoUrls.WAREHOUSE_DETAILS.getUrlWithoutWildcard());
-        wareHouseUrls.add(BoUrls.WAREHOUSE_EDIT.getUrlWithoutWildcard());
+		wareHouseUrls.add(BoUrls.WAREHOUSE_LIST.getUrlPatternKey());
+        wareHouseUrls.add(BoUrls.WAREHOUSE_DETAILS.getUrlPatternKey());
+        wareHouseUrls.add(BoUrls.WAREHOUSE_EDIT.getUrlPatternKey());
 		
         menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, wareHouseUrls));
@@ -95,9 +95,9 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
         menuViewBeans.add(menu);
         
         List<String> priceUrls = new ArrayList<String>();
-        priceUrls.add(BoUrls.TAX_LIST.getUrlWithoutWildcard());
-        priceUrls.add(BoUrls.TAX_DETAILS.getUrlWithoutWildcard());
-        priceUrls.add(BoUrls.TAX_EDIT.getUrlWithoutWildcard());
+        priceUrls.add(BoUrls.TAX_LIST.getUrlPatternKey());
+        priceUrls.add(BoUrls.TAX_DETAILS.getUrlPatternKey());
+        priceUrls.add(BoUrls.TAX_EDIT.getUrlPatternKey());
         
         menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, priceUrls));
@@ -107,7 +107,7 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
         menuViewBeans.add(menu);
         
         List<String> ruleUrls = new ArrayList<String>();
-        ruleUrls.add(BoUrls.RULE_LIST.getUrlWithoutWildcard());
+        ruleUrls.add(BoUrls.RULE_LIST.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, ruleUrls));
@@ -117,9 +117,9 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 
         List<String> deliveryMethodUrls = new ArrayList<String>();
-        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_LIST.getUrlWithoutWildcard());
-        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_DETAILS.getUrlWithoutWildcard());
-        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_EDIT.getUrlWithoutWildcard());
+        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_LIST.getUrlPatternKey());
+        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_DETAILS.getUrlPatternKey());
+        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_EDIT.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, deliveryMethodUrls));
@@ -129,8 +129,8 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> orderUrls = new ArrayList<String>();
-        orderUrls.add(BoUrls.ORDER_LIST.getUrlWithoutWildcard());
-        orderUrls.add(BoUrls.ORDER_DETAILS.getUrlWithoutWildcard());
+        orderUrls.add(BoUrls.ORDER_LIST.getUrlPatternKey());
+        orderUrls.add(BoUrls.ORDER_DETAILS.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, orderUrls));
@@ -140,9 +140,9 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> customerUrls = new ArrayList<String>();
-        customerUrls.add(BoUrls.CUSTOMER_LIST.getUrlWithoutWildcard());
-        customerUrls.add(BoUrls.CUSTOMER_DETAILS.getUrlWithoutWildcard());
-        customerUrls.add(BoUrls.CUSTOMER_EDIT.getUrlWithoutWildcard());
+        customerUrls.add(BoUrls.CUSTOMER_LIST.getUrlPatternKey());
+        customerUrls.add(BoUrls.CUSTOMER_DETAILS.getUrlPatternKey());
+        customerUrls.add(BoUrls.CUSTOMER_EDIT.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, customerUrls));
@@ -152,12 +152,12 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> retailerUrls = new ArrayList<String>();
-        retailerUrls.add(BoUrls.RETAILER_LIST.getUrlWithoutWildcard());
-        retailerUrls.add(BoUrls.RETAILER_DETAILS.getUrlWithoutWildcard());
-        retailerUrls.add(BoUrls.RETAILER_EDIT.getUrlWithoutWildcard());
-        retailerUrls.add(BoUrls.STORE_LIST.getUrlWithoutWildcard());
-        retailerUrls.add(BoUrls.STORE_DETAILS.getUrlWithoutWildcard());
-        retailerUrls.add(BoUrls.STORE_EDIT.getUrlWithoutWildcard());
+        retailerUrls.add(BoUrls.RETAILER_LIST.getUrlPatternKey());
+        retailerUrls.add(BoUrls.RETAILER_DETAILS.getUrlPatternKey());
+        retailerUrls.add(BoUrls.RETAILER_EDIT.getUrlPatternKey());
+        retailerUrls.add(BoUrls.STORE_LIST.getUrlPatternKey());
+        retailerUrls.add(BoUrls.STORE_DETAILS.getUrlPatternKey());
+        retailerUrls.add(BoUrls.STORE_EDIT.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, retailerUrls));

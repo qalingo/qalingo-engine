@@ -797,11 +797,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 retailerViewBean.getDefaultAddress().setMobile(defaultAddress.getMobile());
                 retailerViewBean.getDefaultAddress().setFax(defaultAddress.getFax());
                 retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
-                String websiteUrl = defaultAddress.getWebsite();
-                if (StringUtils.isNotEmpty(websiteUrl) && !websiteUrl.contains("http")) {
-                    websiteUrl = "http://" + websiteUrl;
-                }
-                retailerViewBean.getDefaultAddress().setWebsite(websiteUrl);
+                retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
+                retailerViewBean.getDefaultAddress().setWebsite(defaultAddress.getWebsite());
             }
         }
 

@@ -129,8 +129,11 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
     }
     
     public List<MenuViewBean> buildListViewBeanMorePageMenu(final RequestData requestData) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
         final User currentUser = requestData.getUser();
         final Locale locale = requestData.getLocale();
+
+        final String currentUrl = requestUtil.getLastRequestUrl(request);
         
         final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 
@@ -140,12 +143,14 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         menu.setCssIcon("fa fa-question");
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
+        menu.setActive(currentUrl.contains(BoUrls.FAQ.getUrlPatternKey()));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
         menu.setCssIcon("fa fa-user");
         menu.setName(getSpecificMessage(ScopeWebMessage.COMMON, "header_link_my_account", locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
+        menu.setActive(currentUrl.contains(BoUrls.PERSONAL_DETAILS.getUrlPatternKey()));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
@@ -153,9 +158,11 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         if(currentUser != null){
             menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_logout", locale));
             menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestData));
+            menu.setActive(currentUrl.contains(BoUrls.LOGOUT.getUrlPatternKey()));
         } else {
             menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_login", locale));
             menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
+            menu.setActive(currentUrl.contains(BoUrls.LOGIN.getUrlPatternKey()));
         }
         menuViewBeans.add(menu);
         

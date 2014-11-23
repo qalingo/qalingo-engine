@@ -437,7 +437,13 @@ public enum FoUrls {
     
     public String getUrlPatternKey() {
         if (StringUtils.isNotEmpty(url)) {
-            return url.replace("/**/", "").replace(".html", "");
+            String patternKey = url;
+            patternKey = patternKey.replace("/**/", "");
+            patternKey = patternKey.replace(".html", "");
+            if(patternKey.contains("-${")){
+                patternKey = patternKey.replace(patternKey.substring(patternKey.indexOf("-${"), patternKey.indexOf("}") + 1), "");
+            }
+            return patternKey;
         }
         return url;
     }

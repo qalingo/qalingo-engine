@@ -101,11 +101,14 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final String localizationCode = localization.getCode();
         final Locale locale = localization.getLocale();
 
+        final String currentUrl = requestUtil.getLastRequestUrl(request);
+
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 
         MenuViewBean menu = new MenuViewBean();
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menu.setActive(currentUrl.contains(FoUrls.HOME.getUrlPatternKey()));
         menuViewBeans.add(menu);
 
         CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogbyMarketAreaId(marketArea.getId());
@@ -143,15 +146,16 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         menu = new MenuViewBean();
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our_company", locale));
         menu.setUrl(urlService.generateUrl(FoUrls.OUR_COMPANY, requestData));
+        menu.setActive(currentUrl.contains(FoUrls.OUR_COMPANY.getUrlPatternKey()));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
         menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menu.setActive(currentUrl.contains(FoUrls.STORE_LOCATION.getUrlPatternKey()));
         menuViewBeans.add(menu);
 
         // Set active menu
-        String currentUrl = requestUtil.getLastRequestUrl(request);
         for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
             MenuViewBean menuCheck = (MenuViewBean) iteratorMenu.next();
             menuCheck.setActive(false);

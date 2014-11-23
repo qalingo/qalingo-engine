@@ -40,7 +40,7 @@ public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
         List<String> homeUrls = new ArrayList<String>();
-        homeUrls.add(BoUrls.HOME.getUrlWithoutWildcard());
+        homeUrls.add(BoUrls.HOME.getUrlPatternKey());
         
 		MenuViewBean menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, homeUrls));
@@ -50,7 +50,7 @@ public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 
         List<String> catalogUrls = new ArrayList<String>();
-        catalogUrls.add(BoUrls.CATALOG.getUrlWithoutWildcard());
+        catalogUrls.add(BoUrls.CATALOG.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, catalogUrls));
@@ -60,7 +60,7 @@ public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> ruletUrls = new ArrayList<String>();
-        ruletUrls.add(BoUrls.RULE_LIST.getUrlWithoutWildcard());
+        ruletUrls.add(BoUrls.RULE_LIST.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, ruletUrls));
@@ -70,7 +70,7 @@ public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 
         List<String> deliveryMethodsUrls = new ArrayList<String>();
-        deliveryMethodsUrls.add(BoUrls.DELIVERY_METHOD_LIST.getUrlWithoutWildcard());
+        deliveryMethodsUrls.add(BoUrls.DELIVERY_METHOD_LIST.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, deliveryMethodsUrls));
@@ -80,7 +80,7 @@ public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> orderUrls = new ArrayList<String>();
-        orderUrls.add(BoUrls.ORDER_LIST.getUrlWithoutWildcard());
+        orderUrls.add(BoUrls.ORDER_LIST.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, orderUrls));
@@ -90,7 +90,7 @@ public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> customerUrls = new ArrayList<String>();
-        customerUrls.add(BoUrls.CUSTOMER_LIST.getUrlWithoutWildcard());
+        customerUrls.add(BoUrls.CUSTOMER_LIST.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, customerUrls));
@@ -100,7 +100,7 @@ public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> reportingUrls = new ArrayList<String>();
-        reportingUrls.add(BoUrls.REPORTING.getUrlWithoutWildcard());
+        reportingUrls.add(BoUrls.REPORTING.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, reportingUrls));

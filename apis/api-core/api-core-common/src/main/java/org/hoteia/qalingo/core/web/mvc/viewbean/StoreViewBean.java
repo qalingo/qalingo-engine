@@ -124,6 +124,14 @@ public class StoreViewBean extends AbstractAddressViewBean {
     public void setWebsite(String website) {
         this.website = website;
     }
+    
+    public String getWebsiteHttpUrl() {
+        if (StringUtils.isNotEmpty(website)
+                && !website.contains("http")) {
+            return "http://" + website;
+        }
+        return website;
+    }
 
     public String getLongitude() {
 		return longitude;

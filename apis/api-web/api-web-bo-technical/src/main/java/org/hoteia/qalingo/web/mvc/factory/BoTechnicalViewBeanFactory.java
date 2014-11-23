@@ -40,7 +40,7 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
         List<String> homeUrls = new ArrayList<String>();
-        homeUrls.add(BoUrls.HOME.getUrlWithoutWildcard());
+        homeUrls.add(BoUrls.HOME.getUrlPatternKey());
         
 		MenuViewBean menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, homeUrls));
@@ -50,10 +50,10 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 
         List<String> engineSettingUrls = new ArrayList<String>();
-        engineSettingUrls.add(BoUrls.ENGINE_SETTING_LIST.getUrlWithoutWildcard());
-        engineSettingUrls.add(BoUrls.ENGINE_SETTING_DETAILS.getUrlWithoutWildcard());
-        engineSettingUrls.add(BoUrls.ENGINE_SETTING_EDIT.getUrlWithoutWildcard());
-        engineSettingUrls.add(BoUrls.ENGINE_SETTING_VALUE_EDIT.getUrlWithoutWildcard());
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_LIST.getUrlPatternKey());
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_DETAILS.getUrlPatternKey());
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_EDIT.getUrlPatternKey());
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_VALUE_EDIT.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, engineSettingUrls));
@@ -63,7 +63,7 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> cacheUrls = new ArrayList<String>();
-        cacheUrls.add(BoUrls.CACHE.getUrlWithoutWildcard());
+        cacheUrls.add(BoUrls.CACHE.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, cacheUrls));
@@ -73,7 +73,7 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 
         List<String> batchUrls = new ArrayList<String>();
-        batchUrls.add(BoUrls.BATCH.getUrlWithoutWildcard());
+        batchUrls.add(BoUrls.BATCH.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, batchUrls));
@@ -83,9 +83,9 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> paymentGatewayUrls = new ArrayList<String>();
-        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_LIST.getUrlWithoutWildcard());
-        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_DETAILS.getUrlWithoutWildcard());
-        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_EDIT.getUrlWithoutWildcard());
+        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_LIST.getUrlPatternKey());
+        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_DETAILS.getUrlPatternKey());
+        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_EDIT.getUrlPatternKey());
 
         menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, paymentGatewayUrls));
@@ -95,9 +95,9 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
         menuViewBeans.add(menu);
 
         List<String> userUrls = new ArrayList<String>();
-        userUrls.add(BoUrls.USER_LIST.getUrlWithoutWildcard());
-        userUrls.add(BoUrls.USER_DETAILS.getUrlWithoutWildcard());
-        userUrls.add(BoUrls.USER_EDIT.getUrlWithoutWildcard());
+        userUrls.add(BoUrls.USER_LIST.getUrlPatternKey());
+        userUrls.add(BoUrls.USER_DETAILS.getUrlPatternKey());
+        userUrls.add(BoUrls.USER_EDIT.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, userUrls));
@@ -107,7 +107,7 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> referenceDataUrls = new ArrayList<String>();
-        referenceDataUrls.add(BoUrls.REFERENCE_DATAS.getUrlWithoutWildcard());
+        referenceDataUrls.add(BoUrls.REFERENCE_DATAS.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, referenceDataUrls));
@@ -117,7 +117,7 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
 		menuViewBeans.add(menu);
 		
         List<String> monitoringUrls = new ArrayList<String>();
-        monitoringUrls.add(BoUrls.MONITORING.getUrlWithoutWildcard());
+        monitoringUrls.add(BoUrls.MONITORING.getUrlPatternKey());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, monitoringUrls));
