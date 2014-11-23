@@ -456,16 +456,24 @@ public class ProductMarketing extends AbstractEntity {
 		return null;
 	}
 	
-	public String getI18nName(String localizationCode) {
-		String i18nName = (String) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME, null, localizationCode);
-		if(StringUtils.isEmpty(i18nName)){
-			i18nName = getName();
-		}
-		return i18nName;
-	}
-	
-   public Boolean isFeatured(){
-       Boolean isFeatured = (Boolean) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_FEATURED, null, null);
+    public String getI18nName(String localizationCode) {
+        String i18nName = (String) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        if (StringUtils.isEmpty(i18nName)) {
+            i18nName = getName();
+        }
+        return i18nName;
+    }
+
+    public String getI18nDescription(String localizationCode) {
+        String i18Description = (String) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
+        if (StringUtils.isNotEmpty(i18Description)) {
+            return i18Description;
+        }
+        return description;
+    }
+
+    public Boolean isFeatured() {
+        Boolean isFeatured = (Boolean) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_FEATURED, null, null);
         if (isFeatured == null) {
             return Boolean.FALSE;
         } else {
@@ -473,94 +481,6 @@ public class ProductMarketing extends AbstractEntity {
         }
     }
   
-	// ASSET
-   
-   public Asset getDefaultBackgroundImage() {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType()) 
-                       && productImage.isDefault()) {
-                   defaultImage = productImage;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-
-   public Asset getDefaultSlideshowImage() {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType()) 
-                       && productImage.isDefault()) {
-                   defaultImage = productImage;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-
-   public Asset getDefaultPackshotImage(String size) {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productAsset = (Asset) iterator.next();
-               if (AssetType.PACKSHOT.getPropertyKey().equals(productAsset.getType()) 
-                       && size.equals(productAsset.getSize()) 
-                       && productAsset.isDefault()) {
-                   defaultImage = productAsset;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.PACKSHOT.getPropertyKey().equals(productImage.getType()) 
-                       && size.equals(productImage.getSize())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-
-   public Asset getDefaultThumbnailImage() {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType()) 
-                       && productImage.isDefault()) {
-                   defaultImage = productImage;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-
     @Override
     public int hashCode() {
         final int prime = 31;

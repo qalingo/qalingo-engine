@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import org.apache.commons.lang.StringUtils;
+
 public class RetailerAddressViewBean extends AbstractAddressViewBean {
 
 	/**
@@ -58,8 +60,17 @@ public class RetailerAddressViewBean extends AbstractAddressViewBean {
 	    return website;
     }
 	
-	public void setWebsite(String website) {
-	    this.website = website;
+    public void setWebsite(String website) {
+        this.website = website;
     }
+
+    public String getWebsiteHttpUrl() {
+        if (StringUtils.isNotEmpty(website)
+                && !website.contains("http")) {
+            return "http://" + website;
+        }
+        return website;
+    }
+	
     
 }

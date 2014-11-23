@@ -41,7 +41,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.comparator.CatalogCategoryMasterComparator;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name = "TECO_CATALOG_MASTER_CATEGORY")
@@ -495,93 +494,13 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
         }
         return i18nName;
     }
-
-    // ASSET
     
-    public Asset getDefaultBackgroundImage() {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType()) 
-                        && productImage.isDefault()) {
-                    defaultImage = productImage;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType())) {
-                    defaultImage = productImage;
-                }
-            }
+    public String getI18nDescription(String localizationCode) {
+        String i18Description = (String) getValue(ProductBrandAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Description)){
+            return i18Description;
         }
-        return defaultImage;
-    }
-
-    public Asset getDefaultSlideshowImage() {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType()) 
-                        && productImage.isDefault()) {
-                    defaultImage = productImage;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType())) {
-                    defaultImage = productImage;
-                }
-            }
-        }
-        return defaultImage;
-    }
-
-    public Asset getDefaultPackshotImage(String size) {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productAsset = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.getPropertyKey().equals(productAsset.getType()) 
-                        && size.equals(productAsset.getSize()) 
-                        && productAsset.isDefault()) {
-                    defaultImage = productAsset;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.getPropertyKey().equals(productImage.getType()) 
-                        && size.equals(productImage.getSize())) {
-                    defaultImage = productImage;
-                }
-            }
-        }
-        return defaultImage;
-    }
-
-    public Asset getDefaultThumbnailImage() {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType()) 
-                        && productImage.isDefault()) {
-                    defaultImage = productImage;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType())) {
-                    defaultImage = productImage;
-                }
-            }
-        }
-        return defaultImage;
+        return description;
     }
 
     @Override

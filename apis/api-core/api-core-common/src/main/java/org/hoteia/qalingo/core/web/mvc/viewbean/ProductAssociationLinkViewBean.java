@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ProductAssociationLinkViewBean extends AbstractViewBean {
 
 	/**
@@ -22,9 +24,12 @@ public class ProductAssociationLinkViewBean extends AbstractViewBean {
 	
 	protected int orderItem;
 	protected String name;
-	protected String type;
 	protected String description;
-	
+	protected String type;
+    
+    protected String i18nName;
+    protected String i18nDescription;
+    
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 	
 	protected String productDetailsUrl;
@@ -45,14 +50,6 @@ public class ProductAssociationLinkViewBean extends AbstractViewBean {
 		this.name = name;
 	}
 	
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
 	public String getDescription() {
 		return description;
 	}
@@ -61,6 +58,36 @@ public class ProductAssociationLinkViewBean extends AbstractViewBean {
 		this.description = description;
 	}
 	
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
+    }
+    
     public List<AssetViewBean> getAssets() {
         return assets;
     }

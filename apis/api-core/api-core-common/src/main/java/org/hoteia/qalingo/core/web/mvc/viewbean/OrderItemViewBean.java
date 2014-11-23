@@ -20,7 +20,10 @@ public class OrderItemViewBean extends AbstractViewBean {
     private static final long serialVersionUID = -1319651665404107265L;
 
     protected String skuCode;
-    protected String name;
+
+    protected String i18nName;
+    protected String i18nDescription;
+    
     protected int quantity;
     protected String price;
     protected String amount;
@@ -36,14 +39,22 @@ public class OrderItemViewBean extends AbstractViewBean {
         this.skuCode = skuCode;
     }
 
-    public String getName() {
-        return name;
+    public String getI18nName() {
+        return i18nName;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        return i18nDescription;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
     }
-
+    
     public int getQuantity() {
         return quantity;
     }

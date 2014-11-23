@@ -31,7 +31,8 @@ public abstract class AbstractAttribute extends AbstractEntity {
 
 	public final static String CUSTOMER_ATTRIBUTE_SCREENAME = "CUSTOMER_SCREENNAME";
 
-	public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME = "CATALOG_CATEGORY_I18N_NAME";
+	public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME        = "CATALOG_CATEGORY_I18N_NAME";
+    public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_DESCRIPTION = "CATALOG_CATEGORY_I18N_DESCRIPTION";
 	
     public final static String PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME        = "PRODUCT_MARKETING_I18N_NAME";
     public final static String PRODUCT_MARKETING_ATTRIBUTE_I18N_DESCRIPTION = "PRODUCT_MARKETING_I18N_DESCRIPTION";
@@ -44,6 +45,9 @@ public abstract class AbstractAttribute extends AbstractEntity {
     public final static String PRODUCT_SKU_ATTRIBUTE_LENGTH             = "PRODUCT_SKU_LENGTH";
     public final static String PRODUCT_SKU_ATTRIBUTE_WEIGHT             = "PRODUCT_SKU_WEIGHT";
     public final static String PRODUCT_SKU_ATTRIBUTE_IS_SALABLE         = "PRODUCT_SKU_IS_SALABLE";
+
+    public final static String PRODUCT_BRAND_ATTRIBUTE_I18N_NAME        = "PRODUCT_BRAND_I18N_NAME";
+    public final static String PRODUCT_BRAND_ATTRIBUTE_I18N_DESCRIPTION = "PRODUCT_BRAND_I18N_DESCRIPTION";
 
 	public final static String RETAILER_ATTRIBUTE_I18N_NAME        = "RETAILER_I18N_NAME";
     public final static String RETAILER_ATTRIBUTE_I18N_DESCRIPTION = "RETAILER_I18N_DESCRIPTION";

@@ -69,15 +69,7 @@ public abstract class AbstractCatalogCategory<A, B, C, D> extends AbstractEntity
     public abstract Date getDateUpdate();
 
     public abstract String getI18nName(String localizationCode);
-    
-    // ASSET
-    
-    public abstract Asset getDefaultBackgroundImage();
 
-    public abstract Asset getDefaultSlideshowImage();
+    public abstract String getI18nDescription(String localizationCode);
 
-    public abstract Asset getDefaultPackshotImage(String size);
-
-    public abstract Asset getDefaultThumbnailImage();
-    
 }

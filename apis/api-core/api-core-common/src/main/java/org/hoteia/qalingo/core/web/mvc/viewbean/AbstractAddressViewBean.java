@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import org.apache.commons.lang.StringUtils;
+
 public abstract class AbstractAddressViewBean extends AbstractViewBean {
 
 	/**
@@ -21,6 +23,7 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
     protected String addressAdditionalInformation;
     protected String postalCode;
     protected String city;
+    protected String i18nCity;
     protected String stateCode;
     protected String stateLabel;
     protected String areaCode;
@@ -41,8 +44,8 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
         if(postalCode != null){
             address.append(postalCode + " ");
         }
-        if(city != null){
-            address.append(city);
+        if(i18nCity != null){
+            address.append(i18nCity);
         }
         if(country != null){
             address.append(" - " + country);
@@ -93,6 +96,17 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
+    public String getI18nCity() {
+        if(StringUtils.isNotEmpty(i18nCity)){
+            return i18nCity;
+        }
+        return city;
+    }
+    
+    public void setI18nCity(String i18nCity) {
+        this.i18nCity = i18nCity;
+    }
 
 	public String getStateCode() {
     	return stateCode;

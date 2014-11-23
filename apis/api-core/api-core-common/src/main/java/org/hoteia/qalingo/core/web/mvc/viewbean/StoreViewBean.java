@@ -23,8 +23,11 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	protected static final long serialVersionUID = 2538607600492625532L;
 
 	protected String code;
-	protected String name;
-	protected String i18nName;
+    protected String name;
+    protected String description;
+
+    protected String i18nName;
+    protected String i18nDescription;
 
     protected String email;
     protected String phone;
@@ -51,25 +54,44 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getI18nName() {
-		if (StringUtils.isNotEmpty(i18nName)) {
-			return i18nName;
-		}
-		return name;
-	}
-
-	public void setI18nName(String i18nName) {
-		this.i18nName = i18nName;
-	}
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
+    }
 
 	public String getEmail() {
         return email;

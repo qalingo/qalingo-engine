@@ -597,12 +597,20 @@ public class Retailer extends AbstractEntity {
         return null;
     }
 
-    public String getI18nName(String localizationCodeNavigation) {
-        String i18Name = (String) getValue(RetailerAttribute.RETAILER_ATTRIBUTE_I18N_NAME, null, localizationCodeNavigation);
+    public String getI18nName(String localizationCode) {
+        String i18Name = (String) getValue(RetailerAttribute.RETAILER_ATTRIBUTE_I18N_NAME, null, localizationCode);
         if(StringUtils.isNotEmpty(i18Name)){
             return i18Name;
         }
         return name;
+    }
+    
+    public String getI18nDescription(String localizationCode) {
+        String i18Description = (String) getValue(RetailerAttribute.RETAILER_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Description)){
+            return i18Description;
+        }
+        return description;
     }
     
     @Override

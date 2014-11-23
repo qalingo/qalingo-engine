@@ -460,6 +460,14 @@ public class ProductSku extends AbstractEntity {
 		return i18nName;
 	}
 	
+    public String getI18nDescription(String localizationCode) {
+        String i18Description = (String) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Description)){
+            return i18Description;
+        }
+        return description;
+    }
+	
     public Integer getWidth() {
         return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_WIDTH, null, null);
     }

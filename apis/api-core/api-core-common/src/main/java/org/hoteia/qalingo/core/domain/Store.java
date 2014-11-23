@@ -24,6 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -70,6 +71,10 @@ public class Store extends AbstractEntity {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "DESCRIPTION")
+    @Lob
+    private String description;
+    
     @Column(name = "ADDRESS1")
     private String address1;
 
@@ -188,6 +193,14 @@ public class Store extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAddress1() {
@@ -471,16 +484,24 @@ public class Store extends AbstractEntity {
         return null;
     }
 
-    public String getI18nName(String localizationCodeNavigation) {
-        String i18Name = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_NAME, null, localizationCodeNavigation);
+    public String getI18nName(String localizationCode) {
+        String i18Name = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_NAME, null, localizationCode);
         if(StringUtils.isNotEmpty(i18Name)){
             return i18Name;
         }
         return name;
     }
     
-    public String getI18nCity(String localizationCodeNavigation) {
-        String i18City = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY_NAME, null, localizationCodeNavigation);
+    public String getI18nDescription(String localizationCode) {
+        String i18Description = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
+        if (StringUtils.isNotEmpty(i18Description)) {
+            return i18Description;
+        }
+        return description;
+    }
+    
+    public String getI18nCity(String localizationCode) {
+        String i18City = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY_NAME, null, localizationCode);
         if(StringUtils.isNotEmpty(i18City)){
             return i18City;
         }

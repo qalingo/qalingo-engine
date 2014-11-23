@@ -35,7 +35,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND")
@@ -218,188 +217,6 @@ public class ProductBrand extends AbstractEntity {
         this.productMarketings = productMarketings;
     }
 	
-    // Attributes
-    
-    public ProductBrandAttribute getProductBrandAttribute(String attributeCode) {
-        return getProductBrandAttribute(attributeCode, null, null);
-    }
-    
-    public ProductBrandAttribute getProductBrandAttribute(String attributeCode, String localizationCode) {
-        return getProductBrandAttribute(attributeCode, null, localizationCode);
-    }
-    
-    public ProductBrandAttribute getProductBrandAttribute(String attributeCode, Long marketAreaId) {
-        return getProductBrandAttribute(attributeCode, marketAreaId, null);
-    }
-    
-    public ProductBrandAttribute getProductBrandAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-        ProductBrandAttribute productBrandAttributeToReturn = null;
-
-        // 1: GET THE GLOBAL VALUE
-        ProductBrandAttribute productMarketingGlobalAttribute = getProductBrandAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
-
-        // 2: GET THE MARKET AREA VALUE
-        ProductBrandAttribute productMarketingMarketAreaAttribute = getProductBrandAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
-        
-        if(productMarketingMarketAreaAttribute != null){
-            productBrandAttributeToReturn = productMarketingMarketAreaAttribute;
-        } else if (productMarketingGlobalAttribute != null){
-            productBrandAttributeToReturn = productMarketingGlobalAttribute;
-        }
-        
-        return productBrandAttributeToReturn;
-    }
-    
-    private ProductBrandAttribute getProductBrandAttribute(List<ProductBrandAttribute> attributes, String attributeCode, Long marketAreaId, String localizationCode) {
-        ProductBrandAttribute productBrandAttributeToReturn = null;
-        List<ProductBrandAttribute> attributesFilter = new ArrayList<ProductBrandAttribute>();
-        if(attributes != null) {
-            // GET ALL attributes FOR THIS ATTRIBUTE
-            for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = productBrandAttribute.getAttributeDefinition();
-                if(attributeDefinition != null
-                        && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-                    attributesFilter.add(productBrandAttribute);
-                }
-            }
-            // REMOVE ALL attributes NOT ON THIS MARKET AREA
-            if(marketAreaId != null) {
-                for (Iterator<ProductBrandAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = productBrandAttribute.getAttributeDefinition();
-                    if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        if(productBrandAttribute.getMarketAreaId() != null
-                                && BooleanUtils.negate(productBrandAttribute.getMarketAreaId().equals(marketAreaId))){
-                            iterator.remove();
-                        }
-                    }
-                }
-            }
-            // FINALLY RETAIN ONLY attributes FOR THIS LOCALIZATION CODE
-            if(StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<ProductBrandAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
-                    String attributeLocalizationCode = productBrandAttribute.getLocalizationCode();
-                    if(StringUtils.isNotEmpty(attributeLocalizationCode)
-                            && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-                        iterator.remove();
-                    }
-                }
-                if(attributesFilter.size() == 0){
-                    // TODO : warning ?
-
-                    // NOT ANY attributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
-                    for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                        ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
-                        
-                        // TODO : get a default locale code from setting database ?
-                        
-                        if(Constants.DEFAULT_LOCALE_CODE.equals(productBrandAttribute.getLocalizationCode())){
-                            productBrandAttributeToReturn = productBrandAttribute;
-                        }
-                    }
-                }
-            }
-        }
-        
-        if(attributesFilter.size() == 1){
-            productBrandAttributeToReturn = attributesFilter.get(0);
-        } else {
-            // TODO : throw error ?
-        }
-        
-        return productBrandAttributeToReturn;
-    }
-    
-    // ASSET
-	   
-   public Asset getDefaultBackgroundImage() {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType()) 
-                       && productImage.isDefault()) {
-                   defaultImage = productImage;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-
-   public Asset getDefaultSlideshowImage() {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType()) 
-                       && productImage.isDefault()) {
-                   defaultImage = productImage;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-
-   public Asset getDefaultPackshotImage(String size) {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productAsset = (Asset) iterator.next();
-               if (AssetType.PACKSHOT.getPropertyKey().equals(productAsset.getType()) 
-                       && size.equals(productAsset.getSize()) 
-                       && productAsset.isDefault()) {
-                   defaultImage = productAsset;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.PACKSHOT.getPropertyKey().equals(productImage.getType()) 
-                       && size.equals(productImage.getSize())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-
-   public Asset getDefaultThumbnailImage() {
-       Asset defaultImage = null;
-       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-       if (assetsIsGlobal != null) {
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType()) 
-                       && productImage.isDefault()) {
-                   defaultImage = productImage;
-               }
-           }
-           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-               Asset productImage = (Asset) iterator.next();
-               if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType())) {
-                   defaultImage = productImage;
-               }
-           }
-       }
-       return defaultImage;
-   }
-   
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -415,6 +232,105 @@ public class ProductBrand extends AbstractEntity {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
+	
+    // ATTRIBUTES
+
+    public ProductBrandAttribute getAttribute(String attributeCode) {
+        return getAttribute(attributeCode, null, null);
+    }
+
+    public ProductBrandAttribute getAttribute(String attributeCode, String localizationCode) {
+        return getAttribute(attributeCode, null, localizationCode);
+    }
+
+    public ProductBrandAttribute getAttribute(String attributeCode, Long marketAreaId) {
+        return getAttribute(attributeCode, marketAreaId, null);
+    }
+
+    public ProductBrandAttribute getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
+        ProductBrandAttribute attributeToReturn = null;
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
+            List<ProductBrandAttribute> attributesFilter = new ArrayList<ProductBrandAttribute>();
+            for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
+                    attributesFilter.add(attribute);
+                }
+            }
+            if (marketAreaId != null) {
+                for (Iterator<ProductBrandAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
+                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
+                        if (attribute.getMarketAreaId() != null && BooleanUtils.negate(attribute.getMarketAreaId().equals(marketAreaId))) {
+                            iterator.remove();
+                        }
+                    }
+                }
+                if (attributesFilter.size() == 0) {
+                    // TODO : throw error ?
+                }
+            }
+            if (StringUtils.isNotEmpty(localizationCode)) {
+                for (Iterator<ProductBrandAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
+                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
+                        String attributeLocalizationCode = attribute.getLocalizationCode();
+                        if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
+                            iterator.remove();
+                        }
+                    }
+                }
+                if (attributesFilter.size() == 0) {
+                    // TODO : throw error ?
+
+                    for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                        ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+
+                        // TODO : get a default locale code from setting
+                        // database ?
+
+                        if (attribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)) {
+                            attributeToReturn = attribute;
+                        }
+                    }
+                }
+            }
+            if (attributesFilter.size() == 1) {
+                attributeToReturn = attributesFilter.get(0);
+            } else {
+                // TODO : throw error ?
+            }
+        }
+        return attributeToReturn;
+    }
+
+    public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
+        ProductBrandAttribute storeAttribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if (storeAttribute != null) {
+            return storeAttribute.getValue();
+        }
+        return null;
+    }
+
+    public String getI18nName(String localizationCode) {
+        String i18Name = (String) getValue(ProductBrandAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Name)){
+            return i18Name;
+        }
+        return name;
+    }
+    
+    public String getI18nDescription(String localizationCode) {
+        String i18Description = (String) getValue(ProductBrandAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Description)){
+            return i18Description;
+        }
+        return description;
+    }
 
     @Override
     public int hashCode() {

@@ -752,10 +752,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         retailerViewBean.setCode(retailer.getCode());
         retailerViewBean.setName(retailer.getName());
-        retailerViewBean.setI18nName(retailer.getI18nName(localizationCode));
-
         retailerViewBean.setDescription(retailer.getDescription());
 
+        String i18nName = retailer.getI18nName(localizationCode);
+        if(StringUtils.isNotEmpty(i18nName)){
+            retailerViewBean.setI18nName(i18nName);
+        }
+        
+        String i18nDescription = retailer.getI18nDescription(localizationCode);
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            retailerViewBean.setI18nDescription(i18nDescription);
+        }
+        
         retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
         retailerViewBean.setBrand(retailer.isBrand());
         retailerViewBean.setEcommerce(retailer.isEcommerce());
@@ -919,9 +927,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         storeViewBean.setCode(store.getCode());
         storeViewBean.setName(store.getName());
         
-        String i18nStoreName = store.getI18nName(localizationCode);
-        if(StringUtils.isNotEmpty(i18nStoreName)){
-            storeViewBean.setI18nName(i18nStoreName);
+        String i18nName = store.getI18nName(localizationCode);
+        if(StringUtils.isNotEmpty(i18nName)){
+            storeViewBean.setI18nName(i18nName);
+        }
+        
+        String i18nDescription = store.getI18nDescription(localizationCode);
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            storeViewBean.setI18nDescription(i18nDescription);
         }
         
         storeViewBean.setAddress1(store.getAddress1());
@@ -929,7 +942,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         storeViewBean.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
         storeViewBean.setPostalCode(store.getPostalCode());
 
-        // I18n values
         storeViewBean.setCity(store.getCity());
         String i18nCityName = store.getI18nCity(localizationCode);
         if(StringUtils.isNotEmpty(i18nCityName)){
@@ -1260,10 +1272,24 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public ProductBrandViewBean buildViewBeanProductBrand(final RequestData requestData, final ProductBrand productBrand) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
         final ProductBrandViewBean productBrandViewBean = new ProductBrandViewBean();
         productBrandViewBean.setCode(productBrand.getCode());
         productBrandViewBean.setName(productBrand.getName());
         productBrandViewBean.setDescription(productBrand.getDescription());
+        
+        String i18nName = productBrand.getI18nName(localizationCode);
+        if(StringUtils.isNotEmpty(i18nName)){
+            productBrandViewBean.setI18nName(i18nName);
+        }
+        
+        String i18nDescription = productBrand.getI18nDescription(localizationCode);
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            productBrandViewBean.setI18nDescription(i18nDescription);
+        }
+        
         productBrandViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
         return productBrandViewBean;
     }
@@ -1313,8 +1339,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         if(catalogCategory != null){
             catalogCategoryViewBean.setCode(catalogCategory.getCode());
-            catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
+            catalogCategoryViewBean.setName(catalogCategory.getName());
             catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
+            
+            String i18nName = catalogCategory.getI18nName(localizationCode);
+            if(StringUtils.isNotEmpty(i18nName)){
+                catalogCategoryViewBean.setI18nName(i18nName);
+            }
+            
+            String i18nDescription = catalogCategory.getI18nDescription(localizationCode);
+            if(StringUtils.isNotEmpty(i18nDescription)){
+                catalogCategoryViewBean.setI18nDescription(i18nDescription);
+            }
+            
             catalogCategoryViewBean.setRanking("" + catalogCategory.getRanking());
             catalogCategoryViewBean.setRoot(catalogCategory.isRoot());
 
@@ -1473,8 +1510,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         productMarketingViewBean.setCode(productMarketing.getCode());
         productMarketingViewBean.setName(productMarketing.getName());
-        productMarketingViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
         productMarketingViewBean.setDescription(productMarketing.getDescription());
+        
+        String i18nName = productMarketing.getI18nName(localizationCode);
+        if(StringUtils.isNotEmpty(i18nName)){
+            productMarketingViewBean.setI18nName(i18nName);
+        }
+        
+        String i18nDescription = productMarketing.getI18nDescription(localizationCode);
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            productMarketingViewBean.setI18nDescription(i18nDescription);
+        }
 
         productMarketingViewBean.setDefault(productMarketing.isDefault());
 
@@ -1588,8 +1634,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         productSkuViewBean.setCode(productSku.getCode());
         productSkuViewBean.setName(productSku.getName());
-        productSkuViewBean.setI18nName(productSku.getI18nName(localizationCode));
         productSkuViewBean.setDescription(productSku.getDescription());
+        
+        String i18nName = productSku.getI18nName(localizationCode);
+        if(StringUtils.isNotEmpty(i18nName)){
+            productSkuViewBean.setI18nName(i18nName);
+        }
+        
+        String i18nDescription = productSku.getI18nDescription(localizationCode);
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            productSkuViewBean.setI18nDescription(i18nDescription);
+        }
 
         productSkuViewBean.setDefault(productSku.isDefault());
         productSkuViewBean.setSalable(productSku.isSalable(marketArea.getId()));
@@ -1679,8 +1734,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         // TODO : WRONG : CROSS IS SKU not marketing
 
-        productAssociationLinkViewBean.setName(productMarketing.getI18nName(localizationCode));
+        productAssociationLinkViewBean.setName(productMarketing.getName());
         productAssociationLinkViewBean.setDescription(productMarketing.getDescription());
+        
+        String i18nName = productMarketing.getI18nName(localizationCode);
+        if(StringUtils.isNotEmpty(i18nName)){
+            productAssociationLinkViewBean.setI18nName(i18nName);
+        }
+        
+        String i18nDescription = productMarketing.getI18nDescription(localizationCode);
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            productAssociationLinkViewBean.setI18nDescription(i18nDescription);
+        }
 
         // ASSETS
         if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
@@ -1794,7 +1859,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode(), productSkuFetchPlan);
         cartItem.setProductSku(productSku);
         
-        cartItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
+        String i18nName = productSku.getI18nName(localizationCode);
+        if(StringUtils.isNotEmpty(i18nName)){
+            cartItemViewBean.setI18nName(i18nName);
+        }
+        
+        String i18nDescription = productSku.getI18nDescription(localizationCode);
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            cartItemViewBean.setI18nDescription(i18nDescription);
+        }
+        
         cartItemViewBean.setQuantity(cartItem.getQuantity());
 
         final Asset defaultPackshotImage = productSku.getDefaultPackshotImage(ImageSize.SMALL.name());
@@ -1923,9 +1997,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final OrderItemViewBean orderItemViewBean = new OrderItemViewBean();
 
         orderItemViewBean.setSkuCode(orderItem.getProductSkuCode());
+        
         if(StringUtils.isNotEmpty(orderItem.getProductSkuCode())){
-            ProductSku ProductSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
-            orderItemViewBean.setName(ProductSku.getI18nName(localizationCode));
+            ProductSku productSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
+            
+            String i18nName = productSku.getI18nName(localizationCode);
+            if(StringUtils.isNotEmpty(i18nName)){
+                orderItemViewBean.setI18nName(i18nName);
+            }
+            
+            String i18nDescription = productSku.getI18nDescription(localizationCode);
+            if(StringUtils.isNotEmpty(i18nDescription)){
+                orderItemViewBean.setI18nDescription(i18nDescription);
+            }
         }
 
         final BigDecimal price = orderItem.getPrice();

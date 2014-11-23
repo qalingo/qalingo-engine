@@ -12,6 +12,8 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ProductBrandViewBean extends AbstractViewBean {
 
 	/**
@@ -23,6 +25,9 @@ public class ProductBrandViewBean extends AbstractViewBean {
 	protected String name;
 	protected String description;
 
+    protected String i18nName;
+    protected String i18nDescription;
+    
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
 
     protected String detailsUrl;
@@ -52,6 +57,28 @@ public class ProductBrandViewBean extends AbstractViewBean {
 		this.description = description;
 	}
 	
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
+    }
+    
 	public List<ProductMarketingViewBean> getProductMarketings() {
 		return productMarketings;
 	}

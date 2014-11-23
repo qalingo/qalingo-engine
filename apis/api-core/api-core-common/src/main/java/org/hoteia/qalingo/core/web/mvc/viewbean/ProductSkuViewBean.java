@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ProductSkuViewBean extends AbstractViewBean {
 
     /**
@@ -30,6 +32,7 @@ public class ProductSkuViewBean extends AbstractViewBean {
     protected String iconImage;
 
     protected String i18nName;
+    protected String i18nDescription;
     
     protected int positionItem;
     protected boolean isDefault;
@@ -112,11 +115,25 @@ public class ProductSkuViewBean extends AbstractViewBean {
     }
     
     public String getI18nName() {
-        return i18nName;
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
     }
     
     public void setI18nName(String i18nName) {
         this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
     }
 
     public int getPositionItem() {

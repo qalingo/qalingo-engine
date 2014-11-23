@@ -77,7 +77,8 @@ public class AddressGeolocQueueListener implements MessageListener, ExceptionLis
 
                     if("Store".equals(doucmentMessageJms.getObjectType())){
                         final Store store = retailerService.getStoreById(doucmentMessageJms.getObjectId());
-                        if(store != null){
+                        if(store != null
+                                && StringUtils.isEmpty(store.getLatitude())){
                             GeolocAddress geolocAddress = geolocService.getGeolocAddressByFormatedAddress(formatedAddress);
                             if (geolocAddress != null
                                     && StringUtils.isNotEmpty(geolocAddress.getLatitude())
@@ -99,12 +100,14 @@ public class AddressGeolocQueueListener implements MessageListener, ExceptionLis
                         }
                     } else if("Retailer".equals(doucmentMessageJms.getObjectType())){
                         final Retailer retailer = retailerService.getRetailerById(doucmentMessageJms.getObjectId(), new FetchPlan(retailerFetchPlans));
-                        if(retailer != null){
+                        RetailerAddress retailerAddress = retailer.getAddressByValue(address);
+                        if(retailer != null
+                                && retailerAddress != null
+                                && StringUtils.isEmpty(retailerAddress.getLatitude())){
                             GeolocAddress geolocAddress = geolocService.getGeolocAddressByFormatedAddress(formatedAddress);
                             if (geolocAddress != null
                                     && StringUtils.isNotEmpty(geolocAddress.getLatitude())
                                     && StringUtils.isNotEmpty(geolocAddress.getLongitude())) {
-                                RetailerAddress retailerAddress = retailer.getAddressByValue(address);
                                 retailerAddress.setLatitude(geolocAddress.getLatitude());
                                 retailerAddress.setLongitude(geolocAddress.getLongitude());
                                 retailerService.saveOrUpdateRetailer(retailer);
@@ -114,7 +117,6 @@ public class AddressGeolocQueueListener implements MessageListener, ExceptionLis
                                 if (geolocAddress != null
                                         && StringUtils.isNotEmpty(geolocAddress.getLatitude())
                                         && StringUtils.isNotEmpty(geolocAddress.getLongitude())) {
-                                    RetailerAddress retailerAddress = retailer.getAddressByValue(address);
                                     retailerAddress.setLatitude(geolocAddress.getLatitude());
                                     retailerAddress.setLongitude(geolocAddress.getLongitude());
                                     retailerService.saveOrUpdateRetailer(retailer);
