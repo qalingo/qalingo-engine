@@ -46,6 +46,7 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.UrlParameterMapping;
 import org.hoteia.qalingo.core.service.CartService;
@@ -1258,8 +1259,8 @@ public class RequestUtil {
      * 
      */
     public String getCurrentCustomerLogin(final HttpServletRequest request) throws Exception {
-        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        Customer customer = engineEcoSession.getCurrentCustomer();
+        EngineEcoSession session = getCurrentEcoSession(request);
+        Customer customer = session.getCurrentCustomer();
         if (customer == null) {
             return null;
         }
@@ -1271,9 +1272,9 @@ public class RequestUtil {
      */
     public void updateCurrentCustomer(final HttpServletRequest request, final Customer customer) throws Exception {
         if (customer != null) {
-            final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-            engineEcoSession.setCurrentCustomer(customer);
-            updateCurrentEcoSession(request, engineEcoSession);
+            final EngineEcoSession session = getCurrentEcoSession(request);
+            setSessionCustomer(session, customer);
+            updateCurrentEcoSession(request, session);
         }
     }
 
@@ -1281,9 +1282,9 @@ public class RequestUtil {
      * 
      */
     public void cleanCurrentCustomer(final HttpServletRequest request) throws Exception {
-        final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        engineEcoSession.setCurrentCustomer(null);
-        updateCurrentEcoSession(request, engineEcoSession);
+        final EngineEcoSession session = getCurrentEcoSession(request);
+        session.setCurrentCustomer(null);
+        updateCurrentEcoSession(request, session);
     }
 
 
@@ -1292,8 +1293,8 @@ public class RequestUtil {
      * 
      */
     public User getCurrentUser(final HttpServletRequest request) throws Exception {
-        EngineBoSession engineBoSession = getCurrentBoSession(request);
-        return engineBoSession.getCurrentUser();
+        EngineBoSession session = getCurrentBoSession(request);
+        return session.getCurrentUser();
     }
 
     /**
@@ -1301,12 +1302,12 @@ public class RequestUtil {
      */
     public void updateCurrentUser(final HttpServletRequest request, final User user) throws Exception {
         if (user != null) {
-            final EngineBoSession engineBoSession = getCurrentBoSession(request);
-            if(engineBoSession != null){
-                engineBoSession.setCurrentUser(user);
+            final EngineBoSession session = getCurrentBoSession(request);
+            if(session != null){
+                session.setCurrentUser(user);
             }
             updateCurrentCompany(request, user.getCompany());
-            updateCurrentBoSession(request, engineBoSession);
+            updateCurrentBoSession(request, session);
         }
     }
     
@@ -1314,19 +1315,19 @@ public class RequestUtil {
      * 
      */
     public void cleanCurrentUser(final HttpServletRequest request) throws Exception {
-        final EngineBoSession engineBoSession = getCurrentBoSession(request);
-        if(engineBoSession != null){
-            engineBoSession.setCurrentUser(null);
+        final EngineBoSession session = getCurrentBoSession(request);
+        if(session != null){
+            session.setCurrentUser(null);
         }
-        updateCurrentBoSession(request, engineBoSession);
+        updateCurrentBoSession(request, session);
     }
 
     /**
      * 
      */
     public Company getCurrentCompany(final HttpServletRequest request) throws Exception {
-        EngineBoSession engineBoSession = getCurrentBoSession(request);
-        return engineBoSession.getCurrentCompany();
+        EngineBoSession session = getCurrentBoSession(request);
+        return session.getCurrentCompany();
     }
 
     public void updateCurrentCompany(final HttpServletRequest request, final Company company) throws Exception {
@@ -1902,6 +1903,11 @@ public class RequestUtil {
     
     protected AbstractEngineSession setSessionMarketAreaCurrency(final AbstractEngineSession session, final CurrencyReferential currency){
         session.setCurrentMarketAreaCurrency(currencyReferentialService.getCurrencyReferentialById(currency.getId().toString()));
+        return session;
+    }
+    
+    protected EngineEcoSession setSessionCustomer(final EngineEcoSession session, final Customer customer){
+        session.setCurrentCustomer(customerService.getCustomerById(customer.getId().toString(), FetchPlanGraphCustomer.fullCustomerFetchPlan()));
         return session;
     }
 

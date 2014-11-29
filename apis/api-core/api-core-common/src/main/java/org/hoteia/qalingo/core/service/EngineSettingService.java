@@ -566,7 +566,7 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String retailerImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().toLowerCase() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
+        String retailerImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScopePathValue() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
         if (retailerImageWebPath.endsWith("/")) {
             retailerImageWebPath = retailerImageWebPath.substring(0, retailerImageWebPath.length() - 1);
         }

@@ -223,7 +223,7 @@ public class CustomerDao extends AbstractGenericDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.fullCustomerFetchPlan());
         }
     }
 

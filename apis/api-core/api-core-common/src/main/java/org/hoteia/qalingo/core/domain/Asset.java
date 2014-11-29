@@ -133,6 +133,13 @@ public class Asset extends AbstractEntity {
 		return scope;
 	}
 	
+	public String getScopePathValue() {
+	    if(scope != null){
+	        return scope.replace("_", "-").toLowerCase();
+	    }
+        return scope;
+	}
+	
 	public void setScope(String scope) {
 		this.scope = scope;
 	}

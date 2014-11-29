@@ -133,7 +133,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         final User currentUser = requestData.getUser();
         final Locale locale = requestData.getLocale();
 
-        final String currentUrl = requestUtil.getLastRequestUrl(request);
+        final String currentUrl = requestUtil.getCurrentRequestUrl(request);
         
         final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 

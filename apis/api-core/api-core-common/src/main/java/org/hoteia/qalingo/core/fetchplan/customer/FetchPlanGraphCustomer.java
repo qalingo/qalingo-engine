@@ -18,7 +18,7 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public class FetchPlanGraphCustomer {
 
-    public static FetchPlan defaultCustomerFetchPlan() {
+    public static FetchPlan fullCustomerFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
 
         fetchplans.add(new SpecificFetchMode("credentials"));

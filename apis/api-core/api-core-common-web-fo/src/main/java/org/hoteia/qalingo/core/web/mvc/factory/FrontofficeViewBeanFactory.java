@@ -101,7 +101,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final String localizationCode = localization.getCode();
         final Locale locale = localization.getLocale();
 
-        final String currentUrl = requestUtil.getLastRequestUrl(request);
+        final String currentUrl = requestUtil.getCurrentRequestUrl(request);
 
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 

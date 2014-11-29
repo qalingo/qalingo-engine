@@ -34,6 +34,11 @@ public enum AssetScope {
 	 */
 	PRODUCT_SKU("PRODUCT_SKU"),
 	
+    /**
+     * 
+     */
+	PRODUCT_BRAND("PRODUCT_BRAND"),
+    
 	/**
 	 * 
 	 */
