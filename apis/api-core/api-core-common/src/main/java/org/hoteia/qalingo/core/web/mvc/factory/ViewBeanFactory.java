@@ -1313,7 +1313,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             for (Iterator<Asset> iterator = productBrand.getAssets().iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-                final String path = engineSettingService.getCatalogImageWebPath(asset);
+                final String path = engineSettingService.getProductBrandImageWebPath(asset);
                 assetViewBean.setRelativeWebPath(path);
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 productBrandViewBean.getAssets().add(assetViewBean);
