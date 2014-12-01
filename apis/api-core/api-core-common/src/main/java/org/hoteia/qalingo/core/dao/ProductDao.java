@@ -614,6 +614,7 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductBrand> findAllProductBrands(Object... params) {
         Criteria criteria = getSession().createCriteria(ProductBrand.class);
         handleSpecificProductBrandFetchMode(criteria, params);
+        criteria.addOrder(Order.asc("name"));
         
         @SuppressWarnings("unchecked")
         List<ProductBrand> productBrands = criteria.list();

@@ -199,8 +199,8 @@ public class RetailerService {
         return retailerDao.findStoresByRetailerCode(retailerCode, params);
     }
     
-    public List<GeolocatedStore> findStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        List<GeolocatedStore> geolocatedStores = retailerDao.findStoresByGeoloc(latitude, longitude, distance, maxResults, params);
+    public List<GeolocatedStore> findStoresByGeoloc(final String countryCode, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        List<GeolocatedStore> geolocatedStores = retailerDao.findStoresByGeoloc(countryCode, latitude, longitude, distance, maxResults, params);
         return geolocatedStores;
     }
 
