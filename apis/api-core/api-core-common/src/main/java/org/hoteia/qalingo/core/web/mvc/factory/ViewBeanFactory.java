@@ -60,6 +60,7 @@ import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -1269,6 +1270,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public ProductBrandViewBean buildViewBeanProductBrand(final RequestData requestData, final ProductBrand productBrand) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         
@@ -1285,6 +1287,37 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         String i18nDescription = productBrand.getI18nDescription(localizationCode);
         if(StringUtils.isNotEmpty(i18nDescription)){
             productBrandViewBean.setI18nDescription(i18nDescription);
+        }
+        
+        // ATTRIBUTES
+        if (Hibernate.isInitialized(productBrand.getAttributes()) && productBrand.getAttributes() != null) {
+            List<ProductBrandAttribute> globalAttributes = productBrand.getGlobalAttributes();
+            if(globalAttributes != null){
+                for (Iterator<ProductBrandAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
+                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                    productBrandViewBean.getGlobalAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
+                }
+            }
+
+            List<ProductBrandAttribute> marketAreaAttributes = productBrand.getMarketAreaAttributes(marketArea.getId());
+            if(marketAreaAttributes != null){
+                for (Iterator<ProductBrandAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                    productBrandViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
+                }
+            }
+        }
+        
+        // ASSETS
+        if (Hibernate.isInitialized(productBrand.getAssets()) && productBrand.getAssets() != null) {
+            for (Iterator<Asset> iterator = productBrand.getAssets().iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                final String path = engineSettingService.getCatalogImageWebPath(asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                productBrandViewBean.getAssets().add(assetViewBean);
+            }
         }
         
         productBrandViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
@@ -1353,19 +1386,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             catalogCategoryViewBean.setRoot(catalogCategory.isRoot());
 
             // ATTRIBUTES
-            List<AbstractAttribute> globalAttributes = catalogCategory.getGlobalAttributes();
-            if(globalAttributes != null){
-                for (Iterator<AbstractAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-                    AbstractAttribute attribute = (AbstractAttribute) iterator.next();
-                    catalogCategoryViewBean.getGlobalAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
+            if (Hibernate.isInitialized(catalogCategory.getAttributes()) && catalogCategory.getAttributes() != null) {
+                List<AbstractAttribute> globalAttributes = catalogCategory.getGlobalAttributes();
+                if(globalAttributes != null){
+                    for (Iterator<AbstractAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
+                        AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+                        catalogCategoryViewBean.getGlobalAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
+                    }
                 }
-            }
 
-            List<AbstractAttribute> marketAreaAttributes = catalogCategory.getMarketAreaAttributes(marketArea.getId());
-            if(marketAreaAttributes != null){
-                for (Iterator<AbstractAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-                    AbstractAttribute attribute = (AbstractAttribute) iterator.next();
-                    catalogCategoryViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
+                List<AbstractAttribute> marketAreaAttributes = catalogCategory.getMarketAreaAttributes(marketArea.getId());
+                if(marketAreaAttributes != null){
+                    for (Iterator<AbstractAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+                        AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+                        catalogCategoryViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
+                    }
                 }
             }
             
