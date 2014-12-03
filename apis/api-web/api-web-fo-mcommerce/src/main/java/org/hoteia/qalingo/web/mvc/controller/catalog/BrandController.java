@@ -140,7 +140,7 @@ public class BrandController extends AbstractMCommerceController {
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "brand_all", locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "all_brand", locale));
         menu.setUrl(urlService.generateUrl(FoUrls.BRAND_ALL, requestData));
         menuViewBeans.add(menu);
 
