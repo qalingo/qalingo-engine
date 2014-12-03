@@ -17,11 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -106,8 +108,6 @@ public class BrandController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
-
 		final ProductBrand productBrand = productService.getProductBrandByCode(brandCode);
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand);
 		model.addAttribute(ModelConstants.PRODUCT_BRAND_VIEW_BEAN, productBrandViewBean);
@@ -116,9 +116,44 @@ public class BrandController extends AbstractMCommerceController {
 		List<ProductMarketingViewBean> productMarketingViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductMarketing(requestData, productMarketings);
         model.addAttribute(ModelConstants.PRODUCT_MARKETINGS_VIEW_BEAN, productMarketingViewBeans);
 
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
+
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, productBrand));
+
         return modelAndView;
 	}
 	
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, ProductBrand productBrand) {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final Locale locale = requestData.getLocale();
+        Object[] params = { productBrand.getI18nName(localizationCode) };
+
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "brand_details", params, locale));
+
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "brand_all", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.BRAND_ALL, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "brand_details", params, locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+
+        breadcrumbViewBean.setMenus(menuViewBeans);
+        return breadcrumbViewBean;
+    }
+    
     /**
      * 
      */

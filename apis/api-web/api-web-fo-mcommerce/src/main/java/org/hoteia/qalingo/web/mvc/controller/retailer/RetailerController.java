@@ -154,7 +154,6 @@ public class RetailerController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-
     protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, Retailer retailer) {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
