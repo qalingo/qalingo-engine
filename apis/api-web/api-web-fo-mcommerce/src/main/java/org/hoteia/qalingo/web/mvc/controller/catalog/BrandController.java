@@ -108,7 +108,7 @@ public class BrandController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
-		final ProductBrand productBrand = productService.getProductBrandByCode(brandCode);
+		final ProductBrand productBrand = productService.getProductBrandByCode(brandCode, new FetchPlan(productBrandFetchPlans));
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand);
 		model.addAttribute(ModelConstants.PRODUCT_BRAND_VIEW_BEAN, productBrandViewBean);
 		
