@@ -247,6 +247,14 @@ public class RequestData implements Serializable {
         this.geolocData = geolocData;
     }
     
+    public boolean isGeolocated() throws Exception {
+        if (geolocData != null
+                && StringUtils.isNotEmpty(geolocData.getCity().getName())) {
+            return true;
+        }
+        return false;
+    }
+    
     public boolean isBackoffice() throws Exception {
         if (getContextNameValue() != null
                 && getContextNameValue().contains("BO_")) {

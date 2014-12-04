@@ -27,7 +27,7 @@ public class GeolocData implements Serializable {
 
     private String latitude;
     private String longitude;
-    
+
     public GeolocData() {
     }
 
