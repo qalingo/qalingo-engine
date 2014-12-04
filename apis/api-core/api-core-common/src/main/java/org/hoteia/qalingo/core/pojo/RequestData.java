@@ -247,7 +247,7 @@ public class RequestData implements Serializable {
         this.geolocData = geolocData;
     }
     
-    public boolean isGeolocated() throws Exception {
+    public boolean isGeolocatedByIp() throws Exception {
         if (geolocData != null
                 && StringUtils.isNotEmpty(geolocData.getCity().getName())) {
             return true;
