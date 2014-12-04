@@ -550,6 +550,20 @@ public class RequestUtil {
             if (localization != null) {
                 engineBoSession.setCurrentBackofficeLocalization(localization);
             }
+        } else {
+            String requestLocale = request.getLocale().toString();
+            Localization localization = null;
+            if (requestLocale.length() > 2) {
+                String localeLanguage = request.getLocale().getLanguage();
+                localization = localizationService.getLocalizationByCode(localeLanguage);
+            } else if (requestLocale.length() == 2) {
+                localization = localizationService.getLocalizationByCode(requestLocale);
+            } else {
+                localization = localizationService.getLocalizationByCode("en");
+            }
+            if (localization != null) {
+                engineBoSession.setCurrentBackofficeLocalization(localization);
+            }
         }
 
         // SAVE THE ENGINE SESSION
