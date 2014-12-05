@@ -219,6 +219,11 @@ public enum ScopeWebMessage {
 	 */
 	SHARE_OPTION("share_option"),
 	
+    /**
+     * 
+     */
+    COMMENT_VOTE("comment_vote"),
+    
 	/**
 	 * 
 	 */

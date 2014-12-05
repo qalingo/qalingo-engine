@@ -69,7 +69,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 												   final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_COMMENT.getVelocityPage());
 		
-		model.addAttribute(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+		model.addAttribute(ModelConstants.URL_BACK, requestUtil.getLastRequestUrl(request));
 		
 		// STAR
 		String qualityOfServiceMax = "5";
@@ -113,7 +113,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 		if(productCommentForm == null 
 	    		|| productCommentForm.equals(new ProductCommentForm())){
 			productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
-			model.addAttribute("productContactForm", productCommentForm);
+			model.addAttribute("productCommentForm", productCommentForm);
 		}
 		
         return modelAndView;
@@ -127,6 +127,7 @@ public class ProductCommentController extends AbstractMCommerceController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Retailer currentRetailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
+        final Customer customer = requestData.getCustomer();
         
         //binding form
       	bindProductCommentForm(request, productCommentForm);
@@ -134,6 +135,12 @@ public class ProductCommentController extends AbstractMCommerceController {
 		if (result.hasErrors()) {
 			return displayProductCommentForm(request, productCode, model, productCommentForm);
 		}
+		
+        if (customer == null) {
+            // WARNING
+            addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
+            return displayProductCommentForm(request, productCode, model, productCommentForm);
+        }
 		
 		int qualityOfService = 0;
 		int ratioQualityPrice = 0;
@@ -162,12 +169,11 @@ public class ProductCommentController extends AbstractMCommerceController {
 				&& ratioQualityPrice == 0 
 				&& priceScore == 0) {
 			// WARNING
-			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "comment_form_empty_warning_message",  locale));
+			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "message_cant_be_empty",  locale));
 			return displayProductCommentForm(request, productCode, model, productCommentForm);
 		}
 		
 		final ProductMarketing product = productService.getProductMarketingByCode(productCode);
-		final Customer customer = requestData.getCustomer();
 		
 		if (qualityOfService != 0) {
 			ProductMarketingCustomerRate productCustomerRate = new ProductMarketingCustomerRate();
@@ -204,7 +210,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 			productService.saveOrUpdateProductMarketingCustomerComment(productCustomerComment);
 		}
 		
-		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "comment_form_success_message",  locale));
+		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "comment_success_message",  locale));
 		
 		final String urlRedirect = requestUtil.getLastProductDetailsRequestUrl(request);
         return new ModelAndView(new RedirectView(urlRedirect));

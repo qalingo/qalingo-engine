@@ -119,12 +119,9 @@ public class ProductDetailsController extends AbstractMCommerceController {
         final CustomerProductRatesViewBean customerProductRatesViewBean = productService.getProductMarketingCustomerRateDetails(productMarketing.getId());
         model.addAttribute(ModelConstants.CUSTOMER_PRODUCT_RATES_VIEW_BEAN, customerProductRatesViewBean);
         
-        //Check if has authorized user
-        if(requestData.getCustomer() != null){
-	        productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
-	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_FORM, productCommentForm);
-	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_SUBMIT_URL, urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
-        }
+        productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
+        model.addAttribute(ModelConstants.PRODUCT_COMMENT_FORM, productCommentForm);
+        model.addAttribute(ModelConstants.PRODUCT_COMMENT_SUBMIT_URL, urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
         
         requestUtil.addOrUpdateRecentProductSkuToCookie(productSku.getCode(), request, response);
         
