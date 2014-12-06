@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -52,12 +53,18 @@ public class StoreController extends AbstractMCommerceController {
 	@Autowired
 	protected RetailerService retailerService;
 	
+    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public StoreController() {
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+        
         storeFetchPlans.add(new SpecificFetchMode(Store_.retailer.getName()));
         storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
         storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(Store_.businessHours.getName()));
     }
     
 	@RequestMapping(FoUrls.STORE_DETAILS_URL)
@@ -70,7 +77,7 @@ public class StoreController extends AbstractMCommerceController {
             StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
             model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
 
-            Retailer retailer = store.getRetailer();
+            Retailer retailer = retailerService.getRetailerById(store.getRetailer().getId(), new FetchPlan(retailerFetchPlans));
             RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
             model.addAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
             

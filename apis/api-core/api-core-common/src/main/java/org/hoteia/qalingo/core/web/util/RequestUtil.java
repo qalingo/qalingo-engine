@@ -543,28 +543,27 @@ public class RequestUtil {
 
         // CHECK BACKOFFICE LANGUAGES
         String backofficeLocalizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
-        // LOCALIZATIONS
-        Company company = getCurrentCompany(request);
-        if (company != null) {
-            Localization localization = company.getLocalization(backofficeLocalizationCode);
-            if (localization != null) {
-                engineBoSession.setCurrentBackofficeLocalization(localization);
+        Localization localization = null;
+        if(StringUtils.isNotEmpty(backofficeLocalizationCode)){
+            Company company = getCurrentCompany(request);
+            if (company != null) {
+                localization = company.getLocalization(backofficeLocalizationCode);
+            } else {
+                localization = localizationService.getLocalizationByCode(backofficeLocalizationCode);
             }
         } else {
             String requestLocale = request.getLocale().toString();
-            Localization localization = null;
             if (requestLocale.length() > 2) {
                 String localeLanguage = request.getLocale().getLanguage();
                 localization = localizationService.getLocalizationByCode(localeLanguage);
             } else if (requestLocale.length() == 2) {
                 localization = localizationService.getLocalizationByCode(requestLocale);
-            } else {
-                localization = localizationService.getLocalizationByCode("en");
-            }
-            if (localization != null) {
-                engineBoSession.setCurrentBackofficeLocalization(localization);
             }
         }
+        if (localization == null) {
+            localization = localizationService.getLocalizationByCode("en");
+        }
+        engineBoSession.setCurrentBackofficeLocalization(localization);
 
         // SAVE THE ENGINE SESSION
         updateCurrentBoSession(request, engineBoSession);
