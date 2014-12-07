@@ -47,7 +47,9 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
         if(StringUtils.isNotEmpty(i18nCity)){
             address.append(i18nCity);
         } else {
-            address.append(city);
+            if(StringUtils.isNotEmpty(city)){
+                address.append(city);
+            }
         }
         if(StringUtils.isNotEmpty(country)){
             address.append(" - " + country);

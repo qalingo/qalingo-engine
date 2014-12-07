@@ -16,6 +16,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
@@ -50,25 +51,10 @@ public class FollowUsController extends AbstractMCommerceController {
 	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute("followUsForm") FollowUsForm followUsForm) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FOLLOW_US.getKey());
 
-        // BREADCRUMB
-        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "follow_us", locale));
-        
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
-        MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-        menuViewBeans.add(menu);
-        
-        menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "follow_us", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
-        menu.setActive(true);
-        menuViewBeans.add(menu);
+        modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         
         return modelAndView;
 	}
@@ -150,6 +136,29 @@ public class FollowUsController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData) {
+        final Locale locale = requestData.getLocale();
+
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.FOLLOW_US.getMessageKey(), locale));
+
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.FOLLOW_US.getMessageKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+
+        breadcrumbViewBean.setMenus(menuViewBeans);
+        return breadcrumbViewBean;
+    }
+	   
 	/**
 	 * 
 	 */

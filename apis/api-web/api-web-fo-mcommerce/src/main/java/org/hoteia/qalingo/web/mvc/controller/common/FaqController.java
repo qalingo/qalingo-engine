@@ -9,10 +9,19 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.stereotype.Controller;
@@ -28,10 +37,36 @@ public class FaqController extends AbstractMCommerceController {
     @RequestMapping(FoUrls.FAQ_URL)
     public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FAQ.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
         
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FAQ.getKey());
 
+        modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        
         return modelAndView;
     }
 
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData){
+        final Locale locale = requestData.getLocale();
+        
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.FAQ.getMessageKey(), locale));
+        
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.FAQ.getMessageKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
+        breadcrumbViewBean.setMenus(menuViewBeans);
+        return breadcrumbViewBean;
+    }
+    
 }

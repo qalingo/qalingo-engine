@@ -451,6 +451,10 @@ public enum FoUrls {
     public String getKey() {
         return this.key;
     }
+    
+    public String getMessageKey() {
+        return this.key.replace("-", "_");
+    }
 
     public String getVelocityPage() {
         return this.velocityPage;

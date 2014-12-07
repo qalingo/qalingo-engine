@@ -86,7 +86,7 @@ public class StoreLocationController extends AbstractMCommerceController {
         
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "store_location", locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.STORE_LOCATION.getMessageKey(), locale));
         
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
         MenuViewBean menu = new MenuViewBean();
@@ -95,7 +95,7 @@ public class StoreLocationController extends AbstractMCommerceController {
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.STORE_LOCATION.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);
