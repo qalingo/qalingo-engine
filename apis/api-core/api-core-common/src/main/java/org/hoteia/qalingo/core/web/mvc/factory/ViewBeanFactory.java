@@ -354,7 +354,13 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
 
-        legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
+        String legalTermsService= getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.country", locale);
+        String countryLabel = getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_country", locale);
+        Object[] paramsLegalTermsAdresse = { legalTermsService, countryLabel };
+        String fullAddressCompany = getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "full_address", paramsLegalTermsAdresse, locale);
+        Object[] paramsWarning = { fullAddressCompany };
+        legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", paramsWarning, locale));
+
         legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "copyright", locale));
 
         legalTerms.setCompanyName(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_name", locale));
