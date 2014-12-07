@@ -213,14 +213,14 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
      * 
      */
     protected String getSpecificMessage(String scope, String key, Locale locale){
-        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO, scope, key, locale);
+        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO.getPropertyKey(), scope, key, locale);
     }
     
     /**
      * 
      */
     protected String getSpecificMessage(String scope, String key, Object[] params, Locale locale){
-        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO, scope, key, params, locale);
+        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO.getPropertyKey(), scope, key, params, locale);
     }
     
 }

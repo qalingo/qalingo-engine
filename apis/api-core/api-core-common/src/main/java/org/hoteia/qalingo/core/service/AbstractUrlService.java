@@ -118,7 +118,7 @@ public abstract class AbstractUrlService {
     }
 
     public String getSeoSegmentMain(Locale locale) throws Exception {
-        return CoreUtil.handleSeoSpecificEscape(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale));
+        return CoreUtil.handleSeoSpecificEscape(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale));
     }
 
     protected String getFullPrefixUrl(final RequestData requestData) throws Exception {

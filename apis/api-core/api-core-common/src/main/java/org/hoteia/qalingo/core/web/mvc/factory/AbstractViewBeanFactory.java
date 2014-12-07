@@ -33,11 +33,11 @@ public abstract class AbstractViewBeanFactory {
     }
 
     protected String getSpecificMessage(String scope, String key, Locale locale) {
-        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, scope, key, locale);
+        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), scope, key, locale);
     }
 
     protected String getSpecificMessage(String scope, String key, Object[] params, Locale locale) {
-        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, scope, key, params, locale);
+        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), scope, key, params, locale);
     }
 
     protected String getCommonMessage(ScopeCommonMessage scope, String key, Locale locale) {

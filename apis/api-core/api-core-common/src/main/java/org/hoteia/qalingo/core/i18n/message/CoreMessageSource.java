@@ -70,11 +70,11 @@ public class CoreMessageSource {
     /**
      * Specific
      */
-    public String getSpecificMessage(final I18nKeyValueUniverse universe, final String scope, String key, final Locale locale) {
+    public String getSpecificMessage(final String universe, final String scope, String key, final Locale locale) {
         return getMessage(buildSpecificFullKey(universe, scope, key), locale);
     }
 
-    public String getSpecificMessage(final I18nKeyValueUniverse universe, final String scope, String key, final Object[] params, final Locale locale) {
+    public String getSpecificMessage(final String universe, final String scope, String key, final Object[] params, final Locale locale) {
         return getMessage(buildSpecificFullKey(universe, scope, key), params, locale);
     }
 
@@ -280,8 +280,8 @@ public class CoreMessageSource {
         return I18nKeyValueUniverse.DOCUMENT.getPropertyKey() + "." + scope + "." + handleKey(key);
     }
 
-    private String buildSpecificFullKey(final I18nKeyValueUniverse universe, final String scope, String key) {
-        return universe.getPropertyKey() + "." + scope + "." + handleKey(key);
+    private String buildSpecificFullKey(final String universe, final String scope, String key) {
+        return universe + "." + scope + "." + handleKey(key);
     }
 
     private String buildReferenceDataFullKey(final String scope, String key) {
