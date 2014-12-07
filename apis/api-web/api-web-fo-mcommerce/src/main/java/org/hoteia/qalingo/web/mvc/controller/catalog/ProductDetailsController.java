@@ -140,7 +140,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         Object[] params = { productMarketingViewBean.getI18nName() };
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
         
-        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, productMarketing));
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory, productMarketing));
         
         return modelAndView;
 	}
