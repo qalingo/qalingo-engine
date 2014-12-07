@@ -35,19 +35,21 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
     
     public String getAddressOnLine() {
         StringBuffer address = new StringBuffer();
-        if(address1 != null){
+        if(StringUtils.isNotEmpty(address1)){
             address.append(address1);
         }
         if(postalCode != null || city != null){
             address.append(" - ");
         }
-        if(postalCode != null){
+        if(StringUtils.isNotEmpty(postalCode)){
             address.append(postalCode + " ");
         }
-        if(i18nCity != null){
+        if(StringUtils.isNotEmpty(i18nCity)){
             address.append(i18nCity);
+        } else {
+            address.append(city);
         }
-        if(country != null){
+        if(StringUtils.isNotEmpty(country)){
             address.append(" - " + country);
         } else {
             if(countryCode != null){

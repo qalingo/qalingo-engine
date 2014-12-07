@@ -286,17 +286,6 @@ public class ProductBrand extends AbstractEntity {
                 }
                 if (attributesFilter.size() == 0) {
                     // TODO : throw error ?
-
-                    for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                        ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
-
-                        // TODO : get a default locale code from setting
-                        // database ?
-
-                        if (attribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)) {
-                            attributeToReturn = attribute;
-                        }
-                    }
                 }
             }
             if (attributesFilter.size() == 1) {

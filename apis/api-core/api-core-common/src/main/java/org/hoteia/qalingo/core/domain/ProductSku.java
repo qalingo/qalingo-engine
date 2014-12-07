@@ -421,16 +421,6 @@ public class ProductSku extends AbstractEntity {
 				if(attributesFilter.size() == 0){
 					// TODO : warning ?
 
-					// NOT ANY attributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
-					for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-						ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
-						
-						// TODO : get a default locale code from setting database ?
-						
-						if(Constants.DEFAULT_LOCALE_CODE.equals(productSkuAttribute.getLocalizationCode())){
-							productSkuAttributeToReturn = productSkuAttribute;
-						}
-					}
 				}
 			}
 		}

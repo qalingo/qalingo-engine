@@ -39,7 +39,6 @@ import javax.persistence.Version;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.comparator.CatalogCategoryMasterComparator;
 
 @Entity
@@ -450,18 +449,6 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
                 if (catalogCategoryAttributesFilter.size() == 0) {
                     // TODO : warning ?
 
-                    // NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE -
-                    // GET A FALLBACK
-                    for (Iterator<CatalogCategoryMasterAttribute> iterator = getMarketAreaAttributes(marketAreaId).iterator(); iterator.hasNext();) {
-                        CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-
-                        // TODO : get a default locale code from setting
-                        // database ?
-
-                        if (Constants.DEFAULT_LOCALE_CODE.equals(catalogCategoryAttribute.getLocalizationCode())) {
-                            catalogCategoryAttributeToReturn = catalogCategoryAttribute;
-                        }
-                    }
                 }
             }
         }

@@ -36,7 +36,6 @@ import javax.persistence.Version;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
@@ -455,16 +454,6 @@ public class Store extends AbstractEntity {
                 if (attributesFilter.size() == 0) {
                     // TODO : throw error ?
 
-                    for (Iterator<StoreAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                        StoreAttribute attribute = (StoreAttribute) iterator.next();
-
-                        // TODO : get a default locale code from setting
-                        // database ?
-
-                        if (attribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)) {
-                            attributeToReturn = attribute;
-                        }
-                    }
                 }
             }
             if (attributesFilter.size() == 1) {

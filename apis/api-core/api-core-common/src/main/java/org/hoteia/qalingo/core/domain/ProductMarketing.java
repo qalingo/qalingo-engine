@@ -36,8 +36,6 @@ import javax.persistence.Version;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING")
@@ -424,17 +422,7 @@ public class ProductMarketing extends AbstractEntity {
 				}
 				if(attributesFilter.size() == 0){
 					// TODO : warning ?
-
-					// NOT ANY attributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
-					for (Iterator<ProductMarketingAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-						ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-						
-						// TODO : get a default locale code from setting database ?
-						
-						if(Constants.DEFAULT_LOCALE_CODE.equals(productMarketingAttribute.getLocalizationCode())){
-							productMarketingAttributeToReturn = productMarketingAttribute;
-						}
-					}
+				    
 				}
 			}
 		}
