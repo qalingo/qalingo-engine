@@ -47,6 +47,8 @@ import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
+import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.UrlParameterMapping;
 import org.hoteia.qalingo.core.service.CartService;
@@ -132,6 +134,9 @@ public class RequestUtil {
     
     @Autowired
     protected GeolocService geolocService;
+    
+    @Autowired
+    protected CoreMessageSource coreMessageSource;
     
     /**
      * 
@@ -1922,6 +1927,18 @@ public class RequestUtil {
     protected EngineEcoSession setSessionCustomer(final EngineEcoSession session, final Customer customer){
         session.setCurrentCustomer(customerService.getCustomerById(customer.getId().toString(), FetchPlanGraphCustomer.fullCustomerFetchPlan()));
         return session;
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    public String getAppName(HttpServletRequest request) throws Exception {
+        final RequestData requestData = getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        Object[] params = {StringUtils.capitalize(getApplicationName())};
+        String appName = coreMessageSource.getCommonMessage(ScopeCommonMessage.APP.getPropertyKey(), "name_text", params, locale);
+        return appName;
     }
 
     /**

@@ -37,6 +37,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -99,20 +100,11 @@ public class ProductAxeController extends AbstractMCommerceController {
         final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
 
         if(catalogCategory != null){
-            final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, 
-                    new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
+            final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
             model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 
-            // SEO
-            model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, catalogCategoryViewBean.getI18nName());
-
-            model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, catalogCategoryViewBean.getI18nDescription());
-
-            String metaImage = catalogCategoryViewBean.getAssetAbsoluteWebPath("PACKSHOT");
-            model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, metaImage));
-
             Object[] params = { catalogCategoryViewBean.getI18nName() };
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_AXE.getKey(), params);
+            overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_AXE.getKey(), params);
 
             model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory));
 
@@ -161,6 +153,25 @@ public class ProductAxeController extends AbstractMCommerceController {
         List<ProductBrand> productBrands = productService.findAllProductBrands();
         List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
         return productBrandViewBeans;
+    }
+    
+    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
+        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
+        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
+
+        // SEO
+        String metaOgTitle = catalogCategoryViewBean.getI18nName();
+        seoDataViewBean.setMetaOgTitle(metaOgTitle);
+        String metaOgDescription = catalogCategoryViewBean.getI18nDescription();
+        seoDataViewBean.setMetaOgDescription(metaOgDescription);
+        String metaOgImage = catalogCategoryViewBean.getAssetAbsoluteWebPath("PACKSHOT");
+        seoDataViewBean.setMetaOgImage(urlService.buildAbsoluteUrl(requestData, metaOgImage));
+        
+        return seoDataViewBean;
     }
     
 }

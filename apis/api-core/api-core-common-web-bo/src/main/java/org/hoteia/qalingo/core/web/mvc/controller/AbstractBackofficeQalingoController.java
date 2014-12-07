@@ -17,7 +17,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -30,6 +29,7 @@ import org.hoteia.qalingo.core.service.UserService;
 import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeFormFactory;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +84,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         final Locale locale = requestData.getLocale();
         
 		// APP NAME
-		model.addAttribute(Constants.APP_NAME, getAppName(request));
+		model.addAttribute(Constants.APP_NAME, requestUtil.getAppName(request));
 		Object[] params = {StringUtils.capitalize(requestUtil.getApplicationName())};
 		model.addAttribute(Constants.APP_NAME_HTML, getCommonMessage(ScopeCommonMessage.APP, "name_html", params, locale));
 	}
@@ -107,22 +107,10 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initSeo(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
+	protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
-
-		String seoPageMetaAuthor = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_AUTHOR, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_META_AUTHOR, seoPageMetaAuthor);
-
-		String seoPageMetaKeywords = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_KEYWORDS, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_META_KEYWORDS, seoPageMetaKeywords);
-
-		String seoPageMetaDescription = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_DESCRIPTION, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_META_DESCIPRTION, seoPageMetaDescription);
-
-        // DEFAULT EMPTY VALUE
-        model.addAttribute(ModelConstants.SEO_PAGE_TITLE, getAppName(request));
+        return backofficeViewBeanFactory.buildViewSeoData(requestData);
 	}
 	
 	/**
@@ -159,27 +147,17 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         }
 	}
 	
-	/**
-	 * 
-	 */
-	protected void overrideSeoTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
-		final String fullTitle = getAppName(request) + " - " + title;
-		if(StringUtils.isNotEmpty(fullTitle)){
-	        modelAndView.addObject(ModelConstants.SEO_PAGE_TITLE, fullTitle);
-		}
-	}
-	
     /**
      * 
      */
-    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, titleKey, null);
+    protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
+        overrideDefaultMainContentTitle(request, modelAndView, titleKey, null);
     }
     
     /**
      * 
      */
-    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
+    protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         String pageTitleKey = titleKey;
@@ -189,7 +167,6 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         } else {
             headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
         }
-        modelAndView.addObject(ModelConstants.SEO_PAGE_TITLE, getAppName(request) + " - " + headerTitle);
         modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
     }
 	
@@ -207,18 +184,6 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	protected void initBreadcrumAndHeaderContent(final HttpServletRequest request, final Model model) throws Exception {
         // DEFAULT EMPTY VALUE
         model.addAttribute(ModelConstants.MAIN_CONTENT_TITLE, "");
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected String getAppName(HttpServletRequest request) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
-		Object[] params = {StringUtils.capitalize(requestUtil.getApplicationName())};
-		String appName = getCommonMessage(ScopeCommonMessage.APP, "name_text", params, locale);
-		return appName;
 	}
 	
     /**

@@ -25,7 +25,6 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -103,7 +102,7 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
 		initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
 		
         Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -121,13 +120,13 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
             final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode, requestData.getMasterCatalogCode(), new FetchPlan(categoryMasterFetchPlans));
             
             Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_EDIT.getKey(), params);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_EDIT.getKey(), params);
             
             initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
             
         } else {
             // ADD/CREATE MODE
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_ADD.getKey(), null);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_ADD.getKey(), null);
         }
         
 		modelAndView.addObject("categories", buildCategories(requestData, catalogCategoryCode));
@@ -283,7 +282,7 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
      * 
      */
 	protected void initProductMasterCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryMaster catalogCategory) throws Exception {
-		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalogCategory(requestUtil.getRequestData(request), catalogCategory, new FetchPlan(categoryMasterFetchPlans), null, null);
+		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
 		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
 	

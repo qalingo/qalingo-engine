@@ -29,7 +29,7 @@ public class FaqController extends AbstractMCommerceController {
     public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FAQ.getVelocityPage());
         
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.FAQ.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FAQ.getKey());
 
         return modelAndView;
     }

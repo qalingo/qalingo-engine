@@ -52,7 +52,7 @@ public class FollowUsController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.FOLLOW_US.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FOLLOW_US.getKey());
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();

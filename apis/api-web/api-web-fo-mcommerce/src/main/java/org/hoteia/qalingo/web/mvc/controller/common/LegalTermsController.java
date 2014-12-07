@@ -40,7 +40,7 @@ public class LegalTermsController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.LEGAL_TERMS.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.LEGAL_TERMS.getKey());
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();

@@ -28,6 +28,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -42,6 +43,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.hoteia.qalingo.web.mvc.form.ProductCommentForm;
@@ -106,8 +108,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 		ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(productMarketingFetchPlans));
         ProductSku productSku = productService.getProductSkuByCode(productSkuCode, new FetchPlan(productSkuFetchPlans));
 		
-		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, 
-		                                                                                   new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
+		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 
         final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), catalogCategory, productMarketing, productSku);
@@ -130,15 +131,8 @@ public class ProductDetailsController extends AbstractMCommerceController {
         
         requestUtil.addOrUpdateRecentProductSkuToCookie(productSku.getCode(), request, response);
         
-        // SEO
-        model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, productMarketingViewBean.getI18nName() );
-        
-        model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, productMarketingViewBean.getI18nDescription());
-        
-        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, productMarketingViewBean.getAssetPath("PACKSHOT")));
-
         Object[] params = { productMarketingViewBean.getI18nName() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
         
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory, productMarketing));
         
@@ -185,6 +179,30 @@ public class ProductDetailsController extends AbstractMCommerceController {
         List<ProductBrand> productBrands = productService.findAllProductBrands();
         List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
         return productBrandViewBeans;
+    }
+    
+    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode,
+            @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productMarketingCode,
+            @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE) final String productSkuCode) throws Exception {
+        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+//        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
+//        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
+
+        ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(productMarketingFetchPlans));
+        final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), productMarketing);
+
+        // SEO
+        String metaOgTitle = productMarketingViewBean.getI18nName();
+        seoDataViewBean.setMetaOgTitle(metaOgTitle);
+        String metaOgDescription = productMarketingViewBean.getI18nDescription();
+        seoDataViewBean.setMetaOgDescription(metaOgDescription);
+        String metaOgImage = productMarketingViewBean.getAssetAbsoluteWebPath("PACKSHOT");
+        seoDataViewBean.setMetaOgImage(urlService.buildAbsoluteUrl(requestData, metaOgImage));
+        
+        return seoDataViewBean;
     }
 
 }

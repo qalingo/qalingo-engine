@@ -34,7 +34,7 @@ public class ForbiddenController extends AbstractMCommerceController {
 	public ModelAndView forbidden(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORBIDDEN.getVelocityPage());
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.FORBIDDEN.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORBIDDEN.getKey());
 
         return modelAndView;
 	}

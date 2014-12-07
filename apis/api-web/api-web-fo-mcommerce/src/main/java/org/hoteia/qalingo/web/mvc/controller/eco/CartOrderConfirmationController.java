@@ -68,7 +68,7 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
             
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 5);
 
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CART_ORDER_CONFIRMATION.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CART_ORDER_CONFIRMATION.getKey());
 
         return modelAndView;
     }

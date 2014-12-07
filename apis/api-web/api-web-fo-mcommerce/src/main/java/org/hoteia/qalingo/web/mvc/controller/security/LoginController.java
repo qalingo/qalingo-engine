@@ -61,7 +61,7 @@ public class LoginController extends AbstractMCommerceController {
             model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getCommonMessage(ScopeCommonMessage.AUTH, "login_or_password_are_wrong", locale));
         }
         
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.LOGIN.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.LOGIN.getKey());
         
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
@@ -102,7 +102,7 @@ public class LoginController extends AbstractMCommerceController {
             model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getCommonMessage(ScopeCommonMessage.AUTH, "login_or_password_are_wrong", locale));
         }
         
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CART_AUTH.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CART_AUTH.getKey());
         
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 2);
 

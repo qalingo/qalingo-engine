@@ -77,7 +77,7 @@ public class StoreController extends AbstractBusinessBackofficeController{
         displayList(request, model, requestData, null);
 
         Object[] params = {retailer.getName() + " (" + retailer.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_LIST.getKey() + ".by.retailer", params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.STORE_LIST.getKey() + ".by.retailer", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.STORE_ADD, requestData, retailer));
         model.addAttribute(ModelConstants.URL_RETAILER_VIEW, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
@@ -118,7 +118,7 @@ public class StoreController extends AbstractBusinessBackofficeController{
         model.addAttribute(ModelConstants.URL_RETAILER_VIEW, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
 
         Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.STORE_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -144,12 +144,12 @@ public class StoreController extends AbstractBusinessBackofficeController{
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.STORE_DETAILS, requestData, store));
 
             Object[] params = { store.getName() + " (" + store.getCode() + ")" };
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_DETAILS.getKey(), params);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.STORE_DETAILS.getKey(), params);
 
         } else {
             // ADD MODE
 
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_ADD.getKey(), null);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.STORE_ADD.getKey(), null);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.STORE_LIST, requestData));
         }

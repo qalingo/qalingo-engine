@@ -29,7 +29,7 @@ public class ConditionsOfUseController extends AbstractMCommerceController {
 	public ModelAndView conditionsOfUse(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONDITIONS_OF_USE.getVelocityPage());
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CONDITIONS_OF_USE.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CONDITIONS_OF_USE.getKey());
 
         return modelAndView;
 	}

@@ -49,7 +49,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 		model.addAttribute(ModelConstants.CUSTOMER_WISHLIST_VIEW_BEAN, customerWishListViewBean);
 
         Object[] params = { customer.getLastname(), customer.getFirstname() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_WISHLIST.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_WISHLIST.getKey(), params);
 
         return modelAndView;
 	}

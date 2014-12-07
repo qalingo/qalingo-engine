@@ -87,7 +87,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 		}
 		
 		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ORDER_LIST.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ORDER_LIST.getKey(), params);
 		
         return modelAndView;
 	}

@@ -29,7 +29,7 @@ public class ClpController extends AbstractMCommerceController {
 	public ModelAndView clp(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CLP.getVelocityPage());
         
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CLP.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CLP.getKey());
 
 		return modelAndView;
 	}

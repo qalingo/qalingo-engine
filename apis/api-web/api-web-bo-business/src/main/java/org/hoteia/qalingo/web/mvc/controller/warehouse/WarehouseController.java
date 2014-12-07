@@ -68,7 +68,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         displayList(request, model, requestData);
         
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_LIST.getKey() + ".by.market.area", params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_LIST.getKey() + ".by.market.area", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_ADD, requestData));
 
@@ -109,7 +109,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         request.setAttribute(ModelConstants.DELIVERY_METHODS_VIEW_BEAN, deliveryMethodViewBeans);
 
         Object[] params = {warehouse.getName() + " (" + warehouse.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_DETAILS.getKey(), params);
 
         return modelAndView;
     }
@@ -128,13 +128,13 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
             request.setAttribute(ModelConstants.WAREHOUSE_VIEW_BEAN, warehouseViewBean);
 
             Object[] params = {warehouse.getName() + " (" + warehouse.getCode() + ")"};
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_EDIT.getKey(), params);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_EDIT.getKey(), params);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse));
         } else {
             // ADD MODE
 
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_ADD.getKey(), null);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_ADD.getKey(), null);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData));
         }

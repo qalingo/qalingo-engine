@@ -25,6 +25,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
@@ -56,35 +57,14 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
     @Autowired
     protected RequestUtil requestUtil;
 
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initDefaultSeo(final HttpServletRequest request, final Model model) throws Exception {
+    /**
+     * 
+     */
+    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
-
-		String seoPageMetaAuthor = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_AUTHOR, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_META_AUTHOR, seoPageMetaAuthor);
-
-		String seoPageMetaKeywords = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_KEYWORDS, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_META_KEYWORDS, seoPageMetaKeywords);
-
-		String seoPageMetaDescription = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_DESCRIPTION, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_META_DESCIPRTION, seoPageMetaDescription);
-
-		String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_TITLE, seoPageTitle);
-        
-        String metaOgShareTitle = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
-        model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, metaOgShareTitle);
-        
-        String metaOgShareDescription = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_DESCRIPTION, locale);
-        model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, metaOgShareDescription);
-        
-        String metaOgShareImage = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_IMAGE, locale);
-        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, metaOgShareImage);
-	}
+        return frontofficeViewBeanFactory.buildViewSeoData(requestData);
+    }
 	
 	/**
 	 * 
@@ -118,14 +98,14 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
     /**
      * 
      */
-    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, titleKey, null);
+    protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
+        overrideDefaultMainContentTitle(request, modelAndView, titleKey, null);
     }
     
     /**
      * 
      */
-    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
+    protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         String pageTitleKey = titleKey;
@@ -136,7 +116,6 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
             headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
         }
         String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
-        modelAndView.addObject(ModelConstants.SEO_PAGE_TITLE, seoPageTitle + " - " + headerTitle);
         modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
     }
 	

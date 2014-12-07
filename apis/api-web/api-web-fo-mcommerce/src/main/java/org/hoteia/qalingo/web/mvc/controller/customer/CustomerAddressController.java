@@ -59,7 +59,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
 		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADDRESS_LIST.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADDRESS_LIST.getKey(), params);
         
 		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerAddressList(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute(ModelConstants.CUSTOMER_ADDRESSES_VIEW_BEAN, customerAdressesViewBean);
@@ -96,7 +96,7 @@ public class CustomerAddressController extends AbstractCustomerController {
         model.addAttribute(ModelConstants.CUSTOMER_ADDRESSES_VIEW_BEAN, customerAdressesViewBean);
 
         Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADD_ADDRESS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADD_ADDRESS.getKey(), params);
 
         return modelAndView;
 	}

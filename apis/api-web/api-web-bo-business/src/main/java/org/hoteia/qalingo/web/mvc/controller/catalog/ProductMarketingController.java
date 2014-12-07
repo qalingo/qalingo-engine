@@ -98,7 +98,7 @@ public class ProductMarketingController extends AbstractBusinessBackofficeContro
         modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
 
         Object[] params = {productMarketing.getName() + " (" + productMarketing.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView,  BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), params);
 		
         return modelAndView;
 	}
@@ -126,13 +126,13 @@ public class ProductMarketingController extends AbstractBusinessBackofficeContro
 	        modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
 	        
 	        Object[] params = {productMarketing.getName() + " (" + productMarketing.getCode() + ")"};
-	        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_MARKETING_EDIT.getKey(), params);
+	        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.PRODUCT_MARKETING_EDIT.getKey(), params);
 
 		} else {
 		    // ADD/CREATE MODE
             modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
 
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_MARKETING_ADD.getKey(), null);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.PRODUCT_MARKETING_ADD.getKey(), null);
 		}
 
 		return modelAndView;

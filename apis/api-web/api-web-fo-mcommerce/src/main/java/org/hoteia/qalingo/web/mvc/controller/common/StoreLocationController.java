@@ -74,7 +74,7 @@ public class StoreLocationController extends AbstractMCommerceController {
 		
         modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.STORE_LOCATION.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_LOCATION.getKey());
 
         modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         

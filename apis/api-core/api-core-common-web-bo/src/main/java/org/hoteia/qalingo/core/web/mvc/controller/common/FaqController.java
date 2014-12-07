@@ -18,8 +18,10 @@ import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,13 +35,19 @@ public class FaqController extends AbstractBackofficeQalingoController {
 	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.FAQ.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
 
-		final String pageKey = BoUrls.FAQ.getKey();
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
-		
         return modelAndView;
 	}
+	
+    @Override
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model) throws Exception {
+        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        final String pageKey = BoUrls.FAQ.getKey();
+        final String pageTitle = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+        seoDataViewBean.setPageTitle(pageTitle);
+        return seoDataViewBean;
+    }
 	
 }

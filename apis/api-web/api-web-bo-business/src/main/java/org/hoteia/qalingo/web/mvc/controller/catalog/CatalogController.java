@@ -49,7 +49,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 
 	    modelAndView.addObject("catalogType", "master");
 
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATALOG.getKey(), null);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.MASTER_CATALOG.getKey(), null);
 
         return modelAndView;
 	}
@@ -60,7 +60,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		
         modelAndView.addObject("catalogType", "virtual");
 
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATALOG.getKey(), null);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATALOG.getKey(), null);
 
         return modelAndView;
 	}

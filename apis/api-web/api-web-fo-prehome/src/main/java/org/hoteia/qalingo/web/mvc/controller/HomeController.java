@@ -49,7 +49,7 @@ public class HomeController extends AbstractPrehomeController {
         final City city = geolocService.geolocAndGetCity(remoteAddress);
         model.addAttribute(ModelConstants.GEOLOC_CITY, city);
 
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PREHOME.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PREHOME.getKey());
 
         return modelAndView;
 	}

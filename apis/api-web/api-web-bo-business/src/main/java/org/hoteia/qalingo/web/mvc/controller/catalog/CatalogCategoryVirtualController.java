@@ -110,7 +110,7 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
         modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
 
         Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_DETAILS.getKey(), params);
         
 		initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
 		
@@ -129,13 +129,13 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
             final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
             
             Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_EDIT.getKey(), params);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_EDIT.getKey(), params);
             
             initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
             
         } else {
             // ADD/CREATE MODE
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_ADD.getKey(), null);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_ADD.getKey(), null);
         }
         
         modelAndView.addObject("masterCategories", buildAllMasterCategories(requestData));
@@ -309,7 +309,7 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
      * 
      */
 	protected void initProductVirtualCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryVirtual catalogCategory) throws Exception {
-		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, new FetchPlan(categoryVirtualFetchPlans), null, null);
+		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
 		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
 	

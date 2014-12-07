@@ -43,7 +43,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
 
         Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getKey(), params);
         
         return modelAndView;
 	}

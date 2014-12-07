@@ -51,7 +51,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
         
 		displayList(request, model, requestData);
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ORDER_LIST.getKey() + ".by.market.area", null);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.ORDER_LIST.getKey() + ".by.market.area", null);
 
         return modelAndView;
 	}
@@ -74,7 +74,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
         
         Object[] params = {orderCustomer.getOrderNum()};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ORDER_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.ORDER_DETAILS.getKey(), params);
 		
         return modelAndView;
 	}

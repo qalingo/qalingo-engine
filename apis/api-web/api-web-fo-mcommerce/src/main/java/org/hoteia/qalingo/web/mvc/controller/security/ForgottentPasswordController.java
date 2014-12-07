@@ -50,7 +50,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
 
         return modelAndView;
 	}
@@ -113,7 +113,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 			addErrorMessage(request, errorMessage);
 		}
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.RESET_PASSWORD.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RESET_PASSWORD.getKey());
 
         return modelAndView;
 	}

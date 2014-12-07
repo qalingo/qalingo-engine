@@ -30,16 +30,6 @@ public class ModelConstants {
     public static final String THEME                = "theme";
     public static final String ENV_NAME             = "envName";
 
-    // SEO
-    public static final String SEO_PAGE_META_AUTHOR         = "seoPageMetaAuthor";
-    public static final String SEO_PAGE_META_KEYWORDS       = "seoPageMetaKeywords";
-    public static final String SEO_PAGE_META_DESCIPRTION    = "seoPageMetaDescription";
-    public static final String SEO_PAGE_TITLE               = "seoPageTitle";
-
-    public static final String PAGE_META_OG_TITLE       = "metaOgTitle";
-    public static final String PAGE_META_OG_DESCRIPTION = "metaOgDescription";
-    public static final String PAGE_META_OG_IMAGE       = "metaOgImage";
-
     public static final String MAIN_CONTENT_TITLE       = "mainContentTitle";
 
     // CHECKOUT PROCESS
@@ -59,6 +49,7 @@ public class ModelConstants {
 
     // VIEW BEAN
     public static final String COMMON_VIEW_BEAN                     = "common";
+    public static final String SEO_DATA_VIEW_BEAN                   = "seoData";
     public static final String MENUS_VIEW_BEAN                      = "menus";
     public static final String MORE_PAGE_MENUS_VIEW_BEAN            = "morePageMenus";
     public static final String BREADCRUMB_VIEW_BEAN                 = "breadcrumb";

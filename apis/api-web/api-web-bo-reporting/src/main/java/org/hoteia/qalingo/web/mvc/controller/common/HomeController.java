@@ -9,10 +9,14 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.common;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
@@ -49,4 +53,14 @@ public class HomeController extends AbstractReportingBackofficeController {
         return new ModelAndView(new RedirectView(defaultUrl));
     }
     
+    @Override
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model) throws Exception {
+        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        final String pageKey = BoUrls.HOME_KEY;
+        final String pageTitle = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+        seoDataViewBean.setPageTitle(pageTitle);
+        return seoDataViewBean;
+    }
 }

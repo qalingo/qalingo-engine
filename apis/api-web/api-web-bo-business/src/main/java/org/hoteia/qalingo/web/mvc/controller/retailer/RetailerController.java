@@ -76,7 +76,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		displayList(request, model, requestData, null);
 
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_LIST.getKey() + ".by.market.area", params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.RETAILER_LIST.getKey() + ".by.market.area", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.RETAILER_ADD, requestData));
 
@@ -126,7 +126,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
 
         Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -152,12 +152,12 @@ public class RetailerController extends AbstractBusinessBackofficeController {
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
 
             Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
 
         } else {
             // ADD MODE
 
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_ADD.getKey(), null);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.RETAILER_ADD.getKey(), null);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
         }

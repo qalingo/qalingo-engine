@@ -66,7 +66,7 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
         displayList(request, model, requestData);
         
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PAYMENT_GATEWAY_LIST.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.PAYMENT_GATEWAY_LIST.getKey(), params);
 
         return modelAndView;
     }
@@ -99,7 +99,7 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_LIST, requestData));
         
         Object[] params = {paymentGateway.getName() + " (" + paymentGateway.getCode() + ")"};
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PAYMENT_GATEWAY_DETAILS.getKey(), params);
+        overrideDefaultMainContentTitle(request, modelAndView, BoUrls.PAYMENT_GATEWAY_DETAILS.getKey(), params);
 
         return modelAndView;
     }
@@ -122,7 +122,7 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
             modelAndView.addObject("availableOptions", paymentGatewayService.findPaymentGatewayOptions());
 
             Object[] params = {paymentGateway.getName() + " (" + paymentGateway.getCode() + ")"};
-            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PAYMENT_GATEWAY_EDIT.getKey(), params);
+            overrideDefaultMainContentTitle(request, modelAndView, BoUrls.PAYMENT_GATEWAY_EDIT.getKey(), params);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_DETAILS, requestData, paymentGateway));
             

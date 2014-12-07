@@ -36,6 +36,8 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.i18n.FoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
@@ -49,6 +51,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
@@ -89,6 +92,30 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         commonViewBean.setContextJsonUrl(urlService.generateUrl(FoUrls.CONTEXT, requestData));
 
         return commonViewBean;
+    }
+    
+    @Override
+    public SeoDataViewBean buildViewSeoData(final RequestData requestData) throws Exception {
+        final Locale locale = requestData.getLocale();
+
+        final SeoDataViewBean seoDataViewBean = super.buildViewSeoData(requestData);
+        String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        seoDataViewBean.setPageTitle(pageTitle);
+        String metaAuthor = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_AUTHOR, locale);
+        seoDataViewBean.setMetaAuthor(metaAuthor);
+        String metaKeywords = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_KEYWORDS, locale);
+        seoDataViewBean.setMetaKeywords(metaKeywords);
+        String metaDescription = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_DESCRIPTION, locale);
+        seoDataViewBean.setMetaDescription(metaDescription);
+
+        String metaOgTitle = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
+        seoDataViewBean.setMetaOgTitle(metaOgTitle);
+        String metaOgDescription = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_DESCRIPTION, locale);
+        seoDataViewBean.setMetaOgDescription(metaOgDescription);
+        String metaOgImage = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_IMAGE, locale);
+        seoDataViewBean.setMetaOgImage(metaOgImage);
+        
+        return seoDataViewBean;
     }
     
     /**
@@ -473,7 +500,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     public List<CatalogCategoryViewBean> buildListViewBeanRootCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories, final FetchPlan categoryFetchPlan, final FetchPlan productFetchPlan, final FetchPlan skuFetchPlan) throws Exception {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
-            CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanVirtualCatalogCategory(requestData, catalogCategoryVirtual, categoryFetchPlan, productFetchPlan, skuFetchPlan);
+            CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanVirtualCatalogCategory(requestData, catalogCategoryVirtual);
             catalogCategoryViewBeans.add(catalogCategoryViewBean);
         }
         return catalogCategoryViewBeans;

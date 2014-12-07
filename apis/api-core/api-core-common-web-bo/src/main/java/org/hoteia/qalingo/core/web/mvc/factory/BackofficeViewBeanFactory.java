@@ -58,6 +58,7 @@ import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
@@ -90,6 +91,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RuleViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
@@ -121,6 +123,24 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         commonViewBean.setContextJsonUrl(backofficeUrlService.generateUrl(BoUrls.CONTEXT, requestData));
 
         return commonViewBean;
+    }
+    
+    @Override
+    public SeoDataViewBean buildViewSeoData(final RequestData requestData) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final Locale locale = requestData.getLocale();
+
+        final SeoDataViewBean seoDataViewBean = super.buildViewSeoData(requestData);
+
+        seoDataViewBean.setPageTitle(requestUtil.getAppName(request));
+        String metaAuthor = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_AUTHOR, locale);
+        seoDataViewBean.setMetaAuthor(metaAuthor);
+        String metaKeywords = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_KEYWORDS, locale);
+        seoDataViewBean.setMetaKeywords(metaKeywords);
+        String metaDescription = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_DESCRIPTION, locale);
+        seoDataViewBean.setMetaDescription(metaDescription);
+
+        return seoDataViewBean;
     }
     
     public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
@@ -289,7 +309,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         if (catalogCategories != null) {
             final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
             for (AbstractCatalogCategory catalogCategoryVirtual : catalogCategories) {
-                CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual, categoryFetchPlan, null, null);
+                CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual);
                 catalogCategoryViewBeans.add(catalogCategoryViewBean);
             }
             catalogViewBean.setCategories(catalogCategoryViewBeans);
@@ -476,9 +496,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     @Override
-    public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final FetchPlan categoryFetchPlan, final FetchPlan productFetchPlan, final FetchPlan skuFetchPlan)
-            throws Exception {
-        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanMasterCatalogCategory(requestData, catalogCategory, categoryFetchPlan, productFetchPlan, skuFetchPlan);
+    public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory) throws Exception {
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanMasterCatalogCategory(requestData, catalogCategory);
 
         catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory));
         catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, catalogCategory));
@@ -490,9 +509,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     @Override
-    public CatalogCategoryViewBean buildViewBeanVirtualCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final FetchPlan categoryFetchPlan, final FetchPlan productFetchPlan, final FetchPlan skuFetchPlan)
-            throws Exception {
-        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanVirtualCatalogCategory(requestData, catalogCategory, categoryFetchPlan, productFetchPlan, skuFetchPlan);
+    public CatalogCategoryViewBean buildViewBeanVirtualCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanVirtualCatalogCategory(requestData, catalogCategory);
 
         catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, catalogCategory));
         catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, catalogCategory));

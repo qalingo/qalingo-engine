@@ -179,7 +179,7 @@ public class StoreSearchController extends AbstractMCommerceController {
         final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.STORE_SEARCH.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_SEARCH.getKey());
 
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         

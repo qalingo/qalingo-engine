@@ -51,7 +51,7 @@ public class BrandLineController extends AbstractMCommerceController {
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand, productMarketings);
 		model.addAttribute("productBrand", productBrandViewBean);
 		
-        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.BRAND_LINE.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_LINE.getKey());
 
         return modelAndView;
 	}
