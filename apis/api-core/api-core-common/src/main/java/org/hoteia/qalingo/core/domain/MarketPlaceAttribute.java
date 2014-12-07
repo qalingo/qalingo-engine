@@ -74,6 +74,9 @@ public class MarketPlaceAttribute extends AbstractAttribute {
     @Column(name = "LOCALIZATION_CODE")
     private String localizationCode;
 	
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
 	@Column(name="CONTEXT")
 	private String context;
 	
@@ -190,6 +193,14 @@ public class MarketPlaceAttribute extends AbstractAttribute {
         this.localizationCode = localizationCode;
     }
 
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+    
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
+    
 	public String getContext() {
 	    return context;
     }

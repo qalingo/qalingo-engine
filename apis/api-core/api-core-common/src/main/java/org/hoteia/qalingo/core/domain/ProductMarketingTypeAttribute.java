@@ -71,12 +71,15 @@ public class ProductMarketingTypeAttribute extends AbstractAttribute {
 	@Column(name="BOOLEAN_VALUE")
 	private Boolean booleanValue;
 	
-	@Column(name="LOCALIZATION_CODE")
-	private String localizationCode;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="START_DATE")
-	private Date startDate;
+    @Column(name = "LOCALIZATION_CODE")
+    private String localizationCode;
+
+    @Column(name = "MARKET_AREA_ID")
+    private Long marketAreaId;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "START_DATE")
+    private Date startDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="END_DATE")
@@ -181,6 +184,14 @@ public class ProductMarketingTypeAttribute extends AbstractAttribute {
 		this.localizationCode = localizationCode;
 	}
 
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
+    
 	public Date getStartDate() {
 		return startDate;
 	}

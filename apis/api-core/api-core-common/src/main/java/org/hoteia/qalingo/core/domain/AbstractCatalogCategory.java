@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractCatalogCategory<A, B, C, D> extends AbstractEntity {
+public abstract class AbstractCatalogCategory<A, B, C, D> extends AbstractExtendEntity {
 
     /**
 	 * Generated UID
@@ -43,10 +43,6 @@ public abstract class AbstractCatalogCategory<A, B, C, D> extends AbstractEntity
     public abstract B getParentCatalogCategory();
 
     public abstract Set<C> getAttributes();
-
-    public abstract List<C> getGlobalAttributes();
-
-    public abstract List<C> getMarketAreaAttributes(Long marketAreaId);
 
     public abstract Set<B> getCatalogCategories();
 

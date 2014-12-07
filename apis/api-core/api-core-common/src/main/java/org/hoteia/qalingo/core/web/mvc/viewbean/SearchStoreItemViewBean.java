@@ -20,10 +20,6 @@ public class SearchStoreItemViewBean extends AbstractViewBean {
 	private String code;
 	private String description;
 
-	protected String backgroundImage;
-	protected String carouselImage;
-	protected String iconImage;
-
 	private String detailsUrl;
 
 	public SearchStoreItemViewBean() {
@@ -51,30 +47,6 @@ public class SearchStoreItemViewBean extends AbstractViewBean {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getBackgroundImage() {
-		return backgroundImage;
-	}
-
-	public void setBackgroundImage(String backgroundImage) {
-		this.backgroundImage = backgroundImage;
-	}
-
-	public String getCarouselImage() {
-		return carouselImage;
-	}
-
-	public void setCarouselImage(String carouselImage) {
-		this.carouselImage = carouselImage;
-	}
-
-	public String getIconImage() {
-		return iconImage;
-	}
-
-	public void setIconImage(String iconImage) {
-		this.iconImage = iconImage;
 	}
 
 	public String getDetailsUrl() {

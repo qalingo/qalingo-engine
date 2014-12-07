@@ -39,7 +39,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING")
-public class ProductMarketing extends AbstractEntity {
+public class ProductMarketing extends AbstractExtendEntity {
 
 	/**
 	 * Generated UID
@@ -180,40 +180,6 @@ public class ProductMarketing extends AbstractEntity {
         this.attributes = attributes;
     }
 	
-	public List<ProductMarketingAttribute> getGlobalAttributes() {
-        List<ProductMarketingAttribute> productMarketingGlobalAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            productMarketingGlobalAttributes = new ArrayList<ProductMarketingAttribute>();
-            for (Iterator<ProductMarketingAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && attributeDefinition.isGlobal()) {
-                    productMarketingGlobalAttributes.add(attribute);
-                }
-            }
-        }        
-        return productMarketingGlobalAttributes;
-	}
-
-	public List<ProductMarketingAttribute> getMarketAreaAttributes(Long marketAreaId) {
-        List<ProductMarketingAttribute> productMarketingMarketAreaAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            productMarketingMarketAreaAttributes = new ArrayList<ProductMarketingAttribute>();
-            for (Iterator<ProductMarketingAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && !attributeDefinition.isGlobal()) {
-                    productMarketingMarketAreaAttributes.add(attribute);
-                }
-            }
-        }        
-        return productMarketingMarketAreaAttributes;
-	}
-
 	public Set<ProductSku> getProductSkus() {
 		return productSkus;
 	}
@@ -354,92 +320,10 @@ public class ProductMarketing extends AbstractEntity {
 	
 	// Attributes
 	
-	public ProductMarketingAttribute getProductMarketingAttribute(String attributeCode) {
-		return getProductMarketingAttribute(attributeCode, null, null);
-	}
-	
-	public ProductMarketingAttribute getProductMarketingAttribute(String attributeCode, String localizationCode) {
-		return getProductMarketingAttribute(attributeCode, null, localizationCode);
-	}
-	
-	public ProductMarketingAttribute getProductMarketingAttribute(String attributeCode, Long marketAreaId) {
-		return getProductMarketingAttribute(attributeCode, marketAreaId, null);
-	}
-	
-	public ProductMarketingAttribute getProductMarketingAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductMarketingAttribute productMarketingAttributeToReturn = null;
-
-		// 1: GET THE GLOBAL VALUE
-		ProductMarketingAttribute productMarketingGlobalAttribute = getProductMarketingAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
-
-		// 2: GET THE MARKET AREA VALUE
-		ProductMarketingAttribute productMarketingMarketAreaAttribute = getProductMarketingAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
-		
-		if(productMarketingMarketAreaAttribute != null){
-			productMarketingAttributeToReturn = productMarketingMarketAreaAttribute;
-		} else if (productMarketingGlobalAttribute != null){
-			productMarketingAttributeToReturn = productMarketingGlobalAttribute;
-		}
-		
-		return productMarketingAttributeToReturn;
-	}
-	
-	private ProductMarketingAttribute getProductMarketingAttribute(List<ProductMarketingAttribute> attributes, String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductMarketingAttribute productMarketingAttributeToReturn = null;
-		List<ProductMarketingAttribute> attributesFilter = new ArrayList<ProductMarketingAttribute>();
-		if(attributes != null) {
-			// GET ALL attributes FOR THIS ATTRIBUTE
-			for (Iterator<ProductMarketingAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-				ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-				AttributeDefinition attributeDefinition = productMarketingAttribute.getAttributeDefinition();
-				if(attributeDefinition != null
-						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-					attributesFilter.add(productMarketingAttribute);
-				}
-			}
-			// REMOVE ALL attributes NOT ON THIS MARKET AREA
-			if(marketAreaId != null) {
-				for (Iterator<ProductMarketingAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-					ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = productMarketingAttribute.getAttributeDefinition();
-					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						if(productMarketingAttribute.getMarketAreaId() != null
-								&& BooleanUtils.negate(productMarketingAttribute.getMarketAreaId().equals(marketAreaId))){
-							iterator.remove();
-						}
-					}
-				}
-			}
-			// FINALLY RETAIN ONLY attributes FOR THIS LOCALIZATION CODE
-			if(StringUtils.isNotEmpty(localizationCode)) {
-				for (Iterator<ProductMarketingAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-					ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-					String attributeLocalizationCode = productMarketingAttribute.getLocalizationCode();
-					if(StringUtils.isNotEmpty(attributeLocalizationCode)
-							&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-						iterator.remove();
-					}
-				}
-				if(attributesFilter.size() == 0){
-					// TODO : warning ?
-				    
-				}
-			}
-		}
-		
-		if(attributesFilter.size() == 1){
-			productMarketingAttributeToReturn = attributesFilter.get(0);
-		} else {
-			// TODO : throw error ?
-		}
-		
-		return productMarketingAttributeToReturn;
-	}
-	
 	public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductMarketingAttribute productMarketingAttribute = getProductMarketingAttribute(attributeCode, marketAreaId, localizationCode);
-		if(productMarketingAttribute != null) {
-			return productMarketingAttribute.getValue();
+	    AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+		if(attribute != null) {
+			return attribute.getValue();
 		}
 		return null;
 	}

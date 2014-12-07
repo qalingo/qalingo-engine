@@ -74,6 +74,9 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 	@Column(name="LOCALIZATION_CODE")
 	private String localizationCode;
 	
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
 //	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
 //	private boolean isGlobal;
 //	
@@ -202,6 +205,14 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 //		this.ordering = ordering;
 //	}
 	
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
+    
 	public Date getStartDate() {
 		return startDate;
 	}

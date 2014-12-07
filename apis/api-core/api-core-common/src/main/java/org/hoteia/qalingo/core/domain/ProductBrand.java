@@ -38,7 +38,7 @@ import org.hoteia.qalingo.core.Constants;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND")
-public class ProductBrand extends AbstractEntity {
+public class ProductBrand extends AbstractExtendEntity {
 
 	/**
 	 * Generated UID
@@ -135,40 +135,6 @@ public class ProductBrand extends AbstractEntity {
         this.attributes = attributes;
     }
     
-    public List<ProductBrandAttribute> getGlobalAttributes() {
-        List<ProductBrandAttribute> productBrandGlobalAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            productBrandGlobalAttributes = new ArrayList<ProductBrandAttribute>();
-            for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && attributeDefinition.isGlobal()) {
-                    productBrandGlobalAttributes.add(attribute);
-                }
-            }
-        }        
-        return productBrandGlobalAttributes;
-    }
-
-    public List<ProductBrandAttribute> getMarketAreaAttributes(Long marketAreaId) {
-        List<ProductBrandAttribute> productBrandMarketAreaAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            productBrandMarketAreaAttributes = new ArrayList<ProductBrandAttribute>();
-            for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && !attributeDefinition.isGlobal()) {
-                    productBrandMarketAreaAttributes.add(attribute);
-                }
-            }
-        }        
-        return productBrandMarketAreaAttributes;
-    }
-    
     public Set<Asset> getAssets() {
         return assets;
     }
@@ -235,72 +201,10 @@ public class ProductBrand extends AbstractEntity {
 	
     // ATTRIBUTES
 
-    public ProductBrandAttribute getAttribute(String attributeCode) {
-        return getAttribute(attributeCode, null, null);
-    }
-
-    public ProductBrandAttribute getAttribute(String attributeCode, String localizationCode) {
-        return getAttribute(attributeCode, null, localizationCode);
-    }
-
-    public ProductBrandAttribute getAttribute(String attributeCode, Long marketAreaId) {
-        return getAttribute(attributeCode, marketAreaId, null);
-    }
-
-    public ProductBrandAttribute getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-        ProductBrandAttribute attributeToReturn = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            List<ProductBrandAttribute> attributesFilter = new ArrayList<ProductBrandAttribute>();
-            for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-                    attributesFilter.add(attribute);
-                }
-            }
-            if (marketAreaId != null) {
-                for (Iterator<ProductBrandAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        if (attribute.getMarketAreaId() != null && BooleanUtils.negate(attribute.getMarketAreaId().equals(marketAreaId))) {
-                            iterator.remove();
-                        }
-                    }
-                }
-                if (attributesFilter.size() == 0) {
-                    // TODO : throw error ?
-                }
-            }
-            if (StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<ProductBrandAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        String attributeLocalizationCode = attribute.getLocalizationCode();
-                        if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
-                            iterator.remove();
-                        }
-                    }
-                }
-                if (attributesFilter.size() == 0) {
-                    // TODO : throw error ?
-                }
-            }
-            if (attributesFilter.size() == 1) {
-                attributeToReturn = attributesFilter.get(0);
-            } else {
-                // TODO : throw error ?
-            }
-        }
-        return attributeToReturn;
-    }
-
     public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
-        ProductBrandAttribute storeAttribute = getAttribute(attributeCode, marketAreaId, localizationCode);
-        if (storeAttribute != null) {
-            return storeAttribute.getValue();
+        AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if (attribute != null) {
+            return attribute.getValue();
         }
         return null;
     }

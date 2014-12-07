@@ -46,12 +46,10 @@ public class StoreLocatorFilterBean extends AbstractViewBean {
         Collections.sort(sortedObjects, new Comparator<StoreLocatorCountryFilterBean>() {
             @Override
             public int compare(StoreLocatorCountryFilterBean o1, StoreLocatorCountryFilterBean o2) {
-                if (o1 != null && o2 != null) {
+                if (o1 != null && o1.getName() != null
+                        && o2 != null) {
                     int compare = o1.getName().compareTo(o2.getName());
-                    if (compare != 0) {
-                        return compare;
-                    }
-                    return o1.getName().compareTo(o2.getName());
+                    return compare;
                 }
                 return 0;
             }

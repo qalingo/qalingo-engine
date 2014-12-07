@@ -88,6 +88,10 @@ public abstract class AbstractAttribute extends AbstractEntity {
 
     public abstract void setBooleanValue(Boolean value);
 
+    public abstract Long getMarketAreaId();
+    
+    public abstract void setMarketAreaId(Long marketAreaId);
+    
     public abstract String getLocalizationCode();
 
     public abstract void setLocalizationCode(String localizationCode);

@@ -71,6 +71,9 @@ public class RuleRepositoryAttribute extends AbstractAttribute {
     @Column(name = "LOCALIZATION_CODE")
     private String localizationCode;
 
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
     public RuleRepositoryAttribute() {
 	}
 	
@@ -162,6 +165,14 @@ public class RuleRepositoryAttribute extends AbstractAttribute {
         this.localizationCode = localizationCode;
     }
 
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+    
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

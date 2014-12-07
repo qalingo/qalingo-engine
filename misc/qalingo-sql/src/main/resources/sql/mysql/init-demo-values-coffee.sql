@@ -232,13 +232,12 @@ INSERT INTO teco_market_area_currency_rel
 (303, 154);
 
 -- STORE
-
+-- (10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '40.667', '-73.633', 'SHOP', 1),
+-- (20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '48.833', '2.333', 'SHOP,CORNER', 1),
+-- add
 INSERT INTO teco_store 
 (id, name, code, address1, address2, additional_information, postal_code, city, state_code, country_code, latitude, longitude, type, version, retailer_id)
  VALUES 
---(10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '40.667', '-73.633', 'SHOP', 1),
---(20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '48.833', '2.333', 'SHOP,CORNER', 1),
---add
 (10, 'The Coffee Bean & Tea Leaf', 'STRTO1', '1772 A East Avenida De Los Arboles', '', '','91362', 'Thousand Oaks', 'CA', 'US', '34.224294', '-118.844712', 'SHOP', 1, 1),
 (20, 'The Coffee Bean & Tea Leaf', 'STRTO2', '487 North Moorpark Road #3', '', '','91360', 'Thousand Oaks', 'CA', 'US', '34.185997', '-118.875596', 'SHOP,CORNER', 1, 1),
 (30, 'The Coffee Bean & Tea Leaf', 'STRTO3', '278 West Hillcrest Drive', '', '','91360', 'Thousand Oaks', 'CA', 'US', '34.185926', '-118.888599', 'SHOP,CORNER', 1, 1),
@@ -268,10 +267,10 @@ INSERT INTO teco_store
 (190, 'The Coffee Bean & Tea Leaf', 'STRVN2', '12-14, Phường Bến Nghé, District 1 (Quan 1), Thành phố', '', '','', 'Ho Chi Minh', '', 'VN', '10.779886', '106.70397', 'SHOP,CORNER', 1, 1),
 (200, 'The Coffee Bean & Tea Leaf', 'STRSG1', '51 Bras Basah Rd', '', '','', 'Singapore', '', 'SG', '1.297665', '103.850053', 'SHOP,CORNER', 1, 1),
 (210, 'The Coffee Bean & Tea Leaf', 'STRSG2', 'Food Opera ION Orchard', '', '','', 'Singapore', '', 'SG', '1.303994', '103.832033', 'SHOP,CORNER', 1, 1);
---(180, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
---(190, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
---(200, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
---(210, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1);
+-- (180, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+-- (190, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+-- (200, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+-- (210, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1);
 
 
 INSERT INTO teco_store_attribute 
@@ -345,127 +344,126 @@ VALUES
 INSERT INTO teco_store_business_hour
 (closing_date_end, closing_date_start, end_hour, start_hour, monday, tuesday, wednesday, thursday, friday, saturday, sunday, store_id)
 VALUES
---- store id 10
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 10),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 10),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 10),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 10),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 10),
---- store id 20
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 20),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 20),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 20),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 20),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 20),
---- store id 30
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 30),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 30),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 30),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 30),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 30),
---- store id 40
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 40),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 40),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 40),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 40),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 40),
---- store id 50
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 50),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 50),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 50),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 50),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 50),
---- store id 60
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 60),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 60),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 60),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 60),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 60),
---- store id 70
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 70),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 70),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 70),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 70),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 70),
---- store id 80
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 80),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 80),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 80),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 80),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 80),
---- store id 90
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 90),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 90),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 90),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 90),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 90),
---- store id 100
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 100),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 100),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 100),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 100),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 100),
---- store id 110
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 110),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 110),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 110),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 110),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 110),
---- store id 120
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 120),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 120),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 120),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 120),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 120),
---- store id 130
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 130),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 130),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 130),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 130),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 130),
---- store id 140
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 140),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 140),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 140),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 140),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 140),
---- store id 150
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 150),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 150),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 150),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 150),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 150),
---- store id 160
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 160),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 160),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 160),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 160),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 160),
---- store id 170
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 170),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 170),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 170),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 170),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 170),
---- store id 180
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 180),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 180),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 180),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 180),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 180),
---- store id 190
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 190),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 190),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 190),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 190),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 190),
---- store id 200
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 200),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 200),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 200),
 ('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 200),
 ('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 200),
---- store id 210
+
 ('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 210),
 ('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 210),
 ('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 210),
@@ -1231,8 +1229,8 @@ INSERT INTO teco_product_marketing
 (50, 'It bends but never breaks, and is henceforth a Japanese symbol of strength and prosperity. May every sip of our fine teas - and every step of your unique journey - be bamboo.', 'PROD50', 0, 'Bamboo Ceramic Tea Set', 1, 20);
 
 
---update teco_product_marketing 
---set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+-- update teco_product_marketing 
+-- set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
 INSERT INTO teco_product_marketing_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, short_string_value, product_marketing_id, attribute_definition_id, localization_code, market_area_id) 

@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
@@ -169,7 +170,9 @@ public class ProductAxeController extends AbstractMCommerceController {
         String metaOgDescription = catalogCategoryViewBean.getI18nDescription();
         seoDataViewBean.setMetaOgDescription(metaOgDescription);
         String metaOgImage = catalogCategoryViewBean.getAssetAbsoluteWebPath("PACKSHOT");
-        seoDataViewBean.setMetaOgImage(urlService.buildAbsoluteUrl(requestData, metaOgImage));
+        if(StringUtils.isNotEmpty(metaOgImage)){
+            seoDataViewBean.setMetaOgImage(urlService.buildAbsoluteUrl(requestData, metaOgImage));
+        }
         
         return seoDataViewBean;
     }

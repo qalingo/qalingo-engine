@@ -74,6 +74,9 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 	@Column(name="LOCALIZATION_CODE")
 	private String localizationCode;
 	
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
 //	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
 //	private int ordering;
 	
@@ -183,6 +186,14 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 	public void setLocalizationCode(String localizationCode) {
 		this.localizationCode = localizationCode;
 	}
+	
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+    
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
 
 //	public int getOrdering() {
 //		return ordering;

@@ -43,7 +43,7 @@ import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU")
-public class ProductSku extends AbstractEntity {
+public class ProductSku extends AbstractExtendEntity {
 
 	/**
 	 * Generated UID
@@ -180,40 +180,6 @@ public class ProductSku extends AbstractEntity {
         this.attributes = attributes;
     }
 	
-	public List<ProductSkuAttribute> getGlobalAttributes() {
-        List<ProductSkuAttribute> productSkuGlobalAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            productSkuGlobalAttributes = new ArrayList<ProductSkuAttribute>();
-            for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && attributeDefinition.isGlobal()) {
-                    productSkuGlobalAttributes.add(attribute);
-                }
-            }
-        }        
-        return productSkuGlobalAttributes;
-	}
-
-	public List<ProductSkuAttribute> getMarketAreaAttributes(Long marketAreaId) {
-        List<ProductSkuAttribute> productSkuMarketAreaAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttribute>();
-            for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && !attributeDefinition.isGlobal()) {
-                    productSkuMarketAreaAttributes.add(attribute);
-                }
-            }
-        }        
-        return productSkuMarketAreaAttributes;
-	}
-
 	public Set<ProductSkuOption> getOptions() {
         return options;
     }
@@ -352,92 +318,10 @@ public class ProductSku extends AbstractEntity {
 
 	// Attributes
 	
-	public ProductSkuAttribute getProductSkuAttribute(String attributeCode) {
-		return getProductSkuAttribute(attributeCode, null, null);
-	}
-	
-	public ProductSkuAttribute getProductSkuAttribute(String attributeCode, String localizationCode) {
-		return getProductSkuAttribute(attributeCode, null, localizationCode);
-	}
-	
-	public ProductSkuAttribute getProductSkuAttribute(String attributeCode, Long marketAreaId) {
-		return getProductSkuAttribute(attributeCode, marketAreaId, null);
-	}
-	
-	public ProductSkuAttribute getProductSkuAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductSkuAttribute productSkuAttributeToReturn = null;
-
-		// 1: GET THE GLOBAL VALUE
-		ProductSkuAttribute productSkuGlobalAttribute = getProductSkuAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
-
-		// 2: GET THE MARKET AREA VALUE
-		ProductSkuAttribute productSkuMarketAreaAttribute = getProductSkuAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
-		
-		if(productSkuMarketAreaAttribute != null){
-			productSkuAttributeToReturn = productSkuMarketAreaAttribute;
-		} else if (productSkuGlobalAttribute != null){
-			productSkuAttributeToReturn = productSkuGlobalAttribute;
-		}
-		
-		return productSkuAttributeToReturn;
-	}
-	
-	private ProductSkuAttribute getProductSkuAttribute(List<ProductSkuAttribute> attributes, String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductSkuAttribute productSkuAttributeToReturn = null;
-		List<ProductSkuAttribute> attributesFilter = new ArrayList<ProductSkuAttribute>();
-		if(attributes != null) {
-			// GET ALL attributes FOR THIS ATTRIBUTE
-			for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-				ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
-				AttributeDefinition attributeDefinition = productSkuAttribute.getAttributeDefinition();
-				if(attributeDefinition != null
-						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-					attributesFilter.add(productSkuAttribute);
-				}
-			}
-			// REMOVE ALL attributes NOT ON THIS MARKET AREA
-			if(marketAreaId != null) {
-				for (Iterator<ProductSkuAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = productSkuAttribute.getAttributeDefinition();
-					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						if(productSkuAttribute.getMarketAreaId() != null
-								&& BooleanUtils.negate(productSkuAttribute.getMarketAreaId().equals(marketAreaId))){
-							iterator.remove();
-						}
-					}
-				}
-			}
-			// FINALLY RETAIN ONLY attributes FOR THIS LOCALIZATION CODE
-			if(StringUtils.isNotEmpty(localizationCode)) {
-				for (Iterator<ProductSkuAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
-					String attributeLocalizationCode = productSkuAttribute.getLocalizationCode();
-					if(StringUtils.isNotEmpty(attributeLocalizationCode)
-							&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-						iterator.remove();
-					}
-				}
-				if(attributesFilter.size() == 0){
-					// TODO : warning ?
-
-				}
-			}
-		}
-		
-		if(attributesFilter.size() == 1){
-			productSkuAttributeToReturn = attributesFilter.get(0);
-		} else {
-			// TODO : throw error ?
-		}
-		
-		return productSkuAttributeToReturn;
-	}
-	
 	public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductSkuAttribute productSkuAttribute = getProductSkuAttribute(attributeCode, marketAreaId, localizationCode);
-		if(productSkuAttribute != null) {
-			return productSkuAttribute.getValue();
+	    AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+		if(attribute != null) {
+			return attribute.getValue();
 		}
 		return null;
 	}

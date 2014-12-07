@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
@@ -34,7 +33,6 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
@@ -403,30 +401,6 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         searchItemViewBean.setCode(storeCode);
 
         searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
-
-        final Asset defaultBackgroundImage = store.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            final String backgroundImage = engineSettingService.getRetailerOrStoreImageWebPath(defaultBackgroundImage);
-            searchItemViewBean.setBackgroundImage(backgroundImage);
-        } else {
-            searchItemViewBean.setBackgroundImage("");
-        }
-        
-        final Asset defaultIconImage = store.getDefaultThumbnailImage();
-        if (defaultIconImage != null) {
-            final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(defaultIconImage);
-            searchItemViewBean.setIconImage(iconImage);
-        } else {
-            searchItemViewBean.setIconImage("");
-        }
-        
-        final Asset carouselImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
-        if (carouselImage != null) {
-            final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(carouselImage);
-            searchItemViewBean.setCarouselImage(iconImage); 
-        } else {
-            searchItemViewBean.setIconImage("");
-        }
 
         return searchItemViewBean;
     }

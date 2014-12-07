@@ -33,14 +33,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name = "TECO_RETAILER")
-public class Retailer extends AbstractEntity {
+public class Retailer extends AbstractExtendEntity {
 
     /**
      * Generated UID
@@ -371,92 +369,6 @@ public class Retailer extends AbstractEntity {
         return assetsByMarketArea;
     }
     
-    public Asset getDefaultBackgroundImage() {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType()) 
-                        && productImage.isDefault()) {
-                    defaultImage = productImage;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType())) {
-                    defaultImage = productImage;
-                }
-            }
-        }
-        return defaultImage;
-    }
-
-    public Asset getDefaultSlideshowImage() {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType()) 
-                        && productImage.isDefault()) {
-                    defaultImage = productImage;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType())) {
-                    defaultImage = productImage;
-                }
-            }
-        }
-        return defaultImage;
-    }
-
-    public Asset getDefaultPackshotImage(String size) {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productAsset = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.getPropertyKey().equals(productAsset.getType()) 
-                        && size.equals(productAsset.getSize()) 
-                        && productAsset.isDefault()) {
-                    defaultImage = productAsset;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.getPropertyKey().equals(productImage.getType()) 
-                        && size.equals(productImage.getSize())) {
-                    defaultImage = productImage;
-                }
-            }
-        }
-        return defaultImage;
-    }
-
-    public Asset getDefaultThumbnailImage() {
-        Asset defaultImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if (assetsIsGlobal != null) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType()) 
-                        && productImage.isDefault()) {
-                    defaultImage = productImage;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType())) {
-                    defaultImage = productImage;
-                }
-            }
-        }
-        return defaultImage;
-    }
-    
     public Set<RetailerAttribute> getAttributes() {
         return attributes;
     }
@@ -515,72 +427,10 @@ public class Retailer extends AbstractEntity {
 
     // ATTRIBUTES
 
-    public RetailerAttribute getAttribute(String attributeCode) {
-        return getAttribute(attributeCode, null, null);
-    }
-
-    public RetailerAttribute getAttribute(String attributeCode, String localizationCode) {
-        return getAttribute(attributeCode, null, localizationCode);
-    }
-
-    public RetailerAttribute getAttribute(String attributeCode, Long marketAreaId) {
-        return getAttribute(attributeCode, marketAreaId, null);
-    }
-
-    public RetailerAttribute getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-        RetailerAttribute attributeToReturn = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            List<RetailerAttribute> attributesFilter = new ArrayList<RetailerAttribute>();
-            for (Iterator<RetailerAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                RetailerAttribute attribute = (RetailerAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-                    attributesFilter.add(attribute);
-                }
-            }
-            if (marketAreaId != null) {
-                for (Iterator<RetailerAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    RetailerAttribute attribute = (RetailerAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        if (attribute.getMarketAreaId() != null && BooleanUtils.negate(attribute.getMarketAreaId().equals(marketAreaId))) {
-                            iterator.remove();
-                        }
-                    }
-                }
-                if (attributesFilter.size() == 0) {
-                    // TODO : throw error ?
-                }
-            }
-            if (StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<RetailerAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    RetailerAttribute attribute = (RetailerAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        String attributeLocalizationCode = attribute.getLocalizationCode();
-                        if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
-                            iterator.remove();
-                        }
-                    }
-                }
-                if (attributesFilter.size() == 0) {
-                    // TODO : throw error ?
-                }
-            }
-            if (attributesFilter.size() == 1) {
-                attributeToReturn = attributesFilter.get(0);
-            } else {
-                // TODO : throw error ?
-            }
-        }
-        return attributeToReturn;
-    }
-
     public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
-        RetailerAttribute storeAttribute = getAttribute(attributeCode, marketAreaId, localizationCode);
-        if (storeAttribute != null) {
-            return storeAttribute.getValue();
+        AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if (attribute != null) {
+            return attribute.getValue();
         }
         return null;
     }

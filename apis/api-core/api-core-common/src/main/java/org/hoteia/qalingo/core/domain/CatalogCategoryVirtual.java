@@ -37,7 +37,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.comparator.CatalogCategoryVirtualComparator;
@@ -224,38 +223,6 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
         this.attributes = attributes;
     }
 
-    public List<CatalogCategoryVirtualAttribute> getGlobalAttributes() {
-        List<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
-            for (Iterator<CatalogCategoryVirtualAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null && attributeDefinition.isGlobal()) {
-                    catalogCategoryGlobalAttributes.add(attribute);
-                }
-            }
-        }
-        return catalogCategoryGlobalAttributes;
-    }
-
-    public List<CatalogCategoryVirtualAttribute> getMarketAreaAttributes(Long marketAreaId) {
-        List<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = null;
-        if (attributes != null
-                && Hibernate.isInitialized(attributes)) {
-            catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
-            for (Iterator<CatalogCategoryVirtualAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null && !attributeDefinition.isGlobal()) {
-                    catalogCategoryMarketAreaAttributes.add(attribute);
-                }
-            }
-        }
-        return catalogCategoryMarketAreaAttributes;
-    }
-
     public Set<CatalogCategoryVirtual> getCatalogCategories() {
         return catalogCategories;
     }
@@ -410,95 +377,14 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
 
     // Attributes
 
-    public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode) {
-        return getCatalogCategoryAttribute(attributeCode, null, null);
-    }
-
-    public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode, String localizationCode) {
-        return getCatalogCategoryAttribute(attributeCode, null, localizationCode);
-    }
-
-    public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode, Long marketAreaId) {
-        return getCatalogCategoryAttribute(attributeCode, marketAreaId, null);
-    }
-
-    public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-        CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
-
-        // 1: GET THE GLOBAL VALUE
-        CatalogCategoryVirtualAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
-
-        // 2: GET THE MARKET AREA VALUE
-        CatalogCategoryVirtualAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId,
-                localizationCode);
-
-        if (catalogCategoryMarketAreaAttribute != null) {
-            catalogCategoryAttributeToReturn = catalogCategoryMarketAreaAttribute;
-        } else if (catalogCategoryGlobalAttribute != null) {
-            catalogCategoryAttributeToReturn = catalogCategoryGlobalAttribute;
-        }
-
-        return catalogCategoryAttributeToReturn;
-    }
-
-    private CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(List<CatalogCategoryVirtualAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId,
-            String localizationCode) {
-        CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
-        List<CatalogCategoryVirtualAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryVirtualAttribute>();
-        if (catalogCategoryAttributes != null) {
-            // GET ALL CategoryAttributes FOR THIS ATTRIBUTE
-            for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-                if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-                    catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
-                }
-            }
-//            // REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
-//            if (marketAreaId != null) {
-//                for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
-//                    CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-//                    AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-//                    if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-//                        if (catalogCategoryAttribute.getMarketAreaId() != null && BooleanUtils.negate(catalogCategoryAttribute.getMarketAreaId().equals(marketAreaId))) {
-//                            iterator.remove();
-//                        }
-//                    }
-//                }
-//            }
-            // FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
-            if (StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
-                    CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-                    String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
-                    if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
-                        iterator.remove();
-                    }
-                }
-                if (catalogCategoryAttributesFilter.size() == 0) {
-                    // TODO : warning ?
-
-                }
-            }
-        }
-
-        if (catalogCategoryAttributesFilter.size() == 1) {
-            catalogCategoryAttributeToReturn = catalogCategoryAttributesFilter.get(0);
-        } else {
-            // TODO : throw error ?
-        }
-
-        return catalogCategoryAttributeToReturn;
-    }
-
     public Object getValue(String attributeCode) {
         return getValue(attributeCode, null, null);
     }
 
     public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
-        CatalogCategoryVirtualAttribute catalogCategoryAttribute = getCatalogCategoryAttribute(attributeCode, marketAreaId, localizationCode);
-        if (catalogCategoryAttribute != null) {
-            return catalogCategoryAttribute.getValue();
+        AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if (attribute != null) {
+            return attribute.getValue();
         }
         return null;
     }
