@@ -10,9 +10,13 @@
 package org.hoteia.qalingo.core.pojo.cart;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogCategoryPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
@@ -22,6 +26,8 @@ public class CartItemPojo {
 
     private Long id;
     private int quantity;
+    
+    protected List<AssetPojo> assets = new ArrayList<AssetPojo>();
     
     private CartItemPricePojo cartItemPrice;
     
@@ -57,10 +63,48 @@ public class CartItemPojo {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
-	public String getProductSkuCode() {
-		return productSkuCode;
-	}
+
+    public List<AssetPojo> getAssets() {
+        return assets;
+    }
+
+    public String getAssetPath(String type) {
+        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+            if (assetViewBean.getType().equals(type)) {
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
+    }
+
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+            if (assetViewBean.getType().equals(type)) {
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
+    }
+
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+            if (assetViewBean.getType().equals(type)) {
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
+
+    public void setAssets(List<AssetPojo> assets) {
+        this.assets = assets;
+    }
+
+    public String getProductSkuCode() {
+        return productSkuCode;
+    }
 	
 	public void setProductSkuCode(String productSkuCode) {
 		this.productSkuCode = productSkuCode;

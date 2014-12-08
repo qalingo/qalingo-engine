@@ -1921,12 +1921,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         cartItemViewBean.setQuantity(cartItem.getQuantity());
 
-        final Asset defaultPackshotImage = productSku.getDefaultPackshotImage(ImageSize.SMALL.name());
-        if (defaultPackshotImage != null) {
-            String summaryImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
-            cartItemViewBean.setSummaryImage(summaryImage);
-        } else {
-            cartItemViewBean.setSummaryImage("");
+        // ASSETS
+        if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+            for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                cartItemViewBean.getAssets().add(assetViewBean);
+            }
         }
         
         // UNIT PRICE

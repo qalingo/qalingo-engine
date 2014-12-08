@@ -9,6 +9,10 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class CartItemViewBean extends AbstractViewBean {
 
 	/**
@@ -17,7 +21,6 @@ public class CartItemViewBean extends AbstractViewBean {
 	private static final long serialVersionUID = -7032831815877311774L;
 	
 	protected String skuCode;
-    protected String summaryImage;
 
     protected String i18nName;
     protected String i18nDescription;
@@ -27,6 +30,8 @@ public class CartItemViewBean extends AbstractViewBean {
     protected String feesWithCurrencySign;
 	protected String amountWithCurrencySign;
 	
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    
 	protected String deleteUrl;
     protected String productDetailsUrl;
 
@@ -37,14 +42,6 @@ public class CartItemViewBean extends AbstractViewBean {
 	public void setSkuCode(String skuCode) {
 		this.skuCode = skuCode;
 	}
-	
-	public String getSummaryImage() {
-        return summaryImage;
-    }
-	
-	public void setSummaryImage(String summaryImage) {
-        this.summaryImage = summaryImage;
-    }
 	
     public String getI18nName() {
         return i18nName;
@@ -92,6 +89,44 @@ public class CartItemViewBean extends AbstractViewBean {
 
     public void setAmountWithCurrencySign(String amountWithCurrencySign) {
         this.amountWithCurrencySign = amountWithCurrencySign;
+    }
+    
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public String getAssetPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
+
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
     }
 
     public String getDeleteUrl() {

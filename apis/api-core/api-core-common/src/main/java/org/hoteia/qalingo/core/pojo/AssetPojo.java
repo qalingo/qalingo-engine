@@ -9,10 +9,6 @@
  */
 package org.hoteia.qalingo.core.pojo;
 
-import org.hoteia.qalingo.core.domain.enumtype.AssetScope;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
-import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
-
 import java.util.Date;
 
 public class AssetPojo {
@@ -22,15 +18,21 @@ public class AssetPojo {
     private String name;
     private String code;
     private String description;
+    
     private String path;
-    private AssetScope scope;
-    private AssetType type;
-    private ImageSize size;
+    private String scope;
+    private String type;
+    private String size;
     private Long fileSize;
+    
     private boolean isDefault;
     private boolean isGlobal;
     private Integer ordering;
     private Long marketAreaId;
+    
+    protected String relativeWebPath;
+    protected String absoluteWebPath;
+    
     private Date dateCreate;
     private Date dateUpdate;
 
@@ -82,27 +84,27 @@ public class AssetPojo {
         this.path = path;
     }
 
-    public AssetScope getScope() {
+    public String getScope() {
         return scope;
     }
 
-    public void setScope(AssetScope scope) {
+    public void setScope(String scope) {
         this.scope = scope;
     }
 
-    public AssetType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(AssetType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public ImageSize getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(ImageSize size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
@@ -146,6 +148,22 @@ public class AssetPojo {
         this.marketAreaId = marketAreaId;
     }
 
+    public String getRelativeWebPath() {
+        return relativeWebPath;
+    }
+    
+    public void setRelativeWebPath(String relativeWebPath) {
+        this.relativeWebPath = relativeWebPath;
+    }
+    
+    public String getAbsoluteWebPath() {
+        return absoluteWebPath;
+    }
+    
+    public void setAbsoluteWebPath(String absoluteWebPath) {
+        this.absoluteWebPath = absoluteWebPath;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }

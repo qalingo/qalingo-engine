@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.pojo.product;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hoteia.qalingo.core.pojo.AssetPojo;
@@ -44,8 +45,8 @@ public class ProductSkuPojo {
 
     private List<ProductSkuAttributePojo> productSkuGlobalAttributes = new ArrayList<ProductSkuAttributePojo>();
     private List<ProductSkuAttributePojo> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttributePojo>();
-    private List<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
-    private List<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
+    
+    protected List<AssetPojo> assets = new ArrayList<AssetPojo>();
     private List<ProductSkuPricePojo> prices = new ArrayList<ProductSkuPricePojo>();
     private List<ProductSkuStockPojo> stocks = new ArrayList<ProductSkuStockPojo>();
     private List<RetailerPojo> retailers = new ArrayList<RetailerPojo>();
@@ -221,20 +222,42 @@ public class ProductSkuPojo {
         this.productSkuMarketAreaAttributes = productSkuMarketAreaAttributes;
     }
 
-    public List<AssetPojo> getAssetsIsGlobal() {
-        return assetsIsGlobal;
+    public List<AssetPojo> getAssets() {
+        return assets;
     }
 
-    public void setAssetsIsGlobal(List<AssetPojo> assetsIsGlobal) {
-        this.assetsIsGlobal = assetsIsGlobal;
+    public String getAssetPath(String type) {
+        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+            if (assetViewBean.getType().equals(type)) {
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
     }
 
-    public List<AssetPojo> getAssetsByMarketArea() {
-        return assetsByMarketArea;
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+            if (assetViewBean.getType().equals(type)) {
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
     }
 
-    public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
-        this.assetsByMarketArea = assetsByMarketArea;
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+            if (assetViewBean.getType().equals(type)) {
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
+
+    public void setAssets(List<AssetPojo> assets) {
+        this.assets = assets;
     }
 
     public List<ProductSkuPricePojo> getPrices() {

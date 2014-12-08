@@ -9,10 +9,13 @@
  */
 package org.hoteia.qalingo.core.dozer;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.dozer.DozerEventListener;
 import org.dozer.event.DozerEvent;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
@@ -23,7 +26,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
+import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.FoCartItemPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.FoDeliveryMethodPojo;
@@ -81,12 +84,23 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     final Localization localization = requestData.getMarketAreaLocalization();
                     final String localizationCode = localization.getCode();
                     
-                    final Asset defaultPackshotImage = cartItem.getProductSku().getDefaultPackshotImage(ImageSize.SMALL.name());
-                    if (defaultPackshotImage != null) {
-                        String summaryImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
-                        cartItemPojo.setSummaryImage(summaryImage);
-                    } else {
-                        cartItemPojo.setSummaryImage("");
+                    // ASSETS
+                    ProductSku productSku = cartItem.getProductSku();
+                    if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+                        for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
+                            Asset asset = (Asset) iterator.next();
+                            AssetPojo assetPojo = new AssetPojo();
+                            
+                            assetPojo.setName(asset.getName());
+                            assetPojo.setDescription(asset.getDescription());
+                            assetPojo.setType(asset.getType());
+                            assetPojo.setPath(asset.getPath());
+                            
+                            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                            assetPojo.setRelativeWebPath(path);
+                            assetPojo.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                            cartItemPojo.getAssets().add(assetPojo);
+                        }
                     }
                     
                     cartItemPojo.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
@@ -112,12 +126,22 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     final Localization localization = requestData.getMarketAreaLocalization();
                     final String localizationCode = localization.getCode();
                     
-                    final Asset defaultPackshotImage = productSku.getDefaultPackshotImage(ImageSize.SMALL.name());
-                    if (defaultPackshotImage != null) {
-                        String summaryImage = engineSettingService.getProductMarketingImageWebPath(defaultPackshotImage);
-                        productSkuPojo.setDefaultPackshotImage(summaryImage);
-                    } else {
-                        productSkuPojo.setDefaultPackshotImage("");
+                    // ASSETS
+                    if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+                        for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
+                            Asset asset = (Asset) iterator.next();
+                            AssetPojo assetPojo = new AssetPojo();
+                            
+                            assetPojo.setName(asset.getName());
+                            assetPojo.setDescription(asset.getDescription());
+                            assetPojo.setType(asset.getType());
+                            assetPojo.setPath(asset.getPath());
+                            
+                            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                            assetPojo.setRelativeWebPath(path);
+                            assetPojo.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                            productSkuPojo.getAssets().add(assetPojo);
+                        }
                     }
                     
                     productSkuPojo.setI18nName(productSku.getI18nName(localizationCode));

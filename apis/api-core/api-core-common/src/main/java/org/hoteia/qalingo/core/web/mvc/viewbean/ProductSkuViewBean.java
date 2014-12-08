@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -90,30 +91,6 @@ public class ProductSkuViewBean extends AbstractViewBean {
         this.description = description;
     }
 
-    public String getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    public void setBackgroundImage(String backgroundImage) {
-        this.backgroundImage = backgroundImage;
-    }
-
-    public String getCarouselImage() {
-        return carouselImage;
-    }
-
-    public void setCarouselImage(String carouselImage) {
-        this.carouselImage = carouselImage;
-    }
-
-    public String getIconImage() {
-        return iconImage;
-    }
-
-    public void setIconImage(String iconImage) {
-        this.iconImage = iconImage;
-    }
-    
     public String getI18nName() {
         if(StringUtils.isNotEmpty(i18nName)){
             return i18nName;
@@ -208,6 +185,36 @@ public class ProductSkuViewBean extends AbstractViewBean {
         return assets;
     }
     
+    public String getAssetPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        return null;
+    }
+    
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        return null;
+    }
+
     public void setAssets(List<AssetViewBean> assets) {
         this.assets = assets;
     }
