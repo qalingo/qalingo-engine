@@ -268,32 +268,6 @@ public class ProductMarketing extends AbstractExtendEntity {
         return assetsByMarketArea;
 	}
 	
-//	public CatalogCategoryVirtual getDefaultCatalogCategory() {
-//	    if(productSkus != null
-//                && Hibernate.isInitialized(productSkus)){
-//            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
-//                ProductSku productSku = (ProductSku) iterator.next();
-//                if(productSku.isDefault()){
-//                    if(productSku.getDefaultCatalogCategory() != null
-//                            && Hibernate.isInitialized(productSku.getDefaultCatalogCategory())){
-//                        // DEFAULT CATEGORY FOR THE DEFAULT SKU - BEST SOLUTION
-//                        return productSku.getDefaultCatalogCategory();
-//                    }
-//                }
-//            }
-//            // NO DEFAULT CATEGORY FOR THE DEFAULT SKU - RETURN A FALLBACK VALUE
-//            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
-//                ProductSku productSku = (ProductSku) iterator.next();
-//                if(productSku.getDefaultCatalogCategory() != null
-//                        && Hibernate.isInitialized(productSku.getDefaultCatalogCategory())){
-//                    // DEFAULT CATEGORY FOR THE DEFAULT SKU - BEST SOLUTION
-//                    return productSku.getDefaultCatalogCategory();
-//                }
-//            }
-//	    }
-//        return null;
-//    }
-	
 	public int getRanking() {
         return ranking;
     }

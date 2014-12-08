@@ -1605,6 +1605,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
 
+        ProductSku productSku = productMarketing.getDefaultProductSku();
+        if(productSku != null){
+            CatalogCategoryVirtual catalogCategory = productSku.getDefaultCatalogCategoryVirtual(marketArea.getCatalog());
+            productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+        }
+        
         return productMarketingViewBean;
     }
     
