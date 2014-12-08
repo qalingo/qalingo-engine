@@ -70,7 +70,7 @@ public class ProductMarketing extends AbstractExtendEntity {
     private boolean isDefault;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
-    @JoinColumn(name = "BRAND_ID", insertable = true, updatable = true)
+    @JoinColumn(name = "PRODUCT_BRAND_ID", insertable = true, updatable = true)
     private ProductBrand productBrand;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketingType.class)
