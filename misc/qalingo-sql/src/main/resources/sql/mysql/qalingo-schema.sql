@@ -2087,6 +2087,48 @@ CREATE TABLE `teco_product_brand_attribute` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_product_brand_tag`
+--
+
+DROP TABLE IF EXISTS `teco_product_brand_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_brand_tag` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) NOT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `DESCRIPTION` longtext,
+  `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
+  `IS_GLOBAL` tinyint(1) NOT NULL DEFAULT '0',
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `ORDERING` int(11) NOT NULL DEFAULT '0',
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_brand_tag_rel`
+--
+
+DROP TABLE IF EXISTS `teco_product_brand_tag_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_brand_tag_rel` (
+  `PRODUCT_BRAND_ID` bigint(20) NOT NULL,
+  `PRODUCT_BRAND_TAG_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`PRODUCT_BRAND_ID`,`PRODUCT_BRAND_TAG_ID`),
+  KEY `FKDEEC11CA44895AF` (`PRODUCT_BRAND_ID`),
+  KEY `FKDEEC11CA8037C556` (`PRODUCT_BRAND_TAG_ID`),
+  CONSTRAINT `FKDEEC11CA8037C556` FOREIGN KEY (`PRODUCT_BRAND_TAG_ID`) REFERENCES `teco_product_brand_tag` (`ID`),
+  CONSTRAINT `FKDEEC11CA44895AF` FOREIGN KEY (`PRODUCT_BRAND_ID`) REFERENCES `teco_product_brand` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_product_marketing`
 --
 
@@ -2268,6 +2310,24 @@ CREATE TABLE `teco_product_marketing_tag` (
   `VERSION` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_marketing_tag_rel`
+--
+
+DROP TABLE IF EXISTS `teco_product_marketing_tag_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_marketing_tag_rel` (
+  `PRODUCT_MARKETING_ID` bigint(20) NOT NULL,
+  `PRODUCT_MARKETING_TAG_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`PRODUCT_MARKETING_ID`,`PRODUCT_MARKETING_TAG_ID`),
+  KEY `FK50D6A269B165E158` (`PRODUCT_MARKETING_TAG_ID`),
+  KEY `FK50D6A269820B6ACF` (`PRODUCT_MARKETING_ID`),
+  CONSTRAINT `FK50D6A269820B6ACF` FOREIGN KEY (`PRODUCT_MARKETING_ID`) REFERENCES `teco_product_marketing` (`ID`),
+  CONSTRAINT `FK50D6A269B165E158` FOREIGN KEY (`PRODUCT_MARKETING_TAG_ID`) REFERENCES `teco_product_marketing_tag` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2497,6 +2557,48 @@ CREATE TABLE `teco_product_sku_store_rel` (
   KEY `FKA83F13A7723F98E6` (`STORE_ID`),
   CONSTRAINT `FKA83F13A7723F98E6` FOREIGN KEY (`STORE_ID`) REFERENCES `teco_store` (`ID`),
   CONSTRAINT `FKA83F13A7DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_sku_tag`
+--
+
+DROP TABLE IF EXISTS `teco_product_sku_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_sku_tag` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) NOT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `DESCRIPTION` longtext,
+  `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
+  `IS_GLOBAL` tinyint(1) NOT NULL DEFAULT '0',
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `ORDERING` int(11) NOT NULL DEFAULT '0',
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_sku_tag_rel`
+--
+
+DROP TABLE IF EXISTS `teco_product_sku_tag_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_sku_tag_rel` (
+  `PRODUCT_SKU_ID` bigint(20) NOT NULL,
+  `PRODUCT_SKU_TAG_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`PRODUCT_SKU_ID`,`PRODUCT_SKU_TAG_ID`),
+  KEY `FK46954CE0DBEE772F` (`PRODUCT_SKU_ID`),
+  KEY `FK46954CE06C156C6A` (`PRODUCT_SKU_TAG_ID`),
+  CONSTRAINT `FK46954CE06C156C6A` FOREIGN KEY (`PRODUCT_SKU_TAG_ID`) REFERENCES `teco_product_sku_tag` (`ID`),
+  CONSTRAINT `FK46954CE0DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3025,6 +3127,48 @@ CREATE TABLE `teco_store_business_hour` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_store_tag`
+--
+
+DROP TABLE IF EXISTS `teco_store_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_store_tag` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) NOT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `DESCRIPTION` longtext,
+  `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
+  `IS_GLOBAL` tinyint(1) NOT NULL DEFAULT '0',
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `ORDERING` int(11) NOT NULL DEFAULT '0',
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_store_tag_rel`
+--
+
+DROP TABLE IF EXISTS `teco_store_tag_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_store_tag_rel` (
+  `STORE_ID` bigint(20) NOT NULL,
+  `STORE_TAG_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`STORE_ID`,`STORE_TAG_ID`),
+  KEY `FK31436E94D7867DAB` (`STORE_TAG_ID`),
+  KEY `FK31436E94723F98E6` (`STORE_ID`),
+  CONSTRAINT `FK31436E94723F98E6` FOREIGN KEY (`STORE_ID`) REFERENCES `teco_store` (`ID`),
+  CONSTRAINT `FK31436E94D7867DAB` FOREIGN KEY (`STORE_TAG_ID`) REFERENCES `teco_store_tag` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_tax`
 --
 
@@ -3195,4 +3339,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-08 22:33:47
+-- Dump completed on 2014-12-09 21:12:08

@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.core.solr.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.solr.client.solrj.beans.Field;
 
@@ -35,6 +37,9 @@ public class StoreSolr {
     
     @Field
    	private String type;
+    
+    @Field
+    private List<String> tags = new ArrayList<String>();
     
     @Field("datecreate")
     private Date dateCreate;
@@ -98,6 +103,23 @@ public class StoreSolr {
         this.name = name;
     }
 	
+    public List<String> getTags() {
+        return tags;
+    }
+    
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+    
+    public void addTags(String tag){
+        if(this.tags == null){
+            this.tags = new ArrayList<String>();
+        }
+        if(!this.tags.contains(tag)){
+            this.tags.add(tag);
+        }
+    }
+    
 	public Date getDateCreate() {
 		return dateCreate;
 	}

@@ -24,7 +24,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -124,6 +126,10 @@ public class Store extends AbstractExtendEntity {
     @JoinColumn(name = "STORE_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.StoreTag.class)
+    @JoinTable(name = "TECO_STORE_TAG_REL", joinColumns = @JoinColumn(name = "STORE_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_TAG_ID"))
+    private Set<StoreTag> tags = new HashSet<StoreTag>();
+    
     @Column(name = "LONGITUDE")
     private String longitude;
 
@@ -358,6 +364,14 @@ public class Store extends AbstractExtendEntity {
         return assetsByMarketArea;
     }
 
+    public Set<StoreTag> getTags() {
+        return tags;
+    }
+    
+    public void setTags(Set<StoreTag> tags) {
+        this.tags = tags;
+    }
+    
     public String getLongitude() {
         return longitude;
     }

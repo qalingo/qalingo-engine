@@ -37,7 +37,6 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU")
@@ -107,6 +106,10 @@ public class ProductSku extends AbstractExtendEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<CatalogCategoryVirtualProductSkuRel> catalogCategoryVirtualProductSkuRels = new HashSet<CatalogCategoryVirtualProductSkuRel>();
+    
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuTag.class)
+    @JoinTable(name = "TECO_PRODUCT_SKU_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_TAG_ID"))
+    private Set<ProductSkuTag> tags = new HashSet<ProductSkuTag>();
     
     @Transient
     private Integer ranking;
@@ -309,7 +312,15 @@ public class ProductSku extends AbstractExtendEntity {
         }
         return defaultCatalogCategory;
     }
-	   
+    
+    public Set<ProductSkuTag> getTags() {
+        return tags;
+    }
+    
+    public void setTags(Set<ProductSkuTag> tags) {
+        this.tags = tags;
+    }
+    
     public Integer getRanking() {
         if(ranking == null){
             return new Integer(0);

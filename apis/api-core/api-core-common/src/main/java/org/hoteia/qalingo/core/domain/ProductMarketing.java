@@ -24,7 +24,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -93,6 +95,10 @@ public class ProductMarketing extends AbstractExtendEntity {
     @JoinColumn(name = "PRODUCT_MARKETING_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketingTag.class)
+    @JoinTable(name = "TECO_PRODUCT_MARKETING_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TAG_ID"))
+    private Set<ProductMarketingTag> tags = new HashSet<ProductMarketingTag>();
+    
     @Transient
     private int ranking;
     
@@ -266,6 +272,14 @@ public class ProductMarketing extends AbstractExtendEntity {
         }        
         return assetsByMarketArea;
 	}
+	
+	public Set<ProductMarketingTag> getTags() {
+        return tags;
+    }
+	
+	public void setTags(Set<ProductMarketingTag> tags) {
+        this.tags = tags;
+    }
 	
 	public int getRanking() {
         return ranking;

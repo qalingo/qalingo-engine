@@ -46,6 +46,9 @@ public class ProductMarketingSolr {
     @Field
     private List<String> catalogCategories = new ArrayList<String>();
 
+    @Field
+    private List<String> tags = new ArrayList<String>();
+    
 	@Field("datecreate")
 	private Date dateCreate;
 
@@ -150,6 +153,23 @@ public class ProductMarketingSolr {
         }
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+    
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+    
+    public void addTags(String tag){
+        if(this.tags == null){
+            this.tags = new ArrayList<String>();
+        }
+        if(!this.tags.contains(tag)){
+            this.tags.add(tag);
+        }
+    }
+    
 	public Date getDateCreate() {
 		return dateCreate;
 	}

@@ -24,17 +24,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.Constants;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND")
@@ -76,6 +76,10 @@ public class ProductBrand extends AbstractExtendEntity {
     @JoinColumn(name = "PRODUCT_BRAND_ID")
     private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrandTag.class)
+    @JoinTable(name = "TECO_PRODUCT_BRAND_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_TAG_ID"))
+    private Set<ProductBrandTag> tags = new HashSet<ProductBrandTag>();
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -181,6 +185,14 @@ public class ProductBrand extends AbstractExtendEntity {
 	
 	public void setProductMarketings(Set<ProductMarketing> productMarketings) {
         this.productMarketings = productMarketings;
+    }
+	
+	public Set<ProductBrandTag> getTags() {
+        return tags;
+    }
+	
+	public void setTags(Set<ProductBrandTag> tags) {
+        this.tags = tags;
     }
 	
 	public Date getDateCreate() {

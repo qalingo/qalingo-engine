@@ -23,13 +23,13 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_MARKETING_TAG")
-public class ProductMarketingTag extends AbstractEntity {
+@Table(name="TECO_STORE_TAG")
+public class StoreTag extends AbstractEntity {
 
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = -86950787776013413L;
+	private static final long serialVersionUID = 55884787776013413L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,7 +70,7 @@ public class ProductMarketingTag extends AbstractEntity {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-	public ProductMarketingTag(){
+	public StoreTag(){
 	}
 	
 	public Long getId() {
@@ -179,7 +179,7 @@ public class ProductMarketingTag extends AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductMarketingTag other = (ProductMarketingTag) obj;
+        StoreTag other = (StoreTag) obj;
         if (code == null) {
             if (other.code != null)
                 return false;
