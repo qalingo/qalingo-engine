@@ -90,7 +90,7 @@ public class StoreLocationController extends AbstractMCommerceController {
         
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
         MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
         
