@@ -71,27 +71,27 @@ public class ProductSku extends AbstractExtendEntity {
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuAttribute.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuAttribute> attributes = new HashSet<ProductSkuAttribute>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOption.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuOption> options = new HashSet<ProductSkuOption>();
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
     @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
     private ProductMarketing productMarketing;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Asset.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuPrice.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStock.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>();
 
@@ -106,6 +106,14 @@ public class ProductSku extends AbstractExtendEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<CatalogCategoryVirtualProductSkuRel> catalogCategoryVirtualProductSkuRels = new HashSet<CatalogCategoryVirtualProductSkuRel>();
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuCustomerRate.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuCustomerRate> customerRates = new HashSet<ProductSkuCustomerRate>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuCustomerComment.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuCustomerComment> customerComments = new HashSet<ProductSkuCustomerComment>();
     
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuTag.class)
     @JoinTable(name = "TECO_PRODUCT_SKU_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_TAG_ID"))
@@ -311,6 +319,22 @@ public class ProductSku extends AbstractExtendEntity {
             }
         }
         return defaultCatalogCategory;
+    }
+    
+    public Set<ProductSkuCustomerRate> getCustomerRates() {
+        return customerRates;
+    }
+
+    public void setCustomerRates(Set<ProductSkuCustomerRate> customerRates) {
+        this.customerRates = customerRates;
+    }
+
+    public Set<ProductSkuCustomerComment> getCustomerComments() {
+        return customerComments;
+    }
+
+    public void setCustomerComments(Set<ProductSkuCustomerComment> customerComments) {
+        this.customerComments = customerComments;
     }
     
     public Set<ProductSkuTag> getTags() {

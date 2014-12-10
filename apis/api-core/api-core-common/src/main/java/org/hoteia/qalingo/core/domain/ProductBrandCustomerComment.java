@@ -28,13 +28,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TECO_RETAILER_CUSTOMER_COMMENT")
-public class RetailerCustomerComment extends AbstractEntity {
+@Table(name="TECO_PRODUCT_BRAND_CUSTOMER_COMMENT")
+public class ProductBrandCustomerComment extends AbstractEntity {
 
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = 1424510557043858148L;
+    private static final long serialVersionUID = 1924519557043858148L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,19 +47,22 @@ public class RetailerCustomerComment extends AbstractEntity {
     @Column(name="COMMENT")
     private String comment;
 
-	@Column(name="RETAILER_CUSTOMER_COMMENT_ID")
-	private Long retailerCustomerCommentId;
+	@Column(name="PRODUCT_MARKETING_CUSTOMER_COMMENT_ID")
+	private Long productMarketingCustomerCommentId;
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name="CUSTOMER_ID")
 	private Customer customer;
 
-	@Column(name="RETAILER_ID")
-	private Long retailerId;
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+
+    @Column(name="PRODUCT_MARKETING_ID")
+    private Long productMarketingId;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="RETAILER_CUSTOMER_COMMENT_ID")
-	private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>(); 
+    @JoinColumn(name="PRODUCT_MARKETING_CUSTOMER_COMMENT_ID")
+	private Set<ProductBrandCustomerComment> customerComments = new HashSet<ProductBrandCustomerComment>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -69,7 +72,7 @@ public class RetailerCustomerComment extends AbstractEntity {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public RetailerCustomerComment() {
+	public ProductBrandCustomerComment() {
 	}
 
 	public Long getId() {
@@ -96,12 +99,12 @@ public class RetailerCustomerComment extends AbstractEntity {
         this.comment = comment;
     }
 
-	public Long getRetailerCustomerCommentId() {
-    	return retailerCustomerCommentId;
+	public Long getProductMarketingCustomerCommentId() {
+        return productMarketingCustomerCommentId;
     }
-
-	public void setRetailerCustomerCommentId(Long retailerCustomerCommentId) {
-    	this.retailerCustomerCommentId = retailerCustomerCommentId;
+	
+	public void setProductMarketingCustomerCommentId(Long productMarketingCustomerCommentId) {
+        this.productMarketingCustomerCommentId = productMarketingCustomerCommentId;
     }
 
 	public Customer getCustomer() {
@@ -111,20 +114,28 @@ public class RetailerCustomerComment extends AbstractEntity {
 	public void setCustomer(Customer customer) {
     	this.customer = customer;
     }
-
-	public Long getRetailerId() {
-	    return retailerId;
+	
+	public Long getMarketAreaId() {
+        return marketAreaId;
     }
 	
-	public void setRetailerId(Long retailerId) {
-	    this.retailerId = retailerId;
+	public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
     }
 
-	public Set<RetailerCustomerComment> getCustomerComments() {
+	public Long getProductMarketingId() {
+        return productMarketingId;
+    }
+	
+	public void setProductMarketingId(Long productMarketingId) {
+        this.productMarketingId = productMarketingId;
+    }
+	
+	public Set<ProductBrandCustomerComment> getCustomerComments() {
     	return customerComments;
     }
 
-	public void setCustomerComments(Set<RetailerCustomerComment> customerComments) {
+	public void setCustomerComments(Set<ProductBrandCustomerComment> customerComments) {
     	this.customerComments = customerComments;
     }
 
@@ -150,7 +161,7 @@ public class RetailerCustomerComment extends AbstractEntity {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
         return result;
     }
 
@@ -162,7 +173,7 @@ public class RetailerCustomerComment extends AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RetailerCustomerComment other = (RetailerCustomerComment) obj;
+        ProductBrandCustomerComment other = (ProductBrandCustomerComment) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -173,18 +184,18 @@ public class RetailerCustomerComment extends AbstractEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (retailerId == null) {
-            if (other.retailerId != null)
+        if (marketAreaId == null) {
+            if (other.marketAreaId != null)
                 return false;
-        } else if (!retailerId.equals(other.retailerId))
+        } else if (!marketAreaId.equals(other.marketAreaId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "RetailerCustomerComment [id=" + id + ", comment=" + comment + ", retailerCustomerCommentId=" + retailerCustomerCommentId + ", retailerId=" + retailerId + ", dateCreate=" + dateCreate
-                + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductMarketingCustomerComment [id=" + id + ", comment=" + comment + ", productMarketingCustomerCommentId=" + productMarketingCustomerCommentId + ", marketAreaId=" + marketAreaId
+                + ", productMarketingId=" + productMarketingId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

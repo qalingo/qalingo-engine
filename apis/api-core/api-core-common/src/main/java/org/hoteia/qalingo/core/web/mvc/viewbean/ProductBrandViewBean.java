@@ -37,6 +37,9 @@ public class ProductBrandViewBean extends AbstractViewBean {
     private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
+    protected List<ProductBrandCustomerCommentViewBean> comments = new ArrayList<ProductBrandCustomerCommentViewBean>();
+    protected List<ProductBrandTagViewBean> tags = new ArrayList<ProductBrandTagViewBean>();
+
     protected String detailsUrl;
     protected String editUrl;
 
@@ -168,6 +171,22 @@ public class ProductBrandViewBean extends AbstractViewBean {
         this.assets = assets;
     }
 	
+    public List<ProductBrandCustomerCommentViewBean> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<ProductBrandCustomerCommentViewBean> comments) {
+        this.comments = comments;
+    }
+
+    public List<ProductBrandTagViewBean> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<ProductBrandTagViewBean> tags) {
+        this.tags = tags;
+    }
+    
     public String getDetailsUrl() {
         return detailsUrl;
     }

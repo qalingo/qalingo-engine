@@ -114,18 +114,26 @@ public class Store extends AbstractExtendEntity {
     @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
     private Retailer retailer;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreAttribute.class)
     @JoinColumn(name = "STORE_ID")
     private Set<StoreAttribute> attributes = new HashSet<StoreAttribute>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreBusinessHour.class)
     @JoinColumn(name = "STORE_ID")
     private Set<StoreBusinessHour> businessHours = new HashSet<StoreBusinessHour>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Asset.class)
     @JoinColumn(name = "STORE_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreCustomerRate.class)
+    @JoinColumn(name = "STORE_ID")
+    private Set<StoreCustomerRate> customerRates = new HashSet<StoreCustomerRate>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreCustomerComment.class)
+    @JoinColumn(name = "STORE_ID")
+    private Set<StoreCustomerComment> customerComments = new HashSet<StoreCustomerComment>();
+    
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.StoreTag.class)
     @JoinTable(name = "TECO_STORE_TAG_REL", joinColumns = @JoinColumn(name = "STORE_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_TAG_ID"))
     private Set<StoreTag> tags = new HashSet<StoreTag>();
@@ -364,6 +372,22 @@ public class Store extends AbstractExtendEntity {
         return assetsByMarketArea;
     }
 
+    public Set<StoreCustomerRate> getCustomerRates() {
+        return customerRates;
+    }
+
+    public void setCustomerRates(Set<StoreCustomerRate> customerRates) {
+        this.customerRates = customerRates;
+    }
+
+    public Set<StoreCustomerComment> getCustomerComments() {
+        return customerComments;
+    }
+
+    public void setCustomerComments(Set<StoreCustomerComment> customerComments) {
+        this.customerComments = customerComments;
+    }
+    
     public Set<StoreTag> getTags() {
         return tags;
     }

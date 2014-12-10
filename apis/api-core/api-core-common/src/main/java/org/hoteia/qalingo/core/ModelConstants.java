@@ -66,8 +66,10 @@ public class ModelConstants {
 
     public static final String RETAILERS_VIEW_BEAN                  = "retailers";
     public static final String RETAILER_VIEW_BEAN                   = "retailer";
+    public static final String RETAILER_COMMENTS_VIEW_BEAN          = "retailerComments";
     public static final String STORES_VIEW_BEAN                     = "stores";
     public static final String STORE_VIEW_BEAN                      = "store";
+    public static final String STORE_COMMENTS_VIEW_BEAN             = "storeComments";
     public static final String STORE_LIST_URL                       = "storeListUrl";
     
     public static final String BACKOFFICE_LOCALIZATION_VIEW_BEAN    = "backofficeLocalizations";
@@ -84,13 +86,17 @@ public class ModelConstants {
     public static final String MONITORING_VIEW_BEAN                 = "monitoring";
 
     public static final String CATALOG_VIEW_BEAN                    = "catalog";
-    public static final String CATALOG_CATEGORY_VIEW_BEAN           = "catalogCategory";
     public static final String CATALOG_CATEGORIES_VIEW_BEAN         = "catalogCategories";
-    public static final String PRODUCT_MARKETING_VIEW_BEAN          = "productMarketing";
+    public static final String CATALOG_CATEGORY_VIEW_BEAN           = "catalogCategory";
     public static final String PRODUCT_MARKETINGS_VIEW_BEAN         = "productMarketings";
+    public static final String PRODUCT_MARKETING_VIEW_BEAN          = "productMarketing";
+    public static final String PRODUCT_MARKETING_COMMENTS_VIEW_BEAN = "productMarketingComments";
     public static final String PRODUCT_SKU_VIEW_BEAN                = "productSku";
+    public static final String PRODUCT_SKUS_VIEW_BEAN               = "productSkus";
+    public static final String PRODUCT_SKU_COMMENTS_VIEW_BEAN       = "productSkuComments";
     public static final String PRODUCT_BRANDS_VIEW_BEAN             = "productBrands";
     public static final String PRODUCT_BRAND_VIEW_BEAN              = "productBrand";
+    public static final String PRODUCT_BRAND_COMMENTS_VIEW_BEAN     = "productBrandComments";
     public static final String RECENT_PPRODUCT_MARKETING_VIEW_BEAN  = "recentProducts";
     public static final String RELATED_PPRODUCT_MARKETING_VIEW_BEAN = "relatedProductMarketings";
     public static final String CUSTOMER_PRODUCT_RATES_VIEW_BEAN     = "customerProductRates";

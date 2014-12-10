@@ -9,12 +9,12 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-public class RetailerCustomerCommentViewBean extends AbstractCustomerCommentViewBean {
+public class ProductMarketingCustomerCommentViewBean extends AbstractCustomerCommentViewBean {
 
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = 6890622615711735056L;
+    private static final long serialVersionUID = 6890622356711735056L;
 	
 	
 }

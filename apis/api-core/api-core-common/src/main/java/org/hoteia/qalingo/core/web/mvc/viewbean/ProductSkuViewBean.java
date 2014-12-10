@@ -45,6 +45,9 @@ public class ProductSkuViewBean extends AbstractViewBean {
     protected ProductMarketingViewBean productMarketing;
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
     
+    protected List<ProductSkuCustomerCommentViewBean> comments = new ArrayList<ProductSkuCustomerCommentViewBean>();
+    protected List<ProductSkuTagViewBean> tags = new ArrayList<ProductSkuTagViewBean>();
+
     protected String catalogPrice;
     protected String salePrice;
     protected String currencySign;
@@ -217,6 +220,22 @@ public class ProductSkuViewBean extends AbstractViewBean {
 
     public void setAssets(List<AssetViewBean> assets) {
         this.assets = assets;
+    }
+    
+    public List<ProductSkuCustomerCommentViewBean> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<ProductSkuCustomerCommentViewBean> comments) {
+        this.comments = comments;
+    }
+
+    public List<ProductSkuTagViewBean> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<ProductSkuTagViewBean> tags) {
+        this.tags = tags;
     }
     
     public String getCatalogPrice() {

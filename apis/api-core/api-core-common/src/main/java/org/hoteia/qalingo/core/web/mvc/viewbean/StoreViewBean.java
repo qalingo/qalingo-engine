@@ -39,6 +39,9 @@ public class StoreViewBean extends AbstractAddressViewBean {
     protected String distance;
 
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    
+    protected List<StoreCustomerCommentViewBean> comments = new ArrayList<StoreCustomerCommentViewBean>();
+    protected List<StoreTagViewBean> tags = new ArrayList<StoreTagViewBean>();
 
 	protected String detailsUrl;
 	protected String editUrl;
@@ -193,6 +196,22 @@ public class StoreViewBean extends AbstractAddressViewBean {
 
     public void setAssets(List<AssetViewBean> assets) {
         this.assets = assets;
+    }
+    
+    public List<StoreCustomerCommentViewBean> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<StoreCustomerCommentViewBean> comments) {
+        this.comments = comments;
+    }
+
+    public List<StoreTagViewBean> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<StoreTagViewBean> tags) {
+        this.tags = tags;
     }
 
 	public String getDetailsUrl() {

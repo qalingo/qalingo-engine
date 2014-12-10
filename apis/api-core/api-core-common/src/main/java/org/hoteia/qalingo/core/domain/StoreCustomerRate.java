@@ -21,13 +21,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TECO_RETAILER_CUSTOMER_RATE")
-public class RetailerCustomerRate extends AbstractEntity {
+@Table(name = "TECO_STORE_CUSTOMER_RATE")
+public class StoreCustomerRate extends AbstractEntity {
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 2501911341288490523L;
+    private static final long serialVersionUID = 1101911341288490523L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,8 +40,8 @@ public class RetailerCustomerRate extends AbstractEntity {
     @Column(name = "TYPE")
     private String type;
 
-    @Column(name = "RETAILER_ID")
-    private Long retailerId;
+    @Column(name = "STORE_ID")
+    private Long storeId;
 
     @Column(name = "CUSTOMER_ID")
     private Long customerId;
@@ -57,7 +57,7 @@ public class RetailerCustomerRate extends AbstractEntity {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-    public RetailerCustomerRate() {
+    public StoreCustomerRate() {
     }
 
     public Long getId() {
@@ -84,12 +84,12 @@ public class RetailerCustomerRate extends AbstractEntity {
         this.type = type;
     }
 
-    public Long getRetailerId() {
-        return retailerId;
+    public Long getStoreId() {
+        return storeId;
     }
-
-    public void setRetailerId(Long retailerId) {
-        this.retailerId = retailerId;
+    
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
     }
 
     public Long getCustomerId() {
@@ -142,7 +142,7 @@ public class RetailerCustomerRate extends AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RetailerCustomerRate other = (RetailerCustomerRate) obj;
+        StoreCustomerRate other = (StoreCustomerRate) obj;
         if (customerId == null) {
             if (other.customerId != null)
                 return false;
@@ -163,7 +163,7 @@ public class RetailerCustomerRate extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "RetailerCustomerRate [id=" + id + ", rate=" + rate + ", type=" + type + ", retailerId=" + retailerId + ", customerId=" + customerId + ", processed=" + processed + ", dateCreate="
+        return "RetailerCustomerRate [id=" + id + ", rate=" + rate + ", type=" + type + ", storeId=" + storeId + ", customerId=" + customerId + ", processed=" + processed + ", dateCreate="
                 + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

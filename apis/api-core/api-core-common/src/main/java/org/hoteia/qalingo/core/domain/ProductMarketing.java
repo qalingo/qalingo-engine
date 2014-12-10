@@ -95,6 +95,14 @@ public class ProductMarketing extends AbstractExtendEntity {
     @JoinColumn(name = "PRODUCT_MARKETING_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate.class)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID")
+    private Set<ProductMarketingCustomerRate> customerRates = new HashSet<ProductMarketingCustomerRate>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment.class)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID")
+    private Set<ProductMarketingCustomerComment> customerComments = new HashSet<ProductMarketingCustomerComment>();
+    
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketingTag.class)
     @JoinTable(name = "TECO_PRODUCT_MARKETING_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TAG_ID"))
     private Set<ProductMarketingTag> tags = new HashSet<ProductMarketingTag>();
@@ -273,6 +281,22 @@ public class ProductMarketing extends AbstractExtendEntity {
         return assetsByMarketArea;
 	}
 	
+    public Set<ProductMarketingCustomerRate> getCustomerRates() {
+        return customerRates;
+    }
+
+    public void setCustomerRates(Set<ProductMarketingCustomerRate> customerRates) {
+        this.customerRates = customerRates;
+    }
+
+    public Set<ProductMarketingCustomerComment> getCustomerComments() {
+        return customerComments;
+    }
+
+    public void setCustomerComments(Set<ProductMarketingCustomerComment> customerComments) {
+        this.customerComments = customerComments;
+    }
+    
 	public Set<ProductMarketingTag> getTags() {
         return tags;
     }

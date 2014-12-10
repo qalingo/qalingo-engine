@@ -215,8 +215,8 @@ public class RetailerDao extends AbstractGenericDao {
                     retailerCustomerComment.setDateUpdate(new Date());
                 }
             }
-            if (retailer.getRetailerTags() != null && retailer.getRetailerTags().size() > 0) {
-                for (Iterator<RetailerTag> iterator = retailer.getRetailerTags().iterator(); iterator.hasNext();) {
+            if (retailer.getTags() != null && retailer.getTags().size() > 0) {
+                for (Iterator<RetailerTag> iterator = retailer.getTags().iterator(); iterator.hasNext();) {
                     RetailerTag retailerTag = (RetailerTag) iterator.next();
                     retailerTag.setDateCreate(new Date());
                     retailerTag.setDateUpdate(new Date());

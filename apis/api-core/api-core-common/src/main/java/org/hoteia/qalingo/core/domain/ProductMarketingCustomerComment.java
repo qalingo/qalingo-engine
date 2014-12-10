@@ -29,18 +29,21 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING_CUSTOMER_COMMENT")
-public class ProductMarketingCustomerComment extends AbstractAddress {
+public class ProductMarketingCustomerComment extends AbstractEntity {
 
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = 1424510557043858148L;
+    private static final long serialVersionUID = 1424510553043858148L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)
 	private Long id;
 	
+    @Column(name = "TITLE")
+    private String title;
+    
 	@Column(name="COMMENT")
     private String comment;
 
@@ -80,12 +83,20 @@ public class ProductMarketingCustomerComment extends AbstractAddress {
 		this.id = id;
 	}
 	
-	public String getComment() {
-    	return comment;
+    public String getTitle() {
+        return title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    public String getComment() {
+        return comment;
     }
 
-	public void setComment(String comment) {
-    	this.comment = comment;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 	public Long getProductMarketingCustomerCommentId() {

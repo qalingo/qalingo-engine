@@ -28,13 +28,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TECO_RETAILER_CUSTOMER_COMMENT")
-public class RetailerCustomerComment extends AbstractEntity {
+@Table(name="TECO_STORE_CUSTOMER_COMMENT")
+public class StoreCustomerComment extends AbstractEntity {
 
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = 1424510557043858148L;
+    private static final long serialVersionUID = 1424510337043858148L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,19 +47,19 @@ public class RetailerCustomerComment extends AbstractEntity {
     @Column(name="COMMENT")
     private String comment;
 
-	@Column(name="RETAILER_CUSTOMER_COMMENT_ID")
-	private Long retailerCustomerCommentId;
+	@Column(name="STORE_CUSTOMER_COMMENT_ID")
+	private Long storeCustomerCommentId;
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name="CUSTOMER_ID")
 	private Customer customer;
 
-	@Column(name="RETAILER_ID")
-	private Long retailerId;
+	@Column(name="STORE_ID")
+	private Long storeId;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="RETAILER_CUSTOMER_COMMENT_ID")
-	private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>(); 
+    @JoinColumn(name="STORE_CUSTOMER_COMMENT_ID")
+	private Set<StoreCustomerComment> customerComments = new HashSet<StoreCustomerComment>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -69,7 +69,7 @@ public class RetailerCustomerComment extends AbstractEntity {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public RetailerCustomerComment() {
+	public StoreCustomerComment() {
 	}
 
 	public Long getId() {
@@ -96,12 +96,12 @@ public class RetailerCustomerComment extends AbstractEntity {
         this.comment = comment;
     }
 
-	public Long getRetailerCustomerCommentId() {
-    	return retailerCustomerCommentId;
+	public Long getStoreCustomerCommentId() {
+    	return storeCustomerCommentId;
     }
 
-	public void setRetailerCustomerCommentId(Long retailerCustomerCommentId) {
-    	this.retailerCustomerCommentId = retailerCustomerCommentId;
+	public void setRetailerCustomerCommentId(Long storeCustomerCommentId) {
+    	this.storeCustomerCommentId = storeCustomerCommentId;
     }
 
 	public Customer getCustomer() {
@@ -112,19 +112,19 @@ public class RetailerCustomerComment extends AbstractEntity {
     	this.customer = customer;
     }
 
-	public Long getRetailerId() {
-	    return retailerId;
+	public Long getStoreId() {
+	    return storeId;
     }
 	
-	public void setRetailerId(Long retailerId) {
-	    this.retailerId = retailerId;
+	public void setStoreId(Long storeId) {
+	    this.storeId = storeId;
     }
 
-	public Set<RetailerCustomerComment> getCustomerComments() {
+	public Set<StoreCustomerComment> getCustomerComments() {
     	return customerComments;
     }
 
-	public void setCustomerComments(Set<RetailerCustomerComment> customerComments) {
+	public void setCustomerComments(Set<StoreCustomerComment> customerComments) {
     	this.customerComments = customerComments;
     }
 
@@ -150,7 +150,7 @@ public class RetailerCustomerComment extends AbstractEntity {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        result = prime * result + ((storeId == null) ? 0 : storeId.hashCode());
         return result;
     }
 
@@ -162,7 +162,7 @@ public class RetailerCustomerComment extends AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RetailerCustomerComment other = (RetailerCustomerComment) obj;
+        StoreCustomerComment other = (StoreCustomerComment) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -173,17 +173,17 @@ public class RetailerCustomerComment extends AbstractEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (retailerId == null) {
-            if (other.retailerId != null)
+        if (storeId == null) {
+            if (other.storeId != null)
                 return false;
-        } else if (!retailerId.equals(other.retailerId))
+        } else if (!storeId.equals(other.storeId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "RetailerCustomerComment [id=" + id + ", comment=" + comment + ", retailerCustomerCommentId=" + retailerCustomerCommentId + ", retailerId=" + retailerId + ", dateCreate=" + dateCreate
+        return "StoreCustomerComment [id=" + id + ", comment=" + comment + ", storeCustomerCommentId=" + storeCustomerCommentId + ", storeId=" + storeId + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
 

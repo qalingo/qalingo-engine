@@ -2087,6 +2087,57 @@ CREATE TABLE `teco_product_brand_attribute` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_product_brand_customer_comment`
+--
+
+DROP TABLE IF EXISTS `teco_product_brand_customer_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_brand_customer_comment` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `COMMENT` varchar(255) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_MARKETING_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
+  `TITLE` varchar(255) DEFAULT NULL,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_BRAND_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK7E3E4C0844895AF` (`PRODUCT_BRAND_ID`),
+  KEY `FK7E3E4C08DD38DA88` (`PRODUCT_MARKETING_CUSTOMER_COMMENT_ID`),
+  KEY `FK7E3E4C08E42F1AAE` (`CUSTOMER_ID`),
+  CONSTRAINT `FK7E3E4C08E42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`),
+  CONSTRAINT `FK7E3E4C0844895AF` FOREIGN KEY (`PRODUCT_BRAND_ID`) REFERENCES `teco_product_brand` (`ID`),
+  CONSTRAINT `FK7E3E4C08DD38DA88` FOREIGN KEY (`PRODUCT_MARKETING_CUSTOMER_COMMENT_ID`) REFERENCES `teco_product_brand_customer_comment` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_brand_customer_rate`
+--
+
+DROP TABLE IF EXISTS `teco_product_brand_customer_rate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_brand_customer_rate` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `PROCESSED` tinyint(1) NOT NULL DEFAULT '0',
+  `PRODUCT_BRAND_ID` bigint(20) DEFAULT NULL,
+  `RATE` int(11) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKE582EFB744895AF` (`PRODUCT_BRAND_ID`),
+  CONSTRAINT `FKE582EFB744895AF` FOREIGN KEY (`PRODUCT_BRAND_ID`) REFERENCES `teco_product_brand` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_product_brand_tag`
 --
 
@@ -2203,12 +2254,15 @@ CREATE TABLE `teco_product_marketing_customer_comment` (
   `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
+  `TITLE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
+  KEY `FK9CD2FE49820B6ACF` (`PRODUCT_MARKETING_ID`),
   KEY `FK9CD2FE494CEA4489` (`PRODUCT_MARKETING_CUSTOMER_COMMENT_ID`),
   KEY `FK9CD2FE49E42F1AAE` (`CUSTOMER_ID`),
   CONSTRAINT `FK9CD2FE49E42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`),
-  CONSTRAINT `FK9CD2FE494CEA4489` FOREIGN KEY (`PRODUCT_MARKETING_CUSTOMER_COMMENT_ID`) REFERENCES `teco_product_marketing_customer_comment` (`ID`)
+  CONSTRAINT `FK9CD2FE494CEA4489` FOREIGN KEY (`PRODUCT_MARKETING_CUSTOMER_COMMENT_ID`) REFERENCES `teco_product_marketing_customer_comment` (`ID`),
+  CONSTRAINT `FK9CD2FE49820B6ACF` FOREIGN KEY (`PRODUCT_MARKETING_ID`) REFERENCES `teco_product_marketing` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2229,7 +2283,9 @@ CREATE TABLE `teco_product_marketing_customer_rate` (
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   `RATE` int(11) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `FK1C404D16820B6ACF` (`PRODUCT_MARKETING_ID`),
+  CONSTRAINT `FK1C404D16820B6ACF` FOREIGN KEY (`PRODUCT_MARKETING_ID`) REFERENCES `teco_product_marketing` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2438,6 +2494,57 @@ CREATE TABLE `teco_product_sku_attribute` (
   KEY `FK4419AA28E578C5FF` (`ATTRIBUTE_DEFINITION_ID`),
   CONSTRAINT `FK4419AA28E578C5FF` FOREIGN KEY (`ATTRIBUTE_DEFINITION_ID`) REFERENCES `teco_attribute_definition` (`ID`),
   CONSTRAINT `FK4419AA28DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_sku_customer_comment`
+--
+
+DROP TABLE IF EXISTS `teco_product_sku_customer_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_sku_customer_comment` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `COMMENT` varchar(255) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_SKU_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
+  `TITLE` varchar(255) DEFAULT NULL,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK901729B2A09BFA69` (`PRODUCT_SKU_CUSTOMER_COMMENT_ID`),
+  KEY `FK901729B2DBEE772F` (`PRODUCT_SKU_ID`),
+  KEY `FK901729B2E42F1AAE` (`CUSTOMER_ID`),
+  CONSTRAINT `FK901729B2E42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`),
+  CONSTRAINT `FK901729B2A09BFA69` FOREIGN KEY (`PRODUCT_SKU_CUSTOMER_COMMENT_ID`) REFERENCES `teco_product_sku_customer_comment` (`ID`),
+  CONSTRAINT `FK901729B2DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_sku_customer_rate`
+--
+
+DROP TABLE IF EXISTS `teco_product_sku_customer_rate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_sku_customer_rate` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `PROCESSED` tinyint(1) NOT NULL DEFAULT '0',
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
+  `RATE` int(11) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKC5DD024DDBEE772F` (`PRODUCT_SKU_ID`),
+  CONSTRAINT `FKC5DD024DDBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2763,6 +2870,7 @@ CREATE TABLE `teco_retailer_customer_comment` (
   `DATE_UPDATE` datetime DEFAULT NULL,
   `RETAILER_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
   `RETAILER_ID` bigint(20) DEFAULT NULL,
+  `TITLE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK14A532B4121958A` (`RETAILER_CUSTOMER_COMMENT_ID`),
@@ -3127,6 +3235,54 @@ CREATE TABLE `teco_store_business_hour` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_store_customer_comment`
+--
+
+DROP TABLE IF EXISTS `teco_store_customer_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_store_customer_comment` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `COMMENT` varchar(255) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `STORE_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
+  `STORE_ID` bigint(20) DEFAULT NULL,
+  `TITLE` varchar(255) DEFAULT NULL,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK461B27ED1C61ED2` (`STORE_CUSTOMER_COMMENT_ID`),
+  KEY `FK461B27EE42F1AAE` (`CUSTOMER_ID`),
+  KEY `FK461B27E723F98E6` (`STORE_ID`),
+  CONSTRAINT `FK461B27E723F98E6` FOREIGN KEY (`STORE_ID`) REFERENCES `teco_store` (`ID`),
+  CONSTRAINT `FK461B27ED1C61ED2` FOREIGN KEY (`STORE_CUSTOMER_COMMENT_ID`) REFERENCES `teco_store_customer_comment` (`ID`),
+  CONSTRAINT `FK461B27EE42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_store_customer_rate`
+--
+
+DROP TABLE IF EXISTS `teco_store_customer_rate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_store_customer_rate` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `PROCESSED` tinyint(1) NOT NULL DEFAULT '0',
+  `RATE` int(11) DEFAULT NULL,
+  `STORE_ID` bigint(20) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK55900D01723F98E6` (`STORE_ID`),
+  CONSTRAINT `FK55900D01723F98E6` FOREIGN KEY (`STORE_ID`) REFERENCES `teco_store` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_store_tag`
 --
 
@@ -3339,4 +3495,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-09 21:12:08
+-- Dump completed on 2014-12-10 21:22:57

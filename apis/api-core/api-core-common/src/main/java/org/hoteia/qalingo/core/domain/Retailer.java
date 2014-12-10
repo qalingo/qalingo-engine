@@ -131,7 +131,7 @@ public class Retailer extends AbstractExtendEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TECO_RETAILER_RETAILER_TAG_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_TAG_ID"))
-    private Set<RetailerTag> retailerTags;
+    private Set<RetailerTag> tags;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -401,12 +401,12 @@ public class Retailer extends AbstractExtendEntity {
         this.customerComments = customerComments;
     }
 
-    public Set<RetailerTag> getRetailerTags() {
-        return retailerTags;
+    public Set<RetailerTag> getTags() {
+        return tags;
     }
 
-    public void setRetailerTags(Set<RetailerTag> retailerTags) {
-        this.retailerTags = retailerTags;
+    public void setTags(Set<RetailerTag> tags) {
+        this.tags = tags;
     }
 
     public Date getDateCreate() {

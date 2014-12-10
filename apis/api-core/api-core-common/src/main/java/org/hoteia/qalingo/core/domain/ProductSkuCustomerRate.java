@@ -21,93 +21,104 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TECO_RETAILER_CUSTOMER_RATE")
-public class RetailerCustomerRate extends AbstractEntity {
+@Table(name="TECO_PRODUCT_SKU_CUSTOMER_RATE")
+public class ProductSkuCustomerRate extends AbstractEntity {
 
-    /**
-     * Generated UID
-     */
-    private static final long serialVersionUID = 2501911341288490523L;
+	/**
+	 * Generated UID
+	 */
+	private static final long serialVersionUID = 2502541341288490523L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false)
-    private Long id;
-
-    @Column(name = "RATE")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="ID", nullable=false)
+	private Long id;
+	
+	@Column(name="RATE")
     private Integer rate;
-
-    @Column(name = "TYPE")
+	
+	@Column(name="TYPE")
     private String type;
-
-    @Column(name = "RETAILER_ID")
-    private Long retailerId;
-
-    @Column(name = "CUSTOMER_ID")
-    private Long customerId;
-
-    @Column(name = "PROCESSED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean processed;
-
+	
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
+	@Column(name="PRODUCT_SKU_ID")
+	private Long productSkuId;
+	
+	@Column(name="CUSTOMER_ID")
+	private Long customerId;
+	
+	@Column(name="PROCESSED", nullable=false, columnDefinition="tinyint(1) default 0")
+	private boolean processed;
+	
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DATE_CREATE")
+    @Column(name="DATE_CREATE")
     private Date dateCreate;
-
+    
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DATE_UPDATE")
+    @Column(name="DATE_UPDATE")
     private Date dateUpdate;
+    
+	public ProductSkuCustomerRate() {
+	}
 
-    public RetailerCustomerRate() {
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Integer getRate() {
+    	return rate;
     }
 
-    public Long getId() {
-        return id;
+	public void setRate(Integer rate) {
+    	this.rate = rate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+	public String getType() {
+    	return type;
     }
 
-    public Integer getRate() {
-        return rate;
+	public void setType(String type) {
+    	this.type = type;
     }
 
-    public void setRate(Integer rate) {
-        this.rate = rate;
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+    
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
     }
 
-    public String getType() {
-        return type;
+	public Long getProductSkuId() {
+        return productSkuId;
+    }
+	
+	public void setProductSkuId(Long productSkuId) {
+        this.productSkuId = productSkuId;
+    }
+	
+	public Long getCustomerId() {
+		return customerId;
+	}
+	
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+
+	public boolean isProcessed() {
+    	return processed;
     }
 
-    public void setType(String type) {
-        this.type = type;
+	public void setProcessed(boolean processed) {
+    	this.processed = processed;
     }
-
-    public Long getRetailerId() {
-        return retailerId;
-    }
-
-    public void setRetailerId(Long retailerId) {
-        this.retailerId = retailerId;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public boolean isProcessed() {
-        return processed;
-    }
-
-    public void setProcessed(boolean processed) {
-        this.processed = processed;
-    }
-
+	
     public Date getDateCreate() {
         return dateCreate;
     }
@@ -142,7 +153,7 @@ public class RetailerCustomerRate extends AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RetailerCustomerRate other = (RetailerCustomerRate) obj;
+        ProductSkuCustomerRate other = (ProductSkuCustomerRate) obj;
         if (customerId == null) {
             if (other.customerId != null)
                 return false;
@@ -163,8 +174,8 @@ public class RetailerCustomerRate extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "RetailerCustomerRate [id=" + id + ", rate=" + rate + ", type=" + type + ", retailerId=" + retailerId + ", customerId=" + customerId + ", processed=" + processed + ", dateCreate="
-                + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductMarketingCustomerRate [id=" + id + ", rate=" + rate + ", type=" + type + ", marketAreaId=" + marketAreaId + ", productSkuId=" + productSkuId + ", customerId="
+                + customerId + ", processed=" + processed + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

@@ -61,12 +61,15 @@ import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
+import org.hoteia.qalingo.core.domain.ProductBrandTag;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
+import org.hoteia.qalingo.core.domain.ProductMarketingTag;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSkuTag;
 import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
@@ -74,10 +77,10 @@ import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.StoreBusinessHour;
+import org.hoteia.qalingo.core.domain.StoreTag;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -131,8 +134,11 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerTagViewBean;
@@ -141,6 +147,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
@@ -861,7 +868,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
 
-        Set<RetailerTag> tags = retailer.getRetailerTags();
+        // TAGS
+        Set<RetailerTag> tags = retailer.getTags();
         if (Hibernate.isInitialized(tags) &&
                 tags != null) {
             for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
@@ -874,6 +882,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
 
+        // STORES
         Set<Store> stores = retailer.getStores();
         if (Hibernate.isInitialized(stores) &&
                 stores != null) {
@@ -990,6 +999,20 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 assetViewBean.setRelativeWebPath(path);
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 storeViewBean.getAssets().add(assetViewBean);
+            }
+        }
+        
+        // TAGS
+        Set<StoreTag> tags = store.getTags();
+        if (Hibernate.isInitialized(tags) &&
+                tags != null) {
+            for (Iterator<StoreTag> iterator = tags.iterator(); iterator.hasNext();) {
+                StoreTag storeTag = (StoreTag) iterator.next();
+                StoreTagViewBean storeTagViewBean = new StoreTagViewBean();
+                storeTagViewBean.setCode(storeTag.getCode());
+                storeTagViewBean.setName(storeTag.getName());
+                storeTagViewBean.setDescription(storeTag.getDescription());
+                storeViewBean.getTags().add(storeTagViewBean);
             }
         }
         
@@ -1336,6 +1359,20 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
+        // TAGS
+        Set<ProductBrandTag> tags = productBrand.getTags();
+        if (Hibernate.isInitialized(tags) &&
+                tags != null) {
+            for (Iterator<ProductBrandTag> iterator = tags.iterator(); iterator.hasNext();) {
+                ProductBrandTag productBrandTag = (ProductBrandTag) iterator.next();
+                ProductBrandTagViewBean productBrandTagViewBean = new ProductBrandTagViewBean();
+                productBrandTagViewBean.setCode(productBrandTag.getCode());
+                productBrandTagViewBean.setName(productBrandTag.getName());
+                productBrandTagViewBean.setDescription(productBrandTag.getDescription());
+                productBrandViewBean.getTags().add(productBrandTagViewBean);
+            }
+        }
+        
         productBrandViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
         return productBrandViewBean;
     }
@@ -1535,6 +1572,20 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductSku().getProductMarketing().getCode());
                     productMarketingViewBean.getProductAssociationLinks().add(buildViewBeanProductAssociationLink(requestData, catalogCategory, reloadedAssociatedProductMarketing));
                 }
+            }
+        }
+        
+        // TAGS
+        Set<ProductMarketingTag> tags = productMarketing.getTags();
+        if (Hibernate.isInitialized(tags) &&
+                tags != null) {
+            for (Iterator<ProductMarketingTag> iterator = tags.iterator(); iterator.hasNext();) {
+                ProductMarketingTag productMarketingTag = (ProductMarketingTag) iterator.next();
+                ProductMarketingTagViewBean productMarketingTagViewBean = new ProductMarketingTagViewBean();
+                productMarketingTagViewBean.setCode(productMarketingTag.getCode());
+                productMarketingTagViewBean.setName(productMarketingTag.getName());
+                productMarketingTagViewBean.setDescription(productMarketingTag.getDescription());
+                productMarketingViewBean.getTags().add(productMarketingTagViewBean);
             }
         }
 
@@ -1742,6 +1793,20 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 assetViewBean.setRelativeWebPath(path);
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 productSkuViewBean.getAssets().add(assetViewBean);
+            }
+        }
+        
+        // TAGS
+        Set<ProductSkuTag> tags = productSku.getTags();
+        if (Hibernate.isInitialized(tags) &&
+                tags != null) {
+            for (Iterator<ProductSkuTag> iterator = tags.iterator(); iterator.hasNext();) {
+                ProductSkuTag productSkuTag = (ProductSkuTag) iterator.next();
+                ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
+                productSkuTagViewBean.setCode(productSkuTag.getCode());
+                productSkuTagViewBean.setName(productSkuTag.getName());
+                productSkuTagViewBean.setDescription(productSkuTag.getDescription());
+                productSkuViewBean.getTags().add(productSkuTagViewBean);
             }
         }
         

@@ -53,6 +53,9 @@ public class ProductMarketingViewBean extends AbstractViewBean {
     protected List<CatalogCategoryViewBean> categories = new ArrayList<CatalogCategoryViewBean>();
     protected List<String> categoryCodes = new ArrayList<String>();
 
+    protected List<ProductMarketingCustomerCommentViewBean> comments = new ArrayList<ProductMarketingCustomerCommentViewBean>();
+    protected List<ProductMarketingTagViewBean> tags = new ArrayList<ProductMarketingTagViewBean>();
+
     protected CustomerProductRatesViewBean customerProductRates;
 
     protected String detailsUrl;
@@ -336,6 +339,22 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 		return null;
 	}
 
+    public List<ProductMarketingCustomerCommentViewBean> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<ProductMarketingCustomerCommentViewBean> comments) {
+        this.comments = comments;
+    }
+
+    public List<ProductMarketingTagViewBean> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<ProductMarketingTagViewBean> tags) {
+        this.tags = tags;
+    }
+  
     public CustomerProductRatesViewBean getCustomerProductRates() {
         return customerProductRates;
     }

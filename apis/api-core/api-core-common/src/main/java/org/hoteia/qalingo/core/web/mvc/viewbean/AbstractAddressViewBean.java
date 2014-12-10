@@ -61,6 +61,24 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
         return address.toString();
     }
     
+    public String getPostalCodeCity() {
+        StringBuffer address = new StringBuffer();
+        if(StringUtils.isNotEmpty(postalCode)){
+            address.append(postalCode + " ");
+        }
+        if(i18nCity != null || city != null){
+            address.append(" - ");
+        }
+        if(StringUtils.isNotEmpty(i18nCity)){
+            address.append(i18nCity);
+        } else {
+            if(StringUtils.isNotEmpty(city)){
+                address.append(city);
+            }
+        }
+        return address.toString();
+    }
+    
 	public String getAddress1() {
 		return address1;
 	}
