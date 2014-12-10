@@ -17,9 +17,10 @@ import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 
 public class StoreResponseBean {
 
-    public static final String STORE_DEFAULT_SEARCH_FIELD = "text";
-    public static final String STORE_DEFAULT_FACET_FIELD = "city";
-    public static final String STORE_SECOND_FACET_FIELD = "countrycode";
+    public static final String STORE_DEFAULT_SEARCH_FIELD   = "text";
+    public static final String STORE_DEFAULT_FACET_FIELD    = "city";
+    public static final String STORE_SECOND_FACET_FIELD     = "countrycode";
+    public static final String STORE_SEARCH_FIELD_TAG_CODE  = "tagCode";
 
     private List<StoreSolr> storeSolrList = new ArrayList<StoreSolr>();
 

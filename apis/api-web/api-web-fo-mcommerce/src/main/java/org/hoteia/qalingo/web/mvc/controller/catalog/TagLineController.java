@@ -108,11 +108,11 @@ public class TagLineController extends AbstractMCommerceController {
         return new ModelAndView(new RedirectView(urlRedirect));
     }
 	
-    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, CatalogCategoryVirtual catalogCategory) {
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, String tagCode) {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
-        Object[] params = { catalogCategory.getI18nName(localizationCode) };
+        Object[] params = { tagCode };
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
@@ -126,7 +126,7 @@ public class TagLineController extends AbstractMCommerceController {
 
         menu = new MenuViewBean();
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "tag_line", params, locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
+        menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, tagCode));
         menu.setActive(true);
         menuViewBeans.add(menu);
 

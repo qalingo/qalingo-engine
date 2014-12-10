@@ -102,6 +102,7 @@ public class RequestConstants {
 	public static final String URL_PATTERN_CATEGORY_CODE					= "categoryCode";
 	public static final String URL_PATTERN_PRODUCT_MARKETING_CODE			= "productMarketingCode";
 	public static final String URL_PATTERN_PRODUCT_SKU_CODE					= "productSkuCode";
+    public static final String URL_PATTERN_TAG_CODE                         = "tagCode";
 
 	// SEARCH PAGINATION
 	public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
