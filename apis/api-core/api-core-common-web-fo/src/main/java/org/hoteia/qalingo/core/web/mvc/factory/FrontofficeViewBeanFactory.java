@@ -379,8 +379,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
                 final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(count.getName(), requestData.getMasterCatalogCode());
-                ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localizationCode) + "(" + count.getCount() + ")");                
-                values.add(valueBean);
+                if(catalogCategoryMaster != null){
+                    ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localizationCode) + "(" + count.getCount() + ")");                
+                    values.add(valueBean);
+                }
             }
             searchFacetViewBean.setValues(values);
         }
