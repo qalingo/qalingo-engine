@@ -113,10 +113,10 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                 String valueJMSMessage = tm.getText();
                 
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
-                    final IndexingObjectMessageJms doucmentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, IndexingObjectMessageJms.class);
-                    Long objectId = doucmentMessageJms.getObjectId();
+                    final IndexingObjectMessageJms documentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, IndexingObjectMessageJms.class);
+                    Long objectId = documentMessageJms.getObjectId();
 
-                    if("ProductMarketing".equals(doucmentMessageJms.getObjectType())){
+                    if("ProductMarketing".equals(documentMessageJms.getObjectType())){
                         final ProductMarketing productMarketing = productService.getProductMarketingById(objectId, new FetchPlan(productMarketingFetchPlans));
                         if(productMarketing != null){
                             ProductSku productSku = productMarketing.getDefaultProductSku();
@@ -129,7 +129,7 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                                 }
                             }
                         }
-                    } else if("ProductSku".equals(doucmentMessageJms.getObjectType())){
+                    } else if("ProductSku".equals(documentMessageJms.getObjectType())){
                         final ProductSku productSku = productService.getProductSkuById(objectId, new FetchPlan(productSkuFetchPlans));
                         if(productSku != null){
                             List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId(), new FetchPlan(categoryFetchPlans)); 
@@ -140,7 +140,7 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                             }
                         }
                         
-                    } else if("Store".equals(doucmentMessageJms.getObjectType())){
+                    } else if("Store".equals(documentMessageJms.getObjectType())){
                         final Store store = retailerService.getStoreById(objectId, new FetchPlan(storeFetchPlans));
                         if(store != null){
                             try {

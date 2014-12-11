@@ -172,7 +172,12 @@ public class ProductLineController extends AbstractMCommerceController {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
-        Object[] params = { catalogCategory.getI18nName(localizationCode) };
+        String i18Name = "";
+        if(catalogCategory.getParentCatalogCategory() != null){
+            i18Name = catalogCategory.getParentCatalogCategory().getI18nName(localizationCode) + " - ";
+        }
+        i18Name = i18Name + " - " + catalogCategory.getI18nName(localizationCode);
+        Object[] params = { i18Name };
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();

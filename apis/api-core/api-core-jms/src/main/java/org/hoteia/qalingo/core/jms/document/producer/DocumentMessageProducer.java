@@ -42,9 +42,9 @@ public class DocumentMessageProducer {
      * Generates JMS messages
      * 
      */
-    public void generateAndSendMessages(final GenerationDocumentMessageJms doucmentMessageJms) {
+    public void generateAndSendMessages(final GenerationDocumentMessageJms documentMessageJms) {
         try {
-            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(doucmentMessageJms);
+            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(documentMessageJms);
 
             if(StringUtils.isNotEmpty(valueJMSMessage)){
                 jmsTemplate.send( new MessageCreator() {

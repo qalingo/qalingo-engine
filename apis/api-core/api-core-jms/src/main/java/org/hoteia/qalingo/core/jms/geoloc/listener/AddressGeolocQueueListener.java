@@ -66,17 +66,17 @@ public class AddressGeolocQueueListener implements MessageListener, ExceptionLis
                 String valueJMSMessage = tm.getText();
                 
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
-                    final AddressGeolocMessageJms doucmentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, AddressGeolocMessageJms.class);
+                    final AddressGeolocMessageJms documentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, AddressGeolocMessageJms.class);
                     
-                    String address = doucmentMessageJms.getAddress();
-                    String postalCode = doucmentMessageJms.getPostalCode();
-                    String city = doucmentMessageJms.getCity();
-                    String countryCode = doucmentMessageJms.getCountryCode();
+                    String address = documentMessageJms.getAddress();
+                    String postalCode = documentMessageJms.getPostalCode();
+                    String city = documentMessageJms.getCity();
+                    String countryCode = documentMessageJms.getCountryCode();
 
                     String formatedAddress = geolocService.encodeGoogleAddress(address, postalCode, city, countryCode);
 
-                    if("Store".equals(doucmentMessageJms.getObjectType())){
-                        final Store store = retailerService.getStoreById(doucmentMessageJms.getObjectId());
+                    if("Store".equals(documentMessageJms.getObjectType())){
+                        final Store store = retailerService.getStoreById(documentMessageJms.getObjectId());
                         if(store != null
                                 && StringUtils.isEmpty(store.getLatitude())){
                             GeolocAddress geolocAddress = geolocService.getGeolocAddressByFormatedAddress(formatedAddress);
@@ -98,8 +98,8 @@ public class AddressGeolocQueueListener implements MessageListener, ExceptionLis
                                 }
                             }
                         }
-                    } else if("Retailer".equals(doucmentMessageJms.getObjectType())){
-                        final Retailer retailer = retailerService.getRetailerById(doucmentMessageJms.getObjectId(), new FetchPlan(retailerFetchPlans));
+                    } else if("Retailer".equals(documentMessageJms.getObjectType())){
+                        final Retailer retailer = retailerService.getRetailerById(documentMessageJms.getObjectId(), new FetchPlan(retailerFetchPlans));
                         RetailerAddress retailerAddress = retailer.getAddressByValue(address);
                         if(retailer != null
                                 && retailerAddress != null

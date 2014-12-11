@@ -53,17 +53,17 @@ public class DocumentQueueListener implements MessageListener, ExceptionListener
                 String valueJMSMessage = tm.getText();
                 
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
-                    final GenerationDocumentMessageJms doucmentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, GenerationDocumentMessageJms.class);
+                    final GenerationDocumentMessageJms documentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, GenerationDocumentMessageJms.class);
                     
-                    final OrderCustomer order = orderCustomerService.getOrderById(doucmentMessageJms.getOrderId());
+                    final OrderCustomer order = orderCustomerService.getOrderById(documentMessageJms.getOrderId());
                     
-                    if(doucmentMessageJms.getDocumentType().equals(OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey())){
+                    if(documentMessageJms.getDocumentType().equals(OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey())){
                         documentService.generateOrderConfirmation(order);
                         
-                    } else if(doucmentMessageJms.getDocumentType().equals(OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey())){
+                    } else if(documentMessageJms.getDocumentType().equals(OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey())){
                         documentService.generateShippingConfirmation(order);
                         
-                    } else if(doucmentMessageJms.getDocumentType().equals(OrderDocumentType.INVOICE.getPropertyKey())){
+                    } else if(documentMessageJms.getDocumentType().equals(OrderDocumentType.INVOICE.getPropertyKey())){
                         documentService.generateInvoice(order);
                         
                     }

@@ -459,7 +459,11 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String catalogImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        String rootAssetFilePath = getRootAssetFilePath();
+        if (rootAssetFilePath.endsWith("/") && prefixPath.startsWith("/")) {
+            rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
+        }
+        String catalogImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
         if (catalogImageFilePath.endsWith(File.separator)) {
             catalogImageFilePath = catalogImageFilePath.substring(0, catalogImageFilePath.length() - 1);
         }
@@ -491,7 +495,11 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productMarketingImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        String rootAssetFilePath = getRootAssetFilePath();
+        if (rootAssetFilePath.endsWith("/") && prefixPath.startsWith("/")) {
+            rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
+        }
+        String productMarketingImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
         if (productMarketingImageFilePath.endsWith(File.separator)) {
             productMarketingImageFilePath = productMarketingImageFilePath.substring(0, productMarketingImageFilePath.length() - 1);
         }
@@ -523,7 +531,11 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productSkuImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        String rootAssetFilePath = getRootAssetFilePath();
+        if (rootAssetFilePath.endsWith("/") && prefixPath.startsWith("/")) {
+            rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
+        }
+        String productSkuImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
         if (productSkuImageFilePath.endsWith(File.separator)) {
             productSkuImageFilePath = productSkuImageFilePath.substring(0, productSkuImageFilePath.length() - 1);
         }
@@ -555,7 +567,11 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productBrandImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        String rootAssetFilePath = getRootAssetFilePath();
+        if (rootAssetFilePath.endsWith("/") && prefixPath.startsWith("/")) {
+            rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
+        }
+        String productBrandImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
         if (productBrandImageFilePath.endsWith(File.separator)) {
             productBrandImageFilePath = productBrandImageFilePath.substring(0, productBrandImageFilePath.length() - 1);
         }
@@ -587,7 +603,11 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String retailerImageFilePath = getRootAssetFilePath() + prefixPath + File.separator + assetType + File.separator;
+        String rootAssetFilePath = getRootAssetFilePath();
+        if (rootAssetFilePath.endsWith("/") && prefixPath.startsWith("/")) {
+            rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
+        }
+        String retailerImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
         if (retailerImageFilePath.endsWith(File.separator)) {
             retailerImageFilePath = retailerImageFilePath.substring(0, retailerImageFilePath.length() - 1);
         }
