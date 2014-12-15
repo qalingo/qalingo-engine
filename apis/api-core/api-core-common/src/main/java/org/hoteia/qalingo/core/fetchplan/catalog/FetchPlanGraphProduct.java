@@ -28,6 +28,21 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan fullProductMarketingFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.productAssociationLinks.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.customerRates.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.customerComments.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.tags.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan productSkuDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
