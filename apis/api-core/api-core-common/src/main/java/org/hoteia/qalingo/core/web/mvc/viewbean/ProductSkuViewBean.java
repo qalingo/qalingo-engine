@@ -195,6 +195,10 @@ public class ProductSkuViewBean extends AbstractViewBean {
                 return assetViewBean.getPath();
             }
         }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getPath();
+        }
         return null;
     }
     
@@ -204,6 +208,10 @@ public class ProductSkuViewBean extends AbstractViewBean {
             if(assetViewBean.getType().equals(type)){
                 return assetViewBean.getAbsoluteWebPath();
             }
+        }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getAbsoluteWebPath();
         }
         return null;
     }
@@ -215,9 +223,23 @@ public class ProductSkuViewBean extends AbstractViewBean {
                 return assetViewBean.getRelativeWebPath();
             }
         }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getRelativeWebPath();
+        }
         return null;
     }
 
+    public AssetViewBean getDefaultAsset() {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if("default".equals(assetViewBean.getType())){
+                return assetViewBean;
+            }
+        }
+        return null;
+    }
+    
     public void setAssets(List<AssetViewBean> assets) {
         this.assets = assets;
     }
