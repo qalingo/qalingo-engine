@@ -152,6 +152,17 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
         return assets;
     }
     
+    public List<AssetViewBean> getAssets(String type) {
+        List<AssetViewBean> assetsByType = new ArrayList<AssetViewBean>();
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                assetsByType.add(assetViewBean);
+            }
+        }
+        return assetsByType;
+    }
+    
     public String getAssetPath(String type) {
         for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
