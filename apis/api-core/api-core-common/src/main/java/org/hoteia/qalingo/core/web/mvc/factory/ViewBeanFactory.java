@@ -1006,7 +1006,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             asset.setType("default");
             asset.setPath("default-store.png");
             AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
             assetViewBean.setRelativeWebPath(path);
             assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
             storeViewBean.getAssets().add(assetViewBean);
@@ -1373,7 +1373,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             asset.setType("default");
             asset.setPath("default-brand.png");
             AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            final String path = engineSettingService.getProductBrandImageWebPath(asset);
             assetViewBean.setRelativeWebPath(path);
             assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
             productBrandViewBean.getAssets().add(assetViewBean);
@@ -1493,7 +1493,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 asset.setType("default");
                 asset.setPath("default-category.png");
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                final String path = engineSettingService.getCatalogImageWebPath(asset);
                 assetViewBean.setRelativeWebPath(path);
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 catalogCategoryViewBean.getAssets().add(assetViewBean);
@@ -1690,7 +1690,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             asset.setType("default");
             asset.setPath("default-product.png");
             AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            final String path = engineSettingService.getProductMarketingImageWebPath(asset);
             assetViewBean.setRelativeWebPath(path);
             assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
             productMarketingViewBean.getAssets().add(assetViewBean);
