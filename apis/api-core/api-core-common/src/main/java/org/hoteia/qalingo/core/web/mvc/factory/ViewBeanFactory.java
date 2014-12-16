@@ -1000,6 +1000,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 storeViewBean.getAssets().add(assetViewBean);
             }
+        } else {
+            Asset asset = new Asset();
+            asset.setType("default");
+            asset.setPath("default-store.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            storeViewBean.getAssets().add(assetViewBean);
         }
         
         // TAGS
@@ -1357,6 +1366,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 productBrandViewBean.getAssets().add(assetViewBean);
             }
+        } else {
+            Asset asset = new Asset();
+            asset.setType("default");
+            asset.setPath("default-brand.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            productBrandViewBean.getAssets().add(assetViewBean);
         }
         
         // TAGS
@@ -1467,6 +1485,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                     catalogCategoryViewBean.getAssets().add(assetViewBean);
                 }
+            } else {
+                Asset asset = new Asset();
+                asset.setType("default");
+                asset.setPath("default-category.png");
+                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                catalogCategoryViewBean.getAssets().add(assetViewBean);
             }
 
             if (catalogCategory.isRoot()) {
@@ -1654,6 +1681,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 productMarketingViewBean.getAssets().add(assetViewBean);
             }
+        } else {
+            Asset asset = new Asset();
+            asset.setType("default");
+            asset.setPath("default-product.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            productMarketingViewBean.getAssets().add(assetViewBean);
         }
 
         ProductSku productSku = productMarketing.getDefaultProductSku();
@@ -1794,6 +1830,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 productSkuViewBean.getAssets().add(assetViewBean);
             }
+        } else {
+            Asset asset = new Asset();
+            asset.setType("default");
+            asset.setPath("default-sku.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            productSkuViewBean.getAssets().add(assetViewBean);
         }
         
         // TAGS
@@ -1996,6 +2041,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 cartItemViewBean.getAssets().add(assetViewBean);
             }
+        } else {
+            Asset asset = new Asset();
+            asset.setType("default");
+            asset.setPath("default-cart-item.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            cartItemViewBean.getAssets().add(assetViewBean);
         }
         
         // UNIT PRICE

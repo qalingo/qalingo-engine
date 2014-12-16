@@ -216,16 +216,20 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 		this.productAssociationLinks = productAssociationLinks;
 	}
 
-	public List<AssetViewBean> getAssets() {
-		return assets;
-	}
-	
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
     public String getAssetPath(String type) {
         for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
             if(assetViewBean.getType().equals(type)){
                 return assetViewBean.getPath();
             }
+        }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getPath();
         }
         return null;
     }
@@ -237,6 +241,10 @@ public class ProductMarketingViewBean extends AbstractViewBean {
                 return assetViewBean.getAbsoluteWebPath();
             }
         }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getAbsoluteWebPath();
+        }
         return null;
     }
     
@@ -247,12 +255,26 @@ public class ProductMarketingViewBean extends AbstractViewBean {
                 return assetViewBean.getRelativeWebPath();
             }
         }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getRelativeWebPath();
+        }
         return null;
     }
 
-	public void setAssets(List<AssetViewBean> assets) {
-		this.assets = assets;
-	}
+    public AssetViewBean getDefaultAsset() {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if("default".equals(assetViewBean.getType())){
+                return assetViewBean;
+            }
+        }
+        return null;
+    }
+    
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
+    }
 
 	public List<CatalogCategoryViewBean> getCategories() {
         return categories;
