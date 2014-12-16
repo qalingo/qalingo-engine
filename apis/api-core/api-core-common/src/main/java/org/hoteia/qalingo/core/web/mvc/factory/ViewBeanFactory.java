@@ -1004,6 +1004,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if(storeViewBean.getAssets().size() == 0){
             Asset asset = new Asset();
             asset.setType("default");
+            asset.setScope("store");
             asset.setPath("default-store.png");
             AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
             final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
