@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,7 +78,7 @@ public class BrandController extends AbstractMCommerceController {
         
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_ALL.getKey());
 
-        final List<ProductBrand> productBrands = productService.findAllProductBrands(new FetchPlan(productBrandFetchPlans));
+        final List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled(new FetchPlan(productBrandFetchPlans));
         final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestData, productBrands);
         model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
         
@@ -109,18 +110,23 @@ public class BrandController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
 
 		final ProductBrand productBrand = productService.getProductBrandByCode(brandCode, new FetchPlan(productBrandFetchPlans));
-		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand);
-		model.addAttribute(ModelConstants.PRODUCT_BRAND_VIEW_BEAN, productBrandViewBean);
-		
-		List<ProductMarketing> productMarketings = productService.findProductMarketingsByBrandCode(brandCode, new FetchPlan(productMarketingFetchPlans));
-		List<ProductMarketingViewBean> productMarketingViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductMarketing(requestData, productMarketings);
-        model.addAttribute(ModelConstants.PRODUCT_MARKETINGS_VIEW_BEAN, productMarketingViewBeans);
+		if(productBrand != null
+		        && productBrand.isEnabled()){
+	        final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand);
+	        model.addAttribute(ModelConstants.PRODUCT_BRAND_VIEW_BEAN, productBrandViewBean);
+	        
+	        List<ProductMarketing> productMarketings = productService.findProductMarketingsByBrandCode(brandCode, new FetchPlan(productMarketingFetchPlans));
+	        List<ProductMarketingViewBean> productMarketingViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductMarketing(requestData, productMarketings);
+	        model.addAttribute(ModelConstants.PRODUCT_MARKETINGS_VIEW_BEAN, productMarketingViewBeans);
 
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
+	        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
 
-        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, productBrand));
+	        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, productBrand));
 
-        return modelAndView;
+	        return modelAndView;
+		}
+        final String urlRedirect = urlService.generateUrl(FoUrls.BRAND_ALL, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
     protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, ProductBrand productBrand) {
@@ -159,7 +165,7 @@ public class BrandController extends AbstractMCommerceController {
      */
     @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
     protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
-        List<ProductBrand> productBrands = productService.findAllProductBrands();
+        List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
         List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
         return productBrandViewBeans;
     }

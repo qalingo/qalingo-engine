@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,14 +47,18 @@ public class BrandLineController extends AbstractMCommerceController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         
 		final ProductBrand productBrand = productService.getProductBrandByCode(brandCode);
-		
-		List<ProductMarketing>  productMarketings = productService.findProductMarketingsByBrandId(currentMarketArea.getId(), productBrand.getId());
-		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand, productMarketings);
-		model.addAttribute("productBrand", productBrandViewBean);
-		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_LINE.getKey());
+		if(productBrand != null
+                && productBrand.isEnabled()){
+	        List<ProductMarketing>  productMarketings = productService.findProductMarketingsByBrandId(currentMarketArea.getId(), productBrand.getId());
+	        final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand, productMarketings);
+	        model.addAttribute("productBrand", productBrandViewBean);
+	        
+	        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_LINE.getKey());
 
-        return modelAndView;
+	        return modelAndView;
+		}
+        final String urlRedirect = urlService.generateUrl(FoUrls.BRAND_ALL, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
 	}
     
 }

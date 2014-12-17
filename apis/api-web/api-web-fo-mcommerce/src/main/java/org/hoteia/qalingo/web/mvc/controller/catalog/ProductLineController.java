@@ -209,7 +209,7 @@ public class ProductLineController extends AbstractMCommerceController {
      */
     @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
     protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
-        List<ProductBrand> productBrands = productService.findAllProductBrands();
+        List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
         List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
         return productBrandViewBeans;
     }

@@ -400,6 +400,10 @@ public class ProductService {
         return productDao.findAllProductBrands(params);
     }
     
+    public List<ProductBrand> findAllProductBrandsEnabled(Object... params) {
+        return productDao.findAllProductBrandsEnabled(params);
+    }
+    
     public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode, Object... params) {
         return productDao.findProductBrandsByCatalogCategoryCode(categoryCode, params);
     }

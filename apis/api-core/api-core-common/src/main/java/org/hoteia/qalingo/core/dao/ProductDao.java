@@ -621,6 +621,17 @@ public class ProductDao extends AbstractGenericDao {
         return productBrands;
     }
     
+    public List<ProductBrand> findAllProductBrandsEnabled(Object... params) {
+        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+        handleSpecificProductBrandFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("enabled", true));
+        criteria.addOrder(Order.asc("name"));
+        
+        @SuppressWarnings("unchecked")
+        List<ProductBrand> productBrands = criteria.list();
+        return productBrands;
+    }
+    
     public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode, Object... params) {
         Criteria criteria = getSession().createCriteria(ProductBrand.class);
         handleSpecificProductBrandFetchMode(criteria, params);
