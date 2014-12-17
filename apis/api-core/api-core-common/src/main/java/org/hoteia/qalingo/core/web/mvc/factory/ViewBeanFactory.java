@@ -1001,17 +1001,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 storeViewBean.getAssets().add(assetViewBean);
             }
         } 
-        if(storeViewBean.getAssets().size() == 0){
-            Asset asset = new Asset();
-            asset.setType("default");
-            asset.setScope("store");
-            asset.setPath("default-store.png");
-            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
-            assetViewBean.setRelativeWebPath(path);
-            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-            storeViewBean.getAssets().add(assetViewBean);
-        }
+        // FALLBACK ASSET
+        Asset asset = new Asset();
+        asset.setType("default");
+        asset.setScope("store");
+        asset.setPath("default-store.png");
+        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+        final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
+        assetViewBean.setRelativeWebPath(path);
+        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+        storeViewBean.getAssets().add(assetViewBean);
         
         // TAGS
         Set<StoreTag> tags = store.getTags();
@@ -1369,16 +1368,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 productBrandViewBean.getAssets().add(assetViewBean);
             }
         } 
-        if(productBrandViewBean.getAssets().size() == 0){
-            Asset asset = new Asset();
-            asset.setType("default");
-            asset.setPath("default-brand.png");
-            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getProductBrandImageWebPath(asset);
-            assetViewBean.setRelativeWebPath(path);
-            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-            productBrandViewBean.getAssets().add(assetViewBean);
-        }
+        // FALLBACK ASSET
+        Asset asset = new Asset();
+        asset.setType("default");
+        asset.setPath("default-brand.png");
+        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+        final String path = engineSettingService.getProductBrandImageWebPath(asset);
+        assetViewBean.setRelativeWebPath(path);
+        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+        productBrandViewBean.getAssets().add(assetViewBean);
         
         // TAGS
         Set<ProductBrandTag> tags = productBrand.getTags();
@@ -1489,16 +1487,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     catalogCategoryViewBean.getAssets().add(assetViewBean);
                 }
             } 
-            if(catalogCategoryViewBean.getAssets().size() == 0){
-                Asset asset = new Asset();
-                asset.setType("default");
-                asset.setPath("default-category.png");
-                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-                final String path = engineSettingService.getCatalogImageWebPath(asset);
-                assetViewBean.setRelativeWebPath(path);
-                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-                catalogCategoryViewBean.getAssets().add(assetViewBean);
-            }
+            // FALLBACK ASSET
+            Asset asset = new Asset();
+            asset.setType("default");
+            asset.setPath("default-category.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getCatalogImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            catalogCategoryViewBean.getAssets().add(assetViewBean);
 
             if (catalogCategory.isRoot()) {
                 catalogCategoryViewBean.setProductAxeUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
@@ -1672,16 +1669,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 productMarketingViewBean.getAssets().add(assetViewBean);
             }
         } 
-        if(productMarketingViewBean.getAssets().size() == 0){
-            Asset asset = new Asset();
-            asset.setType("default");
-            asset.setPath("default-product.png");
-            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getProductMarketingImageWebPath(asset);
-            assetViewBean.setRelativeWebPath(path);
-            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-            productMarketingViewBean.getAssets().add(assetViewBean);
-        }
+        // FALLBACK ASSET
+        Asset asset = new Asset();
+        asset.setType("default");
+        asset.setPath("default-product.png");
+        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+        final String path = engineSettingService.getProductMarketingImageWebPath(asset);
+        assetViewBean.setRelativeWebPath(path);
+        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+        productMarketingViewBean.getAssets().add(assetViewBean);
 
         // TAGS
         Set<ProductMarketingTag> tags = productMarketing.getTags();
@@ -1836,16 +1832,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 productSkuViewBean.getAssets().add(assetViewBean);
             }
         }
-        if(productSkuViewBean.getAssets().size() == 0){
-            Asset asset = new Asset();
-            asset.setType("default");
-            asset.setPath("default-sku.png");
-            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getProductSkuImageWebPath(asset);
-            assetViewBean.setRelativeWebPath(path);
-            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-            productSkuViewBean.getAssets().add(assetViewBean);
-        }
+        // FALLBACK ASSET
+        Asset asset = new Asset();
+        asset.setType("default");
+        asset.setPath("default-sku.png");
+        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+        final String path = engineSettingService.getProductSkuImageWebPath(asset);
+        assetViewBean.setRelativeWebPath(path);
+        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+        productSkuViewBean.getAssets().add(assetViewBean);
         
         // TAGS
         Set<ProductSkuTag> tags = productSku.getTags();
@@ -2048,16 +2043,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 cartItemViewBean.getAssets().add(assetViewBean);
             }
         } 
-        if(cartItemViewBean.getAssets().size() == 0){
-            Asset asset = new Asset();
-            asset.setType("default");
-            asset.setPath("default-cart-item.png");
-            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-            final String path = engineSettingService.getProductSkuImageWebPath(asset);
-            assetViewBean.setRelativeWebPath(path);
-            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-            cartItemViewBean.getAssets().add(assetViewBean);
-        }
+        // FALLBACK ASSET
+        Asset asset = new Asset();
+        asset.setType("default");
+        asset.setPath("default-cart-item.png");
+        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+        final String path = engineSettingService.getProductSkuImageWebPath(asset);
+        assetViewBean.setRelativeWebPath(path);
+        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+        cartItemViewBean.getAssets().add(assetViewBean);
         
         // UNIT PRICE
         cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
