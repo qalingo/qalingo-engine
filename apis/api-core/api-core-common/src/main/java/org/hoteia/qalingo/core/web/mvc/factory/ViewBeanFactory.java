@@ -1606,20 +1606,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
-        // TAGS
-        Set<ProductMarketingTag> tags = productMarketing.getTags();
-        if (Hibernate.isInitialized(tags) &&
-                tags != null) {
-            for (Iterator<ProductMarketingTag> iterator = tags.iterator(); iterator.hasNext();) {
-                ProductMarketingTag productMarketingTag = (ProductMarketingTag) iterator.next();
-                ProductMarketingTagViewBean productMarketingTagViewBean = new ProductMarketingTagViewBean();
-                productMarketingTagViewBean.setCode(productMarketingTag.getCode());
-                productMarketingTagViewBean.setName(productMarketingTag.getName());
-                productMarketingTagViewBean.setDescription(productMarketingTag.getDescription());
-                productMarketingViewBean.getTags().add(productMarketingTagViewBean);
-            }
-        }
-
         productMarketingViewBean.setFeatured(productMarketing.isFeatured());
 
         return productMarketingViewBean;
@@ -1697,6 +1683,20 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             productMarketingViewBean.getAssets().add(assetViewBean);
         }
 
+        // TAGS
+        Set<ProductMarketingTag> tags = productMarketing.getTags();
+        if (Hibernate.isInitialized(tags) &&
+                tags != null) {
+            for (Iterator<ProductMarketingTag> iterator = tags.iterator(); iterator.hasNext();) {
+                ProductMarketingTag productMarketingTag = (ProductMarketingTag) iterator.next();
+                ProductMarketingTagViewBean productMarketingTagViewBean = new ProductMarketingTagViewBean();
+                productMarketingTagViewBean.setCode(productMarketingTag.getCode());
+                productMarketingTagViewBean.setName(productMarketingTag.getName());
+                productMarketingTagViewBean.setDescription(productMarketingTag.getDescription());
+                productMarketingViewBean.getTags().add(productMarketingTagViewBean);
+            }
+        }
+        
         ProductSku productSku = productMarketing.getDefaultProductSku();
         if(productSku != null){
             CatalogCategoryVirtual catalogCategory = productSku.getDefaultCatalogCategoryVirtual(marketArea.getCatalog());

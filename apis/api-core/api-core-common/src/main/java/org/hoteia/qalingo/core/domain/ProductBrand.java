@@ -64,6 +64,9 @@ public class ProductBrand extends AbstractExtendEntity {
     @Lob
     private String description;
 
+    @Column(name = "ENABLED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabled;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductBrandAttribute.class)
     @JoinColumn(name = "PRODUCT_BRAND_ID")
     private Set<ProductBrandAttribute> attributes = new HashSet<ProductBrandAttribute>();
@@ -139,6 +142,14 @@ public class ProductBrand extends AbstractExtendEntity {
 		this.description = description;
 	}
 	
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Set<ProductBrandAttribute> getAttributes() {
         return attributes;
     }
