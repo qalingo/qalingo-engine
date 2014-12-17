@@ -1038,9 +1038,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         List<String> sliders = new ArrayList<String>();
         for (Iterator<Asset> iterator = store.getAssets().iterator(); iterator.hasNext();) {
-            Asset asset = (Asset) iterator.next();
-            if(AssetType.SLIDESHOW.getPropertyKey().equals(asset.getType())){
-                final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(asset);
+            Asset assetSlideshow = (Asset) iterator.next();
+            if(AssetType.SLIDESHOW.getPropertyKey().equals(assetSlideshow.getType())){
+                final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(assetSlideshow);
                 sliders.add(iconImage);
             }
         }
