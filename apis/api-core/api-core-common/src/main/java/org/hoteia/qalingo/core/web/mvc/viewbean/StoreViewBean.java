@@ -172,6 +172,9 @@ public class StoreViewBean extends AbstractAddressViewBean {
                 assetsByType.add(assetViewBean);
             }
         }
+        if(assetsByType.size() == 0){
+            assetsByType.add(getDefaultAsset());
+        }
         return assetsByType;
     }
     

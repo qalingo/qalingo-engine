@@ -160,6 +160,9 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
                 assetsByType.add(assetViewBean);
             }
         }
+        if(assetsByType.size() == 0){
+            assetsByType.add(getDefaultAsset());
+        }
         return assetsByType;
     }
     
