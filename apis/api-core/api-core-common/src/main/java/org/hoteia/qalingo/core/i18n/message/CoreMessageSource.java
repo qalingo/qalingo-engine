@@ -289,8 +289,10 @@ public class CoreMessageSource {
     }
 
     private String handleKey(String key) {
-        key = key.replaceAll("\\.", "_");
-        key = key.replaceAll("\\-", "_");
+        if(key != null){
+            key = key.replaceAll("\\.", "_");
+            key = key.replaceAll("\\-", "_");
+        }
         return key;
     }
 

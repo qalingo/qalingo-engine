@@ -48,7 +48,6 @@ public class ContactController extends AbstractMCommerceController {
 	public ModelAndView displayContactForm(final HttpServletRequest request, Model model, @ModelAttribute("contactForm") ContactForm contactForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTACT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
@@ -56,28 +55,14 @@ public class ContactController extends AbstractMCommerceController {
 		
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CONTACT.getKey());
 
-        // BREADCRUMB
-        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "contact", locale));
-        
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
-        MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-        menuViewBeans.add(menu);
-        
-        menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contact", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
-        menu.setActive(true);
-        menuViewBeans.add(menu);
-        
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+
         return modelAndView;
 	}
 
 	@RequestMapping(value = FoUrls.CONTACT_URL, method = RequestMethod.POST)
 	public ModelAndView submitContact(final HttpServletRequest request, @Valid @ModelAttribute("contactForm") ContactForm contactForm,
-								BindingResult result, Model model) throws Exception {
+								      BindingResult result, Model model) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-success");
 
@@ -98,6 +83,28 @@ public class ContactController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData) {
+        final Locale locale = requestData.getLocale();
+        
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "contact", locale));
+        
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contact", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
+        return breadcrumbViewBean;
+    }
+    
 	/**
 	 * 
 	 */
