@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.GeolocAddress;
 import org.hoteia.qalingo.core.domain.GeolocCity;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
@@ -1596,6 +1597,35 @@ public class RequestUtil {
                 geolocData = geolocService.getGeolocData(remoteAddress);
                 handleGeolocData(request, engineEcoSession, geolocData);
             }
+        }
+        return engineEcoSession;
+    }
+    
+    /**
+     * 
+     */
+    protected EngineEcoSession handleGeolocLatitudeLongitude(final HttpServletRequest request, EngineEcoSession engineEcoSession, final GeolocData geolocData, final String latitude, final String longitude) throws Exception {
+        if (StringUtils.isNotEmpty(latitude)
+                && StringUtils.isNotEmpty(longitude)) {
+            // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
+            
+            // requeter pour avoir la ville la plus proche à 5 km
+            
+//            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(city.getName(), country.getName());
+            GeolocAddress geolocAddress = null;
+            if (geolocAddress != null) {
+                geolocData.setLatitude(geolocAddress.getLatitude());
+                geolocData.setLongitude(geolocAddress.getLongitude());
+            } else {
+                // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
+                geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
+                if (geolocAddress != null) {
+                    geolocData.setLatitude(geolocAddress.getLatitude());
+                    geolocData.setLongitude(geolocAddress.getLongitude());
+                }
+            }
+            engineEcoSession.setGeolocData(geolocData);
+            engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
         }
         return engineEcoSession;
     }

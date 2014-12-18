@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.domain.GeolocAddress;
 import org.hoteia.qalingo.core.domain.GeolocCity;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCode;
+import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCodeResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,32 @@ public class GeolocService {
         return geolocAddress;
     }
     
+    public GeolocAddress geolocByLatitudeLongitude(final String latitude, final String longitude) {
+        GeolocAddress geolocAddress = null;
+        GoogleGeoCode geoCode = geolocGoogleWithLatitudeLongitude(latitude, longitude);
+        if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
+            logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+            engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
+            return geolocAddress;
+        }
+        
+        if(geoCode != null) {
+            GoogleGeoCodeResult googleGeoCodeResult = geoCode.getResults().get(0);
+            String formatedAdress = googleGeoCodeResult.getFormattedAddress();
+            geolocAddress = new GeolocAddress();
+            geolocAddress.setAddress(googleGeoCodeResult.getAddress());
+            geolocAddress.setPostalCode(googleGeoCodeResult.getPostalCode());
+            geolocAddress.setCity(googleGeoCodeResult.getCity());
+            geolocAddress.setCountry(googleGeoCodeResult.getCountryCode());
+            geolocAddress.setJson(SerializationHelper.serialize(geoCode));
+            geolocAddress.setFormatedAddress(formatedAdress);
+            geolocAddress.setLatitude(latitude);
+            geolocAddress.setLongitude(longitude);
+            geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);
+        }
+        return geolocAddress;
+    }
+    
     public GoogleGeoCode geolocGoogleWithAddress(final String formatedAddress){
         GoogleGeoCode geoCode = null;
         boolean googleGelocIsOverQuota;
@@ -140,6 +167,51 @@ public class GeolocService {
                 }
             } else {
                 logger.warn("Google Geolocation API still over Quota! We can't use geolocation for this address: " + formatedAddress);
+            }
+        } catch (ClientProtocolException e) {
+            logger.error("", e);
+        } catch (IOException e) {
+            logger.error("", e);
+        } catch (IllegalStateException e) {
+            logger.error("", e);
+        } catch (ParseException e) {
+            logger.error("", e);
+        }
+        return geoCode;
+    }
+    
+    public GoogleGeoCode geolocGoogleWithLatitudeLongitude(final String latitude, final String longitude){
+        GoogleGeoCode geoCode = null;
+        boolean googleGelocIsOverQuota;
+        try {
+            googleGelocIsOverQuota = engineSettingService.isGoogleGeolocationApiStillOverQuotas(new Date());
+            String paramLatLong = latitude.trim() + "," + longitude.trim();
+            if (googleGelocIsOverQuota == false) {
+                String key = null;
+                try {
+                    key = engineSettingService.getGoogleGeolocationApiKey();
+                } catch (Exception e) {
+                    logger.error("Google Geolocation API Key is mandatory!", e);
+                }
+                if (key != null && StringUtils.isNotEmpty(key)) {
+                    HttpPost request = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + paramLatLong + "&key=" + key);
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpResponse response = httpClient.execute(request);
+
+                    BufferedReader streamReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                    StringBuilder responseStrBuilder = new StringBuilder();
+
+                    String inputStr;
+                    while ((inputStr = streamReader.readLine()) != null) {
+                        responseStrBuilder.append(inputStr);
+                    }
+                    String json = responseStrBuilder.toString();
+
+                    ObjectMapper mapper = new ObjectMapper();
+                    geoCode = mapper.readValue(json, GoogleGeoCode.class);
+                }
+            } else {
+                logger.warn("Google Geolocation API still over Quota! We can't use geolocation for this lat/long: " + paramLatLong);
             }
         } catch (ClientProtocolException e) {
             logger.error("", e);

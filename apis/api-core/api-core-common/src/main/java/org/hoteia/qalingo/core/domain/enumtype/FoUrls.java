@@ -85,6 +85,7 @@ public enum FoUrls {
     CART_ORDER_PAYMENT(FoUrls.CART_ORDER_PAYMENT_URL, FoUrls.CART_ORDER_PAYMENT_KEY, FoUrls.CART_ORDER_PAYMENT_VELOCITY_PAGE, true),
     CART_ORDER_CONFIRMATION(FoUrls.CART_ORDER_CONFIRMATION_URL, FoUrls.CART_ORDER_CONFIRMATION_KEY, FoUrls.CART_ORDER_CONFIRMATION_VELOCITY_PAGE, true),
 
+    NAVIGATOR_GEOLOCATION_AJAX(FoUrls.NAVIGATOR_GEOLOCATION_AJAX_URL, FoUrls.NAVIGATOR_GEOLOCATION_AJAX_KEY, null, false),
     ADD_TO_WISHLIST_AJAX(FoUrls.ADD_TO_WISHLIST_AJAX_URL, FoUrls.ADD_TO_WISHLIST_AJAX_KEY, null, false),
     GET_CART_AJAX(FoUrls.GET_CART_AJAX_URL, FoUrls.GET_CART_AJAX_KEY, null, false),
     ADD_TO_CART_AJAX(FoUrls.ADD_TO_CART_AJAX_URL, FoUrls.ADD_TO_CART_AJAX_KEY, null, false),
@@ -334,6 +335,9 @@ public enum FoUrls {
 	public static final String CART_ORDER_CONFIRMATION_KEY				= "cart-order-confirmation";
 	public static final String CART_ORDER_CONFIRMATION_URL				= "/**/cart-order-confirmation.html";
 	public static final String CART_ORDER_CONFIRMATION_VELOCITY_PAGE	= "cart/cart-order-confirmation";
+
+    public static final String NAVIGATOR_GEOLOCATION_AJAX_KEY            = "navigator-geolocation-ajax";
+    public static final String NAVIGATOR_GEOLOCATION_AJAX_URL            = "/**/navigator-geolocation.ajax";
 
     public static final String ADD_TO_WISHLIST_AJAX_KEY                     = "add-to-wishlist-ajax";
     public static final String ADD_TO_WISHLIST_AJAX_URL                     = "/**/add-to-wishlist.ajax";
