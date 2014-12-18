@@ -155,7 +155,8 @@ public class CustomerConnectionLog extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "CustomerConnectionLog [id=" + id + ", loginDate=" + loginDate + ", appCode=" + appCode + ", host=" + host + ", address=" + address + ", customerId=" + customerId + "]";
+        return "CustomerConnectionLog [id=" + id + ", loginDate=" + loginDate + ", appCode=" + appCode + ", host=" + host + ", publicAddress=" + publicAddress + ", privateAddress=" + privateAddress
+                + ", customerId=" + customerId + "]";
     }
-	
+
 }
