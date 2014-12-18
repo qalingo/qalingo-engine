@@ -1497,6 +1497,37 @@ public class RequestUtil {
         return requestData;
     }
 
+    /**
+     * 
+     */
+    public EngineEcoSession handleGeolocLatitudeLongitude(final RequestData requestData, final String latitude, final String longitude) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+        if (StringUtils.isNotEmpty(latitude)
+                && StringUtils.isNotEmpty(longitude)) {
+            // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
+            final GeolocData geolocData = requestData.getGeolocData();
+            // requeter pour avoir la ville la plus proche à 5 km
+            
+//            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(city.getName(), country.getName());
+            GeolocAddress geolocAddress = null;
+            if (geolocAddress != null) {
+                geolocData.setLatitude(geolocAddress.getLatitude());
+                geolocData.setLongitude(geolocAddress.getLongitude());
+            } else {
+                // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
+                geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
+                if (geolocAddress != null) {
+                    geolocData.setLatitude(geolocAddress.getLatitude());
+                    geolocData.setLongitude(geolocAddress.getLongitude());
+                }
+            }
+            engineEcoSession.setGeolocData(geolocData);
+            engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
+        }
+        return engineEcoSession;
+    }
+    
     protected UrlParameterMapping handleUrlParameters(final HttpServletRequest request) {
         UrlParameterMapping urlParameterMapping = new UrlParameterMapping();
         String marketPlaceCode = null;
@@ -1597,35 +1628,6 @@ public class RequestUtil {
                 geolocData = geolocService.getGeolocData(remoteAddress);
                 handleGeolocData(request, engineEcoSession, geolocData);
             }
-        }
-        return engineEcoSession;
-    }
-    
-    /**
-     * 
-     */
-    protected EngineEcoSession handleGeolocLatitudeLongitude(final HttpServletRequest request, EngineEcoSession engineEcoSession, final GeolocData geolocData, final String latitude, final String longitude) throws Exception {
-        if (StringUtils.isNotEmpty(latitude)
-                && StringUtils.isNotEmpty(longitude)) {
-            // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
-            
-            // requeter pour avoir la ville la plus proche à 5 km
-            
-//            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(city.getName(), country.getName());
-            GeolocAddress geolocAddress = null;
-            if (geolocAddress != null) {
-                geolocData.setLatitude(geolocAddress.getLatitude());
-                geolocData.setLongitude(geolocAddress.getLongitude());
-            } else {
-                // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
-                geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
-                if (geolocAddress != null) {
-                    geolocData.setLatitude(geolocAddress.getLatitude());
-                    geolocData.setLongitude(geolocAddress.getLongitude());
-                }
-            }
-            engineEcoSession.setGeolocData(geolocData);
-            engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
         }
         return engineEcoSession;
     }
