@@ -48,7 +48,8 @@ public class CustomerConnectionLogService {
 		List<CustomerConnectionLog> customerConnectionLogs  = customerConnectionLogDao.findCustomerConnectionLogsByCustomerIdAndAppCode(customerId, appCode);
 		if(customerConnectionLogs.size() >= new Integer(maxConnectionToLog)){
 			CustomerConnectionLog customerConnectionLogToUpdate = customerConnectionLogs.get(0);
-			customerConnectionLogToUpdate.setAddress(customerConnectionLog.getAddress());
+			customerConnectionLogToUpdate.setPublicAddress(customerConnectionLog.getPublicAddress());
+			customerConnectionLogToUpdate.setPrivateAddress(customerConnectionLog.getPrivateAddress());
 			customerConnectionLogToUpdate.setHost(customerConnectionLog.getHost());
 			customerConnectionLogToUpdate.setLoginDate(customerConnectionLog.getLoginDate());
 			customerConnectionLogDao.saveOrUpdateCustomerConnectionLog(customerConnectionLogToUpdate);
