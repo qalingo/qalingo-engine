@@ -44,9 +44,12 @@ public class CustomerConnectionLog extends AbstractEntity {
 	@Column(name="HOST")
 	private String host;
 	
-	@Column(name="ADDRESS")
-	private String address;
-	
+    @Column(name = "PUBLIC_ADDRESS")
+    private String publicAddress;
+
+    @Column(name = "PRIVATE_ADDRESS")
+    private String privateAddress;
+	    
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
 	
@@ -85,14 +88,26 @@ public class CustomerConnectionLog extends AbstractEntity {
 		this.host = host;
 	}
 	
-	public String getAddress() {
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
+    public String getPublicAddress() {
+        return publicAddress;
+    }
+    
+    public String getAddress() {
+        return getPublicAddress();
+    }
+    
+    public void setPublicAddress(String publicAddress) {
+        this.publicAddress = publicAddress;
+    }
+    
+    public String getPrivateAddress() {
+        return privateAddress;
+    }
+    
+    public void setPrivateAddress(String privateAddress) {
+        this.privateAddress = privateAddress;
+    }
+    
 	public Long getCustomerId() {
 		return customerId;
 	}
