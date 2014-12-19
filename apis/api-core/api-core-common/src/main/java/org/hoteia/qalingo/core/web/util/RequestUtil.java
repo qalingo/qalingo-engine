@@ -45,6 +45,8 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
+import org.hoteia.qalingo.core.domain.bean.GeolocDataCity;
+import org.hoteia.qalingo.core.domain.bean.GeolocDataCountry;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
@@ -62,6 +64,7 @@ import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UserService;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamRequest;
@@ -73,9 +76,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
 
 /**
  * <p>
@@ -120,6 +120,9 @@ public class RequestUtil {
     
     @Autowired
     protected CurrencyReferentialService currencyReferentialService;
+    
+    @Autowired
+    protected ReferentialDataService referentialDataService;
     
     @Autowired
     protected UserService userService;
@@ -1506,7 +1509,13 @@ public class RequestUtil {
         if (StringUtils.isNotEmpty(latitude)
                 && StringUtils.isNotEmpty(longitude)) {
             // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
-            final GeolocData geolocData = requestData.getGeolocData();
+            GeolocData geolocData = requestData.getGeolocData();
+            if(geolocData == null){
+                geolocData = new GeolocData();
+                geolocData.setLatitude(latitude);
+                geolocData.setLongitude(longitude);
+            }
+            
             // requeter pour avoir la ville la plus proche à 5 km
             
 //            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(city.getName(), country.getName());
@@ -1518,8 +1527,15 @@ public class RequestUtil {
                 // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
                 geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
                 if (geolocAddress != null) {
-                    geolocData.setLatitude(geolocAddress.getLatitude());
-                    geolocData.setLongitude(geolocAddress.getLongitude());
+                    GeolocDataCountry geolocDataCountry = new GeolocDataCountry();
+                    geolocDataCountry.setIsoCode(geolocAddress.getCountry());
+                    geolocDataCountry.setName(referentialDataService.getCountryByLocale(geolocAddress.getCountry(), requestData.getLocale()));
+                    geolocData.setCountry(geolocDataCountry);
+                    
+                    GeolocDataCity geolocDataCity = new GeolocDataCity();
+                    geolocDataCity.setName(geolocAddress.getCity());
+                    geolocData.setCity(geolocDataCity);
+                    
                 }
             }
             engineEcoSession.setGeolocData(geolocData);
@@ -1638,15 +1654,15 @@ public class RequestUtil {
     protected EngineEcoSession handleGeolocData(final HttpServletRequest request, EngineEcoSession engineEcoSession, final GeolocData geolocData) throws Exception {
         if (geolocData != null) {
             // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
-            City city = geolocData.getCity();
-            Country country = geolocData.getCountry();
-            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(city.getName(), country.getName());
+            GeolocDataCity geolocDataCity = geolocData.getCity();
+            GeolocDataCountry country = geolocData.getCountry();
+            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(geolocDataCity.getName(), country.getName());
             if (geolocCity != null) {
                 geolocData.setLatitude(geolocCity.getLatitude());
                 geolocData.setLongitude(geolocCity.getLongitude());
             } else {
                 // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
-                geolocCity = geolocService.geolocByCityAndCountry(city.getName(), country.getName());
+                geolocCity = geolocService.geolocByCityAndCountry(geolocDataCity.getName(), country.getName());
                 if (geolocCity != null) {
                     geolocData.setLatitude(geolocCity.getLatitude());
                     geolocData.setLongitude(geolocCity.getLongitude());
@@ -1854,7 +1870,7 @@ public class RequestUtil {
         final GeolocData geolocData = engineEcoSession.getGeolocData();
         MarketArea marketAreaGeoloc = null;
         if(geolocData != null){
-            final Country country = geolocData.getCountry();
+            final GeolocDataCountry country = geolocData.getCountry();
             if(country != null && StringUtils.isNotEmpty(country.getIsoCode())){
                 List<MarketArea> marketAreas = marketService.getMarketAreaByGeolocCountryCode(country.getIsoCode());
                 if(marketAreas != null && marketAreas.size() == 1){

@@ -22,8 +22,8 @@ public class GeolocData implements Serializable {
     private static final long serialVersionUID = -4664799447578348774L;
     
     private String remoteAddress;
-    private Country country;
-    private City city;
+    private GeolocDataCountry country;
+    private GeolocDataCity city;
 
     private String latitude;
     private String longitude;
@@ -39,19 +39,19 @@ public class GeolocData implements Serializable {
         this.remoteAddress = remoteAddress;
     }
     
-    public Country getCountry() {
+    public GeolocDataCountry getCountry() {
         return country;
     }
     
-    public void setCountry(Country country) {
+    public void setCountry(GeolocDataCountry country) {
         this.country = country;
     }
     
-    public City getCity() {
+    public GeolocDataCity getCity() {
         return city;
     }
     
-    public void setCity(City city) {
+    public void setCity(GeolocDataCity city) {
         this.city = city;
     }
     

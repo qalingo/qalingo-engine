@@ -30,6 +30,8 @@ import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.GeolocAddress;
 import org.hoteia.qalingo.core.domain.GeolocCity;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
+import org.hoteia.qalingo.core.domain.bean.GeolocDataCity;
+import org.hoteia.qalingo.core.domain.bean.GeolocDataCountry;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCode;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCodeResult;
 import org.slf4j.Logger;
@@ -285,9 +287,15 @@ public class GeolocService {
             geolocData.setRemoteAddress(remoteAddress);
             if(country != null 
                     && StringUtils.isNotEmpty(country.getIsoCode())){
-                geolocData.setCountry(country);
+                GeolocDataCountry geolocDataCountry = new GeolocDataCountry();
+                geolocDataCountry.setIsoCode(country.getIsoCode());
+                geolocDataCountry.setName(country.getName());
+                geolocData.setCountry(geolocDataCountry);
                 final City city = geolocAndGetCity(remoteAddress);
-                geolocData.setCity(city);
+                GeolocDataCity geolocDataCity = new GeolocDataCity();
+                geolocDataCity.setGeoNameId(city.getGeoNameId());
+                geolocDataCity.setName(city.getName());
+                geolocData.setCity(geolocDataCity);
             }
         }
         return geolocData;
