@@ -9,61 +9,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class GoogleGeoCode implements Serializable {
 
-    @JsonProperty("results")
-    private List<GoogleGeoCodeResult> results;
-    
-    @JsonProperty("status")
-    private String status;
+    @JsonProperty("success")
+    private String success;
 
-    @JsonProperty("error_message")
-    private String errorMessage;
+    @JsonProperty("error-codes")
+    private List<String> errorCodes;
     
-    public List<GoogleGeoCodeResult> getResults() {
-        return results;
+    public String getSuccess() {
+        return success;
     }
     
-    public void setResults(List<GoogleGeoCodeResult> results) {
-        this.results = results;
+    public void setSuccess(String success) {
+        this.success = success;
     }
     
-    public String getStatus() {
-        return status;
+    public List<String> getErrorCodes() {
+        return errorCodes;
     }
     
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-    
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-    
-    public String getLongitude() {
-        if(results != null
-                && results.size() > 0){
-            GoogleGeoCodeResult result = results.iterator().next();
-            if(result.getGeometry() != null
-                    && result.getGeometry().getLocation() != null){
-                return result.getGeometry().getLocation().getLng();
-            }
-        }
-        return null;
-    }
-
-    public String getLatitude() {
-        if(results != null
-                && results.size() > 0){
-            GoogleGeoCodeResult result = results.iterator().next();
-            if(result.getGeometry() != null
-                    && result.getGeometry().getLocation() != null){
-                return result.getGeometry().getLocation().getLat();
-            }
-        }
-        return null;
+    public void setErrorCodes(List<String> errorCodes) {
+        this.errorCodes = errorCodes;
     }
 
 }

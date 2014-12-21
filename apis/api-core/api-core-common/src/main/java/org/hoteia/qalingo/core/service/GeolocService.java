@@ -151,11 +151,11 @@ public class GeolocService {
                     logger.error("Google Geolocation API Key is mandatory!", e);
                 }
                 if (key != null && StringUtils.isNotEmpty(key)) {
-                    HttpPost request = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?address=" + formatedAddress + "&key=" + key);
+                    HttpPost httpPost = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?address=" + formatedAddress + "&key=" + key);
                     HttpClient httpClient = new DefaultHttpClient();
-                    HttpResponse response = httpClient.execute(request);
+                    HttpResponse httpResponse = httpClient.execute(httpPost);
 
-                    BufferedReader streamReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                    BufferedReader streamReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                     StringBuilder responseStrBuilder = new StringBuilder();
 
                     String inputStr;
