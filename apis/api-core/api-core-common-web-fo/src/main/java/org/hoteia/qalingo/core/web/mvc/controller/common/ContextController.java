@@ -48,6 +48,12 @@ public class ContextController extends AbstractFrontofficeQalingoController {
         UrlPojo url = new UrlPojo();
         
         url = new UrlPojo();
+        url.setCode(FoUrls.NAVIGATOR_GEOLOCATION_AJAX.name());
+        url.setUrl(urlService.generateUrl(FoUrls.NAVIGATOR_GEOLOCATION_AJAX, requestData));
+        url.setMethod("POST");
+        context.getUrls().add(url);
+        
+        url = new UrlPojo();
         url.setCode(FoUrls.ADD_TO_WISHLIST_AJAX.name());
         url.setUrl(urlService.generateUrl(FoUrls.ADD_TO_WISHLIST_AJAX, requestData));
         url.setMethod("GET");

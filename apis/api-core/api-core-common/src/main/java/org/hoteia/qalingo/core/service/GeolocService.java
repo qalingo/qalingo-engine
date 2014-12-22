@@ -124,6 +124,7 @@ public class GeolocService {
         if(geoCode != null) {
             GoogleGeoCodeResult googleGeoCodeResult = geoCode.getResults().get(0);
             String formatedAdress = googleGeoCodeResult.getFormattedAddress();
+            formatedAdress = formatedAdress.replace(" ", "+");
             geolocAddress = new GeolocAddress();
             geolocAddress.setAddress(googleGeoCodeResult.getAddress());
             geolocAddress.setPostalCode(googleGeoCodeResult.getPostalCode());
@@ -267,7 +268,11 @@ public class GeolocService {
     public GeolocAddress getGeolocAddressByFormatedAddress(final String formatedAddress, Object... params) {
         return geolocDao.getGeolocAddressByFormatedAddress(formatedAddress, params);
     }
-    
+
+    public GeolocAddress getGeolocAddressByLatitudeAndLongitude(final String latitude, final String longitude, Object... params) {
+        return geolocDao.getGeolocAddressByLatitudeAndLongitude(latitude, longitude, params);
+    }
+
     public GeolocAddress saveOrUpdateGeolocAddress(final GeolocAddress geolocCity) {
         return geolocDao.saveOrUpdateGeolocAddress(geolocCity);
     }

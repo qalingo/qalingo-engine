@@ -82,6 +82,20 @@ public class GeolocDao extends AbstractGenericDao {
         return geolocAddress;
 	}
 	
+    public GeolocAddress getGeolocAddressByLatitudeAndLongitude(final String latitude, final String longitude, Object... params) {
+        Criteria criteria = createDefaultCriteria(GeolocAddress.class);
+
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria);
+        criteria.add(Restrictions.eq("latitude", latitude));
+        criteria.add(Restrictions.eq("longitude", longitude));
+
+        GeolocAddress geolocAddress = (GeolocAddress) criteria.uniqueResult();
+        if (geolocAddress != null) {
+            geolocAddress.setFetchPlan(fetchPlan);
+        }
+        return geolocAddress;
+    }
+	
 	public GeolocAddress saveOrUpdateGeolocAddress(final GeolocAddress geolocAddress) {
 		if(geolocAddress.getDateCreate() == null){
 			geolocAddress.setDateCreate(new Date());

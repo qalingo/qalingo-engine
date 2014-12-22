@@ -1516,13 +1516,22 @@ public class RequestUtil {
                 geolocData.setLongitude(longitude);
             }
             
-            // requeter pour avoir la ville la plus proche à 5 km
+            // TODO : ? requeter pour avoir la ville la plus proche à 5 km
             
-//            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(city.getName(), country.getName());
-            GeolocAddress geolocAddress = null;
+            GeolocAddress geolocAddress = geolocService.getGeolocAddressByLatitudeAndLongitude(latitude, longitude);
             if (geolocAddress != null) {
                 geolocData.setLatitude(geolocAddress.getLatitude());
                 geolocData.setLongitude(geolocAddress.getLongitude());
+                
+                GeolocDataCountry geolocDataCountry = new GeolocDataCountry();
+                geolocDataCountry.setIsoCode(geolocAddress.getCountry());
+                geolocDataCountry.setName(referentialDataService.getCountryByLocale(geolocAddress.getCountry(), requestData.getLocale()));
+                geolocData.setCountry(geolocDataCountry);
+                
+                GeolocDataCity geolocDataCity = new GeolocDataCity();
+                geolocDataCity.setName(geolocAddress.getCity());
+                geolocData.setCity(geolocDataCity);
+                
             } else {
                 // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
                 geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);

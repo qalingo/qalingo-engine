@@ -73,7 +73,7 @@ public class GoogleGeoCodeResult implements Serializable {
     protected String getLongValue(String type){
         for (Iterator<GoogleGeoCodeAddressComponent> iterator = addressComponents.iterator(); iterator.hasNext();) {
             GoogleGeoCodeAddressComponent googleGeoCodeAddressComponent = (GoogleGeoCodeAddressComponent) iterator.next();
-            if(googleGeoCodeAddressComponent.getTypes().contains("country")){
+            if(googleGeoCodeAddressComponent.getTypes().contains(type)){
                 return googleGeoCodeAddressComponent.getLongName();
             }
         }
@@ -83,7 +83,7 @@ public class GoogleGeoCodeResult implements Serializable {
     protected String getShortValue(String type){
         for (Iterator<GoogleGeoCodeAddressComponent> iterator = addressComponents.iterator(); iterator.hasNext();) {
             GoogleGeoCodeAddressComponent googleGeoCodeAddressComponent = (GoogleGeoCodeAddressComponent) iterator.next();
-            if(googleGeoCodeAddressComponent.getTypes().contains("country")){
+            if(googleGeoCodeAddressComponent.getTypes().contains(type)){
                 return googleGeoCodeAddressComponent.getShortName();
             }
         }
