@@ -11,9 +11,6 @@ package org.hoteia.qalingo.core.domain.bean;
 
 import java.io.Serializable;
 
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
-
 public class GeolocData implements Serializable {
 
     /**

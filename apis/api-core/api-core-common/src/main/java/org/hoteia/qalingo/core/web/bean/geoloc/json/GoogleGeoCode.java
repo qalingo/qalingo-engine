@@ -9,26 +9,61 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class GoogleGeoCode implements Serializable {
 
-    @JsonProperty("success")
-    private String success;
+    @JsonProperty("results")
+    private List<GoogleGeoCodeResult> results;
+    
+    @JsonProperty("status")
+    private String status;
 
-    @JsonProperty("error-codes")
-    private List<String> errorCodes;
+    @JsonProperty("error_message")
+    private String errorMessage;
     
-    public String getSuccess() {
-        return success;
+    public List<GoogleGeoCodeResult> getResults() {
+        return results;
     }
     
-    public void setSuccess(String success) {
-        this.success = success;
+    public void setResults(List<GoogleGeoCodeResult> results) {
+        this.results = results;
     }
     
-    public List<String> getErrorCodes() {
-        return errorCodes;
+    public String getStatus() {
+        return status;
     }
     
-    public void setErrorCodes(List<String> errorCodes) {
-        this.errorCodes = errorCodes;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+    
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+    
+    public String getLongitude() {
+        if(results != null
+                && results.size() > 0){
+            GoogleGeoCodeResult result = results.iterator().next();
+            if(result.getGeometry() != null
+                    && result.getGeometry().getLocation() != null){
+                return result.getGeometry().getLocation().getLng();
+            }
+        }
+        return null;
+    }
+
+    public String getLatitude() {
+        if(results != null
+                && results.size() > 0){
+            GoogleGeoCodeResult result = results.iterator().next();
+            if(result.getGeometry() != null
+                    && result.getGeometry().getLocation() != null){
+                return result.getGeometry().getLocation().getLat();
+            }
+        }
+        return null;
     }
 
 }

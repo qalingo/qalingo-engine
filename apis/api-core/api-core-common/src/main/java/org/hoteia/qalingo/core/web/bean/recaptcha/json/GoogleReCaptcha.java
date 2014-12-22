@@ -9,26 +9,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class GoogleReCaptcha implements Serializable {
 
-    @JsonProperty("status")
-    private String status;
+    @JsonProperty("success")
+    private String success;
 
-    @JsonProperty("error_message")
-    private List<String> errorMessage;
+    @JsonProperty("error-codes")
+    private List<String> errorCodes;
     
-    public String getStatus() {
-        return status;
+    public String getSuccess() {
+        return success;
     }
     
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSuccess(String success) {
+        this.success = success;
     }
     
-    public List<String> getErrorMessage() {
-        return errorMessage;
+    public List<String> getErrorCodes() {
+        return errorCodes;
     }
     
-    public void setErrorMessage(List<String> errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setErrorCodes(List<String> errorCodes) {
+        this.errorCodes = errorCodes;
     }
-    
+
 }
