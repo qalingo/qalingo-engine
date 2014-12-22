@@ -63,7 +63,7 @@ public class GoogleGeoCodeResult implements Serializable {
     }
     
     public String getCity(){
-        return getLongValue("administrative_area_level_1");
+        return getLongValue("locality");
     }
     
     public String getCountryCode(){
