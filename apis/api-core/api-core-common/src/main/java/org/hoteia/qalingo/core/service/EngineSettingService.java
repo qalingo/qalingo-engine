@@ -84,7 +84,11 @@ public class EngineSettingService {
     // Web monitoring like: Pingdom
     public static final String ENGINE_SETTING_WEB_MONITORING_NUMBER                    = "WEB_MONITORING_NUMBER";
     public static final String ENGINE_SETTING_WEB_MONITORING_NAME                      = "WEB_MONITORING_NAME";
-    
+
+    // Web monitoring like: Google reCaptcha
+    public static final String ENGINE_SETTING_WEB_CAPTCHA_SITE_KEY                    = "WEB_CAPTCHA_SITE_KEY";
+    public static final String ENGINE_SETTING_WEB_CAPTCHA_SECRET_KEY                  = "WEB_CAPTCHA_SECRET_KEY";
+
     // OAUTH : FACEBOOK, TWITTER, GOOGLE, etc
     public static final String ENGINE_SETTING_OAUTH_APP_KEY_OR_ID                      = "OAUTH_APP_KEY_OR_ID";
     public static final String ENGINE_SETTING_OAUTH_APP_SECRET                         = "OAUTH_APP_SECRET";
@@ -263,6 +267,14 @@ public class EngineSettingService {
 
     public EngineSetting getSettingWebMonitoringName() {
         return getEngineSettingByCode(ENGINE_SETTING_WEB_MONITORING_NAME);
+    }
+    
+    public EngineSetting getSettingWebCaptchaSecretKey() {
+        return getEngineSettingByCode(ENGINE_SETTING_WEB_CAPTCHA_SECRET_KEY);
+    }
+
+    public EngineSetting getSettingWebCaptchaSiteKey() {
+        return getEngineSettingByCode(ENGINE_SETTING_WEB_CAPTCHA_SITE_KEY);
     }
 
     // GEOLOC SETTINGS

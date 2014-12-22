@@ -240,6 +240,13 @@ INSERT INTO teco_engine_setting
 VALUES 
 (1005, 'Escape accent URL setting', 'Escape accent URL settings', 'ESCAPE_ACCENT_FROM_URL', 'true', 1);
 
+-- Environment Staging/Reel setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(900, 'Captcha Site Key', 'Captcha Site Key', 'WEB_CAPTCHA_SITE_KEY', 'xxxx', 1),
+(901, 'Captcha Secret Key', 'Captcha Secret Key', 'WEB_CAPTCHA_SECRET_KEY', 'xxxx', 1);
+
 
 -- Theme settings
 INSERT INTO teco_engine_setting 

@@ -20,6 +20,7 @@ import org.drools.core.util.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -28,6 +29,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CaptchaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -71,6 +73,12 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		final String lastUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
 		modelAndView.addObject(ModelConstants.URL_BACK, lastUrl);
+		
+		// CAPTCHA
+		CaptchaViewBean captchaViewBean = new CaptchaViewBean();
+		EngineSetting siteKey = engineSettingService.getSettingWebCaptchaSiteKey();
+		captchaViewBean.setSiteKey(siteKey.getDefaultValue());
+		modelAndView.addObject(ModelConstants.CAPTCHA_VIEW_BEAN, captchaViewBean);
 		
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();

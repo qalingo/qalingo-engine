@@ -54,6 +54,7 @@ public class ModelConstants {
     public static final String MORE_PAGE_MENUS_VIEW_BEAN            = "morePageMenus";
     public static final String BREADCRUMB_VIEW_BEAN                 = "breadcrumb";
     public static final String CATALOG_BREADCRUMB_VIEW_BEAN         = "catalogBreadcrumb";
+    public static final String CAPTCHA_VIEW_BEAN                     = "captcha";
 
     public static final String MARKET_PLACES_VIEW_BEAN              = "marketPlaces";
     public static final String MARKETS_VIEW_BEAN                    = "markets";
