@@ -69,6 +69,7 @@ public class EngineSettingService {
     public static final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_FOLDER_PATH         = "EMAIL_FILE_MIRRORING_FOLDER_PATH";
     public static final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_WEB_PATH            = "EMAIL_FILE_MIRRORING_FOLDER_WEB";
     public static final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_EXTENSION           = "EMAIL_FILE_MIRRORING_EXTENSION";
+    public static final String ENGINE_SETTING_DEFAULT_EMAIL_ADDRESS                    = "DEFAULT_EMAIL_ADDRESS";
     
     // COUNT ITEM BY PAGE - PAGE SIZE
     public static final String ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE                  = "COUNT_ITEM_BY_PAGE";
@@ -428,6 +429,23 @@ public class EngineSettingService {
             }
         }
         return emailFileMirroringPath;
+    }
+    
+    public EngineSetting getDefaultEmailAddress() {
+        return getEngineSettingByCode(ENGINE_SETTING_DEFAULT_EMAIL_ADDRESS);
+    }
+    
+    public String getDefaultEmailAddress(String context) {
+        EngineSetting engineSetting = getDefaultEmailAddress();
+        String defaultEmailAddress = "";
+        if (engineSetting != null) {
+            defaultEmailAddress = engineSetting.getDefaultValue();
+            EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(context);
+            if (engineSettingValue != null) {
+                defaultEmailAddress = engineSettingValue.getValue();
+            }
+        }
+        return defaultEmailAddress;
     }
     
     // ASSETS

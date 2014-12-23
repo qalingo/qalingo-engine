@@ -36,7 +36,6 @@ import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
@@ -65,6 +64,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.hoteia.qalingo.core.domain.Retailer_;
+
 @Service("webManagementService")
 @Transactional
 public class WebManagementService {
@@ -89,6 +90,9 @@ public class WebManagementService {
     
     @Autowired
     protected OrderCustomerService orderCustomerService;
+    
+    @Autowired
+    protected EngineSettingService engineSettingService;
     
     @Autowired
     protected EngineSessionService engineSessionService;
@@ -394,9 +398,9 @@ public class WebManagementService {
 
         final ContactEmailBean contactEmailBean = new ContactEmailBean();
         BeanUtils.copyProperties(contactForm, contactEmailBean);
-        contactEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_CONTACT));
+        contactEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_CONTACT));
         contactEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_CONTACT));
-        contactEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_CONTACT));
+        contactEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_CONTACT));
         contactEmailBean.setToEmail(marketArea.getEmailToContact(contextNameValue));
         
         buildAndSaveContactMail(requestData, contactEmailBean);
@@ -415,9 +419,9 @@ public class WebManagementService {
         
         final RetailerContactEmailBean retailerContactEmailBean = new RetailerContactEmailBean();
         BeanUtils.copyProperties(retailerContactForm, retailerContactEmailBean);
-        retailerContactEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
+        retailerContactEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
         retailerContactEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
-        retailerContactEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
+        retailerContactEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
         retailerContactEmailBean.setToEmail(retailerToContact.getDefaultAddress().getEmail());
         
         buildAndSaveRetailerContactMail(requestData, retailerToContact, retailerContactEmailBean);
@@ -431,9 +435,9 @@ public class WebManagementService {
         final String contextNameValue = requestData.getContextNameValue();
 
         final NewsletterEmailBean newsletterEmailBean = new NewsletterEmailBean();
-        newsletterEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION));
+        newsletterEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION));
         newsletterEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION));
-        newsletterEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION));
+        newsletterEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION));
         newsletterEmailBean.setToEmail(email);
 
         saveAndBuildNewsletterSubscriptionConfirmationMail(requestData, newsletterEmailBean);
@@ -447,9 +451,9 @@ public class WebManagementService {
         final String contextNameValue = requestData.getContextNameValue();
 
         final NewsletterEmailBean newsletterEmailBean = new NewsletterEmailBean();
-        newsletterEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION));
+        newsletterEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION));
         newsletterEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION));
-        newsletterEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION));
+        newsletterEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION));
         newsletterEmailBean.setToEmail(email);
         
         saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, newsletterEmailBean);
@@ -464,9 +468,9 @@ public class WebManagementService {
 
         final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean = new CustomerNewAccountConfirmationEmailBean();
         BeanUtils.copyProperties(createAccountForm, customerNewAccountConfirmationEmailBean);
-        customerNewAccountConfirmationEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
+        customerNewAccountConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         customerNewAccountConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
-        customerNewAccountConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
+        customerNewAccountConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         customerNewAccountConfirmationEmailBean.setToEmail(createAccountForm.getEmail());
 
         customerNewAccountConfirmationEmailBean.setTitle(createAccountForm.getTitle());
@@ -489,9 +493,9 @@ public class WebManagementService {
 
         final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean = new CustomerForgottenPasswordEmailBean();
         BeanUtils.copyProperties(forgottenPasswordForm, customerForgottenPasswordEmailBean);
-        customerForgottenPasswordEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
+        customerForgottenPasswordEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
         customerForgottenPasswordEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
-        customerForgottenPasswordEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
+        customerForgottenPasswordEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
         customerForgottenPasswordEmailBean.setToEmail(customer.getEmail());
         customerForgottenPasswordEmailBean.setToken(customerCredential.getResetToken());
         
@@ -764,7 +768,6 @@ public class WebManagementService {
     }
     
     public Customer saveNewsletterUnsubscription(final RequestData requestData, final String email) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
         Customer customer = customerService.getCustomerByLoginOrEmail(email);
         MarketArea marketArea = requestData.getMarketArea();
         
@@ -835,9 +838,9 @@ public class WebManagementService {
         final String velocityPath = requestData.getVelocityEmailPrefix();
 
         final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean = new CustomerResetPasswordConfirmationEmailBean();
-        customerResetPasswordConfirmationEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
-        customerResetPasswordConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
-        customerResetPasswordConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        customerResetPasswordConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        customerResetPasswordConfirmationEmailBean.setFromName(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        customerResetPasswordConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
         customerResetPasswordConfirmationEmailBean.setToEmail(customer.getEmail());
         
         customerResetPasswordConfirmationEmailBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
@@ -859,9 +862,9 @@ public class WebManagementService {
         final String velocityPath = requestData.getVelocityEmailPrefix();
 
         final OrderConfirmationEmailBean orderConfirmationEmailBean = new OrderConfirmationEmailBean();
-        orderConfirmationEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        orderConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
         orderConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
-        orderConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        orderConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
         orderConfirmationEmailBean.setToEmail(customer.getEmail());
         
         if (order != null) {
@@ -881,6 +884,16 @@ public class WebManagementService {
         }
         
         emailService.buildAndSaveNewOrderConfirmationMail(requestData, customer, velocityPath, orderConfirmationEmailBean);
+    }
+    
+    protected String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String contextNameValue, final String emailType) throws Exception{
+        String emailFromAddress = marketArea.getEmailFromAddress(contextNameValue, emailType);
+        if(StringUtils.isEmpty(emailFromAddress)){
+            final HttpServletRequest request = requestData.getRequest();
+            final String contextValue = requestUtil.getCurrentContextNameValue(request);
+            emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
+        }
+        return emailFromAddress;
     }
     
     protected Customer checkCustomerMarketArea(final RequestData requestData, Customer customer) throws Exception{

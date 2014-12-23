@@ -228,6 +228,13 @@ INSERT INTO teco_engine_setting
 VALUES 
 (503, 'Email file mirroring extension', 'Email file mirroring extension', 'EMAIL_FILE_MIRRORING_EXTENSION', '.html', 1);
 
+-- Default Email
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(504, 'Default Email address', 'Default Email address', 'DEFAULT_EMAIL_ADDRESS', 'no-reply@yourdomain.com', 1);
+
+
 -- Cache TTL setting
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
