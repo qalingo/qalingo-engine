@@ -75,10 +75,12 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		modelAndView.addObject(ModelConstants.URL_BACK, lastUrl);
 		
 		// CAPTCHA
-		CaptchaViewBean captchaViewBean = new CaptchaViewBean();
-		EngineSetting siteKey = engineSettingService.getSettingWebCaptchaSiteKey();
-		captchaViewBean.setSiteKey(siteKey.getDefaultValue());
-		modelAndView.addObject(ModelConstants.CAPTCHA_VIEW_BEAN, captchaViewBean);
+		EngineSetting siteKeyEngineSetting = engineSettingService.getSettingWebCaptchaSiteKey();
+		if(siteKeyEngineSetting != null){
+	        CaptchaViewBean captchaViewBean = new CaptchaViewBean();
+	        captchaViewBean.setSiteKey(siteKeyEngineSetting.getDefaultValue());
+	        modelAndView.addObject(ModelConstants.CAPTCHA_VIEW_BEAN, captchaViewBean);
+		}
 		
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();

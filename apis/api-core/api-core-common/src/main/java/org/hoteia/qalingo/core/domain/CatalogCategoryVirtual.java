@@ -391,7 +391,13 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
 
     public String getI18nName(String localizationCode) {
         String i18nName = (String) getValue(CatalogCategoryMasterAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        if (StringUtils.isEmpty(i18nName)
+                && categoryMaster != null && Hibernate.isInitialized(categoryMaster)) {
+            // FIND MASTER VALUE
+            i18nName = categoryMaster.getI18nName(localizationCode);
+        }
         if (StringUtils.isEmpty(i18nName)) {
+            // SET DEFAULT VALUE
             i18nName = getName();
         }
         return i18nName;
@@ -399,10 +405,16 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     
     public String getI18nDescription(String localizationCode) {
         String i18Description = (String) getValue(ProductBrandAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
-        if(StringUtils.isNotEmpty(i18Description)){
-            return i18Description;
+        if (StringUtils.isEmpty(i18Description)
+                && categoryMaster != null && Hibernate.isInitialized(categoryMaster)) {
+            // FIND MASTER VALUE
+            i18Description = categoryMaster.getI18nDescription(localizationCode);
         }
-        return description;
+        if (StringUtils.isEmpty(i18Description)) {
+            // SET DEFAULT VALUE
+            i18Description = description;
+        }
+        return i18Description;
     }
 
     @Override
