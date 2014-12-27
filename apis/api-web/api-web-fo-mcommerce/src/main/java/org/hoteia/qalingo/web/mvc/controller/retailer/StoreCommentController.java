@@ -52,7 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("retailerCommentController")
+@Controller("storeCommentController")
 public class StoreCommentController extends AbstractMCommerceController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
