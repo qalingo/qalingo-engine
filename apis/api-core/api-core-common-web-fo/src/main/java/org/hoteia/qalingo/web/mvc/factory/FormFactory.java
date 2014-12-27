@@ -193,19 +193,19 @@ public class FormFactory {
 	}
 	
     public CustomerCommentForm buildCustomerCommentForm(final RequestData requestData, final String objectCode) throws Exception {
-        final CustomerCommentForm productCommentForm = new CustomerCommentForm();
-        productCommentForm.setObjectCode(objectCode);
+        final CustomerCommentForm customerCommentForm = new CustomerCommentForm();
+        customerCommentForm.setObjectCode(objectCode);
         final Customer customer = requestData.getCustomer();
         if(customer != null){
             if(StringUtils.isNotEmpty(customer.getScreenName())){
-                productCommentForm.setName(customer.getScreenName());
+                customerCommentForm.setName(customer.getScreenName());
             } else {
-                productCommentForm.setName(customer.getLastname() + " " + customer.getFirstname());
+                customerCommentForm.setName(customer.getLastname() + " " + customer.getFirstname());
             }
-            productCommentForm.setEmail(customer.getEmail());
+            customerCommentForm.setEmail(customer.getEmail());
         }
         
-        return productCommentForm;
+        return customerCommentForm;
     }
     
     public RetailerContactForm buildRetailerContactForm(final RequestData requestData, final Retailer retailer) throws Exception {
