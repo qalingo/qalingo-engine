@@ -68,7 +68,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.PRODUCT_COMMENT_URL, method = RequestMethod.GET)
 	public ModelAndView displayProductCommentForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
 												   final Model model, @ModelAttribute(ModelConstants.CUSTOMER_COMMENT_FORM) CustomerCommentForm customerCommentForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_COMMENT.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = (ModelAndViewThemeDevice) getModelAndView(request);
 		
 		model.addAttribute(ModelConstants.URL_BACK, requestUtil.getLastRequestUrl(request));
 		
@@ -152,12 +152,12 @@ public class ProductCommentController extends AbstractMCommerceController {
                     securityRequestUtil.authenticationCustomer(request, newCustomer);
                 } else {
                     // WARNING
-                    addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
+                    addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
                     return displayProductCommentForm(request, productCode, model, customerCommentForm);
                 }
             } else {
                 // WARNING
-                addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
+                addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
                 return displayProductCommentForm(request, productCode, model, customerCommentForm);
             }
         }
@@ -171,7 +171,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 				&& ratioQualityPrice == 0 
 				&& priceScore == 0) {
 			// WARNING
-			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "message_cant_be_empty",  locale));
+		    addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "message_cant_be_empty",  locale));
 			return displayProductCommentForm(request, productCode, model, customerCommentForm);
 		}
 		
@@ -207,6 +207,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 		if (StringUtils.isNotEmpty(customerCommentForm.getComment())) {
 			ProductMarketingCustomerComment productCustomerComment = new ProductMarketingCustomerComment();
 			productCustomerComment.setComment(customerCommentForm.getComment());
+            productCustomerComment.setTitle(customerCommentForm.getTitle());
 			productCustomerComment.setProductMarketingId(productMarketing.getId());
 			productCustomerComment.setCustomer(customer);
 			productService.saveOrUpdateProductMarketingCustomerComment(productCustomerComment);
@@ -216,6 +217,10 @@ public class ProductCommentController extends AbstractMCommerceController {
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productMarketing);
         return new ModelAndView(new RedirectView(urlRedirect));
+	}
+	
+	protected ModelAndView getModelAndView(final HttpServletRequest request) throws Exception{
+	    return new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_COMMENT.getVelocityPage());
 	}
 	
 //	//TODO: refactor it and find why the bean form cannot be binded?

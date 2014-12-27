@@ -225,6 +225,14 @@ public abstract class AbstractQalingoController {
 		request.getSession().setAttribute(Constants.ERROR_MESSAGE, message);
 	}
 	
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected void addWarningMessage(HttpServletRequest request, String message) throws Exception {
+        request.getSession().setAttribute(Constants.WARNING_MESSAGE, message);
+    }
+    
 	/**
 	 * @throws Exception 
 	 * 

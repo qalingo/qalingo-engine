@@ -69,7 +69,6 @@ public class CustomerCommentForm implements Serializable {
 		this.priceScore = priceScore;
 	}
 
-
 	public String getName() {
         return name;
     }

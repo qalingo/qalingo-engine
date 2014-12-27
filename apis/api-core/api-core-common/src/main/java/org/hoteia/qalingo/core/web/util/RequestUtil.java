@@ -798,7 +798,7 @@ public class RequestUtil {
                 String uri = clickstream.getRequestURI();
                 if (uri.endsWith(".html")) {
                     // TEST IF THE URL MATCH
-                    if (uri.contains(FoUrls.PRODUCT_DETAILS.getUrlWithoutWildcard())) {
+                    if (uri.contains(FoUrls.PRODUCT_DETAILS.getUrlPatternKey())) {
                         url = uri;
                     }
                 }

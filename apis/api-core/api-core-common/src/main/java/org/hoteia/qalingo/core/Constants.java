@@ -198,7 +198,8 @@ public class Constants {
 //	public static final String RETAILER_FORM = "retailerForm";
 
 	public static final String ERROR_MESSAGE = "errorMessage";
-	public static final String INFO_MESSAGE = "infoMessage";
+	public static final String WARNING_MESSAGE = "warningMessage";
+    public static final String INFO_MESSAGE = "infoMessage";
 	public static final String SUCCESS_MESSAGE = "successMessage";
 	
 	public static final int COOKIES_LENGTH = 2592000; // in seconds - 30 days
