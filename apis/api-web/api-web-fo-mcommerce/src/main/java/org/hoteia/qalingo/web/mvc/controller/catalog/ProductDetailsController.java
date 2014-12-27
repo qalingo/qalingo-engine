@@ -46,7 +46,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import org.hoteia.qalingo.web.mvc.form.ProductCommentForm;
+import org.hoteia.qalingo.web.mvc.form.CustomerCommentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -100,7 +100,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	public ModelAndView productDetails(final HttpServletRequest request, final HttpServletResponse response ,final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode,
 			 						   @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productMarketingCode,
 			 						   @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE) final String productSkuCode,
-			 						   @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
+			 						   @ModelAttribute(ModelConstants.CUSTOMER_COMMENT_FORM) CustomerCommentForm customerCommentForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
@@ -125,8 +125,8 @@ public class ProductDetailsController extends AbstractMCommerceController {
         final CustomerProductRatesViewBean customerProductRatesViewBean = productService.getProductMarketingCustomerRateDetails(productMarketing.getId());
         model.addAttribute(ModelConstants.CUSTOMER_PRODUCT_RATES_VIEW_BEAN, customerProductRatesViewBean);
         
-        productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
-        model.addAttribute(ModelConstants.PRODUCT_COMMENT_FORM, productCommentForm);
+        customerCommentForm = formFactory.buildCustomerCommentForm(requestData, productMarketing.getCode());
+        model.addAttribute(ModelConstants.CUSTOMER_COMMENT_FORM, customerCommentForm);
         model.addAttribute(ModelConstants.PRODUCT_COMMENT_SUBMIT_URL, urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
         
         requestUtil.addOrUpdateRecentProductSkuToCookie(productSku.getCode(), request, response);

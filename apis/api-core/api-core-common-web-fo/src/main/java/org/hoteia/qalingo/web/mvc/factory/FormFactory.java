@@ -12,6 +12,7 @@ package org.hoteia.qalingo.web.mvc.factory;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
@@ -29,9 +30,8 @@ import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
-import org.hoteia.qalingo.web.mvc.form.ProductCommentForm;
+import org.hoteia.qalingo.web.mvc.form.CustomerCommentForm;
 import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
-import org.hoteia.qalingo.web.mvc.form.RetailerCommentForm;
 import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,9 +192,19 @@ public class FormFactory {
 		return paymentForm;
 	}
 	
-    public ProductCommentForm buildProductCommentForm(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
-        final ProductCommentForm productCommentForm = new ProductCommentForm();
-        productCommentForm.setProductCode(productMarketing.getCode());
+    public CustomerCommentForm buildCustomerCommentForm(final RequestData requestData, final String objectCode) throws Exception {
+        final CustomerCommentForm productCommentForm = new CustomerCommentForm();
+        productCommentForm.setObjectCode(objectCode);
+        final Customer customer = requestData.getCustomer();
+        if(customer != null){
+            if(StringUtils.isNotEmpty(customer.getScreenName())){
+                productCommentForm.setName(customer.getScreenName());
+            } else {
+                productCommentForm.setName(customer.getLastname() + " " + customer.getFirstname());
+            }
+            productCommentForm.setEmail(customer.getEmail());
+        }
+        
         return productCommentForm;
     }
     
@@ -222,10 +232,4 @@ public class FormFactory {
         return retailerContactForm;
     }
     
-    public RetailerCommentForm buildRetailerCommentForm(final RequestData requestData, final Retailer retailer) throws Exception {
-        RetailerCommentForm retailerCommentForm = new RetailerCommentForm();
-        retailerCommentForm.setRetailerCode(retailer.getCode());
-        return retailerCommentForm;
-    }
-
 }

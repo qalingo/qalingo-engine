@@ -163,10 +163,11 @@ public class ModelConstants {
     public static final String PRODUCT_BRAND_FORM               = "productBrandForm";
     public static final String PRODUCT_MARKETING_FORM           = "productMarketingForm";
     public static final String PRODUCT_SKU_FORM                 = "productSkuForm";
-    public static final String PRODUCT_COMMENT_FORM             = "productCommentForm";
     public static final String CONTACT_FORM                     = "contactForm";
     public static final String SEARCH_FORM                      = "searchForm";
     public static final String BACKOFFICE_CREATE_ACCOUNT_FORM   = "createAccountForm";
+
+    public static final String CUSTOMER_COMMENT_FORM             = "customerCommentForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";

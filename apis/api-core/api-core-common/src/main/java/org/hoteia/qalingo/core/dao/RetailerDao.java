@@ -36,6 +36,8 @@ import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.StoreCustomerComment;
+import org.hoteia.qalingo.core.domain.StoreCustomerRate;
 import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
@@ -446,6 +448,52 @@ public class RetailerDao extends AbstractGenericDao {
 		em.remove(store);
 	}
 	
+    // STORE COMMENT/RATE
+    
+    public StoreCustomerRate saveOrUpdateStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
+        if (retailerCustomerRate.getDateCreate() == null) {
+            retailerCustomerRate.setDateCreate(new Date());
+        }
+        retailerCustomerRate.setDateUpdate(new Date());
+        if (retailerCustomerRate.getId() != null) {
+            if(em.contains(retailerCustomerRate)){
+                em.refresh(retailerCustomerRate);
+            }
+            StoreCustomerRate mergedStoreCustomerRate = em.merge(retailerCustomerRate);
+            em.flush();
+            return mergedStoreCustomerRate;
+        } else {
+            em.persist(retailerCustomerRate);
+            return retailerCustomerRate;
+        }
+    }
+
+    public void deleteStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
+        em.remove(retailerCustomerRate);
+    }
+    
+    public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
+        if(retailerCustomerComment.getDateCreate() == null){
+            retailerCustomerComment.setDateCreate(new Date());
+        }
+        retailerCustomerComment.setDateUpdate(new Date());
+        if (retailerCustomerComment.getId() != null) {
+            if(em.contains(retailerCustomerComment)){
+                em.refresh(retailerCustomerComment);
+            }
+            StoreCustomerComment mergedStoreCustomerComment = em.merge(retailerCustomerComment);
+            em.flush();
+            return mergedStoreCustomerComment;
+        } else {
+            em.persist(retailerCustomerComment);
+            return retailerCustomerComment;
+        }
+    }
+
+    public void deleteStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
+        em.remove(retailerCustomerComment);
+    }
+    
     protected FetchPlan handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);

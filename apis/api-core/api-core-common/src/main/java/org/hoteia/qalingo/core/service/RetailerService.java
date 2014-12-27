@@ -19,6 +19,8 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.StoreCustomerComment;
+import org.hoteia.qalingo.core.domain.StoreCustomerRate;
 import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -215,6 +217,24 @@ public class RetailerService {
 
     public void deleteStore(final Store store) {
         retailerDao.deleteStore(store);
+    }
+    
+    // STORE COMMENT/RATE
+
+    public StoreCustomerRate saveOrUpdateStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
+        return retailerDao.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
+    }
+
+    public void deleteStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
+        retailerDao.deleteStoreCustomerRate(retailerCustomerRate);
+    }
+
+    public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
+        return retailerDao.saveOrUpdateStoreCustomerComment(retailerCustomerComment);
+    }
+
+    public void deleteStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
+        retailerDao.deleteStoreCustomerComment(retailerCustomerComment);
     }
 
 }

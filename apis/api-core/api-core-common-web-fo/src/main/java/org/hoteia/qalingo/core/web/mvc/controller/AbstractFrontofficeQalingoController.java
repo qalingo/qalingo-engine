@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
@@ -57,6 +58,9 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
     @Autowired
     protected RequestUtil requestUtil;
 
+    @Autowired
+    protected SecurityRequestUtil securityRequestUtil;
+    
     /**
      * 
      */

@@ -22,10 +22,10 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
-import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
-import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
-import org.hoteia.qalingo.core.domain.Retailer_;
+import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Store_;
+import org.hoteia.qalingo.core.domain.StoreCustomerComment;
+import org.hoteia.qalingo.core.domain.StoreCustomerRate;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -53,32 +53,30 @@ import org.springframework.web.servlet.ModelAndView;
  * 
  */
 @Controller("retailerCommentController")
-public class RetailerCommentController extends AbstractMCommerceController {
+public class StoreCommentController extends AbstractMCommerceController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected RetailerService retailerService;
 
-    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
 
-    public RetailerCommentController() {
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+    public StoreCommentController() {
+        storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
     }
 	    
-	@RequestMapping(value = FoUrls.RETAILER_VOTE_URL, method = RequestMethod.GET)
-	public ModelAndView displayRetailerVoteForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode,
+	@RequestMapping(value = FoUrls.STORE_VOTE_URL, method = RequestMethod.GET)
+	public ModelAndView displayStoreVoteForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode,
 												final Model model, @ModelAttribute("customerCommentForm") CustomerCommentForm customerCommentForm) throws Exception {
-        return displayCustomerCommentForm(request, retailerCode, model, customerCommentForm);
+        return displayCustomerCommentForm(request, storeCode, model, customerCommentForm);
 	}
 	
-	@RequestMapping(value = FoUrls.RETAILER_COMMENT_URL, method = RequestMethod.GET)
-	public ModelAndView displayCustomerCommentForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode,
+	@RequestMapping(value = FoUrls.STORE_COMMENT_URL, method = RequestMethod.GET)
+	public ModelAndView displayCustomerCommentForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode,
 												   final Model model, @ModelAttribute("customerCommentForm") CustomerCommentForm customerCommentForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RETAILER_COMMENT.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_COMMENT.getVelocityPage());
 		
 		model.addAttribute(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
@@ -117,23 +115,23 @@ public class RetailerCommentController extends AbstractMCommerceController {
 		
         final RequestData requestData = requestUtil.getRequestData(request);
 		
-		Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
+		Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
 		
 		if(customerCommentForm == null 
 	    		|| customerCommentForm.equals(new CustomerCommentForm())){
-			customerCommentForm = formFactory.buildCustomerCommentForm(requestData, retailer.getCode());
-			model.addAttribute("retailerContactForm", customerCommentForm);
+			customerCommentForm = formFactory.buildCustomerCommentForm(requestData, store.getCode());
+			model.addAttribute(ModelConstants.CUSTOMER_COMMENT_FORM, customerCommentForm);
 		}
 		
-		model.addAttribute("urlSubmit", urlService.generateUrl(FoUrls.RETAILER_COMMENT, requestData, retailer));
+		model.addAttribute("urlSubmit", urlService.generateUrl(FoUrls.STORE_COMMENT, requestData, store));
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RETAILER_COMMENT.getKey());
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_COMMENT.getKey());
 
         return modelAndView;
 	}
 
-	@RequestMapping(value = FoUrls.RETAILER_COMMENT_URL, method = RequestMethod.POST)
-	public ModelAndView submitRetailerComment(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode,
+	@RequestMapping(value = FoUrls.STORE_COMMENT_URL, method = RequestMethod.POST)
+	public ModelAndView submitStoreComment(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String retailerCode,
 											  @Valid @ModelAttribute("customerCommentForm") CustomerCommentForm customerCommentForm,
 								BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -152,51 +150,51 @@ public class RetailerCommentController extends AbstractMCommerceController {
 				&& ratioQualityPrice == 0 
 				&& priceScore == 0) {
 			// WARNING
-			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "comment_form_empty_warning_message",  locale));
+			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_empty_warning_message",  locale));
 			return displayCustomerCommentForm(request, retailerCode, model, customerCommentForm);
 		}
 		
-		final Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
+		final Store retailer = retailerService.getStoreByCode(retailerCode, new FetchPlan(storeFetchPlans));
 		final Customer customer = requestData.getCustomer();
 		
 		if (qualityOfService != 0) {
-			RetailerCustomerRate retailerCustomerRate = new RetailerCustomerRate();
+			StoreCustomerRate retailerCustomerRate = new StoreCustomerRate();
 			retailerCustomerRate.setRate(qualityOfService);
-			retailerCustomerRate.setRetailerId(retailer.getId());
+			retailerCustomerRate.setStoreId(retailer.getId());
 			retailerCustomerRate.setCustomerId(customer.getId());
 			retailerCustomerRate.setType("QUALITY_OF_SERVICE");
-			retailerService.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
+			retailerService.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
 		}
 		
 		if (ratioQualityPrice != 0) {
-			RetailerCustomerRate retailerCustomerRate = new RetailerCustomerRate();
+			StoreCustomerRate retailerCustomerRate = new StoreCustomerRate();
 			retailerCustomerRate.setRate(ratioQualityPrice);
-			retailerCustomerRate.setRetailerId(retailer.getId());
+			retailerCustomerRate.setStoreId(retailer.getId());
 			retailerCustomerRate.setCustomerId(customer.getId());
 			retailerCustomerRate.setType("RATIO_QUALITY_PRICE");
-			retailerService.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
+			retailerService.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
 		}
 		
 		if (priceScore != 0) {
-			RetailerCustomerRate retailerCustomerRate = new RetailerCustomerRate();
+			StoreCustomerRate retailerCustomerRate = new StoreCustomerRate();
 			retailerCustomerRate.setRate(priceScore);
-			retailerCustomerRate.setRetailerId(retailer.getId());
+			retailerCustomerRate.setStoreId(retailer.getId());
 			retailerCustomerRate.setCustomerId(customer.getId());
 			retailerCustomerRate.setType("PRICE_SCORE");
-			retailerService.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
+			retailerService.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
 		}
 		
 		if (StringUtils.isNotEmpty(customerCommentForm.getComment())) {
-			RetailerCustomerComment retailerCustomerComment = new RetailerCustomerComment();
+			StoreCustomerComment retailerCustomerComment = new StoreCustomerComment();
 			retailerCustomerComment.setComment(customerCommentForm.getComment());
-			retailerCustomerComment.setRetailerId(retailer.getId());
+			retailerCustomerComment.setStoreId(retailer.getId());
 			retailerCustomerComment.setCustomer(customer);
-			retailerService.saveOrUpdateRetailerCustomerComment(retailerCustomerComment);
+			retailerService.saveOrUpdateStoreCustomerComment(retailerCustomerComment);
 		}
 		
-		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "comment_form_success_message",  locale));
+		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_success_message",  locale));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), retailer);
+		final String urlRedirect = urlService.generateUrl(FoUrls.STORE_DETAILS, requestUtil.getRequestData(request), retailer);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

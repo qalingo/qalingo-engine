@@ -948,11 +948,12 @@ DROP TABLE IF EXISTS `teco_customer_connection_log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_customer_connection_log` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ADDRESS` varchar(255) DEFAULT NULL,
   `APP_CODE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
   `HOST` varchar(255) DEFAULT NULL,
   `LOGIN_DATE` datetime DEFAULT NULL,
+  `PRIVATE_ADDRESS` varchar(255) DEFAULT NULL,
+  `PUBLIC_ADDRESS` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK27122122E42F1AAE` (`CUSTOMER_ID`),
   CONSTRAINT `FK27122122E42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
@@ -2043,6 +2044,7 @@ CREATE TABLE `teco_product_brand` (
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` longtext,
+  `ENABLED` tinyint(1) NOT NULL DEFAULT '0',
   `NAME` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
   `COMPANY_ID` bigint(20) DEFAULT NULL,
@@ -3495,4 +3497,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-10 21:22:57
+-- Dump completed on 2014-12-26 21:02:59

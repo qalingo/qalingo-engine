@@ -21,11 +21,11 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -34,7 +34,8 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import org.hoteia.qalingo.web.mvc.form.ProductCommentForm;
+import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
+import org.hoteia.qalingo.web.mvc.form.CustomerCommentForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +61,13 @@ public class ProductCommentController extends AbstractMCommerceController {
 	
 	@RequestMapping(value = FoUrls.PRODUCT_VOTE_URL, method = RequestMethod.GET)
 	public ModelAndView displayProductVoteForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-												final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
-        return displayProductCommentForm(request, productCode, model, productCommentForm);
+												final Model model, @ModelAttribute(ModelConstants.CUSTOMER_COMMENT_FORM) CustomerCommentForm customerCommentForm) throws Exception {
+        return displayProductCommentForm(request, productCode, model, customerCommentForm);
 	}
 	
 	@RequestMapping(value = FoUrls.PRODUCT_COMMENT_URL, method = RequestMethod.GET)
 	public ModelAndView displayProductCommentForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-												   final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
+												   final Model model, @ModelAttribute(ModelConstants.CUSTOMER_COMMENT_FORM) CustomerCommentForm customerCommentForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_COMMENT.getVelocityPage());
 		
 		model.addAttribute(ModelConstants.URL_BACK, requestUtil.getLastRequestUrl(request));
@@ -105,15 +106,13 @@ public class ProductCommentController extends AbstractMCommerceController {
         }
 		
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
         
 		ProductMarketing productMarketing = productService.getProductMarketingByCode(productCode);
 		
-		if(productCommentForm == null 
-	    		|| productCommentForm.equals(new ProductCommentForm())){
-			productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
-			model.addAttribute("productCommentForm", productCommentForm);
+		if(customerCommentForm == null 
+	    		|| customerCommentForm.equals(new CustomerCommentForm())){
+			customerCommentForm = formFactory.buildCustomerCommentForm(requestData, productMarketing.getCode());
+			model.addAttribute(ModelConstants.CUSTOMER_COMMENT_FORM, customerCommentForm);
 		}
 		
         return modelAndView;
@@ -121,64 +120,67 @@ public class ProductCommentController extends AbstractMCommerceController {
 
 	@RequestMapping(value = FoUrls.PRODUCT_COMMENT_URL, method = RequestMethod.POST)
 	public ModelAndView submitProductComment(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-											 @Valid @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm,
-								BindingResult result, final Model model) throws Exception {
+											 @Valid @ModelAttribute(ModelConstants.CUSTOMER_COMMENT_FORM) CustomerCommentForm customerCommentForm,
+								             BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
+        final Market currentMarket = requestData.getMarket();
         final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
         final Customer customer = requestData.getCustomer();
         
         //binding form
-      	bindProductCommentForm(request, productCommentForm);
+//      	bindProductCommentForm(request, customerCommentForm);
 		
 		if (result.hasErrors()) {
-			return displayProductCommentForm(request, productCode, model, productCommentForm);
+			return displayProductCommentForm(request, productCode, model, customerCommentForm);
 		}
 		
         if (customer == null) {
-            // WARNING
-            addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
-            return displayProductCommentForm(request, productCode, model, productCommentForm);
+            if(StringUtils.isNotEmpty(customerCommentForm.getName())
+                    && StringUtils.isNotEmpty(customerCommentForm.getEmail())){
+                // CHECK IF THE CUSTOMER EXIST
+                final Customer customerCheck = customerService.getCustomerByLoginOrEmail(customerCommentForm.getEmail());
+                if(customerCheck == null){
+                 // CREATE A LIGHT ACCOUNT
+                    CreateAccountForm createAccountForm = new CreateAccountForm();
+                    createAccountForm.setEmail(customerCommentForm.getEmail());
+                    createAccountForm.setLastname(customerCommentForm.getName());
+                    final Customer newCustomer = webManagementService.buildAndSaveQuickNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
+                    // Save the email confirmation
+                    webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
+                    // Login the new customer
+                    securityRequestUtil.authenticationCustomer(request, newCustomer);
+                } else {
+                    // WARNING
+                    addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
+                    return displayProductCommentForm(request, productCode, model, customerCommentForm);
+                }
+            } else {
+                // WARNING
+                addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
+                return displayProductCommentForm(request, productCode, model, customerCommentForm);
+            }
         }
 		
-		int qualityOfService = 0;
-		int ratioQualityPrice = 0;
-		int priceScore = 0;
+		int qualityOfService = customerCommentForm.getQualityOfService();
+		int ratioQualityPrice = customerCommentForm.getRatioQualityPrice();
+		int priceScore = customerCommentForm.getPriceScore();
 		
-		try {
-			qualityOfService = Integer.parseInt(productCommentForm.getQualityOfService());
-        } catch (Exception e) {
-        	logger.warn("Product Vote qualityOfService value can't be parse: " + productCommentForm.getQualityOfService());
-        }
-		
-		try {
-			ratioQualityPrice = Integer.parseInt(productCommentForm.getRatioQualityPrice());
-        } catch (Exception e) {
-        	logger.warn("Product Vote ratioQualityPrice value can't be parse: " + productCommentForm.getRatioQualityPrice());
-        }
-		
-		try {
-			priceScore = Integer.parseInt(productCommentForm.getPriceScore());
-        } catch (Exception e) {
-        	logger.warn("Product Vote priceScore value can't be parse: " + productCommentForm.getPriceScore());
-        }
-		
-		if (StringUtils.isEmpty(productCommentForm.getComment())
+		if (StringUtils.isEmpty(customerCommentForm.getComment())
 				&& qualityOfService == 0 
 				&& ratioQualityPrice == 0 
 				&& priceScore == 0) {
 			// WARNING
 			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "message_cant_be_empty",  locale));
-			return displayProductCommentForm(request, productCode, model, productCommentForm);
+			return displayProductCommentForm(request, productCode, model, customerCommentForm);
 		}
 		
-		final ProductMarketing product = productService.getProductMarketingByCode(productCode);
+		final ProductMarketing productMarketing = productService.getProductMarketingByCode(productCode);
 		
 		if (qualityOfService != 0) {
 			ProductMarketingCustomerRate productCustomerRate = new ProductMarketingCustomerRate();
 			productCustomerRate.setRate(qualityOfService);
-			productCustomerRate.setProductMarketingId(product.getId());
+			productCustomerRate.setProductMarketingId(productMarketing.getId());
 			productCustomerRate.setCustomerId(customer.getId());
 			productCustomerRate.setType(Constants.PRODUCT_QUALITY_RATING_TYPE);
 			productService.saveOrUpdateProductMarketingCustomerRate(productCustomerRate);
@@ -187,7 +189,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 		if (ratioQualityPrice != 0) {
 			ProductMarketingCustomerRate productCustomerRate = new ProductMarketingCustomerRate();
 			productCustomerRate.setRate(ratioQualityPrice);
-			productCustomerRate.setProductMarketingId(product.getId());
+			productCustomerRate.setProductMarketingId(productMarketing.getId());
 			productCustomerRate.setCustomerId(customer.getId());
 			productCustomerRate.setType(Constants.PRODUCT_PRICE_RATING_TYPE);
 			productService.saveOrUpdateProductMarketingCustomerRate(productCustomerRate);
@@ -196,43 +198,43 @@ public class ProductCommentController extends AbstractMCommerceController {
 		if (priceScore != 0) {
 			ProductMarketingCustomerRate productCustomerRate = new ProductMarketingCustomerRate();
 			productCustomerRate.setRate(priceScore);
-			productCustomerRate.setProductMarketingId(product.getId());
+			productCustomerRate.setProductMarketingId(productMarketing.getId());
 			productCustomerRate.setCustomerId(customer.getId());
 			productCustomerRate.setType(Constants.PRODUCT_VALUE_RATING_TYPE);
 			productService.saveOrUpdateProductMarketingCustomerRate(productCustomerRate);
 		}
 		
-		if (StringUtils.isNotEmpty(productCommentForm.getComment())) {
+		if (StringUtils.isNotEmpty(customerCommentForm.getComment())) {
 			ProductMarketingCustomerComment productCustomerComment = new ProductMarketingCustomerComment();
-			productCustomerComment.setComment(productCommentForm.getComment());
-			productCustomerComment.setProductMarketingId(product.getId());
+			productCustomerComment.setComment(customerCommentForm.getComment());
+			productCustomerComment.setProductMarketingId(productMarketing.getId());
 			productCustomerComment.setCustomer(customer);
 			productService.saveOrUpdateProductMarketingCustomerComment(productCustomerComment);
 		}
 		
 		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "comment_success_message",  locale));
 		
-		final String urlRedirect = requestUtil.getLastProductDetailsRequestUrl(request);
+		final String urlRedirect = urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productMarketing);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-	//TODO: refactor it and find why the bean form cannot be binded?
-	private void bindProductCommentForm(final HttpServletRequest request, final ProductCommentForm productCommentForm){
-		if(request == null || productCommentForm == null){
-			return;
-		}
-		
-		String productCode = request.getParameter("productCommentForm.productCode");
-		String qualityOfService = request.getParameter("productCommentForm.qualityOfService");
-		String ratioQualityPrice = request.getParameter("productCommentForm.ratioQualityPrice");
-		String priceScore = request.getParameter("productCommentForm.priceScore");
-		String comment = request.getParameter("productCommentForm.comment");
-		
-		productCommentForm.setComment(comment);
-		productCommentForm.setPriceScore(priceScore);
-		productCommentForm.setQualityOfService(qualityOfService);
-		productCommentForm.setRatioQualityPrice(ratioQualityPrice);
-		productCommentForm.setProductCode(productCode);
-	}
+//	//TODO: refactor it and find why the bean form cannot be binded?
+//	private void bindProductCommentForm(final HttpServletRequest request, final CustomerCommentForm customerCommentForm){
+//		if(request == null || customerCommentForm == null){
+//			return;
+//		}
+//		
+//		String productCode = request.getParameter("customerCommentForm.productCode");
+//		String qualityOfService = request.getParameter("customerCommentForm.qualityOfService");
+//		String ratioQualityPrice = request.getParameter("customerCommentForm.ratioQualityPrice");
+//		String priceScore = request.getParameter("customerCommentForm.priceScore");
+//		String comment = request.getParameter("customerCommentForm.comment");
+//		
+//		customerCommentForm.setComment(comment);
+//		customerCommentForm.setPriceScore(priceScore);
+//		customerCommentForm.setQualityOfService(qualityOfService);
+//		customerCommentForm.setRatioQualityPrice(ratioQualityPrice);
+//		customerCommentForm.setObjectCode(productCode);
+//	}
 	
 }

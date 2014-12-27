@@ -289,6 +289,22 @@ public class WebManagementService {
     /**
      * 
      */
+    public Customer buildAndSaveQuickNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, 
+                                                 final CreateAccountForm createAccountForm) throws Exception {
+        Customer customer = new Customer();
+        
+        customer.setLogin(createAccountForm.getEmail());
+        customer.setLastname(createAccountForm.getLastname());
+        customer.setPassword(securityUtil.generateAndEncodePassword());
+        
+        customer.setEmail(createAccountForm.getEmail());
+
+        return buildAndSaveNewCustomer(requestData, market, marketArea, customer);
+    }
+    
+    /**
+     * 
+     */
     public Customer buildAndSaveNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, 
                                             final CreateAccountForm createAccountForm) throws Exception {
         Customer customer = new Customer();
