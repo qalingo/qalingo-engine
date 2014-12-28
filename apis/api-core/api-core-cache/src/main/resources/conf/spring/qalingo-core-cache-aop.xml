@@ -57,10 +57,6 @@
             <aop:pointcut id="customerConnectionLogServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CustomerConnectionLogService.get*(..))" />
             <aop:around method="around" pointcut-ref="customerConnectionLogServicePointcut" />
         </aop:aspect>
-        <aop:aspect id="triggerCacheCustomerProductCommentService" ref="cacheManagementAspect">
-            <aop:pointcut id="customerProductCommentServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CustomerProductCommentService.get*(..))" />
-            <aop:around method="around" pointcut-ref="customerProductCommentServicePointcut" />
-        </aop:aspect>
         <aop:aspect id="triggerCacheCustomerService" ref="cacheManagementAspect">
             <aop:pointcut id="customerServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CustomerService.get*(..))" />
             <aop:around method="around" pointcut-ref="customerServicePointcut" />
