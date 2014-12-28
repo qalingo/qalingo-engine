@@ -43,7 +43,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
         final Customer customer = requestData.getCustomer();
 		
 		List<ProductMarketingCustomerComment> productMarketingCustomerComments = productService.findProductMarketingCustomerCommentsByCustomerId(customer.getId());
-        model.addAttribute(ModelConstants.PRODUCT_MARKETING_COMMENTS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanCustomerProductComments(requestData, productMarketingCustomerComments));
+        model.addAttribute(ModelConstants.PRODUCT_MARKETING_COMMENTS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanProductMarketingCustomerComments(requestData, productMarketingCustomerComments));
 
         Object[] params = { customer.getLastname(), customer.getFirstname() };
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getKey(), params);

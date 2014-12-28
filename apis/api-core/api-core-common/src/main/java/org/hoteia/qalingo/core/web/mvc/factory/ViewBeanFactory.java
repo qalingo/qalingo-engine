@@ -1789,7 +1789,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanCustomerProductComments(final RequestData requestData, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
+    public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanProductMarketingCustomerComments(final RequestData requestData, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
         final List<ProductMarketingCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductMarketingCustomerCommentViewBean>();
         for (Iterator<ProductMarketingCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             ProductMarketingCustomerComment customerComment = (ProductMarketingCustomerComment) iterator.next();
