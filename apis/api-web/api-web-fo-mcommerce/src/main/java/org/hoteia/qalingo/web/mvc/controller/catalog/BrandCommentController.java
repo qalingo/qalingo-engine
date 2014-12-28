@@ -53,7 +53,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("brandController")
+@Controller("brandCommentController")
 public class BrandCommentController extends AbstractMCommerceController {
 
 	@Autowired

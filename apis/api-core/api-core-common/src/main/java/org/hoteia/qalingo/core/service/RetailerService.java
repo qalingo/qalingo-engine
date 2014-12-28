@@ -258,8 +258,8 @@ public class RetailerService {
         return customerComments;
     }
     
-    public List<StoreCustomerComment> findStoreCustomerCommentsByStoreIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params){
-        List<StoreCustomerComment> customerComments = retailerDao.findStoreCustomerCommentsByStoreIdAndMarketAreaId(productMarketingId, marketAreaId, params);
+    public List<StoreCustomerComment> findStoreCustomerCommentsByStoreIdAndMarketAreaId(final Long storeId, final Long marketAreaId, Object... params){
+        List<StoreCustomerComment> customerComments = retailerDao.findStoreCustomerCommentsByStoreIdAndMarketAreaId(storeId, marketAreaId, params);
         return customerComments;
     }
     
