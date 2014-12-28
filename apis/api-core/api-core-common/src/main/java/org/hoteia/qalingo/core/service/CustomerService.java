@@ -105,6 +105,10 @@ public class CustomerService {
         return customerDao.saveOrUpdateCustomer(customer);
     }
 
+    public CustomerMarketArea saveOrUpdateCustomerMarketArea(final CustomerMarketArea customerMarketArea) throws Exception {
+        return customerDao.saveOrUpdateCustomerMarketArea(customerMarketArea);
+    }
+    
     public void deleteCustomer(final Customer customer) {
         customerDao.deleteCustomer(customer);
     }
@@ -112,7 +116,7 @@ public class CustomerService {
     public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
         return customerDao.getCustomerGroupById(customerGroupId, params);
     }
-
+    
     public CustomerGroup getCustomerGroupById(final String rawCustomerGroupId, Object... params) {
         long customerGroupId = -1;
         try {

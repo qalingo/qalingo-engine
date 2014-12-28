@@ -9,20 +9,26 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.customer;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
-import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentsViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 
 /**
  * 
@@ -30,18 +36,20 @@ import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 @Controller("customerProductCommentController")
 public class CustomerProductCommentController extends AbstractCustomerController {
 
+    @Autowired
+    protected ProductService productService;
+    
 	@RequestMapping(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL)
 	public ModelAndView customerProductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-        final Customer currentCustomer = requestData.getCustomer();
+		final MarketArea marketArea = requestData.getMarketArea();
+        final Customer customer = requestData.getCustomer();
 		
-		final Customer reloadedCustomer = customerService.getCustomerById(currentCustomer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
-		
-		final CustomerProductCommentsViewBean customerProductCommentsViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerProductComments(requestUtil.getRequestData(request), reloadedCustomer);
-		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
+		List<ProductMarketingCustomerComment> productMarketingCustomerComments = productService.findProductMarketingCustomerCommentsByCustomerId(customer.getId());
+        model.addAttribute(ModelConstants.PRODUCT_MARKETING_COMMENTS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanCustomerProductComments(requestData, productMarketingCustomerComments));
 
-        Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
+        Object[] params = { customer.getLastname(), customer.getFirstname() };
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getKey(), params);
         
         return modelAndView;

@@ -37,7 +37,6 @@ public class FetchPlanGraphCustomer {
         fetchplans.add(new SpecificFetchMode(Customer_.customerOrderAudit.getName()));
         fetchplans.add(new SpecificFetchMode(Customer_.paymentInformations.getName()));
 
-        fetchplans.add(new SpecificFetchMode(CustomerMarketArea_.productComments.getName(), new SpecificAlias(Customer_.customerMarketAreas.getName() + "." + CustomerMarketArea_.productComments.getName())));
         fetchplans.add(new SpecificFetchMode(CustomerMarketArea_.wishlistProducts.getName(), new SpecificAlias(Customer_.customerMarketAreas.getName() + "." + CustomerMarketArea_.wishlistProducts.getName())));
         fetchplans.add(new SpecificFetchMode(CustomerMarketArea_.optins.getName(), new SpecificAlias(Customer_.customerMarketAreas.getName() + "." + CustomerMarketArea_.optins.getName())));
 

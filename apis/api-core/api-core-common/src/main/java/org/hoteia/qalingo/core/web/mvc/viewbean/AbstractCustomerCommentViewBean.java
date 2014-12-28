@@ -26,11 +26,12 @@ public abstract class AbstractCustomerCommentViewBean extends AbstractViewBean {
     protected String customerUrl;
     protected String title;
     protected String comment;
-    
+
     protected ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
     
     protected List<AbstractCustomerCommentViewBean> comments = new ArrayList<AbstractCustomerCommentViewBean>();
 
+    
     public String getCustomerDisplayName() {
         return customerDisplayName;
     }
@@ -53,6 +54,14 @@ public abstract class AbstractCustomerCommentViewBean extends AbstractViewBean {
     
     public void setCustomerUrl(String customerUrl) {
         this.customerUrl = customerUrl;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
     
     public String getComment() {

@@ -764,7 +764,7 @@ public class WebManagementService {
             customer = checkCustomerMarketArea(requestData, customer);
             CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
             if(customerMarketArea == null){
-                customerMarketArea = new CustomerMarketArea();
+                customerMarketArea = new CustomerMarketArea(marketArea.getId());
                 customerMarketArea.addOptins(customerOptin);
                 customer.getCustomerMarketAreas().add(customerMarketArea);
             } else {
@@ -775,7 +775,7 @@ public class WebManagementService {
             customer.setEmail(email);
             customer.setAnonymous(true);
             customer = checkCustomerMarketArea(requestData, customer);
-            CustomerMarketArea customerMarketArea = new CustomerMarketArea();
+            CustomerMarketArea customerMarketArea = new CustomerMarketArea(marketArea.getId());
             customerMarketArea.addOptins(customerOptin);
             customer.getCustomerMarketAreas().add(customerMarketArea);
         }

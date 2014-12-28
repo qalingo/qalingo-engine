@@ -122,8 +122,8 @@ public class ProductDetailsController extends AbstractMCommerceController {
         final List<ProductMarketingViewBean> relatedProducts = catalogCategoryViewBean.getFeaturedProductMarketings();
         model.addAttribute(ModelConstants.RELATED_PPRODUCT_MARKETING_VIEW_BEAN, relatedProducts);
         
-        final CustomerProductRatesViewBean customerProductRatesViewBean = productService.getProductMarketingCustomerRateDetails(productMarketing.getId());
-        model.addAttribute(ModelConstants.CUSTOMER_PRODUCT_RATES_VIEW_BEAN, customerProductRatesViewBean);
+        final CustomerProductRatesViewBean customerProductRatesViewBean = frontofficeViewBeanFactory.getProductMarketingCustomerRateDetails(productMarketing.getId());
+        model.addAttribute(ModelConstants.PRODUCT_MARKETING_RATES_VIEW_BEAN, customerProductRatesViewBean);
         
         customerCommentForm = formFactory.buildCustomerCommentForm(requestData, productMarketing.getCode());
         model.addAttribute(ModelConstants.CUSTOMER_COMMENT_FORM, customerCommentForm);

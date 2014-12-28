@@ -215,23 +215,37 @@ public class ProductDao extends AbstractGenericDao {
     // PRODUCT MARKETING COMMENT/RATE
 	
     @SuppressWarnings("unchecked")
-    public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(final Long productMarketingId, Object... params) {
+    public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingId(final Long productMarketingId, Object... params) {
         Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
-        
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
-    public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(final Long productMarketingId, final String type, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
+    public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
-        criteria.add(Restrictions.eq("type", type));
-        
+        criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
         return criteria.list();
     }
     
-    public Float calculateProductMarketingCustomerRatesByProductId(final Long productMarketingId) {
+    @SuppressWarnings("unchecked")
+    public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByCustomerId(final Long customerId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("customer.id", customerId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId, final String type, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
+        criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+        criteria.add(Restrictions.eq("type", type));
+        return criteria.list();
+    }
+    
+    public Float calculateProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId) {
         String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId=:productMarketingId";
         Query query = getSession().createQuery(sql);
         query.setLong("productMarketingId", productMarketingId);

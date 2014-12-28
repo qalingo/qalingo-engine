@@ -44,7 +44,6 @@ import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerPermission;
-import org.hoteia.qalingo.core.domain.CustomerProductComment;
 import org.hoteia.qalingo.core.domain.CustomerRole;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
@@ -64,13 +63,13 @@ import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
 import org.hoteia.qalingo.core.domain.ProductBrandTag;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductMarketingTag;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
 import org.hoteia.qalingo.core.domain.ProductSkuTag;
-import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
@@ -91,7 +90,6 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
-import org.hoteia.qalingo.core.service.CustomerProductCommentService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -111,7 +109,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentsViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
@@ -152,6 +150,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
+import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -159,7 +158,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
+import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
 
 /**
  * 
@@ -184,9 +184,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
     @Autowired
     protected ProductService productService;
-
-    @Autowired
-    protected CustomerProductCommentService customerProductCommentService;
 
     @Autowired
     protected RetailerService retailerService;
@@ -1220,40 +1217,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public CustomerProductCommentsViewBean buildViewBeanCustomerProductComments(final RequestData requestData, final Customer customer) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final CustomerProductCommentsViewBean customerProductCommentsViewBean = new CustomerProductCommentsViewBean();
-        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
-        if (customerMarketArea != null) {
-            final Set<CustomerProductComment> customerProductComments = customerMarketArea.getProductComments();
-            if (Hibernate.isInitialized(customerProductComments) && customerProductComments != null) {
-                for (Iterator<CustomerProductComment> iterator = customerProductComments.iterator(); iterator.hasNext();) {
-                    final CustomerProductComment customerProductComment = (CustomerProductComment) iterator.next();
-                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(customerProductComment.getProductSkuCode());
-                    final ProductMarketing productMarketing = reloadedProductSku.getProductMarketing();
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId());
-                    customerProductCommentsViewBean.getCustomerProductCommentViewBeans().add(
-                            buildViewBeanCustomerProductComment(requestData, catalogCategory, productMarketing, reloadedProductSku, customerProductComment));
-                }
-            }
-        }
-        return customerProductCommentsViewBean;
-    }
-
-    /**
-     * 
-     */
-    public CustomerProductCommentViewBean buildViewBeanCustomerProductComment(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing,
-            final ProductSku productSku, final CustomerProductComment customerProductComment) throws Exception {
-        final CustomerProductCommentViewBean customerProductCommentViewBean = new CustomerProductCommentViewBean();
-        customerProductCommentViewBean.setProductSku(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku));
-        customerProductCommentViewBean.setComment(customerProductComment.getComment());
-        return customerProductCommentViewBean;
-    }
-
-    /**
-     * 
-     */
     public CustomerAddressListViewBean buildViewBeanCustomerAddressList(final RequestData requestData, final Customer customer) throws Exception {
         final CustomerAddressListViewBean customerAddressListViewBean = new CustomerAddressListViewBean();
         customerAddressListViewBean.setBackUrl(urlService.generateUrl(FoUrls.HOME, requestData));
@@ -1700,6 +1663,101 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         return productMarketingViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public List<CustomerProductCommentViewBean> buildListViewBeanCustomerProductComments(final RequestData requestData, final List<ProductMarketingCustomerComment> productMarketingCustomerComments) throws Exception {
+        final List<CustomerProductCommentViewBean> customerProductCommentViewBeans = new ArrayList<CustomerProductCommentViewBean>();
+        for (Iterator<ProductMarketingCustomerComment> iterator = productMarketingCustomerComments.iterator(); iterator.hasNext();) {
+            ProductMarketingCustomerComment productMarketingCustomerComment = (ProductMarketingCustomerComment) iterator.next();
+            customerProductCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, productMarketingCustomerComment));
+        }
+        return customerProductCommentViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public CustomerProductCommentViewBean buildViewBeanProductMarketingCustomerComment(final RequestData requestData, final ProductMarketingCustomerComment productMarketingCustomerComment) throws Exception {
+        final CustomerProductCommentViewBean customerProductCommentViewBean = new CustomerProductCommentViewBean();
+        customerProductCommentViewBean.setTitle(productMarketingCustomerComment.getTitle());
+        customerProductCommentViewBean.setComment(productMarketingCustomerComment.getComment());
+
+        if(productMarketingCustomerComment.getCustomer() != null
+                && StringUtils.isNotEmpty(productMarketingCustomerComment.getCustomer().getScreenName())){
+            customerProductCommentViewBean.setCustomerDisplayName(productMarketingCustomerComment.getCustomer().getScreenName());
+        } else {
+            customerProductCommentViewBean.setCustomerDisplayName(productMarketingCustomerComment.getCustomer().getFirstname());
+        }
+        
+        customerProductCommentViewBean.setComment(productMarketingCustomerComment.getComment());
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (productMarketingCustomerComment.getDateCreate() != null) {
+            customerProductCommentViewBean.setDateCreate(dateFormat.format(productMarketingCustomerComment.getDateCreate()));
+        }
+        if (productMarketingCustomerComment.getDateUpdate() != null) {
+            customerProductCommentViewBean.setDateUpdate(dateFormat.format(productMarketingCustomerComment.getDateUpdate()));
+        }
+        
+        return customerProductCommentViewBean;
+    }
+    
+    public CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(final Long productMarketingId, Object... params){
+        List<ProductMarketingCustomerRate> qualityRates = productService.findProductMarketingCustomerRatesByProductMarketingId(productMarketingId, Constants.PRODUCT_QUALITY_RATING_TYPE);
+        List<ProductMarketingCustomerRate> priceRates = productService.findProductMarketingCustomerRatesByProductMarketingId(productMarketingId, Constants.PRODUCT_PRICE_RATING_TYPE);
+        List<ProductMarketingCustomerRate> valueRates = productService.findProductMarketingCustomerRatesByProductMarketingId(productMarketingId, Constants.PRODUCT_VALUE_RATING_TYPE);
+        
+        Float avgQualityRates = 0F;
+        Float avgPriceRates = 0F;
+        Float avgValueRates = 0F;
+        Float avgRate = 0F;
+        
+        for (ProductMarketingCustomerRate productMarketingCustomerRate : qualityRates) {
+            avgQualityRates += productMarketingCustomerRate.getRate();          
+        }
+        
+        for (ProductMarketingCustomerRate productMarketingCustomerRate : priceRates) {
+            avgPriceRates += productMarketingCustomerRate.getRate();
+        }
+        
+        for (ProductMarketingCustomerRate productMarketingCustomerRate : valueRates) {
+            avgValueRates += productMarketingCustomerRate.getRate();
+        }
+        
+        if(qualityRates.size() > 0){
+            avgQualityRates = avgQualityRates/qualityRates.size();
+        }
+        
+        if(priceRates.size() > 0){
+            avgPriceRates = avgPriceRates/priceRates.size();
+        }
+        
+        if(valueRates.size() > 0){
+            avgValueRates = avgValueRates/valueRates.size();
+        }
+        
+        avgRate = (avgQualityRates + avgPriceRates + avgValueRates) / 3;
+        
+        CustomerProductRatesViewBean customerProductRatesViewBean = new CustomerProductRatesViewBean();
+        customerProductRatesViewBean.setAvgPriceRates(avgPriceRates);
+        customerProductRatesViewBean.setAvgQualityRates(avgQualityRates);
+        customerProductRatesViewBean.setAvgValueRates(avgValueRates);
+        
+        customerProductRatesViewBean.setPriceRateCount(priceRates.size());
+        customerProductRatesViewBean.setQualityRateCount(qualityRates.size());
+        customerProductRatesViewBean.setValueRateCount(valueRates.size());
+        customerProductRatesViewBean.setAvgRate(avgRate);
+        
+        return customerProductRatesViewBean;
+    }
+    
+    public CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductId(final Long productMarketingId) {
+        Float avgRate = productService.calculateProductMarketingCustomerRatesByProductMarketingId(productMarketingId);
+        CustomerProductRatesViewBean customerProductRatesViewBean = new CustomerProductRatesViewBean();
+        customerProductRatesViewBean.setAvgRate(avgRate);
+        return customerProductRatesViewBean;
     }
     
     /**

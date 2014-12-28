@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
@@ -133,6 +134,24 @@ public class CustomerDao extends AbstractGenericDao {
             return customer;
         }
 	}
+	
+    public CustomerMarketArea saveOrUpdateCustomerMarketArea(final CustomerMarketArea customerMarketArea) throws Exception {
+        if (customerMarketArea.getDateCreate() == null) {
+            customerMarketArea.setDateCreate(new Date());
+        }
+        customerMarketArea.setDateUpdate(new Date());
+        if (customerMarketArea.getId() != null) {
+            if (em.contains(customerMarketArea)) {
+                em.refresh(customerMarketArea);
+            }
+            CustomerMarketArea mergedCustomerMarketArea = em.merge(customerMarketArea);
+            em.flush();
+            return mergedCustomerMarketArea;
+        } else {
+            em.persist(customerMarketArea);
+            return customerMarketArea;
+        }
+    }
 
 	public void deleteCustomer(final Customer customer) {
 		em.remove(customer);

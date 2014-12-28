@@ -23,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,6 +41,10 @@ public class CustomerMarketArea extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -6596549095870442990L;
 
+	public CustomerMarketArea(Long marketAreaId) {
+	    this.marketAreaId = marketAreaId;
+    }
+	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
@@ -49,6 +54,10 @@ public class CustomerMarketArea extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name="CUSTOMER_ID")
+    private Customer customer;
+    
     @Column(name = "PHONE")
     private String phone;
 
@@ -69,9 +78,9 @@ public class CustomerMarketArea extends AbstractEntity {
     @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID")
     private Set<CustomerWishlist> wishlistProducts = new HashSet<CustomerWishlist>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID")
-    private Set<CustomerProductComment> productComments = new HashSet<CustomerProductComment>();
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID")
+//    private Set<ProductMarketingCustomerComment> productMarketingComments = new HashSet<ProductMarketingCustomerComment>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -100,6 +109,14 @@ public class CustomerMarketArea extends AbstractEntity {
 		this.version = version;
 	}
 
+	public Customer getCustomer() {
+        return customer;
+    }
+
+	public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -184,13 +201,13 @@ public class CustomerMarketArea extends AbstractEntity {
 		this.wishlistProducts = wishlistProducts;
 	}
 	
-	public Set<CustomerProductComment> getProductComments() {
-		return productComments;
-	}
-	
-	public void setProductComments(Set<CustomerProductComment> productComments) {
-		this.productComments = productComments;
-	}
+//	public Set<ProductMarketingCustomerComment> getProductMarketingComments() {
+//        return productMarketingComments;
+//    }
+//	
+//	public void setProductMarketingComments(Set<ProductMarketingCustomerComment> productMarketingComments) {
+//        this.productMarketingComments = productMarketingComments;
+//    }
 	
 	public Date getDateCreate() {
 		return dateCreate;
