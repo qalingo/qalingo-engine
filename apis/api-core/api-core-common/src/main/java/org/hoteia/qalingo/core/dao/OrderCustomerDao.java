@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.RollbackException;
 
@@ -24,6 +23,7 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderNumber;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -108,7 +108,7 @@ public class OrderCustomerDao extends AbstractGenericDao {
             Integer previousLastOrderNumber = orderNumber.getLastOrderNumber();
             Integer newLastOrderNumber = new Integer(previousLastOrderNumber.intValue() + 1);
 
-            orderCustomer.setPrefixHashFolder(UUID.randomUUID().toString());
+            orderCustomer.setPrefixHashFolder(CoreUtil.generateEntityCode());
             orderCustomer.setOrderNum("" + newLastOrderNumber);
 
 //            if (orderCustomer.getId() != null) {

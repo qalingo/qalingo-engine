@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
@@ -52,13 +53,11 @@ public class CustomerAddressController extends AbstractCustomerController {
 	public ModelAndView customerListAddress(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADDRESS_LIST.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-        final Customer currentCustomer = requestData.getCustomer();
+        final Customer customer = requestData.getCustomer();
 		
-		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
-		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
-		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+        final Customer reloadedCustomer = customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
 		
-		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
+		Object[] params = { customer.getLastname(), customer.getFirstname() };
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADDRESS_LIST.getKey(), params);
         
 		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerAddressList(requestUtil.getRequestData(request), reloadedCustomer);

@@ -1,9 +1,16 @@
 package org.hoteia.qalingo.core.util;
 
+import java.util.UUID;
+
 import org.apache.commons.lang.StringUtils;
 
 public class CoreUtil {
 
+    public static String generateEntityCode(){
+        // ONLY UNDERSCORE IN CODE
+        return UUID.randomUUID().toString().replace("-", "_");
+    }
+    
     public static String handleSeoSpecificEscape(String string) {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {

@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,6 +19,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -60,7 +60,7 @@ public class EngineSessionDao extends AbstractGenericDao {
 
     public EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineSession) {
         if (engineSession.getEngineSessionGuid() == null) {
-            engineSession.setEngineSessionGuid(UUID.randomUUID().toString());
+            engineSession.setEngineSessionGuid(CoreUtil.generateEntityCode());
         }
         if (engineSession.getDateCreate() == null) {
             engineSession.setDateCreate(new Date());
@@ -103,7 +103,7 @@ public class EngineSessionDao extends AbstractGenericDao {
 
     public EngineBoSession saveOrUpdateEngineBoSession(EngineBoSession engineSession) {
         if (engineSession.getEngineSessionGuid() == null) {
-            engineSession.setEngineSessionGuid(UUID.randomUUID().toString());
+            engineSession.setEngineSessionGuid(CoreUtil.generateEntityCode());
         }
         if (engineSession.getDateCreate() == null) {
             engineSession.setDateCreate(new Date());

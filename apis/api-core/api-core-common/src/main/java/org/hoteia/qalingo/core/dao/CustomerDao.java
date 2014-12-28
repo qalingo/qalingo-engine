@@ -25,6 +25,7 @@ import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.springframework.stereotype.Repository;
 
 @Repository("customerDao")
@@ -101,7 +102,7 @@ public class CustomerDao extends AbstractGenericDao {
 		}
 		customer.setDateUpdate(new Date());
         if(StringUtils.isEmpty(customer.getCode())){
-            customer.setCode(UUID.randomUUID().toString());
+            customer.setCode(CoreUtil.generateEntityCode());
         }
 
 		if(customer.getPermalink() == null){

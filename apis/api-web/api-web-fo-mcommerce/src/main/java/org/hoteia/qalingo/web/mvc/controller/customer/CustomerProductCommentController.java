@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -35,9 +36,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		final RequestData requestData = requestUtil.getRequestData(request);
         final Customer currentCustomer = requestData.getCustomer();
 		
-		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
-		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
-		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+		final Customer reloadedCustomer = customerService.getCustomerById(currentCustomer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
 		
 		final CustomerProductCommentsViewBean customerProductCommentsViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerProductComments(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerProductComments", customerProductCommentsViewBean);

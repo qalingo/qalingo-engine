@@ -41,6 +41,7 @@ import org.hoteia.qalingo.core.domain.StoreCustomerRate;
 import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -226,7 +227,7 @@ public class RetailerDao extends AbstractGenericDao {
             }
 		}
         if (StringUtils.isEmpty(retailer.getCode())) {
-            retailer.setCode(UUID.randomUUID().toString());
+            retailer.setCode(CoreUtil.generateEntityCode());
         }
 		retailer.setDateUpdate(new Date());
         if (retailer.getId() != null) {
@@ -427,6 +428,11 @@ public class RetailerDao extends AbstractGenericDao {
     }
     
 	public Store saveOrUpdateStore(final Store store) {
+	    
+        if (StringUtils.isEmpty(store.getCode())) {
+            store.setCode(CoreUtil.generateEntityCode());
+        }
+        
 		if(store.getDateCreate() == null){
 			store.setDateCreate(new Date());
 		}

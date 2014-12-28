@@ -18,6 +18,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
@@ -49,9 +50,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		final String permalink = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_PERMALINK);
 		final Customer customer = customerService.getCustomerByPermalink(permalink);
 		
-		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
-		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
-		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(customer.getLogin());
+        final Customer reloadedCustomer = customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
 		
 		final CustomerViewBean customerView = frontofficeViewBeanFactory.buildViewBeanCustomer(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);

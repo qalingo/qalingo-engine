@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.ProductSkuStock;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -115,7 +116,7 @@ public class WarehouseDao extends AbstractGenericDao {
             warehouse.setDateCreate(new Date());
         }
         if (StringUtils.isEmpty(warehouse.getCode())) {
-            warehouse.setCode(UUID.randomUUID().toString());
+            warehouse.setCode(CoreUtil.generateEntityCode());
         }
         warehouse.setDateUpdate(new Date());
 

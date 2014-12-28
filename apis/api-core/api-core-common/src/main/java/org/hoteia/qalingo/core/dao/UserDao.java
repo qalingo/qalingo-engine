@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -25,6 +24,7 @@ import org.hoteia.qalingo.core.domain.UserGroup;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -93,7 +93,7 @@ public class UserDao extends AbstractGenericDao {
         }
         user.setDateUpdate(new Date());
         if(StringUtils.isEmpty(user.getCode())){
-            user.setCode(UUID.randomUUID().toString());
+            user.setCode(CoreUtil.generateEntityCode());
         }
 
         if (user.getId() != null) {
@@ -248,7 +248,7 @@ public class UserDao extends AbstractGenericDao {
         }
         company.setDateUpdate(new Date());
         if(StringUtils.isEmpty(company.getCode())){
-            company.setCode(UUID.randomUUID().toString());
+            company.setCode(CoreUtil.generateEntityCode());
         }
         
         if (company.getId() != null) {

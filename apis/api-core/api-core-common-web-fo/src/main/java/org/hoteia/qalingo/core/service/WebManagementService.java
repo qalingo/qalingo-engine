@@ -50,6 +50,7 @@ import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
@@ -580,7 +581,7 @@ public class WebManagementService {
     public Customer buildAndSaveNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         if(customer.getCode() == null){
-            customer.setCode(UUID.randomUUID().toString());
+            customer.setCode(CoreUtil.generateEntityCode());
         }
         
         if(customer.getPermalink() == null){
