@@ -597,8 +597,12 @@ public class Customer extends AbstractEntity {
 	}
 	
 	public String getScreenName() {
-		return (String) getValue(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME, null, null);
-	}
+        String screenName = (String) getValue(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME, null, null);
+        if (StringUtils.isEmpty(screenName)) {
+            screenName = getFirstname();
+        }
+        return screenName;
+    }
 
     @Override
     public int hashCode() {

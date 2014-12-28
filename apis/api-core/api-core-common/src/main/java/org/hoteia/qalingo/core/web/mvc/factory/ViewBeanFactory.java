@@ -928,11 +928,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         customerCommentViewBean.setComment(customerComment.getComment());
 
         if (customerComment.getCustomer() != null) {
-            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-            } else {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
-            }
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
             customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
             customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
@@ -948,7 +944,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
         reviewDataVocabulary.setItemreviewed(retailer.getI18nName(localizationCode));
-        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        if (customerComment.getCustomer() != null) {
+            reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        }
         DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
@@ -1151,11 +1149,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         customerCommentViewBean.setComment(customerComment.getComment());
 
         if (customerComment.getCustomer() != null) {
-            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-            } else {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
-            }
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
             customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
             customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
@@ -1171,7 +1165,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
         reviewDataVocabulary.setItemreviewed(store.getI18nName(localizationCode));
-        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        if (customerComment.getCustomer() != null) {
+            reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        }
         DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
@@ -1490,11 +1486,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         customerCommentViewBean.setComment(customerComment.getComment());
 
         if (customerComment.getCustomer() != null) {
-            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-            } else {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
-            }
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
             customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
             customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
@@ -1510,7 +1502,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
         reviewDataVocabulary.setItemreviewed(productBrand.getI18nName(localizationCode));
-        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        if (customerComment.getCustomer() != null) {
+            reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        }
         DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
@@ -1838,11 +1832,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         customerCommentViewBean.setComment(customerComment.getComment());
 
         if (customerComment.getCustomer() != null) {
-            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-            } else {
-                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
-            }
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
             customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
             customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
@@ -1858,7 +1848,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
         reviewDataVocabulary.setItemreviewed(productMarketing.getI18nName(localizationCode));
-        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        if (customerComment.getCustomer() != null) {
+            reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        }
         DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
