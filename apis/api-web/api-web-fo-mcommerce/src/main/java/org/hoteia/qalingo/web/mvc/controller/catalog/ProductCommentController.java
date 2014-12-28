@@ -19,7 +19,6 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Market;
@@ -129,9 +128,6 @@ public class ProductCommentController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
         Customer customer = requestData.getCustomer();
         
-        //binding form
-//      	bindProductCommentForm(request, customerCommentForm);
-		
 		if (result.hasErrors()) {
 			return displayProductCommentForm(request, productCode, model, customerCommentForm);
 		}
@@ -224,24 +220,5 @@ public class ProductCommentController extends AbstractMCommerceController {
 	protected ModelAndView getModelAndView(final HttpServletRequest request) throws Exception{
 	    return new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_COMMENT.getVelocityPage());
 	}
-	
-//	//TODO: refactor it and find why the bean form cannot be binded?
-//	private void bindProductCommentForm(final HttpServletRequest request, final CustomerCommentForm customerCommentForm){
-//		if(request == null || customerCommentForm == null){
-//			return;
-//		}
-//		
-//		String productCode = request.getParameter("customerCommentForm.productCode");
-//		String qualityOfService = request.getParameter("customerCommentForm.qualityOfService");
-//		String ratioQualityPrice = request.getParameter("customerCommentForm.ratioQualityPrice");
-//		String priceScore = request.getParameter("customerCommentForm.priceScore");
-//		String comment = request.getParameter("customerCommentForm.comment");
-//		
-//		customerCommentForm.setComment(comment);
-//		customerCommentForm.setPriceScore(priceScore);
-//		customerCommentForm.setQualityOfService(qualityOfService);
-//		customerCommentForm.setRatioQualityPrice(ratioQualityPrice);
-//		customerCommentForm.setObjectCode(productCode);
-//	}
 	
 }

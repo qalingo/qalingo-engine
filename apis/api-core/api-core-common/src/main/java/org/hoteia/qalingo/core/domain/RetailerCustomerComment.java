@@ -54,6 +54,9 @@ public class RetailerCustomerComment extends AbstractEntity {
     @JoinColumn(name="CUSTOMER_ID")
 	private Customer customer;
 
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
 	@Column(name="RETAILER_ID")
 	private Long retailerId;
 	
@@ -104,12 +107,20 @@ public class RetailerCustomerComment extends AbstractEntity {
     	this.retailerCustomerCommentId = retailerCustomerCommentId;
     }
 
-	public Customer getCustomer() {
-    	return customer;
+    public Customer getCustomer() {
+        return customer;
     }
 
-	public void setCustomer(Customer customer) {
-    	this.customer = customer;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+    
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
     }
 
 	public Long getRetailerId() {

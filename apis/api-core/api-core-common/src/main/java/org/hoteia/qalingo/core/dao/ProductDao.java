@@ -26,6 +26,8 @@ import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
@@ -695,6 +697,86 @@ public class ProductDao extends AbstractGenericDao {
 
     public void deleteProductBrand(final ProductBrand productBrand) {
         em.remove(productBrand);
+    }
+    
+    
+    // PRODUCT MARKETING COMMENT/RATE
+    
+    @SuppressWarnings("unchecked")
+    public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandId(final Long productBrandId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productBrandId", productBrandId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandIdAndMarketAreaId(final Long productBrandId, final Long marketAreaId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productBrandId", productBrandId));
+        criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByCustomerId(final Long customerId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("customer.id", customerId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<ProductBrandCustomerRate> findProductBrandCustomerRatesByProductBrandId(final Long productBrandId, final String type, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerRate.class);
+        criteria.add(Restrictions.eq("productBrandId", productBrandId));
+        criteria.add(Restrictions.eq("type", type));
+        return criteria.list();
+    }
+    
+    public ProductBrandCustomerRate saveOrUpdateProductBrandCustomerRate(final ProductBrandCustomerRate productMarketingCustomerRate) {
+        if(productMarketingCustomerRate.getDateCreate() == null){
+            productMarketingCustomerRate.setDateCreate(new Date());
+        }
+        productMarketingCustomerRate.setDateUpdate(new Date());
+        if (productMarketingCustomerRate.getId() != null) {
+            if(em.contains(productMarketingCustomerRate)){
+                em.refresh(productMarketingCustomerRate);
+            }
+            ProductBrandCustomerRate mergedProductBrandCustomerRate = em.merge(productMarketingCustomerRate);
+            em.flush();
+            return mergedProductBrandCustomerRate;
+        } else {
+            em.persist(productMarketingCustomerRate);
+            return productMarketingCustomerRate;
+        }
+    }
+
+    public void deleteProductBrandCustomerRate(final ProductBrandCustomerRate productMarketingCustomerRate) {
+        em.remove(productMarketingCustomerRate);
+    }
+    
+    public ProductBrandCustomerComment saveOrUpdateProductBrandCustomerComment(final ProductBrandCustomerComment customerComment) {
+        if(customerComment.getDateCreate() == null){
+            customerComment.setDateCreate(new Date());
+        }
+        customerComment.setDateUpdate(new Date());
+        if (customerComment.getId() != null) {
+            if(em.contains(customerComment)){
+                em.refresh(customerComment);
+            }
+            ProductBrandCustomerComment mergedProductBrandCustomerComment = em.merge(customerComment);
+            em.flush();
+            return mergedProductBrandCustomerComment;
+        } else {
+            em.persist(customerComment);
+            return customerComment;
+        }
+    }
+
+    public void deleteProductBrandCustomerComment(final ProductBrandCustomerComment customerComment) {
+        em.remove(customerComment);
     }
     
     protected FetchPlan handleSpecificProductBrandFetchMode(Criteria criteria, Object... params) {

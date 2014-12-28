@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Query;
 
@@ -249,49 +248,82 @@ public class RetailerDao extends AbstractGenericDao {
 	
     // RETAILER COMMENT/RATE
 	
-    public RetailerCustomerRate saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
-        if (retailerCustomerRate.getDateCreate() == null) {
-            retailerCustomerRate.setDateCreate(new Date());
+    @SuppressWarnings("unchecked")
+    public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerId(final Long retailerId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("retailerId", retailerId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerIdAndMarketAreaId(final Long retailerId, final Long marketAreaId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("retailerId", retailerId));
+        criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<RetailerCustomerComment> findRetailerCustomerCommentsByCustomerId(final Long customerId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("customer.id", customerId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<RetailerCustomerRate> findRetailerCustomerRatesByRetailerId(final Long retailerId, final String type, Object... params) {
+        Criteria  criteria = createDefaultCriteria(RetailerCustomerRate.class);
+        criteria.add(Restrictions.eq("retailerId", retailerId));
+        criteria.add(Restrictions.eq("type", type));
+        return criteria.list();
+    }
+    
+    public RetailerCustomerRate saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate productMarketingCustomerRate) {
+        if(productMarketingCustomerRate.getDateCreate() == null){
+            productMarketingCustomerRate.setDateCreate(new Date());
         }
-        retailerCustomerRate.setDateUpdate(new Date());
-        if (retailerCustomerRate.getId() != null) {
-            if(em.contains(retailerCustomerRate)){
-                em.refresh(retailerCustomerRate);
+        productMarketingCustomerRate.setDateUpdate(new Date());
+        if (productMarketingCustomerRate.getId() != null) {
+            if(em.contains(productMarketingCustomerRate)){
+                em.refresh(productMarketingCustomerRate);
             }
-            RetailerCustomerRate mergedRetailerCustomerRate = em.merge(retailerCustomerRate);
+            RetailerCustomerRate mergedRetailerCustomerRate = em.merge(productMarketingCustomerRate);
             em.flush();
             return mergedRetailerCustomerRate;
         } else {
-            em.persist(retailerCustomerRate);
-            return retailerCustomerRate;
+            em.persist(productMarketingCustomerRate);
+            return productMarketingCustomerRate;
         }
     }
 
-	public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
-		em.remove(retailerCustomerRate);
-	}
-	
-	public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
-		if(retailerCustomerComment.getDateCreate() == null){
-			retailerCustomerComment.setDateCreate(new Date());
-		}
-		retailerCustomerComment.setDateUpdate(new Date());
-        if (retailerCustomerComment.getId() != null) {
-            if(em.contains(retailerCustomerComment)){
-                em.refresh(retailerCustomerComment);
+    public void deleteRetailerCustomerRate(final RetailerCustomerRate productMarketingCustomerRate) {
+        em.remove(productMarketingCustomerRate);
+    }
+    
+    public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment customerComment) {
+        if(customerComment.getDateCreate() == null){
+            customerComment.setDateCreate(new Date());
+        }
+        customerComment.setDateUpdate(new Date());
+        if (customerComment.getId() != null) {
+            if(em.contains(customerComment)){
+                em.refresh(customerComment);
             }
-            RetailerCustomerComment mergedRetailerCustomerComment = em.merge(retailerCustomerComment);
+            RetailerCustomerComment mergedRetailerCustomerComment = em.merge(customerComment);
             em.flush();
             return mergedRetailerCustomerComment;
         } else {
-            em.persist(retailerCustomerComment);
-            return retailerCustomerComment;
+            em.persist(customerComment);
+            return customerComment;
         }
-	}
+    }
 
-	public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
-		em.remove(retailerCustomerComment);
-	}
+    public void deleteRetailerCustomerComment(final RetailerCustomerComment customerComment) {
+        em.remove(customerComment);
+    }
 	
 	// STORE
 	
@@ -456,48 +488,81 @@ public class RetailerDao extends AbstractGenericDao {
 	
     // STORE COMMENT/RATE
     
-    public StoreCustomerRate saveOrUpdateStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
-        if (retailerCustomerRate.getDateCreate() == null) {
-            retailerCustomerRate.setDateCreate(new Date());
+    @SuppressWarnings("unchecked")
+    public List<StoreCustomerComment> findStoreCustomerCommentsByStoreId(final Long storeId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("storeId", storeId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<StoreCustomerComment> findStoreCustomerCommentsByStoreIdAndMarketAreaId(final Long storeId, final Long marketAreaId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("storeId", storeId));
+        criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<StoreCustomerComment> findStoreCustomerCommentsByCustomerId(final Long customerId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("customer.id", customerId));
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<StoreCustomerRate> findStoreCustomerRatesByStoreId(final Long storeId, final String type, Object... params) {
+        Criteria  criteria = createDefaultCriteria(StoreCustomerRate.class);
+        criteria.add(Restrictions.eq("storeId", storeId));
+        criteria.add(Restrictions.eq("type", type));
+        return criteria.list();
+    }
+    
+    public StoreCustomerRate saveOrUpdateStoreCustomerRate(final StoreCustomerRate productMarketingCustomerRate) {
+        if(productMarketingCustomerRate.getDateCreate() == null){
+            productMarketingCustomerRate.setDateCreate(new Date());
         }
-        retailerCustomerRate.setDateUpdate(new Date());
-        if (retailerCustomerRate.getId() != null) {
-            if(em.contains(retailerCustomerRate)){
-                em.refresh(retailerCustomerRate);
+        productMarketingCustomerRate.setDateUpdate(new Date());
+        if (productMarketingCustomerRate.getId() != null) {
+            if(em.contains(productMarketingCustomerRate)){
+                em.refresh(productMarketingCustomerRate);
             }
-            StoreCustomerRate mergedStoreCustomerRate = em.merge(retailerCustomerRate);
+            StoreCustomerRate mergedStoreCustomerRate = em.merge(productMarketingCustomerRate);
             em.flush();
             return mergedStoreCustomerRate;
         } else {
-            em.persist(retailerCustomerRate);
-            return retailerCustomerRate;
+            em.persist(productMarketingCustomerRate);
+            return productMarketingCustomerRate;
         }
     }
 
-    public void deleteStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
-        em.remove(retailerCustomerRate);
+    public void deleteStoreCustomerRate(final StoreCustomerRate productMarketingCustomerRate) {
+        em.remove(productMarketingCustomerRate);
     }
     
-    public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
-        if(retailerCustomerComment.getDateCreate() == null){
-            retailerCustomerComment.setDateCreate(new Date());
+    public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment customerComment) {
+        if(customerComment.getDateCreate() == null){
+            customerComment.setDateCreate(new Date());
         }
-        retailerCustomerComment.setDateUpdate(new Date());
-        if (retailerCustomerComment.getId() != null) {
-            if(em.contains(retailerCustomerComment)){
-                em.refresh(retailerCustomerComment);
+        customerComment.setDateUpdate(new Date());
+        if (customerComment.getId() != null) {
+            if(em.contains(customerComment)){
+                em.refresh(customerComment);
             }
-            StoreCustomerComment mergedStoreCustomerComment = em.merge(retailerCustomerComment);
+            StoreCustomerComment mergedStoreCustomerComment = em.merge(customerComment);
             em.flush();
             return mergedStoreCustomerComment;
         } else {
-            em.persist(retailerCustomerComment);
-            return retailerCustomerComment;
+            em.persist(customerComment);
+            return customerComment;
         }
     }
 
-    public void deleteStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
-        em.remove(retailerCustomerComment);
+    public void deleteStoreCustomerComment(final StoreCustomerComment customerComment) {
+        em.remove(customerComment);
     }
     
     protected FetchPlan handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {

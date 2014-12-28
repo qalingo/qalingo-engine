@@ -10,14 +10,11 @@
 package org.hoteia.qalingo.web.mvc.controller.customer;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.CustomerMarketArea;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -43,7 +40,6 @@ public class CustomerProductCommentController extends AbstractCustomerController
 	public ModelAndView customerProductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-		final MarketArea marketArea = requestData.getMarketArea();
         final Customer customer = requestData.getCustomer();
 		
 		List<ProductMarketingCustomerComment> productMarketingCustomerComments = productService.findProductMarketingCustomerCommentsByCustomerId(customer.getId());

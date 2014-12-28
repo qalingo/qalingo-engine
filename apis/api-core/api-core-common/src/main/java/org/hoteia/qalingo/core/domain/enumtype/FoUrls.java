@@ -283,6 +283,11 @@ public enum FoUrls {
 	public static final String BRAND_LINE_URL                       = "/**/brand-line-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String BRAND_LINE_VELOCITY_PAGE             = "catalog/brand-line";
 
+    public static final String BRAND_COMMENT_KEY                  = "brand-comment";
+    public static final String BRAND_COMMENT_URL                  = "/**/brand-comment-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String BRAND_COMMENT_VELOCITY_PAGE        = "catalog/brand-comment";
+    public static final String BRAND_VOTE_URL                     = "/**/brand-vote-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9-]+}.html";
+    
 	public static final String CATEGORY_AS_AXE_KEY					= "axe";
 	public static final String CATEGORY_AS_AXE_URL					= "/**/axe-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}.html";
 	public static final String CATEGORY_AS_AXE_VELOCITY_PAGE        = "catalog/category-axe";

@@ -18,6 +18,8 @@ import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
 import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
@@ -142,36 +144,36 @@ public class ProductService {
 
     // PRODUCT MARKETING COMMENT/RATE
     
-    public ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
-        return productDao.saveOrUpdateProductMarketingCustomerRate(productMarketingCustomerRate);
+    public ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate customerRate) {
+        return productDao.saveOrUpdateProductMarketingCustomerRate(customerRate);
     }
 
-    public void deleteProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
-        productDao.deleteProductMarketingCustomerRate(productMarketingCustomerRate);
+    public void deleteProductMarketingCustomerRate(final ProductMarketingCustomerRate customerRate) {
+        productDao.deleteProductMarketingCustomerRate(customerRate);
     }
     
-    public ProductMarketingCustomerComment saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
-        return productDao.saveOrUpdateProductMarketingCustomerComment(productMarketingCustomerRate);
+    public ProductMarketingCustomerComment saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment customerRate) {
+        return productDao.saveOrUpdateProductMarketingCustomerComment(customerRate);
     }
     
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingId(final Long productMarketingId, Object... params){
-        List<ProductMarketingCustomerComment> productMarketingCustomerComments = productDao.findProductMarketingCustomerCommentsByProductMarketingId(productMarketingId, params);
-        return productMarketingCustomerComments;
+        List<ProductMarketingCustomerComment> customerComments = productDao.findProductMarketingCustomerCommentsByProductMarketingId(productMarketingId, params);
+        return customerComments;
     }
     
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params){
-        List<ProductMarketingCustomerComment> productMarketingCustomerComments = productDao.findProductMarketingCustomerCommentsByProductMarketingIdAndMarketAreaId(productMarketingId, marketAreaId, params);
-        return productMarketingCustomerComments;
+        List<ProductMarketingCustomerComment> customerComments = productDao.findProductMarketingCustomerCommentsByProductMarketingIdAndMarketAreaId(productMarketingId, marketAreaId, params);
+        return customerComments;
     }
     
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByCustomerId(final Long customerId, Object... params){
-        List<ProductMarketingCustomerComment> productMarketingCustomerComments = productDao.findProductMarketingCustomerCommentsByCustomerId(customerId, params);
-        return productMarketingCustomerComments;
+        List<ProductMarketingCustomerComment> customerComments = productDao.findProductMarketingCustomerCommentsByCustomerId(customerId, params);
+        return customerComments;
     }
     
     public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId, final String type, Object... params) {
-        List<ProductMarketingCustomerRate> productMarketingCustomerRates = productDao.findProductMarketingCustomerRatesByProductMarketingId(productMarketingId, type, params);
-        return productMarketingCustomerRates;
+        List<ProductMarketingCustomerRate> customerRates = productDao.findProductMarketingCustomerRatesByProductMarketingId(productMarketingId, type, params);
+        return customerRates;
     }
     
     public Float calculateProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId) {
@@ -179,8 +181,8 @@ public class ProductService {
         return customerRate;
     }
 
-    public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
-        productDao.deleteProductMarketingCustomerComment(productMarketingCustomerRate);
+    public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment customerRate) {
+        productDao.deleteProductMarketingCustomerComment(customerRate);
     }
     
     // PRODUCT MARKETING ASSET
@@ -384,5 +386,42 @@ public class ProductService {
     public void deleteProductBrand(final ProductBrand productBrand) {
         productDao.deleteProductBrand(productBrand);
     }
+    
+    // PRODUCT BRAND COMMENT/RATE
+    
+    public ProductBrandCustomerRate saveOrUpdateProductBrandCustomerRate(final ProductBrandCustomerRate customerRate) {
+        return productDao.saveOrUpdateProductBrandCustomerRate(customerRate);
+    }
 
+    public void deleteProductBrandCustomerRate(final ProductBrandCustomerRate customerRate) {
+        productDao.deleteProductBrandCustomerRate(customerRate);
+    }
+    
+    public ProductBrandCustomerComment saveOrUpdateProductBrandCustomerComment(final ProductBrandCustomerComment customerRate) {
+        return productDao.saveOrUpdateProductBrandCustomerComment(customerRate);
+    }
+    
+    public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandId(final Long productMarketingId, Object... params){
+        List<ProductBrandCustomerComment> customerComments = productDao.findProductBrandCustomerCommentsByProductBrandId(productMarketingId, params);
+        return customerComments;
+    }
+    
+    public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params){
+        List<ProductBrandCustomerComment> customerComments = productDao.findProductBrandCustomerCommentsByProductBrandIdAndMarketAreaId(productMarketingId, marketAreaId, params);
+        return customerComments;
+    }
+    
+    public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByCustomerId(final Long customerId, Object... params){
+        List<ProductBrandCustomerComment> customerComments = productDao.findProductBrandCustomerCommentsByCustomerId(customerId, params);
+        return customerComments;
+    }
+    
+    public List<ProductBrandCustomerRate> findProductBrandCustomerRatesByProductBrandId(final Long productMarketingId, final String type, Object... params) {
+        List<ProductBrandCustomerRate> customerRates = productDao.findProductBrandCustomerRatesByProductBrandId(productMarketingId, type, params);
+        return customerRates;
+    }
+    
+    public void deleteProductBrandCustomerComment(final ProductBrandCustomerComment customerRate) {
+        productDao.deleteProductBrandCustomerComment(customerRate);
+    }
 }

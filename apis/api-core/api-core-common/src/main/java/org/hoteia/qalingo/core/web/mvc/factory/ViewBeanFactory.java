@@ -60,6 +60,7 @@ import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductBrandTag;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
@@ -76,6 +77,7 @@ import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.StoreBusinessHour;
+import org.hoteia.qalingo.core.domain.StoreCustomerComment;
 import org.hoteia.qalingo.core.domain.StoreTag;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
@@ -108,7 +110,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
@@ -132,6 +134,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingTagViewBean;
@@ -145,6 +148,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
@@ -926,6 +930,45 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
+    public List<RetailerCustomerCommentViewBean> buildListViewBeanRetailerCustomerComments(final RequestData requestData, final List<RetailerCustomerComment> customerComments) throws Exception {
+        final List<RetailerCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<RetailerCustomerCommentViewBean>();
+        for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
+            RetailerCustomerComment customerComment = (RetailerCustomerComment) iterator.next();
+            customerCommentViewBeans.add(buildViewBeanRetailerCustomerComment(requestData, customerComment));
+        }
+        return customerCommentViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public RetailerCustomerCommentViewBean buildViewBeanRetailerCustomerComment(final RequestData requestData, final RetailerCustomerComment customerComment) throws Exception {
+        final RetailerCustomerCommentViewBean customerCommentViewBean = new RetailerCustomerCommentViewBean();
+        customerCommentViewBean.setTitle(customerComment.getTitle());
+        customerCommentViewBean.setComment(customerComment.getComment());
+
+        if(customerComment.getCustomer() != null
+                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
+        } else {
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+        }
+        
+        customerCommentViewBean.setComment(customerComment.getComment());
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (customerComment.getDateCreate() != null) {
+            customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
+        }
+        if (customerComment.getDateUpdate() != null) {
+            customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
+        }
+        
+        return customerCommentViewBean;
+    }
+    
+    /**
+     * 
+     */
     public List<StoreViewBean> buildListViewBeanStore(final RequestData requestData, final List<Store> stores) throws Exception {
         List<StoreViewBean> storeViewBeans = new ArrayList<StoreViewBean>();
         for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
@@ -1088,6 +1131,45 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         return storeBusinessHourViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public List<StoreCustomerCommentViewBean> buildListViewBeanStoreCustomerComments(final RequestData requestData, final List<StoreCustomerComment> customerComments) throws Exception {
+        final List<StoreCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<StoreCustomerCommentViewBean>();
+        for (Iterator<StoreCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
+            StoreCustomerComment customerComment = (StoreCustomerComment) iterator.next();
+            customerCommentViewBeans.add(buildViewBeanStoreCustomerComment(requestData, customerComment));
+        }
+        return customerCommentViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public StoreCustomerCommentViewBean buildViewBeanStoreCustomerComment(final RequestData requestData, final StoreCustomerComment customerComment) throws Exception {
+        final StoreCustomerCommentViewBean customerCommentViewBean = new StoreCustomerCommentViewBean();
+        customerCommentViewBean.setTitle(customerComment.getTitle());
+        customerCommentViewBean.setComment(customerComment.getComment());
+
+        if(customerComment.getCustomer() != null
+                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
+        } else {
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+        }
+        
+        customerCommentViewBean.setComment(customerComment.getComment());
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (customerComment.getDateCreate() != null) {
+            customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
+        }
+        if (customerComment.getDateUpdate() != null) {
+            customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
+        }
+        
+        return customerCommentViewBean;
     }
     
     /**
@@ -1373,6 +1455,45 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return productBrandViewBean;
     }
 
+    /**
+     * 
+     */
+    public List<ProductBrandCustomerCommentViewBean> buildListViewBeanProductBrandCustomerComments(final RequestData requestData, final List<ProductBrandCustomerComment> customerComments) throws Exception {
+        final List<ProductBrandCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductBrandCustomerCommentViewBean>();
+        for (Iterator<ProductBrandCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
+            ProductBrandCustomerComment customerComment = (ProductBrandCustomerComment) iterator.next();
+            customerCommentViewBeans.add(buildViewBeanProductBrandCustomerComment(requestData, customerComment));
+        }
+        return customerCommentViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public ProductBrandCustomerCommentViewBean buildViewBeanProductBrandCustomerComment(final RequestData requestData, final ProductBrandCustomerComment customerComment) throws Exception {
+        final ProductBrandCustomerCommentViewBean customerCommentViewBean = new ProductBrandCustomerCommentViewBean();
+        customerCommentViewBean.setTitle(customerComment.getTitle());
+        customerCommentViewBean.setComment(customerComment.getComment());
+
+        if(customerComment.getCustomer() != null
+                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
+        } else {
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+        }
+        
+        customerCommentViewBean.setComment(customerComment.getComment());
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (customerComment.getDateCreate() != null) {
+            customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
+        }
+        if (customerComment.getDateUpdate() != null) {
+            customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
+        }
+        
+        return customerCommentViewBean;
+    }
+    
     /**
      * 
      */
@@ -1668,40 +1789,40 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<CustomerProductCommentViewBean> buildListViewBeanCustomerProductComments(final RequestData requestData, final List<ProductMarketingCustomerComment> productMarketingCustomerComments) throws Exception {
-        final List<CustomerProductCommentViewBean> customerProductCommentViewBeans = new ArrayList<CustomerProductCommentViewBean>();
-        for (Iterator<ProductMarketingCustomerComment> iterator = productMarketingCustomerComments.iterator(); iterator.hasNext();) {
-            ProductMarketingCustomerComment productMarketingCustomerComment = (ProductMarketingCustomerComment) iterator.next();
-            customerProductCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, productMarketingCustomerComment));
+    public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanCustomerProductComments(final RequestData requestData, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
+        final List<ProductMarketingCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductMarketingCustomerCommentViewBean>();
+        for (Iterator<ProductMarketingCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
+            ProductMarketingCustomerComment customerComment = (ProductMarketingCustomerComment) iterator.next();
+            customerCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, customerComment));
         }
-        return customerProductCommentViewBeans;
+        return customerCommentViewBeans;
     }
     
     /**
      * 
      */
-    public CustomerProductCommentViewBean buildViewBeanProductMarketingCustomerComment(final RequestData requestData, final ProductMarketingCustomerComment productMarketingCustomerComment) throws Exception {
-        final CustomerProductCommentViewBean customerProductCommentViewBean = new CustomerProductCommentViewBean();
-        customerProductCommentViewBean.setTitle(productMarketingCustomerComment.getTitle());
-        customerProductCommentViewBean.setComment(productMarketingCustomerComment.getComment());
+    public ProductMarketingCustomerCommentViewBean buildViewBeanProductMarketingCustomerComment(final RequestData requestData, final ProductMarketingCustomerComment customerComment) throws Exception {
+        final ProductMarketingCustomerCommentViewBean customerCommentViewBean = new ProductMarketingCustomerCommentViewBean();
+        customerCommentViewBean.setTitle(customerComment.getTitle());
+        customerCommentViewBean.setComment(customerComment.getComment());
 
-        if(productMarketingCustomerComment.getCustomer() != null
-                && StringUtils.isNotEmpty(productMarketingCustomerComment.getCustomer().getScreenName())){
-            customerProductCommentViewBean.setCustomerDisplayName(productMarketingCustomerComment.getCustomer().getScreenName());
+        if(customerComment.getCustomer() != null
+                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
         } else {
-            customerProductCommentViewBean.setCustomerDisplayName(productMarketingCustomerComment.getCustomer().getFirstname());
+            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
         }
         
-        customerProductCommentViewBean.setComment(productMarketingCustomerComment.getComment());
+        customerCommentViewBean.setComment(customerComment.getComment());
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        if (productMarketingCustomerComment.getDateCreate() != null) {
-            customerProductCommentViewBean.setDateCreate(dateFormat.format(productMarketingCustomerComment.getDateCreate()));
+        if (customerComment.getDateCreate() != null) {
+            customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
         }
-        if (productMarketingCustomerComment.getDateUpdate() != null) {
-            customerProductCommentViewBean.setDateUpdate(dateFormat.format(productMarketingCustomerComment.getDateUpdate()));
+        if (customerComment.getDateUpdate() != null) {
+            customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
         }
         
-        return customerProductCommentViewBean;
+        return customerCommentViewBean;
     }
     
     public CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(final Long productMarketingId, Object... params){

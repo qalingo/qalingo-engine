@@ -788,6 +788,27 @@ public class RequestUtil {
      * 
      */
     public String getLastProductDetailsRequestUrl(final HttpServletRequest request) throws Exception {
+        return getLastSpecificRequestUrl(request, FoUrls.PRODUCT_DETAILS.getUrlPatternKey());
+    }
+
+    /**
+     * 
+     */
+    public String getLastProductBrandDetailsRequestUrl(final HttpServletRequest request) throws Exception {
+        return getLastSpecificRequestUrl(request, FoUrls.BRAND_DETAILS.getUrlPatternKey());
+    }
+    
+    /**
+     * 
+     */
+    public String getLastStoreDetailsRequestUrl(final HttpServletRequest request) throws Exception {
+        return getLastSpecificRequestUrl(request, FoUrls.STORE_DETAILS.getUrlPatternKey());
+    }
+    
+    /**
+     * 
+     */
+    protected String getLastSpecificRequestUrl(final HttpServletRequest request, String pattern) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);
         final List<ClickstreamRequest> clickstreams = clickstreamSession.getRequests();
@@ -798,7 +819,7 @@ public class RequestUtil {
                 String uri = clickstream.getRequestURI();
                 if (uri.endsWith(".html")) {
                     // TEST IF THE URL MATCH
-                    if (uri.contains(FoUrls.PRODUCT_DETAILS.getUrlPatternKey())) {
+                    if (uri.contains(pattern)) {
                         url = uri;
                         break;
                     }
@@ -811,7 +832,7 @@ public class RequestUtil {
         }
         return handleUrl(url);
     }
-
+    
     /**
      * 
      */

@@ -57,8 +57,8 @@ public class ProductBrandCustomerComment extends AbstractEntity {
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
 
-    @Column(name="PRODUCT_MARKETING_ID")
-    private Long productMarketingId;
+    @Column(name="PRODUCT_BRAND_ID")
+    private Long productBrandId;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_CUSTOMER_COMMENT_ID")
@@ -123,12 +123,12 @@ public class ProductBrandCustomerComment extends AbstractEntity {
         this.marketAreaId = marketAreaId;
     }
 
-	public Long getProductMarketingId() {
-        return productMarketingId;
+	public Long getProductBrandId() {
+        return productBrandId;
     }
 	
-	public void setProductMarketingId(Long productMarketingId) {
-        this.productMarketingId = productMarketingId;
+	public void setProductBrandId(Long productBrandId) {
+        this.productBrandId = productBrandId;
     }
 	
 	public Set<ProductBrandCustomerComment> getCustomerComments() {
@@ -195,7 +195,7 @@ public class ProductBrandCustomerComment extends AbstractEntity {
     @Override
     public String toString() {
         return "ProductMarketingCustomerComment [id=" + id + ", comment=" + comment + ", productMarketingCustomerCommentId=" + productMarketingCustomerCommentId + ", marketAreaId=" + marketAreaId
-                + ", productMarketingId=" + productMarketingId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", productBrandId=" + productBrandId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

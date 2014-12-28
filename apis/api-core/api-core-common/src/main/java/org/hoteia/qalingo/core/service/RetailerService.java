@@ -149,20 +149,40 @@ public class RetailerService {
     
     // RETAILER COMMENT/RATE
 
-    public RetailerCustomerRate saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
-        return retailerDao.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
+    public RetailerCustomerRate saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate customerRate) {
+        return retailerDao.saveOrUpdateRetailerCustomerRate(customerRate);
     }
 
-    public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
-        retailerDao.deleteRetailerCustomerRate(retailerCustomerRate);
+    public void deleteRetailerCustomerRate(final RetailerCustomerRate customerRate) {
+        retailerDao.deleteRetailerCustomerRate(customerRate);
     }
-
-    public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
-        return retailerDao.saveOrUpdateRetailerCustomerComment(retailerCustomerComment);
+    
+    public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment customerRate) {
+        return retailerDao.saveOrUpdateRetailerCustomerComment(customerRate);
     }
-
-    public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
-        retailerDao.deleteRetailerCustomerComment(retailerCustomerComment);
+    
+    public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerId(final Long productMarketingId, Object... params){
+        List<RetailerCustomerComment> customerComments = retailerDao.findRetailerCustomerCommentsByRetailerId(productMarketingId, params);
+        return customerComments;
+    }
+    
+    public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params){
+        List<RetailerCustomerComment> customerComments = retailerDao.findRetailerCustomerCommentsByRetailerIdAndMarketAreaId(productMarketingId, marketAreaId, params);
+        return customerComments;
+    }
+    
+    public List<RetailerCustomerComment> findRetailerCustomerCommentsByCustomerId(final Long customerId, Object... params){
+        List<RetailerCustomerComment> customerComments = retailerDao.findRetailerCustomerCommentsByCustomerId(customerId, params);
+        return customerComments;
+    }
+    
+    public List<RetailerCustomerRate> findRetailerCustomerRatesByRetailerId(final Long productMarketingId, final String type, Object... params) {
+        List<RetailerCustomerRate> customerRates = retailerDao.findRetailerCustomerRatesByRetailerId(productMarketingId, type, params);
+        return customerRates;
+    }
+    
+    public void deleteRetailerCustomerComment(final RetailerCustomerComment customerRate) {
+        retailerDao.deleteRetailerCustomerComment(customerRate);
     }
 
     // STORE
@@ -221,20 +241,40 @@ public class RetailerService {
     
     // STORE COMMENT/RATE
 
-    public StoreCustomerRate saveOrUpdateStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
-        return retailerDao.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
+    public StoreCustomerRate saveOrUpdateStoreCustomerRate(final StoreCustomerRate customerRate) {
+        return retailerDao.saveOrUpdateStoreCustomerRate(customerRate);
     }
 
-    public void deleteStoreCustomerRate(final StoreCustomerRate retailerCustomerRate) {
-        retailerDao.deleteStoreCustomerRate(retailerCustomerRate);
+    public void deleteStoreCustomerRate(final StoreCustomerRate customerRate) {
+        retailerDao.deleteStoreCustomerRate(customerRate);
     }
-
-    public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
-        return retailerDao.saveOrUpdateStoreCustomerComment(retailerCustomerComment);
+    
+    public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment customerRate) {
+        return retailerDao.saveOrUpdateStoreCustomerComment(customerRate);
     }
-
-    public void deleteStoreCustomerComment(final StoreCustomerComment retailerCustomerComment) {
-        retailerDao.deleteStoreCustomerComment(retailerCustomerComment);
+    
+    public List<StoreCustomerComment> findStoreCustomerCommentsByStoreId(final Long productMarketingId, Object... params){
+        List<StoreCustomerComment> customerComments = retailerDao.findStoreCustomerCommentsByStoreId(productMarketingId, params);
+        return customerComments;
+    }
+    
+    public List<StoreCustomerComment> findStoreCustomerCommentsByStoreIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params){
+        List<StoreCustomerComment> customerComments = retailerDao.findStoreCustomerCommentsByStoreIdAndMarketAreaId(productMarketingId, marketAreaId, params);
+        return customerComments;
+    }
+    
+    public List<StoreCustomerComment> findStoreCustomerCommentsByCustomerId(final Long customerId, Object... params){
+        List<StoreCustomerComment> customerComments = retailerDao.findStoreCustomerCommentsByCustomerId(customerId, params);
+        return customerComments;
+    }
+    
+    public List<StoreCustomerRate> findStoreCustomerRatesByStoreId(final Long productMarketingId, final String type, Object... params) {
+        List<StoreCustomerRate> customerRates = retailerDao.findStoreCustomerRatesByStoreId(productMarketingId, type, params);
+        return customerRates;
+    }
+    
+    public void deleteStoreCustomerComment(final StoreCustomerComment customerRate) {
+        retailerDao.deleteStoreCustomerComment(customerRate);
     }
 
 }
