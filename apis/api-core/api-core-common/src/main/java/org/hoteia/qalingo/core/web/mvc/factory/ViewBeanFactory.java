@@ -840,32 +840,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (Hibernate.isInitialized(customerComments) &&
                 customerComments != null) {
             for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-                RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
-                RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
-
-                retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
-                retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, retailerCustomerComment.getCustomer().getPermalink()));
-                retailerCustomerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), retailerCustomerComment.getCustomer()));
-
-                DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-                if (retailerCustomerComment.getDateCreate() != null) {
-                    retailerCustomerCommentViewBean.setDateCreate(dateFormat.format(retailerCustomerComment.getDateCreate()));
-                }
-
-                retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
-
-                ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
-                reviewDataVocabulary.setItemreviewed(retailer.getName());
-                reviewDataVocabulary.setReviewer(retailerCustomerComment.getCustomer().getScreenName());
-                DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
-                reviewDataVocabulary.setDtreviewed(dateFormat.format(retailerCustomerComment.getDateCreate()));
-                // reviewDataVocabulary.setSummary(summary);
-                reviewDataVocabulary.setDescription(retailerCustomerComment.getComment());
-                // reviewDataVocabulary.setRating(rating);
-
-                retailerCustomerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
-
-                retailerViewBean.getComments().add(retailerCustomerCommentViewBean);
+                RetailerCustomerComment customerComment = (RetailerCustomerComment) iterator.next();
+                RetailerCustomerCommentViewBean customerCommentViewBean = buildViewBeanRetailerCustomerComment(requestData, retailer, customerComment);
+                retailerViewBean.getComments().add(customerCommentViewBean);
             }
         }
 
@@ -930,11 +907,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<RetailerCustomerCommentViewBean> buildListViewBeanRetailerCustomerComments(final RequestData requestData, final List<RetailerCustomerComment> customerComments) throws Exception {
+    public List<RetailerCustomerCommentViewBean> buildListViewBeanRetailerCustomerComments(final RequestData requestData, final Retailer retailer, final List<RetailerCustomerComment> customerComments) throws Exception {
         final List<RetailerCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<RetailerCustomerCommentViewBean>();
         for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             RetailerCustomerComment customerComment = (RetailerCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanRetailerCustomerComment(requestData, customerComment));
+            customerCommentViewBeans.add(buildViewBeanRetailerCustomerComment(requestData, retailer, customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -942,16 +919,22 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public RetailerCustomerCommentViewBean buildViewBeanRetailerCustomerComment(final RequestData requestData, final RetailerCustomerComment customerComment) throws Exception {
+    public RetailerCustomerCommentViewBean buildViewBeanRetailerCustomerComment(final RequestData requestData, final Retailer retailer, final RetailerCustomerComment customerComment) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
         final RetailerCustomerCommentViewBean customerCommentViewBean = new RetailerCustomerCommentViewBean();
         customerCommentViewBean.setTitle(customerComment.getTitle());
         customerCommentViewBean.setComment(customerComment.getComment());
 
-        if(customerComment.getCustomer() != null
-                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-        } else {
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+        if (customerComment.getCustomer() != null) {
+            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
+            } else {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+            }
+            customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
+            customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
@@ -963,6 +946,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
         }
         
+        ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
+        reviewDataVocabulary.setItemreviewed(retailer.getI18nName(localizationCode));
+        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+        reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
+        // reviewDataVocabulary.setSummary(summary);
+        reviewDataVocabulary.setDescription(customerComment.getComment());
+        // reviewDataVocabulary.setRating(rating);
+
+        customerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
+
         return customerCommentViewBean;
     }
     
@@ -1136,11 +1130,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<StoreCustomerCommentViewBean> buildListViewBeanStoreCustomerComments(final RequestData requestData, final List<StoreCustomerComment> customerComments) throws Exception {
+    public List<StoreCustomerCommentViewBean> buildListViewBeanStoreCustomerComments(final RequestData requestData, final Store store, final List<StoreCustomerComment> customerComments) throws Exception {
         final List<StoreCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<StoreCustomerCommentViewBean>();
         for (Iterator<StoreCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             StoreCustomerComment customerComment = (StoreCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanStoreCustomerComment(requestData, customerComment));
+            customerCommentViewBeans.add(buildViewBeanStoreCustomerComment(requestData, store, customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -1148,16 +1142,22 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public StoreCustomerCommentViewBean buildViewBeanStoreCustomerComment(final RequestData requestData, final StoreCustomerComment customerComment) throws Exception {
+    public StoreCustomerCommentViewBean buildViewBeanStoreCustomerComment(final RequestData requestData, final Store store, final StoreCustomerComment customerComment) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
         final StoreCustomerCommentViewBean customerCommentViewBean = new StoreCustomerCommentViewBean();
         customerCommentViewBean.setTitle(customerComment.getTitle());
         customerCommentViewBean.setComment(customerComment.getComment());
 
-        if(customerComment.getCustomer() != null
-                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-        } else {
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+        if (customerComment.getCustomer() != null) {
+            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
+            } else {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+            }
+            customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
+            customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
@@ -1169,6 +1169,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
         }
         
+        ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
+        reviewDataVocabulary.setItemreviewed(store.getI18nName(localizationCode));
+        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+        reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
+        // reviewDataVocabulary.setSummary(summary);
+        reviewDataVocabulary.setDescription(customerComment.getComment());
+        // reviewDataVocabulary.setRating(rating);
+
+        customerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
+
         return customerCommentViewBean;
     }
     
@@ -1458,11 +1469,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<ProductBrandCustomerCommentViewBean> buildListViewBeanProductBrandCustomerComments(final RequestData requestData, final List<ProductBrandCustomerComment> customerComments) throws Exception {
+    public List<ProductBrandCustomerCommentViewBean> buildListViewBeanProductBrandCustomerComments(final RequestData requestData, final ProductBrand productBrand, final List<ProductBrandCustomerComment> customerComments) throws Exception {
         final List<ProductBrandCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductBrandCustomerCommentViewBean>();
         for (Iterator<ProductBrandCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             ProductBrandCustomerComment customerComment = (ProductBrandCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanProductBrandCustomerComment(requestData, customerComment));
+            customerCommentViewBeans.add(buildViewBeanProductBrandCustomerComment(requestData, productBrand, customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -1470,16 +1481,22 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public ProductBrandCustomerCommentViewBean buildViewBeanProductBrandCustomerComment(final RequestData requestData, final ProductBrandCustomerComment customerComment) throws Exception {
+    public ProductBrandCustomerCommentViewBean buildViewBeanProductBrandCustomerComment(final RequestData requestData, final ProductBrand productBrand, final ProductBrandCustomerComment customerComment) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
         final ProductBrandCustomerCommentViewBean customerCommentViewBean = new ProductBrandCustomerCommentViewBean();
         customerCommentViewBean.setTitle(customerComment.getTitle());
         customerCommentViewBean.setComment(customerComment.getComment());
 
-        if(customerComment.getCustomer() != null
-                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-        } else {
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+        if (customerComment.getCustomer() != null) {
+            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
+            } else {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+            }
+            customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
+            customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
@@ -1491,6 +1508,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
         }
         
+        ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
+        reviewDataVocabulary.setItemreviewed(productBrand.getI18nName(localizationCode));
+        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+        reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
+        // reviewDataVocabulary.setSummary(summary);
+        reviewDataVocabulary.setDescription(customerComment.getComment());
+        // reviewDataVocabulary.setRating(rating);
+
+        customerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
+
         return customerCommentViewBean;
     }
     
@@ -1789,11 +1817,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanProductMarketingCustomerComments(final RequestData requestData, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
+    public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanProductMarketingCustomerComments(final RequestData requestData, final ProductMarketing productMarketing, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
         final List<ProductMarketingCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductMarketingCustomerCommentViewBean>();
         for (Iterator<ProductMarketingCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             ProductMarketingCustomerComment customerComment = (ProductMarketingCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, customerComment));
+            customerCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, productMarketing, customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -1801,16 +1829,22 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public ProductMarketingCustomerCommentViewBean buildViewBeanProductMarketingCustomerComment(final RequestData requestData, final ProductMarketingCustomerComment customerComment) throws Exception {
+    public ProductMarketingCustomerCommentViewBean buildViewBeanProductMarketingCustomerComment(final RequestData requestData, final ProductMarketing productMarketing,final ProductMarketingCustomerComment customerComment) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
         final ProductMarketingCustomerCommentViewBean customerCommentViewBean = new ProductMarketingCustomerCommentViewBean();
         customerCommentViewBean.setTitle(customerComment.getTitle());
         customerCommentViewBean.setComment(customerComment.getComment());
 
-        if(customerComment.getCustomer() != null
-                && StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())){
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
-        } else {
-            customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+        if (customerComment.getCustomer() != null) {
+            if (StringUtils.isNotEmpty(customerComment.getCustomer().getScreenName())) {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getScreenName());
+            } else {
+                customerCommentViewBean.setCustomerDisplayName(customerComment.getCustomer().getFirstname());
+            }
+            customerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, customerComment.getCustomer().getPermalink()));
+            customerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), customerComment.getCustomer()));
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
@@ -1822,6 +1856,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             customerCommentViewBean.setDateUpdate(dateFormat.format(customerComment.getDateUpdate()));
         }
         
+        ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
+        reviewDataVocabulary.setItemreviewed(productMarketing.getI18nName(localizationCode));
+        reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
+        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+        reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
+        // reviewDataVocabulary.setSummary(summary);
+        reviewDataVocabulary.setDescription(customerComment.getComment());
+        // reviewDataVocabulary.setRating(rating);
+
+        customerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
+
         return customerCommentViewBean;
     }
     
