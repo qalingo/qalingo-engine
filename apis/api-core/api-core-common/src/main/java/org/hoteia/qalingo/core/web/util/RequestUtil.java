@@ -800,6 +800,7 @@ public class RequestUtil {
                     // TEST IF THE URL MATCH
                     if (uri.contains(FoUrls.PRODUCT_DETAILS.getUrlPatternKey())) {
                         url = uri;
+                        break;
                     }
                 }
             }

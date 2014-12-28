@@ -126,7 +126,7 @@ public class ProductCommentController extends AbstractMCommerceController {
         final Market currentMarket = requestData.getMarket();
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
-        final Customer customer = requestData.getCustomer();
+        Customer customer = requestData.getCustomer();
         
         //binding form
 //      	bindProductCommentForm(request, customerCommentForm);
@@ -145,11 +145,11 @@ public class ProductCommentController extends AbstractMCommerceController {
                     CreateAccountForm createAccountForm = new CreateAccountForm();
                     createAccountForm.setEmail(customerCommentForm.getEmail());
                     createAccountForm.setLastname(customerCommentForm.getName());
-                    final Customer newCustomer = webManagementService.buildAndSaveQuickNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
+                    customer = webManagementService.buildAndSaveQuickNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
                     // Save the email confirmation
                     webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
                     // Login the new customer
-                    securityRequestUtil.authenticationCustomer(request, newCustomer);
+                    securityRequestUtil.authenticationCustomer(request, customer);
                 } else {
                     // WARNING
                     addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));
@@ -210,12 +210,13 @@ public class ProductCommentController extends AbstractMCommerceController {
             productCustomerComment.setTitle(customerCommentForm.getTitle());
 			productCustomerComment.setProductMarketingId(productMarketing.getId());
 			productCustomerComment.setCustomer(customer);
+            productCustomerComment.setMarketAreaId(currentMarketArea.getId());
 			productService.saveOrUpdateProductMarketingCustomerComment(productCustomerComment);
 		}
 		
 		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "comment_success_message",  locale));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productMarketing);
+		final String urlRedirect = requestUtil.getLastProductDetailsRequestUrl(request);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
