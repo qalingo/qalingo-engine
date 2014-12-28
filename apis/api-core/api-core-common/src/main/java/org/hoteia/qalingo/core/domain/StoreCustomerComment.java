@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -57,8 +58,9 @@ public class StoreCustomerComment extends AbstractEntity {
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
     
-	@Column(name="STORE_ID")
-	private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @JoinColumn(name = "STORE_ID", insertable = true, updatable = true)
+    private Store store;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="STORE_CUSTOMER_COMMENT_ID")
@@ -123,12 +125,12 @@ public class StoreCustomerComment extends AbstractEntity {
         this.marketAreaId = marketAreaId;
     }
 
-	public Long getStoreId() {
-	    return storeId;
+	public Store getStore() {
+        return store;
     }
 	
-	public void setStoreId(Long storeId) {
-	    this.storeId = storeId;
+	public void setStore(Store store) {
+        this.store = store;
     }
 
 	public Set<StoreCustomerComment> getCustomerComments() {
@@ -161,7 +163,7 @@ public class StoreCustomerComment extends AbstractEntity {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((storeId == null) ? 0 : storeId.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
         return result;
     }
 
@@ -184,17 +186,12 @@ public class StoreCustomerComment extends AbstractEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (storeId == null) {
-            if (other.storeId != null)
-                return false;
-        } else if (!storeId.equals(other.storeId))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "StoreCustomerComment [id=" + id + ", comment=" + comment + ", storeCustomerCommentId=" + storeCustomerCommentId + ", storeId=" + storeId + ", dateCreate=" + dateCreate
+        return "StoreCustomerComment [id=" + id + ", comment=" + comment + ", storeCustomerCommentId=" + storeCustomerCommentId + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
 

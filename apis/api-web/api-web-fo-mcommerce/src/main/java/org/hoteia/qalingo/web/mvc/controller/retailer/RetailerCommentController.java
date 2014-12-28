@@ -189,7 +189,7 @@ public class RetailerCommentController extends AbstractMCommerceController {
 		if (StringUtils.isNotEmpty(customerCommentForm.getComment())) {
 			RetailerCustomerComment retailerCustomerComment = new RetailerCustomerComment();
 			retailerCustomerComment.setComment(customerCommentForm.getComment());
-			retailerCustomerComment.setRetailerId(retailer.getId());
+			retailerCustomerComment.setRetailer(retailer);
 			retailerCustomerComment.setCustomer(customer);
 			retailerService.saveOrUpdateRetailerCustomerComment(retailerCustomerComment);
 		}

@@ -168,12 +168,12 @@ public class BrandCommentController extends AbstractMCommerceController {
             return displayProductCommentForm(request, brandCode, model, customerCommentForm);
         }
 
-        final ProductBrand productMarketing = productService.getProductBrandByCode(brandCode);
+        final ProductBrand productBrand = productService.getProductBrandByCode(brandCode);
 
         if (qualityOfService != 0) {
             ProductBrandCustomerRate productCustomerRate = new ProductBrandCustomerRate();
             productCustomerRate.setRate(qualityOfService);
-            productCustomerRate.setProductBrandId(productMarketing.getId());
+            productCustomerRate.setProductBrandId(productBrand.getId());
             productCustomerRate.setCustomerId(customer.getId());
             productCustomerRate.setType(Constants.PRODUCT_QUALITY_RATING_TYPE);
             productService.saveOrUpdateProductBrandCustomerRate(productCustomerRate);
@@ -182,7 +182,7 @@ public class BrandCommentController extends AbstractMCommerceController {
         if (ratioQualityPrice != 0) {
             ProductBrandCustomerRate productCustomerRate = new ProductBrandCustomerRate();
             productCustomerRate.setRate(ratioQualityPrice);
-            productCustomerRate.setProductBrandId(productMarketing.getId());
+            productCustomerRate.setProductBrandId(productBrand.getId());
             productCustomerRate.setCustomerId(customer.getId());
             productCustomerRate.setType(Constants.PRODUCT_PRICE_RATING_TYPE);
             productService.saveOrUpdateProductBrandCustomerRate(productCustomerRate);
@@ -191,7 +191,7 @@ public class BrandCommentController extends AbstractMCommerceController {
         if (priceScore != 0) {
             ProductBrandCustomerRate productCustomerRate = new ProductBrandCustomerRate();
             productCustomerRate.setRate(priceScore);
-            productCustomerRate.setProductBrandId(productMarketing.getId());
+            productCustomerRate.setProductBrandId(productBrand.getId());
             productCustomerRate.setCustomerId(customer.getId());
             productCustomerRate.setType(Constants.PRODUCT_VALUE_RATING_TYPE);
             productService.saveOrUpdateProductBrandCustomerRate(productCustomerRate);
@@ -201,7 +201,7 @@ public class BrandCommentController extends AbstractMCommerceController {
             ProductBrandCustomerComment productCustomerComment = new ProductBrandCustomerComment();
             productCustomerComment.setComment(customerCommentForm.getComment());
             productCustomerComment.setTitle(customerCommentForm.getTitle());
-            productCustomerComment.setProductBrandId(productMarketing.getId());
+            productCustomerComment.setProductBrand(productBrand);
             productCustomerComment.setCustomer(customer);
             productCustomerComment.setMarketAreaId(currentMarketArea.getId());
             productService.saveOrUpdateProductBrandCustomerComment(productCustomerComment);

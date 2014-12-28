@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -57,8 +58,9 @@ public class ProductMarketingCustomerComment extends AbstractEntity {
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
 
-    @Column(name="PRODUCT_MARKETING_ID")
-    private Long productMarketingId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
+    private ProductMarketing productMarketing;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_CUSTOMER_COMMENT_ID")
@@ -123,12 +125,12 @@ public class ProductMarketingCustomerComment extends AbstractEntity {
         this.marketAreaId = marketAreaId;
     }
 
-	public Long getProductMarketingId() {
-        return productMarketingId;
+	public ProductMarketing getProductMarketing() {
+        return productMarketing;
     }
 	
-	public void setProductMarketingId(Long productMarketingId) {
-        this.productMarketingId = productMarketingId;
+	public void setProductMarketing(ProductMarketing productMarketing) {
+        this.productMarketing = productMarketing;
     }
 	
 	public Set<ProductMarketingCustomerComment> getCustomerComments() {
@@ -195,7 +197,7 @@ public class ProductMarketingCustomerComment extends AbstractEntity {
     @Override
     public String toString() {
         return "ProductMarketingCustomerComment [id=" + id + ", comment=" + comment + ", productMarketingCustomerCommentId=" + productMarketingCustomerCommentId + ", marketAreaId=" + marketAreaId
-                + ", productMarketingId=" + productMarketingId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

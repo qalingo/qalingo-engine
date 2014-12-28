@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -57,8 +58,9 @@ public class RetailerCustomerComment extends AbstractEntity {
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
     
-	@Column(name="RETAILER_ID")
-	private Long retailerId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
+    @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
+    private Retailer retailer;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_CUSTOMER_COMMENT_ID")
@@ -123,12 +125,12 @@ public class RetailerCustomerComment extends AbstractEntity {
         this.marketAreaId = marketAreaId;
     }
 
-	public Long getRetailerId() {
-	    return retailerId;
+	public Retailer getRetailer() {
+        return retailer;
     }
 	
-	public void setRetailerId(Long retailerId) {
-	    this.retailerId = retailerId;
+	public void setRetailer(Retailer retailer) {
+        this.retailer = retailer;
     }
 
 	public Set<RetailerCustomerComment> getCustomerComments() {
@@ -161,7 +163,7 @@ public class RetailerCustomerComment extends AbstractEntity {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
         return result;
     }
 
@@ -184,17 +186,12 @@ public class RetailerCustomerComment extends AbstractEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (retailerId == null) {
-            if (other.retailerId != null)
-                return false;
-        } else if (!retailerId.equals(other.retailerId))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "RetailerCustomerComment [id=" + id + ", comment=" + comment + ", retailerCustomerCommentId=" + retailerCustomerCommentId + ", retailerId=" + retailerId + ", dateCreate=" + dateCreate
+        return "RetailerCustomerComment [id=" + id + ", comment=" + comment + ", retailerCustomerCommentId=" + retailerCustomerCommentId + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
 

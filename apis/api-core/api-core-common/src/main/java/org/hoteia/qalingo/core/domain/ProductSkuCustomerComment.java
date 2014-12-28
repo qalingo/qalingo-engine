@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -57,8 +58,9 @@ public class ProductSkuCustomerComment extends AbstractEntity {
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
 
-    @Column(name="PRODUCT_MARKETING_ID")
-    private Long productMarketingId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = true, updatable = true)
+    private ProductSku productSku;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuCustomerComment.class)
     @JoinColumn(name="PRODUCT_SKU_CUSTOMER_COMMENT_ID")
@@ -123,12 +125,12 @@ public class ProductSkuCustomerComment extends AbstractEntity {
         this.marketAreaId = marketAreaId;
     }
 
-	public Long getProductMarketingId() {
-        return productMarketingId;
+	public ProductSku getProductSku() {
+        return productSku;
     }
 	
-	public void setProductMarketingId(Long productMarketingId) {
-        this.productMarketingId = productMarketingId;
+	public void setProductSku(ProductSku productSku) {
+        this.productSku = productSku;
     }
 	
 	public Set<ProductSkuCustomerComment> getCustomerComments() {
@@ -195,7 +197,7 @@ public class ProductSkuCustomerComment extends AbstractEntity {
     @Override
     public String toString() {
         return "ProductMarketingCustomerComment [id=" + id + ", comment=" + comment + ", productSkuCustomerCommentId=" + productSkuCustomerCommentId + ", marketAreaId=" + marketAreaId
-                + ", productMarketingId=" + productMarketingId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

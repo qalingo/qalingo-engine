@@ -131,14 +131,14 @@ public class StoreCommentController extends AbstractMCommerceController {
 	}
 
 	@RequestMapping(value = FoUrls.STORE_COMMENT_URL, method = RequestMethod.POST)
-	public ModelAndView submitStoreComment(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String retailerCode,
+	public ModelAndView submitStoreComment(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode,
 											  @Valid @ModelAttribute("customerCommentForm") CustomerCommentForm customerCommentForm,
 								BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 		
 		if (result.hasErrors()) {
-			return displayCustomerCommentForm(request, retailerCode, model, customerCommentForm);
+			return displayCustomerCommentForm(request, storeCode, model, customerCommentForm);
 		}
 		
         int qualityOfService = customerCommentForm.getQualityOfService();
@@ -151,16 +151,16 @@ public class StoreCommentController extends AbstractMCommerceController {
 				&& priceScore == 0) {
 			// WARNING
 			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_empty_warning_message",  locale));
-			return displayCustomerCommentForm(request, retailerCode, model, customerCommentForm);
+			return displayCustomerCommentForm(request, storeCode, model, customerCommentForm);
 		}
 		
-		final Store retailer = retailerService.getStoreByCode(retailerCode, new FetchPlan(storeFetchPlans));
+		final Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
 		final Customer customer = requestData.getCustomer();
 		
 		if (qualityOfService != 0) {
 			StoreCustomerRate retailerCustomerRate = new StoreCustomerRate();
 			retailerCustomerRate.setRate(qualityOfService);
-			retailerCustomerRate.setStoreId(retailer.getId());
+			retailerCustomerRate.setStoreId(store.getId());
 			retailerCustomerRate.setCustomerId(customer.getId());
 			retailerCustomerRate.setType("QUALITY_OF_SERVICE");
 			retailerService.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
@@ -169,7 +169,7 @@ public class StoreCommentController extends AbstractMCommerceController {
 		if (ratioQualityPrice != 0) {
 			StoreCustomerRate retailerCustomerRate = new StoreCustomerRate();
 			retailerCustomerRate.setRate(ratioQualityPrice);
-			retailerCustomerRate.setStoreId(retailer.getId());
+			retailerCustomerRate.setStoreId(store.getId());
 			retailerCustomerRate.setCustomerId(customer.getId());
 			retailerCustomerRate.setType("RATIO_QUALITY_PRICE");
 			retailerService.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
@@ -178,7 +178,7 @@ public class StoreCommentController extends AbstractMCommerceController {
 		if (priceScore != 0) {
 			StoreCustomerRate retailerCustomerRate = new StoreCustomerRate();
 			retailerCustomerRate.setRate(priceScore);
-			retailerCustomerRate.setStoreId(retailer.getId());
+			retailerCustomerRate.setStoreId(store.getId());
 			retailerCustomerRate.setCustomerId(customer.getId());
 			retailerCustomerRate.setType("PRICE_SCORE");
 			retailerService.saveOrUpdateStoreCustomerRate(retailerCustomerRate);
@@ -187,14 +187,14 @@ public class StoreCommentController extends AbstractMCommerceController {
 		if (StringUtils.isNotEmpty(customerCommentForm.getComment())) {
 			StoreCustomerComment retailerCustomerComment = new StoreCustomerComment();
 			retailerCustomerComment.setComment(customerCommentForm.getComment());
-			retailerCustomerComment.setStoreId(retailer.getId());
+			retailerCustomerComment.setStore(store);
 			retailerCustomerComment.setCustomer(customer);
 			retailerService.saveOrUpdateStoreCustomerComment(retailerCustomerComment);
 		}
 		
 		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_success_message",  locale));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.STORE_DETAILS, requestUtil.getRequestData(request), retailer);
+		final String urlRedirect = urlService.generateUrl(FoUrls.STORE_DETAILS, requestUtil.getRequestData(request), store);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

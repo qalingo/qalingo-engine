@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -57,8 +58,9 @@ public class ProductBrandCustomerComment extends AbstractEntity {
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
 
-    @Column(name="PRODUCT_BRAND_ID")
-    private Long productBrandId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
+    @JoinColumn(name = "PRODUCT_BRAND_ID", insertable = true, updatable = true)
+    private ProductBrand productBrand;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_CUSTOMER_COMMENT_ID")
@@ -123,12 +125,12 @@ public class ProductBrandCustomerComment extends AbstractEntity {
         this.marketAreaId = marketAreaId;
     }
 
-	public Long getProductBrandId() {
-        return productBrandId;
+	public ProductBrand getProductBrand() {
+        return productBrand;
     }
 	
-	public void setProductBrandId(Long productBrandId) {
-        this.productBrandId = productBrandId;
+	public void setProductBrand(ProductBrand productBrand) {
+        this.productBrand = productBrand;
     }
 	
 	public Set<ProductBrandCustomerComment> getCustomerComments() {
@@ -195,7 +197,7 @@ public class ProductBrandCustomerComment extends AbstractEntity {
     @Override
     public String toString() {
         return "ProductMarketingCustomerComment [id=" + id + ", comment=" + comment + ", productMarketingCustomerCommentId=" + productMarketingCustomerCommentId + ", marketAreaId=" + marketAreaId
-                + ", productBrandId=" + productBrandId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

@@ -205,7 +205,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 			ProductMarketingCustomerComment productCustomerComment = new ProductMarketingCustomerComment();
 			productCustomerComment.setComment(customerCommentForm.getComment());
             productCustomerComment.setTitle(customerCommentForm.getTitle());
-			productCustomerComment.setProductMarketingId(productMarketing.getId());
+			productCustomerComment.setProductMarketing(productMarketing);
 			productCustomerComment.setCustomer(customer);
             productCustomerComment.setMarketAreaId(currentMarketArea.getId());
 			productService.saveOrUpdateProductMarketingCustomerComment(productCustomerComment);

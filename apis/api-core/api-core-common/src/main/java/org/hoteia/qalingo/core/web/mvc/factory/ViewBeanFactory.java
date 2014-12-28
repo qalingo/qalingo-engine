@@ -907,11 +907,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<RetailerCustomerCommentViewBean> buildListViewBeanRetailerCustomerComments(final RequestData requestData, final Retailer retailer, final List<RetailerCustomerComment> customerComments) throws Exception {
+    public List<RetailerCustomerCommentViewBean> buildListViewBeanRetailerCustomerComments(final RequestData requestData, final List<RetailerCustomerComment> customerComments) throws Exception {
         final List<RetailerCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<RetailerCustomerCommentViewBean>();
         for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             RetailerCustomerComment customerComment = (RetailerCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanRetailerCustomerComment(requestData, retailer, customerComment));
+            customerCommentViewBeans.add(buildViewBeanRetailerCustomerComment(requestData, customerComment.getRetailer(), customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -1128,11 +1128,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<StoreCustomerCommentViewBean> buildListViewBeanStoreCustomerComments(final RequestData requestData, final Store store, final List<StoreCustomerComment> customerComments) throws Exception {
+    public List<StoreCustomerCommentViewBean> buildListViewBeanStoreCustomerComments(final RequestData requestData, final List<StoreCustomerComment> customerComments) throws Exception {
         final List<StoreCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<StoreCustomerCommentViewBean>();
         for (Iterator<StoreCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             StoreCustomerComment customerComment = (StoreCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanStoreCustomerComment(requestData, store, customerComment));
+            customerCommentViewBeans.add(buildViewBeanStoreCustomerComment(requestData, customerComment.getStore(), customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -1465,11 +1465,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<ProductBrandCustomerCommentViewBean> buildListViewBeanProductBrandCustomerComments(final RequestData requestData, final ProductBrand productBrand, final List<ProductBrandCustomerComment> customerComments) throws Exception {
+    public List<ProductBrandCustomerCommentViewBean> buildListViewBeanProductBrandCustomerComments(final RequestData requestData, final List<ProductBrandCustomerComment> customerComments) throws Exception {
         final List<ProductBrandCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductBrandCustomerCommentViewBean>();
         for (Iterator<ProductBrandCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             ProductBrandCustomerComment customerComment = (ProductBrandCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanProductBrandCustomerComment(requestData, productBrand, customerComment));
+            customerCommentViewBeans.add(buildViewBeanProductBrandCustomerComment(requestData, customerComment.getProductBrand(), customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -1811,11 +1811,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanProductMarketingCustomerComments(final RequestData requestData, final ProductMarketing productMarketing, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
+    public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanProductMarketingCustomerComments(final RequestData requestData, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
         final List<ProductMarketingCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductMarketingCustomerCommentViewBean>();
         for (Iterator<ProductMarketingCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
             ProductMarketingCustomerComment customerComment = (ProductMarketingCustomerComment) iterator.next();
-            customerCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, productMarketing, customerComment));
+            customerCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, customerComment.getProductMarketing(), customerComment));
         }
         return customerCommentViewBeans;
     }
@@ -1823,7 +1823,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public ProductMarketingCustomerCommentViewBean buildViewBeanProductMarketingCustomerComment(final RequestData requestData, final ProductMarketing productMarketing,final ProductMarketingCustomerComment customerComment) throws Exception {
+    public ProductMarketingCustomerCommentViewBean buildViewBeanProductMarketingCustomerComment(final RequestData requestData, final ProductMarketing productMarketing, final ProductMarketingCustomerComment customerComment) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         

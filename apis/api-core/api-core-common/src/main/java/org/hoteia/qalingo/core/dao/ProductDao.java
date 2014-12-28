@@ -220,7 +220,8 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingId(final Long productMarketingId, Object... params) {
         Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+        criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productMarketing.id", productMarketingId));
         return criteria.list();
     }
     
@@ -228,7 +229,8 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params) {
         Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+        criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productMarketing.id", productMarketingId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
         return criteria.list();
     }
@@ -238,19 +240,21 @@ public class ProductDao extends AbstractGenericDao {
         Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
+        criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId, final String type, Object... params) {
         Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
-        criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+        criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productMarketing.id", productMarketingId));
         criteria.add(Restrictions.eq("type", type));
         return criteria.list();
     }
     
     public Float calculateProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId) {
-        String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId=:productMarketingId";
+        String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId = :productMarketingId";
         Query query = getSession().createQuery(sql);
         query.setLong("productMarketingId", productMarketingId);
         Double value = (Double) query.uniqueResult();
@@ -706,7 +710,8 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandId(final Long productBrandId, Object... params) {
         Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("productBrandId", productBrandId));
+        criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productBrand.id", productBrandId));
         return criteria.list();
     }
     
@@ -714,7 +719,8 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandIdAndMarketAreaId(final Long productBrandId, final Long marketAreaId, Object... params) {
         Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("productBrandId", productBrandId));
+        criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productBrand.id", productBrandId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
         return criteria.list();
     }
@@ -724,13 +730,15 @@ public class ProductDao extends AbstractGenericDao {
         Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
+        criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductBrandCustomerRate> findProductBrandCustomerRatesByProductBrandId(final Long productBrandId, final String type, Object... params) {
         Criteria  criteria = createDefaultCriteria(ProductBrandCustomerRate.class);
-        criteria.add(Restrictions.eq("productBrandId", productBrandId));
+        criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productBrand.id", productBrandId));
         criteria.add(Restrictions.eq("type", type));
         return criteria.list();
     }

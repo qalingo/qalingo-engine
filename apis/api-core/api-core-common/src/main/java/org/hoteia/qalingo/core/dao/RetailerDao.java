@@ -252,7 +252,8 @@ public class RetailerDao extends AbstractGenericDao {
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerId(final Long retailerId, Object... params) {
         Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("retailerId", retailerId));
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("retailer.id", retailerId));
         return criteria.list();
     }
     
@@ -260,7 +261,8 @@ public class RetailerDao extends AbstractGenericDao {
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerIdAndMarketAreaId(final Long retailerId, final Long marketAreaId, Object... params) {
         Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("retailerId", retailerId));
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("retailer.id", retailerId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
         return criteria.list();
     }
@@ -270,13 +272,15 @@ public class RetailerDao extends AbstractGenericDao {
         Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerRate> findRetailerCustomerRatesByRetailerId(final Long retailerId, final String type, Object... params) {
         Criteria  criteria = createDefaultCriteria(RetailerCustomerRate.class);
-        criteria.add(Restrictions.eq("retailerId", retailerId));
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("retailer.id", retailerId));
         criteria.add(Restrictions.eq("type", type));
         return criteria.list();
     }
@@ -492,7 +496,8 @@ public class RetailerDao extends AbstractGenericDao {
     public List<StoreCustomerComment> findStoreCustomerCommentsByStoreId(final Long storeId, Object... params) {
         Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("storeId", storeId));
+        criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("store.id", storeId));
         return criteria.list();
     }
     
@@ -500,7 +505,8 @@ public class RetailerDao extends AbstractGenericDao {
     public List<StoreCustomerComment> findStoreCustomerCommentsByStoreIdAndMarketAreaId(final Long storeId, final Long marketAreaId, Object... params) {
         Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("storeId", storeId));
+        criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("store.id", storeId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
         return criteria.list();
     }
@@ -510,13 +516,15 @@ public class RetailerDao extends AbstractGenericDao {
         Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
+        criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<StoreCustomerRate> findStoreCustomerRatesByStoreId(final Long storeId, final String type, Object... params) {
         Criteria  criteria = createDefaultCriteria(StoreCustomerRate.class);
-        criteria.add(Restrictions.eq("storeId", storeId));
+        criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("store.id", storeId));
         criteria.add(Restrictions.eq("type", type));
         return criteria.list();
     }
