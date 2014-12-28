@@ -218,38 +218,42 @@ public class ProductDao extends AbstractGenericDao {
 	
     @SuppressWarnings("unchecked")
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingId(final Long productMarketingId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("productMarketing.id", productMarketingId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductMarketingIdAndMarketAreaId(final Long productMarketingId, final Long marketAreaId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("productMarketing.id", productMarketingId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByCustomerId(final Long customerId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
         criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId, final String type, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
         criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("productMarketing.id", productMarketingId));
         criteria.add(Restrictions.eq("type", type));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
@@ -708,38 +712,42 @@ public class ProductDao extends AbstractGenericDao {
     
     @SuppressWarnings("unchecked")
     public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandId(final Long productBrandId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("productBrand.id", productBrandId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByProductBrandIdAndMarketAreaId(final Long productBrandId, final Long marketAreaId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("productBrand.id", productBrandId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductBrandCustomerComment> findProductBrandCustomerCommentsByCustomerId(final Long customerId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(ProductBrandCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
         criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<ProductBrandCustomerRate> findProductBrandCustomerRatesByProductBrandId(final Long productBrandId, final String type, Object... params) {
-        Criteria  criteria = createDefaultCriteria(ProductBrandCustomerRate.class);
+        Criteria criteria = createDefaultCriteria(ProductBrandCustomerRate.class);
         criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("productBrand.id", productBrandId));
         criteria.add(Restrictions.eq("type", type));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     

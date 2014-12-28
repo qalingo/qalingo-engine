@@ -250,38 +250,42 @@ public class RetailerDao extends AbstractGenericDao {
 	
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerId(final Long retailerId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(RetailerCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("retailer.id", retailerId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerIdAndMarketAreaId(final Long retailerId, final Long marketAreaId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(RetailerCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("retailer.id", retailerId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByCustomerId(final Long customerId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(RetailerCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(RetailerCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerRate> findRetailerCustomerRatesByRetailerId(final Long retailerId, final String type, Object... params) {
-        Criteria  criteria = createDefaultCriteria(RetailerCustomerRate.class);
+        Criteria criteria = createDefaultCriteria(RetailerCustomerRate.class);
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("retailer.id", retailerId));
         criteria.add(Restrictions.eq("type", type));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
@@ -494,38 +498,42 @@ public class RetailerDao extends AbstractGenericDao {
     
     @SuppressWarnings("unchecked")
     public List<StoreCustomerComment> findStoreCustomerCommentsByStoreId(final Long storeId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(StoreCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("store.id", storeId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<StoreCustomerComment> findStoreCustomerCommentsByStoreIdAndMarketAreaId(final Long storeId, final Long marketAreaId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(StoreCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("store.id", storeId));
         criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<StoreCustomerComment> findStoreCustomerCommentsByCustomerId(final Long customerId, Object... params) {
-        Criteria  criteria = createDefaultCriteria(StoreCustomerComment.class);
+        Criteria criteria = createDefaultCriteria(StoreCustomerComment.class);
         criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("customer.id", customerId));
         criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     
     @SuppressWarnings("unchecked")
     public List<StoreCustomerRate> findStoreCustomerRatesByStoreId(final Long storeId, final String type, Object... params) {
-        Criteria  criteria = createDefaultCriteria(StoreCustomerRate.class);
+        Criteria criteria = createDefaultCriteria(StoreCustomerRate.class);
         criteria.createAlias("store", "store", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("store.id", storeId));
         criteria.add(Restrictions.eq("type", type));
+        criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
     

@@ -601,6 +601,9 @@ public class Customer extends AbstractEntity {
         if (StringUtils.isEmpty(screenName)) {
             screenName = getFirstname();
         }
+        if (StringUtils.isEmpty(screenName)) {
+            screenName = StringUtils.substring(getLastname(), 0, 1).toUpperCase() + ".";
+        }
         return screenName;
     }
 
