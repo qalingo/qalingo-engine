@@ -31,6 +31,7 @@ public enum FoUrls {
     STORE_DETAILS(FoUrls.STORE_DETAILS_URL, FoUrls.STORE_DETAILS_KEY, FoUrls.STORE_DETAILS_VELOCITY_PAGE, true),
     STORE_COMMENT(FoUrls.STORE_COMMENT_URL, FoUrls.STORE_COMMENT_KEY, FoUrls.STORE_COMMENT_FORM_VELOCITY_PAGE, true),
     STORE_VOTE(FoUrls.STORE_VOTE_URL, FoUrls.STORE_COMMENT_KEY, FoUrls.STORE_COMMENT_FORM_VELOCITY_PAGE, true),
+    STORE_CONTACT(FoUrls.STORE_CONTACT_URL, FoUrls.STORE_CONTACT_KEY, FoUrls.STORE_CONTACT_FORM_VELOCITY_PAGE, true),
 
     CATALOG_SEARCH(FoUrls.CATALOG_SEARCH_URL, FoUrls.CATALOG_SEARCH_KEY, FoUrls.CATALOG_SEARCH_VELOCITY_PAGE, true),
     STORE_SEARCH(FoUrls.STORE_SEARCH_URL, FoUrls.STORE_SEARCH_KEY, FoUrls.STORE_SEARCH_VELOCITY_PAGE, true),
@@ -162,7 +163,12 @@ public enum FoUrls {
     public static final String STORE_COMMENT_KEY                 = "store-comment";
     public static final String STORE_COMMENT_URL                 = "/**/store-comment-{" + RequestConstants.URL_PATTERN_STORE_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String STORE_COMMENT_FORM_VELOCITY_PAGE  = "store/retailer-comment";
-    public static final String STORE_VOTE_URL                    = "/**/store-vote-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String STORE_VOTE_URL                    = "/**/store-vote-{" + RequestConstants.URL_PATTERN_STORE_CODE + ":[a-zA-Z0-9-]+}.html";
+
+    public static final String STORE_CONTACT_KEY                     = "store-contact";
+    public static final String STORE_CONTACT_URL                     = "/**/store-contact-{" + RequestConstants.URL_PATTERN_STORE_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String STORE_CONTACT_FORM_VELOCITY_PAGE      = "store/store-contact";
+    public static final String STORE_CONTACT_SUCCESS_VELOCITY_PAGE   = "retailer/store-contact-succes";
 
 	public static final String NEWSLETTER_REGISTER_KEY				= "newsletter-register";
 	public static final String NEWSLETTER_REGISTER_URL				= "/**/newsletter-register.html";

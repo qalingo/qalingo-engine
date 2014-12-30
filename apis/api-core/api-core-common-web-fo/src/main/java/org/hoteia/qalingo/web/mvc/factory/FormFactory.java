@@ -32,7 +32,7 @@ import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerCommentForm;
 import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
-import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
+import org.hoteia.qalingo.web.mvc.form.CustomerContactForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -208,9 +208,9 @@ public class FormFactory {
         return customerCommentForm;
     }
     
-    public RetailerContactForm buildRetailerContactForm(final RequestData requestData, final Retailer retailer) throws Exception {
-        final RetailerContactForm retailerContactForm = new RetailerContactForm();
-        retailerContactForm.setRetailerCode(retailer.getCode());
+    public CustomerContactForm buildCustomerContactForm(final RequestData requestData, final String objectCode) throws Exception {
+        final CustomerContactForm retailerContactForm = new CustomerContactForm();
+        retailerContactForm.setObjectCode(objectCode);
         
         String languageCode = requestData.getMarketAreaLocalization().getCode();
         if(languageCode.equals("en")) {

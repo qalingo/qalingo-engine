@@ -18,14 +18,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class RetailerContactForm implements Serializable {
+public class CustomerContactForm implements Serializable {
 	
     /**
      * 
      */
     private static final long serialVersionUID = -5080063193236038472L;
 
-	private String retailerCode;
+	private String objectCode;
     
     private String lastname;
     private String firstname;
@@ -38,12 +38,12 @@ public class RetailerContactForm implements Serializable {
     private String subject;
     private String message;
     
-    public String getRetailerCode() {
-	    return retailerCode;
+    public String getObjectCode() {
+        return objectCode;
     }
     
-    public void setRetailerCode(String retailerCode) {
-	    this.retailerCode = retailerCode;
+    public void setObjectCode(String objectCode) {
+        this.objectCode = objectCode;
     }
     
 	public String getLastname() {
@@ -155,7 +155,7 @@ public class RetailerContactForm implements Serializable {
 		    return false;
 	    if (getClass() != obj.getClass())
 		    return false;
-	    RetailerContactForm other = (RetailerContactForm) obj;
+	    CustomerContactForm other = (CustomerContactForm) obj;
 	    if (country == null) {
 		    if (other.country != null)
 			    return false;

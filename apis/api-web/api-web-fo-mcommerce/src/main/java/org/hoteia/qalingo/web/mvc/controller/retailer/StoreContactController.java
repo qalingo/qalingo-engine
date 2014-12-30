@@ -18,14 +18,14 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.Retailer_;
+import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -44,44 +44,35 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("retailerContactController")
-public class RetailerContactController extends AbstractMCommerceController {
+@Controller("storeContactController")
+public class StoreContactController extends AbstractMCommerceController {
 
 	@Autowired
 	protected RetailerService retailerService;
 	
-    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
 
-    public RetailerContactController() {
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
-        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+    public StoreContactController() {
+        storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
     }
-        
-	@RequestMapping(value = FoUrls.RETAILER_CONTACT_URL, method = RequestMethod.GET)
-	public ModelAndView displayContactForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode,
-										   Model model, @ModelAttribute("customerContactForm") CustomerContactForm customerContactForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RETAILER_CONTACT.getVelocityPage());
+
+	@RequestMapping(value = FoUrls.STORE_CONTACT_URL, method = RequestMethod.GET)
+	public ModelAndView displayContactForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode,
+										   Model model, @ModelAttribute(ModelConstants.CUSTOMER_COMMENT_FORM) CustomerContactForm customerContactForm) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_CONTACT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 		
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
-		Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
+		Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
 
-		// SANITY CHECK
-		if(retailer.getDefaultAddress() == null
-				|| StringUtils.isEmpty(retailer.getDefaultAddress().getEmail())){
-			final String url = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), retailer);
-	        return new ModelAndView(new RedirectView(url));
-		}
-
-		RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
-		model.addAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
+		StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
+		model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
 		
 		if(customerContactForm == null 
         		|| customerContactForm.equals(new CustomerContactForm())){
-			customerContactForm = formFactory.buildCustomerContactForm(requestData, retailer.getCode());
+			customerContactForm = formFactory.buildCustomerContactForm(requestData, store.getCode());
 			model.addAttribute("customerContactForm", customerContactForm);
 		}
 		
@@ -91,17 +82,17 @@ public class RetailerContactController extends AbstractMCommerceController {
 	}
 
 	@RequestMapping(value = FoUrls.RETAILER_CONTACT_URL, method = RequestMethod.POST)
-	public ModelAndView submitContact(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode,
+	public ModelAndView submitContact(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String storeCode,
 									  @Valid @ModelAttribute("customerContactForm") CustomerContactForm customerContactForm,
 								BindingResult result, Model model) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RETAILER_CONTACT_SUCCESS_VELOCITY_PAGE);
 
 		if (result.hasErrors()) {
-			return displayContactForm(request, retailerCode, model, customerContactForm);
+			return displayContactForm(request, storeCode, model, customerContactForm);
 		}
 
-		webManagementService.buildAndSaveRetailerContactMail(requestUtil.getRequestData(request), customerContactForm);
+		webManagementService.buildAndSaveStoreContactMail(requestUtil.getRequestData(request), customerContactForm);
 
         return modelAndView;
 	}

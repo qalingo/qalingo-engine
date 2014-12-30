@@ -120,6 +120,8 @@ public class UrlService extends AbstractUrlService {
 
     @SuppressWarnings("unchecked")
     public String generateUrl(final String urlWithoutWildcard, final boolean isSEO, final RequestData requestData, Object... params) {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
         String urlStr = null;
         Map<String, String> getParams = new HashMap<String, String>();
         Map<String, String> urlParams = new HashMap<String, String>();
@@ -131,7 +133,7 @@ public class UrlService extends AbstractUrlService {
                     if (param instanceof Retailer) {
                         Retailer retailer = (Retailer) param;
                         urlParams.put(RequestConstants.URL_PATTERN_RETAILER_CODE, handleParamValue(retailer.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(retailer.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(retailer.getI18nName(localizationCode)) + "/";
                     } else if (param instanceof ProductSku) {
                         ProductSku productSku = (ProductSku) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE, handleParamValue(productSku.getCode()));
@@ -139,25 +141,26 @@ public class UrlService extends AbstractUrlService {
                     } else if (param instanceof ProductMarketing) {
                         ProductMarketing productMarketing = (ProductMarketing) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productMarketing.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productMarketing.getI18nName(localizationCode)) + "/";
                     } else if (param instanceof CatalogCategoryVirtual) {
                         CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getI18nName(localizationCode)) + "/";
                     } else if (param instanceof CatalogCategoryMaster) {
                         CatalogCategoryMaster category = (CatalogCategoryMaster) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getI18nName(localizationCode)) + "/";
                     } else if (param instanceof ProductBrand) {
                         ProductBrand productBrand = (ProductBrand) param;
                         urlParams.put(RequestConstants.URL_PATTERN_BRAND_CODE, handleParamValue(productBrand.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productBrand.getName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productBrand.getI18nName(localizationCode)) + "/";
                     } else if (param instanceof CartItem) {
                         CartItem cartItem = (CartItem) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CART_ITEM_CODE, handleParamValue(cartItem.getId().toString()));
                     }  else if (param instanceof Store) {
                         Store store = (Store) param;
                         urlParams.put(RequestConstants.URL_PATTERN_STORE_CODE, handleParamValue(store.getCode().toString()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(store.getI18nName(localizationCode)) + "/";
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
                     } else {

@@ -171,6 +171,7 @@ public class ModelConstants {
     public static final String SEARCH_FORM                      = "searchForm";
     public static final String BACKOFFICE_CREATE_ACCOUNT_FORM   = "createAccountForm";
 
+    public static final String CUSTOMER_CONTACT_FORM             = "customerContactForm";
     public static final String CUSTOMER_COMMENT_FORM             = "customerCommentForm";
 
     // AUTH

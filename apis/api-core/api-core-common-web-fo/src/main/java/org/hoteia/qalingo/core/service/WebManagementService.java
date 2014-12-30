@@ -59,7 +59,7 @@ import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
-import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
+import org.hoteia.qalingo.web.mvc.form.CustomerContactForm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -426,16 +426,36 @@ public class WebManagementService {
     /**
      * 
      */
-    public void buildAndSaveRetailerContactMail(final RequestData requestData, final RetailerContactForm retailerContactForm) throws Exception {
+    public void buildAndSaveRetailerContactMail(final RequestData requestData, final CustomerContactForm customerContactForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
 
         final List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
-        final Retailer retailerToContact = retailerService.getRetailerByCode(retailerContactForm.getRetailerCode(), new FetchPlan(retailerFetchPlans));
+        final Retailer retailerToContact = retailerService.getRetailerByCode(customerContactForm.getObjectCode(), new FetchPlan(retailerFetchPlans));
         
         final RetailerContactEmailBean retailerContactEmailBean = new RetailerContactEmailBean();
-        BeanUtils.copyProperties(retailerContactForm, retailerContactEmailBean);
+        BeanUtils.copyProperties(customerContactForm, retailerContactEmailBean);
+        retailerContactEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
+        retailerContactEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
+        retailerContactEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
+        retailerContactEmailBean.setToEmail(retailerToContact.getDefaultAddress().getEmail());
+        
+        buildAndSaveRetailerContactMail(requestData, retailerToContact, retailerContactEmailBean);
+    }
+    
+    /**
+     * 
+     */
+    public void buildAndSaveStoreContactMail(final RequestData requestData, final CustomerContactForm customerContactForm) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final String contextNameValue = requestData.getContextNameValue();
+
+        final List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
+        final Retailer retailerToContact = retailerService.getRetailerByCode(customerContactForm.getObjectCode(), new FetchPlan(storeFetchPlans));
+        
+        final RetailerContactEmailBean retailerContactEmailBean = new RetailerContactEmailBean();
+        BeanUtils.copyProperties(customerContactForm, retailerContactEmailBean);
         retailerContactEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
         retailerContactEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
         retailerContactEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RETAILER_CONTACT));
