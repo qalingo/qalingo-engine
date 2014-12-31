@@ -27,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -93,6 +94,10 @@ public class Retailer extends AbstractExtendEntity {
     @Column(name = "RATIO_QUALITY_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private int ratioQualityPrice;
 
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Company.class)
+    @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
+    private Company company;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<Warehouse> warehouses = new HashSet<Warehouse>();
@@ -256,6 +261,14 @@ public class Retailer extends AbstractExtendEntity {
         this.ratioQualityPrice = ratioQualityPrice;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+    
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+    
     public Warehouse getDefaultWarehouse() {
         if(warehouses != null
                 && Hibernate.isInitialized(warehouses)

@@ -64,6 +64,7 @@ public class RetailerController extends AbstractMCommerceController {
 	    retailerFetchPlans.add(new SpecificFetchMode(Retailer_.assets.getName()));
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+        retailerFetchPlans.add(new SpecificFetchMode(Retailer_.company.getName()));
         
         storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
         storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));

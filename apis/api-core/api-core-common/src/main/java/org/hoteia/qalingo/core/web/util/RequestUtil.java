@@ -808,6 +808,13 @@ public class RequestUtil {
     /**
      * 
      */
+    public String getLastRetailerDetailsRequestUrl(final HttpServletRequest request) throws Exception {
+        return getLastSpecificRequestUrl(request, FoUrls.RETAILER_DETAILS.getUrlPatternKey());
+    }
+    
+    /**
+     * 
+     */
     protected String getLastSpecificRequestUrl(final HttpServletRequest request, String pattern) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);

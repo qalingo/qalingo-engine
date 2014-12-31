@@ -18,6 +18,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserGroup;
@@ -80,6 +81,18 @@ public class UserDao extends AbstractGenericDao {
     public List<User> findUsers(Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
         handleSpecificFetchMode(criteria, params);
+        criteria.addOrder(Order.asc("lastname"));
+        criteria.addOrder(Order.asc("firstname"));
+        @SuppressWarnings("unchecked")
+        List<User> users = criteria.list();
+        return users;
+    }
+    
+    public List<User> findUsersByCompanyId(final Long companyId, Object... params) {
+        Criteria criteria = createDefaultCriteria(User.class);
+        handleSpecificFetchMode(criteria, params);
+        criteria.createAlias("company", "company", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("company.id", companyId));
         criteria.addOrder(Order.asc("lastname"));
         criteria.addOrder(Order.asc("firstname"));
         @SuppressWarnings("unchecked")

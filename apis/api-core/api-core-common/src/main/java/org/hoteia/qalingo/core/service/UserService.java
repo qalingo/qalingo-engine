@@ -58,6 +58,10 @@ public class UserService {
 		return userDao.findUsers(params);
 	}
 
+    public List<User> findUsersByCompanyId(final Long companyId, Object... params) {
+        return userDao.findUsersByCompanyId(companyId, params);
+    }
+    
 	public User saveOrUpdateUser(User user) {
 	    return userDao.saveOrUpdateUser(user);
 	}
