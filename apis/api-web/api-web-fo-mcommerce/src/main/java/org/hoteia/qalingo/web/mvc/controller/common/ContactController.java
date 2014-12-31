@@ -45,7 +45,7 @@ public class ContactController extends AbstractMCommerceController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping(value = FoUrls.CONTACT_URL, method = RequestMethod.GET)
-	public ModelAndView displayContactForm(final HttpServletRequest request, Model model, @ModelAttribute("contactForm") ContactForm contactForm) throws Exception {
+	public ModelAndView displayContactForm(final HttpServletRequest request, Model model, @ModelAttribute(ModelConstants.CONTACT_FORM) ContactForm contactForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTACT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
@@ -61,7 +61,7 @@ public class ContactController extends AbstractMCommerceController {
 	}
 
 	@RequestMapping(value = FoUrls.CONTACT_URL, method = RequestMethod.POST)
-	public ModelAndView submitContact(final HttpServletRequest request, @Valid @ModelAttribute("contactForm") ContactForm contactForm,
+	public ModelAndView submitContact(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.CONTACT_FORM) ContactForm contactForm,
 								      BindingResult result, Model model) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-success");

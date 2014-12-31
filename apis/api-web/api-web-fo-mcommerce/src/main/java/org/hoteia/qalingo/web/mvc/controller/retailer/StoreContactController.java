@@ -81,7 +81,7 @@ public class StoreContactController extends AbstractMCommerceController {
         return modelAndView;
 	}
 
-	@RequestMapping(value = FoUrls.RETAILER_CONTACT_URL, method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.STORE_CONTACT_URL, method = RequestMethod.POST)
 	public ModelAndView submitContact(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String storeCode,
 									  @Valid @ModelAttribute("customerContactForm") CustomerContactForm customerContactForm,
 								BindingResult result, Model model) throws Exception {
