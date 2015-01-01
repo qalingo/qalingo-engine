@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
@@ -63,8 +64,10 @@ public class ContactController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.CONTACT_URL, method = RequestMethod.POST)
 	public ModelAndView submitContact(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.CONTACT_FORM) ContactForm contactForm,
 								      BindingResult result, Model model) throws Exception {
-		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-success");
+
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 
 		if (result.hasErrors()) {
 			return displayContactForm(request, model, contactForm);
@@ -77,9 +80,11 @@ public class ContactController extends AbstractMCommerceController {
 	        
         } catch (Exception e) {
         	logger.error("Can't send contact email!", e);
-	        displayContactForm(request, model, contactForm);
+        	return displayContactForm(request, model, contactForm);
         }
-		
+
+        addSuccessMessage(request, getCommonMessage(ScopeCommonMessage.CONTACT, "form_success_message", locale));
+
         return modelAndView;
 	}
 	
