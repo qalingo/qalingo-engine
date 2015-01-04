@@ -49,13 +49,13 @@ public class ContextRestService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
-    private MarketPojoService marketPojoService;
+    protected MarketPojoService marketPojoService;
 
     @Autowired
-    private RetailerPojoService retailerPojoService;
+    protected RetailerPojoService retailerPojoService;
 
     @Autowired
-    private LocalizationPojoService localizationPojoService;
+    protected LocalizationPojoService localizationPojoService;
     
     @GET
     @Path("geoloc")

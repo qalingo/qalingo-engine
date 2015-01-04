@@ -44,13 +44,13 @@ import org.springframework.stereotype.Component;
 public class CustomerRestService {
 
     @Autowired
-    private MarketService marketService;
+    protected MarketService marketService;
     
     @Autowired
-    private CustomerService customerService;
+    protected CustomerService customerService;
     
     @Autowired
-    private CustomerPojoService customerPojoService;
+    protected CustomerPojoService customerPojoService;
 
     @GET
     @Path("account")

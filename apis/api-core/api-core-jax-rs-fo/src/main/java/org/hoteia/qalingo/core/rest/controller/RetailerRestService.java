@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 public class RetailerRestService {
 
     @Autowired
-    private RetailerPojoService retailerService;
+    protected RetailerPojoService retailerService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -50,16 +50,16 @@ public class CartRestService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
-    private MarketService marketService;
+    protected MarketService marketService;
     
     @Autowired
-    private CartService cartService;
+    protected CartService cartService;
     
     @Autowired
-    private CustomerService customerService;
+    protected CustomerService customerService;
     
     @Autowired
-    private CheckoutPojoService checkoutPojoService;
+    protected CheckoutPojoService checkoutPojoService;
     
     @GET
     @Consumes(MediaType.APPLICATION_JSON)

@@ -41,16 +41,16 @@ public class CheckoutRestService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
-    private MarketService marketService;
+    protected MarketService marketService;
     
     @Autowired
-    private CustomerService customerService;
+    protected CustomerService customerService;
     
     @Autowired
-    private CartService cartService;
+    protected CartService cartService;
     
     @Autowired
-    private CheckoutService checkoutService;
+    protected CheckoutService checkoutService;
     
     @POST
     @Path("process-payment")

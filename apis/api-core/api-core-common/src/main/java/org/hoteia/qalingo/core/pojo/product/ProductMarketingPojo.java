@@ -121,6 +121,13 @@ public class ProductMarketingPojo {
     public void setProductBrand(ProductBrandPojo productBrand) {
         this.productBrand = productBrand;
     }
+    
+    public String getProductBrandName(){
+        if(productBrand != null){
+            return productBrand.getName();
+        }
+        return "";
+    }
 
     public ProductMarketingTypePojo getProductMarketingType() {
         return productMarketingType;

@@ -155,8 +155,8 @@ public class ProductMarketingController extends AbstractBusinessBackofficeContro
         }
 
         try {
-            // CREATE OR UPDATE WAREHOUSE
-            webBackofficeService.createOrUpdateProductMarketing(productMarketing, productMarketingForm);
+            // CREATE OR UPDATE PRODUCT MARKETING
+            productMarketing = webBackofficeService.createOrUpdateProductMarketing(productMarketing, productMarketingForm);
             
             if (productMarketing == null) {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "create_success_message", locale));

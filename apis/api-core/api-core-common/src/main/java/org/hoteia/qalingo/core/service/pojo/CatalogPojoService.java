@@ -104,12 +104,6 @@ public class CatalogPojoService {
         return catalogCategoryPojo;
     }
     
-    public List<ProductMarketingPojo> getProductMarketingsByCategoryCode(final String catalogCode, final String categoryCode) {
-        final List<ProductMarketing> productMarketings = productService.findProductMarketingsByVirtualCatalogCategoryCode(catalogCode, categoryCode);
-        logger.debug("Found {} productMarketings", productMarketings.size());
-        return PojoUtil.mapAll(dozerBeanMapper, productMarketings, ProductMarketingPojo.class);
-    }
-    
     public ProductMarketingPojo getProductMarketing(final String productMarketingCode) {
         final ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
         return buildProductMarketing(productMarketing);
@@ -119,6 +113,16 @@ public class CatalogPojoService {
         final ProductMarketingPojo productMarketingPojo = dozerBeanMapper.map(productMarketing, ProductMarketingPojo.class);
         logger.debug("Load {} product marketing", productMarketing.getCode());
         return productMarketingPojo;
+    }
+    
+    public List<ProductMarketingPojo> getProductMarketingsByCategoryCode(final String catalogCode, final String categoryCode) {
+        final List<ProductMarketing> productMarketings = productService.findProductMarketingsByVirtualCatalogCategoryCode(catalogCode, categoryCode);
+        logger.debug("Found {} productMarketings", productMarketings.size());
+        return PojoUtil.mapAll(dozerBeanMapper, productMarketings, ProductMarketingPojo.class);
+    }
+    
+    public List<ProductMarketingPojo> buildProductMarketings(final List<ProductMarketing> productMarketings) {
+        return PojoUtil.mapAll(dozerBeanMapper, productMarketings, ProductMarketingPojo.class);
     }
     
     public List<ProductSkuPojo> getProductSkusByProductMarketingCode(final String productMarketingCode) {

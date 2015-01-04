@@ -35,7 +35,7 @@ import org.springframework.stereotype.Component;
 public class CatalogRestService {
 
     @Autowired
-    private CatalogPojoService catalogService;
+    protected CatalogPojoService catalogService;
 
     @GET
     @Path("virtual")

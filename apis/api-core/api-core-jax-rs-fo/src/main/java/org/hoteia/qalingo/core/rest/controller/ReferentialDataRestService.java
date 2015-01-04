@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 public class ReferentialDataRestService {
 
     @Autowired
-    private ReferentialDataPojoService referentialDataService;
+    protected ReferentialDataPojoService referentialDataService;
 
     @GET
     @Path("title/list/{locale}")

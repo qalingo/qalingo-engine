@@ -380,6 +380,23 @@ CREATE TABLE `tbo_user_group_rel` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbo_user_token_auth`
+--
+
+DROP TABLE IF EXISTS `tbo_user_token_auth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbo_user_token_auth` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `TOKEN` varchar(255) DEFAULT NULL,
+  `USER_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_asset`
 --
 
@@ -1098,28 +1115,6 @@ CREATE TABLE `teco_customer_payment_information` (
   PRIMARY KEY (`ID`),
   KEY `FK8F95F0B4E42F1AAE` (`CUSTOMER_ID`),
   CONSTRAINT `FK8F95F0B4E42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_customer_product_comment`
---
-
-DROP TABLE IF EXISTS `teco_customer_product_comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_customer_product_comment` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `COMMENT` varchar(255) DEFAULT NULL,
-  `CUSTOMER_MARKET_AREA_ID` bigint(20) DEFAULT NULL,
-  `DATE_CREATE` datetime DEFAULT NULL,
-  `DATE_UPDATE` datetime DEFAULT NULL,
-  `POSITION` int(11) NOT NULL DEFAULT '0',
-  `PRODUCT_SKU_CODE` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`ID`),
-  KEY `FK541417D0354CF5A6` (`CUSTOMER_MARKET_AREA_ID`),
-  CONSTRAINT `FK541417D0354CF5A6` FOREIGN KEY (`CUSTOMER_MARKET_AREA_ID`) REFERENCES `teco_customer_market_area` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2102,7 +2097,6 @@ CREATE TABLE `teco_product_brand_customer_comment` (
   `DATE_UPDATE` datetime DEFAULT NULL,
   `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
-  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_BRAND_ID` bigint(20) DEFAULT NULL,
@@ -2255,12 +2249,12 @@ CREATE TABLE `teco_product_marketing_customer_comment` (
   `DATE_UPDATE` datetime DEFAULT NULL,
   `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
-  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `FK9CD2FE49820B6ACF` (`PRODUCT_MARKETING_ID`),
   KEY `FK9CD2FE494CEA4489` (`PRODUCT_MARKETING_CUSTOMER_COMMENT_ID`),
+  KEY `FK9CD2FE49820B6ACF` (`PRODUCT_MARKETING_ID`),
   KEY `FK9CD2FE49E42F1AAE` (`CUSTOMER_ID`),
   CONSTRAINT `FK9CD2FE49E42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`),
   CONSTRAINT `FK9CD2FE494CEA4489` FOREIGN KEY (`PRODUCT_MARKETING_CUSTOMER_COMMENT_ID`) REFERENCES `teco_product_marketing_customer_comment` (`ID`),
@@ -2512,7 +2506,6 @@ CREATE TABLE `teco_product_sku_customer_comment` (
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
-  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_SKU_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
@@ -2870,10 +2863,11 @@ CREATE TABLE `teco_retailer_customer_comment` (
   `COMMENT` varchar(255) DEFAULT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
   `RETAILER_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
-  `RETAILER_ID` bigint(20) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `RETAILER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK14A532B4121958A` (`RETAILER_CUSTOMER_COMMENT_ID`),
   KEY `FK14A532BE42F1AAE` (`CUSTOMER_ID`),
@@ -3248,10 +3242,11 @@ CREATE TABLE `teco_store_customer_comment` (
   `COMMENT` varchar(255) DEFAULT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
   `STORE_CUSTOMER_COMMENT_ID` bigint(20) DEFAULT NULL,
-  `STORE_ID` bigint(20) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `STORE_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK461B27ED1C61ED2` (`STORE_CUSTOMER_COMMENT_ID`),
   KEY `FK461B27EE42F1AAE` (`CUSTOMER_ID`),
@@ -3497,4 +3492,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-26 21:02:59
+-- Dump completed on 2015-01-02 19:54:44
