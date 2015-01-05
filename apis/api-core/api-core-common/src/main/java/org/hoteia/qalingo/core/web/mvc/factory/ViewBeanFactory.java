@@ -1682,13 +1682,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
         }
 
-        final ProductBrand productBrand = productMarketing.getProductBrand();
-        if (Hibernate.isInitialized(productBrand) && productBrand != null) {
-            productMarketingViewBean.setBrand(buildViewBeanProductBrand(requestData, productBrand));
-            productMarketingViewBean.setBrandDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
-            productMarketingViewBean.setBrandLineDetailsUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
-        }
-
         final Set<ProductSku> skus = productMarketing.getProductSkus();
         if (Hibernate.isInitialized(skus) && skus != null) {
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
@@ -1709,8 +1702,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
-        productMarketingViewBean.setFeatured(productMarketing.isFeatured());
-
         return productMarketingViewBean;
     }
 
@@ -1764,6 +1755,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
+        // BRAND
+        final ProductBrand productBrand = productMarketing.getProductBrand();
+        if (Hibernate.isInitialized(productBrand) && productBrand != null) {
+            productMarketingViewBean.setBrand(buildViewBeanProductBrand(requestData, productBrand));
+            productMarketingViewBean.setBrandDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
+            productMarketingViewBean.setBrandLineDetailsUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
+        }
+        
         // ASSETS
         if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
             for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
@@ -1804,6 +1803,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             CatalogCategoryVirtual catalogCategory = productSku.getDefaultCatalogCategoryVirtual(marketArea.getCatalog());
             productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
         }
+        
+        productMarketingViewBean.setFeatured(productMarketing.isFeatured());
         
         return productMarketingViewBean;
     }

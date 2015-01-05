@@ -76,11 +76,14 @@ public class ProductSkuSolrService extends AbstractSolrService {
             }
         }
         
-        ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
-        if(productSkuPrice != null){
-            BigDecimal salePrice = productSkuPrice.getSalePrice();
-            productSkuSolr.setPrice(salePrice.toString());
+        if(marketArea != null && retailer != null){
+            ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
+            if(productSkuPrice != null){
+                BigDecimal salePrice = productSkuPrice.getSalePrice();
+                productSkuSolr.setPrice(salePrice.toString());
+            }
         }
+        
         productSkuSolrServer.addBean(productSkuSolr);
         productSkuSolrServer.commit();
     }
