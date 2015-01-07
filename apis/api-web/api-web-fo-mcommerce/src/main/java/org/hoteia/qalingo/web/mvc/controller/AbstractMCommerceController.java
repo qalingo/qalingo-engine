@@ -17,11 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketing_;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
@@ -37,6 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.ui.Model;
+import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 
 /**
  * 
