@@ -32,6 +32,8 @@ import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.i18n.FoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
@@ -135,7 +137,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
         
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory, productMarketing));
-        
+
         return modelAndView;
 	}
 	
@@ -187,22 +189,23 @@ public class ProductDetailsController extends AbstractMCommerceController {
             @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE) final String productSkuCode) throws Exception {
         SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final Locale locale = requestData.getLocale();
         
-//        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
-//        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
-
         ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(productMarketingFetchPlans));
         final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), productMarketing);
 
+        Object[] params = { productMarketingViewBean.getI18nName() };
+        String prefixSeoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        String title = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.PRODUCT_DETAILS.getKey(), params, locale);
+        String seoPageTitle = prefixSeoPageTitle + " " + title;
+        
         // SEO
-        String metaOgTitle = productMarketingViewBean.getI18nName();
-        seoDataViewBean.setMetaOgTitle(metaOgTitle);
-        String metaOgDescription = productMarketingViewBean.getI18nDescription();
-        seoDataViewBean.setMetaOgDescription(metaOgDescription);
-        String metaOgImage = productMarketingViewBean.getAssetAbsoluteWebPath("PACKSHOT");
-        if(StringUtils.isNotEmpty(metaOgImage)){
-            seoDataViewBean.setMetaOgImage(urlService.buildAbsoluteUrl(requestData, metaOgImage));
-        }
+        seoDataViewBean.setPageTitle(seoDataViewBean.getPageTitle());
+        seoDataViewBean.setMetaOgTitle(seoPageTitle);
+        seoDataViewBean.setMetaDescription(productMarketingViewBean.getI18nDescription());
+        seoDataViewBean.setMetaOgImage(productMarketingViewBean.getDefaultAsset().getAbsoluteWebPath());
 
         return seoDataViewBean;
     }

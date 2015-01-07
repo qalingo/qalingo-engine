@@ -61,9 +61,6 @@ public class ProductMarketingViewBean extends AbstractViewBean {
     protected String detailsUrl;
     protected String editUrl;
 
-    protected String brandDetailsUrl;
-    protected String brandLineDetailsUrl;
-
     protected String addSkuUrl;
 
 	public Long getId() {
@@ -413,22 +410,6 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 
     public void setEditUrl(String editUrl) {
         this.editUrl = editUrl;
-    }
-
-    public String getBrandDetailsUrl() {
-        return brandDetailsUrl;
-    }
-
-    public void setBrandDetailsUrl(String brandDetailsUrl) {
-        this.brandDetailsUrl = brandDetailsUrl;
-    }
-
-    public String getBrandLineDetailsUrl() {
-        return brandLineDetailsUrl;
-    }
-
-    public void setBrandLineDetailsUrl(String brandLineDetailsUrl) {
-        this.brandLineDetailsUrl = brandLineDetailsUrl;
     }
 
     public String getAddSkuUrl() {

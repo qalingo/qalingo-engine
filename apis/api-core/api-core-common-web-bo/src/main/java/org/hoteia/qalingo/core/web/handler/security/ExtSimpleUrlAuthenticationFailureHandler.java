@@ -44,7 +44,8 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
     protected ExtRedirectStrategy redirectStrategy;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, 
+                                        AuthenticationException exception) throws IOException, ServletException {
         try {
             Map<String, String> urlParams = new HashMap<String, String>();
             urlParams.put(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR, "true");
@@ -52,6 +53,7 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
             setDefaultFailureUrl(url);
             saveException(request, exception);
             redirectStrategy.sendRedirect(request, response, url);
+            
         } catch (Exception e) {
             logger.error("", e);
         }

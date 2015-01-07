@@ -41,6 +41,7 @@ public class ProductBrandViewBean extends AbstractViewBean {
     protected List<ProductBrandTagViewBean> tags = new ArrayList<ProductBrandTagViewBean>();
 
     protected String detailsUrl;
+    protected String productLineUrl;
     protected String editUrl;
 
 	public String getCode() {
@@ -231,6 +232,14 @@ public class ProductBrandViewBean extends AbstractViewBean {
         this.detailsUrl = detailsUrl;
     }
 
+    public String getProductLineUrl() {
+        return productLineUrl;
+    }
+    
+    public void setProductLineUrl(String productLineUrl) {
+        this.productLineUrl = productLineUrl;
+    }
+    
     public String getEditUrl() {
         return editUrl;
     }
