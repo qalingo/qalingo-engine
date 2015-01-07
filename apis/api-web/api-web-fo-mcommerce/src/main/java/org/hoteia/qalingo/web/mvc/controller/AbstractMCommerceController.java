@@ -17,16 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductMarketing_;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
-import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
@@ -65,6 +60,9 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
     @Autowired
     protected FormFactory formFactory;
 	
+    @Autowired
+    protected SecurityUtil securityUtil;
+    
     protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
