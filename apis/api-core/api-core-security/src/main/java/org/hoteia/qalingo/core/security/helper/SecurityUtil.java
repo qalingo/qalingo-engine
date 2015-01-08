@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.security.helper;
 
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,11 @@ public class SecurityUtil {
 	protected PasswordEncoder encoder;
 	
 	public boolean isAuthenticated(){
-	    return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+	    if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+	            && !StringUtils.equals("anonymousUser", SecurityContextHolder.getContext().getAuthentication().getName())){
+	        return true;
+	    }
+	    return false;
 	}
 	
 	public String generatePermalink() {
