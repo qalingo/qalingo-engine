@@ -280,7 +280,7 @@ public class ProductMarketing extends AbstractExtendEntity {
         }        
         return assetsByMarketArea;
 	}
-	
+    
     public Set<ProductMarketingCustomerRate> getCustomerRates() {
         return customerRates;
     }

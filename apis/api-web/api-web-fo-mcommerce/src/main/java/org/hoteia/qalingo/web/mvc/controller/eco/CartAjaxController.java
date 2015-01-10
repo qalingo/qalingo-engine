@@ -12,12 +12,14 @@ package org.hoteia.qalingo.web.mvc.controller.eco;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -88,6 +90,29 @@ public class CartAjaxController extends AbstractMCommerceController {
         final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
         addToWishlist.setProductSku(catalogPojoService.buildProductSku(productSku));
 
+        // TEMPORARY FIX : ASSET
+        Set<Asset> assets = productSku.getAssets();
+        Asset defaultAsset = null;
+        if(assets != null){
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if("PACKSHOT".equalsIgnoreCase(asset.getType())
+                        && asset.isDefault()){
+                    defaultAsset = asset;
+                }
+            }
+            if(defaultAsset == null){
+                defaultAsset = assets.iterator().next();
+            }
+        }
+        if(defaultAsset == null){
+            defaultAsset = new Asset();
+            defaultAsset.setType("default");
+            defaultAsset.setPath("default-product.png");
+        }
+        final String path = engineSettingService.getProductMarketingImageWebPath(defaultAsset);
+        addToWishlist.getProductSku().setDefaultPackshotImage(urlService.buildAbsoluteUrl(requestData, path));
+        
         addToWishlist.setWishListDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
         try {
             webManagementService.addProductSkuToWishlist(requestData, catalogCategoryCode, productSkuCode);

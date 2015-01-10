@@ -1739,6 +1739,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 productMarketingViewBean.getAssets().add(assetViewBean);
             }
         } 
+        
         // FALLBACK ASSET
         Asset asset = new Asset();
         asset.setType("default");
