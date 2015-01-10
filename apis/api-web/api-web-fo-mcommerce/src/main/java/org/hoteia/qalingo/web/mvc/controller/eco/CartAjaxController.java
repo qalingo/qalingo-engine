@@ -101,7 +101,8 @@ public class CartAjaxController extends AbstractMCommerceController {
                     defaultAsset = asset;
                 }
             }
-            if(defaultAsset == null){
+            if(defaultAsset == null
+                    && assets.iterator().hasNext()){
                 defaultAsset = assets.iterator().next();
             }
         }
