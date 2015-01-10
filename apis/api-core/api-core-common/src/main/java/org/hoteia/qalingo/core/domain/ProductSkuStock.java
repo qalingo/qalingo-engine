@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_STOCK")
+@Table(name="TECO_PRODUCT_SKU_STOCK")
 public class ProductSkuStock extends AbstractEntity {
 
 	/**
