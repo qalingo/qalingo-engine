@@ -148,7 +148,8 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localizationCode);
                     menu.setName(seoCatalogCategoryName);
                     menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategoryReloaded));
-
+                    menu.setCatalog(true);
+                    
                     List<CatalogCategoryVirtual> subCatalogCategories = catalogCategoryReloaded.getSortedChildCatalogCategories();
                     if (subCatalogCategories != null) {
                         List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
@@ -159,6 +160,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                             final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localizationCode) + " " + subCatalogCategoryReloaded.getI18nName(localizationCode);
                             subMenu.setName(seoSubCatalogCategoryName);
                             subMenu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, subCatalogCategoryReloaded));
+                            subMenu.setCatalog(true);
                             subMenus.add(subMenu);
                         }
                         menu.setSubMenus(subMenus);

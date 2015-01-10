@@ -26,6 +26,7 @@ public class MenuViewBean extends AbstractViewBean {
     protected String img;
     protected String url;
     protected boolean active;
+    protected boolean catalog = false;
 
     protected String cssClass;
     protected String cssIcon;
@@ -73,6 +74,14 @@ public class MenuViewBean extends AbstractViewBean {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(boolean catalog) {
+        this.catalog = catalog;
     }
 
     public String getCssClass() {
