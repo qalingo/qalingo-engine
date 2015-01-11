@@ -2645,6 +2645,35 @@ CREATE TABLE `teco_product_sku_price` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_product_sku_stock`
+--
+
+DROP TABLE IF EXISTS `teco_product_sku_stock`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_sku_stock` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `GLOBAL_STOCK_QUANTITY` int(11) NOT NULL DEFAULT '0',
+  `REORDER_NEXT_DATE` datetime DEFAULT NULL,
+  `REORDER_QTY_ALERT` int(11) NOT NULL DEFAULT '0',
+  `REORDER_QTY_TRIGGER` int(11) NOT NULL DEFAULT '0',
+  `RESERVED_STOCK_ECO` int(11) NOT NULL DEFAULT '0',
+  `RESERVED_STOCK_WHAREHOUSE` int(11) NOT NULL DEFAULT '0',
+  `STOCK_USED_BY_ACTIVE_CART` int(11) NOT NULL DEFAULT '0',
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
+  `WAREHOUSE_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK3155A4A2CC4E6FA6` (`WAREHOUSE_ID`),
+  KEY `FK3155A4A2DBEE772F` (`PRODUCT_SKU_ID`),
+  CONSTRAINT `FK3155A4A2DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`),
+  CONSTRAINT `FK3155A4A2CC4E6FA6` FOREIGN KEY (`WAREHOUSE_ID`) REFERENCES `teco_warehouse` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_product_sku_store_rel`
 --
 
@@ -2701,35 +2730,6 @@ CREATE TABLE `teco_product_sku_tag_rel` (
   KEY `FK46954CE06C156C6A` (`PRODUCT_SKU_TAG_ID`),
   CONSTRAINT `FK46954CE06C156C6A` FOREIGN KEY (`PRODUCT_SKU_TAG_ID`) REFERENCES `teco_product_sku_tag` (`ID`),
   CONSTRAINT `FK46954CE0DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_product_stock`
---
-
-DROP TABLE IF EXISTS `teco_product_stock`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_product_stock` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `DATE_CREATE` datetime DEFAULT NULL,
-  `DATE_UPDATE` datetime DEFAULT NULL,
-  `GLOBAL_STOCK_QUANTITY` int(11) NOT NULL DEFAULT '0',
-  `REORDER_NEXT_DATE` datetime DEFAULT NULL,
-  `REORDER_QTY_ALERT` int(11) NOT NULL DEFAULT '0',
-  `REORDER_QTY_TRIGGER` int(11) NOT NULL DEFAULT '0',
-  `RESERVED_STOCK_ECO` int(11) NOT NULL DEFAULT '0',
-  `RESERVED_STOCK_WHAREHOUSE` int(11) NOT NULL DEFAULT '0',
-  `STOCK_USED_BY_ACTIVE_CART` int(11) NOT NULL DEFAULT '0',
-  `VERSION` int(11) NOT NULL DEFAULT '1',
-  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
-  `WAREHOUSE_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK15CE5964CC4E6FA6` (`WAREHOUSE_ID`),
-  KEY `FK15CE5964DBEE772F` (`PRODUCT_SKU_ID`),
-  CONSTRAINT `FK15CE5964DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`),
-  CONSTRAINT `FK15CE5964CC4E6FA6` FOREIGN KEY (`WAREHOUSE_ID`) REFERENCES `teco_warehouse` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3492,4 +3492,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-02 19:54:44
+-- Dump completed on 2015-01-11 11:47:44

@@ -500,13 +500,15 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     	for (String productSkuCode : listProductSkuCodes) {
     		RecentProductViewBean recentProductViewBean = new RecentProductViewBean();
             final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuCode, productSkuFetchPlans);
-            final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode(), productMarketingFetchPlans);
-            final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId(), categoryVirtualFetchPlans);
-        	recentProductViewBean.setId(productMarketing.getId());
-    		recentProductViewBean.setCode(productMarketing.getCode());
-    		recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));	
-        	recentProductViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
-        	recentProductViewBeans.add(recentProductViewBean);
+            if(reloadedProductSku != null){
+                final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode(), productMarketingFetchPlans);
+                final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId(), categoryVirtualFetchPlans);
+                recentProductViewBean.setId(productMarketing.getId());
+                recentProductViewBean.setCode(productMarketing.getCode());
+                recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));   
+                recentProductViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
+                recentProductViewBeans.add(recentProductViewBean);
+            }
     	}
     	return recentProductViewBeans;
     }
