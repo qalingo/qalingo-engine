@@ -110,6 +110,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
@@ -136,7 +137,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuTagViewBean;
@@ -161,6 +161,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
 
 /**
  * 
