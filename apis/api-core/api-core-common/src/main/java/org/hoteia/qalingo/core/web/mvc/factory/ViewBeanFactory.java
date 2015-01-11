@@ -110,7 +110,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
@@ -137,6 +136,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuTagViewBean;
@@ -161,9 +161,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.domain.ProductSku_;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
 
 /**
  * 
@@ -1281,7 +1278,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
                     final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode());
                     final ProductMarketing productMarketing =  productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
+                    CatalogCategoryVirtual catalogCategory = null;
+                    if(StringUtils.isNotEmpty(customerWishlist.getCatalogCategoryCode())){
+                        catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(customerWishlist.getCatalogCategoryCode(), marketArea.getCatalog().getCode());
+                    } else {
+                        catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
+                    }
                     customerWishlistViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku));
                 }
             }
@@ -1980,6 +1982,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             productSkuViewBean.setPriceWithCurrencySign("NA");
         }
         
+        // BRAND
+        if (Hibernate.isInitialized(productSku.getProductMarketing()) && productSku.getProductMarketing() != null) {
+            final ProductBrand productBrand = productSku.getProductMarketing().getProductBrand();
+            if (Hibernate.isInitialized(productBrand) && productBrand != null) {
+                productSkuViewBean.setBrand(buildViewBeanProductBrand(requestData, productBrand));
+                productSkuViewBean.getBrand().setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
+                productSkuViewBean.getBrand().setProductLineUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
+            }
+        }
+        
         // ATTRIBUTES
         List<ProductSkuAttribute> globalAttributes = productSku.getGlobalAttributes();
         if(globalAttributes != null){
@@ -2011,7 +2023,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // FALLBACK ASSET
         Asset asset = new Asset();
         asset.setType("default");
-        asset.setPath("default-sku.png");
+        asset.setPath("default-product-sku.png");
         AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
         final String path = engineSettingService.getProductSkuImageWebPath(asset);
         assetViewBean.setRelativeWebPath(path);

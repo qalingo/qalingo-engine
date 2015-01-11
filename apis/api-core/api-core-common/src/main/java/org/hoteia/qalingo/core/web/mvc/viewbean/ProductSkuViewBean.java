@@ -39,6 +39,8 @@ public class ProductSkuViewBean extends AbstractViewBean {
     protected boolean isDefault;
     protected boolean isSalable;
     
+    protected ProductBrandViewBean brand;
+    
     private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
     private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
     
@@ -138,6 +140,14 @@ public class ProductSkuViewBean extends AbstractViewBean {
 
     public void setSalable(boolean isSalable) {
         this.isSalable = isSalable;
+    }
+    
+    public ProductBrandViewBean getBrand() {
+        return brand;
+    }
+    
+    public void setBrand(ProductBrandViewBean brand) {
+        this.brand = brand;
     }
 
     public Map<String, AttributeValueViewBean> getGlobalAttributes() {
