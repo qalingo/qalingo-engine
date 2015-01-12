@@ -48,6 +48,7 @@ import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -354,9 +355,11 @@ public class WebManagementService {
 
         customer = checkCustomerMarketArea(requestData, customer);
         CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
-        customerMarketArea.setMobile(customerEditForm.getMobile());
-        customerMarketArea.setPhone(customerEditForm.getPhone());
-        customerMarketArea.setFax(customerEditForm.getFax());
+        if(customerMarketArea != null){
+            customerMarketArea.setMobile(customerEditForm.getMobile());
+            customerMarketArea.setPhone(customerEditForm.getPhone());
+            customerMarketArea.setFax(customerEditForm.getFax());
+        }
 
         return updateCurrentCustomer(requestData, customer);
     }
@@ -952,7 +955,7 @@ public class WebManagementService {
             customer.getCustomerMarketAreas().add(customerMarketArea);
             customerService.saveOrUpdateCustomer(customer);
             if(StringUtils.isNotEmpty(customer.getEmail())){
-                customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+                customer = customerService.getCustomerByLoginOrEmail(customer.getEmail(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
             }
         }
         return customer;
