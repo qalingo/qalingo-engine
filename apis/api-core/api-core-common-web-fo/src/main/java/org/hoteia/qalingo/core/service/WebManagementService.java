@@ -564,12 +564,13 @@ public class WebManagementService {
         if(customer != null){
             String token = UUID.randomUUID().toString();
             CustomerCredential customerCredential = customer.getCurrentCredential();
-            if(customerCredential != null){
-                customerCredential.setResetToken(token);
-                Date date = new Date();
-                customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
-                customerService.saveOrUpdateCustomerCredential(customerCredential);
+            if(customerCredential == null){
+                customerCredential = new CustomerCredential();
             }
+            customerCredential.setResetToken(token);
+            Date date = new Date();
+            customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
+            customerCredential = customerService.saveOrUpdateCustomerCredential(customerCredential);
             return customerCredential;
         }
         return null;

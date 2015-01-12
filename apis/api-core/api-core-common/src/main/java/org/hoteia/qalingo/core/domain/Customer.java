@@ -330,7 +330,9 @@ public class Customer extends AbstractEntity {
 					return 0;
 				}
 			});
-			return sortedObjects.get(0);
+			if(sortedObjects != null && sortedObjects.size() > 0){
+	            return sortedObjects.get(0);
+			}
 		}
 	    return null;
     }
