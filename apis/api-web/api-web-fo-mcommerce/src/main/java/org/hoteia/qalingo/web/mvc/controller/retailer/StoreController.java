@@ -26,12 +26,15 @@ import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.i18n.FoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -40,6 +43,7 @@ import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -132,6 +136,33 @@ public class StoreController extends AbstractMCommerceController {
 
         breadcrumbViewBean.setMenus(menuViewBeans);
         return breadcrumbViewBean;
+    }
+    
+    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
+        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+        Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
+        if(store != null){
+            StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
+
+            // SEO
+            String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+            seoDataViewBean.setPageTitle(pageTitle + " - " + storeViewBean.getI18nName());
+            
+            String metaOgTitle = storeViewBean.getI18nName();
+            seoDataViewBean.setMetaOgTitle(metaOgTitle);
+            String metaOgDescription = storeViewBean.getI18nDescription();
+            seoDataViewBean.setMetaOgDescription(metaOgDescription);
+            String metaOgImage = storeViewBean.getAssetAbsoluteWebPath("LOGO");
+            if(StringUtils.isNotEmpty(metaOgImage)){
+                seoDataViewBean.setMetaOgImage(metaOgImage);
+            }
+        }
+
+        return seoDataViewBean;
     }
 
 }

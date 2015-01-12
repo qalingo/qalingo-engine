@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.security;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -31,7 +35,6 @@ import org.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,37 +48,40 @@ import org.springframework.web.servlet.ModelAndView;
 public class ForgottentPasswordController extends AbstractMCommerceController {
 
 	@RequestMapping(value = FoUrls.FORGOTTEN_PASSWORD_URL, method = RequestMethod.GET)
-	public ModelAndView displayForgottenPassword(final HttpServletRequest request, ModelMap modelMap) throws Exception {
+	public ModelAndView displayForgottenPassword(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORGOTTEN_PASSWORD.getVelocityPage());
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
 
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        
         return modelAndView;
 	}
 	
 	@RequestMapping(value = FoUrls.FORGOTTEN_PASSWORD_URL, method = RequestMethod.POST)
 	public ModelAndView forgottenPassword(final HttpServletRequest request, @Valid @ModelAttribute("forgottenPasswordForm") ForgottenPasswordForm forgottenPasswordForm,
-			BindingResult result, ModelMap modelMap) throws Exception {
+			BindingResult result, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORGOTTEN_PASSWORD_SUCCESS_VELOCITY_PAGE);
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
 		if (result.hasErrors()) {
-			return displayForgottenPassword(request, modelMap);
+			return displayForgottenPassword(request, model);
 		}
 		
 		final Customer customer = customerService.getCustomerByLoginOrEmail(forgottenPasswordForm.getEmailOrLogin());
 		if (customer == null) {
 			addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin", getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
-			return displayForgottenPassword(request, modelMap);
+			return displayForgottenPassword(request, model);
 		}
 		
 		if (customer != null
 				&& customer.isAnonymous()) {
 		    addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_customer_is_not_active", locale));
-			return displayForgottenPassword(request, modelMap);
+			return displayForgottenPassword(request, model);
 		}
 		
 		// FLAG THE CREDENTIAL WITH A TOKEN
@@ -87,7 +93,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = FoUrls.RESET_PASSWORD_URL, method = RequestMethod.GET)
-	public ModelAndView displayResetPassword(final HttpServletRequest request, ModelMap modelMap) throws Exception {
+	public ModelAndView displayResetPassword(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RESET_PASSWORD.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -120,32 +126,32 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	
 	@RequestMapping(value = FoUrls.RESET_PASSWORD_URL, method = RequestMethod.POST)
 	public ModelAndView resetPassword(final HttpServletRequest request, @Valid @ModelAttribute("resetPasswordForm") ResetPasswordForm resetPasswordForm,
-			BindingResult result, ModelMap modelMap) throws Exception {
+			BindingResult result, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RESET_PASSWORD_SUCCESS_VELOCITY_PAGE);
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
 		if (result.hasErrors()) {
-			return displayResetPassword(request, modelMap);
+			return displayResetPassword(request, model);
 		}
 		
 		final Customer customer = customerService.getCustomerByLoginOrEmail(resetPasswordForm.getEmail());
 		if (customer == null) {
 			// ADD ERROR
 		    addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
-			return displayResetPassword(request, modelMap);
+			return displayResetPassword(request, model);
 		}
 		
 		if(!customer.getCurrentCredential().getResetToken().equals(resetPasswordForm.getToken())){
 			// ADD ERROR
 		    addMessageError(result, null, "forgottenPasswordForm", "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error.form_reset_password_token_is_wrong", locale));
-			return displayResetPassword(request, modelMap);
+			return displayResetPassword(request, model);
 		}
 		
 		if(!resetPasswordForm.getNewPassword().equals(resetPasswordForm.getConfirmNewPassword())){
 			// ADD ERROR
 		    addMessageError(result, null, "forgottenPasswordForm", "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_confirm_password_is_wrong", locale));
-			return displayResetPassword(request, modelMap);
+			return displayResetPassword(request, model);
 		}
 		
 		webManagementService.resetCustomerCredential(requestData, customer, resetPasswordForm);
@@ -158,7 +164,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = FoUrls.CANCEL_RESET_PASSWORD_URL, method = RequestMethod.GET)
-	public ModelAndView cancelResetPassword(final HttpServletRequest request, ModelMap modelMap) throws Exception {
+	public ModelAndView cancelResetPassword(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 
@@ -211,5 +217,28 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	protected SecurityViewBean initSecurity(final HttpServletRequest request, final Model model) throws Exception {
 		return frontofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request));
 	}
+	
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData) {
+        final Locale locale = requestData.getLocale();
+
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "forgotten_password", locale));
+
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "forgotten_password", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+
+        breadcrumbViewBean.setMenus(menuViewBeans);
+        return breadcrumbViewBean;
+    }
 	
 }

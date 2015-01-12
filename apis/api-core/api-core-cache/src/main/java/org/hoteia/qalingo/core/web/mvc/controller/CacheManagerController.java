@@ -183,8 +183,10 @@ public class CacheManagerController extends AbstractQalingoController {
     }
 
     private void flushCache(Cache cache) {
-        cache.removeAll();
-        cache.clearStatistics();
+        if(cache != null){
+            cache.removeAll();
+            cache.clearStatistics();
+        }
     }
 
     private void processResetStats(List<Cache> caches) {

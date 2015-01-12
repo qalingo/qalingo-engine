@@ -16,6 +16,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.EngineSetting;
@@ -23,10 +24,13 @@ import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Retailer_;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.i18n.FoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.EngineSettingService;
@@ -34,6 +38,8 @@ import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.hoteia.qalingo.web.mvc.form.RetailerCreateForm;
@@ -184,6 +190,33 @@ public class RetailerController extends AbstractMCommerceController {
 
         breadcrumbViewBean.setMenus(menuViewBeans);
         return breadcrumbViewBean;
+    }
+    
+    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode) throws Exception {
+        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+        Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
+        if(retailer != null){
+            RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
+
+            // SEO
+            String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+            seoDataViewBean.setPageTitle(pageTitle + " - " + retailerViewBean.getI18nName());
+            
+            String metaOgTitle = retailerViewBean.getI18nName();
+            seoDataViewBean.setMetaOgTitle(metaOgTitle);
+            String metaOgDescription = retailerViewBean.getI18nDescription();
+            seoDataViewBean.setMetaOgDescription(metaOgDescription);
+            String metaOgImage = retailerViewBean.getAssetAbsoluteWebPath("LOGO");
+            if(StringUtils.isNotEmpty(metaOgImage)){
+                seoDataViewBean.setMetaOgImage(metaOgImage);
+            }
+        }
+
+        return seoDataViewBean;
     }
     
 	/**

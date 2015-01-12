@@ -345,10 +345,19 @@ public class WebManagementService {
         String customerLogin = requestUtil.getCurrentCustomerLogin(request);
         Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
         
-        customer.setLogin(customerEditForm.getEmail());
+        customer.setTitle(customerEditForm.getTitle());
         customer.setFirstname(customerEditForm.getFirstname());
         customer.setLastname(customerEditForm.getLastname());
-        
+
+        customer.setLogin(customerEditForm.getEmail());
+        customer.setEmail(customerEditForm.getEmail());
+
+        customer = checkCustomerMarketArea(requestData, customer);
+        CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+        customerMarketArea.setMobile(customerEditForm.getMobile());
+        customerMarketArea.setPhone(customerEditForm.getPhone());
+        customerMarketArea.setFax(customerEditForm.getFax());
+
         return updateCurrentCustomer(requestData, customer);
     }
     
