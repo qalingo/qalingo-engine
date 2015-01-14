@@ -1622,9 +1622,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             final List<AbstractCatalogCategory> subCategories = catalogCategory.getSortedChildCatalogCategories();
             if (subCategories != null) {
                 for (Iterator<AbstractCatalogCategory> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
-                    final CatalogCategoryVirtual subcatalogCategoryVirtual = (CatalogCategoryVirtual) iteratorSubcatalogCategoryVirtual.next();
-                    final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(subcatalogCategoryVirtual.getId(), catalogCategory.getFetchPlan());
-                    subcatalogCategoryVirtualViewBeans.add(buildViewBeanVirtualCatalogCategory(requestData, reloadedSubCatalogCategory));
+                    final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
+//                    final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(subcatalogCategoryVirtual.getId(), catalogCategory.getFetchPlan());
+                    subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
                 }
                 catalogCategoryViewBean.setCountSubCategories(subCategories.size());
             }

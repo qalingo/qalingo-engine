@@ -219,6 +219,15 @@ public class ProductSkuViewBean extends AbstractViewBean {
                 return assetViewBean.getPath();
             }
         }
+        // DEFAULT PRODUCT MARKETING ASSET
+        if(productMarketing != null){
+            for (Iterator<AssetViewBean> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+                if(assetViewBean.getType().equals(type)){
+                    return assetViewBean.getPath();
+                }
+            }
+        }
         AssetViewBean assetViewBean = getDefaultAsset();
         if(assetViewBean != null){
             return assetViewBean.getPath();
@@ -233,6 +242,15 @@ public class ProductSkuViewBean extends AbstractViewBean {
                 return assetViewBean.getAbsoluteWebPath();
             }
         }
+        // DEFAULT PRODUCT MARKETING ASSET
+        if(productMarketing != null){
+            for (Iterator<AssetViewBean> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+                if(assetViewBean.getType().equals(type)){
+                    return assetViewBean.getAbsoluteWebPath();
+                }
+            }
+        }
         AssetViewBean assetViewBean = getDefaultAsset();
         if(assetViewBean != null){
             return assetViewBean.getAbsoluteWebPath();
@@ -245,6 +263,15 @@ public class ProductSkuViewBean extends AbstractViewBean {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
             if(assetViewBean.getType().equals(type)){
                 return assetViewBean.getRelativeWebPath();
+            }
+        }
+        // DEFAULT PRODUCT MARKETING ASSET
+        if(productMarketing != null){
+            for (Iterator<AssetViewBean> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+                if(assetViewBean.getType().equals(type)){
+                    return assetViewBean.getRelativeWebPath();
+                }
             }
         }
         AssetViewBean assetViewBean = getDefaultAsset();
