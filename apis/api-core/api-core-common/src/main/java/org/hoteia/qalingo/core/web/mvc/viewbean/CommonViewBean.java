@@ -26,6 +26,7 @@ public class CommonViewBean extends AbstractViewBean {
     protected String checkoutCreateAccountUrl;
 	protected String customerDetailsUrl;
     protected String personalDetailsUrl;
+    protected String newsletterRegisterUrl;
 	protected String contactUrl;
     protected String contextJsonUrl;
 
@@ -108,6 +109,14 @@ public class CommonViewBean extends AbstractViewBean {
         this.personalDetailsUrl = personalDetailsUrl;
     }
 
+	public String getNewsletterRegisterUrl() {
+        return newsletterRegisterUrl;
+    }
+	
+	public void setNewsletterRegisterUrl(String newsletterRegisterUrl) {
+        this.newsletterRegisterUrl = newsletterRegisterUrl;
+    }
+	
 	public String getContactUrl() {
 		return contactUrl;
 	}

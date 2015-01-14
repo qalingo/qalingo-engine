@@ -552,27 +552,31 @@ public class RequestUtil {
 
         // CHECK BACKOFFICE LANGUAGES
         String backofficeLocalizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
-        Localization localization = null;
+        Localization backofficeLocalization = engineBoSession.getCurrentBackofficeLocalization();
         if(StringUtils.isNotEmpty(backofficeLocalizationCode)){
             Company company = getCurrentCompany(request);
             if (company != null) {
-                localization = company.getLocalization(backofficeLocalizationCode);
+                backofficeLocalization = company.getLocalization(backofficeLocalizationCode);
             } else {
-                localization = localizationService.getLocalizationByCode(backofficeLocalizationCode);
+                backofficeLocalization = localizationService.getLocalizationByCode(backofficeLocalizationCode);
             }
         } else {
             String requestLocale = request.getLocale().toString();
-            if (requestLocale.length() > 2) {
-                String localeLanguage = request.getLocale().getLanguage();
-                localization = localizationService.getLocalizationByCode(localeLanguage);
-            } else if (requestLocale.length() == 2) {
-                localization = localizationService.getLocalizationByCode(requestLocale);
+            if(backofficeLocalization == null
+                    && StringUtils.isNotEmpty(requestLocale)){
+                if (requestLocale.length() > 2) {
+                    String localeLanguage = request.getLocale().getLanguage();
+                    backofficeLocalization = localizationService.getLocalizationByCode(localeLanguage);
+                } else if (requestLocale.length() == 2) {
+                    backofficeLocalization = localizationService.getLocalizationByCode(requestLocale);
+                }
             }
         }
-        if (localization == null) {
-            localization = localizationService.getLocalizationByCode("en");
+        if (backofficeLocalization == null) {
+            // FALLBACK LOCALE EN
+            backofficeLocalization = localizationService.getLocalizationByCode("en");
         }
-        engineBoSession.setCurrentBackofficeLocalization(localization);
+        engineBoSession.setCurrentBackofficeLocalization(backofficeLocalization);
 
         // SAVE THE ENGINE SESSION
         updateCurrentBoSession(request, engineBoSession);

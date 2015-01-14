@@ -227,6 +227,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         commonViewBean.setCheckoutCreateAccountUrl(urlService.generateUrl(FoUrls.CART_CREATE_ACCOUNT, requestData));
         commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         commonViewBean.setPersonalDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+        commonViewBean.setNewsletterRegisterUrl(urlService.generateUrl(FoUrls.NEWSLETTER_REGISTER, requestData));
         commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
 
         commonViewBean.setContextJsonUrl(urlService.generateUrl(FoUrls.CONTEXT, requestData));
