@@ -1504,6 +1504,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
+    public List<CatalogCategoryViewBean> buildListViewBeanMasterCatalogCategory(final RequestData requestData, final List<CatalogCategoryMaster> catalogCategories) throws Exception {
+        final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
+        for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
+            CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iterator.next();
+            catalogCategoryViewBeans.add(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory));
+        }
+        return catalogCategoryViewBeans;
+    }
+    
+    /**
+     * 
+     */
     public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory) throws Exception {
         final CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory);
         return catalogCategoryViewBean;
@@ -1512,7 +1524,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<CatalogCategoryViewBean> buildListViewBeanCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories) throws Exception {
+    public List<CatalogCategoryViewBean> buildListViewBeanVirtualCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories) throws Exception {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryVirtual> iterator = catalogCategories.iterator(); iterator.hasNext();) {
             CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iterator.next();
