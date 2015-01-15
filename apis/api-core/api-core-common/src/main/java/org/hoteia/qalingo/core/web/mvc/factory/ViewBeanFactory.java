@@ -1511,6 +1511,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iterator.next();
             catalogCategoryViewBeans.add(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory));
         }
+        
         return catalogCategoryViewBeans;
     }
     
@@ -1519,6 +1520,30 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory) throws Exception {
         final CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory);
+        
+        // PARENT CATEGORY
+        if (catalogCategory != null && catalogCategory.getParentCatalogCategory() != null
+                && Hibernate.isInitialized(catalogCategory.getParentCatalogCategory())) {
+            catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getParentCatalogCategory()));
+        }
+       
+        // SUB CATEGORIES
+        List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
+        final List<CatalogCategoryMaster> subCategories = catalogCategory.getSortedChildCatalogCategories();
+        if (subCategories != null) {
+            for (Iterator<CatalogCategoryMaster> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
+                final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
+                subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
+            }
+            catalogCategoryViewBean.setCountSubCategories(subCategories.size());
+        }
+        catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
+        
+        // FEATURED PRODUCTS
+        for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
+            catalogCategoryViewBean.getFeaturedProductMarketings().addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
+        }
+        
         return catalogCategoryViewBean;
     }
     
@@ -1543,6 +1568,30 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 && Hibernate.isInitialized(catalogCategory.getCategoryMaster())) {
             catalogCategoryViewBean.setMasterCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getCategoryMaster()));
         }
+        
+        // PARENT CATEGORY
+        if (catalogCategory != null && catalogCategory.getParentCatalogCategory() != null
+                && Hibernate.isInitialized(catalogCategory.getParentCatalogCategory())) {
+            catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getParentCatalogCategory()));
+        }
+       
+        // SUB CATEGORIES
+        List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
+        final List<CatalogCategoryVirtual> subCategories = catalogCategory.getSortedChildCatalogCategories();
+        if (subCategories != null) {
+            for (Iterator<CatalogCategoryVirtual> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
+                final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
+                subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
+            }
+            catalogCategoryViewBean.setCountSubCategories(subCategories.size());
+        }
+        catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
+        
+        // FEATURED PRODUCTS
+        for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
+            catalogCategoryViewBean.getFeaturedProductMarketings().addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
+        }
+        
         return catalogCategoryViewBean;
     }
     
@@ -1612,25 +1661,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 catalogCategoryViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
             }
 
-            // PARENT CATEGORY
-            if (catalogCategory != null && catalogCategory.getParentCatalogCategory() != null
-                    && Hibernate.isInitialized(catalogCategory.getParentCatalogCategory())) {
-                catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getParentCatalogCategory()));
-            }
-           
-            // SUB CATEGORIES
-            List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
-            final List<AbstractCatalogCategory> subCategories = catalogCategory.getSortedChildCatalogCategories();
-            if (subCategories != null) {
-                for (Iterator<AbstractCatalogCategory> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
-                    final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
-//                    final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(subcatalogCategoryVirtual.getId(), catalogCategory.getFetchPlan());
-                    subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
-                }
-                catalogCategoryViewBean.setCountSubCategories(subCategories.size());
-            }
-            catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
-
             // PRODUCTS
             List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
             List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
@@ -1649,13 +1679,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 catalogCategoryViewBean.setCountProductMarketings(catalogCategory.getSortedProductMarketings().size());
             }
             catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
-
-            // FEATURED PRODUCTS
-            for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
-                featuredProductMarketings.addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
-            }
-            catalogCategoryViewBean.setFeaturedProductMarketings(featuredProductMarketings);
-            
         }
 
         return catalogCategoryViewBean;
