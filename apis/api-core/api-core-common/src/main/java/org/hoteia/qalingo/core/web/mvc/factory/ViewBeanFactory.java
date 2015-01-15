@@ -1795,11 +1795,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
-     // ASSETS
+        // SKUS
         if (Hibernate.isInitialized(productMarketing.getProductSkus()) && productMarketing.getProductSkus() != null) {
             for (Iterator<ProductSku> iterator = productMarketing.getProductSkus().iterator(); iterator.hasNext();) {
                 ProductSku productSku = (ProductSku) iterator.next();
-                ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productSku);
+                ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
                 productMarketingViewBean.getProductSkus().add(productSkuViewBean);
             }
         } 
@@ -1983,6 +1983,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
+        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productSku);
+
+        // PRODUCT MARKETING
+        productSkuViewBean.setProductMarketing(buildViewBeanProductMarketing(requestData, productMarketing));
+        
+        return productSkuViewBean;
+    }
+
+    /**
+     * 
+     */
     public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductSku productSku) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
@@ -2092,9 +2104,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 productSkuViewBean.getCatalogCategories().add(catalogCategoryViewBean);
             }
         }
-
-        // PRODUCT MARKETING
-        productSkuViewBean.setProductMarketing(buildViewBeanProductMarketing(requestData, productMarketing));
 
         return productSkuViewBean;
     }
