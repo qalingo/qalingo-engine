@@ -70,6 +70,7 @@ public class SeoDataViewBean extends AbstractViewBean {
     }
 
     public String getMetaOgDescription() {
+        // FACEBOOK WILL DISPLAY 300
         String metaOgDescriptionEscape = HtmlUtils.htmlEscape(metaOgDescription);
         return CoreUtil.replaceCarriagReturn(metaOgDescriptionEscape);
     }
