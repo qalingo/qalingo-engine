@@ -319,7 +319,12 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 		return null;
 	}
 
-	public String getSkuCode() {
+    @Deprecated
+    public String getSkuCode() {
+        return getDefaultSkuCode();
+    }
+    
+	public String getDefaultSkuCode() {
 		if (productSkus != null) {
 			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
@@ -335,6 +340,22 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 		return null;
 	}
 
+    public CatalogCategoryViewBean getDefaultCatalogCategory() {
+        if (productSkus != null) {
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if (productSkuViewBean.isDefault()) {
+                    return productSkuViewBean.getDefaultCatalogCategory();
+                }
+            }
+            if (!productSkus.isEmpty()) {
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                return productSkuViewBean.getDefaultCatalogCategory();
+            }
+        }
+        return null;
+    }
+    
 	public String getAddToWishlistUrl() {
 		if (productSkus != null) {
 			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {

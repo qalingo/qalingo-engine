@@ -37,6 +37,7 @@ import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
@@ -1794,6 +1795,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
+     // ASSETS
+        if (Hibernate.isInitialized(productMarketing.getProductSkus()) && productMarketing.getProductSkus() != null) {
+            for (Iterator<ProductSku> iterator = productMarketing.getProductSkus().iterator(); iterator.hasNext();) {
+                ProductSku productSku = (ProductSku) iterator.next();
+                ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productSku);
+                productMarketingViewBean.getProductSkus().add(productSkuViewBean);
+            }
+        } 
+        
         ProductSku productSku = productMarketing.getDefaultProductSku();
         if(productSku != null){
             CatalogCategoryVirtual catalogCategory = productSku.getDefaultCatalogCategoryVirtual(marketArea.getCatalog());
@@ -2060,8 +2070,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // TAGS
         Set<ProductSkuTag> tags = productSku.getTags();
-        if (Hibernate.isInitialized(tags) &&
-                tags != null) {
+        if (Hibernate.isInitialized(tags) 
+                && tags != null) {
             for (Iterator<ProductSkuTag> iterator = tags.iterator(); iterator.hasNext();) {
                 ProductSkuTag productSkuTag = (ProductSkuTag) iterator.next();
                 ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
@@ -2072,6 +2082,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
+        // CATALOG CATEGORIES
+        Set<CatalogCategoryVirtualProductSkuRel> catalogCategories = productSku.getCatalogCategoryVirtualProductSkuRels();
+        if (Hibernate.isInitialized(catalogCategories) 
+                && catalogCategories != null) {
+            for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategories.iterator(); iterator.hasNext();) {
+                CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
+                CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategoryVirtualProductSkuRel.getCatalogCategoryVirtual());
+                productSkuViewBean.getCatalogCategories().add(catalogCategoryViewBean);
+            }
+        }
+
+        // PRODUCT MARKETING
         productSkuViewBean.setProductMarketing(buildViewBeanProductMarketing(requestData, productMarketing));
 
         return productSkuViewBean;

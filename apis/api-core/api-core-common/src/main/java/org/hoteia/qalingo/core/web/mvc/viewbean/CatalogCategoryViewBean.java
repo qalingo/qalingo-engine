@@ -33,6 +33,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
     protected String i18nDescription;
 
     protected boolean isRoot;
+    protected boolean isDefault;
     protected int countProduct;
     
     protected CatalogCategoryViewBean masterCategory;
@@ -115,6 +116,14 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
 
     public void setRoot(boolean isRoot) {
         this.isRoot = isRoot;
+    }
+    
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
     }
 
     public int getCountProduct() {

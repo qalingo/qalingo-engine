@@ -16,7 +16,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
@@ -138,6 +137,8 @@ public class ProductDetailsController extends AbstractMCommerceController {
         
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory, productMarketing));
 
+        model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, overideInitSeo(request, model, categoryCode, productMarketingCode, productSkuCode));
+
         return modelAndView;
 	}
 	
@@ -183,14 +184,11 @@ public class ProductDetailsController extends AbstractMCommerceController {
         return productBrandViewBeans;
     }
     
-    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
-    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode,
-            @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productMarketingCode,
-            @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE) final String productSkuCode) throws Exception {
+    protected SeoDataViewBean overideInitSeo(final HttpServletRequest request, final Model model, final String categoryCode,
+                                             final String productMarketingCode, final String productSkuCode) throws Exception {
         SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
         final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
         
         ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(productMarketingFetchPlans));

@@ -50,6 +50,8 @@ public class ProductSkuViewBean extends AbstractViewBean {
     protected List<ProductSkuCustomerCommentViewBean> comments = new ArrayList<ProductSkuCustomerCommentViewBean>();
     protected List<ProductSkuTagViewBean> tags = new ArrayList<ProductSkuTagViewBean>();
 
+    protected List<CatalogCategoryViewBean> catalogCategories = new ArrayList<CatalogCategoryViewBean>();
+
     protected String catalogPrice;
     protected String salePrice;
     protected String currencySign;
@@ -309,6 +311,38 @@ public class ProductSkuViewBean extends AbstractViewBean {
 
     public void setTags(List<ProductSkuTagViewBean> tags) {
         this.tags = tags;
+    }
+    
+    public List<CatalogCategoryViewBean> getCatalogCategories() {
+        return catalogCategories;
+    }
+    
+    public CatalogCategoryViewBean getDefaultCatalogCategory() {
+        if (catalogCategories != null) {
+            for (Iterator<CatalogCategoryViewBean> iterator = catalogCategories.iterator(); iterator.hasNext();) {
+                CatalogCategoryViewBean catalogCategoryViewBean = (CatalogCategoryViewBean) iterator.next();
+                if (catalogCategoryViewBean.isDefault()) {
+                    return catalogCategoryViewBean;
+                }
+            }
+            if (!catalogCategories.isEmpty()) {
+                CatalogCategoryViewBean catalogCategoryViewBean = catalogCategories.get(0);
+                return catalogCategoryViewBean;
+            }
+        }
+        return null;
+    }
+    
+    public String getDefaultCatalogCategoryCode() {
+        CatalogCategoryViewBean catalogCategoryViewBean = getDefaultCatalogCategory();
+        if (catalogCategoryViewBean != null) {
+            return catalogCategoryViewBean.getCode();
+        }
+        return null;
+    }
+    
+    public void setCatalogCategories(List<CatalogCategoryViewBean> catalogCategories) {
+        this.catalogCategories = catalogCategories;
     }
     
     public String getCatalogPrice() {
