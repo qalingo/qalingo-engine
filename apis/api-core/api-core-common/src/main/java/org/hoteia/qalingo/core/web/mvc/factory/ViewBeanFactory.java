@@ -1799,7 +1799,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (Hibernate.isInitialized(productMarketing.getProductSkus()) && productMarketing.getProductSkus() != null) {
             for (Iterator<ProductSku> iterator = productMarketing.getProductSkus().iterator(); iterator.hasNext();) {
                 ProductSku productSku = (ProductSku) iterator.next();
-                ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
+                ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketingViewBean, productSku);
                 productMarketingViewBean.getProductSkus().add(productSkuViewBean);
             }
         } 
@@ -1983,11 +1983,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductMarketingViewBean productMarketingViewBean, final ProductSku productSku) throws Exception {
         final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productSku);
 
         // PRODUCT MARKETING
-        productSkuViewBean.setProductMarketing(buildViewBeanProductMarketing(requestData, productMarketing));
+        productSkuViewBean.setProductMarketing(productMarketingViewBean);
         
         return productSkuViewBean;
     }
