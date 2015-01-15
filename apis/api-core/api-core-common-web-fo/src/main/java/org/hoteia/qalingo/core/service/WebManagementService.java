@@ -375,6 +375,8 @@ public class WebManagementService {
         Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
         
         CustomerAddress customerAddress = new CustomerAddress();
+        customerAddress.setDateCreate(new Date());
+        customerAddress.setDateUpdate(new Date());
         String addressId = customerAddressForm.getIdOrGuid();
         if(StringUtils.isNotEmpty(addressId)){
             customerAddress = customer.getAddress(new Long(addressId));
@@ -385,7 +387,6 @@ public class WebManagementService {
         } else {
             customerAddress.setAddressName(customerAddressForm.getAddress1() + "(" + customerAddressForm.getCity() + ")");
         }
-        customerAddress.setAddressName(customerAddressForm.getAddressName());
         customerAddress.setTitle(customerAddressForm.getTitle());
         customerAddress.setLastname(customerAddressForm.getLastname());
         customerAddress.setFirstname(customerAddressForm.getFirstname());

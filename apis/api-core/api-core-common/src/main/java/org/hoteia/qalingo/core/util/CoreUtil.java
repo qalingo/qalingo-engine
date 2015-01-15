@@ -44,7 +44,17 @@ public class CoreUtil {
 
             stringToReturn = cleanDash(stringToReturn);
 
-            return lowerCase(stringToReturn);
+            return stringToReturn;
+        }
+        return stringToReturn;
+    }
+    
+    public static String replaceCarriagReturn(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            stringToReturn = stringToReturn.replaceAll("\r", " ").replaceAll("\n", "").replaceAll("  ", " ");
+
+            return stringToReturn;
         }
         return stringToReturn;
     }
@@ -55,7 +65,7 @@ public class CoreUtil {
             stringToReturn = stringToReturn.replaceAll(" ", "_");
             stringToReturn = stringToReturn.replaceAll("-", "_");
 
-            return upperCase(stringToReturn);
+            return stringToReturn;
         }
         return stringToReturn;
     }

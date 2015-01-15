@@ -1350,12 +1350,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         customerAddressViewBean.setDefaultShipping(customerAddress.isDefaultShipping());
 
         Long customerAddressId = customerAddress.getId();
-
-        Map<String, String> urlParams = new HashMap<String, String>();
-        urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID, customerAddressId.toString());
-
-        customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestData, urlParams));
-        customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestData, urlParams));
+        if(customerAddressId != null){
+            Map<String, String> urlParams = new HashMap<String, String>();
+            urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID, customerAddressId.toString());
+            customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestData, urlParams));
+            customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestData, urlParams));
+        }
 
         return customerAddressViewBean;
     }

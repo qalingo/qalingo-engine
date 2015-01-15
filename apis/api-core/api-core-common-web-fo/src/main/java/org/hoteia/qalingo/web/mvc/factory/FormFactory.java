@@ -148,7 +148,9 @@ public class FormFactory {
 			customerAddressForm.setCountryCode("NL");
 		}  else if(languageCode.equals("pt")) {
 			customerAddressForm.setCountryCode("PT");
-		} 
+		} else if(languageCode.equals("ru")) {
+            customerAddressForm.setCountryCode("RU");
+        } 
 		
 		if(customerAddress != null){
 			customerAddressForm.setAddressName(customerAddress.getAddressName());

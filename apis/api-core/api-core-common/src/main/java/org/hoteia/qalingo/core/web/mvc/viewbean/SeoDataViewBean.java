@@ -9,6 +9,9 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import org.hoteia.qalingo.core.util.CoreUtil;
+import org.springframework.web.util.HtmlUtils;
+
 public class SeoDataViewBean extends AbstractViewBean {
 
     /**
@@ -51,7 +54,7 @@ public class SeoDataViewBean extends AbstractViewBean {
     }
 
     public String getMetaDescription() {
-        return metaDescription;
+        return CoreUtil.replaceCarriagReturn(metaDescription);
     }
 
     public void setMetaDescription(String metaDescription) {
@@ -67,7 +70,8 @@ public class SeoDataViewBean extends AbstractViewBean {
     }
 
     public String getMetaOgDescription() {
-        return metaOgDescription;
+        String metaOgDescriptionEscape = HtmlUtils.htmlEscape(metaOgDescription);
+        return CoreUtil.replaceCarriagReturn(metaOgDescriptionEscape);
     }
 
     public void setMetaOgDescription(String metaOgDescription) {

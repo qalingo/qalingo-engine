@@ -97,6 +97,12 @@ public class CustomerAddressController extends AbstractCustomerController {
         Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADD_ADDRESS.getKey(), params);
 
+        if(customerAddressForm == null 
+                || customerAddressForm.equals(new CustomerAddressForm())){
+            customerAddressForm = formFactory.buildCustomerAddressForm(requestData, null);
+            model.addAttribute("customerAddressForm", customerAddressForm);
+        }
+        
         return modelAndView;
 	}
 
