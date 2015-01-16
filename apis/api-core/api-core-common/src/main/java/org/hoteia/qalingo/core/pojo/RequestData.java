@@ -215,6 +215,14 @@ public class RequestData implements Serializable {
         return locale;
     }
     
+    public String getLanguageCode(){
+        Locale locale = getLocale();
+        if(locale != null){
+            return locale.getLanguage();
+        }
+        return null;
+    }
+    
     public Customer getCustomer() {
         return customer;
     }

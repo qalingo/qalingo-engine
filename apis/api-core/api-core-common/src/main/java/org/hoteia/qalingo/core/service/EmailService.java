@@ -89,6 +89,10 @@ public class EmailService {
 		return emailDao.findEmailByStatus(status, params);
 	}
 	
+    public List<Long> findIdsForEmailSync(Object... params) {
+        return emailDao.findIdsForEmailSync(params);
+    }
+	   
 	public List<Long> findIdsForEmailSync(final String type, Object... params) {
 		return emailDao.findIdsForEmailSync(type, params);
 	}
