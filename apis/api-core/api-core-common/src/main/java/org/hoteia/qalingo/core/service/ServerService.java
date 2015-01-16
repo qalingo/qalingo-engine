@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.hoteia.qalingo.core.dao.ServerDao;
@@ -61,6 +62,10 @@ public class ServerService {
 
     public void deleteServerStatus(ServerStatus serverStatus) {
         serverStatusDao.deleteServerStatus(serverStatus);
+    }
+
+    public int deleteSendedServerStatus(final Timestamp before) {
+        return serverStatusDao.deleteSendedServerStatus(before);
     }
 
 }

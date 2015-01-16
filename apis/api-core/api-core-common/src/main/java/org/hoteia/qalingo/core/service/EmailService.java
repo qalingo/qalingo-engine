@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.service;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -109,12 +110,18 @@ public class EmailService {
 		emailDao.deleteEmail(email);
 	}
 	
+	public int deleteSendedEmail(final Timestamp before) {
+	    return emailDao.deleteSendedEmail(before);
+	}
+	
     /**
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveContactMail(Localization localization, Customer customer, String velocityPath, ContactEmailBean contactEmailBean)
      */
-    public void buildAndSaveContactMail(final RequestData requestData, final String velocityPath, final ContactEmailBean contactEmailBean) throws Exception {
+    public void buildAndSaveContactMail(final RequestData requestData, final String velocityPath, 
+                                        final ContactEmailBean contactEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -128,8 +135,8 @@ public class EmailService {
         	model.put("contactEmailBean", contactEmailBean);
         	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-            String fromAddress = handleFromAddress(contactEmailBean.getFromAddress(), locale);
-            String fromName = handleFromAddress(contactEmailBean.getFromAddress(), locale);
+            String fromAddress = handleFromAddress(contactEmailBean.getFromAddress(), contextNameValue);
+            String fromName = handleFromName(contactEmailBean.getFromName(), locale);
             String toEmail = contactEmailBean.getToEmail();
 
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_CONTACT, model);
@@ -164,8 +171,10 @@ public class EmailService {
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveRetailerContactMail(Localization localization, Customer customer, String velocityPath, RetailerContactEmailBean retailerContactEmailBean)
      */
-    public void buildAndSaveRetailerContactMail(final RequestData requestData, final Customer customer, final String velocityPath, final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
+    public void buildAndSaveRetailerContactMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+                                                final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -180,7 +189,7 @@ public class EmailService {
         	model.put("retailerContactEmailBean", retailerContactEmailBean);
         	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-            String fromAddress = handleFromAddress(retailerContactEmailBean.getFromAddress(), locale);
+            String fromAddress = handleFromAddress(retailerContactEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(retailerContactEmailBean.getFromName(), locale);
             String toEmail = retailerContactEmailBean.getToEmail();
             
@@ -217,6 +226,7 @@ public class EmailService {
     public void saveAndBuildNewsletterSubscriptionnConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final MarketArea marketArea = requestData.getMarketArea();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
@@ -240,7 +250,7 @@ public class EmailService {
     		
         	model.put("unsubscribeUrlOrEmail", fullUnsubscribeUrl);
 
-        	String fromAddress = handleFromAddress(newsletterEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(newsletterEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(newsletterEmailBean.getFromName(), locale);
             String toEmail = newsletterEmailBean.getToEmail();
             
@@ -278,6 +288,7 @@ public class EmailService {
     public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -302,7 +313,7 @@ public class EmailService {
     		
         	model.put("unsubscribeUrlOrEmail", fullUnsubscribeUrl);
         	
-        	String fromAddress = handleFromAddress(newsletterEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(newsletterEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(newsletterEmailBean.getFromName(), locale);
             String toEmail = newsletterEmailBean.getToEmail();
             
@@ -340,6 +351,7 @@ public class EmailService {
     public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final String velocityPath, 
     											   final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -360,7 +372,7 @@ public class EmailService {
 			String resetPasswordUrl = urlService.generateUrl(FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION, requestData, urlParams);
         	model.put("newCustomerValidationUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
 
-        	String fromAddress = handleFromAddress(customerNewAccountConfirmationEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(customerNewAccountConfirmationEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(customerNewAccountConfirmationEmailBean.getFromName(), locale);
             String toEmail = customerNewAccountConfirmationEmailBean.getToEmail();
             
@@ -398,6 +410,7 @@ public class EmailService {
     public void buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													  final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -424,7 +437,7 @@ public class EmailService {
         	
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
 
-        	String fromAddress = handleFromAddress(customerForgottenPasswordEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(customerForgottenPasswordEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(customerForgottenPasswordEmailBean.getFromName(), locale);
             String toEmail = customer.getEmail();
             
@@ -461,6 +474,7 @@ public class EmailService {
     public void buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     															  final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -479,7 +493,7 @@ public class EmailService {
 			String loginUrl = urlService.generateUrl(FoUrls.LOGIN, requestData);
         	model.put("loginUrl", urlService.buildAbsoluteUrl(requestData, loginUrl));
         	
-        	String fromAddress = handleFromAddress(customerResetPasswordConfirmationEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(customerResetPasswordConfirmationEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(customerResetPasswordConfirmationEmailBean.getFromName(), locale);
             String toEmail = customer.getEmail();
             
@@ -516,6 +530,7 @@ public class EmailService {
     public void buildAndSaveUserNewAccountMail(final RequestData requestData, final String velocityPath, 
                                                    final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
             final Locale locale = localization.getLocale();
             
@@ -536,7 +551,7 @@ public class EmailService {
             String resetPasswordUrl = urlService.generateUrl(FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION, requestData, urlParams);
             model.put("newUserValidationUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
 
-            String fromAddress = handleFromAddress(userNewAccountConfirmationEmailBean.getFromAddress(), locale);
+            String fromAddress = handleFromAddress(userNewAccountConfirmationEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(userNewAccountConfirmationEmailBean.getFromName(), locale);
             String toEmail = userNewAccountConfirmationEmailBean.getToEmail();
             
@@ -574,6 +589,7 @@ public class EmailService {
     public void buildAndSaveUserForgottenPasswordMail(final RequestData requestData, final User user, final String velocityPath, 
                                                           final UserForgottenPasswordEmailBean userForgottenPasswordEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
             final Locale locale = localization.getLocale();
             
@@ -600,7 +616,7 @@ public class EmailService {
             
             model.put("userForgottenPasswordEmailBean", userForgottenPasswordEmailBean);
 
-            String fromAddress = handleFromAddress(userForgottenPasswordEmailBean.getFromAddress(), locale);
+            String fromAddress = handleFromAddress(userForgottenPasswordEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(userForgottenPasswordEmailBean.getFromName(), locale);
             String toEmail = user.getEmail();
             
@@ -637,6 +653,7 @@ public class EmailService {
     public void buildAndSaveUserResetPasswordConfirmationMail(final RequestData requestData, final User user, final String velocityPath, 
                                                                   final UserResetPasswordConfirmationEmailBean userResetPasswordConfirmationEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
             final Locale locale = localization.getLocale();
             
@@ -655,7 +672,7 @@ public class EmailService {
             String loginUrl = urlService.generateUrl(FoUrls.LOGIN, requestData);
             model.put("loginUrl", urlService.buildAbsoluteUrl(requestData, loginUrl));
             
-            String fromAddress = handleFromAddress(userResetPasswordConfirmationEmailBean.getFromAddress(), locale);
+            String fromAddress = handleFromAddress(userResetPasswordConfirmationEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(userResetPasswordConfirmationEmailBean.getFromName(), locale);
             String toEmail = user.getEmail();
             
@@ -692,6 +709,7 @@ public class EmailService {
     public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												 final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -707,7 +725,7 @@ public class EmailService {
         	model.put("orderConfirmationEmailBean", orderConfirmationEmailBean);
         	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-        	String fromAddress = handleFromAddress(orderConfirmationEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(orderConfirmationEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(orderConfirmationEmailBean.getFromName(), locale);
             String toEmail = customer.getEmail();
             
@@ -744,6 +762,7 @@ public class EmailService {
     public void buildAndSaveOrderShippedConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													 final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -759,7 +778,7 @@ public class EmailService {
         	model.put("orderSentConfirmationEmailBean", orderSentConfirmationEmailBean);
         	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-        	String fromAddress = handleFromAddress(orderSentConfirmationEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(orderSentConfirmationEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(orderSentConfirmationEmailBean.getFromName(), locale);
             String toEmail = customer.getEmail();
             
@@ -796,6 +815,7 @@ public class EmailService {
     public void buildAndSaveAbandonedShoppingCartMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												  final AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception {
         try {
+            final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -811,7 +831,7 @@ public class EmailService {
         	model.put("abandonedShoppingCartEmailBean", abandonedShoppingCartEmailBean);
         	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-        	String fromAddress = handleFromAddress(abandonedShoppingCartEmailBean.getFromAddress(), locale);
+        	String fromAddress = handleFromAddress(abandonedShoppingCartEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(abandonedShoppingCartEmailBean.getFromName(), locale);
             String toEmail = customer.getEmail();
             
@@ -842,11 +862,11 @@ public class EmailService {
         }
     }
 
-    protected String handleFromAddress(String fromAddress, Locale locale){
-        if(StringUtils.isEmpty(fromAddress)){
-            fromAddress = coreMessageSource.getMessage("email.common.from_address", locale);
+    protected String handleFromAddress(String emailFromAddress, String contextValue){
+        if(StringUtils.isEmpty(emailFromAddress)){
+            emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
         }
-        return fromAddress;
+        return emailFromAddress;
     }
     
     protected String handleFromName(String fromName, Locale locale){
