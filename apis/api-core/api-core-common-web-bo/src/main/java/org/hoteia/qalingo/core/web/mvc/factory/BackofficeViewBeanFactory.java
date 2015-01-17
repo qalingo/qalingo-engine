@@ -675,7 +675,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             assetViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
-        if(Asset.ASSET_TYPE_DEFAULT.equals(asset.getType()){
+        if(Asset.ASSET_TYPE_DEFAULT.equals(asset.getType())){
             assetViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_DETAILS, requestData, asset));
             assetViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_EDIT, requestData, asset));
         }
