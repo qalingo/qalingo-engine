@@ -21,7 +21,6 @@ public class UserViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = -1826858352678981858L;
 	
-	private Long id;
     private String code;
 	private String login;
 	private String firstname;
@@ -51,14 +50,6 @@ public class UserViewBean extends AbstractViewBean {
 
     private String personalDetailsUrl;
 	private String personalEditUrl;
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	public String getCode() {
         return code;

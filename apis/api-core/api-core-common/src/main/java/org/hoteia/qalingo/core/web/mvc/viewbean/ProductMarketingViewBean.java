@@ -24,7 +24,6 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = 9190853998911450184L;
 
-	protected Long id;
 	protected String code;
 	protected String name;
     protected String description;
@@ -62,14 +61,6 @@ public class ProductMarketingViewBean extends AbstractViewBean {
     protected String editUrl;
 
     protected String addSkuUrl;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getCode() {
 		return code;

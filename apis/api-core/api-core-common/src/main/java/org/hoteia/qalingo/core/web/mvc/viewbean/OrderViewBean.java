@@ -19,7 +19,6 @@ public class OrderViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = -7481342045685333815L;
 	
-    private Long id;
     private int version;
     private String status;
     private String confirmationMessage;
@@ -55,14 +54,6 @@ public class OrderViewBean extends AbstractViewBean {
 	public OrderViewBean() {
 	}
 	
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public int getVersion() {
         return version;
     }

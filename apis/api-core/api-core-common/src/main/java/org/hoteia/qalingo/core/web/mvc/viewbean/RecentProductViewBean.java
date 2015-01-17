@@ -16,7 +16,6 @@ public class RecentProductViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = 5117261702675284863L;
 	
-    protected Long id;
     protected String code;
     
 	protected String i18nName;
@@ -37,13 +36,6 @@ public class RecentProductViewBean extends AbstractViewBean {
     public void setDetailsUrl(String detailsUrl) {
         this.detailsUrl = detailsUrl;
     }
-    public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getCode() {
 		return code;

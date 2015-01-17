@@ -23,7 +23,6 @@ public class CustomerViewBean extends AbstractViewBean {
 
     public static String SCREEN_NAME = "screenName";
 
-    private Long id;
     private int version;
     private String code;
     private String login;
@@ -48,14 +47,6 @@ public class CustomerViewBean extends AbstractViewBean {
 
     private String detailsUrl;
     private String editUrl;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getVersion() {
         return version;

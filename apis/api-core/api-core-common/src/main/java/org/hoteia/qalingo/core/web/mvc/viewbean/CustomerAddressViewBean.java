@@ -16,7 +16,6 @@ public class CustomerAddressViewBean extends AbstractAddressViewBean {
 	 */
 	private static final long serialVersionUID = 2347791718108024528L;
 	
-    private Long id;
     private String addressName;
     private String titleCode;
     private String titleLabel;
@@ -28,14 +27,6 @@ public class CustomerAddressViewBean extends AbstractAddressViewBean {
 
     private String editUrl;
     private String deleteUrl;
-    
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getAddressName() {
 		return addressName;

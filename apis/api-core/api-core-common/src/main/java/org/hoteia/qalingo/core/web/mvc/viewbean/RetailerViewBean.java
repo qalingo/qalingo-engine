@@ -26,7 +26,6 @@ public class RetailerViewBean extends AbstractViewBean {
 	private static final long serialVersionUID = -5387549593050575454L;
 
 	// ENTITY
-	protected Long id;
 	protected int version;
 	protected String code;
     protected String name;
@@ -70,14 +69,6 @@ public class RetailerViewBean extends AbstractViewBean {
 	protected String img;
 	protected String changeContextUrl;
 	protected String homeUrl;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public int getVersion() {
 		return version;

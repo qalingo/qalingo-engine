@@ -1318,7 +1318,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public CustomerAddressViewBean buildViewBeanCustomeAddress(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
         final Locale locale = requestData.getLocale();
         final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
-        customerAddressViewBean.setId(customerAddress.getId());
+        if(customerAddress.getId() != null){
+            customerAddressViewBean.setId(customerAddress.getId().toString());
+        }
 
         String addressName = customerAddress.getAddressName();
         if (StringUtils.isNotEmpty(addressName)) {
@@ -2465,7 +2467,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public DeliveryMethodViewBean buildViewBeanDeliveryMethod(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
         final DeliveryMethodViewBean deliveryMethodViewBean = new DeliveryMethodViewBean();
-        deliveryMethodViewBean.setId(deliveryMethod.getId());
+        
+        if(deliveryMethod.getId() != null){
+            deliveryMethodViewBean.setId(deliveryMethod.getId().toString());
+        }
 
         deliveryMethodViewBean.setVersion(deliveryMethod.getVersion());
         deliveryMethodViewBean.setName(deliveryMethod.getName());
@@ -2514,7 +2519,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public TaxViewBean buildViewBeanTax(final RequestData requestData, final Tax tax) throws Exception {
         final TaxViewBean taxViewBean = new TaxViewBean();
-        taxViewBean.setId(tax.getId());
+        if(tax.getId() != null){
+            taxViewBean.setId(tax.getId().toString());
+        }
 
         taxViewBean.setVersion(tax.getVersion());
         taxViewBean.setCode(tax.getCode());

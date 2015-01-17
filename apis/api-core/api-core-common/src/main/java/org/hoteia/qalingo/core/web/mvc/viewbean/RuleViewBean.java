@@ -15,7 +15,7 @@ public class RuleViewBean extends AbstractViewBean {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -3496510221185684784L;
-	private Long id;
+
 	private int version;
     private String code;
 	private String name;
@@ -27,14 +27,6 @@ public class RuleViewBean extends AbstractViewBean {
 
 	private String detailsUrl;
 	private String editUrl;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public int getVersion() {
 		return version;

@@ -15,7 +15,7 @@ public class DeliveryMethodViewBean extends AbstractViewBean {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = 267113307585572454L;
-	private Long id;
+
 	private int version;
 	private String name;
 	private String description;
@@ -33,14 +33,6 @@ public class DeliveryMethodViewBean extends AbstractViewBean {
     private String detailsUrl;
     private String editUrl;
     
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public int getVersion() {
 		return version;
 	}
