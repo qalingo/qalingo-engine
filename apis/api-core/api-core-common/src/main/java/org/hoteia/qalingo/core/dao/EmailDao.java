@@ -26,6 +26,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 import org.slf4j.Logger;
@@ -98,12 +99,13 @@ public class EmailDao extends AbstractGenericDao {
             email.setStatus(Email.EMAIl_STATUS_PENDING);
         }
         email.setDateUpdate(new Timestamp(new Date().getTime()));
+        
         if (email.getId() != null) {
-            if(em.contains(email)){
-                em.refresh(email);
-            }
+//            if(em.contains(email)){
+//                em.refresh(email);
+//            }
             Email mergedEmail = em.merge(email);
-            em.flush();
+//            em.flush();
             return mergedEmail;
         } else {
             em.persist(email);
