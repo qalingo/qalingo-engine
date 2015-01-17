@@ -114,6 +114,10 @@ public class EmailService {
 	    return emailDao.deleteSendedEmail(before);
 	}
 	
+	public void handleEmailException(final Email email, final Exception exception) throws IOException {
+	    emailDao.handleEmailException(email, exception);
+	}
+	
     /**
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveContactMail(Localization localization, Customer customer, String velocityPath, ContactEmailBean contactEmailBean)
