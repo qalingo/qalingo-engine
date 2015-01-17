@@ -32,13 +32,13 @@ public class SearchForm implements Serializable {
 	private PriceRange price;
 	private String categoriesFilter;
 	private String cities;
-
+    private String countries;
+    
 	public SearchForm() {
 		page = 0;
 		pageSize = Constants.PAGINATION_DEFAULT_PAGE_SIZE;
 		sortBy = "";
 		order = "";
-
 	}
 
 	public int getPage() {
@@ -97,7 +97,6 @@ public class SearchForm implements Serializable {
 		this.categoriesFilter = categoriesFilter;
 	}
 	
-
 	public String getCities() {
 		return cities;
 	}
@@ -105,6 +104,14 @@ public class SearchForm implements Serializable {
 	public void setCities(String cities) {
 		this.cities = cities;
 	}
+	
+	public String getCountries() {
+        return countries;
+    }
+	
+	public void setCountries(String countries) {
+        this.countries = countries;
+    }
 
 	public List<String> getCatalogCategoryList() {
 		if (StringUtils.isEmpty(categoriesFilter)) {

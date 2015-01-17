@@ -60,7 +60,7 @@ public abstract class AbstractUrlService {
             }
             return url + queryString.replaceFirst("&", "?");
         }
-        return url;
+        return url.toLowerCase();
     }
 
     public String buildAbsoluteUrl(final RequestData requestData, final String relativeUrl) throws Exception {

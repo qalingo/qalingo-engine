@@ -1509,7 +1509,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
             CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iterator.next();
-            catalogCategoryViewBeans.add(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory));
+            catalogCategoryViewBeans.add(buildViewBeanMasterCatalogCategory(requestData, catalogCategory));
         }
         
         return catalogCategoryViewBeans;
@@ -1554,7 +1554,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryVirtual> iterator = catalogCategories.iterator(); iterator.hasNext();) {
             CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iterator.next();
-            catalogCategoryViewBeans.add(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory));
+            catalogCategoryViewBeans.add(buildViewBeanVirtualCatalogCategory(requestData, catalogCategory));
         }
         return catalogCategoryViewBeans;
     }
