@@ -58,9 +58,9 @@ public abstract class AbstractUrlService {
                     queryString += "&" + entry.getKey() + "=" + entry.getValue();
                 }
             }
-            return url + queryString.replaceFirst("&", "?");
+            return url.toLowerCase() + queryString.replaceFirst("&", "?");
         }
-        return url.toLowerCase();
+        return url;
     }
 
     public String buildAbsoluteUrl(final RequestData requestData, final String relativeUrl) throws Exception {
