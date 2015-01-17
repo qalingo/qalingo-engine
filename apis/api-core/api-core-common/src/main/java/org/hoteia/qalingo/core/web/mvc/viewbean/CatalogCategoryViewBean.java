@@ -44,9 +44,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
     private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
     private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
 
-    protected int countSubCategories = 0;
     protected List<CatalogCategoryViewBean> subCategories = new ArrayList<CatalogCategoryViewBean>();
-    protected int countProductMarketings = 0;
     protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
     protected List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
 
@@ -268,11 +266,10 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
     }
 
     public int getCountSubCategories() {
-        return countSubCategories;
-    }
-    
-    public void setCountSubCategories(int countSubCategories) {
-        this.countSubCategories = countSubCategories;
+        if(subCategories != null){
+            return subCategories.size();
+        }
+        return 0;
     }
     
     public List<CatalogCategoryViewBean> getSubCategories() {
@@ -284,11 +281,10 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
     }
 
     public int getCountProductMarketings() {
-        return countProductMarketings;
-    }
-    
-    public void setCountProductMarketings(int countProductMarketings) {
-        this.countProductMarketings = countProductMarketings;
+        if(productMarketings != null){
+            return subCategories.size();
+        }
+        return 0;
     }
     
     public List<ProductMarketingViewBean> getProductMarketings() {

@@ -1527,22 +1527,22 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getParentCatalogCategory()));
         }
        
-        // SUB CATEGORIES
-        List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
-        final List<CatalogCategoryMaster> subCategories = catalogCategory.getSortedChildCatalogCategories();
-        if (subCategories != null) {
-            for (Iterator<CatalogCategoryMaster> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
-                final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
-                subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
-            }
-            catalogCategoryViewBean.setCountSubCategories(subCategories.size());
-        }
-        catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
-        
-        // FEATURED PRODUCTS
-        for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
-            catalogCategoryViewBean.getFeaturedProductMarketings().addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
-        }
+//        // SUB CATEGORIES
+//        List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
+//        final List<CatalogCategoryMaster> subCategories = catalogCategory.getSortedChildCatalogCategories();
+//        if (subCategories != null) {
+//            for (Iterator<CatalogCategoryMaster> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
+//                final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
+//                subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
+//            }
+//            catalogCategoryViewBean.setCountSubCategories(subCategories.size());
+//        }
+//        catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
+//        
+//        // FEATURED PRODUCTS
+//        for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
+//            catalogCategoryViewBean.getFeaturedProductMarketings().addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
+//        }
         
         return catalogCategoryViewBean;
     }
@@ -1575,22 +1575,22 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getParentCatalogCategory()));
         }
        
-        // SUB CATEGORIES
-        List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
-        final List<CatalogCategoryVirtual> subCategories = catalogCategory.getSortedChildCatalogCategories();
-        if (subCategories != null) {
-            for (Iterator<CatalogCategoryVirtual> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
-                final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
-                subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
-            }
-            catalogCategoryViewBean.setCountSubCategories(subCategories.size());
-        }
-        catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
-        
-        // FEATURED PRODUCTS
-        for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
-            catalogCategoryViewBean.getFeaturedProductMarketings().addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
-        }
+//        // SUB CATEGORIES
+//        List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
+//        final List<CatalogCategoryVirtual> subCategories = catalogCategory.getSortedChildCatalogCategories();
+//        if (subCategories != null) {
+//            for (Iterator<CatalogCategoryVirtual> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
+//                final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
+//                subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
+//            }
+//            catalogCategoryViewBean.setCountSubCategories(subCategories.size());
+//        }
+//        catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
+//        
+//        // FEATURED PRODUCTS
+//        for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
+//            catalogCategoryViewBean.getFeaturedProductMarketings().addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
+//        }
         
         return catalogCategoryViewBean;
     }
@@ -1661,9 +1661,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 catalogCategoryViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
             }
 
+            // SUB CATEGORIES
+            List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
+            final List<AbstractCatalogCategory> subCategories = catalogCategory.getSortedChildCatalogCategories();
+            if (subCategories != null) {
+                for (Iterator<AbstractCatalogCategory> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
+                    final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
+                    subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
+                }
+            }
+            catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
+            
             // PRODUCTS
-            List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
-            List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
             final List<ProductSku> productSkus = catalogCategory.getSortedProductSkus();
             if (productSkus != null) {
                 for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
@@ -1671,14 +1680,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
                     final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
                     ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing, reloadedProductSku);
-                    productMarketingViewBeans.add(productMarketingViewBean);
+                    catalogCategoryViewBean.getProductMarketings().add(productMarketingViewBean);
                     if (productMarketing.isFeatured()) {
-                        featuredProductMarketings.add(productMarketingViewBean);
+                        catalogCategoryViewBean.getFeaturedProductMarketings().add(productMarketingViewBean);
                     }
                 }
-                catalogCategoryViewBean.setCountProductMarketings(catalogCategory.getSortedProductMarketings().size());
             }
-            catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
         }
 
         return catalogCategoryViewBean;
