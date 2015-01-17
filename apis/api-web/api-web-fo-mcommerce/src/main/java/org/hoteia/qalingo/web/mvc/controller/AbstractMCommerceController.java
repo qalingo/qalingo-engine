@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
@@ -117,11 +118,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
     }
     
     protected PagedListHolder<ProductMarketingViewBean> initList(final RequestData requestData, final String sessionKeyPagedListHolder, final ProductMarketingResponseBean productMarketingResponseBean,
-                                                                 PagedListHolder<ProductMarketingViewBean> pagedListHolder, final SearchForm searchForm) throws Exception{
-        int pageSize = searchForm.getPageSize();
-        String sortBy = searchForm.getSortBy();
-        String order = searchForm.getOrder();
-        
+                                                                 int pageSize, String sortBy, String order) throws Exception{
         final List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
         List<ProductMarketingSolr> searchtItems = productMarketingResponseBean.getProductMarketingSolrList();
         for (Iterator<ProductMarketingSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {
@@ -136,9 +133,12 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
             }
         }
         
-        pagedListHolder = new PagedListHolder<ProductMarketingViewBean>(productMarketingViewBeans);
+        PagedListHolder<ProductMarketingViewBean> pagedListHolder = new PagedListHolder<ProductMarketingViewBean>(productMarketingViewBeans);
         pagedListHolder.setPageSize(pageSize);
-        pagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
+        if(StringUtils.isNotEmpty(sortBy)
+                && StringUtils.isNotEmpty(order)){
+            pagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
+        }
         pagedListHolder.resort();
 //        request.getSession().setAttribute(sessionKeyPagedListHolder, productsViewBeanPagedListHolder);
         return pagedListHolder;

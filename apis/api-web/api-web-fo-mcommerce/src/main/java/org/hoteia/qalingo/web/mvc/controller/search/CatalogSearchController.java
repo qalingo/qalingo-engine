@@ -115,7 +115,8 @@ public class CatalogSearchController extends AbstractMCommerceController {
         String mode = request.getParameter(Constants.PAGE_VIEW_MODE);
         String sortBy = searchForm.getSortBy();
         String order = searchForm.getOrder();
-		
+        int pageSize = searchForm.getPageSize();
+        
 		try {
             PagedListHolder<ProductMarketingViewBean> pagedListHolder;
 		    if(searchForm.getPage() == 0){
@@ -132,8 +133,8 @@ public class CatalogSearchController extends AbstractMCommerceController {
 	                                                        searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
 	            }
 	            
-	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, productMarketingResponseBean, new PagedListHolder<ProductMarketingViewBean>(), searchForm);
-
+	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, productMarketingResponseBean, pageSize, sortBy, order);
+	            
 	            // FACETS
                 List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean);
                 modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, facets);
