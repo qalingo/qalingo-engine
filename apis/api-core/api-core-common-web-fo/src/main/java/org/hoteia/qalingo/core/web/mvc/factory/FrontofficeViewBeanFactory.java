@@ -503,7 +503,9 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             if(reloadedProductSku != null){
                 final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode(), productMarketingFetchPlans);
                 final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId(), categoryVirtualFetchPlans);
-                recentProductViewBean.setId(productMarketing.getId());
+                if(productMarketing.getId() != null){
+                    recentProductViewBean.setId(productMarketing.getId().toString());
+                }
                 recentProductViewBean.setCode(productMarketing.getCode());
                 recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));   
                 recentProductViewBean.setI18nName(productMarketing.getI18nName(localizationCode));

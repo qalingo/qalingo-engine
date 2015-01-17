@@ -720,7 +720,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
     public UserViewBean buildViewBeanUser(final RequestData requestData, final User user) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final UserViewBean userViewBean = new UserViewBean();
-        userViewBean.setId(user.getId());
+        if(user.getId() != null){
+            userViewBean.setId(user.getId().toString());
+        }
         userViewBean.setCode(user.getCode());
         userViewBean.setLogin(user.getLogin());
         userViewBean.setFirstname(user.getFirstname());
@@ -827,7 +829,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         final Locale locale = requestData.getLocale();
         
         final CompanyViewBean companyViewBean = new CompanyViewBean();
-        companyViewBean.setId(company.getId());
+        if(company.getId() != null){
+            companyViewBean.setId(company.getId().toString());
+        }
         companyViewBean.setCode(company.getCode());
         companyViewBean.setName(company.getName());
         companyViewBean.setDescription(company.getDescription());
@@ -928,7 +932,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      */
     public RuleViewBean buildViewBeanRule(final RequestData requestData, final AbstractRuleReferential rule) throws Exception {
         RuleViewBean ruleViewBean = new RuleViewBean();
-        ruleViewBean.setId(rule.getId());
+        if(rule.getId() != null){
+            ruleViewBean.setId(rule.getId().toString());
+        }
         ruleViewBean.setVersion(rule.getVersion());
 
         ruleViewBean.setCode(rule.getCode());
@@ -1087,7 +1093,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      */
     public BatchViewBean buildViewBeanBatch(final RequestData requestData, final BatchProcessObject batchProcessObject) throws Exception {
         final BatchViewBean batchViewBean = new BatchViewBean();
-        batchViewBean.setId(batchProcessObject.getId());
+        if(batchProcessObject.getId() != null){
+            batchViewBean.setId(batchProcessObject.getId().toString());
+        }
         batchViewBean.setStatus(batchProcessObject.getStatus());
         batchViewBean.setTypeObject(batchProcessObject.getTypeObject().getPropertyKey());
         batchViewBean.setProcessedCount(batchProcessObject.getProcessedCount());
