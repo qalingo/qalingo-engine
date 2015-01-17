@@ -58,6 +58,17 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolrServer.commit();
     }
     
+    public void removeStore(final StoreSolr storeSolr) throws SolrServerException, IOException {
+        if (storeSolr.getId() == null) {
+            throw new IllegalArgumentException("Id  cannot be blank or null.");
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Remove Index Store " + storeSolr.getId() + " : " + storeSolr.getName() + " : " + storeSolr.getCity());
+        }
+        storeSolrServer.deleteById(storeSolr.getId().toString());
+        storeSolrServer.commit();
+    }
+    
     public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields) throws SolrServerException, IOException {
     	return searchStore(searchBy, searchText, facetFields, null, null);
     }

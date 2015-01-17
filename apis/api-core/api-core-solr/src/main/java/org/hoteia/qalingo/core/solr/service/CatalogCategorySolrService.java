@@ -24,6 +24,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.bean.CatalogCategorySolr;
+import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class CatalogCategorySolrService extends AbstractSolrService {
             throw new IllegalArgumentException("Id cannot be blank or null.");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Indexing customer " + catalogCategoryMaster.getId() + " : " + catalogCategoryMaster.getCode() + " : " + catalogCategoryMaster.getName());
+            logger.debug("Indexing category " + catalogCategoryMaster.getId() + " : " + catalogCategoryMaster.getCode() + " : " + catalogCategoryMaster.getName());
         }
 
         CatalogCategorySolr categorySolr = new CatalogCategorySolr();
@@ -61,6 +62,17 @@ public class CatalogCategorySolrService extends AbstractSolrService {
         logger.debug("Fields has been added sucessfully ");
     }
 
+    public void removeCatalogCategory(final CatalogCategorySolr categorySolr) throws SolrServerException, IOException {
+        if (categorySolr.getId() == null) {
+            throw new IllegalArgumentException("Id  cannot be blank or null.");
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Remove Index category " + categorySolr.getId() + " : " + categorySolr.getName());
+        }
+        catalogCategorySolrServer.deleteById(categorySolr.getId().toString());
+        catalogCategorySolrServer.commit();
+    }
+    
 	public CatalogCategoryResponseBean searchCatalogCategory(String searchBy,String searchText, String facetField) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);

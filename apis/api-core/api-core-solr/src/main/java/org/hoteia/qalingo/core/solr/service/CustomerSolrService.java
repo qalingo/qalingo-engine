@@ -24,6 +24,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.bean.CustomerSolr;
+import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.CustomerResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class CustomerSolrService extends AbstractSolrService {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Indexing customer " + customer.getId() + " : " + customer.getCode() + " : " + customer.getFirstname() + " : " + customer.getLastname());
+            logger.debug("Indexing Customer " + customer.getId() + " : " + customer.getCode() + " : " + customer.getFirstname() + " : " + customer.getLastname());
         }
         CustomerSolr customerSolr = new CustomerSolr();
         customerSolr.setId(customer.getId());
@@ -58,6 +59,17 @@ public class CustomerSolrService extends AbstractSolrService {
         customerSolrServer.commit();
     }
 	
+    public void removeCustomer(final CustomerSolr customerSolr) throws SolrServerException, IOException {
+        if (customerSolr.getId() == null) {
+            throw new IllegalArgumentException("Id  cannot be blank or null.");
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Remove Index Customer " + customerSolr.getId() + " : " + customerSolr.getLastname() + " : " + customerSolr.getFirstname());
+        }
+        customerSolrServer.deleteById(customerSolr.getId().toString());
+        customerSolrServer.commit();
+    }
+    
     public CustomerResponseBean searchCustomer(String searchBy, String searchText, String facetField) throws IllegalArgumentException, SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);

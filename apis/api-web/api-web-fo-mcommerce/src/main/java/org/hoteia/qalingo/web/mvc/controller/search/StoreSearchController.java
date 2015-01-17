@@ -84,7 +84,6 @@ public class StoreSearchController extends AbstractMCommerceController {
 	public ModelAndView search(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
         // SANITY CHECK
         List<String> evictValues = new ArrayList<String>();
@@ -183,6 +182,8 @@ public class StoreSearchController extends AbstractMCommerceController {
 
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         
+        modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
+
         return modelAndView;
 	}
 
@@ -250,8 +251,13 @@ public class StoreSearchController extends AbstractMCommerceController {
         for (Iterator<StoreSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {
             StoreSolr storeSolr = (StoreSolr) iterator.next();
             Store store = retailerService.getStoreByCode(storeSolr.getCode(), new FetchPlan(storeFetchPlans));
-            StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestData, store);
-            storeViewBeans.add(storeViewBean);
+            if(store != null){
+                StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestData, store);
+                storeViewBeans.add(storeViewBean);
+            } else {
+                // STORE DOESN'T EXIST ANYMORE : CLEAN INDEX
+                storeSolrService.removeStore(storeSolr);
+            }
         }
         
         pagedListHolder = new PagedListHolder<StoreViewBean>(storeViewBeans);

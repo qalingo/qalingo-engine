@@ -68,9 +68,6 @@ public class CatalogSearchController extends AbstractMCommerceController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-	protected ProductMarketingSolrService productMarketingSolrService;
-
     protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
 

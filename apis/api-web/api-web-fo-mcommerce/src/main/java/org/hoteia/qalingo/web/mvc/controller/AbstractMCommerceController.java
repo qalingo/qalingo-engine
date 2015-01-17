@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
+import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
@@ -63,6 +64,9 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
     @Autowired
     protected WebManagementService webManagementService;
 
+    @Autowired
+    protected ProductMarketingSolrService productMarketingSolrService;
+    
     @Autowired
     protected FormFactory formFactory;
 	
@@ -123,8 +127,13 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
         for (Iterator<ProductMarketingSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {
             ProductMarketingSolr productMarketingSolr = (ProductMarketingSolr) iterator.next();
             ProductMarketing productMarketing = productMarketingService.getProductMarketingById(productMarketingSolr.getId(), new FetchPlan(productMarketingFetchPlans));
-            ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestData, productMarketing);
-            productMarketingViewBeans.add(productMarketingViewBean);
+            if(productMarketing != null){
+                ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestData, productMarketing);
+                productMarketingViewBeans.add(productMarketingViewBean);
+            } else {
+                // PRODUCT DOESN'T EXIST ANYMORE : CLEAN INDEX
+                productMarketingSolrService.remove(productMarketingSolr);
+            }
         }
         
         pagedListHolder = new PagedListHolder<ProductMarketingViewBean>(productMarketingViewBeans);

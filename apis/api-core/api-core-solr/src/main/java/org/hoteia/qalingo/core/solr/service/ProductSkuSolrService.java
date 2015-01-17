@@ -29,6 +29,7 @@ import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
+import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +89,17 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolrServer.commit();
     }
 
+    public void removeProductSku(final ProductSkuSolr productSkuSolr) throws SolrServerException, IOException {
+        if (productSkuSolr.getId() == null) {
+            throw new IllegalArgumentException("Id  cannot be blank or null.");
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Remove Index ProductSku " + productSkuSolr.getId() + " : " + productSkuSolr.getCode() + " : " + productSkuSolr.getName());
+        }
+        productSkuSolrServer.deleteById(productSkuSolr.getId().toString());
+        productSkuSolrServer.commit();
+    }
+    
     public ProductSkuResponseBean searchProductSku(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
