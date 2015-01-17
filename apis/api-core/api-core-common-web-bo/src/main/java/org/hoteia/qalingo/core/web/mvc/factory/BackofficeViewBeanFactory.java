@@ -656,23 +656,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * @throws Exception
      * 
      */
+     @Override
     public AssetViewBean buildViewBeanAsset(final RequestData requestData, final Asset asset) throws Exception {
-        AssetViewBean assetViewBean = new AssetViewBean();
-        assetViewBean.setName(asset.getName());
-        assetViewBean.setDescription(asset.getDescription());
-        assetViewBean.setPath(asset.getPath());
-        if (asset.getScope() != null) {
-            assetViewBean.setScope(asset.getScope());
-        }
-        if (asset.getType() != null) {
-            assetViewBean.setType(asset.getType());
-        }
-        if (asset.getSize() != null) {
-            assetViewBean.setSize(asset.getSize());
-        }
-        assetViewBean.setFileSize("" + asset.getFileSize());
-        assetViewBean.setIsDefault(asset.isDefault());
-
+        AssetViewBean assetViewBean = super.buildViewBeanAsset(requestData, asset);
         assetViewBean.setAbsoluteWebPath(engineSettingService.getProductMarketingImageWebPath(asset));
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -689,8 +675,10 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             assetViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
-        assetViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_DETAILS, requestData, asset));
-        assetViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_EDIT, requestData, asset));
+        if(Asset.ASSET_TYPE_DEFAULT.equals(asset.getType()){
+            assetViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_DETAILS, requestData, asset));
+            assetViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_EDIT, requestData, asset));
+        }
 
         return assetViewBean;
     }

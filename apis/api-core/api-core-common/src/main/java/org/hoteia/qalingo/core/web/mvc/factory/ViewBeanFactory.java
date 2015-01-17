@@ -1023,7 +1023,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } 
         // FALLBACK ASSET
         Asset asset = new Asset();
-        asset.setType("default");
+        asset.setType(Asset.ASSET_TYPE_DEFAULT);
         asset.setScope("store");
         asset.setPath("default-store.png");
         AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
@@ -1408,7 +1408,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } 
         // FALLBACK ASSET
         Asset asset = new Asset();
-        asset.setType("default");
+        asset.setType(Asset.ASSET_TYPE_DEFAULT);
         asset.setPath("default-brand.png");
         AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
         final String path = engineSettingService.getProductBrandImageWebPath(asset);
@@ -1605,6 +1605,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
         
         if(catalogCategory != null){
+            if(catalogCategory.getId() != null){
+                catalogCategoryViewBean.setId(catalogCategory.getId().toString());
+            }
             catalogCategoryViewBean.setCode(catalogCategory.getCode());
             catalogCategoryViewBean.setName(catalogCategory.getName());
             catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
@@ -1647,7 +1650,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             } 
             // FALLBACK ASSET
             Asset asset = new Asset();
-            asset.setType("default");
+            asset.setType(Asset.ASSET_TYPE_DEFAULT);
             asset.setPath("default-category.png");
             AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
             final String path = engineSettingService.getCatalogImageWebPath(asset);
@@ -1803,7 +1806,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // FALLBACK ASSET
         Asset asset = new Asset();
-        asset.setType("default");
+        asset.setType(Asset.ASSET_TYPE_DEFAULT);
         asset.setPath("default-product.png");
         AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
         final String path = engineSettingService.getProductMarketingImageWebPath(asset);
@@ -2102,7 +2105,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         // FALLBACK ASSET
         Asset asset = new Asset();
-        asset.setType("default");
+        asset.setType(Asset.ASSET_TYPE_DEFAULT);
         asset.setPath("default-product-sku.png");
         AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
         final String path = engineSettingService.getProductSkuImageWebPath(asset);
@@ -2308,7 +2311,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } 
         // FALLBACK ASSET
         Asset asset = new Asset();
-        asset.setType("default");
+        asset.setType(Asset.ASSET_TYPE_DEFAULT);
         asset.setPath("default-cart-item.png");
         AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
         final String path = engineSettingService.getProductSkuImageWebPath(asset);

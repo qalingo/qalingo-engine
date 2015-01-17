@@ -34,6 +34,8 @@ public class Asset extends AbstractEntity {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -6464078723126013413L;
+	
+	public static final String ASSET_TYPE_DEFAULT = "default";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
