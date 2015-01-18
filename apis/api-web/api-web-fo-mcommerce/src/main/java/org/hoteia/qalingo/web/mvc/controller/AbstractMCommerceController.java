@@ -118,7 +118,12 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
     }
     
     protected PagedListHolder<ProductMarketingViewBean> initList(final RequestData requestData, final String sessionKeyPagedListHolder, final ProductMarketingResponseBean productMarketingResponseBean,
-                                                                 int pageSize, String sortBy, String order) throws Exception{
+                                                                 int pageSize, String sortBy, String order) throws Exception {
+        // SANITY CHECK
+        if(pageSize == 0){
+            pageSize = 16;
+        }
+        
         final List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
         List<ProductMarketingSolr> searchtItems = productMarketingResponseBean.getProductMarketingSolrList();
         for (Iterator<ProductMarketingSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {

@@ -123,6 +123,9 @@ public class StoreSearchController extends AbstractMCommerceController {
 		}
         
         int pageSize = searchForm.getPageSize();
+        if(pageSize == 0){
+            pageSize = 16;
+        }
         String sortBy = searchForm.getSortBy();
         String order = searchForm.getOrder();
 		
