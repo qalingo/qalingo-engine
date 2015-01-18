@@ -439,8 +439,6 @@ public class EmailService {
 			String canceResetPasswordUrl = urlService.generateUrl(FoUrls.CANCEL_RESET_PASSWORD, requestData, urlParams);
         	model.put("cancelChangePasswordUrl", urlService.buildAbsoluteUrl(requestData, canceResetPasswordUrl));
         	
-        	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
-
         	String fromAddress = handleFromAddress(customerForgottenPasswordEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(customerForgottenPasswordEmailBean.getFromName(), locale);
             String toEmail = customer.getEmail();
