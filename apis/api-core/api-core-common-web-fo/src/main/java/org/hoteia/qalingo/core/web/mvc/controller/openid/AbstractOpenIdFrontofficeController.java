@@ -74,7 +74,10 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
 		final String email = auth.getEmail();
 		Customer customer = customerService.getCustomerByLoginOrEmail(email);
 		
-		if(customer == null){
+        if(customer == null){
+            final Market currentMarket = requestData.getMarket();
+            final MarketArea currentMarketArea = requestData.getMarketArea();
+            
 			// CREATE A NEW CUSTOMER
 			customer = new Customer();
 			
@@ -112,7 +115,11 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
 				customer.setDefaultLocale(auth.getLanguage());
 			}
 			
-			customerService.saveOrUpdateCustomer(customer);
+            // Save the new customer
+            customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
+            
+            // Save the email confirmation
+            webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
 		}
 		
 		// Login the new customer

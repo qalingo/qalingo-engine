@@ -512,21 +512,21 @@ public class WebManagementService {
     /**
      * 
      */
-    public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final CreateAccountForm createAccountForm) throws Exception {
+    public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final Customer customer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
 
         final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean = new CustomerNewAccountConfirmationEmailBean();
-        BeanUtils.copyProperties(createAccountForm, customerNewAccountConfirmationEmailBean);
+        BeanUtils.copyProperties(customer, customerNewAccountConfirmationEmailBean);
         customerNewAccountConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         customerNewAccountConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         customerNewAccountConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
-        customerNewAccountConfirmationEmailBean.setToEmail(createAccountForm.getEmail());
+        customerNewAccountConfirmationEmailBean.setToEmail(customer.getEmail());
 
-        customerNewAccountConfirmationEmailBean.setTitle(createAccountForm.getTitle());
-        customerNewAccountConfirmationEmailBean.setFirstname(createAccountForm.getFirstname());
-        customerNewAccountConfirmationEmailBean.setLastname(createAccountForm.getLastname());
-        customerNewAccountConfirmationEmailBean.setEmail(createAccountForm.getEmail());
+//        customerNewAccountConfirmationEmailBean.setTitle(customer.getTitle());
+//        customerNewAccountConfirmationEmailBean.setFirstname(customer.getFirstname());
+//        customerNewAccountConfirmationEmailBean.setLastname(customer.getLastname());
+//        customerNewAccountConfirmationEmailBean.setEmail(customer.getEmail());
         
         customerNewAccountConfirmationEmailBean.setCustomerDetailsUrl(urlService.buildAbsoluteUrl(requestData, urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData)));
         
@@ -550,9 +550,9 @@ public class WebManagementService {
         customerForgottenPasswordEmailBean.setToken(customerCredential.getResetToken());
         
         customerForgottenPasswordEmailBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
-        customerForgottenPasswordEmailBean.setFirstname(customer.getFirstname());
-        customerForgottenPasswordEmailBean.setLastname(customer.getLastname());
-        customerForgottenPasswordEmailBean.setEmail(customer.getEmail());
+//        customerForgottenPasswordEmailBean.setFirstname(customer.getFirstname());
+//        customerForgottenPasswordEmailBean.setLastname(customer.getLastname());
+//        customerForgottenPasswordEmailBean.setEmail(customer.getEmail());
         
         buildAndSaveCustomerForgottenPasswordMail(requestData, customer, customerCredential, customerForgottenPasswordEmailBean);
     }

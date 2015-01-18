@@ -144,7 +144,7 @@ public class ProductCommentController extends AbstractMCommerceController {
                     createAccountForm.setLastname(customerCommentForm.getName());
                     customer = webManagementService.buildAndSaveQuickNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
                     // Save the email confirmation
-                    webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
+                    webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
                     // Login the new customer
                     securityRequestUtil.authenticationCustomer(request, customer);
                 } else {

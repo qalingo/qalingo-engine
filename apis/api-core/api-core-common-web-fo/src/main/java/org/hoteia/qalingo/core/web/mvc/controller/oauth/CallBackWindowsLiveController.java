@@ -18,6 +18,8 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -154,6 +156,9 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 			Customer customer = customerService.getCustomerByLoginOrEmail(email);
 			
 			if(customer == null){
+		        final Market currentMarket = requestData.getMarket();
+		        final MarketArea currentMarketArea = requestData.getMarketArea();
+		        
 				// CREATE A NEW CUSTOMER
 				customer = new Customer();
 				customer = setCommonCustomerInformation(request, customer);
@@ -192,7 +197,12 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 					customer.setDefaultLocale(locale);
 				}
 				
-				customerService.saveOrUpdateCustomer(customer);
+				// Save the new customer
+				customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
+				
+		        // Save the email confirmation
+		        webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
+
 			}
 
 			// Redirect to the edit page

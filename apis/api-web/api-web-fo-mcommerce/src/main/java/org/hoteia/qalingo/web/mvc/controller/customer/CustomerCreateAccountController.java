@@ -130,7 +130,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		final Customer newCustomer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
 
 		// Save the email confirmation
-		webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
+		webManagementService.buildAndSaveCustomerNewAccountMail(requestData, newCustomer);
 
 		// Login the new customer
 		securityRequestUtil.authenticationCustomer(request, newCustomer);
@@ -192,7 +192,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         final Customer newCustomer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
 
         // Save the email confirmation
-        webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
+        webManagementService.buildAndSaveCustomerNewAccountMail(requestData, newCustomer);
 
         // Login the new customer
         securityRequestUtil.authenticationCustomer(request, newCustomer);
