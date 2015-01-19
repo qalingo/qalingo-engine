@@ -172,7 +172,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 					customer.setGender(gender);
 				}
 				
-				customer.setNetworkOrigin(CustomerNetworkOrigin.WINDOWS_LIVE);
+				customer.setNetworkOrigin(CustomerNetworkOrigin.WINDOWS_LIVE.getPropertyKey());
 				
 				CustomerAttribute attribute = new CustomerAttribute();
 				AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);

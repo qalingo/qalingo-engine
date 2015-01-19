@@ -631,7 +631,7 @@ public class WebManagementService {
             customer.setPermalink(permalink);
         }
         
-        customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD);
+        customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD.getPropertyKey());
 
         customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
         customer.setActive(true);

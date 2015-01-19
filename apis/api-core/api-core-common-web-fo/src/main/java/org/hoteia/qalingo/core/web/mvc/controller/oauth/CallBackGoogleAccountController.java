@@ -171,7 +171,7 @@ public class CallBackGoogleAccountController extends AbstractOAuthFrontofficeCon
                     customer.setGender(gender);
                 }
 
-                customer.setNetworkOrigin(CustomerNetworkOrigin.GOOGLE_ACCOUNT);
+                customer.setNetworkOrigin(CustomerNetworkOrigin.GOOGLE_ACCOUNT.getPropertyKey());
 
                 CustomerAttribute attribute = new CustomerAttribute();
                 AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);

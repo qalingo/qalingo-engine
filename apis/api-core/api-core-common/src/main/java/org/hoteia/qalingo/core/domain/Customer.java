@@ -108,11 +108,11 @@ public class Customer extends AbstractEntity {
     @Column(name = "IS_ANONYMOUS", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean anonymous;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerCredential.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerCredential> credentials = new HashSet<CustomerCredential>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerAddress.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerAddress> addresses = new HashSet<CustomerAddress>();
 
@@ -122,15 +122,15 @@ public class Customer extends AbstractEntity {
     @Column(name = "DEFAULT_BILLING_ADDRESS")
     private Long defaultBillingAddressId;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerConnectionLog.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerConnectionLog> connectionLogs = new HashSet<CustomerConnectionLog>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerMarketArea.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerMarketArea> customerMarketAreas = new HashSet<CustomerMarketArea>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerAttribute.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerAttribute> attributes = new HashSet<CustomerAttribute>(); 
 	
@@ -138,25 +138,23 @@ public class Customer extends AbstractEntity {
     @JoinTable(name = "TECO_CUSTOMER_GROUP_REL", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
     private Set<CustomerGroup> groups = new HashSet<CustomerGroup>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerOAuth.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerPaymentInformation.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerPaymentInformation> paymentInformations = new HashSet<CustomerPaymentInformation>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerOrderAudit.class)
     @JoinColumn(name = "CUSTOMER_ID")
     private CustomerOrderAudit customerOrderAudit;
 
     @Column(name = "PLATFORM_ORIGN")
-    @Enumerated(EnumType.STRING)
-    private CustomerPlatformOrigin platformOrigin;
+    private String platformOrigin;
 
     @Column(name = "NETWORK_ORIGN")
-    @Enumerated(EnumType.STRING)
-    private CustomerNetworkOrigin networkOrigin;
+    private String networkOrigin;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -467,19 +465,19 @@ public class Customer extends AbstractEntity {
 	    this.customerOrderAudit = customerOrderAudit;
     }
 	
-	public CustomerPlatformOrigin getPlatformOrigin() {
+	public String getPlatformOrigin() {
     	return platformOrigin;
     }
 
-	public void setPlatformOrigin(CustomerPlatformOrigin platformOrigin) {
+	public void setPlatformOrigin(String platformOrigin) {
     	this.platformOrigin = platformOrigin;
     }
 
-	public CustomerNetworkOrigin getNetworkOrigin() {
+	public String getNetworkOrigin() {
     	return networkOrigin;
     }
 
-	public void setNetworkOrigin(CustomerNetworkOrigin networkOrigin) {
+	public void setNetworkOrigin(String networkOrigin) {
     	this.networkOrigin = networkOrigin;
     }
 

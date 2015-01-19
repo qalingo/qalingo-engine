@@ -171,7 +171,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 				customer.setFirstname(firstName);
 				customer.setLastname(lastName);
 				
-				customer.setNetworkOrigin(CustomerNetworkOrigin.TWITTER);
+				customer.setNetworkOrigin(CustomerNetworkOrigin.TWITTER.getPropertyKey());
 
 				CustomerAttribute attribute = new CustomerAttribute();
 				AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);

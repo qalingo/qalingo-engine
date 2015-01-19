@@ -173,7 +173,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 					customer.setGender(gender);
 				}
 				
-				customer.setNetworkOrigin(CustomerNetworkOrigin.FACEBOOK);
+				customer.setNetworkOrigin(CustomerNetworkOrigin.FACEBOOK.getPropertyKey());
 				
 				CustomerAttribute attribute = new CustomerAttribute();
 				AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
