@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.util.CoreUtil;
 
 public class ProductSkuViewBean extends AbstractViewBean {
 
@@ -123,15 +124,15 @@ public class ProductSkuViewBean extends AbstractViewBean {
     public String getI18nTruncatedDescription() {
         if(StringUtils.isNotEmpty(getI18nShortDescription())){
             if(getI18nShortDescription().length() >= 150){
-                return StringUtils.substring(getI18nShortDescription(), 0, 150) + "...";
+                return CoreUtil.handleTruncatedDescription(getI18nShortDescription());
             } else {
-                return getI18nShortDescription() + "...";
+                return getI18nShortDescription();
             }
         } else if (StringUtils.isNotEmpty(getI18nDescription())){
             if(getI18nDescription().length() >= 150){
-                return StringUtils.substring(getI18nDescription(), 0, 150) + "...";
+                return CoreUtil.handleTruncatedDescription(getI18nDescription());
             } else {
-                return getI18nDescription() + "...";
+                return getI18nDescription();
             }
         }
         return "";

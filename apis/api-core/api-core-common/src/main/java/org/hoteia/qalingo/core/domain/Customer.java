@@ -368,7 +368,8 @@ public class Customer extends AbstractEntity {
             return defaultShippingAddressId;
         } else {
             if(addresses != null
-                    && Hibernate.isInitialized(addresses)){
+                    && Hibernate.isInitialized(addresses)
+                    && addresses.size() > 0){
                 return getAddresses().iterator().next().getId();
             }
         }
@@ -384,7 +385,8 @@ public class Customer extends AbstractEntity {
 	        return defaultBillingAddressId;
 	    } else {
             if(addresses != null
-                    && Hibernate.isInitialized(addresses)){
+                    && Hibernate.isInitialized(addresses)
+                    && addresses.size() > 0){
 	            return getAddresses().iterator().next().getId();
 	        }
 	    }

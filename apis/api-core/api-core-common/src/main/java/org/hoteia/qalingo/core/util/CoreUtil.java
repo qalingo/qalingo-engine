@@ -11,6 +11,14 @@ public class CoreUtil {
         return UUID.randomUUID().toString().replace("-", "_");
     }
     
+    public static String handleTruncatedDescription(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            return StringUtils.substring(stringToReturn, 0, 150).replaceAll(" [^ ]+$", "") + "...";
+        }
+        return stringToReturn;
+    }
+    
     public static String handleSeoSpecificEscape(String string) {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
