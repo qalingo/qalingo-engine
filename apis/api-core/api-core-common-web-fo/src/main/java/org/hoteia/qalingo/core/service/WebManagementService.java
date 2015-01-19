@@ -523,10 +523,10 @@ public class WebManagementService {
         customerNewAccountConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         customerNewAccountConfirmationEmailBean.setToEmail(customer.getEmail());
 
-//        customerNewAccountConfirmationEmailBean.setTitle(customer.getTitle());
-//        customerNewAccountConfirmationEmailBean.setFirstname(customer.getFirstname());
-//        customerNewAccountConfirmationEmailBean.setLastname(customer.getLastname());
-//        customerNewAccountConfirmationEmailBean.setEmail(customer.getEmail());
+        customerNewAccountConfirmationEmailBean.setTitle(customer.getTitle());
+        customerNewAccountConfirmationEmailBean.setFirstname(customer.getFirstname());
+        customerNewAccountConfirmationEmailBean.setLastname(customer.getLastname());
+        customerNewAccountConfirmationEmailBean.setEmail(customer.getEmail());
         
         customerNewAccountConfirmationEmailBean.setCustomerDetailsUrl(urlService.buildAbsoluteUrl(requestData, urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData)));
         
@@ -542,7 +542,6 @@ public class WebManagementService {
         final String contextNameValue = requestData.getContextNameValue();
 
         final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean = new CustomerForgottenPasswordEmailBean();
-        BeanUtils.copyProperties(forgottenPasswordForm, customerForgottenPasswordEmailBean);
         customerForgottenPasswordEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
         customerForgottenPasswordEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
         customerForgottenPasswordEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
@@ -550,9 +549,9 @@ public class WebManagementService {
         customerForgottenPasswordEmailBean.setToken(customerCredential.getResetToken());
         
         customerForgottenPasswordEmailBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
-//        customerForgottenPasswordEmailBean.setFirstname(customer.getFirstname());
-//        customerForgottenPasswordEmailBean.setLastname(customer.getLastname());
-//        customerForgottenPasswordEmailBean.setEmail(customer.getEmail());
+        customerForgottenPasswordEmailBean.setFirstname(customer.getFirstname());
+        customerForgottenPasswordEmailBean.setLastname(customer.getLastname());
+        customerForgottenPasswordEmailBean.setEmail(customer.getEmail());
         
         buildAndSaveCustomerForgottenPasswordMail(requestData, customer, customerCredential, customerForgottenPasswordEmailBean);
     }
@@ -563,6 +562,8 @@ public class WebManagementService {
      */
     public CustomerCredential flagCustomerCredentialWithToken(final RequestData requestData, final Customer customer) throws Exception {
         if(customer != null){
+            final HttpServletRequest request = requestData.getRequest();
+            
             String token = UUID.randomUUID().toString();
             CustomerCredential customerCredential = customer.getCurrentCredential();
             if(customerCredential == null){
@@ -571,7 +572,14 @@ public class WebManagementService {
             customerCredential.setResetToken(token);
             Date date = new Date();
             customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
-            customerCredential = customerService.saveOrUpdateCustomerCredential(customerCredential);
+            customer.getCredentials().add(customerCredential);
+            
+            // UPDATE CUSTOMER
+            Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
+            
+            // UPDATE SESSION
+            requestUtil.updateCurrentCustomer(request, savedCustomer);
+            
             return customerCredential;
         }
         return null;
@@ -634,14 +642,13 @@ public class WebManagementService {
         Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
         CustomerGroup customerGroup = customerService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
-        customer.getGroups().add(customerGroup);
+        savedCustomer.getGroups().add(customerGroup);
         
         savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
-        Customer reloadedCustomer = customerService.getCustomerById(savedCustomer.getId());
-        requestUtil.updateCurrentCustomer(request, reloadedCustomer);
+        requestUtil.updateCurrentCustomer(request, savedCustomer);
         
-        return reloadedCustomer;
+        return savedCustomer;
     }
     
     public Customer updateCurrentCustomer(final RequestData requestData, Customer customer) throws Exception {
@@ -652,23 +659,22 @@ public class WebManagementService {
         // save market context phone etc
         
         // UPDATE CUSTOMER
-        customerService.saveOrUpdateCustomer(customer);
+        Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
         // UPDATE SESSION
-        customer = customerService.getCustomerByLoginOrEmail(customer.getLogin());
-        requestUtil.updateCurrentCustomer(request, customer);
+        requestUtil.updateCurrentCustomer(request, savedCustomer);
         
-        return customer;
+        return savedCustomer;
     }
     
     public Customer updateOrSaveAddressCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
+        
         // UPDATE CUSTOMER
-        customerService.saveOrUpdateCustomer(customer);
+        Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
         // UPDATE SESSION
-        customer = customerService.getCustomerByLoginOrEmail(customer.getLogin());
-        requestUtil.updateCurrentCustomer(request, customer);
+        requestUtil.updateCurrentCustomer(request, savedCustomer);
         
         return customer;
     }
@@ -700,11 +706,10 @@ public class WebManagementService {
         customer.getAddresses().remove(customerAddress);
         
         // UPDATE CUSTOMER
-        customerService.saveOrUpdateCustomer(customer);
+        Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
         // UPDATE SESSION
-        customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
-        requestUtil.updateCurrentCustomer(request, customer);
+        requestUtil.updateCurrentCustomer(request, savedCustomer);
         
         return customer;
     }
@@ -716,8 +721,8 @@ public class WebManagementService {
         customer = checkCustomerMarketArea(requestData, customer);
         
         customerService.addProductSkuToWishlist(marketArea, customer, catalogCategoryCode, productSkuCode);
-        // TODO : denis : 20140904 : is it necessary to reload or not ?
-        customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+        
+        // UPDATE SESSION
         requestUtil.updateCurrentCustomer(request, customer);
 
         return customer;
@@ -730,8 +735,8 @@ public class WebManagementService {
         customer = checkCustomerMarketArea(requestData, customer);
         
         customerService.removeProductSkuFromWishlist(marketArea, customer, productSkuCode);
-        // TODO : denis : 20140904 : is it necessary to reload or not ?
-        customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+        
+        // UPDATE SESSION
         requestUtil.updateCurrentCustomer(request, customer);
         
         return customer;
@@ -752,7 +757,7 @@ public class WebManagementService {
         customerPaymentInformation.setCustomerMarketAreaId(marketArea.getId());
         
         customerService.savePaymentInformation(customer, customerPaymentInformation);
-        customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+        
         requestUtil.updateCurrentCustomer(request, customer);
     }
     

@@ -67,13 +67,13 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	
 	protected static final String REQUEST_PARAM_OAUTH_VERIFIER = "oauth_verifier";
 	
-	protected Customer setCommonCustomerInformation(final HttpServletRequest request, final Customer customer) throws Exception {
-	    final RequestData requestData = requestUtil.getRequestData(request);
-	    final Market market = requestData.getMarket();
-        final MarketArea marketArea = requestData.getMarketArea();
-        Customer savedCustomer = webManagementService.buildAndSaveNewCustomer(requestData, market, marketArea, customer);
-        return savedCustomer;
-	}
+//	protected Customer setCommonCustomerInformation(final HttpServletRequest request, final Customer customer) throws Exception {
+//	    final RequestData requestData = requestUtil.getRequestData(request);
+//	    final Market market = requestData.getMarket();
+//        final MarketArea marketArea = requestData.getMarketArea();
+//        Customer savedCustomer = webManagementService.buildAndSaveNewCustomer(requestData, market, marketArea, customer);
+//        return savedCustomer;
+//	}
 	   
     void checkNonce(String nonce) {
         // check response_nonce to prevent replay-attack:

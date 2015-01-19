@@ -16,6 +16,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.drools.core.util.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
@@ -65,7 +66,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	
 	@RequestMapping(value = FoUrls.FORGOTTEN_PASSWORD_URL, method = RequestMethod.POST)
 	public ModelAndView forgottenPassword(final HttpServletRequest request, @Valid @ModelAttribute("forgottenPasswordForm") ForgottenPasswordForm forgottenPasswordForm,
-			BindingResult result, final Model model) throws Exception {
+			                              BindingResult result, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORGOTTEN_PASSWORD_SUCCESS_VELOCITY_PAGE);
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -117,12 +118,14 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		final Customer customer = customerService.getCustomerByLoginOrEmail(email);
 		if (customer == null) {
 			// ADD ERROR MESSAGE
-			String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_or_login_are_wrong", locale);
+		    model.addAttribute(ModelConstants.AUTH_HAS_FAIL, true);
+		    String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_or_login_are_wrong", locale);
 			addErrorMessage(request, errorMessage);
 		}
 		
 		if (!customer.getCurrentCredential().getResetToken().equals(token)) {
 			// ADD ERROR MESSAGE
+		    model.addAttribute(ModelConstants.AUTH_HAS_FAIL, true);
 			String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_token_is_wrong", locale);
 			addErrorMessage(request, errorMessage);
 		}

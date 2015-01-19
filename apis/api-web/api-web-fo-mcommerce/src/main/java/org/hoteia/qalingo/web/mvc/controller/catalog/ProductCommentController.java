@@ -138,15 +138,18 @@ public class ProductCommentController extends AbstractMCommerceController {
                 // CHECK IF THE CUSTOMER EXIST
                 final Customer customerCheck = customerService.getCustomerByLoginOrEmail(customerCommentForm.getEmail());
                 if(customerCheck == null){
-                 // CREATE A LIGHT ACCOUNT
+                    // CREATE A LIGHT ACCOUNT
                     CreateAccountForm createAccountForm = new CreateAccountForm();
                     createAccountForm.setEmail(customerCommentForm.getEmail());
                     createAccountForm.setLastname(customerCommentForm.getName());
                     customer = webManagementService.buildAndSaveQuickNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
+
                     // Save the email confirmation
                     webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
+                    
                     // Login the new customer
                     securityRequestUtil.authenticationCustomer(request, customer);
+                    
                 } else {
                     // WARNING
                     addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged",  locale));

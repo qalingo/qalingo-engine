@@ -142,10 +142,13 @@ public class BrandCommentController extends AbstractMCommerceController {
                     createAccountForm.setEmail(customerCommentForm.getEmail());
                     createAccountForm.setLastname(customerCommentForm.getName());
                     customer = webManagementService.buildAndSaveQuickNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
+                    
                     // Save the email confirmation
                     webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
+                    
                     // Login the new customer
                     securityRequestUtil.authenticationCustomer(request, customer);
+                    
                 } else {
                     // WARNING
                     addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged", locale));

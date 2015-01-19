@@ -111,8 +111,6 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		// "customer.create.account";
-		
 		if (result.hasErrors()) {
 			return displayCustomerCreateAccount(request, model, createAccountForm);
 		}

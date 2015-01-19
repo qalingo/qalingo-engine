@@ -81,7 +81,7 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
 			// CREATE A NEW CUSTOMER
 			customer = new Customer();
 			
-			customer = webManagementService.buildAndSaveNewCustomer(requestData, market, marketArea, customer);
+//			customer = webManagementService.buildAndSaveNewCustomer(requestData, market, marketArea, customer);
 			
 			customer.setLogin(email);
 			customer.setPassword(securityUtil.generatePassword());

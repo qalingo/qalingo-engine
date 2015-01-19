@@ -31,6 +31,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
 
     protected String i18nName;
     protected String i18nDescription;
+    protected String i18nShortDescription;
 
     protected boolean isRoot;
     protected boolean isDefault;
@@ -106,6 +107,31 @@ public class CatalogCategoryViewBean extends AbstractViewBean {
     
     public void setI18nDescription(String i18nDescription) {
         this.i18nDescription = i18nDescription;
+    }
+    
+    public String getI18nShortDescription() {
+        return i18nShortDescription;
+    }
+    
+    public void setI18nShortDescription(String i18nShortDescription) {
+        this.i18nShortDescription = i18nShortDescription;
+    }
+    
+    public String getI18nTruncatedDescription() {
+        if(StringUtils.isNotEmpty(getI18nShortDescription())){
+            if(getI18nShortDescription().length() >= 150){
+                return StringUtils.substring(getI18nShortDescription(), 0, 150) + "...";
+            } else {
+                return getI18nShortDescription() + "...";
+            }
+        } else if (StringUtils.isNotEmpty(getI18nDescription())){
+            if(getI18nDescription().length() >= 150){
+                return StringUtils.substring(getI18nDescription(), 0, 150) + "...";
+            } else {
+                return getI18nDescription() + "...";
+            }
+        }
+        return "";
     }
 
     public boolean isRoot() {
