@@ -135,7 +135,7 @@ public class Customer extends AbstractEntity {
     private Set<CustomerAttribute> attributes = new HashSet<CustomerAttribute>(); 
 	
     @ManyToMany(targetEntity = org.hoteia.qalingo.core.domain.CustomerGroup.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "TECO_CUST_GROUP_REL", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
+    @JoinTable(name = "TECO_CUSTOMER_GROUP_REL", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
     private Set<CustomerGroup> groups = new HashSet<CustomerGroup>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
