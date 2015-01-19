@@ -227,7 +227,7 @@ public class EmailService {
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterSubscriptionnConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterEmailBean newsletterEmailBean)
      */
-    public void saveAndBuildNewsletterSubscriptionnConfirmationMail(final RequestData requestData, final String velocityPath, 
+    public void saveAndBuildNewsletterSubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
         try {
             final String contextNameValue = requestData.getContextNameValue();

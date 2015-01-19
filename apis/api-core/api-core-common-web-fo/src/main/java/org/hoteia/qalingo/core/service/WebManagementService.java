@@ -860,7 +860,7 @@ public class WebManagementService {
      * 
      */
     public void saveAndBuildNewsletterSubscriptionConfirmationMail(final RequestData requestData, final NewsletterEmailBean newsletterEmailBean) throws Exception {
-        emailService.saveAndBuildNewsletterSubscriptionnConfirmationMail(requestData, requestData.getVelocityEmailPrefix(), newsletterEmailBean);
+        emailService.saveAndBuildNewsletterSubscriptionConfirmationMail(requestData, requestData.getVelocityEmailPrefix(), newsletterEmailBean);
     }
     
     /**
@@ -895,7 +895,7 @@ public class WebManagementService {
 
         final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean = new CustomerResetPasswordConfirmationEmailBean();
         customerResetPasswordConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
-        customerResetPasswordConfirmationEmailBean.setFromName(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        customerResetPasswordConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
         customerResetPasswordConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
         customerResetPasswordConfirmationEmailBean.setToEmail(customer.getEmail());
         
