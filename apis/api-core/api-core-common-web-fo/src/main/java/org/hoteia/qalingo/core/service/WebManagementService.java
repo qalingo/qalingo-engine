@@ -568,11 +568,11 @@ public class WebManagementService {
             CustomerCredential customerCredential = customer.getCurrentCredential();
             if(customerCredential == null){
                 customerCredential = new CustomerCredential();
+                customer.getCredentials().add(customerCredential);
             }
             customerCredential.setResetToken(token);
             Date date = new Date();
             customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
-            customer.getCredentials().add(customerCredential);
             
             // UPDATE CUSTOMER
             Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
