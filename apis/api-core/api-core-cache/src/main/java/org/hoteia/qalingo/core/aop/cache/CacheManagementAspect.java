@@ -110,7 +110,8 @@ public class CacheManagementAspect {
                     }
 
                 } else {
-                    if(!(arg instanceof java.lang.Object[])
+                    if(arg != null 
+                            && !(arg instanceof java.lang.Object[])
                             && !(arg instanceof AbstractEntity)) {
                         if(!suffix.endsWith("_")){
                             suffix = suffix + "_";

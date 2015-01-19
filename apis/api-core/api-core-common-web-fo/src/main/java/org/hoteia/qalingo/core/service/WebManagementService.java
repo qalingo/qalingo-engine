@@ -644,7 +644,7 @@ public class WebManagementService {
         CustomerGroup customerGroup = customerService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
         savedCustomer.getGroups().add(customerGroup);
         
-        savedCustomer = customerService.saveOrUpdateCustomer(customer);
+        savedCustomer = customerService.saveOrUpdateCustomer(savedCustomer);
         
         requestUtil.updateCurrentCustomer(request, savedCustomer);
         
