@@ -21,7 +21,7 @@
 						http://cxf.apache.org/jaxrs
 						http://cxf.apache.org/schemas/jaxrs.xsd">
 
-    <bean id="cacheManagementJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <bean id="cacheFlushJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="sessionTransacted" value="true" />
         <property name="receiveTimeout" value="-1" />
         <property name="connectionFactory" ref="connectionFactory" />

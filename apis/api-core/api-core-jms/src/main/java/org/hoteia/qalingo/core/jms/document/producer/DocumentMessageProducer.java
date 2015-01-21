@@ -57,7 +57,7 @@ public class DocumentMessageProducer {
                     }
                 });                
             } else {
-                logger.warn("Doucment Message Jms Message is empty");
+                logger.warn("Doucument Message Jms Message is empty");
             }
 
         } catch (JmsException e) {

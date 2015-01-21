@@ -7,27 +7,27 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.aop.cachemanagement;
+package org.hoteia.qalingo.core.aop.cacheflush;
 
 import java.net.InetAddress;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
-import org.hoteia.qalingo.core.jms.cachemanagement.producer.CacheManagementMessageJms;
-import org.hoteia.qalingo.core.jms.cachemanagement.producer.CacheManagementMessageProducer;
+import org.hoteia.qalingo.core.jms.cacheflush.producer.CacheFlushMessageJms;
+import org.hoteia.qalingo.core.jms.cacheflush.producer.CacheFlushMessageProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component(value = "cacheManagementAspect")
-public class CacheManagementAspect {
+@Component(value = "cacheFlushAspect")
+public class CacheFlushAspect {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private CacheManagementMessageProducer cacheManagementMessageProducer;
+    private CacheFlushMessageProducer cacheFlushMessageProducer;
     
     @Value("${env.name}")  
     protected String environmentName;
@@ -40,25 +40,25 @@ public class CacheManagementAspect {
     
     public void before(final JoinPoint joinPoint) {
         if(logger.isDebugEnabled()){
-            logger.debug("CacheManagementAspect, before");
+            logger.debug("CacheFlushAspect, before");
         }
     }
 
     public void afterReturning(final StaticPart staticPart, final Object result) {
         if(logger.isDebugEnabled()){
-            logger.debug("CacheManagementAspect, afterReturning");
+            logger.debug("CacheFlushAspect, afterReturning");
         }
         try {
-            final CacheManagementMessageJms cacheManagementMessageJms = new CacheManagementMessageJms();
-            cacheManagementMessageJms.setEnvironmentName(environmentName);
-            cacheManagementMessageJms.setEnvironmentId(environmentId);
-            cacheManagementMessageJms.setApplicationName(applicationName);
-            cacheManagementMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
-            cacheManagementMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
-            cacheManagementMessageProducer.generateAndSendMessages(cacheManagementMessageJms);
+            final CacheFlushMessageJms cacheFlushMessageJms = new CacheFlushMessageJms();
+            cacheFlushMessageJms.setEnvironmentName(environmentName);
+            cacheFlushMessageJms.setEnvironmentId(environmentId);
+            cacheFlushMessageJms.setApplicationName(applicationName);
+            cacheFlushMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
+            cacheFlushMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
+            cacheFlushMessageProducer.generateAndSendMessages(cacheFlushMessageJms);
             
         } catch (Exception e) {
-            logger.error("CacheManagementAspect Target Object error: " + e);
+            logger.error("CacheFlushAspect Target Object error: " + e);
         }
     }
     

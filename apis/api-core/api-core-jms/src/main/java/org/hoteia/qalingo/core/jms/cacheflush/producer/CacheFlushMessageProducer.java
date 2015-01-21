@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.jms.cachemanagement.producer;
+package org.hoteia.qalingo.core.jms.cacheflush.producer;
 
 import javax.annotation.Resource;
 import javax.jms.JMSException;
@@ -27,12 +27,12 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-@Component(value = "cacheManagementMessageProducer")
-public class CacheManagementMessageProducer {
+@Component(value = "cacheFlushMessageProducer")
+public class CacheFlushMessageProducer {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    @Resource(name="cacheManagerJmsTemplate")
+    @Resource(name="cacheFlushJmsTemplate")
     private JmsTemplate jmsTemplate;
 
     @Autowired
@@ -42,9 +42,9 @@ public class CacheManagementMessageProducer {
      * Generates JMS messages
      * 
      */
-    public void generateAndSendMessages(final CacheManagementMessageJms documentMessageJms) {
+    public void generateAndSendMessages(final CacheFlushMessageJms cacheFlushMessageJms) {
         try {
-            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(documentMessageJms);
+            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(cacheFlushMessageJms);
 
             if(StringUtils.isNotEmpty(valueJMSMessage)){
                 jmsTemplate.send( new MessageCreator() {
@@ -57,7 +57,7 @@ public class CacheManagementMessageProducer {
                     }
                 });                
             } else {
-                logger.warn("Doucment Message Jms Message is empty");
+                logger.warn("Cache Flush Message Jms Message is empty");
             }
 
         } catch (JmsException e) {

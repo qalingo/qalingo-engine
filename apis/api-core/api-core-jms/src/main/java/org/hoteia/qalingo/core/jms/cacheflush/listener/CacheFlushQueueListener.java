@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.jms.cachemanagement.listener;
+package org.hoteia.qalingo.core.jms.cacheflush.listener;
 
 import java.beans.ExceptionListener;
 import java.io.IOException;
@@ -27,14 +27,14 @@ import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hoteia.qalingo.core.jms.cachemanagement.producer.CacheManagementMessageJms;
+import org.hoteia.qalingo.core.jms.cacheflush.producer.CacheFlushMessageJms;
 import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
 
-@Component(value = "cacheManagementQueueListener")
-public class CacheManagementQueueListener implements MessageListener, ExceptionListener {
+@Component(value = "cacheFlushQueueListener")
+public class CacheFlushQueueListener implements MessageListener, ExceptionListener {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
@@ -54,7 +54,7 @@ public class CacheManagementQueueListener implements MessageListener, ExceptionL
                 String valueJMSMessage = tm.getText();
                 
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
-                    final CacheManagementMessageJms documentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, CacheManagementMessageJms.class);
+                    final CacheFlushMessageJms cacheFlushMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, CacheFlushMessageJms.class);
 
                     List<Cache> caches = getCaches();
                     for (Cache cache : caches) {
@@ -65,7 +65,7 @@ public class CacheManagementQueueListener implements MessageListener, ExceptionL
                         logger.debug("Processed message, value: " + valueJMSMessage);
                     }
                 } else {
-                    logger.warn("Cache management: Jms Message is empty");
+                    logger.warn("Cache Flush: Jms Message is empty");
                 }
             }
         } catch (JMSException e) {
