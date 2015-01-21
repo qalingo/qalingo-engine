@@ -12,13 +12,13 @@ package org.hoteia.qalingo.web.mvc.form;
 import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
-import org.hoteia.qalingo.core.web.validation.annotation.TwoFieldsEquals;
+import org.hibernate.validator.constraints.ScriptAssert;
 
 /**
  * 
  * 
  */
+@ScriptAssert(lang = "javascript", script = "_this.confirmNewPassword.equals(_this.newPassword)", message="fo.auth.error_form_reset_password_confirm_password_is_wrong")
 public class ResetPasswordForm implements Serializable {
 
 	/**
@@ -36,7 +36,7 @@ public class ResetPasswordForm implements Serializable {
 	private String newPassword;
 	
 	@NotEmpty(message = "fo.auth.error_form_reset_password_confirm_password_empty")
-    @TwoFieldsEquals(highlightFieldNames={"newPassword"}, message="fo.auth.error_form_reset_password_confirm_password_is_wrong")
+//    @TwoFieldsEquals(highlightFieldNames={"newPassword"}, message="fo.auth.error_form_reset_password_confirm_password_is_wrong")
 	private String confirmNewPassword;
 
 	public String getEmail() {
@@ -59,8 +59,8 @@ public class ResetPasswordForm implements Serializable {
     	return newPassword;
     }
 
-	public void setNewPassword(String newPassord) {
-    	this.newPassword = newPassord;
+	public void setNewPassword(String newPassword) {
+    	this.newPassword = newPassword;
     }
 
 	public String getConfirmNewPassword() {
