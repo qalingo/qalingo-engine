@@ -170,8 +170,6 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 
 		webManagementService.buildAndSaveCustomerResetPasswordConfirmationMail(requestData, customer);
 		
-		webManagementService.cancelCustomerCredentialToken(requestData, customer);
-
         return modelAndView;
 	}
 	

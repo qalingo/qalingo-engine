@@ -285,7 +285,15 @@ public class WebManagementService {
      * 
      */
     public void resetCustomerCredential(final RequestData requestData, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
-        resetCustomerCredential(requestData, customer, resetPasswordForm.getNewPassword());
+        // FLAG LAST CURRENT CREDENTIEL
+        CustomerCredential customerCredential = customer.getCurrentCredential();
+        if(customerCredential != null){
+            customerCredential.setDateUpdate(new Date());
+            customerCredential.setResetProcessedDate(new Date());
+        }
+        
+        // ADD A NEW ONE
+        addNewCustomerCredential(requestData, customer, resetPasswordForm.getNewPassword());
     }
     
     /**
@@ -568,11 +576,12 @@ public class WebManagementService {
             CustomerCredential customerCredential = customer.getCurrentCredential();
             if(customerCredential == null){
                 customerCredential = new CustomerCredential();
+                customerCredential.setDateCreate(new Date());
                 customer.getCredentials().add(customerCredential);
             }
+            customerCredential.setDateUpdate(new Date());
             customerCredential.setResetToken(token);
-            Date date = new Date();
-            customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
+            customerCredential.setTokenTimestamp(new Timestamp(new Date().getTime()));
             
             // UPDATE CUSTOMER
             Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
@@ -592,6 +601,7 @@ public class WebManagementService {
         if(customer != null){
             CustomerCredential customerCredential = customer.getCurrentCredential();
             if(customerCredential != null){
+                customerCredential.setDateUpdate(new Date());
                 customerCredential.setResetToken("");
                 customerCredential.setTokenTimestamp(null);
                 customerService.saveOrUpdateCustomerCredential(customerCredential);
@@ -602,16 +612,17 @@ public class WebManagementService {
     /**
      * 
      */
-    public void resetCustomerCredential(final RequestData requestData, final Customer customer, final String newPassword) throws Exception {
+    public void addNewCustomerCredential(final RequestData requestData, final Customer customer, final String newPassword) throws Exception {
         if(customer != null){
             String clearPassword = newPassword;
-            String encorePassword = securityUtil.encodePassword(clearPassword);
+            String encodePassword = securityUtil.encodePassword(clearPassword);
             CustomerCredential customerCredential = new CustomerCredential();
-            customerCredential.setPassword(encorePassword);
+            customerCredential.setPassword(encodePassword);
+            customerCredential.setDateCreate(new Date());
             customerCredential.setDateUpdate(new Date());
             customer.getCredentials().add(customerCredential);
             
-            customer.setPassword(encorePassword);
+            customer.setPassword(encodePassword);
             
             customerService.saveOrUpdateCustomer(customer);
         }
