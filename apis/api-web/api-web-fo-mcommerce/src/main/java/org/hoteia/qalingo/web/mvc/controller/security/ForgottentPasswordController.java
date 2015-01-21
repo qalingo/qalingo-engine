@@ -195,6 +195,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		
 		// CANCEL TOKEN
 		webManagementService.cancelCustomerCredentialToken(requestData, customer);
+		
 		// ADD INFO/WARNING MESSAGE
 		request.getSession().setAttribute(Constants.INFO_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "reset_password_is_cancel", locale));
 		

@@ -74,6 +74,11 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
+				<artifactId>qalingo-api-core-cache</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-security</artifactId>
 				<version>${project.version}</version>
 			</dependency>

@@ -83,7 +83,7 @@ public class GeolocAspect {
             }
             
             // Generate and send the JMS message
-            addressGeolocMessageProducer.generateMessages(addressGeolocMessageJms);
+            addressGeolocMessageProducer.generateAndSendMessages(addressGeolocMessageJms);
             
         } catch (Exception e) {
             logger.error("GeolocAspect Target Object error: " + e);

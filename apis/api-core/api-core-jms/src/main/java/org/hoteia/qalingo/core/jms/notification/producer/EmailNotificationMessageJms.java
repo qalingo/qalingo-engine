@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core.jms.notification.producer;
 
-import org.hoteia.qalingo.core.jms.cacheserveurmanagement.listener.AbstractMessageJms;
+import org.hoteia.qalingo.core.jms.AbstractMessageJms;
 
 public class EmailNotificationMessageJms extends AbstractMessageJms {
 

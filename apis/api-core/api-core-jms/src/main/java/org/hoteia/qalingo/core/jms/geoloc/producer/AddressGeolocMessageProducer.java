@@ -41,7 +41,7 @@ public class AddressGeolocMessageProducer {
      * 
      * @throws UnsupportedEncodingException
      */
-    public void generateMessages(final AddressGeolocMessageJms geolocMessageJms) throws JMSException, UnsupportedEncodingException {
+    public void generateAndSendMessages(final AddressGeolocMessageJms geolocMessageJms) throws JMSException, UnsupportedEncodingException {
         try {
             final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(geolocMessageJms);
 

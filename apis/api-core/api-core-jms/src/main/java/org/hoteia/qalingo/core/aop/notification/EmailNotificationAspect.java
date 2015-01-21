@@ -64,7 +64,7 @@ public class EmailNotificationAspect {
             }
             
             // Generate and send the JMS message
-            emailNotificationMessageProducer.generateMessages(emailnotificationMessageJms);
+            emailNotificationMessageProducer.generateAndSendMessages(emailnotificationMessageJms);
             
         } catch (Exception e) {
             logger.error("EmailNotificationAspect Target Object error: " + e);

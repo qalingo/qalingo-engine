@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core.jms.document.producer;
 
-import org.hoteia.qalingo.core.jms.cacheserveurmanagement.listener.AbstractMessageJms;
+import org.hoteia.qalingo.core.jms.AbstractMessageJms;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 

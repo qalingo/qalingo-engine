@@ -41,7 +41,7 @@ public class IndexingObjectMessageProducer {
      * 
      * @throws UnsupportedEncodingException
      */
-    public void generateMessages(final IndexingObjectMessageJms indexingObjectMessageJms) throws JMSException, UnsupportedEncodingException {
+    public void generateAndSendMessages(final IndexingObjectMessageJms indexingObjectMessageJms) throws JMSException, UnsupportedEncodingException {
         try {
             final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(indexingObjectMessageJms);
 

@@ -82,7 +82,7 @@ public class IndexingObjectManagementAspect {
             }
             if(indexingObjectMessageJms.getObjectId() != null){
                 // Generate and send the JMS message
-                indexingObjectMessageProducer.generateMessages(indexingObjectMessageJms);
+                indexingObjectMessageProducer.generateAndSendMessages(indexingObjectMessageJms);
             }
             
         } catch (Exception e) {

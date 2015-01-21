@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.ehcache.Cache;
@@ -41,9 +40,6 @@ public class CacheManagerController extends AbstractQalingoController {
     @Autowired
     private EhCacheCacheManager ehCacheCacheManager;
     
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
-
     private enum CacheAction {
         STATISTICS {
             public void doAction(Cache cache, String value) {

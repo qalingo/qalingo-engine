@@ -7,13 +7,18 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.jms.indexing.producer;
+package org.hoteia.qalingo.core.jms.cachemanagement.producer;
 
 import org.hoteia.qalingo.core.jms.AbstractMessageJms;
 
-public class IndexingObjectMessageJms extends AbstractMessageJms {
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+public class CacheManagementMessageJms extends AbstractMessageJms {
+
+    @JacksonXmlProperty(localName="objectId")
     private Long objectId;
+    
+    @JacksonXmlProperty(localName="objectType")
     private String objectType;
     
     public Long getObjectId() {

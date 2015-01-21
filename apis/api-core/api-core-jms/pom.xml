@@ -32,6 +32,10 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>qalingo-api-core-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>qalingo-api-core-solr</artifactId>
         </dependency>
 		

@@ -42,7 +42,7 @@ public class EmailNotificationMessageProducer {
      * 
      * @throws UnsupportedEncodingException
      */
-    public void generateMessages(final EmailNotificationMessageJms emailnotificationMessageJms) throws JMSException, UnsupportedEncodingException {
+    public void generateAndSendMessages(final EmailNotificationMessageJms emailnotificationMessageJms) throws JMSException, UnsupportedEncodingException {
         try {
             final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(emailnotificationMessageJms);
 
