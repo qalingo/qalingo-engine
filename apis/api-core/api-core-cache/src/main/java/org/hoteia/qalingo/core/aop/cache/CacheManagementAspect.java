@@ -253,7 +253,7 @@ public class CacheManagementAspect {
                     } else {
                         returnObject = joinPoint.proceed();
                     }
-                    if(cacheType.equals(CACHE_BY_CODE)){
+                    if(returnObject != null && cacheType.equals(CACHE_BY_CODE)){
                         // PUT IN THE RIGHT ENTITY CACHE
                         String cacheNameEntityById = cacheName.replace("_link_code_id", "");
                         Cache cacheEntityById = getCacheManager() != null && StringUtils.isNotEmpty(cacheNameEntityById) ? getCacheManager().getCache(cacheNameEntityById) : null;
