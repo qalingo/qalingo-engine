@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
 
-@Component(value = "cacheFlushAspect")
+@Component(value = "cacheManagementAspect")
 public class CacheManagementAspect {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
