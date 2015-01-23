@@ -1007,7 +1007,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         storeViewBean.setLongitude(store.getLongitude());
         storeViewBean.setLatitude(store.getLatitude());
         
-        if(StringUtils.isNotEmpty(geolocData.getLatitude()) && StringUtils.isNotEmpty(geolocData.getLongitude())
+        if(geolocData != null && StringUtils.isNotEmpty(geolocData.getLatitude()) && StringUtils.isNotEmpty(geolocData.getLongitude())
                 && StringUtils.isNotEmpty(store.getLongitude()) && StringUtils.isNotEmpty(store.getLongitude())){
             NumberFormat formatter = new DecimalFormat("#0.00");
             storeViewBean.setDistance(formatter.format(store.getDistanceFromInKm(geolocData.getLatitude(), geolocData.getLongitude())));

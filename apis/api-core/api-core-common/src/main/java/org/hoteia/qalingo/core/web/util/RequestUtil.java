@@ -562,7 +562,8 @@ public class RequestUtil {
             }
         } else {
             String requestLocale = request.getLocale().toString();
-            if(backofficeLocalization == null
+            if(backofficeLocalization == null 
+            		|| (backofficeLocalization != null && "en".equalsIgnoreCase(backofficeLocalization.getCode()))
                     && StringUtils.isNotEmpty(requestLocale)){
                 if (requestLocale.length() > 2) {
                     String localeLanguage = request.getLocale().getLanguage();
