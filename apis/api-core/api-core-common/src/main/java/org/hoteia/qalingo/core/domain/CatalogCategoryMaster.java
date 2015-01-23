@@ -136,7 +136,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.replaceAll(" ", "");
     }
 
     public CatalogCategoryType getCatalogCategoryType() {

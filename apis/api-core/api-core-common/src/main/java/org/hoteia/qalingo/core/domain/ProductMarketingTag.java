@@ -94,7 +94,7 @@ public class ProductMarketingTag extends AbstractEntity {
     }
     
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.replaceAll(" ", "");
     }
 
 	public String getName() {

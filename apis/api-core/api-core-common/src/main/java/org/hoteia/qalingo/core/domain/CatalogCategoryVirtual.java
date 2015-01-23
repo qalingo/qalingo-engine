@@ -141,7 +141,7 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.replaceAll(" ", "");
     }
 
     public CatalogCategoryType getCatalogCategoryType() {

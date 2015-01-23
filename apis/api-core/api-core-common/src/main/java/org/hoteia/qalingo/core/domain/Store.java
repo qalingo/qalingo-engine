@@ -37,6 +37,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.Constants;
 
 @Entity
 @Table(name = "TECO_STORE")
@@ -187,7 +188,7 @@ public class Store extends AbstractExtendEntity {
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.replaceAll(" ", "");
     }
 
     public String getType() {
@@ -418,6 +419,19 @@ public class Store extends AbstractExtendEntity {
     
     public void setDistance(Double distance) {
         this.distance = distance;
+    }
+    
+    public Double getDistanceFromInKm(String fromLatitude, String fromLongitude) {
+        double earthRadius = Constants.EARTH_RADIUS;
+        double dLat = Math.toRadians(new Double(getLatitude()) - new Double(fromLatitude));
+        double dLng = Math.toRadians(new Double(getLongitude()) - new Double(fromLongitude));
+        double sindLat = Math.sin(dLat / 2);
+        double sindLng = Math.sin(dLng / 2);
+        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+                * Math.cos(Math.toRadians(new Double(fromLatitude))) * Math.cos(Math.toRadians(new Double(getLatitude())));
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double dist = earthRadius * c;
+        return dist;
     }
     
     public Date getDateCreate() {

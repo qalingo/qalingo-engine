@@ -108,7 +108,7 @@ public abstract class AbstractRuleReferential extends AbstractEntity {
     }
     
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.replaceAll(" ", "");
     }
     
 	public String getName() {

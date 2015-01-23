@@ -94,6 +94,8 @@ public class Constants {
 	public static final long ONE_HOUR = 3600000L;
 	public static final java.util.Date TODAY = new Date();
 	
+    public static final double EARTH_RADIUS = 6384.4;
+	
 	public static final String DYNAMIC_LOCALE = "dynamicLocale";
 
 	public static final String I18N_KEY = "i18nAppKey";

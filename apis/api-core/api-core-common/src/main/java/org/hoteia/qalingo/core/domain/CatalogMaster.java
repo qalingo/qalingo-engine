@@ -107,7 +107,7 @@ public class CatalogMaster extends AbstractCatalog<CatalogCategoryMaster> {
     }
     
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.replaceAll(" ", "");
     }
 
 	public String getName() {

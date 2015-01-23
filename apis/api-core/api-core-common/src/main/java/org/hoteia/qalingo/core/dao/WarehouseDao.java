@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;

@@ -60,7 +60,7 @@ public class TaxCountry extends AbstractEntity {
 	}
 	
 	public void setCodeCountry(String codeCountry) {
-		this.codeCountry = codeCountry;
+		this.codeCountry = codeCountry.replaceAll(" ", "");
 	}
 
 	public Set<TaxState> getTaxCounties() {

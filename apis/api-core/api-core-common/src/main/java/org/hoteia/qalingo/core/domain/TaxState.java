@@ -49,7 +49,7 @@ public class TaxState extends AbstractEntity {
 	}
 	
 	public void setCodeCounty(String codeCounty) {
-		this.codeCounty = codeCounty;
+		this.codeCounty = codeCounty.replaceAll(" ", "");
 	}
 
     @Override

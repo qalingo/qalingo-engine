@@ -109,7 +109,7 @@ public class UserGroup extends AbstractEntity {
 	}
 	
 	public void setCode(String code) {
-		this.code = code;
+		this.code = code.replaceAll(" ", "");
 	}
 
 	public Date getDateCreate() {
