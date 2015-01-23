@@ -81,6 +81,7 @@ import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.StoreCustomerComment;
 import org.hoteia.qalingo.core.domain.StoreTag;
 import org.hoteia.qalingo.core.domain.Tax;
+import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -972,6 +973,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
+        final GeolocData geolocData = requestData.getGeolocData();
         
         final StoreViewBean storeViewBean = new StoreViewBean();
         storeViewBean.setCode(store.getCode());
