@@ -25,14 +25,14 @@
         <property name="sessionTransacted" value="true" />
         <property name="receiveTimeout" value="-1" />
         <property name="connectionFactory" ref="connectionFactory" />
-        <property name="defaultDestinationName" value="${cache.serveur.management.queue.name}" />
+        <property name="defaultDestinationName" value="${cache.serveur.management.trigger.queue.name}" />
     </bean>
     
     <bean id="syncServeurStatusJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="sessionTransacted" value="true" />
         <property name="receiveTimeout" value="-1" />
         <property name="connectionFactory" ref="connectionFactory" />
-        <property name="defaultDestinationName" value="${sync.serveur.status.queue.name}" />
+        <property name="defaultDestinationName" value="${sync.serveur.status.trigger.queue.name}" />
     </bean>
     
     <bean id="searchIndexJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
