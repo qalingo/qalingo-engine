@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.ScriptAssert;
  * 
  * 
  */
-@ScriptAssert(lang = "javascript", script = "_this.confirmNewPassword.equals(_this.newPassword)", message="fo.auth.error_form_reset_password_confirm_password_is_wrong")
+@ScriptAssert(lang = "javascript", script = "_this.confirmNewPassword.equals(_this.newPassword)", message="fo.auth.error_form_reset_password_password_doesnt_match")
 public class ResetPasswordForm implements Serializable {
 
 	/**

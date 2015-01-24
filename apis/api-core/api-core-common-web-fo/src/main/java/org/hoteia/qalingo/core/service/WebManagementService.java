@@ -586,9 +586,6 @@ public class WebManagementService {
             // UPDATE CUSTOMER
             Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
             
-            // UPDATE SESSION
-            requestUtil.updateCurrentCustomer(request, savedCustomer);
-            
             return customerCredential;
         }
         return null;
