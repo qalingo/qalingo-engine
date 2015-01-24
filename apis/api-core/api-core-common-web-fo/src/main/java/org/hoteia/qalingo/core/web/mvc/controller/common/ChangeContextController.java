@@ -49,13 +49,12 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	protected String getTargetUrl(final RequestData requestData) throws Exception{
 	    final HttpServletRequest request = requestData.getRequest();
 	    final Locale locale = requestData.getLocale();
-        String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
-        final String lastRequestUrl = requestUtil.getLastRequestUrl(request, fallbackUrl);
-        String lastRequestUri = lastRequestUrl.replace(request.getContextPath(), "");
-        if (lastRequestUri.startsWith("/")) {
-            lastRequestUri = lastRequestUri.substring(1, lastRequestUri.length());
+        final String currentRequestUrl = requestUtil.getCurrentRequestUrl(request);
+        String currentRequestUri = currentRequestUrl.replace(request.getContextPath(), "");
+        if (currentRequestUri.startsWith("/")) {
+            currentRequestUri = currentRequestUri.substring(1, currentRequestUri.length());
         }
-        String[] uriSegments = lastRequestUri.toString().split("/");
+        String[] uriSegments = currentRequestUri.toString().split("/");
         String url = "";
         int uriSegmentCount = 4;
         String seoSegmentMain = urlService.getSeoSegmentMain(locale);
