@@ -11,8 +11,6 @@ package org.hoteia.qalingo.core.aop.cache;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.List;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -24,7 +22,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.hoteia.qalingo.core.domain.AbstractEntity;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,8 +52,8 @@ public class CacheManagementAspect {
             Class classTarget = signature.getReturnType();
             Object[] args = joinPoint.getArgs();
             String suffix = "";
-            List<SpecificFetchMode> askedFetchModes = null;
-            List<SpecificFetchMode> loadedFetchModes = null;
+            FetchPlan askedFetchPlan = null;
+            FetchPlan loadedFetchPlan = null;
             String cacheType = CACHE_TYPE_MISC;
             
             // TOD : Denis : blindé le code pour tester les arg differement entre une method get* et find* et autre
@@ -78,7 +75,7 @@ public class CacheManagementAspect {
                         if(object instanceof FetchPlan){
                             FetchPlan fetchPlan = (FetchPlan) object;
                             if(fetchPlan != null && !fetchPlan.getFetchModes().isEmpty()){
-                                askedFetchModes = fetchPlan.getFetchModes();
+                                askedFetchPlan = fetchPlan;
                             }
                         }
                     }
@@ -166,7 +163,7 @@ public class CacheManagementAspect {
                         if(returnObject instanceof AbstractEntity){
                             AbstractEntity entity = (AbstractEntity) returnObject;
                             if(entity.getFetchPlan() != null){
-                                loadedFetchModes = entity.getFetchPlan().getFetchModes();
+                                loadedFetchPlan = entity.getFetchPlan();
                             }
                             
                             if(cacheType.equals(CACHE_BY_ID)){
@@ -247,8 +244,8 @@ public class CacheManagementAspect {
                     }
                 }
                 if(returnObject == null){
-                    if(loadedFetchModes != null){
-                        args = ArrayUtils.add(args, loadedFetchModes);
+                    if(loadedFetchPlan != null){
+                        args = ArrayUtils.add(args, loadedFetchPlan);
                         returnObject = joinPoint.proceed(args);
                     } else {
                         returnObject = joinPoint.proceed();
@@ -282,24 +279,31 @@ public class CacheManagementAspect {
                     if(returnObject instanceof AbstractEntity){
                         AbstractEntity entity = (AbstractEntity) returnObject;
                         if(entity.getFetchPlan() != null){
-                            loadedFetchModes = entity.getFetchPlan().getFetchModes();
+                            loadedFetchPlan = entity.getFetchPlan();
                         }
-                        if(askedFetchModes != null){
-                            for (Iterator<SpecificFetchMode> iterator = askedFetchModes.iterator(); iterator.hasNext();) {
-                                SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
-                                if(loadedFetchModes == null){
-                                    // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
-                                    returnObject = null;
-                                    break;
-                                } else if (!loadedFetchModes.contains(specificFetchMode)){
-                                    // ENTITY IS LOAD WITH A DIFF FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD
-                                    returnObject = null;
-                                    break;
-                                }
+                        if(askedFetchPlan != null){
+                            if(!loadedFetchPlan.containAllTargetFetchPlans(askedFetchPlan)){
+                                // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
+                                // WE WILL ADD LOADED FETCH PLAN AND ASKED FETCH PLAN TO THE INVOCATED METHOD
+                                returnObject = null;
+                                
                             }
                             
+//                            for (Iterator<SpecificFetchMode> iterator = askedFetchPlan.iterator(); iterator.hasNext();) {
+//                                SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
+//                                if(loadedFetchPlan == null){
+//                                    // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
+//                                    returnObject = null;
+//                                    break;
+//                                } else if (!loadedFetchPlan.contains(specificFetchMode)){
+//                                    // ENTITY IS LOAD WITH A DIFF FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD
+//                                    returnObject = null;
+//                                    break;
+//                                }
+//                            }
+                            
                             if(returnObject == null){
-                                if(loadedFetchModes != null){
+                                if(loadedFetchPlan != null){
                                     for (int i = 0; i < args.length; i++) {
                                         Object arg = args[i];
                                         if(arg instanceof Object[]){
@@ -318,9 +322,10 @@ public class CacheManagementAspect {
                                     }
                                     
                                     returnObject = joinPoint.proceed(args);
-                                } else {
-                                    returnObject = joinPoint.proceed();
                                 }
+//                                else {
+//                                    returnObject = joinPoint.proceed();
+//                                }
                                 
                                 if(returnObject != null){
                                     if(cacheType.equals(CACHE_BY_CODE)){

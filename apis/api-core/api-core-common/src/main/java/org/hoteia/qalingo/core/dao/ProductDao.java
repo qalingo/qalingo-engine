@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -79,9 +80,12 @@ public class ProductDao extends AbstractGenericDao {
 	}
 
     public List<ProductMarketing> findProductMarketingByRandom(int maxResults, Object... params) {
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(1000);
+        
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
-        criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RAND(123)"));
+        criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RAND(" + randomInt + ")"));
         criteria.setMaxResults(maxResults);
 
         @SuppressWarnings("unchecked")
@@ -406,7 +410,7 @@ public class ProductDao extends AbstractGenericDao {
 
     public List<ProductSku> findProductSkusByMasterCatalogCategoryId(final Long categoryId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        handleSpecificProductMarketingFetchMode(criteria, params);
+        handleSpecificProductSkuFetchMode(criteria, params);
 
         criteria.createAlias("catalogCategoryMasterProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryMaster.id", categoryId));
@@ -425,7 +429,7 @@ public class ProductDao extends AbstractGenericDao {
         subquery.setProjection(Projections.property("id"));
 
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        handleSpecificProductMarketingFetchMode(criteria, params);
+        handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Subqueries.notIn("id", subquery));
 
         criteria.addOrder(Order.asc("id"));
@@ -437,7 +441,7 @@ public class ProductDao extends AbstractGenericDao {
     
     public List<ProductSku> findProductSkusByVirtualCatalogCategoryId(final Long categoryId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        handleSpecificProductMarketingFetchMode(criteria, params);
+        handleSpecificProductSkuFetchMode(criteria, params);
 
         criteria.createAlias("catalogCategoryVirtualProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryVirtual.id", categoryId));
@@ -465,7 +469,7 @@ public class ProductDao extends AbstractGenericDao {
         }
         
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        handleSpecificProductMarketingFetchMode(criteria, params);
+        handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Restrictions.not(Restrictions.in("id", productSkuIds)));
         
         criteria.addOrder(Order.asc("id"));
@@ -477,7 +481,7 @@ public class ProductDao extends AbstractGenericDao {
     
     public List<ProductSku> findProductSkusByStoreId(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        handleSpecificProductMarketingFetchMode(criteria, params);
+        handleSpecificProductSkuFetchMode(criteria, params);
 
         criteria.createAlias("stores", "stores", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("stores.id", storeId));

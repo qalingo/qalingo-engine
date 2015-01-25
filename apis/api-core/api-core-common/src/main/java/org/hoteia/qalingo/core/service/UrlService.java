@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CartItem;
@@ -148,12 +149,19 @@ public class UrlService extends AbstractUrlService {
                     } else if (param instanceof CatalogCategoryVirtual) {
                         CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr);
+                        if(Hibernate.isInitialized(category.getParentCatalogCategory()) && category.getParentCatalogCategory() != null){
+                            urlStr = urlStr + handleParamValue(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
+                        }
+                        urlStr = urlStr + handleParamValue(category.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof CatalogCategoryMaster) {
                         CatalogCategoryMaster category = (CatalogCategoryMaster) param;
-                        urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(category.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr);
+                        if(Hibernate.isInitialized(category.getParentCatalogCategory()) && category.getParentCatalogCategory() != null){
+                            urlStr = urlStr + handleParamValue(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
+                        }
+                        urlStr = urlStr + handleParamValue(category.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof ProductBrand) {
                         ProductBrand productBrand = (ProductBrand) param;

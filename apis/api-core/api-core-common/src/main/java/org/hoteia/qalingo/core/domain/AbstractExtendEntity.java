@@ -9,37 +9,22 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 
-public abstract class AbstractExtendEntity<E> implements Serializable {
+public abstract class AbstractExtendEntity<E> extends AbstractEntity {
 
     /**
      * Generated UID
      */
     private static final long serialVersionUID = -171223653896353957L;
 
-    @Transient
-    private FetchPlan fetchPlan;
-
-    public FetchPlan getFetchPlan() {
-        return fetchPlan;
-    }
-    
-    public void setFetchPlan(FetchPlan fetchPlan) {
-        this.fetchPlan = fetchPlan;
-    }
-    
     abstract public Set<E> getAttributes();
     
     public List<AbstractAttribute> getGlobalAttributes() {

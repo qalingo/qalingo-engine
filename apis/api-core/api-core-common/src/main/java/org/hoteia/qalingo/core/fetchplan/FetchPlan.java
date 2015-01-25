@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.fetchplan;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
 public class FetchPlan implements Serializable {
@@ -34,6 +35,23 @@ public class FetchPlan implements Serializable {
     
     public void setFetchModes(List<SpecificFetchMode> fetchModes) {
         this.fetchModes = fetchModes;
+    }
+    
+    public boolean containAllTargetFetchPlans(FetchPlan askedFetchPlan) {
+        if(fetchModes != null
+                && askedFetchPlan != null
+                && askedFetchPlan.getFetchModes() != null){
+            for (Iterator<SpecificFetchMode> iterator = askedFetchPlan.getFetchModes().iterator(); iterator.hasNext();) {
+                SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
+                if(!fetchModes.contains(specificFetchMode)){
+                    // ONE ASKED FETCH PLAN DOESN'T EXIST
+                    return false;
+                }
+            }
+            // ALL ASKED FETCH PLAN EXIST
+            return true;
+        }
+        return false;
     }
 
     @Override
