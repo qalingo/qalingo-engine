@@ -1701,17 +1701,20 @@ public class RequestUtil {
         if (geolocData != null) {
             // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
             GeolocDataCity geolocDataCity = geolocData.getCity();
-            GeolocDataCountry country = geolocData.getCountry();
-            GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(geolocDataCity.getName(), country.getName());
-            if (geolocCity != null) {
-                geolocData.setLatitude(geolocCity.getLatitude());
-                geolocData.setLongitude(geolocCity.getLongitude());
-            } else {
-                // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
-                geolocCity = geolocService.geolocByCityAndCountry(geolocDataCity.getName(), country.getName());
+            GeolocDataCountry geolocDataCountry = geolocData.getCountry();
+            if(geolocDataCity != null
+                    && geolocDataCountry != null){
+                GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
                 if (geolocCity != null) {
                     geolocData.setLatitude(geolocCity.getLatitude());
                     geolocData.setLongitude(geolocCity.getLongitude());
+                } else {
+                    // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
+                    geolocCity = geolocService.geolocByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
+                    if (geolocCity != null) {
+                        geolocData.setLatitude(geolocCity.getLatitude());
+                        geolocData.setLongitude(geolocCity.getLongitude());
+                    }
                 }
             }
             engineEcoSession.setGeolocData(geolocData);

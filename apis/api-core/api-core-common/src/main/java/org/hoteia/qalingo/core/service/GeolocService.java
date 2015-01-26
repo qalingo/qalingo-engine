@@ -69,7 +69,7 @@ public class GeolocService {
         GeolocCity geolocCity = null;
         String addressParam = encodeGoogleAddress(null, null, city, country);
         GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
-        if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
+        if(geoCode != null && "OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
             logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocCity;
@@ -91,7 +91,7 @@ public class GeolocService {
         GeolocAddress geolocAddress = null;
         String formatedAddress = encodeGoogleAddress(address, postalCode, city, country);
         GoogleGeoCode geoCode = geolocGoogleWithAddress(formatedAddress);
-        if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
+        if(geoCode != null && "OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
             logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
@@ -115,7 +115,7 @@ public class GeolocService {
     public GeolocAddress geolocByLatitudeLongitude(final String latitude, final String longitude) {
         GeolocAddress geolocAddress = null;
         GoogleGeoCode geoCode = geolocGoogleWithLatitudeLongitude(latitude, longitude);
-        if("OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
+        if(geoCode != null && "OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
             logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
