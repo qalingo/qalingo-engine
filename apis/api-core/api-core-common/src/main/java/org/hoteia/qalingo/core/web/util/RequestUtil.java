@@ -715,6 +715,17 @@ public class RequestUtil {
     /**
      * 
      */
+    public String getCurrentRequestUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
+        String currentUrl = getRequestUrl(request, new ArrayList<String>(), 0);
+        if(StringUtils.isNotEmpty(currentUrl)){
+            return currentUrl;
+        }
+        return fallbackUrl;
+    }
+    
+    /**
+     * 
+     */
     public String getCurrentRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 0);
     }

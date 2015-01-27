@@ -282,7 +282,7 @@ public class CacheManagementAspect {
                             loadedFetchPlan = entity.getFetchPlan();
                         }
                         if(askedFetchPlan != null){
-                            if(!loadedFetchPlan.containAllTargetFetchPlans(askedFetchPlan)){
+                            if(loadedFetchPlan != null && !loadedFetchPlan.containAllTargetFetchPlans(askedFetchPlan)){
                                 // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
                                 // WE WILL ADD LOADED FETCH PLAN AND ASKED FETCH PLAN TO THE INVOCATED METHOD
                                 returnObject = null;
