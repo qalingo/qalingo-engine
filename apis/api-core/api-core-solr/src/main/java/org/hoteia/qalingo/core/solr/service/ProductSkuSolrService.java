@@ -22,6 +22,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -29,7 +30,6 @@ import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
-import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +62,13 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolr.setName(productSku.getName());
         productSkuSolr.setDescription(productSku.getDescription());
 
+        if(productSku.getProductMarketing() != null
+                && Hibernate.isInitialized(productSku.getProductMarketing())
+                && productSku.getProductMarketing().getProductBrand() != null
+                && Hibernate.isInitialized(productSku.getProductMarketing().getProductBrand())){
+            productSkuSolr.setProductBrandCode(productSku.getProductMarketing().getProductBrand().getCode());
+        }
+        
         CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productSku, catalogCategories, true);
 
         if(defaultVirtualCatalogCategory != null){

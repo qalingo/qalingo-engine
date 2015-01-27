@@ -24,6 +24,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -31,7 +32,6 @@ import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
-import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,24 +59,29 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             logger.debug("Indexing productMarketing " + productMarketing.getId() + " : " + productMarketing.getCode() + " : " + productMarketing.getName());
         }
         
-        ProductMarketingSolr productSolr = new ProductMarketingSolr();
-        productSolr.setId(productMarketing.getId());
-        productSolr.setCode(productMarketing.getCode());
-        productSolr.setName(productMarketing.getName());
-        productSolr.setDescription(productMarketing.getDescription());
-        
+        ProductMarketingSolr productMarketingSolr = new ProductMarketingSolr();
+        productMarketingSolr.setId(productMarketing.getId());
+        productMarketingSolr.setCode(productMarketing.getCode());
+        productMarketingSolr.setName(productMarketing.getName());
+        productMarketingSolr.setDescription(productMarketing.getDescription());
+
+        if(productMarketing.getProductBrand() != null
+                && Hibernate.isInitialized(productMarketing.getProductBrand())){
+            productMarketingSolr.setProductBrandCode(productMarketing.getProductBrand().getCode());
+        }
+
         CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productMarketing, catalogCategories, true);
 
         if(defaultVirtualCatalogCategory != null){
-            productSolr.setDefaultCategoryCode(defaultVirtualCatalogCategory.getCode());
+            productMarketingSolr.setDefaultCategoryCode(defaultVirtualCatalogCategory.getCode());
         }
         
         if(catalogCategories != null){
             for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
                 String catalogCode = catalogCategoryVirtual.getCatalog().getCode(); 
-                productSolr.addCatalogCode(catalogCode);
+                productMarketingSolr.addCatalogCode(catalogCode);
                 String catalogCategoryCode = catalogCategoryVirtual.getCatalog().getCode() + "_" + catalogCategoryVirtual.getCode(); 
-                productSolr.addCatalogCategories(catalogCategoryCode);
+                productMarketingSolr.addCatalogCategories(catalogCategoryCode);
             }
         }
         
@@ -85,11 +90,11 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());
             if(productSkuPrice != null){
                 BigDecimal salePrice = productSkuPrice.getSalePrice();
-                productSolr.setPrice(salePrice.floatValue());
+                productMarketingSolr.setPrice(salePrice.floatValue());
             }
         }
         
-        productMarketingSolrServer.addBean(productSolr);
+        productMarketingSolrServer.addBean(productMarketingSolr);
         productMarketingSolrServer.commit();
     }
 

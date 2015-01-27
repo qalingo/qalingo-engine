@@ -20,9 +20,6 @@ public class ProductMarketingSolr {
 	@Field
 	private Long id;
 
-	@Field
-	private String description;
-
 	private Boolean isDefault;
 
 	@Field
@@ -30,6 +27,12 @@ public class ProductMarketingSolr {
 
 	@Field
 	private String name;
+
+    @Field
+    private String description;
+    
+    @Field
+    private String productBrandCode;
 
 	@Field
 	private String defaultCategoryCode;
@@ -55,14 +58,6 @@ public class ProductMarketingSolr {
 	@Field("dateupdate")
 	private Date dateUpdate;
 
-	public String getName() {
-        return name;
-    }
-	
-	public void setName(String name) {
-        this.name = name;
-    }
-
 	public Long getId() {
 		return id;
 	}
@@ -71,28 +66,44 @@ public class ProductMarketingSolr {
 		this.id = id;
 	}
 
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getProductBrandCode() {
+        return productBrandCode;
+    }
+
+    public void setProductBrandCode(String productBrandCode) {
+        this.productBrandCode = productBrandCode;
+    }
+    
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Boolean getIsDefault() {
-		return isDefault;
-	}
-
-	public void setIsDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getDefaultCategoryCode() {

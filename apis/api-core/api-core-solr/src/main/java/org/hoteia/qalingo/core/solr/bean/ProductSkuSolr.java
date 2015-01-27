@@ -32,6 +32,9 @@ public class ProductSkuSolr {
     private String name;
 
     @Field
+    private String productBrandCode;
+    
+    @Field
     private String defaultCategoryCode;
     
     @Field
@@ -60,14 +63,6 @@ public class ProductSkuSolr {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Boolean getIsDefault() {
         return isDefault;
     }
@@ -87,11 +82,27 @@ public class ProductSkuSolr {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
     
+    public String getProductBrandCode() {
+        return productBrandCode;
+    }
+
+    public void setProductBrandCode(String productBrandCode) {
+        this.productBrandCode = productBrandCode;
+    }
+
     public String getDefaultCategoryCode() {
         return defaultCategoryCode;
     }

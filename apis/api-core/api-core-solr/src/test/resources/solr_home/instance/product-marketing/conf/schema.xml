@@ -58,6 +58,7 @@
 		<field name="code"					type="string"   	indexed="true"  stored="true" />
 		<field name="name"					type="text_general" indexed="true"  stored="true"  multiValued="false" />
 		<field name="description"			type="string"   	indexed="true"  stored="true"  multiValued="false" />
+		<field name="productBrandCode"      type="string"		indexed="true" 	stored="true"  multiValued="true" />
 		<field name="catalogCode"			type="string"		indexed="true" 	stored="true"  multiValued="true" />
 		<field name="defaultCategoryCode"	type="string"   	indexed="true"  stored="true"  multiValued="false" />
 		<field name="catalogCategories"		type="string"		indexed="true"  stored="true"  multiValued="true" />
@@ -82,9 +83,10 @@
 	<!-- field for the QueryParser to use when an explicit fieldname is absent -->
 	<defaultSearchField>text</defaultSearchField>
 
+	<copyField source="code"				dest="text" />
 	<copyField source="name"				dest="text" />
 	<copyField source="description"			dest="text" />
-	<copyField source="code"				dest="text" />
+	<copyField source="productBrandCode"    dest="text" />
 	<copyField source="price"				dest="text" />
 	<copyField source="defaultCategoryCode"	dest="text" />
 	<copyField source="catalogCategories"	dest="text" />
