@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -374,16 +373,21 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
+        final CatalogVirtual catalog = requestData.getMarketArea().getCatalog();
         
-        if(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
+        if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE.equalsIgnoreCase(facetField.getName())){
         	searchFacetViewBean.setName(facetField.getName());
             List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
-                final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(count.getName(), requestData.getMasterCatalogCode());
-                if(catalogCategoryMaster != null){
-                    ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localizationCode) + "(" + count.getCount() + ")");                
-                    values.add(valueBean);
+                String specificCatalogCategoryCode = count.getName();
+                if(specificCatalogCategoryCode.contains(catalog.getCode())){
+                    String categoryCode = specificCatalogCategoryCode.replace(catalog.getCode(), "");
+                    final CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalog.getCode());
+                    if(catalogCategoryVirtual != null){
+                        ValueBean valueBean = new ValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode) + "(" + count.getCount() + ")");                
+                        values.add(valueBean);
+                    }
                 }
             }
             searchFacetViewBean.setValues(values);

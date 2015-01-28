@@ -22,7 +22,6 @@ public class ProductMarketingResponseBean {
     public static final String PRODUCT_MARKETING_SEARCH_FIELD_CATALOG_CODE    = "catalogCode";
     public static final String PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODE        = "tagCode";
     public static final String PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD         = "text";
-    public static final String PRODUCT_MARKETING_DEFAULT_FACET_FIELD          = "catalogCategories";
 
     private List<ProductMarketingSolr> productMarketingSolrList = new ArrayList<ProductMarketingSolr>();
 
