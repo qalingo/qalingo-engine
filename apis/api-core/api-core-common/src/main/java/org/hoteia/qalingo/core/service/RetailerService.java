@@ -210,7 +210,11 @@ public class RetailerService {
     }
     
     public List<Store> findStores(Object... params) {
-        return retailerDao.findStores(params);
+        return retailerDao.findStores(0, params);
+    }
+    
+    public List<Store> findStores(int maxResults, Object... params) {
+        return retailerDao.findStores(maxResults, params);
     }
     
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {

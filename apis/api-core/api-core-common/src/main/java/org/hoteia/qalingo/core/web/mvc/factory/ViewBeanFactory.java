@@ -658,6 +658,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         localizationViewBean.setCountry(localization.getCountry());
         localizationViewBean.setLanguage(localization.getLanguage());
 
+        localizationViewBean.setLocaleCode(localization.getLocale().toString());
+        localizationViewBean.setFallBackLocaleCode(localization.getFallBackLocaleCode());
+
         localizationViewBean.setName(localization.getName());
         String localizationCodeTranslation = localizationCode;
         if(localizationCodeTranslation.contains("-")){

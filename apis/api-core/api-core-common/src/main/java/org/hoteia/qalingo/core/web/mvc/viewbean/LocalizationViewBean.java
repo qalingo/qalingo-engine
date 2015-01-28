@@ -22,6 +22,8 @@ public class LocalizationViewBean extends AbstractViewBean {
     protected String description;
     protected String country;
     protected String language;
+    protected String localeCode;
+    protected String fallBackLocaleCode;
 	protected boolean active = false;
     
     // MENU
@@ -68,6 +70,22 @@ public class LocalizationViewBean extends AbstractViewBean {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+    
+    public String getLocaleCode() {
+        return localeCode;
+    }
+    
+    public void setLocaleCode(String localeCode) {
+        this.localeCode = localeCode;
+    }
+    
+    public String getFallBackLocaleCode() {
+        return fallBackLocaleCode;
+    }
+    
+    public void setFallBackLocaleCode(String fallBackLocaleCode) {
+        this.fallBackLocaleCode = fallBackLocaleCode;
     }
 
     public boolean isActive() {
