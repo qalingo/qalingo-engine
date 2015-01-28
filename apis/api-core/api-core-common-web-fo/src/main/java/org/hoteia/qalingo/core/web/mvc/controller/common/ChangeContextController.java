@@ -50,7 +50,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	    final HttpServletRequest request = requestData.getRequest();
 	    final Locale locale = requestData.getLocale();
 	    String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
-        final String currentRequestUrl = requestUtil.getCurrentRequestUrl(request, fallbackUrl);
+        final String currentRequestUrl = requestUtil.getRequestUrlAfterChangeContext(request, fallbackUrl);
         String currentRequestUri = currentRequestUrl.replace(request.getContextPath(), "");
         if (currentRequestUri.startsWith("/")) {
             currentRequestUri = currentRequestUri.substring(1, currentRequestUri.length());

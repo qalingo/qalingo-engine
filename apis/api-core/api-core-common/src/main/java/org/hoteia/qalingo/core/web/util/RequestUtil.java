@@ -708,6 +708,18 @@ public class RequestUtil {
     /**
      * 
      */
+    public String getRequestUrlAfterChangeContext(final HttpServletRequest request, final String fallbackUrl) throws Exception {
+        final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
+        String currentUrl = getRequestUrl(request, excludedPatterns, 0);
+        if(StringUtils.isNotEmpty(currentUrl)){
+            return currentUrl;
+        }
+        return fallbackUrl;
+    }
+    
+    /**
+     * 
+     */
     public String getCurrentRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
         return getRequestUrl(request, excludedPatterns, 0);
     }
