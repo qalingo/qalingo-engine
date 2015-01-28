@@ -50,7 +50,8 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
     protected String getTargetUrl(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Locale locale = requestData.getLocale();
-        final String currentRequestUrl = requestUtil.getRequestUrlAfterChangeContext(request);
+        String fallbackUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestData);
+        final String currentRequestUrl = requestUtil.getRequestUrlAfterChangeContext(request, fallbackUrl);
         String currentRequestUri = currentRequestUrl.replace(request.getContextPath(), "");
         if (currentRequestUri.startsWith("/")) {
             currentRequestUri = currentRequestUri.substring(1, currentRequestUri.length());
