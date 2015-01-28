@@ -213,7 +213,7 @@ public class RetailerService {
         return retailerDao.findStores(0, params);
     }
     
-    public List<Store> findStores(int maxResults, Object... params) {
+    public List<Store> findStoresWithMax(int maxResults, Object... params) {
         return retailerDao.findStores(maxResults, params);
     }
     

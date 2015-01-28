@@ -17,7 +17,9 @@ public class FooterMenuViewBean extends AbstractViewBean {
     private static final long serialVersionUID = -1579441776291839252L;
 
     public static final String MENU_TYPE_CUSTOMER_CARE = "MENU_TYPE_CUSTOMER_CARE";
-    public static final String MENU_TYPE_OUR_COMPANY = "MENU_TYPE_OUR_COMPANY";
+    public static final String MENU_TYPE_OUR_COMPANY   = "MENU_TYPE_OUR_COMPANY";
+    public static final String MENU_TYPE_PRODUCT       = "MENU_TYPE_PRODUCT";
+    public static final String MENU_TYPE_MORE          = "MENU_TYPE_MORE";
 
     protected String name;
     protected String img;

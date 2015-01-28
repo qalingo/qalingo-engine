@@ -21,22 +21,22 @@
 
 
 INSERT INTO teco_localization
-(id, code, country, language, name, description)
+(id, code, country, language, name, fallback_locale_code, description)
  VALUES 
-(1,  'en',    'EN', 'en', 'English', 'Default english localization.'), 
-(2,  'fr',    'Fr', 'fr', 'French', 'Default french localization.'), 
-(3,  'es',    'ES', 'es', 'Spanish', 'Default spanish localization.'), 
-(4,  'it',    'IT', 'it', 'Italian', 'Default italian localization.'), 
-(5,  'de',    'DE', 'de', 'German', 'Default german localization.'), 
-(6,  'nl',    'NL', 'nl', 'Dutch', 'Default dutch localization.'), 
-(7,  'jp',    'JP', 'jp', 'Japan', 'Default japan localization.'), 
-(8,  'pt',    'PT', 'pt', 'Portuguese', 'Default portuguese localization.'), 
-(9,  'zh-cn', 'CN', 'zh', 'Chinese - China', 'Default chinese localization.'), 
-(10, 'zh-hk', 'HK', 'zh', 'Chinese - Hong Kong', 'Chinese localization for Hong Kong.'), 
-(11, 'zh-sg', 'SG', 'zh', 'Chinese - Singapore', 'Chinese localization for Singapore.'), 
-(12, 'zh-tw', 'TW', 'zh', 'Chinese - Taiwan', 'Chinese localization for Taiwan.'),
-(13, 'vi-VN', 'VN', 'vi', 'Vietnamese', 'Vietnamese localization for Vietnam.'),
-(14, 'ru',    'RU', 'ru', 'Russian', 'Russian localization for Russie.');
+(1,  'en',    'EN', 'en', 'English', 'en_GB', 'Default english localization.'), 
+(2,  'fr',    'FR', 'fr', 'French', 'fr_FR', 'Default french localization.'), 
+(3,  'es',    'ES', 'es', 'Spanish', 'es_ES', 'Default spanish localization.'), 
+(4,  'it',    'IT', 'it', 'Italian', 'it_IT', 'Default italian localization.'), 
+(5,  'de',    'DE', 'de', 'German', 'de_DE', 'Default german localization.'), 
+(6,  'nl',    'NL', 'nl', 'Dutch', 'nl_NL', 'Default dutch localization.'), 
+(7,  'jp',    'JP', 'ja', 'Japan', 'ja_JP', 'Default japan localization.'), 
+(8,  'pt',    'PT', 'pt', 'Portuguese', 'pt_PT', 'Default portuguese localization.'), 
+(9,  'zh-cn', 'CN', 'zh', 'Chinese - China', 'zh_CN', 'Default chinese localization.'), 
+(10, 'zh-hk', 'HK', 'zh', 'Chinese - Hong Kong', 'zh_HK', 'Chinese localization for Hong Kong.'), 
+(11, 'zh-sg', 'SG', 'zh', 'Chinese - Singapore', 'zh_CN', 'Chinese localization for Singapore.'), 
+(12, 'zh-tw', 'TW', 'zh', 'Chinese - Taiwan', 'zh_TW', 'Chinese localization for Taiwan.'),
+(13, 'vi-VN', 'VN', 'vi', 'Vietnamese', 'vi_VN', 'Vietnamese localization for Vietnam.'),
+(14, 'ru',    'RU', 'ru', 'Russian', 'ru_RU', 'Russian localization for Russie.');
 
 INSERT INTO tbo_group 
 (id, name, description, code, version)
