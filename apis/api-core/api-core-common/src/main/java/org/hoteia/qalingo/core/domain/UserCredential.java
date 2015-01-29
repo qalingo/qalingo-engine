@@ -22,7 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TECO_USER_CREDENTIAL")
+@Table(name="TBO_USER_CREDENTIAL")
 public class UserCredential extends AbstractEntity {
 
 	/**
