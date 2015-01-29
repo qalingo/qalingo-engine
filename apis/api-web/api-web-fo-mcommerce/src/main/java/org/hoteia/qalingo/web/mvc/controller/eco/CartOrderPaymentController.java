@@ -33,7 +33,7 @@ import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,7 +87,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	
 	@RequestMapping(value = FoUrls.CART_ORDER_PAYMENT_URL, method = RequestMethod.POST)
 	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+								BindingResult result, Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea marketArea = requestData.getMarketArea();
         

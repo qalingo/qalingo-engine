@@ -284,21 +284,6 @@ public class WebManagementService {
     /**
      * 
      */
-    public void resetCustomerCredential(final RequestData requestData, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
-        // FLAG LAST CURRENT CREDENTIEL
-        CustomerCredential customerCredential = customer.getCurrentCredential();
-        if(customerCredential != null){
-            customerCredential.setDateUpdate(new Date());
-            customerCredential.setResetProcessedDate(new Date());
-        }
-        
-        // ADD A NEW ONE
-        addNewCustomerCredential(requestData, customer, resetPasswordForm.getNewPassword());
-    }
-    
-    /**
-     * 
-     */
     public Customer buildAndSaveQuickNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, 
                                                  final CreateAccountForm createAccountForm) throws Exception {
         Customer customer = new Customer();
@@ -563,15 +548,27 @@ public class WebManagementService {
         
         buildAndSaveCustomerForgottenPasswordMail(requestData, customer, customerCredential, customerForgottenPasswordEmailBean);
     }
-    
 
+    /**
+     * 
+     */
+    public void resetCustomerCredential(final RequestData requestData, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
+        // FLAG LAST CURRENT CREDENTIEL
+        CustomerCredential customerCredential = customer.getCurrentCredential();
+        if(customerCredential != null){
+            customerCredential.setDateUpdate(new Date());
+            customerCredential.setResetProcessedDate(new Date());
+        }
+        
+        // ADD A NEW ONE
+        addNewCustomerCredential(requestData, customer, resetPasswordForm.getNewPassword());
+    }
+    
     /**
      * 
      */
     public CustomerCredential flagCustomerCredentialWithToken(final RequestData requestData, final Customer customer) throws Exception {
         if(customer != null){
-            final HttpServletRequest request = requestData.getRequest();
-            
             String token = UUID.randomUUID().toString();
             CustomerCredential customerCredential = customer.getCurrentCredential();
             if(customerCredential == null){
@@ -584,7 +581,7 @@ public class WebManagementService {
             customerCredential.setTokenTimestamp(new Timestamp(new Date().getTime()));
             
             // UPDATE CUSTOMER
-            Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
+            customerService.saveOrUpdateCustomer(customer);
             
             return customerCredential;
         }

@@ -64,7 +64,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = FoUrls.FORGOTTEN_PASSWORD_URL, method = RequestMethod.POST)
-	public ModelAndView forgottenPassword(final HttpServletRequest request, @Valid @ModelAttribute("forgottenPasswordForm") ForgottenPasswordForm forgottenPasswordForm,
+	public ModelAndView forgottenPassword(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.FORGOTTEN_PASSWORD_FORM) ForgottenPasswordForm forgottenPasswordForm,
 			                              BindingResult result, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORGOTTEN_PASSWORD_SUCCESS_VELOCITY_PAGE);
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -76,13 +76,13 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		
 		final Customer customer = customerService.getCustomerByLoginOrEmail(forgottenPasswordForm.getEmailOrLogin());
 		if (customer == null) {
-			addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin", getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
+			addMessageError(result, null, ModelConstants.FORGOTTEN_PASSWORD_FORM, "emailOrLogin", getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
 			return displayForgottenPassword(request, model);
 		}
 		
 		if (customer != null
 				&& customer.isAnonymous()) {
-		    addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_customer_is_not_active", locale));
+		    addMessageError(result, null, ModelConstants.FORGOTTEN_PASSWORD_FORM, "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_customer_is_not_active", locale));
 			return displayForgottenPassword(request, model);
 		}
 		
@@ -137,8 +137,8 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = FoUrls.RESET_PASSWORD_URL, method = RequestMethod.POST)
-	public ModelAndView resetPassword(final HttpServletRequest request, @Valid @ModelAttribute("resetPasswordForm") ResetPasswordForm resetPasswordForm,
-			BindingResult result, final Model model) throws Exception {
+	public ModelAndView resetPassword(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.RESET_PASSWORD_FORM) ResetPasswordForm resetPasswordForm,
+			                          BindingResult result, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RESET_PASSWORD_SUCCESS_VELOCITY_PAGE);
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -150,19 +150,19 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		final Customer customer = customerService.getCustomerByLoginOrEmail(resetPasswordForm.getEmail());
 		if (customer == null) {
 			// ADD ERROR
-		    addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
+		    addMessageError(result, null, ModelConstants.FORGOTTEN_PASSWORD_FORM, "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
 			return displayResetPassword(request, model);
 		}
 		
 		if(!customer.getCurrentCredential().getResetToken().equals(resetPasswordForm.getToken())){
 			// ADD ERROR
-		    addMessageError(result, null, "forgottenPasswordForm", "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error.form_reset_password_token_is_wrong", locale));
+		    addMessageError(result, null, ModelConstants.FORGOTTEN_PASSWORD_FORM, "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error.form_reset_password_token_is_wrong", locale));
 			return displayResetPassword(request, model);
 		}
 		
 		if(!resetPasswordForm.getNewPassword().equals(resetPasswordForm.getConfirmNewPassword())){
 			// ADD ERROR
-		    addMessageError(result, null, "forgottenPasswordForm", "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_confirm_password_is_wrong", locale));
+		    addMessageError(result, null, ModelConstants.FORGOTTEN_PASSWORD_FORM, "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_confirm_password_is_wrong", locale));
 			return displayResetPassword(request, model);
 		}
 		
@@ -206,7 +206,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	/**
 	 * 
 	 */
-    @ModelAttribute("forgottenPasswordForm")
+    @ModelAttribute(ModelConstants.FORGOTTEN_PASSWORD_FORM)
 	protected ForgottenPasswordForm getForgottenPasswordForm(final HttpServletRequest request, final Model model) throws Exception {
     	return new ForgottenPasswordForm();
 	}
@@ -214,7 +214,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	/**
 	 * 
 	 */
-    @ModelAttribute("resetPasswordForm")
+    @ModelAttribute(ModelConstants.RESET_PASSWORD_FORM)
 	protected ResetPasswordForm getResetPasswordForm(final HttpServletRequest request, final Model model) throws Exception {
     	ResetPasswordForm resetPasswordForm = new ResetPasswordForm();
 		String token = request.getParameter(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_TOKEN);

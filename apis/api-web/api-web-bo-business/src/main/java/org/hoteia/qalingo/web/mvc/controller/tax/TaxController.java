@@ -36,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -122,7 +121,7 @@ public class TaxController extends AbstractBusinessBackofficeController {
     
     @RequestMapping(value = BoUrls.TAX_EDIT_URL, method = RequestMethod.POST)
     public ModelAndView submitTaxEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.TAX_FORM) TaxForm taxForm,
-                                BindingResult result, ModelMap modelMap) throws Exception {
+                                BindingResult result) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         

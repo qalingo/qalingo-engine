@@ -36,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -96,7 +95,7 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	@RequestMapping(value = BoUrls.BATCH_URL, method = RequestMethod.POST)
 	public ModelAndView batchReset(final HttpServletRequest request, final Model model, @Valid BatchValueForm batchValueForm,
-			BindingResult result, ModelMap modelMap) throws Exception {
+			BindingResult result) throws Exception {
 
 		final String id = batchValueForm.getId();
 		

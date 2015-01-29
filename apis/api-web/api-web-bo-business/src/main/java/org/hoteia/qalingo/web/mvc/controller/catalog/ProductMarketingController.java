@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -140,7 +139,7 @@ public class ProductMarketingController extends AbstractBusinessBackofficeContro
 	
 	@RequestMapping(value = BoUrls.PRODUCT_MARKETING_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView productMarketingEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.PRODUCT_MARKETING_FORM) ProductMarketingForm productMarketingForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+								BindingResult result) throws Exception {
 		
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();

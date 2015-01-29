@@ -14,6 +14,7 @@ import java.util.List;
 import org.hoteia.qalingo.core.dao.UserDao;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.UserGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -140,6 +141,12 @@ public class UserService {
 
     public void deleteCompany(Company company) {
         userDao.deleteCompany(company);
+    }
+    
+    // CREDENTIAL
+
+    public UserCredential saveOrUpdateUserCredential(final UserCredential userCredential) throws Exception {
+        return userDao.saveOrUpdateUserCredential(userCredential);
     }
 
 }

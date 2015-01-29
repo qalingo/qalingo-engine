@@ -14,15 +14,18 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.PersistenceException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -50,10 +53,13 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.email.bean.UserForgottenPasswordEmailBean;
 import org.hoteia.qalingo.core.email.bean.UserNewAccountConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.UserResetPasswordConfirmationEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
@@ -63,10 +69,12 @@ import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
+import org.hoteia.qalingo.core.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductBrandForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
+import org.hoteia.qalingo.core.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.StoreForm;
 import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
@@ -121,6 +129,9 @@ public class WebBackofficeService {
     
     @Autowired
     protected BackofficeUrlService backofficeUrlService;
+    
+    @Autowired
+    protected ReferentialDataService referentialDataService;
     
     @Autowired
     protected RequestUtil requestUtil;
@@ -954,8 +965,145 @@ public class WebBackofficeService {
     /**
      * 
      */
+    public void buildAndSaveUserForgottenPasswordMail(final RequestData requestData, final User user, final UserCredential userCredential, final ForgottenPasswordForm forgottenPasswordForm) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Locale locale = requestData.getLocale();
+        final String contextNameValue = requestData.getContextNameValue();
+
+        final UserForgottenPasswordEmailBean userForgottenPasswordEmailBean = new UserForgottenPasswordEmailBean();
+        userForgottenPasswordEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
+        userForgottenPasswordEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
+        userForgottenPasswordEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD));
+        userForgottenPasswordEmailBean.setToEmail(user.getEmail());
+        userForgottenPasswordEmailBean.setToken(userCredential.getResetToken());
+        
+        userForgottenPasswordEmailBean.setTitle(referentialDataService.getTitleByLocale(user.getTitle(), locale));
+        userForgottenPasswordEmailBean.setFirstname(user.getFirstname());
+        userForgottenPasswordEmailBean.setLastname(user.getLastname());
+        userForgottenPasswordEmailBean.setEmail(user.getEmail());
+        
+        buildAndSaveUserForgottenPasswordMail(requestData, user, userCredential, userForgottenPasswordEmailBean);
+    }
+    
+    /**
+     * 
+     */
+    public void resetUserCredential(final RequestData requestData, final User user, final ResetPasswordForm resetPasswordForm) throws Exception {
+        // FLAG LAST CURRENT CREDENTIEL
+        UserCredential userCredential = user.getCurrentCredential();
+        if(userCredential != null){
+            userCredential.setDateUpdate(new Date());
+            userCredential.setResetProcessedDate(new Date());
+        }
+        
+        // ADD A NEW ONE
+        addNewUserCredential(requestData, user, resetPasswordForm.getNewPassword());
+    }
+    
+    /**
+     * 
+     */
+    public UserCredential flagUserCredentialWithToken(final RequestData requestData, final User user) throws Exception {
+        if(user != null){
+            String token = UUID.randomUUID().toString();
+            UserCredential userCredential = user.getCurrentCredential();
+            if(userCredential == null){
+                userCredential = new UserCredential();
+                userCredential.setDateCreate(new Date());
+                user.getCredentials().add(userCredential);
+            }
+            userCredential.setDateUpdate(new Date());
+            userCredential.setResetToken(token);
+            userCredential.setTokenTimestamp(new Timestamp(new Date().getTime()));
+            
+            // UPDATE CUSTOMER
+            userService.saveOrUpdateUser(user);
+            
+            return userCredential;
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     */
+    public void cancelUserCredentialToken(final RequestData requestData, final User user) throws Exception {
+        if(user != null){
+            UserCredential userCredential = user.getCurrentCredential();
+            if(userCredential != null){
+                userCredential.setDateUpdate(new Date());
+                userCredential.setResetToken("");
+                userCredential.setTokenTimestamp(null);
+                userService.saveOrUpdateUserCredential(userCredential);
+            }
+        }
+    }
+    
+    /**
+     * 
+     */
+    public void addNewUserCredential(final RequestData requestData, final User user, final String newPassword) throws Exception {
+        if(user != null){
+            String clearPassword = newPassword;
+            String encodePassword = securityUtil.encodePassword(clearPassword);
+            UserCredential userCredential = new UserCredential();
+            userCredential.setPassword(encodePassword);
+            userCredential.setDateCreate(new Date());
+            userCredential.setDateUpdate(new Date());
+            user.getCredentials().add(userCredential);
+            
+            user.setPassword(encodePassword);
+            
+            userService.saveOrUpdateUser(user);
+        }
+    }
+    
+    /**
+     * 
+     */
+    public void buildAndSaveUserForgottenPasswordMail(final RequestData requestData, final User user, final UserCredential userCredential, final UserForgottenPasswordEmailBean userForgottenPasswordEmailBean) throws Exception {
+        emailService.buildAndSaveUserForgottenPasswordMail(requestData, user, requestData.getVelocityEmailPrefix(), userForgottenPasswordEmailBean);
+    }
+    
+    /**
+     * 
+     */
+    public void buildAndSaveUserResetPasswordConfirmationMail(final RequestData requestData, final User user) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Locale locale = requestData.getLocale();
+        final String contextNameValue = requestData.getContextNameValue();
+        final String velocityPath = requestData.getVelocityEmailPrefix();
+
+        final UserResetPasswordConfirmationEmailBean userResetPasswordConfirmationEmailBean = new UserResetPasswordConfirmationEmailBean();
+        userResetPasswordConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        userResetPasswordConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        userResetPasswordConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        userResetPasswordConfirmationEmailBean.setToEmail(user.getEmail());
+        
+        userResetPasswordConfirmationEmailBean.setTitle(referentialDataService.getTitleByLocale(user.getTitle(), locale));
+        userResetPasswordConfirmationEmailBean.setFirstname(user.getFirstname());
+        userResetPasswordConfirmationEmailBean.setLastname(user.getLastname());
+        userResetPasswordConfirmationEmailBean.setEmail(user.getEmail());
+        
+        userResetPasswordConfirmationEmailBean.setUserDetailsUrl(backofficeUrlService.buildAbsoluteUrl(requestData, backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData)));
+        
+        emailService.buildAndSaveUserResetPasswordConfirmationMail(requestData, user, velocityPath, userResetPasswordConfirmationEmailBean);
+    }
+    
+    /**
+     * 
+     */
     public void buildAndSaveUserNewAccountMail(final RequestData requestData, final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean) throws Exception {
         emailService.buildAndSaveUserNewAccountMail(requestData, requestData.getVelocityEmailPrefix(), userNewAccountConfirmationEmailBean);
     }
     
+    protected String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String contextNameValue, final String emailType) throws Exception{
+        String emailFromAddress = marketArea.getEmailFromAddress(contextNameValue, emailType);
+        if(StringUtils.isEmpty(emailFromAddress)){
+            final HttpServletRequest request = requestData.getRequest();
+            final String contextValue = requestUtil.getCurrentContextNameValue(request);
+            emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
+        }
+        return emailFromAddress;
+    }
 }

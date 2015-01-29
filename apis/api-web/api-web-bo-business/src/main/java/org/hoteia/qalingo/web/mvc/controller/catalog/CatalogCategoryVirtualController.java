@@ -48,7 +48,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -151,7 +150,7 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
 
 	@RequestMapping(value = BoUrls.VIRTUAL_CATEGORY_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView submitVirtualCatalogCategoryForm(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm,
-												   BindingResult result, ModelMap modelMap) throws Exception {
+												   BindingResult result) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.VIRTUAL_CATEGORY_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();

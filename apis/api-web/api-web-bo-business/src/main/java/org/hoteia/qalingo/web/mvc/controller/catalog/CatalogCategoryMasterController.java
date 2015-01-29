@@ -46,7 +46,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -141,7 +140,7 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
 
 	@RequestMapping(value = BoUrls.MASTER_CATEGORY_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView submitMasterCatalogCategoryForm(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm,
-												  BindingResult result, ModelMap modelMap) throws Exception {
+												  BindingResult result) throws Exception {
 		
 		// TODO : Denis : refactoring, clean
 		

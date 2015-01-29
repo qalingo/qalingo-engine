@@ -10,7 +10,9 @@
 package org.hoteia.qalingo.core.pojo;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,6 +59,8 @@ public class RequestData implements Serializable {
     
     private GeolocData geolocData;
 	
+    private Map<String, Object> additionalAttributes = new HashMap<String, Object>();
+    
 	public RequestData() {
     }
 	
@@ -262,6 +266,18 @@ public class RequestData implements Serializable {
             return true;
         }
         return false;
+    }
+    
+    public Map<String, Object> getAdditionalAttributes() {
+        return additionalAttributes;
+    }
+    
+    public Object getAdditionalAttribute(String key) {
+        return additionalAttributes.get(key);
+    }
+    
+    public void setAdditionalAttributes(Map<String, Object> additionalAttributes) {
+        this.additionalAttributes = additionalAttributes;
     }
     
     public boolean isBackoffice() throws Exception {

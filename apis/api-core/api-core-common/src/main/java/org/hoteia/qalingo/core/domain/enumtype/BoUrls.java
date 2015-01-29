@@ -189,10 +189,15 @@ public enum BoUrls {
     public static final String FORGOTTEN_PASSWORD_URL           = "/forgotten-password.html";
     public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE = "security/forgotten-password-edit";
 
-    public static final String RESET_PASSWORD_KEY               = "reset-password";
-    public static final String RESET_PASSWORD_URL               = "/reset-password.html";
-    public static final String RESET_PASSWORD_VELOCITY_PAGE     = "security/reset-password-edit";
-	    
+    public static final String RESET_PASSWORD_KEY                   = "reset-password";
+    public static final String RESET_PASSWORD_URL                   = "/**/reset-password.html";
+    public static final String RESET_PASSWORD_VELOCITY_PAGE         = "security/reset-password";
+    public static final String RESET_PASSWORD_SUCCESS_VELOCITY_PAGE = "security/reset-password-success";
+
+    public static final String CANCEL_RESET_PASSWORD_KEY                    = "cancel-reset-password";
+    public static final String CANCEL_RESET_PASSWORD_URL                    = "/**/cancel-reset-password.html";
+    public static final String CANCEL_RESET_PASSWORD_VELOCITY_PAGE          = "";
+    
     public static final String SPRING_SECURITY_URL      = "/j_spring_security_check";
     public static final String GLOBAL_SEARCH_URL        = "/**/global-search.html";
 	    
@@ -555,6 +560,10 @@ public enum BoUrls {
         return this.key;
     }
 
+    public String getMessageKey() {
+        return this.key.replace("-", "_");
+    }
+    
     public String getVelocityPage() {
         return this.velocityPage;
     }

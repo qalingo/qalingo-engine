@@ -10,9 +10,12 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -109,6 +112,10 @@ public class User extends AbstractEntity {
     @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
     private Company company;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.UserCredential.class)
+    @JoinColumn(name = "USER_ID")
+    private Set<UserCredential> credentials = new HashSet<UserCredential>();
+    
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TBO_USER_GROUP_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
     private Set<UserGroup> groups = new HashSet<UserGroup>();
@@ -288,6 +295,42 @@ public class User extends AbstractEntity {
         this.company = company;
     }
 
+    public Set<UserCredential> getCredentials() {
+        return credentials;
+    }
+    
+    public UserCredential getCurrentCredential() {
+        if(credentials != null
+                && Hibernate.isInitialized(credentials)){
+            List<UserCredential> sortedObjects = new LinkedList<UserCredential>(credentials);
+            Collections.sort(sortedObjects, new Comparator<UserCredential>() {
+                @Override
+                public int compare(UserCredential o1, UserCredential o2) {
+                    if(o1 != null
+                            && o2 != null){
+                        Date order1 = o1.getDateCreate();
+                        Date order2 = o2.getDateCreate();
+                        if(order1 != null
+                                && order2 != null){
+                            return order1.compareTo(order2);                
+                        } else {
+                            return o1.getId().compareTo(o2.getId());    
+                        }
+                    }
+                    return 0;
+                }
+            });
+            if(sortedObjects != null && sortedObjects.size() > 0){
+                return sortedObjects.get(0);
+            }
+        }
+        return null;
+    }
+    
+    public void setCredentials(Set<UserCredential> credentials) {
+        this.credentials = credentials;
+    }
+    
     public Set<UserGroup> getGroups() {
         return groups;
     }

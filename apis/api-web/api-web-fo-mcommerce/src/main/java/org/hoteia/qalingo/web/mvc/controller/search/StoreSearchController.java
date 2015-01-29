@@ -53,7 +53,6 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -278,7 +277,7 @@ public class StoreSearchController extends AbstractMCommerceController {
     public RetailerService retailerService;
 
     @RequestMapping(value = "/**/search-load-store-index.html", method = RequestMethod.GET)
-    public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+    public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         List<Retailer> retailers = retailerService.findAllRetailers();;
         for (Retailer retailer : retailers) {

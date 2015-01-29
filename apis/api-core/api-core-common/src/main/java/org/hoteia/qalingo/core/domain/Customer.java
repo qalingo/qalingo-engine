@@ -22,8 +22,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,8 +40,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
-import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 @Entity
 @Table(name="TECO_CUSTOMER")

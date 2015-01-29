@@ -39,7 +39,6 @@ import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControll
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -126,7 +125,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
     
     @RequestMapping(value = BoUrls.ENGINE_SETTING_EDIT_URL, method = RequestMethod.POST)
     public ModelAndView submitEngineSettingEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.ENGINE_SETTING_FORM) EngineSettingForm engineSettingForm,
-                                BindingResult result, ModelMap modelMap) throws Exception {
+                                BindingResult result) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
@@ -195,7 +194,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 
     @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, method = RequestMethod.POST)
     public ModelAndView submitEngineSettingEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.ENGINE_SETTING_VALUE_FORM) EngineSettingValueForm engineSettingValueForm,
-            BindingResult result, ModelMap modelMap) throws Exception {
+            BindingResult result) throws Exception {
 
         if (result.hasErrors()) {
             return engineSettingValueEdit(request, model, engineSettingValueForm);

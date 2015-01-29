@@ -97,7 +97,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final Locale locale = requestData.getLocale();
 
         final SeoDataViewBean seoDataViewBean = super.buildViewSeoData(requestData);
-        seoDataViewBean.setCurrentUrl(requestUtil.getCurrentRequestUrl(request));
+        seoDataViewBean.setCurrentUrl(urlService.buildAbsoluteUrl(requestData, requestUtil.getCurrentRequestUrl(request)));
         
         // TODO : canonical urls
         

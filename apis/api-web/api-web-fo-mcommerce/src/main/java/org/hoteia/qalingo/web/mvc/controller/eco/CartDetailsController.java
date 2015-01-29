@@ -25,7 +25,7 @@ import org.hoteia.qalingo.web.mvc.form.CartForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,7 +67,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 
     @RequestMapping(value = FoUrls.CART_DETAILS_URL, method = RequestMethod.POST)
     public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm, 
-                                            BindingResult result, ModelMap modelMap) throws Exception {
+                                            BindingResult result, Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         
         // SANITY CHECK

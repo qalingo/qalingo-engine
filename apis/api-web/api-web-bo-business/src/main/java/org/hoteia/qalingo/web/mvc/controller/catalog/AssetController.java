@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -70,7 +70,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	}
 	
 	@RequestMapping(value = BoUrls.ASSET_EDIT_URL, method = RequestMethod.GET)
-	public ModelAndView display(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView display(final HttpServletRequest request, final HttpServletResponse response, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ASSET_EDIT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String currentAssetId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_ID);
@@ -88,10 +88,10 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	
 	@RequestMapping(value = BoUrls.ASSET_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView assetEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid AssetForm assetForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+								BindingResult result, Model model) throws Exception {
 
 		if (result.hasErrors()) {
-			return display(request, response, modelMap);
+			return display(request, response, model);
 		}
 		
 		final String currentAssetId = assetForm.getId();

@@ -56,7 +56,7 @@
 		<field name="code"					type="string"   	indexed="true"  stored="true" />
 		<field name="name"					type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="description"			type="string"   	indexed="true"  stored="true"  multiValued="false" />
-		<field name="productBrandCode"      type="string"		indexed="true" 	stored="true"  multiValued="true" />
+		<field name="productBrandCode"      type="string"		indexed="true" 	stored="true"  multiValued="false" />
 		<field name="catalogCode"			type="string"		indexed="true" 	stored="true"  multiValued="true" />
 		<field name="defaultCategoryCode"	type="string"   	indexed="true"  stored="true"  multiValued="false" />
 		<field name="catalogCategories"		type="string"		indexed="true"  stored="true"  multiValued="true" />

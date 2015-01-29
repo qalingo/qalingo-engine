@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -21,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.UserGroup;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
@@ -279,6 +281,29 @@ public class UserDao extends AbstractGenericDao {
 
     public void deleteCompany(Company company) {
         em.remove(company);
+    }
+    
+    // CREDENTIAL
+    
+    public UserCredential saveOrUpdateUserCredential(final UserCredential userCredential) throws Exception {
+        if(userCredential.getDateCreate() == null){
+            userCredential.setDateCreate(new Date());
+            if(StringUtils.isEmpty(userCredential.getResetToken())){
+                userCredential.setResetToken(UUID.randomUUID().toString());
+            }
+        }
+        userCredential.setDateUpdate(new Date());
+        if (userCredential.getId() != null) {
+            if(em.contains(userCredential)){
+                em.refresh(userCredential);
+            }
+            UserCredential mergedUserCredential = em.merge(userCredential);
+            em.flush();
+            return mergedUserCredential;
+        } else {
+            em.persist(userCredential);
+            return userCredential;
+        }
     }
     
     protected FetchPlan handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
