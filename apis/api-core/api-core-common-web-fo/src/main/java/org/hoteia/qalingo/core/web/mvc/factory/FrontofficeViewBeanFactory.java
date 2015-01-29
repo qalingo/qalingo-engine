@@ -93,9 +93,14 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     
     @Override
     public SeoDataViewBean buildViewSeoData(final RequestData requestData) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
         final Locale locale = requestData.getLocale();
 
         final SeoDataViewBean seoDataViewBean = super.buildViewSeoData(requestData);
+        seoDataViewBean.setCurrentUrl(requestUtil.getCurrentRequestUrl(request));
+        
+        // TODO : canonical urls
+        
         String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
         seoDataViewBean.setPageTitle(pageTitle);
         String metaAuthor = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_AUTHOR, locale);
@@ -382,7 +387,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 Count count = (Count) iterator.next();
                 String specificCatalogCategoryCode = count.getName();
                 if(specificCatalogCategoryCode.contains(catalog.getCode())){
-                    String categoryCode = specificCatalogCategoryCode.replace(catalog.getCode(), "");
+                    String categoryCode = specificCatalogCategoryCode.replace(catalog.getCode() + "_", "");
                     final CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalog.getCode());
                     if(catalogCategoryVirtual != null){
                         ValueBean valueBean = new ValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode) + "(" + count.getCount() + ")");                

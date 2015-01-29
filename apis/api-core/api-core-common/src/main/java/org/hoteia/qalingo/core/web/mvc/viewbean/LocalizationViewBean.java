@@ -23,7 +23,7 @@ public class LocalizationViewBean extends AbstractViewBean {
     protected String country;
     protected String language;
     protected String localeCode;
-    protected String fallBackLocaleCode;
+    protected String fallbackLocaleCode;
 	protected boolean active = false;
     
     // MENU
@@ -80,12 +80,12 @@ public class LocalizationViewBean extends AbstractViewBean {
         this.localeCode = localeCode;
     }
     
-    public String getFallBackLocaleCode() {
-        return fallBackLocaleCode;
+    public String getFallbackLocaleCode() {
+        return fallbackLocaleCode;
     }
     
-    public void setFallBackLocaleCode(String fallBackLocaleCode) {
-        this.fallBackLocaleCode = fallBackLocaleCode;
+    public void setFallbackLocaleCode(String fallbackLocaleCode) {
+        this.fallbackLocaleCode = fallbackLocaleCode;
     }
 
     public boolean isActive() {

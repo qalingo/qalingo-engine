@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import java.util.List;
+
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.springframework.web.util.HtmlUtils;
 
@@ -20,6 +22,9 @@ public class SeoDataViewBean extends AbstractViewBean {
     private static final long serialVersionUID = -6094172379811232111L;
 
     protected String pageTitle;
+
+    protected String currentUrl;
+    protected List<String> canonicalUrls;
 
     protected String metaAuthor;
     protected String metaKeywords;
@@ -35,6 +40,22 @@ public class SeoDataViewBean extends AbstractViewBean {
 
     public void setPageTitle(String pageTitle) {
         this.pageTitle = pageTitle;
+    }
+
+    public String getCurrentUrl() {
+        return currentUrl;
+    }
+
+    public void setCurrentUrl(String currentUrl) {
+        this.currentUrl = currentUrl;
+    }
+
+    public List<String> getCanonicalUrls() {
+        return canonicalUrls;
+    }
+
+    public void setCanonicalUrls(List<String> canonicalUrls) {
+        this.canonicalUrls = canonicalUrls;
     }
 
     public String getMetaAuthor() {
