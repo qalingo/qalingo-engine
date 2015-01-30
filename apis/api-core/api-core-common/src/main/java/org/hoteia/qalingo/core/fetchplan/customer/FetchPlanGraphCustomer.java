@@ -16,7 +16,6 @@ import org.hoteia.qalingo.core.domain.CustomerGroup_;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea_;
 import org.hoteia.qalingo.core.domain.CustomerRole_;
 import org.hoteia.qalingo.core.domain.Customer_;
-import org.hoteia.qalingo.core.domain.UserGroup_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -50,12 +49,6 @@ public class FetchPlanGraphCustomer {
     public static FetchPlan defaultCustomerGroupFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(CustomerGroup_.roles.getName()));
-        return new FetchPlan(fetchplans);
-    }
-    
-    public static FetchPlan defaultUserGroupFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(UserGroup_.roles.getName()));
         return new FetchPlan(fetchplans);
     }
     

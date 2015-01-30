@@ -100,25 +100,8 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan defaultCompanyFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("localizations"));
-        return new FetchPlan(fetchplans);
-    }
-    
     public static FetchPlan defaultWarehouseFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        return new FetchPlan(fetchplans);
-    }
-    
-    public static FetchPlan defaultUserFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("defaultLocalization"));
-        fetchplans.add(new SpecificFetchMode("company"));
-        fetchplans.add(new SpecificFetchMode("groups"));
-        fetchplans.add(new SpecificFetchMode("roles", new SpecificAlias("groups.roles")));
-        fetchplans.add(new SpecificFetchMode("permissions", new SpecificAlias("groups.roles.permissions")));
-        fetchplans.add(new SpecificFetchMode("connectionLogs"));
         return new FetchPlan(fetchplans);
     }
     

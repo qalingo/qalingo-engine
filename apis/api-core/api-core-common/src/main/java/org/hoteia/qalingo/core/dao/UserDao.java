@@ -25,8 +25,7 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.UserGroup;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
-import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
+import org.hoteia.qalingo.core.fetchplan.user.FetchPlanGraphUser;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,7 +132,7 @@ public class UserDao extends AbstractGenericDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultUserFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphUser.defaultUserFetchPlan());
         }
     }
     
@@ -191,7 +190,7 @@ public class UserDao extends AbstractGenericDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphUser.defaultUserGroupFetchPlan());
         }
     }
     
@@ -310,7 +309,7 @@ public class UserDao extends AbstractGenericDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCompanyFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphUser.defaultCompanyFetchPlan());
         }
     }
 
