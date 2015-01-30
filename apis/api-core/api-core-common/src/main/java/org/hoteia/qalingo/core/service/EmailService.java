@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import org.hoteia.qalingo.core.email.bean.AbstractEmailBean;
@@ -73,6 +74,9 @@ public class EmailService {
 	@Autowired
 	protected UrlService urlService;
 	
+    @Autowired
+    protected BackofficeUrlService backofficeUrlService;
+	   
 	@Autowired
 	protected VelocityEngine velocityEngine;
     
@@ -610,11 +614,11 @@ public class EmailService {
             Map<String, String> urlParams = new HashMap<String, String>();
             urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL, URLEncoder.encode(user.getEmail(), Constants.ANSI));
             urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_TOKEN, userForgottenPasswordEmailBean.getToken());
-            String resetPasswordUrl = urlService.generateUrl(FoUrls.RESET_PASSWORD, requestData, urlParams);
-            model.put("activeChangePasswordUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
+            String resetPasswordUrl = backofficeUrlService.generateUrl(BoUrls.RESET_PASSWORD, requestData, urlParams);
+            model.put("activeChangePasswordUrl", backofficeUrlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
             
-            String canceResetPasswordUrl = urlService.generateUrl(FoUrls.CANCEL_RESET_PASSWORD, requestData, urlParams);
-            model.put("cancelChangePasswordUrl", urlService.buildAbsoluteUrl(requestData, canceResetPasswordUrl));
+            String canceResetPasswordUrl = backofficeUrlService.generateUrl(BoUrls.CANCEL_RESET_PASSWORD, requestData, urlParams);
+            model.put("cancelChangePasswordUrl", backofficeUrlService.buildAbsoluteUrl(requestData, canceResetPasswordUrl));
             
             model.put("userForgottenPasswordEmailBean", userForgottenPasswordEmailBean);
 

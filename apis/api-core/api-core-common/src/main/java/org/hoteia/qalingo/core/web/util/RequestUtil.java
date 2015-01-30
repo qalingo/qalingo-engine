@@ -775,6 +775,7 @@ public class RequestUtil {
         excludedPatterns.add(FoUrls.LOGIN.getUrlPatternKey());
         excludedPatterns.add(FoUrls.LOGOUT.getUrlPatternKey());
         excludedPatterns.add(FoUrls.TIMEOUT.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.FORGOTTEN_PASSWORD.getUrlPatternKey());
         excludedPatterns.add(FoUrls.RESET_PASSWORD.getUrlPatternKey());
         excludedPatterns.add(FoUrls.CANCEL_RESET_PASSWORD.getUrlPatternKey());
         excludedPatterns.add("cachemanager.html");
