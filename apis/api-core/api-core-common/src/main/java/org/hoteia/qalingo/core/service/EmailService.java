@@ -675,8 +675,8 @@ public class EmailService {
             model.put("userResetPasswordConfirmationEmailBean", userResetPasswordConfirmationEmailBean);
             model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-            String loginUrl = urlService.generateUrl(FoUrls.LOGIN, requestData);
-            model.put("loginUrl", urlService.buildAbsoluteUrl(requestData, loginUrl));
+            String loginUrl = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData);
+            model.put("loginUrl", backofficeUrlService.buildAbsoluteUrl(requestData, loginUrl));
             
             String fromAddress = handleFromAddress(userResetPasswordConfirmationEmailBean.getFromAddress(), contextNameValue);
             String fromName = handleFromName(userResetPasswordConfirmationEmailBean.getFromName(), locale);
