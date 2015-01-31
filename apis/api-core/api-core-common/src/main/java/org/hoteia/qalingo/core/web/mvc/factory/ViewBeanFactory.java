@@ -870,7 +870,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
 
-        final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+        final String contextNameValue = requestUtil.getCurrentContextNameValue();
         List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
         if (shareOptions != null) {
             for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {

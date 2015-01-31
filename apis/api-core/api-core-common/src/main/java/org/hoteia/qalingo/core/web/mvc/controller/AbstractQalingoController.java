@@ -116,7 +116,7 @@ public abstract class AbstractQalingoController {
 	@ModelAttribute(ModelConstants.TRACKING_VIEW_BEAN)
 	protected TrackingViewBean initTracking(final HttpServletRequest request, final Model model) throws Exception {
 		TrackingViewBean trackingViewBean = null;
-    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
+    	final String contextValue = requestUtil.getCurrentContextNameValue();
 
 	    EngineSetting webTrackingNumberEngineSetting = engineSettingService.getSettingWebTrackingNumber();
 	    EngineSettingValue webTrackingNumberEngineSettingValue = webTrackingNumberEngineSetting.getEngineSettingValue(contextValue);
@@ -152,7 +152,7 @@ public abstract class AbstractQalingoController {
 	@ModelAttribute(ModelConstants.MONITORING_VIEW_BEAN)
 	protected MonitoringViewBean initMonitoring(final HttpServletRequest request, final Model model) throws Exception {
 		MonitoringViewBean monitoringViewBean = new MonitoringViewBean();
-    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
+    	final String contextValue = requestUtil.getCurrentContextNameValue();
 	    EngineSetting webMonitoringNumberEngineSetting = engineSettingService.getSettingWebMonitoringNumber();
 	    if(webMonitoringNumberEngineSetting != null){
 	        EngineSettingValue webMonitoringNumberEngineSettingValue = webMonitoringNumberEngineSetting.getEngineSettingValue(contextValue);

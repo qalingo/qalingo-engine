@@ -56,7 +56,7 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-			    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
+			    	final String contextValue = requestUtil.getCurrentContextNameValue();
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();

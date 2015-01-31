@@ -940,7 +940,7 @@ public class RequestUtil {
         final HttpServletRequest request = requestData.getRequest();
         EngineSetting engineSetting = engineSettingService.getSettingThemeResourcePrefixPath();
         try {
-            String contextValue = getCurrentContextNameValue(request);
+            String contextValue = getCurrentContextNameValue();
             EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(contextValue);
             String prefixPath = engineSetting.getDefaultValue();
             if (engineSettingValue != null) {
@@ -971,7 +971,7 @@ public class RequestUtil {
     /**
      * 
      */
-    public String getCurrentContextNameValue(final HttpServletRequest request) throws Exception {
+    public String getCurrentContextNameValue() throws Exception {
         return PropertiesUtil.getWebappContextKey(getContextName());
     }
 
@@ -1514,7 +1514,7 @@ public class RequestUtil {
             contextPath = "/";
         }
         requestData.setContextPath(contextPath);
-        requestData.setContextNameValue(getCurrentContextNameValue(request));
+        requestData.setContextNameValue(getCurrentContextNameValue());
 
         // SPECIFIC BACKOFFICE
         if (requestData.isBackoffice()) {

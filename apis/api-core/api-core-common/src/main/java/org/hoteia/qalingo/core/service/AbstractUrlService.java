@@ -72,7 +72,7 @@ public abstract class AbstractUrlService {
         } else {
             absoluteUrl = absoluteUrl + cleanedRelativeUrl;
         }
-        if (!absoluteUrl.startsWith(request.getScheme() + "://")) {
+        if (request != null && !absoluteUrl.startsWith(request.getScheme() + "://")) {
             absoluteUrl = request.getScheme() + "://" + absoluteUrl;
         }
         return absoluteUrl;
@@ -105,13 +105,13 @@ public abstract class AbstractUrlService {
                 domainePathUrl = domainName;
             }
         }
-        if (StringUtils.isEmpty(domainePathUrl)) {
+        if (request != null && StringUtils.isEmpty(domainePathUrl)) {
             String requestUrl = request.getRequestURL().toString();
             requestUrl = requestUrl.replace(request.getScheme() + "://", "");
             String[] urlBlock = requestUrl.split("/");
             domainePathUrl = urlBlock[0];
         }
-        if (!domainePathUrl.startsWith(request.getScheme())) {
+        if (request != null && !domainePathUrl.startsWith(request.getScheme())) {
             String scheme = request.getScheme();
             domainePathUrl = scheme + "://" + domainePathUrl;
         }

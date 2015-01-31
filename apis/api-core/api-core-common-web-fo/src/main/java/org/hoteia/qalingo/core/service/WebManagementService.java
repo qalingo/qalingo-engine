@@ -951,7 +951,7 @@ public class WebManagementService {
         String emailFromAddress = marketArea.getEmailFromAddress(contextNameValue, emailType);
         if(StringUtils.isEmpty(emailFromAddress)){
             final HttpServletRequest request = requestData.getRequest();
-            final String contextValue = requestUtil.getCurrentContextNameValue(request);
+            final String contextValue = requestUtil.getCurrentContextNameValue();
             emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
         }
         return emailFromAddress;
