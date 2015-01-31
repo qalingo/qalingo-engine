@@ -134,7 +134,7 @@ public class UrlService extends AbstractUrlService {
                     if (param instanceof Retailer) {
                         Retailer retailer = (Retailer) param;
                         urlParams.put(RequestConstants.URL_PATTERN_RETAILER_CODE, handleParamValue(retailer.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(retailer.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(retailer.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof ProductSku) {
                         ProductSku productSku = (ProductSku) param;
@@ -144,29 +144,29 @@ public class UrlService extends AbstractUrlService {
                     } else if (param instanceof ProductMarketing) {
                         ProductMarketing productMarketing = (ProductMarketing) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productMarketing.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(productMarketing.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof CatalogCategoryVirtual) {
                         CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
                         urlStr = addFullPrefixUrl(requestData, urlStr);
                         if(Hibernate.isInitialized(category.getParentCatalogCategory()) && category.getParentCatalogCategory() != null){
-                            urlStr = urlStr + handleParamValue(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
+                            urlStr = urlStr + handleSeoSegmentMain(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
                         }
-                        urlStr = urlStr + handleParamValue(category.getI18nName(localizationCode)) + "/";
+                        urlStr = urlStr + handleSeoSegmentMain(category.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof CatalogCategoryMaster) {
                         CatalogCategoryMaster category = (CatalogCategoryMaster) param;
                         urlStr = addFullPrefixUrl(requestData, urlStr);
                         if(Hibernate.isInitialized(category.getParentCatalogCategory()) && category.getParentCatalogCategory() != null){
-                            urlStr = urlStr + handleParamValue(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
+                            urlStr = urlStr + handleSeoSegmentMain(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
                         }
-                        urlStr = urlStr + handleParamValue(category.getI18nName(localizationCode)) + "/";
+                        urlStr = urlStr + handleSeoSegmentMain(category.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof ProductBrand) {
                         ProductBrand productBrand = (ProductBrand) param;
                         urlParams.put(RequestConstants.URL_PATTERN_BRAND_CODE, handleParamValue(productBrand.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(productBrand.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(productBrand.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof CartItem) {
                         CartItem cartItem = (CartItem) param;
@@ -175,7 +175,7 @@ public class UrlService extends AbstractUrlService {
                     }  else if (param instanceof Store) {
                         Store store = (Store) param;
                         urlParams.put(RequestConstants.URL_PATTERN_STORE_CODE, handleParamValue(store.getCode().toString()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleParamValue(store.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(store.getI18nName(localizationCode)) + "/";
                         
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;

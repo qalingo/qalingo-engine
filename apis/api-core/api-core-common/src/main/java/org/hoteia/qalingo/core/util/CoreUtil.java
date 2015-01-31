@@ -23,13 +23,13 @@ public class CoreUtil {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
             stringToReturn = replaceSpaceAndUnderscore(stringToReturn);
-            stringToReturn = stringToReturn.replaceAll("[àáâãäå]", "a");
-            stringToReturn = stringToReturn.replaceAll("[ç]", "c");
-            stringToReturn = stringToReturn.replaceAll("[èéêë]", "e");
-            stringToReturn = stringToReturn.replaceAll("[ìíîï]", "i");
-            stringToReturn = stringToReturn.replaceAll("[ðòóôõö]", "o");
-            stringToReturn = stringToReturn.replaceAll("[ùúûü]", "u");
-            stringToReturn = stringToReturn.replaceAll("[ýÿ]", "y");
+//            stringToReturn = stringToReturn.replaceAll("[àáâãäå]", "a");
+//            stringToReturn = stringToReturn.replaceAll("[ç]", "c");
+//            stringToReturn = stringToReturn.replaceAll("[èéêë]", "e");
+//            stringToReturn = stringToReturn.replaceAll("[ìíîï]", "i");
+//            stringToReturn = stringToReturn.replaceAll("[ðòóôõö]", "o");
+//            stringToReturn = stringToReturn.replaceAll("[ùúûü]", "u");
+//            stringToReturn = stringToReturn.replaceAll("[ýÿ]", "y");
 
             // REPLACE WITH NOTHING
             stringToReturn = stringToReturn.replaceAll("[°'\"?]", "");
