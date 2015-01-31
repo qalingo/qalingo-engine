@@ -78,6 +78,11 @@ public abstract class AbstractUrlService {
         return absoluteUrl;
     }
 
+    // ALIAS FOR DOMAINE PATH
+    public String buildBaseUrl(final RequestData requestData) throws Exception {
+        return buildDomainePathUrl(requestData);
+    }
+    
     public String buildDomainePathUrl(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketPlace marketPlace = requestData.getMarketPlace();

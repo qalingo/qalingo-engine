@@ -60,6 +60,7 @@ public class RetailerService {
         return retailerDao.getMaxRetailerId();
     }
     
+    @Deprecated
     public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId, Object... params) {
         return retailerDao.findRetailers(marketAreaId, retailerId, params);
     }
@@ -67,7 +68,12 @@ public class RetailerService {
     public List<Retailer> findAllRetailers(Object... params) {
         return retailerDao.findAllRetailers(params);
     }
+    
+    public List<Retailer> findAllRetailersByCountry(String countryCode, Object... params) {
+        return retailerDao.findAllRetailersByCountry(countryCode, params);
+    }
 
+    @Deprecated
     public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
         return retailerDao.findRetailersByMarketAreaCode(marketAreaCode, params);
     }

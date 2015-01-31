@@ -99,16 +99,32 @@ public class RetailerDao extends AbstractGenericDao {
         return retailers;
     }
     
+    public List<Retailer> findAllRetailersByCountry(String countryCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Retailer.class);
+        
+        handleSpecificRetailerFetchMode(criteria, params);
+        criteria.createAlias("addresses", "addresse", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("addresse.countryCode", countryCode));
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Retailer> retailers = criteria.list();
+        return retailers;
+    }
+    
+    @Deprecated
     public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
-        
+
         criteria.add(Restrictions.eq("code", handleCodeValue(marketAreaCode)));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
 
         List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
         return retailers;
-  }
+    }
 
+    @Deprecated
     public List<Retailer> findRetailers(Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
