@@ -129,10 +129,11 @@ public class GeolocService {
             return geolocAddress;
         }
         
-        if(geoCode != null) {
+        if(geoCode != null && geoCode.getResults().size() > 0) {
             GoogleGeoCodeResult googleGeoCodeResult = geoCode.getResults().get(0);
             String formatedAdress = googleGeoCodeResult.getFormattedAddress();
             formatedAdress = formatedAdress.replace(" ", "+");
+            
             geolocAddress = new GeolocAddress();
             geolocAddress.setAddress(googleGeoCodeResult.getAddress());
             geolocAddress.setPostalCode(googleGeoCodeResult.getPostalCode());
@@ -142,7 +143,13 @@ public class GeolocService {
             geolocAddress.setFormatedAddress(formatedAdress);
             geolocAddress.setLatitude(latitude);
             geolocAddress.setLongitude(longitude);
-            geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);
+            
+            // SANITY CHECK : DON'T SAVE AN ADDRESS WHICH ALREADY EXIST BUT WAS LOCATED WITH LAT/LONG DIFFERENT
+            GeolocAddress geolocGeolocAddress = geolocDao.getGeolocAddressByFormatedAddress(formatedAdress);
+            if(geolocGeolocAddress == null){
+                geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);
+            }
+            
         }
         return geolocAddress;
     }
