@@ -1734,7 +1734,11 @@ public class RequestUtil {
                     geolocData.setLongitude(geolocCity.getLongitude());
                 } else {
                     // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
-                    geolocCity = geolocService.geolocByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
+                    if(geolocDataCity.getName() == null){
+                        geolocCity = geolocService.getGeolocCityByCountryWithNullCity(geolocDataCountry.getName());
+                    } else {
+                        geolocCity = geolocService.geolocByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
+                    }
                     if (geolocCity != null) {
                         geolocData.setLatitude(geolocCity.getLatitude());
                         geolocData.setLongitude(geolocCity.getLongitude());

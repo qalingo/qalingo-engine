@@ -263,6 +263,10 @@ public class GeolocService {
         return geolocDao.getGeolocCityByCityAndCountry(city, country, params);
     }
     
+    public GeolocCity getGeolocCityByCountryWithNullCity(final String country, Object... params) {
+        return geolocDao.getGeolocCityByCountryWithNullCity(country, params);
+    }
+    
     public GeolocCity saveOrUpdateGeolocCity(final GeolocCity geolocCity) {
         return geolocDao.saveOrUpdateGeolocCity(geolocCity);
     }
