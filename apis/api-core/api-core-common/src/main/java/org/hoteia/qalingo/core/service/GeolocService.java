@@ -82,7 +82,15 @@ public class GeolocService {
             geolocCity.setJson(SerializationHelper.serialize(geoCode));
             geolocCity.setLatitude(geoCode.getLatitude());
             geolocCity.setLongitude(geoCode.getLongitude());
-            geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+            if(city == null){
+                // SANITY CHECK : DON'T SAVE A CITY AS NULL TOO MANY TIME
+                GeolocCity geolocCityCheck = geolocDao.getGeolocCityByCountryWithNullCity(country);
+                if(geolocCityCheck == null){
+                    geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+                }
+            } else {
+                geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+            }
         }
         return geolocCity;
     }
