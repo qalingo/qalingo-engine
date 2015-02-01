@@ -35,7 +35,7 @@ public class CoreUtil {
             stringToReturn = stringToReturn.replaceAll("[°'\"?]", "");
             
             // REPLACE WITH DASH
-            stringToReturn = stringToReturn.replaceAll("[(){}<>'\";,/#]", "-");
+            stringToReturn = stringToReturn.replaceAll("[(){}<>'\";.,/#]", "-");
             stringToReturn = stringToReturn.replaceAll("-&-", "-");
 
             stringToReturn = cleanDash(stringToReturn);
