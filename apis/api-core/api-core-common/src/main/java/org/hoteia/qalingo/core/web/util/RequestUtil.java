@@ -1718,9 +1718,6 @@ public class RequestUtil {
         return engineEcoSession;
     }
     
-    /**
-     * 
-     */
     protected EngineEcoSession handleGeolocData(final HttpServletRequest request, EngineEcoSession engineEcoSession, final GeolocData geolocData) throws Exception {
         if (geolocData != null) {
             // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
@@ -1728,21 +1725,20 @@ public class RequestUtil {
             GeolocDataCountry geolocDataCountry = geolocData.getCountry();
             if(geolocDataCity != null
                     && geolocDataCountry != null){
-                GeolocCity geolocCity = geolocService.getGeolocCityByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
+                GeolocCity geolocCity = null;
+                if(geolocDataCity.getName() != null){
+                    geolocCity = geolocService.getGeolocCityByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
+                } else {
+                    geolocCity = geolocService.getGeolocCityByCountryWithNullCity(geolocDataCountry.getName());
+                }
                 if (geolocCity != null) {
                     geolocData.setLatitude(geolocCity.getLatitude());
                     geolocData.setLongitude(geolocCity.getLongitude());
                 } else {
                     // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
-                    if(geolocDataCity.getName() == null){
-                        geolocCity = geolocService.getGeolocCityByCountryWithNullCity(geolocDataCountry.getName());
-                    } else {
-                        geolocCity = geolocService.geolocByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
-                    }
-                    if (geolocCity != null) {
-                        geolocData.setLatitude(geolocCity.getLatitude());
-                        geolocData.setLongitude(geolocCity.getLongitude());
-                    }
+                    geolocCity = geolocService.geolocByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
+                    geolocData.setLatitude(geolocCity.getLatitude());
+                    geolocData.setLongitude(geolocCity.getLongitude());
                 }
             }
             engineEcoSession.setGeolocData(geolocData);

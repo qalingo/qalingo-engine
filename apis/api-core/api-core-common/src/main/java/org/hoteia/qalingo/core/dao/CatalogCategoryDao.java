@@ -171,24 +171,29 @@ public class CatalogCategoryDao extends AbstractGenericDao {
 	}
 	
     public CatalogCategoryVirtual getVirtualCatalogCategoryByMasterCategoryCode(final String catalogCategoryCode, final String catalogVirtualCode, final String catalogMasterCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
-        
-        FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
+        try {
+            Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
+            
+            FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
-        criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogVirtualCode)));
+            criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
+            criteria.add(Restrictions.eq("catalog.code", handleCodeValue(catalogVirtualCode)));
 
-        criteria.createAlias("categoryMaster", "categoryMaster", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("categoryMaster.code", handleCodeValue(catalogCategoryCode)));
+            criteria.createAlias("categoryMaster", "categoryMaster", JoinType.LEFT_OUTER_JOIN);
+            criteria.add(Restrictions.eq("categoryMaster.code", handleCodeValue(catalogCategoryCode)));
 
-        criteria.createAlias("categoryMaster.catalog", "catalogMaster", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalogMaster.code", handleCodeValue(catalogMasterCode)));
-        
-        CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
-        if(catalogCategory != null){
-            catalogCategory.setFetchPlan(fetchPlan);
+            criteria.createAlias("categoryMaster.catalog", "catalogMaster", JoinType.LEFT_OUTER_JOIN);
+            criteria.add(Restrictions.eq("catalogMaster.code", handleCodeValue(catalogMasterCode)));
+            
+            CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
+            if(catalogCategory != null){
+                catalogCategory.setFetchPlan(fetchPlan);
+            }
+            return catalogCategory;
+        } catch (Exception e) {
+            logger.error("Can't load VirtualCategory by MasterCode, catalogCategoryCode: '" + catalogCategoryCode + "', catalogVirtualCode: '" + catalogVirtualCode + "', catalogMasterCode: '" + catalogMasterCode, e);
         }
-        return catalogCategory;
+        return null;
     }
     
 	public List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(final String catalogVirtualCode, Object... params) {
