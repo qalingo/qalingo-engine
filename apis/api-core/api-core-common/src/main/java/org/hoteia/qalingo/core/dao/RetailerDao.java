@@ -462,29 +462,33 @@ public class RetailerDao extends AbstractGenericDao {
     }
 
     public List<GeolocatedStore> findStoresByGeolocAndCountry(final String countryCode, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        Float latitudeFloat = new Float(latitude);
-        Float longitudeFloat = new Float(longitude);
-        String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store WHERE country_code = :countryCode HAVING distance <= :distanceValue ORDER BY distance ASC";
-        Query query = createNativeQuery(queryString);
-        query.setParameter("latitude", latitudeFloat.floatValue());
-        query.setParameter("longitude", longitudeFloat.floatValue());
-        query.setParameter("countryCode", countryCode);
-        query.setParameter("distanceValue", distance);
-        query.setMaxResults(maxResults);
-        query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
-        
-        @SuppressWarnings("unchecked")
-        List<Object[]> objects = query.getResultList();
-        List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
-        for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
-            Object[] object = iterator.next();
-            GeolocatedStore geolocatedStore = new GeolocatedStore();
-            geolocatedStore.setId((Long)object[0]);
-            geolocatedStore.setCode((String)object[1]);
-            geolocatedStore.setDistance((Double)object[2]);
-            stores.add(geolocatedStore);
+        if(StringUtils.isNotEmpty(latitude)
+                && StringUtils.isNotEmpty(longitude)){
+            Float latitudeFloat = new Float(latitude);
+            Float longitudeFloat = new Float(longitude);
+            String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store WHERE country_code = :countryCode HAVING distance <= :distanceValue ORDER BY distance ASC";
+            Query query = createNativeQuery(queryString);
+            query.setParameter("latitude", latitudeFloat.floatValue());
+            query.setParameter("longitude", longitudeFloat.floatValue());
+            query.setParameter("countryCode", countryCode);
+            query.setParameter("distanceValue", distance);
+            query.setMaxResults(maxResults);
+            query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
+            
+            @SuppressWarnings("unchecked")
+            List<Object[]> objects = query.getResultList();
+            List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
+            for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
+                Object[] object = iterator.next();
+                GeolocatedStore geolocatedStore = new GeolocatedStore();
+                geolocatedStore.setId((Long)object[0]);
+                geolocatedStore.setCode((String)object[1]);
+                geolocatedStore.setDistance((Double)object[2]);
+                stores.add(geolocatedStore);
+            }
+            return stores;
         }
-        return stores;
+        return null;
     }
     
 	public Store saveOrUpdateStore(final Store store) {
