@@ -10,12 +10,11 @@
 package org.hoteia.qalingo.core.web.servlet.view;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class RedirectView extends org.springframework.web.servlet.view.RedirectView {
 
 	public RedirectView(String url) throws UnsupportedEncodingException {
-		super(URLEncoder.encode(url, "UTF-8"));
+		super(url);
 		setExposeModelAttributes(false);
     }
 }
