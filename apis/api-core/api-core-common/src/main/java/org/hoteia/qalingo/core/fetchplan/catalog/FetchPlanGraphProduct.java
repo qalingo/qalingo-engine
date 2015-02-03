@@ -50,6 +50,14 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan productSkuDisplayFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan productBrandDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductBrand_.attributes.getName()));

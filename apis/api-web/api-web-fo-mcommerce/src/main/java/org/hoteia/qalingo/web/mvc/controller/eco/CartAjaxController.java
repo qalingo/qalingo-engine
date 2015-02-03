@@ -27,6 +27,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -87,7 +88,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         final FoAddToWishlistPojo addToWishlist = new FoAddToWishlistPojo();
 
         // INJECT PRODUCT SKU
-        final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
+        final ProductSku productSku = productService.getProductSkuByCode(productSkuCode, FetchPlanGraphProduct.productSkuDisplayFetchPlan());
         addToWishlist.setProductSku(catalogPojoService.buildProductSku(productSku));
 
         // TEMPORARY FIX : ASSET
