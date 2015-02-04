@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class CoreUtil {
 
@@ -42,9 +42,12 @@ public class CoreUtil {
 
             stringToReturn = cleanDash(stringToReturn);
 
-            return lowerCase(stringToReturn);
+            // SANITY CHECK : FORCE ENCODE
+            stringToReturn = StringUtils.toEncodedString(stringToReturn.getBytes(), java.nio.charset.Charset.forName("UTF-8"));
+            
+            return URLEncoder.encode(lowerCase(stringToReturn), "UTF-8");
         }
-        return URLEncoder.encode(stringToReturn, "UTF-8");
+        return stringToReturn;
     }
     
     public static String replaceSpaceAndUnderscore(String string) {
