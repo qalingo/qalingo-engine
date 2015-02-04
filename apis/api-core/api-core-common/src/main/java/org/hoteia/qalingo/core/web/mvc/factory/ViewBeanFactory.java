@@ -117,7 +117,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentV
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
@@ -436,36 +436,36 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<CutomerMenuViewBean> buildListViewBeanCutomerMenu(final RequestData requestData) throws Exception {
+    public List<CustomerMenuViewBean> buildListViewBeanCutomerMenu(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
 
-        List<CutomerMenuViewBean> customerLinks = new ArrayList<CutomerMenuViewBean>();
-        CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
+        List<CustomerMenuViewBean> customerLinks = new ArrayList<CustomerMenuViewBean>();
+        CustomerMenuViewBean cutomerMenuViewBean = new CustomerMenuViewBean();
         cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_details_label", locale));
         cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         customerLinks.add(cutomerMenuViewBean);
 
-        cutomerMenuViewBean = new CutomerMenuViewBean();
+        cutomerMenuViewBean = new CustomerMenuViewBean();
         cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_address_list_label", locale));
         cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestData));
         customerLinks.add(cutomerMenuViewBean);
 
-        cutomerMenuViewBean = new CutomerMenuViewBean();
+        cutomerMenuViewBean = new CustomerMenuViewBean();
         cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_add_address_label", locale));
         cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestData));
         customerLinks.add(cutomerMenuViewBean);
 
-        cutomerMenuViewBean = new CutomerMenuViewBean();
+        cutomerMenuViewBean = new CustomerMenuViewBean();
         cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_order_list_label", locale));
         cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_LIST, requestData));
         customerLinks.add(cutomerMenuViewBean);
 
-        cutomerMenuViewBean = new CutomerMenuViewBean();
+        cutomerMenuViewBean = new CustomerMenuViewBean();
         cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_wishlist_label", locale));
         cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
         customerLinks.add(cutomerMenuViewBean);
 
-        cutomerMenuViewBean = new CutomerMenuViewBean();
+        cutomerMenuViewBean = new CustomerMenuViewBean();
         cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_product_comment_label", locale));
         cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestData));
         customerLinks.add(cutomerMenuViewBean);

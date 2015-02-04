@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
@@ -71,7 +71,7 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
     }
     
     @ModelAttribute(ModelConstants.CUSTOMER_DETAILS_LINKS_VIEW_BEAN)
-    public List<CutomerMenuViewBean> getCutomerMenus(HttpServletRequest request) throws Exception {
+    public List<CustomerMenuViewBean> getCutomerMenus(HttpServletRequest request) throws Exception {
     	return frontofficeViewBeanFactory.buildListViewBeanCutomerMenu(requestUtil.getRequestData(request));
     }
 

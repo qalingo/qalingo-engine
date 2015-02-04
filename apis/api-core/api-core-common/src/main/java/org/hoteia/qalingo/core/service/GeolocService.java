@@ -86,10 +86,18 @@ public class GeolocService {
                 // SANITY CHECK : DON'T SAVE A CITY AS NULL TOO MANY TIME
                 GeolocCity geolocCityCheck = geolocDao.getGeolocCityByCountryWithNullCity(country);
                 if(geolocCityCheck == null){
-                    geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+                    try {
+                        geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+                    } catch (Exception e) {
+                        logger.error("Can't save GeolocCity: City: '" + geolocCity.getCity() + "', Country: '" + geolocCity.getCountry() + "'", e);
+                    }
                 }
             } else {
-                geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+                try {
+                    geolocCity = geolocDao.saveOrUpdateGeolocCity(geolocCity);
+                } catch (Exception e) {
+                    logger.error("Can't save GeolocCity: City: '" + geolocCity.getCity() + "', Country: '" + geolocCity.getCountry() + "'", e);
+                }
             }
         }
         return geolocCity;

@@ -20,10 +20,11 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_GEOLOC_CITY")
+@Table(name = "TECO_GEOLOC_CITY", uniqueConstraints = @UniqueConstraint(columnNames = { "city", "country" }))
 public class GeolocCity extends AbstractEntity {
 
     /**
@@ -140,8 +141,13 @@ public class GeolocCity extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
+        result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
+        result = prime * result + version;
         return result;
     }
 
@@ -154,6 +160,16 @@ public class GeolocCity extends AbstractEntity {
         if (getClass() != obj.getClass())
             return false;
         GeolocCity other = (GeolocCity) obj;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (country == null) {
+            if (other.country != null)
+                return false;
+        } else if (!country.equals(other.country))
+            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -164,13 +180,25 @@ public class GeolocCity extends AbstractEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
+        if (latitude == null) {
+            if (other.latitude != null)
+                return false;
+        } else if (!latitude.equals(other.latitude))
+            return false;
+        if (longitude == null) {
+            if (other.longitude != null)
+                return false;
+        } else if (!longitude.equals(other.longitude))
+            return false;
+        if (version != other.version)
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "GeolocCity [id=" + id + ", version=" + version + ", city=" + city + ", country=" + country + ", json=" + json + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate="
-                + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "GeolocCity [id=" + id + ", version=" + version + ", city=" + city + ", country=" + country + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate
+                + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }
