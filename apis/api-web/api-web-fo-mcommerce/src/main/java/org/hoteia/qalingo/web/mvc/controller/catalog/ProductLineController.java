@@ -175,7 +175,8 @@ public class ProductLineController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
         String i18Name = "";
         if(catalogCategory.getParentCatalogCategory() != null){
-            i18Name = catalogCategory.getParentCatalogCategory().getI18nName(localizationCode);
+            final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategory.getParentCatalogCategory().getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
+            i18Name = parentCatalogCategory.getI18nName(localizationCode);
         }
         i18Name = i18Name + " - " + catalogCategory.getI18nName(localizationCode);
         Object[] params = { i18Name };

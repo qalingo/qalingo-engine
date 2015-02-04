@@ -42,9 +42,6 @@ public class CoreUtil {
 
             stringToReturn = cleanDash(stringToReturn);
 
-//            // SANITY CHECK : FORCE ENCODE
-//            stringToReturn = StringUtils.toEncodedString(stringToReturn.getBytes(), java.nio.charset.Charset.forName("UTF-8"));
-            
             return URLEncoder.encode(lowerCase(stringToReturn), "UTF-8");
         }
         return stringToReturn;

@@ -33,6 +33,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -381,6 +382,15 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final CatalogVirtual catalog = requestData.getMarketArea().getCatalog();
         
         if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE.equalsIgnoreCase(facetField.getName())){
+            List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
+            categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
+            categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
+            categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.attributes.getName()));
+            categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName() + "." + CatalogCategoryVirtual_.categoryMaster.getName()));
+            categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName()));
+            categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.catalogCategoryType.getName()));
+            categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.attributes.getName()));
+
         	searchFacetViewBean.setName(facetField.getName());
             List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
@@ -388,9 +398,9 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 String specificCatalogCategoryCode = count.getName();
                 if(specificCatalogCategoryCode.contains(catalog.getCode())){
                     String categoryCode = specificCatalogCategoryCode.replace(catalog.getCode() + "_", "");
-                    final CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalog.getCode());
+                    final CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalog.getCode(), new FetchPlan(categoryVirtualFetchPlans));
                     if(catalogCategoryVirtual != null){
-                        ValueBean valueBean = new ValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode) + "(" + count.getCount() + ")");                
+                        ValueBean valueBean = new ValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode) + " (" + count.getCount() + ")");                
                         values.add(valueBean);
                     }
                 }
@@ -444,7 +454,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
                 ValueBean valueBean = new ValueBean();
-                valueBean.setValue(count.getName()+ "(" + count.getCount() + ")");
+                valueBean.setValue(count.getName()+ " (" + count.getCount() + ")");
                 valueBean.setKey(count.getName());
                 values.add(valueBean);
             }
@@ -466,7 +476,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
                 ValueBean valueBean = new ValueBean();
-                valueBean.setValue(count.getName()+ "(" + count.getCount() + ")");
+                valueBean.setValue(count.getName()+ " (" + count.getCount() + ")");
                 valueBean.setKey(count.getName());
                 values.add(valueBean);
             }

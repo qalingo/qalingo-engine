@@ -48,7 +48,7 @@ public class FollowUsController extends AbstractMCommerceController {
     protected MarketService marketService;
 	
 	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.GET)
-	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute("followUsForm") FollowUsForm followUsForm) throws Exception{
+	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.FOLLOW_US_FORM) FollowUsForm followUsForm) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
@@ -60,7 +60,7 @@ public class FollowUsController extends AbstractMCommerceController {
 	}
 
 	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.POST)
-	public ModelAndView followUs(final HttpServletRequest request, @Valid @ModelAttribute("followUsForm") FollowUsForm followUsForm,
+	public ModelAndView followUs(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.FOLLOW_US_FORM) FollowUsForm followUsForm,
 								BindingResult result, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US_SUCCESS_VELOCITY_PAGE);
 
@@ -101,7 +101,7 @@ public class FollowUsController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = FoUrls.NEWSLETTER_REGISTER_URL, method = RequestMethod.POST)
-	public ModelAndView newsletterRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
+	public ModelAndView newsletterRegister(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.NEWSLETTER_QUICK_REGISTRATION_FORM) NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
 								BindingResult result, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US_SUCCESS_VELOCITY_PAGE);
 
@@ -116,7 +116,7 @@ public class FollowUsController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = FoUrls.NEWSLETTER_UNREGISTER_URL, method = RequestMethod.GET)
-	public ModelAndView newsletterUnRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
+	public ModelAndView newsletterUnRegister(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.NEWSLETTER_QUICK_REGISTRATION_FORM) NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
 								BindingResult result, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.NEWSLETTER_UNREGISTER_VELOCITY_PAGE);
 
@@ -162,7 +162,7 @@ public class FollowUsController extends AbstractMCommerceController {
 	/**
 	 * 
 	 */
-    @ModelAttribute("followUsForm")
+    @ModelAttribute(ModelConstants.FOLLOW_US_FORM)
 	protected FollowUsForm getFollowUsForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
     	return formFactory.buildFollowUsForm(requestData);
