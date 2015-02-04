@@ -1,5 +1,7 @@
 package org.hoteia.qalingo.core.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +21,7 @@ public class CoreUtil {
         return stringToReturn;
     }
     
-    public static String handleSeoSpecificEscape(String string) {
+    public static String handleSeoSpecificEscape(String string) throws UnsupportedEncodingException {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
             stringToReturn = replaceSpaceAndUnderscore(stringToReturn);
@@ -42,7 +44,7 @@ public class CoreUtil {
 
             return lowerCase(stringToReturn);
         }
-        return stringToReturn;
+        return URLEncoder.encode(stringToReturn, "UTF-8");
     }
     
     public static String replaceSpaceAndUnderscore(String string) {
