@@ -56,7 +56,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		
 		// TODO
 
-		final String url = urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request));
+		final String url = urlService.generateRedirectUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
 	}
 	
@@ -65,7 +65,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		
 		// TODO
 		
-		final String url = urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request));
+		final String url = urlService.generateRedirectUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
 	}
 

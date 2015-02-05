@@ -91,7 +91,7 @@ public class LoginController extends AbstractMCommerceController {
         // SANITY CHECK: Customer logged
         final Customer currentCustomer = requestData.getCustomer();
         if (currentCustomer != null) {
-            final String url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+            final String url = urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
         }
 
@@ -116,7 +116,7 @@ public class LoginController extends AbstractMCommerceController {
 
         final Customer currentCustomer = requestData.getCustomer();
         if (currentCustomer != null) {
-            final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+            final String urlRedirect = urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(urlRedirect));
         }
 

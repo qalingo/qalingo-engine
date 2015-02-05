@@ -58,6 +58,9 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
+
 /**
  * 
  */

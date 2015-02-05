@@ -125,7 +125,7 @@ public class BrandController extends AbstractMCommerceController {
 
 	        return modelAndView;
 		}
-        final String urlRedirect = urlService.generateUrl(FoUrls.BRAND_ALL, requestUtil.getRequestData(request));
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.BRAND_ALL, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

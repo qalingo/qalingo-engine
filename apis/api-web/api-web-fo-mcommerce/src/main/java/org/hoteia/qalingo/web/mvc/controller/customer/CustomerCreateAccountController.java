@@ -107,7 +107,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		// SANITY CHECK: Customer logged
         final Customer currentCustomer = requestData.getCustomer();
 		if(currentCustomer != null){
-			final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS,requestUtil.getRequestData(request));
+			final String url = urlService.generateRedirectUrl(FoUrls.PERSONAL_DETAILS,requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -133,7 +133,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		// Login the new customer
 		securityRequestUtil.authenticationCustomer(request, newCustomer);
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData);
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -144,7 +144,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         // SANITY CHECK: Customer logged
         final Customer currentCustomer = requestData.getCustomer();
         if(currentCustomer != null){
-            final String url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+            final String url = urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
         }
         
@@ -168,7 +168,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         // SANITY CHECK: Customer logged
         final Customer currentCustomer = requestData.getCustomer();
         if(currentCustomer != null){
-            final String url = urlService.generateUrl(FoUrls.CART_DELIVERY,requestUtil.getRequestData(request));
+            final String url = urlService.generateRedirectUrl(FoUrls.CART_DELIVERY,requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
         }
         
@@ -195,7 +195,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         // Login the new customer
         securityRequestUtil.authenticationCustomer(request, newCustomer);
         
-        final String urlRedirect = urlService.generateUrl(FoUrls.CART_DELIVERY, requestData);
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
     }
     
@@ -226,7 +226,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		String successMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "form_new_account_validation_success_message", locale);
 		addSuccessMessage(request, successMessage);
 
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData);
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

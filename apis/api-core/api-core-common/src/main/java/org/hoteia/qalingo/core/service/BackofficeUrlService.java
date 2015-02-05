@@ -82,11 +82,15 @@ public class BackofficeUrlService extends AbstractUrlService {
 	}
 	
     public String generateUrl(final BoUrls url, final RequestData requestData, Object... params) {
-    	return generateUrl(url.getUrlWithoutWildcard(), url.withPrefixSEO(), requestData, params);
+    	return generateUrl(url.getUrlWithoutWildcard(), false, url.withPrefixSEO(), requestData, params);
+    }
+    
+    public String generateRedirectUrl(final BoUrls url, final RequestData requestData, Object... params) {
+        return generateUrl(url.getUrlWithoutWildcard(), true, url.withPrefixSEO(), requestData, params);
     }
     
     @SuppressWarnings("unchecked")
-    public String generateUrl(final String urlWithoutWildcard, final boolean isSEO, final RequestData requestData, Object... params) {
+    public String generateUrl(final String urlWithoutWildcard, final boolean isEncoded, final boolean isSEO, final RequestData requestData, Object... params) {
     	String urlStr = null;
     	Map<String, String> getParams = new HashMap<String, String>();
     	Map<String, String> urlParams = new HashMap<String, String>();
@@ -177,7 +181,7 @@ public class BackofficeUrlService extends AbstractUrlService {
                 // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
                 urlStr = buildDefaultPrefix(requestData);
                 if(isSEO){
-                    urlStr = getFullPrefixUrl(requestData);
+                    urlStr = getFullPrefixUrl(requestData, isEncoded);
                 }
         	}
         	
@@ -195,7 +199,7 @@ public class BackofficeUrlService extends AbstractUrlService {
     }
     
     @Override
-    public String getSeoSegmentMain(Locale locale) throws Exception{
+    public String getSeoSegmentMain(Locale locale, boolean isEncoded) throws Exception{
         return "";
     }
     

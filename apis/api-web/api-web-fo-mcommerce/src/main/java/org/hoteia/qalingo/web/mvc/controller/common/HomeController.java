@@ -46,7 +46,7 @@ public class HomeController extends AbstractMCommerceController {
         
         // DEFAULT HOME
         RequestData requestData = requestUtil.getRequestData(request);
-        String defaultUrl = urlService.generateUrl(FoUrls.HOME, requestData);
+        String defaultUrl = urlService.generateRedirectUrl(FoUrls.HOME, requestData);
         
         // TODO: GEOLOC AND CHOOSE THE GOOD MARKET
         

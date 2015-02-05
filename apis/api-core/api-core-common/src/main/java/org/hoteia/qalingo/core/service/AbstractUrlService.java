@@ -123,20 +123,20 @@ public abstract class AbstractUrlService {
         return domainePathUrl;
     }
 
-    public String getSeoSegmentMain(Locale locale) throws Exception {
-        return handleSeoSegmentMain(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale));
+    public String getSeoSegmentMain(Locale locale, boolean isEncoded) throws Exception {
+        return handleSeoSegmentMain(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale), isEncoded);
     }
 
-    public String handleSeoSegmentMain(String seoSegment) throws Exception {
-        return CoreUtil.handleSeoSpecificEscape(seoSegment);
+    public String handleSeoSegmentMain(String seoSegment, boolean isEncoded) throws Exception {
+        return CoreUtil.handleSeoSpecificEscape(seoSegment, isEncoded);
     }
     
-    protected String getFullPrefixUrl(final RequestData requestData) throws Exception {
-        String fullPrefixUrl = getSeoPrefixUrl(requestData) + "/";
+    protected String getFullPrefixUrl(final RequestData requestData, boolean isEncoded) throws Exception {
+        String fullPrefixUrl = getSeoPrefixUrl(requestData, isEncoded) + "/";
         return fullPrefixUrl;
     }
 
-    protected String getSeoPrefixUrl(final RequestData requestData) throws Exception {
+    protected String getSeoPrefixUrl(final RequestData requestData, boolean isEncoded) throws Exception {
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
@@ -146,9 +146,9 @@ public abstract class AbstractUrlService {
         String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketAreaPrefixUrl(marketArea)
                 + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer);
 
-        String seoSegmentMain = getSeoSegmentMain(locale);
+        String seoSegmentMain = getSeoSegmentMain(locale, isEncoded);
         if (StringUtils.isNotEmpty(seoSegmentMain)) {
-            seoPrefixUrl = seoPrefixUrl + getSeoSegmentMain(locale);
+            seoPrefixUrl = seoPrefixUrl + getSeoSegmentMain(locale, isEncoded);
         }
 
         if (StringUtils.isNotEmpty(seoPrefixUrl)) {

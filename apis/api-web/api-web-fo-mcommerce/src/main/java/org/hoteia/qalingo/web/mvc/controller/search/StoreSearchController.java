@@ -287,7 +287,7 @@ public class StoreSearchController extends AbstractMCommerceController {
                 storeSolrService.addOrUpdateStore(store);
             }
         }
-        return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.STORE_SEARCH, requestUtil.getRequestData(request))));
+        return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.STORE_SEARCH, requestUtil.getRequestData(request))));
     }
     
 }

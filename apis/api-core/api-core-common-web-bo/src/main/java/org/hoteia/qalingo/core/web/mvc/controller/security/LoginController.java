@@ -45,7 +45,7 @@ public class LoginController extends AbstractBackofficeQalingoController {
 		// SANITY CHECK: User logged
 		final User currentUser = requestUtil.getCurrentUser(request);
 		if(currentUser != null){
-			final String url =  backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+			final String url =  backofficeUrlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
 		}
 		

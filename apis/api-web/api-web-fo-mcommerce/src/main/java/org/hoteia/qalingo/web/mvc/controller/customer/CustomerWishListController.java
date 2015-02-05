@@ -58,7 +58,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		webManagementService.removeProductSkuFromWishlist(requestData, skuCode);
 
-		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData);
+		final String url = urlService.generateRedirectUrl(FoUrls.PERSONAL_WISHLIST, requestData);
         return new ModelAndView(new RedirectView(url));
 	}
 	
@@ -74,7 +74,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 			logger.error("Error with the wishlist, skuCode:" + skuCode, e);
 		}
 		
-		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData);
+		final String url = urlService.generateRedirectUrl(FoUrls.PERSONAL_WISHLIST, requestData);
         return new ModelAndView(new RedirectView(url));
 	}
 

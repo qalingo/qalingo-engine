@@ -196,7 +196,7 @@ public class RetailerCommentController extends AbstractMCommerceController {
 		
 		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "comment_form_success_message",  locale));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), retailer);
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), retailer);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

@@ -256,7 +256,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
             }
         }
 
-        return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CATALOG_SEARCH, requestUtil.getRequestData(request))));
+        return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CATALOG_SEARCH, requestUtil.getRequestData(request))));
     }
 	
 }

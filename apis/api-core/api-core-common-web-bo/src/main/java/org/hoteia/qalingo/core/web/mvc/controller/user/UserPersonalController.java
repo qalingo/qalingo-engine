@@ -95,7 +95,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         webBackofficeService.createOrUpdatePersonalUser(checkUser, userForm);
         requestUtil.updateCurrentUser(request, userService.getUserByLoginOrEmail(newEmail));
         
-        final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+        final String urlRedirect = backofficeUrlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
     }
     

@@ -65,7 +65,7 @@ public class CartActionsController extends AbstractMCommerceController {
                 logger.error("Error to add product sku to cart.", e);
             }
             
-            final String url = urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
+            final String url = urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
         }
         List<String> excludedPatterns = new ArrayList<String>();
@@ -94,8 +94,7 @@ public class CartActionsController extends AbstractMCommerceController {
                 logger.error("Error to add product sku to cart, skuCode:" + skuCode, e);
             }
             
-            final String url = urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
-            
+            final String url = urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
         }
         List<String> excludedPatterns = new ArrayList<String>();
@@ -112,7 +111,7 @@ public class CartActionsController extends AbstractMCommerceController {
         final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
         webManagementService.deleteCartItem(requestData, productSkuCode);
 
-        return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
+        return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
     }
     
 }

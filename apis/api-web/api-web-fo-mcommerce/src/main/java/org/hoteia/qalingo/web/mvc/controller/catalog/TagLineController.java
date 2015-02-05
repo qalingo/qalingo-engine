@@ -104,7 +104,7 @@ public class TagLineController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
         
-        final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
     }
 	

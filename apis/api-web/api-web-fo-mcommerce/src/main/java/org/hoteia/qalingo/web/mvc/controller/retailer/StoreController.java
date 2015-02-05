@@ -103,7 +103,7 @@ public class StoreController extends AbstractMCommerceController {
 	        return modelAndView;
 		}
 		
-        final String urlRedirect = urlService.generateUrl(FoUrls.STORE_LOCATION, requestData);
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.STORE_LOCATION, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

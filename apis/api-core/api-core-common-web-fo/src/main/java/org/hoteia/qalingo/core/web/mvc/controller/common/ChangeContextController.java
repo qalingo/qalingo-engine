@@ -31,7 +31,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	@RequestMapping(FoUrls.CHANGE_LANGUAGE_URL)
 	public ModelAndView changeLanguage(final HttpServletRequest request) throws Exception {
 	    final RequestData requestData = requestUtil.getRequestData(request);
-        String redirectUrl = urlService.generateUrl(getTargetUrl(requestData), true, requestData);
+        String redirectUrl = urlService.generateUrl(getTargetUrl(requestData), true, true, requestData);
         RedirectView redirectView = new RedirectView(redirectUrl);
         redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
@@ -40,7 +40,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	@RequestMapping(FoUrls.CHANGE_CONTEXT_URL)
 	public ModelAndView changeContext(final HttpServletRequest request) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        String redirectUrl = urlService.generateUrl(getTargetUrl(requestData), true, requestData);
+        String redirectUrl = urlService.generateUrl(getTargetUrl(requestData), true, true, requestData);
         RedirectView redirectView = new RedirectView(redirectUrl);
         redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
@@ -58,7 +58,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
         String[] uriSegments = currentRequestUri.toString().split("/");
         String url = "";
         int uriSegmentCount = 4;
-        String seoSegmentMain = urlService.getSeoSegmentMain(locale);
+        String seoSegmentMain = urlService.getSeoSegmentMain(locale, true);
         if(StringUtils.isNotEmpty(seoSegmentMain)){
             // ALSO REMOVE DEFAULT SEO SEGMENT
             uriSegmentCount++;

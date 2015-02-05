@@ -186,7 +186,7 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
         // ADD INFO/WARNING MESSAGE
         request.getSession().setAttribute(Constants.INFO_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "reset_password_is_cancel", locale));
         
-        final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request));
+        final String urlRedirect = backofficeUrlService.generateRedirectUrl(BoUrls.LOGIN, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
     }
     

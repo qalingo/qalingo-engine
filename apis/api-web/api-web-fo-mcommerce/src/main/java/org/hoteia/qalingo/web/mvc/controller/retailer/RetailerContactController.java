@@ -72,7 +72,7 @@ public class RetailerContactController extends AbstractMCommerceController {
 		// SANITY CHECK
 		if(retailer.getDefaultAddress() == null
 				|| StringUtils.isEmpty(retailer.getDefaultAddress().getEmail())){
-			final String url = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), retailer);
+			final String url = urlService.generateRedirectUrl(FoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), retailer);
 	        return new ModelAndView(new RedirectView(url));
 		}
 

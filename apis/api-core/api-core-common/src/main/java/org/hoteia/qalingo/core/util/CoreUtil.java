@@ -21,7 +21,7 @@ public class CoreUtil {
         return stringToReturn;
     }
     
-    public static String handleSeoSpecificEscape(String string) throws UnsupportedEncodingException {
+    public static String handleSeoSpecificEscape(String string, boolean isEncoded) throws UnsupportedEncodingException {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
             stringToReturn = replaceSpaceAndUnderscore(stringToReturn);
@@ -42,7 +42,10 @@ public class CoreUtil {
 
             stringToReturn = cleanDash(stringToReturn);
 
-            return URLEncoder.encode(lowerCase(stringToReturn), "UTF-8");
+            if(isEncoded){
+                return URLEncoder.encode(lowerCase(stringToReturn), "UTF-8");
+            }
+            return lowerCase(stringToReturn);
         }
         return stringToReturn;
     }

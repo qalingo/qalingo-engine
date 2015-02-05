@@ -77,7 +77,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 			logger.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
 		}
 
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -120,7 +120,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// Save the new address customer
 		webManagementService.updateOrSaveAddressCustomer(requestData,  currentMarket, currentMarketArea, customerAddressForm);
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS,requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_ADD_ADDRESS,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -148,13 +148,13 @@ public class CustomerAddressController extends AbstractCustomerController {
 			
 		} catch (Exception e) {
 			logger.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
-			final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request));
+			final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 
 		// SANITY CHECK : wrong address id for this customer
 		if(customerAddress == null){
-			final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
+			final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
@@ -181,7 +181,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// Save the new address customer
 		webManagementService.updateOrSaveAddressCustomer(requestData, currentMarket, currentMarketArea, customerAddressForm);
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

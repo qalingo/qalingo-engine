@@ -55,17 +55,17 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
         // SANITY CHECK: EMPTY CART
 		final Cart currentCart = requestData.getCart();
 		if(currentCart != null && currentCart.getTotalCartItems() == 0){
-			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
+			return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 		}
 
         // SANITY CHECK: DELIVERY METHODS
         if(currentCart != null && currentCart.getDeliveryMethods().isEmpty()){
-            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
+            return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
         }
 
         // SANITY CHECK: ADDRESSES
         if(currentCart != null && (currentCart.getBillingAddressId() == null || currentCart.getShippingAddressId() == null)){
-            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
+            return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
         }
 
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
@@ -94,7 +94,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	       // SANITY CHECK
         final Cart currentCart = requestData.getCart();
         if(currentCart.getTotalCartItems() == 0){
-            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
+            return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
         
 		if (result.hasErrors()) {
@@ -110,7 +110,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		// Create and Save a new order
 		webManagementService.buildAndSaveNewOrder(requestUtil.getRequestData(request));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

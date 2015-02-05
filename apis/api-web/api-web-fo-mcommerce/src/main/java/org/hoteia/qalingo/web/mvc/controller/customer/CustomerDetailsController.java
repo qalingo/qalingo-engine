@@ -122,7 +122,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		// Update the customer
 		webManagementService.updateCurrentCustomer(requestData, currentMarket, currentMarketArea, customerEditForm);
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData);
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

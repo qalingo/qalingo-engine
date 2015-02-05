@@ -48,7 +48,7 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
         final OrderCustomer lastOrder = requestUtil.getLastOrder(requestData);
         
         if (lastOrder == null) {
-            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
+            return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
         }
 
         final OrderViewBean orderViewBean = frontofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), lastOrder);

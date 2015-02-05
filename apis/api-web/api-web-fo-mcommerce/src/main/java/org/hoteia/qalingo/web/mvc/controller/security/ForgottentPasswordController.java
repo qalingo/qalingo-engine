@@ -199,7 +199,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		// ADD INFO/WARNING MESSAGE
 		request.getSession().setAttribute(Constants.INFO_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "reset_password_is_cancel", locale));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

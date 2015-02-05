@@ -116,11 +116,15 @@ public class UrlService extends AbstractUrlService {
     }
 
     public String generateUrl(final FoUrls url, final RequestData requestData, Object... params) {
-        return generateUrl(url.getUrlWithoutWildcard(), url.withPrefixSEO(), requestData, params);
+        return generateUrl(url.getUrlWithoutWildcard(), false, url.withPrefixSEO(), requestData, params);
+    }
+    
+    public String generateRedirectUrl(final FoUrls url, final RequestData requestData, Object... params) {
+        return generateUrl(url.getUrlWithoutWildcard(), true, url.withPrefixSEO(), requestData, params);
     }
 
     @SuppressWarnings("unchecked")
-    public String generateUrl(final String urlWithoutWildcard, final boolean isSEO, final RequestData requestData, Object... params) {
+    public String generateUrl(final String urlWithoutWildcard, final boolean isEncoded, final boolean isSEO, final RequestData requestData, Object... params) {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         String urlStr = null;
@@ -134,39 +138,39 @@ public class UrlService extends AbstractUrlService {
                     if (param instanceof Retailer) {
                         Retailer retailer = (Retailer) param;
                         urlParams.put(RequestConstants.URL_PATTERN_RETAILER_CODE, handleParamValue(retailer.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(retailer.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded) + handleSeoSegmentMain(retailer.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof ProductSku) {
                         ProductSku productSku = (ProductSku) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE, handleParamValue(productSku.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr);
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded);
                         
                     } else if (param instanceof ProductMarketing) {
                         ProductMarketing productMarketing = (ProductMarketing) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(productMarketing.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded) + handleSeoSegmentMain(productMarketing.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof CatalogCategoryVirtual) {
                         CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr);
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded);
                         if(Hibernate.isInitialized(category.getParentCatalogCategory()) && category.getParentCatalogCategory() != null){
-                            urlStr = urlStr + handleSeoSegmentMain(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
+                            urlStr = urlStr + handleSeoSegmentMain(category.getParentCatalogCategory().getI18nName(localizationCode), isEncoded) + "/";
                         }
-                        urlStr = urlStr + handleSeoSegmentMain(category.getI18nName(localizationCode)) + "/";
+                        urlStr = urlStr + handleSeoSegmentMain(category.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof CatalogCategoryMaster) {
                         CatalogCategoryMaster category = (CatalogCategoryMaster) param;
-                        urlStr = addFullPrefixUrl(requestData, urlStr);
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded);
                         if(Hibernate.isInitialized(category.getParentCatalogCategory()) && category.getParentCatalogCategory() != null){
-                            urlStr = urlStr + handleSeoSegmentMain(category.getParentCatalogCategory().getI18nName(localizationCode)) + "/";
+                            urlStr = urlStr + handleSeoSegmentMain(category.getParentCatalogCategory().getI18nName(localizationCode), isEncoded) + "/";
                         }
-                        urlStr = urlStr + handleSeoSegmentMain(category.getI18nName(localizationCode)) + "/";
+                        urlStr = urlStr + handleSeoSegmentMain(category.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof ProductBrand) {
                         ProductBrand productBrand = (ProductBrand) param;
                         urlParams.put(RequestConstants.URL_PATTERN_BRAND_CODE, handleParamValue(productBrand.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(productBrand.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded) + handleSeoSegmentMain(productBrand.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof CartItem) {
                         CartItem cartItem = (CartItem) param;
@@ -175,7 +179,7 @@ public class UrlService extends AbstractUrlService {
                     }  else if (param instanceof Store) {
                         Store store = (Store) param;
                         urlParams.put(RequestConstants.URL_PATTERN_STORE_CODE, handleParamValue(store.getCode().toString()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleSeoSegmentMain(store.getI18nName(localizationCode)) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded) + handleSeoSegmentMain(store.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
@@ -189,7 +193,7 @@ public class UrlService extends AbstractUrlService {
                 // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
                 urlStr = buildDefaultPrefix(requestData);
                 if(isSEO){
-                    urlStr = getFullPrefixUrl(requestData);
+                    urlStr = getFullPrefixUrl(requestData, isEncoded);
                 }
             }
             
@@ -210,8 +214,8 @@ public class UrlService extends AbstractUrlService {
         return buildContextPath(requestData) + FoUrls.SPRING_SECURITY_URL;
     }
 
-    protected String addFullPrefixUrl(final RequestData requestData, String url) throws Exception {
-        String fullPrefixUrl = getFullPrefixUrl(requestData);
+    protected String addFullPrefixUrl(final RequestData requestData, String url, boolean isEncoded) throws Exception {
+        String fullPrefixUrl = getFullPrefixUrl(requestData, isEncoded);
         if (url == null || !url.contains(fullPrefixUrl)) {
             url = fullPrefixUrl;
         }

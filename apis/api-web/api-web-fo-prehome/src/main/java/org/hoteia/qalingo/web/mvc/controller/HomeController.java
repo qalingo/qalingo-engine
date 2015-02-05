@@ -64,7 +64,7 @@ public class HomeController extends AbstractPrehomeController {
         
         // DEFAULT HOME
         RequestData requestData = requestUtil.getRequestData(request);
-        String defaultUrl = urlService.generateUrl(FoUrls.PREHOME, requestData);
+        String defaultUrl = urlService.generateRedirectUrl(FoUrls.PREHOME, requestData);
         
         // TODO: GEOLOC AND CHOOSE THE GOOD MARKET
         

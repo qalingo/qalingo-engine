@@ -58,7 +58,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
         if (currentCart != null && currentCart.getTotalCartItems() == 0) {
-            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
+            return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
 
         final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
@@ -81,7 +81,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         // SANITY CHECK
         final Cart currentCart = requestData.getCart();
         if (currentCart.getTotalCartItems() == 0) {
-            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
+            return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
 
         if (result.hasErrors()) {
@@ -95,7 +95,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 
         webManagementService.updateCart(requestData, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
 
-        final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_PAYMENT, requestUtil.getRequestData(request));
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.CART_ORDER_PAYMENT, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
     }
 

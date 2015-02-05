@@ -78,7 +78,7 @@ public class CartDetailsController extends AbstractMCommerceController {
             return new ModelAndView(new RedirectView(lastUrl));
         }
         
-        String nextUrl = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+        String nextUrl = urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(nextUrl));
     }
     

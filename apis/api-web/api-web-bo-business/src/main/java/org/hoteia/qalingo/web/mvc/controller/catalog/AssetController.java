@@ -81,7 +81,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 			modelAndView.addObject(ModelConstants.ASSET_FORM, backofficeFormFactory.buildProductMarketingAssetForm(requestData, asset));
 			return modelAndView;
 		} else {
-			final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
+			final String urlRedirect = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 	}
