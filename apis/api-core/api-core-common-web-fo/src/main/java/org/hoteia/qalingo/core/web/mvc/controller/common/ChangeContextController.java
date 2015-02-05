@@ -49,7 +49,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	protected String getTargetUrl(final RequestData requestData) throws Exception{
 	    final HttpServletRequest request = requestData.getRequest();
 	    final Locale locale = requestData.getLocale();
-	    String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
+	    String fallbackUrl = urlService.generateRedirectUrl(FoUrls.HOME, requestData);
         final String currentRequestUrl = requestUtil.getRequestUrlAfterChangeContext(request, fallbackUrl);
         String currentRequestUri = currentRequestUrl.replace(request.getContextPath(), "");
         if (currentRequestUri.startsWith("/")) {
