@@ -74,7 +74,7 @@ public class FollowUsController extends AbstractMCommerceController {
         } catch (UniqueNewsletterSubscriptionException e) {
 			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
 			final Object[] objects = {forgottenPasswordUrl};
-			result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
+			result.rejectValue("email", "fo.follow_us.form_fail_unique_email_message", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
 			displayFollowUs(request, model, followUsForm);
 			
         } catch (Exception e) {

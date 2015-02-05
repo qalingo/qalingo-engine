@@ -56,6 +56,7 @@ public class FetchPlanGraphProduct {
         fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
         
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productBrand.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.assets.getName()));
         

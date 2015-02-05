@@ -226,6 +226,15 @@ public class ProductSkuViewBean extends AbstractViewBean {
                 assetsByType.add(assetViewBean);
             }
         }
+        // DEFAULT PRODUCT MARKETING ASSET
+        if(productMarketing != null){
+            for (Iterator<AssetViewBean> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+                if(assetViewBean.getType().equals(type)){
+                    assetsByType.add(assetViewBean);
+                }
+            }
+        }
         if(assetsByType.size() == 0){
             assetsByType.add(getDefaultAsset());
         }
