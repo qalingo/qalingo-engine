@@ -401,12 +401,18 @@ public class WebManagementService {
     }
     
     public Customer saveNewsletterSubscriptionAndSendEmail(final RequestData requestData, final String email) throws Exception {
+        if(StringUtils.isEmpty(email)){
+            throw new Exception(""); 
+        }
         Customer customer = saveNewsletterSubscription(requestData, email);
         saveAndBuildNewsletterSubscriptionConfirmationMail(requestData, email);
         return customer;
     }
     
     public Customer saveNewsletterUnsubscriptionAndSendEmail(final RequestData requestData, final String email) throws Exception {
+        if(StringUtils.isEmpty(email)){
+            throw new Exception(""); 
+        }
         Customer customer = saveNewsletterUnsubscription(requestData, email);
         saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, email);
         return customer;
