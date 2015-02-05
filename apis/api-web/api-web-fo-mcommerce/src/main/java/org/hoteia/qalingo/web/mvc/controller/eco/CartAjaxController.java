@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
@@ -105,6 +106,22 @@ public class CartAjaxController extends AbstractMCommerceController {
             if(defaultAsset == null
                     && assets.iterator().hasNext()){
                 defaultAsset = assets.iterator().next();
+            }
+        }
+        if(defaultAsset == null && productSku.getProductMarketing() != null && Hibernate.isInitialized(productSku.getProductMarketing())){
+            if(productSku.getProductMarketing().getAssets() != null && Hibernate.isInitialized(productSku.getProductMarketing().getAssets())){
+                assets = productSku.getProductMarketing().getAssets();
+                for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                    Asset asset = (Asset) iterator.next();
+                    if("PACKSHOT".equalsIgnoreCase(asset.getType())
+                            && asset.isDefault()){
+                        defaultAsset = asset;
+                    }
+                }
+                if(defaultAsset == null
+                        && assets.iterator().hasNext()){
+                    defaultAsset = assets.iterator().next();
+                }
             }
         }
         if(defaultAsset == null){

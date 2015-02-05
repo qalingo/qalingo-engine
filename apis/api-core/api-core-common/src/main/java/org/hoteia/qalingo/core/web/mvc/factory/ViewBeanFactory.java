@@ -2102,8 +2102,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         // ASSETS
-        if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
-            for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+        if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+            for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
                 final String path = engineSettingService.getProductSkuImageWebPath(asset);
