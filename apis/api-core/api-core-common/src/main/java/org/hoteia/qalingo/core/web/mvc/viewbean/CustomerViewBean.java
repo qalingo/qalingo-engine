@@ -32,6 +32,7 @@ public class CustomerViewBean extends AbstractViewBean {
     private String email;
     private String password;
     private String defaultLocale;
+    private boolean validated;
     private boolean active;
 
     private String avatarImg;
@@ -118,6 +119,14 @@ public class CustomerViewBean extends AbstractViewBean {
 
     public void setDefaultLocale(String defaultLocale) {
         this.defaultLocale = defaultLocale;
+    }
+
+    public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 
     public boolean isActive() {

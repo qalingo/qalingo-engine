@@ -641,9 +641,14 @@ public class RequestUtil {
     /**
 	 *
 	 */
-    public DateFormat getFormatDate(final RequestData requestData, final int dateStyle, final int timeStyle) throws Exception {
+    public DateFormat getFormatDate(final RequestData requestData, final Integer dateStyle, final Integer timeStyle) throws Exception {
         final Locale locale = requestData.getLocale();
-        DateFormat formatter = DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale);
+        DateFormat formatter = null;
+        if(timeStyle != null){
+            formatter = DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale);
+        } else {
+            formatter = DateFormat.getDateInstance(dateStyle, locale);
+        }
         return formatter;
     }
 

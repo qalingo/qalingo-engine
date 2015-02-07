@@ -1271,6 +1271,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 }
             }
             
+            customerViewBean.setValidated(customer.isValidated());
             customerViewBean.setActive(customer.isActive());
 
             final ValueBean customerScreenNameValueBean = new ValueBean();
