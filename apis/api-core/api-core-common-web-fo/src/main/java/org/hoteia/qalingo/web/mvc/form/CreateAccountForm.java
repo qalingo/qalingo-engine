@@ -11,6 +11,7 @@ package org.hoteia.qalingo.web.mvc.form;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -86,6 +87,17 @@ public class CreateAccountForm implements Serializable {
 		this.firstname = firstname;
 	}
 
+	public boolean addressIsFilled(){
+	    if(StringUtils.isNotEmpty(address1)
+	            || StringUtils.isNotEmpty(address2)
+	            || StringUtils.isNotEmpty(addressAdditionalInformation)
+	            || StringUtils.isNotEmpty(postalCode)
+	            || StringUtils.isNotEmpty(city)){
+	        return true;
+	    }
+	    return false;
+	}
+	
 	@NotEmpty(message = "fo.customer.error_form_address_address1_empty")
 	public String getAddress1() {
 		return address1;

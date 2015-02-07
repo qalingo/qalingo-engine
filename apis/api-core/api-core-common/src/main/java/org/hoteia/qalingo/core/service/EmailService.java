@@ -909,7 +909,7 @@ public class EmailService {
     	return mimeMessagePreparator;
     }
 
-    private void checkEmailAddresses(AbstractEmailBean emailBean) throws EmailProcessException{
+    protected void checkEmailAddresses(AbstractEmailBean emailBean) throws EmailProcessException{
 		if(StringUtils.isEmpty(emailBean.getFromAddress())){
 			throw new EmailProcessException(EmailProcessException.EMAIl_FROM_ADDRESS_IS_EMPTY);
 		}
