@@ -49,6 +49,12 @@
 			<artifactId>scribe-mapping</artifactId>
 		</dependency>
 			
+		<!-- Commons libs-->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		
         <!-- Spring framework -->
         <dependency>
             <groupId>org.springframework</groupId>
