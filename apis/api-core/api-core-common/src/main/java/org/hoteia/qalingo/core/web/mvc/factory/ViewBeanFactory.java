@@ -1231,26 +1231,32 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 customerViewBean.setDateUpdate(dateFormat.format(customer.getDateUpdate()));
             }
 
-            final Set<CustomerGroup> groups = customer.getGroups();
-            for (Iterator<CustomerGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
-                CustomerGroup group = (CustomerGroup) iteratorGroup.next();
-                String keyCustomerGroup = group.getCode();
-                String valueCustomerGroup = group.getName();
-                customerViewBean.getGroups().put(keyCustomerGroup, valueCustomerGroup);
+            if (customer.getGroups() != null && Hibernate.isInitialized(customer.getGroups())) {
+                final Set<CustomerGroup> groups = customer.getGroups();
+                for (Iterator<CustomerGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
+                    CustomerGroup group = (CustomerGroup) iteratorGroup.next();
+                    String keyCustomerGroup = group.getCode();
+                    String valueCustomerGroup = group.getName();
+                    customerViewBean.getGroups().put(keyCustomerGroup, valueCustomerGroup);
 
-                final Set<CustomerRole> roles = group.getRoles();
-                for (Iterator<CustomerRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
-                    CustomerRole role = (CustomerRole) iteratorRole.next();
-                    String keyCustomerRole = role.getCode();
-                    String valueCustomerRole = role.getName();
-                    customerViewBean.getRoles().put(keyCustomerRole, valueCustomerRole);
+                    if (group.getRoles() != null && Hibernate.isInitialized(group.getRoles())) {
+                        final Set<CustomerRole> roles = group.getRoles();
+                        for (Iterator<CustomerRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
+                            CustomerRole role = (CustomerRole) iteratorRole.next();
+                            String keyCustomerRole = role.getCode();
+                            String valueCustomerRole = role.getName();
+                            customerViewBean.getRoles().put(keyCustomerRole, valueCustomerRole);
 
-                    final Set<CustomerPermission> permissions = role.getPermissions();
-                    for (Iterator<CustomerPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
-                        CustomerPermission permission = (CustomerPermission) iteratorPermission.next();
-                        String keyCustomerPermission = permission.getCode();
-                        String valueCustomerPermission = permission.getName();
-                        customerViewBean.getPermissions().put(keyCustomerPermission, valueCustomerPermission);
+                            if (role.getPermissions() != null && Hibernate.isInitialized(role.getPermissions())) {
+                                final Set<CustomerPermission> permissions = role.getPermissions();
+                                for (Iterator<CustomerPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
+                                    CustomerPermission permission = (CustomerPermission) iteratorPermission.next();
+                                    String keyCustomerPermission = permission.getCode();
+                                    String valueCustomerPermission = permission.getName();
+                                    customerViewBean.getPermissions().put(keyCustomerPermission, valueCustomerPermission);
+                                }
+                            }
+                        }
                     }
                 }
             }

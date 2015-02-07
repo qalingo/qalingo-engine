@@ -58,8 +58,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         final Locale locale = requestData.getLocale();
         
 		// SANITY CHECK: Customer logged
-        final Customer currentCustomer = requestData.getCustomer();
-		if(currentCustomer != null){
+		if(securityUtil.isAuthenticated()){
 			final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
 		}

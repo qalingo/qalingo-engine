@@ -41,7 +41,7 @@ public class FetchPlanGraphCustomer {
 
         fetchplans.add(new SpecificFetchMode(Customer_.groups.getName()));
         fetchplans.add(new SpecificFetchMode(CustomerGroup_.roles.getName(), new SpecificAlias(Customer_.groups.getName() + "." + CustomerGroup_.roles.getName())));
-        fetchplans.add(new SpecificFetchMode(CustomerRole_.permissions.getName(), new SpecificAlias(CustomerGroup_.roles.getName() + "." + CustomerRole_.permissions.getName())));
+        fetchplans.add(new SpecificFetchMode(CustomerRole_.permissions.getName(), new SpecificAlias(Customer_.groups.getName() + "." + CustomerGroup_.roles.getName() + "." + CustomerRole_.permissions.getName())));
 
         return new FetchPlan(fetchplans);
     }
