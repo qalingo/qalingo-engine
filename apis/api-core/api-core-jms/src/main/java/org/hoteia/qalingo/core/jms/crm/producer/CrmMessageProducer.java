@@ -27,7 +27,7 @@ public class CrmMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="crmJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
 
     /**
      * Generates JMS messages

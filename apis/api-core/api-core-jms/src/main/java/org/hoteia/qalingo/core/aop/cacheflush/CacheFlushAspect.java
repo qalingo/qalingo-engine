@@ -27,7 +27,7 @@ public class CacheFlushAspect {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private CacheFlushMessageProducer cacheFlushMessageProducer;
+    protected CacheFlushMessageProducer cacheFlushMessageProducer;
     
     @Value("${env.name}")  
     protected String environmentName;

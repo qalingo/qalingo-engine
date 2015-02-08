@@ -30,7 +30,7 @@ public class DocumentGeneratorAspect {
     protected final Log logger = LogFactory.getLog(getClass());
     
     @Autowired
-    private DocumentMessageProducer documentMessageProducer;
+    protected DocumentMessageProducer documentMessageProducer;
     
     @Value("${env.name}")  
     protected String environmentName;

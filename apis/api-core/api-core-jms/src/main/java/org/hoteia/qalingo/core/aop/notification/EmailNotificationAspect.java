@@ -29,7 +29,7 @@ public class EmailNotificationAspect {
     protected final Log logger = LogFactory.getLog(getClass());
     
     @Autowired
-    private EmailNotificationMessageProducer emailNotificationMessageProducer;
+    protected EmailNotificationMessageProducer emailNotificationMessageProducer;
     
     @Value("${env.name}")  
     protected String environmentName;

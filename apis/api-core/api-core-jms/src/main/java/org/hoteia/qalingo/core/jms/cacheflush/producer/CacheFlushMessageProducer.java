@@ -33,7 +33,7 @@ public class CacheFlushMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="cacheFlushJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
 
     @Autowired
     protected XmlMapper xmlMapper;

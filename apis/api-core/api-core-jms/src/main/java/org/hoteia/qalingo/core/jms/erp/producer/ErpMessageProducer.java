@@ -27,7 +27,7 @@ public class ErpMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="erpJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
 
     /**
      * Generates JMS messages

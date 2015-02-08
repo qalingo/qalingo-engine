@@ -32,7 +32,7 @@ public class EmailNotificationMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="emailNotificationJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
 
     @Autowired
     protected XmlMapper xmlMapper;

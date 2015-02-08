@@ -31,7 +31,7 @@ public class AddressGeolocMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="addressGeolocJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
 
     @Autowired
     protected XmlMapper xmlMapper;

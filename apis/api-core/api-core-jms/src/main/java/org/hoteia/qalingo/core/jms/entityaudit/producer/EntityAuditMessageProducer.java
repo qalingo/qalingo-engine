@@ -27,7 +27,7 @@ public class EntityAuditMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="entityAuditJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
 
     /**
      * Generates JMS messages

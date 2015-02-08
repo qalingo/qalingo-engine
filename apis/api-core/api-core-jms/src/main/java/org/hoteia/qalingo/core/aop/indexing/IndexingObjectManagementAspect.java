@@ -30,7 +30,7 @@ public class IndexingObjectManagementAspect {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private IndexingObjectMessageProducer indexingObjectMessageProducer;
+    protected IndexingObjectMessageProducer indexingObjectMessageProducer;
     
     @Value("${env.name}")  
     protected String environmentName;

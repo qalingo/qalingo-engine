@@ -31,7 +31,7 @@ public class IndexingObjectMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="indexingObjectJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
 
     @Autowired
     protected XmlMapper xmlMapper;

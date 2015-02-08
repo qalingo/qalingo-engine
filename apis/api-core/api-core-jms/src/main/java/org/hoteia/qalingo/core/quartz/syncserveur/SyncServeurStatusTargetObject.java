@@ -27,7 +27,7 @@ public class SyncServeurStatusTargetObject {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    private SyncServeurStatusMessageProducer syncServeurStatusQueueProducer;
+    protected SyncServeurStatusMessageProducer syncServeurStatusQueueProducer;
 
     @Value("${env.name}")  
     protected String environmentName;

@@ -39,7 +39,7 @@ public class CacheFlushQueueListener implements MessageListener, ExceptionListen
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    private EhCacheCacheManager ehCacheCacheManager;
+    protected EhCacheCacheManager ehCacheCacheManager;
     
     @Autowired
     protected XmlMapper xmlMapper;

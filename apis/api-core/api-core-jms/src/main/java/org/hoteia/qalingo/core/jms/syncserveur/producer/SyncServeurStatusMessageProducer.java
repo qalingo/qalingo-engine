@@ -34,7 +34,7 @@ public class SyncServeurStatusMessageProducer {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Resource(name="syncServeurStatusJmsTemplate")
-    private JmsTemplate jmsTemplate;
+    protected JmsTemplate jmsTemplate;
     
     @Autowired
     protected XmlMapper xmlMapper;

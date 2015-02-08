@@ -30,7 +30,7 @@ public class GeolocAspect {
     protected final Log logger = LogFactory.getLog(getClass());
     
     @Autowired
-    private AddressGeolocMessageProducer addressGeolocMessageProducer;
+    protected AddressGeolocMessageProducer addressGeolocMessageProducer;
     
     @Value("${env.name}")  
     protected String environmentName;
