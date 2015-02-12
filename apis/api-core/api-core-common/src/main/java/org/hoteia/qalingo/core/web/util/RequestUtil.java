@@ -100,6 +100,9 @@ public class RequestUtil {
     @Value("${context.name}")
     protected String contextName;
 
+    @Value("${cookie.prefix}")
+    protected String cookiePrefix;
+    
     @Autowired
     protected MarketService marketService;
 
@@ -1765,7 +1768,7 @@ public class RequestUtil {
                 Cookie ecoEngineSessionGuid = null;
                 for (int i = 0; i < cookies.length; i++) {
                     Cookie cookie = cookies[i];
-                    if (Constants.COOKIE_ECO_ENGINE_SESSION_ID.equals(cookie.getName())) {
+                    if (getEngineSessionIdCookieName().equals(cookie.getName())) {
                         ecoEngineSessionGuid = cookies[i];
                         break;
                     }
@@ -2077,7 +2080,7 @@ public class RequestUtil {
         if(cookies !=  null){
 	        for(int i = 0; i < cookies.length; i++) {
 	            info = cookies[i];
-	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName())) {
+	            if(getRecentProductsCookieName().equals(info.getName())) {
 	                found = true;
 	                break;
 	            }
@@ -2109,7 +2112,7 @@ public class RequestUtil {
         if(cookies !=  null){
 	        for(int i=0; i < cookies.length; i++) {
 	            info = cookies[i];
-	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName())) {
+	            if(getRecentProductsCookieName().equals(info.getName())) {
 	                found = true;
 	                break;
 	            }
@@ -2133,12 +2136,20 @@ public class RequestUtil {
     			response.addCookie(info);    			
         	} 
         } else {
-			info = new Cookie(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME, productSkuCode);
+			info = new Cookie(getRecentProductsCookieName(), productSkuCode);
             info.setPath("/");
 			info.setMaxAge(Constants.COOKIES_LENGTH);
 			info.setDomain(request.getServerName());
 			response.addCookie(info);
         }
     }
-
+    
+    protected String getEngineSessionIdCookieName(){
+        return cookiePrefix + Constants.COOKIE_ECO_ENGINE_SESSION_ID;
+    }
+    
+    protected String getRecentProductsCookieName(){
+        return cookiePrefix + Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME;
+    }
+    
 }

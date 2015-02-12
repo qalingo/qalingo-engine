@@ -205,8 +205,8 @@ public class Constants {
 	public static final String SUCCESS_MESSAGE = "successMessage";
 	
 	public static final int COOKIES_LENGTH = 2592000; // in seconds - 30 days
-    public static final String COOKIE_ECO_ENGINE_SESSION_ID = "QualingoEcoEngineSessionGuid";
-	public static final String COOKIE_RECENT_PRODUCT_COOKIE_NAME = "QualingoRecentProducts";
+    public static final String COOKIE_ECO_ENGINE_SESSION_ID = "EcoEngineSessionGuid";
+	public static final String COOKIE_RECENT_PRODUCT_COOKIE_NAME = "RecentProducts";
 	
 	// PRODUCT RATING
 	public static final String PRODUCT_QUALITY_RATING_TYPE = "QUALITY_OF_SERVICE";
