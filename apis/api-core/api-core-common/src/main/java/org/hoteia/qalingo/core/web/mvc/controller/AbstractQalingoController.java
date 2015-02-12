@@ -141,7 +141,7 @@ public abstract class AbstractQalingoController {
     @ModelAttribute(ModelConstants.URL_BACK)
     protected String initBackUrl(final HttpServletRequest request, final Model model) throws Exception {
         String url = requestUtil.getCurrentRequestUrl(request);
-        List<String> excludedPatterns = new ArrayList<String>();
+        List<String> excludedPatterns = requestUtil.getCommonUrlExcludedPatterns();
         excludedPatterns.add(url);
         return requestUtil.getLastRequestUrl(request, excludedPatterns);
     }
