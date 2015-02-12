@@ -70,14 +70,16 @@ public class CustomerAddressController extends AbstractCustomerController {
 	public ModelAndView customerDeleteAddress(final HttpServletRequest request, final Model model) throws Exception {
 		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID);
 		
-		try {
-			webManagementService.deleteAddressCustomer( requestUtil.getRequestData(request), customerAddressId);
-			
-		} catch (Exception e) {
-			logger.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
+		if(StringUtils.isNotEmpty(customerAddressId)){
+	        try {
+	            webManagementService.deleteAddressCustomer( requestUtil.getRequestData(request), customerAddressId);
+	            
+	        } catch (Exception e) {
+	            logger.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
+	        }
 		}
 
-		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
