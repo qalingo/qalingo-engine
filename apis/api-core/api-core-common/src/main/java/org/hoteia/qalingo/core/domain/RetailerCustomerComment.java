@@ -51,9 +51,9 @@ public class RetailerCustomerComment extends AbstractEntity {
 	@Column(name="RETAILER_CUSTOMER_COMMENT_ID")
 	private Long retailerCustomerCommentId;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name="CUSTOMER_ID")
-	private Customer customer;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Customer.class)
+    @JoinColumn(name = "CUSTOMER_ID", insertable = true, updatable = true)
+    private Customer customer;
 
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;

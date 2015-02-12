@@ -23,7 +23,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,9 +50,9 @@ public class ProductMarketingCustomerComment extends AbstractEntity {
 	@Column(name="PRODUCT_MARKETING_CUSTOMER_COMMENT_ID")
 	private Long productMarketingCustomerCommentId;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name="CUSTOMER_ID")
-	private Customer customer;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Customer.class)
+    @JoinColumn(name = "CUSTOMER_ID", insertable = true, updatable = true)
+    private Customer customer;
 
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
