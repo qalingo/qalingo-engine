@@ -32,6 +32,8 @@ public class EngineSettingValue extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -2115630780792270714L;
 
+    public static final String CACHE_NAME = "web_cache_settings";
+    
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)

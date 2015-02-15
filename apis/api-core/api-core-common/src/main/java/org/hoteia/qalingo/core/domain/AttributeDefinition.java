@@ -52,6 +52,8 @@ public class AttributeDefinition extends AbstractEntity {
     public static int OBJECT_TYPE_RETAILER                      = 10;
     public static int OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION = 11;
 	
+    public static final String CACHE_NAME = "web_cache_settings";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)

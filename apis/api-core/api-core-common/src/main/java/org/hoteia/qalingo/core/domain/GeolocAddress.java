@@ -31,6 +31,8 @@ public class GeolocAddress extends AbstractEntity {
      */
     private static final long serialVersionUID = 9020651155879779713L;
 
+    public static final String CACHE_NAME = "web_cache_geoloc";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)

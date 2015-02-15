@@ -12,6 +12,16 @@
         <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
     </cache>
 
+    <cache name="web_cache_settings" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_settings_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_settings_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+	
     <cache name="web_cache_category" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
     </cache>
@@ -59,6 +69,16 @@
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
     <cache name="web_cache_retailer_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+	
+    <cache name="web_cache_geoloc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_geoloc_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_geoloc_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
 
