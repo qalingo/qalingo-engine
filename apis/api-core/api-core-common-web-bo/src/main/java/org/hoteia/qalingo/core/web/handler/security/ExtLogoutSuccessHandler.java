@@ -51,7 +51,7 @@ public class ExtLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 		try {
 		    requestUtil.cleanCurrentUser(request);
 		    
-	        String url = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
+	        String url = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
 	        setDefaultTargetUrl(url);
 	        
 		} catch (Exception e) {

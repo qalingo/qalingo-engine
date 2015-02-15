@@ -49,7 +49,7 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
         try {
             Map<String, String> urlParams = new HashMap<String, String>();
             urlParams.put(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR, "true");
-            String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
+            String url = backofficeUrlService.generateRedirectUrl(BoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
             setDefaultFailureUrl(url);
             saveException(request, exception);
             redirectStrategy.sendRedirect(request, response, url);

@@ -41,7 +41,7 @@ public class ExtAccessDeniedHandlerImpl extends AccessDeniedHandlerImpl {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 					   AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		try {
-			String url = urlService.generateUrl(FoUrls.FORBIDDEN, requestUtil.getRequestData(request));
+			String url = urlService.generateRedirectUrl(FoUrls.FORBIDDEN, requestUtil.getRequestData(request));
 			setErrorPage(url);
 		} catch (Exception e) {
 			logger.error("", e);

@@ -91,12 +91,12 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
             if (StringUtils.isNotEmpty(lastUrl)) {
                 targetUrl = lastUrl;
             } else {
-                targetUrl = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+                targetUrl = urlService.generateRedirectUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
             }
 
             if (lastUrl.contains("cart-") || lastUrl.contains("checkout-")) {
                 // STAY ON THE CHECKOUT - REDIRECT ON THE ADDRESSES PAGES
-                targetUrl = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+                targetUrl = urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
             } 
 
             setDefaultTargetUrl(targetUrl);

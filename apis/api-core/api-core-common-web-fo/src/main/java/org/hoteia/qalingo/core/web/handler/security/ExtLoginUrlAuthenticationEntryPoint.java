@@ -51,7 +51,7 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 	protected String determineUrlToUseForThisRequest(HttpServletRequest request, HttpServletResponse response,
 													 AuthenticationException exception) {
 		try {
-			String url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
+			String url = urlService.generateRedirectUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
 			return url;
 		} catch (Exception e) {
 			logger.error("", e);
@@ -95,11 +95,11 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 	protected String buildRedirectUrlToLoginPage(HttpServletRequest request, HttpServletResponse response, 
 												 AuthenticationException authException) {
 		try {
-			String url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
+			String url = urlService.generateRedirectUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
 			String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
 			if(StringUtils.isNotEmpty(lastUrl)
 			        && (lastUrl.contains("cart") || lastUrl.contains("checkout"))){
-			    url = urlService.generateUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request));
+			    url = urlService.generateRedirectUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request));
 			}
 			return url;
 		} catch (Exception e) {

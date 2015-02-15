@@ -55,9 +55,9 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
             String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
             // SANITY CHECK
             if (StringUtils.isNotEmpty(lastUrl) && (lastUrl.contains("cart") || lastUrl.contains("checkout"))) {
-                url = urlService.generateUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request), urlParams);
+                url = urlService.generateRedirectUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request), urlParams);
             } else {
-                url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
+                url = urlService.generateRedirectUrl(FoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
             }
 
             setDefaultFailureUrl(url);
