@@ -40,7 +40,24 @@ public class ContextController extends AbstractFrontofficeQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTEXT.getVelocityPage());
 
         final RequestData requestData = requestUtil.getRequestData(request);
-        final VelocityPageContextDataPojo context = new VelocityPageContextDataPojo();
+        
+        final VelocityPageContextDataPojo context = buildContext(requestData);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String contextJson = mapper.writeValueAsString(context);
+            model.addAttribute(ModelConstants.CONTEXT_JSON, contextJson);
+        } catch (JsonGenerationException e) {
+            logger.error(e.getMessage());
+        } catch (JsonMappingException e) {
+            logger.error(e.getMessage());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+        return modelAndView;
+	}
+	
+	protected VelocityPageContextDataPojo buildContext(RequestData requestData){
+	    final VelocityPageContextDataPojo context = new VelocityPageContextDataPojo();
         
         // TODO : move this value in a EngineSetting
         context.setCartMaxItemQuantity(5);
@@ -101,18 +118,7 @@ public class ContextController extends AbstractFrontofficeQalingoController {
         url.setMethod("GET");
         context.getUrls().add(url);
         
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String contextJson = mapper.writeValueAsString(context);
-            model.addAttribute(ModelConstants.CONTEXT_JSON, contextJson);
-        } catch (JsonGenerationException e) {
-            logger.error(e.getMessage());
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-        return modelAndView;
+        return context;
 	}
 
 }
