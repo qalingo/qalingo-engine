@@ -2073,7 +2073,7 @@ public class RequestUtil {
     /**
      * {@inheritDoc}
      */
-    public List<String> getRecentProductSkuCodesFromCookie(final HttpServletRequest request){
+    public List<String> getRecentProductCodesFromCookie(final HttpServletRequest request, final String catalogVirtualCode){
 		Cookie info = null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
@@ -2089,15 +2089,13 @@ public class RequestUtil {
         List<String> cookieProductValues = new ArrayList<String>();
         if(found){
             String value = info.getValue();
-        	if(StringUtils.isNotEmpty(value)){
+        	if(StringUtils.isNotEmpty(value)
+        	        && value.contains(catalogVirtualCode)){
         	    if(value.contains(Constants.PIPE)){
                     String[] splits = info.getValue().split(Constants.PIPE);
-                    if(splits.length >= 3){
-                        for (int i = splits.length - 1; i >= splits.length - 3 ; i--) {
-                            cookieProductValues.add(splits[i]);
-                        }
-                    } else {
-                        for (int i = splits.length - 1; i >= 0 ; i--) {
+                    for (int i = 0; i < splits.length; i++) {
+                        String splitValue = splits[i];
+                        if(splitValue.contains(catalogVirtualCode)){
                             cookieProductValues.add(splits[i]);
                         }
                     }
@@ -2107,7 +2105,7 @@ public class RequestUtil {
         return cookieProductValues;
     }
     
-    public void addOrUpdateRecentProductSkuToCookie(final HttpServletRequest request, final HttpServletResponse response,
+    public void addOrUpdateRecentProductToCookie(final HttpServletRequest request, final HttpServletResponse response,
                                                     final String catalogCode, final String virtualCategoryCode, 
                                                     final String productMarketingCode, final String productSkuCode) throws Exception {
         Cookie info = null;

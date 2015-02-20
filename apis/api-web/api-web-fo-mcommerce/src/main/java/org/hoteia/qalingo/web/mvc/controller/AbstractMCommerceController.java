@@ -107,8 +107,9 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
     
     protected void loadRecentProducts(final RequestData requestData, final Model model){
         final HttpServletRequest request = requestData.getRequest();
+        final String catalogVirtualCode = requestData.getVirtualCatalogCode();
         try {
-            final List<String> cookieProductValues = requestUtil.getRecentProductSkuCodesFromCookie(request);
+            final List<String> cookieProductValues = requestUtil.getRecentProductCodesFromCookie(request, catalogVirtualCode);
             List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, cookieProductValues, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
             model.addAttribute(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
             

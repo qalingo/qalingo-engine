@@ -131,7 +131,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         model.addAttribute(ModelConstants.CUSTOMER_COMMENT_FORM, customerCommentForm);
         model.addAttribute(ModelConstants.PRODUCT_COMMENT_SUBMIT_URL, urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
         
-        requestUtil.addOrUpdateRecentProductSkuToCookie(request, response, requestData.getVirtualCatalogCode(), catalogCategory.getCode(), productMarketing.getCode(), productSku.getCode());
+        requestUtil.addOrUpdateRecentProductToCookie(request, response, requestData.getVirtualCatalogCode(), catalogCategory.getCode(), productMarketing.getCode(), productSku.getCode());
         
         Object[] params = { productMarketingViewBean.getI18nName() };
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
