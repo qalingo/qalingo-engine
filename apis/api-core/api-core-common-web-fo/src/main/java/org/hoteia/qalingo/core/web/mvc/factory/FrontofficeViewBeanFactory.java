@@ -515,23 +515,33 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         return productBrandViewBeans;
     }
     
-    public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> listProductSkuCodes, FetchPlan categoryVirtualFetchPlans, FetchPlan productMarketingFetchPlans, FetchPlan productSkuFetchPlans) throws Exception {
+    public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> cookieProductValues, FetchPlan categoryVirtualFetchPlans, FetchPlan productMarketingFetchPlans, FetchPlan productSkuFetchPlans) throws Exception {
     	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
     	final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
-    	for (String productSkuCode : listProductSkuCodes) {
+    	for (String cookieProductValue : cookieProductValues) {
+    	    String virtualCatalogCode = requestUtil.decodeRecentProductCookieVirtualCatalogCode(cookieProductValue);
+            String virtualCategoryCode = requestUtil.decodeRecentProductCookieVirtualCategoryCode(cookieProductValue);
+            String productMarketingCode = requestUtil.decodeRecentProductCookieProductMarketingCode(cookieProductValue);
+            String productSkuCode = requestUtil.decodeRecentProductCookieProductSkuCode(cookieProductValue);
     		RecentProductViewBean recentProductViewBean = new RecentProductViewBean();
             final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuCode, productSkuFetchPlans);
             if(reloadedProductSku != null){
-                final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode(), productMarketingFetchPlans);
-                final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId(), categoryVirtualFetchPlans);
+                final ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, productMarketingFetchPlans);
+                final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(virtualCategoryCode, virtualCatalogCode, categoryVirtualFetchPlans);
                 if(productMarketing.getId() != null){
                     recentProductViewBean.setId(productMarketing.getId().toString());
                 }
                 recentProductViewBean.setCode(productMarketing.getCode());
                 recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));   
                 recentProductViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
-                recentProductViewBeans.add(recentProductViewBean);
+                
+                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(reloadedProductSku.getId()); 
+                
+                if(catalogCategories.contains(catalogCategory)
+                        && catalogCategory.getCatalog().getCode().equals(virtualCatalogCode)){
+                    recentProductViewBeans.add(recentProductViewBean);
+                }
             }
     	}
     	return recentProductViewBeans;

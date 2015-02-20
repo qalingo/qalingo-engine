@@ -2086,27 +2086,32 @@ public class RequestUtil {
 	            }
 	        }
         }   
-        List<String> productSkuCodes = new ArrayList<String>();
+        List<String> cookieProductValues = new ArrayList<String>();
         if(found){
-        	if(!info.getValue().isEmpty()){
-	        	String[] splits = info.getValue().split(Constants.SPACE);
-	        	if(splits.length >= 3){
-		        	for (int i = splits.length - 1; i >= splits.length - 3 ; i--) {
-		        	    productSkuCodes.add(splits[i]);
-		        	}
-	        	} else {
-	        		for (int i = splits.length - 1; i >= 0 ; i--) {
-	        		    productSkuCodes.add(splits[i]);
-					}
-	        	}
+            String value = info.getValue();
+        	if(StringUtils.isNotEmpty(value)){
+        	    if(value.contains(Constants.PIPE)){
+                    String[] splits = info.getValue().split(Constants.PIPE);
+                    if(splits.length >= 3){
+                        for (int i = splits.length - 1; i >= splits.length - 3 ; i--) {
+                            cookieProductValues.add(splits[i]);
+                        }
+                    } else {
+                        for (int i = splits.length - 1; i >= 0 ; i--) {
+                            cookieProductValues.add(splits[i]);
+                        }
+                    }
+        	    }
         	}
         } 
-        return productSkuCodes;
+        return cookieProductValues;
     }
     
-    public void addOrUpdateRecentProductSkuToCookie(final String productSkuCode, final HttpServletRequest request, 
-                                                    final HttpServletResponse response) throws Exception {
-        Cookie info=null;
+    public void addOrUpdateRecentProductSkuToCookie(final HttpServletRequest request, final HttpServletResponse response,
+                                                    final String catalogCode, final String virtualCategoryCode, 
+                                                    final String productMarketingCode, final String productSkuCode) throws Exception {
+        Cookie info = null;
+        String cookieProductValue = catalogCode + Constants.SEMI_COLON + virtualCategoryCode + Constants.SEMI_COLON + productMarketingCode + Constants.SEMI_COLON + productSkuCode;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
         if(cookies !=  null){
@@ -2120,28 +2125,77 @@ public class RequestUtil {
         }   
         if(found){
         	Boolean flag = false;
-        	String[] splits = info.getValue().split(Constants.SPACE);
-        	for(String value:splits){
-        		if(value.equals(productSkuCode)){
-        			flag = true;
-        		} 
+        	String value = info.getValue();
+        	if(value.contains(Constants.PIPE)){
+                String[] splits = value.split(Constants.PIPE);
+                for(String cookieValue : splits){
+                    if(cookieValue.contains(Constants.SEMI_COLON)){
+                        if(cookieValue.contains(cookieProductValue)){
+                            flag = true;
+                        } 
+                        
+                    } else {
+                        // VALUE DOESN'T CONTAIN SEMI COLON : CLEAN NON COMPATIBLE VALUE
+                        info.setValue("");
+                        info.setPath("/");
+                        info.setMaxAge(Constants.COOKIES_LENGTH);
+                        info.setDomain(request.getServerName());
+                        response.addCookie(info);               
+                    }
+                }
+                if(!flag){
+                    String values = value;
+                    values += Constants.PIPE + cookieProductValue;
+                    info.setValue(values);
+                    info.setPath("/");
+                    info.setMaxAge(Constants.COOKIES_LENGTH);
+                    info.setDomain(request.getServerName());
+                    response.addCookie(info);               
+                } 
         	}
-        	if(!flag){
-        		String values = info.getValue();
-        		values += Constants.SPACE + productSkuCode;
-        		info.setValue(values);
-        		info.setPath("/");
-        		info.setMaxAge(Constants.COOKIES_LENGTH);
-        		info.setDomain(request.getServerName());
-    			response.addCookie(info);    			
-        	} 
         } else {
-			info = new Cookie(getRecentProductsCookieName(), productSkuCode);
+			info = new Cookie(getRecentProductsCookieName(), cookieProductValue);
             info.setPath("/");
 			info.setMaxAge(Constants.COOKIES_LENGTH);
 			info.setDomain(request.getServerName());
 			response.addCookie(info);
         }
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    public String decodeRecentProductCookieVirtualCatalogCode(String cookieProductValue) throws Exception {
+        String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
+        return cookieProductValueSplit[0];
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    public String decodeRecentProductCookieVirtualCategoryCode(String cookieProductValue) throws Exception {
+        String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
+        return cookieProductValueSplit[1];
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    public String decodeRecentProductCookieProductMarketingCode(String cookieProductValue) throws Exception {
+        String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
+        return cookieProductValueSplit[2];
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    public String decodeRecentProductCookieProductSkuCode(String cookieProductValue) throws Exception {
+        String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
+        return cookieProductValueSplit[3];
     }
     
     protected String getEngineSessionIdCookieName(){
