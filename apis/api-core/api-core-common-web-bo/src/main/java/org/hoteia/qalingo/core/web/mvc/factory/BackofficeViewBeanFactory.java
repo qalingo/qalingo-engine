@@ -717,88 +717,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * @throws Exception
      * 
      */
+    @Override
     public UserViewBean buildViewBeanUser(final RequestData requestData, final User user) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        final UserViewBean userViewBean = new UserViewBean();
-        if(user.getId() != null){
-            userViewBean.setId(user.getId().toString());
-        }
-        userViewBean.setCode(user.getCode());
-        userViewBean.setLogin(user.getLogin());
-        userViewBean.setFirstname(user.getFirstname());
-        userViewBean.setLastname(user.getLastname());
-        userViewBean.setEmail(user.getEmail());
-        userViewBean.setPassword(user.getPassword());
-        userViewBean.setActive(user.isActive());
-
-        userViewBean.setAddress1(user.getAddress1());
-        userViewBean.setAddress2(user.getAddress2());
-        userViewBean.setAddressAdditionalInformation(user.getAddressAdditionalInformation());
-        userViewBean.setPostalCode(user.getPostalCode());
-        userViewBean.setCity(user.getCity());
-        userViewBean.setStateCode(user.getStateCode());
-        userViewBean.setAreaCode(user.getAreaCode());
-        userViewBean.setCountryCode(user.getCountryCode());
-        
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        if (user.getDateCreate() != null) {
-            userViewBean.setDateCreate(dateFormat.format(user.getDateCreate()));
-        } else {
-            userViewBean.setDateCreate(Constants.NOT_AVAILABLE);
-        }
-        if (user.getDateUpdate() != null) {
-            userViewBean.setDateUpdate(dateFormat.format(user.getDateUpdate()));
-        } else {
-            userViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
-        }
-
-        final Set<UserGroup> groups = user.getGroups();
-        for (Iterator<UserGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
-            UserGroup group = (UserGroup) iteratorGroup.next();
-            String keyUserGroup = group.getCode();
-            String valueUserGroup = group.getName();
-            userViewBean.getGroups().put(keyUserGroup, valueUserGroup);
-
-            final Set<UserRole> roles = group.getRoles();
-            for (Iterator<UserRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
-                UserRole role = (UserRole) iteratorRole.next();
-                String keyUserRole = role.getCode();
-                String valueUserRole = role.getName();
-                userViewBean.getRoles().put(keyUserRole, valueUserRole);
-
-                final Set<UserPermission> permissions = role.getPermissions();
-                for (Iterator<UserPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
-                    UserPermission permission = (UserPermission) iteratorPermission.next();
-                    String keyUserPermission = permission.getCode();
-                    String valueUserPermission = permission.getName();
-                    userViewBean.getPermissions().put(keyUserPermission, valueUserPermission);
-                }
-            }
-        }
-
-        final Set<UserConnectionLog> connectionLogs = user.getConnectionLogs();
-        for (Iterator<UserConnectionLog> iteratorUserConnectionLog = connectionLogs.iterator(); iteratorUserConnectionLog.hasNext();) {
-            UserConnectionLog connectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
-            UserConnectionLogValueBean userConnectionLogValueBean = new UserConnectionLogValueBean();
-            userConnectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
-            userConnectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(connectionLog.getHost())) {
-                userConnectionLogValueBean.setHost(connectionLog.getHost());
-            }
-            userConnectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(connectionLog.getPublicAddress())) {
-                userConnectionLogValueBean.setPublicAddress(connectionLog.getPublicAddress());
-            }
-            userConnectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(connectionLog.getPrivateAddress())) {
-                userConnectionLogValueBean.setPublicAddress(connectionLog.getPrivateAddress());
-            }
-            userViewBean.getUserConnectionLogs().add(userConnectionLogValueBean);
-        }
-
-        final List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add("form");
-        userViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
+        final UserViewBean userViewBean = super.buildViewBeanUser(requestData, user);
 
         userViewBean.setUserDetailsUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestData, user));
         userViewBean.setUserEditUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestData, user));
@@ -810,61 +731,12 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
     }
 
     /**
-     * 
-     */
-    public List<UserViewBean> buildListViewBeanUser(final RequestData requestData, final List<User> users) throws Exception {
-        final List<UserViewBean> userViewBeans = new ArrayList<UserViewBean>();
-        for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
-            User user = (User) iterator.next();
-            userViewBeans.add(buildViewBeanUser(requestData, user));
-        }
-        return userViewBeans;
-    }
-
-    /**
      * @throws Exception
      * 
      */
+    @Override
     public CompanyViewBean buildViewBeanCompany(final RequestData requestData, final Company company) throws Exception {
-        final Locale locale = requestData.getLocale();
-        
-        final CompanyViewBean companyViewBean = new CompanyViewBean();
-        if(company.getId() != null){
-            companyViewBean.setId(company.getId().toString());
-        }
-        companyViewBean.setCode(company.getCode());
-        companyViewBean.setName(company.getName());
-        companyViewBean.setDescription(company.getDescription());
-
-        companyViewBean.setAddress1(company.getAddress1());
-        companyViewBean.setAddress2(company.getAddress2());
-        companyViewBean.setAddressAdditionalInformation(company.getAddressAdditionalInformation());
-        companyViewBean.setPostalCode(company.getPostalCode());
-        companyViewBean.setCity(company.getCity());
-        
-        String stateName = referentialDataService.getStateByLocale(company.getStateCode(), locale);
-        companyViewBean.setStateCode(company.getStateCode());
-        companyViewBean.setStateName(stateName);
-        
-        String areaName = referentialDataService.getAreaByLocale(company.getAreaCode(), locale);
-        companyViewBean.setAreaCode(company.getAreaCode());
-        companyViewBean.setAreaName(areaName);
-        
-        String countryName = referentialDataService.getCountryByLocale(company.getCountryCode(), locale);
-        companyViewBean.setCountryCode(company.getCountryCode());
-        companyViewBean.setCountryName(countryName);
-        
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        if (company.getDateCreate() != null) {
-            companyViewBean.setDateCreate(dateFormat.format(company.getDateCreate()));
-        } else {
-            companyViewBean.setDateCreate(Constants.NOT_AVAILABLE);
-        }
-        if (company.getDateUpdate() != null) {
-            companyViewBean.setDateUpdate(dateFormat.format(company.getDateUpdate()));
-        } else {
-            companyViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
-        }
+        final CompanyViewBean companyViewBean = super.buildViewBeanCompany(requestData, company);
 
         companyViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.COMPANY_DETAILS, requestData, company));
         companyViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.COMPANY_EDIT, requestData, company));
@@ -872,18 +744,6 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return companyViewBean;
     }
 
-    /**
-     * 
-     */
-    public List<CompanyViewBean> buildListViewBeanCompany(final RequestData requestData, final List<Company> companys) throws Exception {
-        final List<CompanyViewBean> companyViewBeans = new ArrayList<CompanyViewBean>();
-        for (Iterator<Company> iterator = companys.iterator(); iterator.hasNext();) {
-            Company company = (Company) iterator.next();
-            companyViewBeans.add(buildViewBeanCompany(requestData, company));
-        }
-        return companyViewBeans;
-    }
-    
     /**
      * @throws Exception
      * 
