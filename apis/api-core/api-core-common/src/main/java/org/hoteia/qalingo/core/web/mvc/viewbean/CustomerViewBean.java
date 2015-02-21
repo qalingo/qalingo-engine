@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,8 @@ public class CustomerViewBean extends AbstractViewBean {
     private Map<String, String> permissions = new HashMap<String, String>();
 
     private String lastConnectionDate;
-    private List<UserConnectionLogValueBean> userConnectionLogs = new ArrayList<UserConnectionLogValueBean>();
+    private List<CustomerConnectionLogValueBean> customerConnectionLogs = new ArrayList<CustomerConnectionLogValueBean>();
+    private List<CustomerAddressViewBean> addresses = new ArrayList<CustomerAddressViewBean>();
 
     private String detailsUrl;
     private String editUrl;
@@ -226,14 +228,36 @@ public class CustomerViewBean extends AbstractViewBean {
         this.lastConnectionDate = lastConnectionDate;
     }
 
-    public List<UserConnectionLogValueBean> getUserConnectionLogs() {
-        return userConnectionLogs;
+    public List<CustomerConnectionLogValueBean> getCustomerConnectionLogs() {
+        return customerConnectionLogs;
+    }
+    
+    public void setCustomerConnectionLogs(List<CustomerConnectionLogValueBean> customerConnectionLogs) {
+        this.customerConnectionLogs = customerConnectionLogs;
     }
 
-    public void setUserConnectionLogs(List<UserConnectionLogValueBean> userConnectionLogs) {
-        this.userConnectionLogs = userConnectionLogs;
+    public List<CustomerAddressViewBean> getAddresses() {
+        return addresses;
     }
-
+    
+    public CustomerAddressViewBean getDefaultAddress() {
+        if (addresses != null) {
+            for (Iterator<CustomerAddressViewBean> iterator = addresses.iterator(); iterator.hasNext();) {
+                CustomerAddressViewBean address = (CustomerAddressViewBean) iterator.next();
+                if(address.isDefaultBilling()){
+                    return address;
+                }
+            }
+            return addresses.iterator().next();
+            
+        }
+        return null;
+    }
+    
+    public void setAddresses(List<CustomerAddressViewBean> addresses) {
+        this.addresses = addresses;
+    }
+    
     public String getDetailsUrl() {
         return detailsUrl;
     }

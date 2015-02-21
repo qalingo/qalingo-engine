@@ -121,6 +121,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
@@ -1271,16 +1272,42 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 }
             }
             
-            final Set<CustomerConnectionLog> connectionLogs = customer.getConnectionLogs();
-            if (connectionLogs != null && Hibernate.isInitialized(connectionLogs) && connectionLogs.size() > 0) {
-                CustomerConnectionLog customerConnectionLog = connectionLogs.iterator().next();
-                if (customerConnectionLog.getLoginDate() != null) {
-                    customerViewBean.setLastConnectionDate(dateFormat.format(customerConnectionLog.getLoginDate()));
-                } else {
-                    customerViewBean.setLastConnectionDate(Constants.NOT_AVAILABLE);
+            if (customer.getConnectionLogs() != null && Hibernate.isInitialized(customer.getConnectionLogs())) {
+                int count = 0;
+                for (Iterator<CustomerConnectionLog> iteratorCustomerConnectionLog = customer.getSortedConnectionLogs().iterator(); iteratorCustomerConnectionLog.hasNext();) {
+                    CustomerConnectionLog connectionLog = (CustomerConnectionLog) iteratorCustomerConnectionLog.next();
+                    if(count == 0){
+                        if (connectionLog.getLoginDate() != null) {
+                            customerViewBean.setLastConnectionDate(dateFormat.format(connectionLog.getLoginDate()));
+                        } else {
+                            customerViewBean.setLastConnectionDate(Constants.NOT_AVAILABLE);
+                        }
+                    }
+                    CustomerConnectionLogValueBean connectionLogValueBean = new CustomerConnectionLogValueBean();
+                    connectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
+                    connectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
+                    if (StringUtils.isNotEmpty(connectionLog.getHost())) {
+                        connectionLogValueBean.setHost(connectionLog.getHost());
+                    }
+                    connectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
+                    if (StringUtils.isNotEmpty(connectionLog.getPublicAddress())) {
+                        connectionLogValueBean.setPublicAddress(connectionLog.getPublicAddress());
+                    }
+                    connectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
+                    if (StringUtils.isNotEmpty(connectionLog.getPrivateAddress())) {
+                        connectionLogValueBean.setPublicAddress(connectionLog.getPrivateAddress());
+                    }
+                    customerViewBean.getCustomerConnectionLogs().add(connectionLogValueBean);
                 }
             }
-            
+
+            if (customer.getAddresses() != null && Hibernate.isInitialized(customer.getAddresses())) {
+                for (Iterator<CustomerAddress> iteratorGroup = customer.getAddresses().iterator(); iteratorGroup.hasNext();) {
+                    CustomerAddress address = (CustomerAddress) iteratorGroup.next();
+                    customerViewBean.getAddresses().add(buildViewBeanCustomeAddress(requestData, address));
+                }
+            }
+
             customerViewBean.setValidated(customer.isValidated());
             customerViewBean.setActive(customer.isActive());
 
@@ -2666,21 +2693,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Set<UserConnectionLog> connectionLogs = user.getConnectionLogs();
         for (Iterator<UserConnectionLog> iteratorUserConnectionLog = connectionLogs.iterator(); iteratorUserConnectionLog.hasNext();) {
             UserConnectionLog connectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
-            UserConnectionLogValueBean userConnectionLogValueBean = new UserConnectionLogValueBean();
-            userConnectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
-            userConnectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
+            UserConnectionLogValueBean connectionLogValueBean = new UserConnectionLogValueBean();
+            connectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
+            connectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
             if (StringUtils.isNotEmpty(connectionLog.getHost())) {
-                userConnectionLogValueBean.setHost(connectionLog.getHost());
+                connectionLogValueBean.setHost(connectionLog.getHost());
             }
-            userConnectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
+            connectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
             if (StringUtils.isNotEmpty(connectionLog.getPublicAddress())) {
-                userConnectionLogValueBean.setPublicAddress(connectionLog.getPublicAddress());
+                connectionLogValueBean.setPublicAddress(connectionLog.getPublicAddress());
             }
-            userConnectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
+            connectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
             if (StringUtils.isNotEmpty(connectionLog.getPrivateAddress())) {
-                userConnectionLogValueBean.setPublicAddress(connectionLog.getPrivateAddress());
+                connectionLogValueBean.setPublicAddress(connectionLog.getPrivateAddress());
             }
-            userViewBean.getUserConnectionLogs().add(userConnectionLogValueBean);
+            userViewBean.getUserConnectionLogs().add(connectionLogValueBean);
         }
 
         final List<String> excludedPatterns = new ArrayList<String>();

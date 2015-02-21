@@ -401,6 +401,24 @@ public class User extends AbstractEntity {
         return connectionLogs;
     }
 
+    public List<UserConnectionLog> getSortedConnectionLogs() {
+        List<UserConnectionLog> sortedConnectionLogs = null;
+        if (connectionLogs != null 
+                && Hibernate.isInitialized(connectionLogs)) {
+            sortedConnectionLogs = new LinkedList<UserConnectionLog>(connectionLogs);
+            Collections.sort(sortedConnectionLogs, new Comparator<UserConnectionLog>() {
+                @Override
+                public int compare(UserConnectionLog o1, UserConnectionLog o2) {
+                    if (o1 != null && o1.getLoginDate() != null && o2 != null && o2.getLoginDate() != null) {
+                        return o1.getLoginDate().compareTo(o2.getLoginDate());
+                    }
+                    return 0;
+                }
+            });
+        }
+        return sortedConnectionLogs;
+    }
+    
     public void setConnectionLogs(Set<UserConnectionLog> connectionLogs) {
         this.connectionLogs = connectionLogs;
     }
