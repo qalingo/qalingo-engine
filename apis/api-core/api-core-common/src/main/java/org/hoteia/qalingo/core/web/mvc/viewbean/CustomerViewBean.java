@@ -248,8 +248,9 @@ public class CustomerViewBean extends AbstractViewBean {
                     return address;
                 }
             }
-            return addresses.iterator().next();
-            
+            if(addresses.size() > 0){
+                return addresses.iterator().next();
+            }
         }
         return null;
     }
