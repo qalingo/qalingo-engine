@@ -152,6 +152,9 @@ public class Customer extends AbstractEntity {
     @Column(name = "NETWORK_ORIGN")
     private String networkOrigin;
 
+    @Column(name = "MARKET_AREA_ORIGN")
+    private String marketAreaOrigin;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -495,6 +498,14 @@ public class Customer extends AbstractEntity {
     	this.networkOrigin = networkOrigin;
     }
 
+	public String getMarketAreaOrigin() {
+        return marketAreaOrigin;
+    }
+	
+	public void setMarketAreaOrigin(String marketAreaOrigin) {
+        this.marketAreaOrigin = marketAreaOrigin;
+    }
+	
 	public Date getDateCreate() {
 		return dateCreate;
 	}
