@@ -119,18 +119,21 @@ public abstract class AbstractQalingoController {
     	final String contextValue = requestUtil.getCurrentContextNameValue();
 
 	    EngineSetting webTrackingNumberEngineSetting = engineSettingService.getSettingWebTrackingNumber();
-	    EngineSettingValue webTrackingNumberEngineSettingValue = webTrackingNumberEngineSetting.getEngineSettingValue(contextValue);
-	    if(webTrackingNumberEngineSettingValue != null
-	    		&& StringUtils.isNotEmpty(webTrackingNumberEngineSettingValue.getValue())){
-	    	trackingViewBean = new TrackingViewBean();
-	    	trackingViewBean.setTrackingNumber(webTrackingNumberEngineSettingValue.getValue());
-	    	
-		    EngineSetting webTrackingNameEngineSetting = engineSettingService.getSettingWebTrackingName();
-		    EngineSettingValue webTrackingNameEngineSettingValue = webTrackingNameEngineSetting.getEngineSettingValue(contextValue);
-		    if(webTrackingNameEngineSettingValue != null){
-		    	trackingViewBean.setTrackingName(webTrackingNameEngineSettingValue.getValue());
-		    }
-
+	    if(webTrackingNumberEngineSetting != null){
+	        EngineSettingValue webTrackingNumberEngineSettingValue = webTrackingNumberEngineSetting.getEngineSettingValue(contextValue);
+	        if(webTrackingNumberEngineSettingValue != null
+	                && StringUtils.isNotEmpty(webTrackingNumberEngineSettingValue.getValue())){
+	            trackingViewBean = new TrackingViewBean();
+	            trackingViewBean.setTrackingNumber(webTrackingNumberEngineSettingValue.getValue());
+	            
+	            EngineSetting webTrackingNameEngineSetting = engineSettingService.getSettingWebTrackingName();
+	            if(webTrackingNameEngineSetting != null){
+	                EngineSettingValue webTrackingNameEngineSettingValue = webTrackingNameEngineSetting.getEngineSettingValue(contextValue);
+	                if(webTrackingNameEngineSettingValue != null){
+	                    trackingViewBean.setTrackingName(webTrackingNameEngineSettingValue.getValue());
+	                }
+	            }
+	        }
 	    }
 		return trackingViewBean;
 	}

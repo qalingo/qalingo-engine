@@ -9,6 +9,9 @@
  */
 package org.hoteia.qalingo.core.web.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -2092,12 +2095,18 @@ public class RequestUtil {
         	if(StringUtils.isNotEmpty(value)
         	        && value.contains(catalogVirtualCode)){
         	    if(value.contains(Constants.PIPE)){
-                    String[] splits = info.getValue().split(Constants.PIPE);
-                    for (int i = 0; i < splits.length; i++) {
-                        String splitValue = splits[i];
-                        if(splitValue.contains(catalogVirtualCode)){
-                            cookieProductValues.add(splits[i]);
+        	        try {
+                        String decodedValue = URLDecoder.decode(info.getValue(), Constants.UTF8);
+                        String[] splits = decodedValue.split(Constants.PIPE);
+                        for (int i = 0; i < splits.length; i++) {
+                            String splitValue = splits[i];
+                            if(splitValue.contains(catalogVirtualCode)){
+                                cookieProductValues.add(splits[i]);
+                            }
                         }
+                        
+                    } catch (UnsupportedEncodingException e) {
+                        logger.error("Cookie decode value", e);
                     }
         	    }
         	}
@@ -2144,7 +2153,7 @@ public class RequestUtil {
                 if(!flag){
                     String values = value;
                     values += Constants.PIPE + cookieProductValue;
-                    info.setValue(values);
+                    info.setValue(URLEncoder.encode(values, Constants.UTF8));
                     info.setPath("/");
                     info.setMaxAge(Constants.COOKIES_LENGTH);
                     info.setDomain(request.getServerName());

@@ -397,14 +397,20 @@ public class GeolocService {
     
     protected File getCityDataBase(){
         EngineSetting engineSetting = engineSettingService.getSettingGeolocCityFilePath();
-        final File database = new File(engineSetting.getDefaultValue());
-        return database;
+        if(engineSetting != null){
+            final File database = new File(engineSetting.getDefaultValue());
+            return database;
+        }
+        return null;
     }
     
     protected File getCountryDataBase(){
         EngineSetting engineSetting = engineSettingService.getSettingGeolocCountryFilePath();
-        final File database = new File(engineSetting.getDefaultValue());
-        return database;
+        if(engineSetting != null){
+            final File database = new File(engineSetting.getDefaultValue());
+            return database;
+        }
+        return null;
     }
     
 }
