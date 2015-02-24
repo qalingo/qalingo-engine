@@ -2091,25 +2091,25 @@ public class RequestUtil {
         }   
         List<String> cookieProductValues = new ArrayList<String>();
         if(found){
-            String value = info.getValue();
-        	if(StringUtils.isNotEmpty(value)
-        	        && value.contains(catalogVirtualCode)){
-        	    if(value.contains(Constants.PIPE)){
-        	        try {
-                        String decodedValue = URLDecoder.decode(info.getValue(), Constants.UTF8);
-                        String[] splits = decodedValue.split(Constants.PIPE);
+	        try {
+	        	String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
+	        	if(StringUtils.isNotEmpty(value)
+	        	        && value.contains(catalogVirtualCode)){
+	        	    if(value.contains(Constants.PIPE)){
+                        String[] splits = value.split(Constants.PIPE);
                         for (int i = 0; i < splits.length; i++) {
                             String splitValue = splits[i];
                             if(splitValue.contains(catalogVirtualCode)){
                                 cookieProductValues.add(splits[i]);
                             }
                         }
-                        
-                    } catch (UnsupportedEncodingException e) {
-                        logger.error("Cookie decode value", e);
-                    }
-        	    }
-        	}
+	        	    } else {
+	        	    	cookieProductValues.add(value);
+	        	    }
+	        	}
+            } catch (UnsupportedEncodingException e) {
+                logger.error("Cookie decode value", e);
+            }
         } 
         return cookieProductValues;
     }
@@ -2121,6 +2121,7 @@ public class RequestUtil {
         String cookieProductValue = catalogCode + Constants.SEMI_COLON + virtualCategoryCode + Constants.SEMI_COLON + productMarketingCode + Constants.SEMI_COLON + productSkuCode;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
+        String domain = request.getServerName();
         if(cookies !=  null){
 	        for(int i=0; i < cookies.length; i++) {
 	            info = cookies[i];
@@ -2132,39 +2133,55 @@ public class RequestUtil {
         }   
         if(found){
         	Boolean flag = false;
-        	String value = info.getValue();
+        	String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
         	if(value.contains(Constants.PIPE)){
                 String[] splits = value.split(Constants.PIPE);
-                for(String cookieValue : splits){
-                    if(cookieValue.contains(Constants.SEMI_COLON)){
-                        if(cookieValue.contains(cookieProductValue)){
+                for(String cookieProductValueIt : splits){
+                    if(cookieProductValueIt.contains(Constants.SEMI_COLON)){
+                        if(cookieProductValueIt.contains(cookieProductValue)){
                             flag = true;
                         } 
-                        
                     } else {
-                        // VALUE DOESN'T CONTAIN SEMI COLON : CLEAN NON COMPATIBLE VALUE
+                        // VALUE DOESN'T CONTAIN SEMI COLON : CLEAN THE COOKIE - NON COMPATIBLE VALUE
                         info.setValue("");
                         info.setPath("/");
                         info.setMaxAge(Constants.COOKIES_LENGTH);
-                        info.setDomain(request.getServerName());
+                        info.setDomain(domain);
                         response.addCookie(info);               
                     }
                 }
-                if(!flag){
-                    String values = value;
-                    values += Constants.PIPE + cookieProductValue;
-                    info.setValue(URLEncoder.encode(values, Constants.UTF8));
+        	} else {
+        		if(value.contains(Constants.SEMI_COLON)){
+                    if(value.contains(cookieProductValue)){
+                        flag = true;
+                    } 
+                } else {
+                    // VALUE DOESN'T CONTAIN SEMI COLON : CLEAN THE COOKIE - NON COMPATIBLE VALUE
+                	value = "";
+                    info.setValue("");
                     info.setPath("/");
                     info.setMaxAge(Constants.COOKIES_LENGTH);
-                    info.setDomain(request.getServerName());
+                    info.setDomain(domain);
                     response.addCookie(info);               
-                } 
+                }
         	}
+            if(!flag){
+                String values = value;
+                if(StringUtils.isNotEmpty(values)){
+                    values += Constants.PIPE;
+                }
+                values += cookieProductValue;
+                info.setValue(URLEncoder.encode(values, Constants.UTF8));
+                info.setPath("/");
+                info.setMaxAge(Constants.COOKIES_LENGTH);
+                info.setDomain(domain);
+                response.addCookie(info);               
+            } 
         } else {
 			info = new Cookie(getRecentProductsCookieName(), cookieProductValue);
             info.setPath("/");
 			info.setMaxAge(Constants.COOKIES_LENGTH);
-			info.setDomain(request.getServerName());
+			info.setDomain(domain);
 			response.addCookie(info);
         }
     }

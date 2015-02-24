@@ -94,6 +94,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productAssociationLinks.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
         
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalog.getName()));
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.attributes.getName()));
