@@ -160,7 +160,8 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object sourceObj) {
+        Object obj = deproxy(sourceObj);
         if (this == obj)
             return true;
         if (obj == null)

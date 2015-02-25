@@ -182,7 +182,8 @@ public class RuleReferentialAttribute extends AbstractAttribute<RuleReferentialA
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object sourceObj) {
+        Object obj = deproxy(sourceObj);
         if (this == obj)
             return true;
         if (obj == null)
