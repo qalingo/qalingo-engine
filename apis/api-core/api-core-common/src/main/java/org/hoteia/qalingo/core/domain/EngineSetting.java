@@ -33,7 +33,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_ENGINE_SETTING")
-public class EngineSetting extends AbstractEntity {
+public class EngineSetting extends AbstractEntity<EngineSetting> {
 
 	/**
 	 * Generated UID

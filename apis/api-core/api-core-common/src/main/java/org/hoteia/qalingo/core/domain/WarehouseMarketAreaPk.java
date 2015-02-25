@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class WarehouseMarketAreaPk extends AbstractEntity {
+public class WarehouseMarketAreaPk extends AbstractEntity<WarehouseMarketAreaRel> {
 
     /**
      * Generated UID

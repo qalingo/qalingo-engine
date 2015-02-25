@@ -23,7 +23,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "TECO_STORE_BUSINESS_HOUR")
-public class StoreBusinessHour extends AbstractEntity {
+public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
 
     /**
      * Generated UID

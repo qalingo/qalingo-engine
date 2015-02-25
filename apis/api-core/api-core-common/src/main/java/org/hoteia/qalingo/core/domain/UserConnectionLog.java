@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TBO_USER_CONNECTION_LOG")
-public class UserConnectionLog extends AbstractEntity {
+public class UserConnectionLog extends AbstractEntity<UserConnectionLog> {
 
 	/**
 	 * Generated UID

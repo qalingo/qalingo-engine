@@ -41,7 +41,7 @@ import org.hoteia.qalingo.core.Constants;
 
 @Entity
 @Table(name = "TECO_STORE")
-public class Store extends AbstractExtendEntity {
+public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
 
     /**
      * Generated UID

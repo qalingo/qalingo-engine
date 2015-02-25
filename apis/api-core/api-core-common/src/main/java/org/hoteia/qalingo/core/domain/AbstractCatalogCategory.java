@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractCatalogCategory<A, B, C, D> extends AbstractExtendEntity {
+public abstract class AbstractCatalogCategory<C, E, A extends AbstractAttribute<A>, D> extends AbstractExtendEntity<E, A> {
 
     /**
 	 * Generated UID
@@ -36,17 +36,17 @@ public abstract class AbstractCatalogCategory<A, B, C, D> extends AbstractExtend
 
     public abstract Integer getRanking();
     
-    public abstract A getCatalog();
+    public abstract C getCatalog();
     
     public abstract boolean isRoot();
 
-    public abstract B getParentCatalogCategory();
+    public abstract E getParentCatalogCategory();
 
-    public abstract Set<C> getAttributes();
+    public abstract Set<A> getAttributes();
 
-    public abstract Set<B> getCatalogCategories();
+    public abstract Set<E> getCatalogCategories();
 
-    public abstract List<B> getSortedChildCatalogCategories();    
+    public abstract List<E> getSortedChildCatalogCategories();    
 
     public abstract Set<D> getCatalogCategoryProductSkuRels();
     

@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class CatalogCategoryMasterProductSkuPk extends AbstractEntity {
+public class CatalogCategoryMasterProductSkuPk extends AbstractEntity<CatalogCategoryMasterProductSkuPk> {
 
     /**
      * Generated UID

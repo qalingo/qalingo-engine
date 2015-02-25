@@ -24,7 +24,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_PERMISSION")
-public class UserPermission extends AbstractEntity {
+public class UserPermission extends AbstractEntity<UserPermission> {
 
 	/**
 	 * Generated UID

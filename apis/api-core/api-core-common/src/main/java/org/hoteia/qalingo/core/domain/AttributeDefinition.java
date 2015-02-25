@@ -24,7 +24,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_ATTRIBUTE_DEFINITION")
-public class AttributeDefinition extends AbstractEntity {
+public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
 
 	/**
 	 * Generated UID

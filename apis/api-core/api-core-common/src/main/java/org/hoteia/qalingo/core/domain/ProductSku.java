@@ -40,7 +40,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU")
-public class ProductSku extends AbstractExtendEntity {
+public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttribute> {
 
 	/**
 	 * Generated UID

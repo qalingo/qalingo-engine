@@ -25,7 +25,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_RULE_REFERENTIAL_ATTRIBUTE")
-public class RuleReferentialAttribute extends AbstractAttribute {
+public class RuleReferentialAttribute extends AbstractAttribute<RuleReferentialAttribute> {
 
 	/**
 	 * Generated UID

@@ -13,9 +13,11 @@ import java.io.Serializable;
 
 import javax.persistence.Transient;
 
+import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.proxy.LazyInitializer;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 
-public abstract class AbstractEntity implements Serializable {
+public abstract class AbstractEntity<E> implements Serializable {
 
     /**
      * Generated UID
@@ -32,5 +34,24 @@ public abstract class AbstractEntity implements Serializable {
     public void setFetchPlan(FetchPlan fetchPlan) {
         this.fetchPlan = fetchPlan;
     }
-    
+ 
+    public <E> E deproxy (E obj) {
+        if (obj == null)
+            return obj;
+        if (obj instanceof HibernateProxy) {
+            // Unwrap Proxy;
+            //      -- loading, if necessary.
+            HibernateProxy proxy = (HibernateProxy) obj;
+            LazyInitializer li = proxy.getHibernateLazyInitializer();
+            return (E) li.getImplementation();
+        } 
+        return obj;
+    }
+
+    public static boolean isProxy (Object obj) {
+        if (obj instanceof HibernateProxy)
+            return true;
+        return false;
+    }
+
 }

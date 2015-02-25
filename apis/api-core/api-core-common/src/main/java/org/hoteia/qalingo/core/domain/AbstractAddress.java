@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-public abstract class AbstractAddress extends AbstractEntity {
+public abstract class AbstractAddress<E> extends AbstractEntity<E> {
 
 	/**
 	 * Generated UID

@@ -24,11 +24,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.criteria.Order;
 
 @Entity
 @Table(name = "TECO_ORDER_ITEM")
-public class OrderItem extends AbstractEntity {
+public class OrderItem extends AbstractEntity<OrderItem> {
 
     /**
      * Generated UID

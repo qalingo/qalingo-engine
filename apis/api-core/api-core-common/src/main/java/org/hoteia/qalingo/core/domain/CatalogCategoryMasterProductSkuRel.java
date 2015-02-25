@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 @AssociationOverrides({
     @AssociationOverride(name = "pk.catalogCategoryMaster", joinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID")),
     @AssociationOverride(name = "pk.productSku", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID")) })
-public class CatalogCategoryMasterProductSkuRel extends AbstractEntity {
+public class CatalogCategoryMasterProductSkuRel extends AbstractEntity<CatalogCategoryMasterProductSkuRel> {
 
     /**
      * Generated UID

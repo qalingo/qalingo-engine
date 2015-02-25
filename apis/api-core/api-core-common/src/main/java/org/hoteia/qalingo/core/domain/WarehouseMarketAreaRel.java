@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 @AssociationOverrides({
     @AssociationOverride(name = "pk.warehouse", joinColumns = @JoinColumn(name = "WAREHOUSE_ID")),
     @AssociationOverride(name = "pk.marketarea", joinColumns = @JoinColumn(name = "MARKET_AREA_ID")) })
-public class WarehouseMarketAreaRel extends AbstractEntity {
+public class WarehouseMarketAreaRel extends AbstractEntity<WarehouseMarketAreaRel> {
 
     /**
      * Generated UID

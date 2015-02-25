@@ -25,7 +25,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_EMAIL")
-public class Email extends AbstractEntity {
+public class Email extends AbstractEntity<Email> {
 
 	/**
 	 * Generated UID

@@ -38,7 +38,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND")
-public class ProductBrand extends AbstractExtendEntity {
+public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBrandAttribute> {
 
 	/**
 	 * Generated UID

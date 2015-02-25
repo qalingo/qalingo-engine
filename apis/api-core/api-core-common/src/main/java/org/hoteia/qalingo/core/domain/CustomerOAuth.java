@@ -27,7 +27,7 @@ import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 
 @Entity
 @Table(name="TECO_CUSTOMER_OAUTH")
-public class CustomerOAuth extends AbstractEntity {
+public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
 
 	/**
 	 * Generated UID

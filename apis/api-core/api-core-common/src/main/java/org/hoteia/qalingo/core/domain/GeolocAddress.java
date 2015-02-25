@@ -24,7 +24,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_GEOLOC_ADDRESS")
-public class GeolocAddress extends AbstractEntity {
+public class GeolocAddress extends AbstractEntity<GeolocAddress> {
 
     /**
      * Generated UID

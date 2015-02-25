@@ -47,7 +47,7 @@ import org.hibernate.Hibernate;
     name="PAYMENT_GATEWAY_TYPE",
     discriminatorType=DiscriminatorType.STRING
 )
-public abstract class AbstractPaymentGateway extends AbstractEntity {
+public abstract class AbstractPaymentGateway<E> extends AbstractEntity<E> {
 
 	/**
 	 * Generated UID

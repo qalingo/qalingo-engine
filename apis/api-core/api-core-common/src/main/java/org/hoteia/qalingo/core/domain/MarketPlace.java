@@ -35,7 +35,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_MARKETPLACE")
-public class MarketPlace extends AbstractEntity {
+public class MarketPlace extends AbstractEntity<MarketPlace> {
 
     /**
      * Generated UID

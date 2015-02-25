@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name="TECO_CURRENCY_REFERENTIAL")
-public class CurrencyReferential extends AbstractEntity {
+public class CurrencyReferential extends AbstractEntity<CurrencyReferential> {
 
 	/**
 	 * Generated UID

@@ -30,7 +30,7 @@ import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 
 @Entity
 @Table(name="TECO_PRODUCT_ASSOCIATION_LINK")
-public class ProductAssociationLink extends AbstractEntity {
+public class ProductAssociationLink extends AbstractEntity<ProductAssociationLink> {
 
 	/**
 	 * Generated UID

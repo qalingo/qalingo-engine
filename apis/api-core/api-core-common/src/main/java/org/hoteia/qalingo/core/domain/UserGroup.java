@@ -31,7 +31,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_GROUP")
-public class UserGroup extends AbstractEntity {
+public class UserGroup extends AbstractEntity<UserGroup> {
 
 	/**
 	 * Generated UID

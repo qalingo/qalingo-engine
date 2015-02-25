@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND_CUSTOMER_RATE")
-public class ProductBrandCustomerRate extends AbstractEntity {
+public class ProductBrandCustomerRate extends AbstractEntity<ProductBrandCustomerRate> {
 
 	/**
 	 * Generated UID

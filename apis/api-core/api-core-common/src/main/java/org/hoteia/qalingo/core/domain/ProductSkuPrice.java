@@ -27,7 +27,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU_PRICE")
-public class ProductSkuPrice extends AbstractPrice {
+public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 
 	/**
 	 * Generated UID

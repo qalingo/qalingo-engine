@@ -35,7 +35,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_DELIVERY_METHOD")
-public class DeliveryMethod extends AbstractEntity {
+public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
 
     /**
      * Generated UID

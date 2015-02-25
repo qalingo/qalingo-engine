@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
 
-public class CartItemTax extends AbstractEntity {
+public class CartItemTax extends AbstractEntity<CartItemTax> {
 
     /**
 	 * Generated UID

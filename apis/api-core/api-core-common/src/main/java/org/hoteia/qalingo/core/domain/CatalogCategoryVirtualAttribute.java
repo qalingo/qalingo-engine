@@ -28,7 +28,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CATALOG_VIRTUAL_CATEGORY_ATTRIBUTE")
-public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
+public class CatalogCategoryVirtualAttribute extends AbstractAttribute<CatalogCategoryVirtualAttribute> {
 
 	/**
 	 * Generated UID

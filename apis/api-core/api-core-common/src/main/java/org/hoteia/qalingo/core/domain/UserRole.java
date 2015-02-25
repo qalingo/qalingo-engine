@@ -30,7 +30,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_ROLE")
-public class UserRole extends AbstractEntity {
+public class UserRole extends AbstractEntity<UserTokenAuth> {
 
 	/**
 	 * Generated UID

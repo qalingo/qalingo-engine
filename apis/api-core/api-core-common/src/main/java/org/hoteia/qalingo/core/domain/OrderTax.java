@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TECO_ORDER_TAX")
-public class OrderTax extends AbstractEntity {
+public class OrderTax extends AbstractEntity<OrderTax> {
 
     /**
 	 * 

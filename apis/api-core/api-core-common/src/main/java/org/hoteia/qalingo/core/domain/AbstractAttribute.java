@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.domain;
 
 import org.apache.commons.lang.BooleanUtils;
 
-public abstract class AbstractAttribute extends AbstractEntity {
+public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
 
 	/**
 	 * Generated UID

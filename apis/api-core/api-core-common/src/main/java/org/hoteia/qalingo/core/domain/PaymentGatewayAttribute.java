@@ -25,7 +25,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_PAYMENT_GATEWAY_ATTRIBUTE")
-public class PaymentGatewayAttribute extends AbstractAttribute {
+public class PaymentGatewayAttribute extends AbstractAttribute<PaymentGatewayAttribute> {
 
 	/**
 	 * Generated UID

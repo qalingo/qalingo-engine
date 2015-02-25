@@ -18,22 +18,22 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 
-public abstract class AbstractExtendEntity<E> extends AbstractEntity {
+public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> extends AbstractEntity<E> {
 
     /**
      * Generated UID
      */
     private static final long serialVersionUID = -171223653896353957L;
 
-    abstract public Set<E> getAttributes();
+    abstract public Set<A> getAttributes();
     
-    public List<AbstractAttribute> getGlobalAttributes() {
-        List<AbstractAttribute> productSkuGlobalAttributes = null;
+    public List<A> getGlobalAttributes() {
+        List<A> productSkuGlobalAttributes = null;
         if (getAttributes() != null
                 && Hibernate.isInitialized(getAttributes())) {
-            productSkuGlobalAttributes = new ArrayList<AbstractAttribute>();
-            for (Iterator<E> iterator = getAttributes().iterator(); iterator.hasNext();) {
-                AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+            productSkuGlobalAttributes = new ArrayList<A>();
+            for (Iterator<A> iterator = getAttributes().iterator(); iterator.hasNext();) {
+                A attribute = (A) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null 
                         && attributeDefinition.isGlobal()) {
@@ -44,13 +44,13 @@ public abstract class AbstractExtendEntity<E> extends AbstractEntity {
         return productSkuGlobalAttributes;
     }
 
-    public List<AbstractAttribute> getMarketAreaAttributes(Long marketAreaId) {
-        List<AbstractAttribute> productSkuMarketAreaAttributes = null;
+    public List<A> getMarketAreaAttributes(Long marketAreaId) {
+        List<A> productSkuMarketAreaAttributes = null;
         if (getAttributes() != null
                 && Hibernate.isInitialized(getAttributes())) {
-            productSkuMarketAreaAttributes = new ArrayList<AbstractAttribute>();
-            for (Iterator<E> iterator = getAttributes().iterator(); iterator.hasNext();) {
-                AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+            productSkuMarketAreaAttributes = new ArrayList<A>();
+            for (Iterator<A> iterator = getAttributes().iterator(); iterator.hasNext();) {
+                A attribute = (A) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null 
                         && !attributeDefinition.isGlobal()) {
@@ -61,14 +61,14 @@ public abstract class AbstractExtendEntity<E> extends AbstractEntity {
         return productSkuMarketAreaAttributes;
     }
     
-    public AbstractAttribute getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-        AbstractAttribute AbstractAttributeToReturn = null;
+    public A getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
+        A AbstractAttributeToReturn = null;
 
         // 1: GET THE GLOBAL VALUE
-        AbstractAttribute globalAttribute = getAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
+        A globalAttribute = getAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
         // 2: GET THE MARKET AREA VALUE
-        AbstractAttribute marketAreaAttribute = getAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
+        A marketAreaAttribute = getAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
         
         if(marketAreaAttribute != null){
             AbstractAttributeToReturn = marketAreaAttribute;
@@ -79,13 +79,13 @@ public abstract class AbstractExtendEntity<E> extends AbstractEntity {
         return AbstractAttributeToReturn;
     }
     
-    public AbstractAttribute getAttribute(List<AbstractAttribute> attributes, String attributeCode, Long marketAreaId, String localizationCode) {
-        AbstractAttribute attributeToReturn = null;
-        List<AbstractAttribute> attributesFilter = new ArrayList<AbstractAttribute>();
+    public A getAttribute(List<A> attributes, String attributeCode, Long marketAreaId, String localizationCode) {
+        A attributeToReturn = null;
+        List<A> attributesFilter = new ArrayList<A>();
         if(attributes != null) {
             // GET ALL attributes FOR THIS ATTRIBUTE
-            for (Iterator<AbstractAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-                AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+            for (Iterator<A> iterator = attributes.iterator(); iterator.hasNext();) {
+                A attribute = (A) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if(attributeDefinition != null
                         && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
@@ -94,8 +94,8 @@ public abstract class AbstractExtendEntity<E> extends AbstractEntity {
             }
             // REMOVE ALL attributes NOT ON THIS MARKET AREA
             if(marketAreaId != null) {
-                for (Iterator<AbstractAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+                for (Iterator<A> iterator = attributesFilter.iterator(); iterator.hasNext();) {
+                    A attribute = (A) iterator.next();
                     AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                     if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
                         if(attribute.getMarketAreaId() != null
@@ -107,8 +107,8 @@ public abstract class AbstractExtendEntity<E> extends AbstractEntity {
             }
             // FINALLY RETAIN ONLY attributes FOR THIS LOCALIZATION CODE
             if(StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<AbstractAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+                for (Iterator<A> iterator = attributesFilter.iterator(); iterator.hasNext();) {
+                    A attribute = (A) iterator.next();
                     String attributeLocalizationCode = attribute.getLocalizationCode();
                     if(StringUtils.isNotEmpty(attributeLocalizationCode)
                             && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
@@ -131,15 +131,15 @@ public abstract class AbstractExtendEntity<E> extends AbstractEntity {
         return attributeToReturn;
     }
     
-    public AbstractAttribute getAttribute(String attributeCode) {
+    public A getAttribute(String attributeCode) {
         return getAttribute(attributeCode, null, null);
     }
 
-    public AbstractAttribute getAttribute(String attributeCode, String localizationCode) {
+    public A getAttribute(String attributeCode, String localizationCode) {
         return getAttribute(attributeCode, null, localizationCode);
     }
 
-    public AbstractAttribute getAttribute(String attributeCode, Long marketAreaId) {
+    public A getAttribute(String attributeCode, Long marketAreaId) {
         return getAttribute(attributeCode, marketAreaId, null);
     }
 }

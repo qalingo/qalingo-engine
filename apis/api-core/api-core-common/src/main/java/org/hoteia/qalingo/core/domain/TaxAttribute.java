@@ -28,7 +28,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_TAX_ATTRIBUTE")
-public class TaxAttribute extends AbstractAttribute {
+public class TaxAttribute extends AbstractAttribute<TaxCountry> {
 
     /**
      * Generated UID

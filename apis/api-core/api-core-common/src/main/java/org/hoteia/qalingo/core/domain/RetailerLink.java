@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TECO_RETAILER_LINK")
-public class RetailerLink extends AbstractEntity {
+public class RetailerLink extends AbstractEntity<RetailerLink> {
 
 	/**
 	 * Generated UID

@@ -29,7 +29,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_CART_ITEM")
-public class CartItem extends AbstractEntity {
+public class CartItem extends AbstractEntity<CartItem> {
 
     /**
      * Generated UID

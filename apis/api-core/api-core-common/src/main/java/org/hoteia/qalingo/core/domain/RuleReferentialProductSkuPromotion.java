@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("productSkuPromotion")
-public class RuleReferentialProductSkuPromotion extends AbstractRuleReferential {
+public class RuleReferentialProductSkuPromotion extends AbstractRuleReferential<RuleReferentialProductSkuPromotion> {
 
 	/**
 	 * Generated UID

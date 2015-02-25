@@ -35,7 +35,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_ORDER_CUSTOMER")
-public class OrderCustomer extends AbstractEntity {
+public class OrderCustomer extends AbstractEntity<OrderCustomer> {
 
 	/**
 	 * Generated UID

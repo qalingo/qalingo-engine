@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TBO_SERVER_STATUS")
-public class ServerStatus extends AbstractEntity {
+public class ServerStatus extends AbstractEntity<ServerStatus> {
 
     /**
      * Generated UID

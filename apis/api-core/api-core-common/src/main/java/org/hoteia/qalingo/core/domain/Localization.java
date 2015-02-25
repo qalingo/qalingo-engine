@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name="TECO_LOCALIZATION")
-public class Localization extends AbstractEntity {
+public class Localization extends AbstractEntity<Localization> {
 
 	/**
 	 * Generated UID

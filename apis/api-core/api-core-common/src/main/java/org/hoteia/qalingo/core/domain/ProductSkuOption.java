@@ -10,8 +10,6 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +26,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_OPTION")
-public class ProductSkuOption extends AbstractEntity {
+public class ProductSkuOption extends AbstractEntity<ProductSkuOption> {
 
     /**
      * Generated UID

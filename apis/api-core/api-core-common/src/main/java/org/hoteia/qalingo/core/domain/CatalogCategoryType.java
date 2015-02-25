@@ -30,7 +30,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CATALOG_CATEGORY_TYPE")
-public class CatalogCategoryType extends AbstractEntity {
+public class CatalogCategoryType extends AbstractEntity<CatalogCategoryType> {
 
 	/**
 	 * Generated UID

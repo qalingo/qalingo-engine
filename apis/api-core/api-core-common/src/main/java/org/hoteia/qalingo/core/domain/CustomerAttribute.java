@@ -28,7 +28,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CUSTOMER_ATTRIBUTE")
-public class CustomerAttribute extends AbstractAttribute {
+public class CustomerAttribute extends AbstractAttribute<CustomerAttribute> {
 
 	/**
 	 * Generated UID

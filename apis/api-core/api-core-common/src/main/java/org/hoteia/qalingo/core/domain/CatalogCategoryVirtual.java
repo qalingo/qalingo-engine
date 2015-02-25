@@ -429,13 +429,14 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        Object deproxedObj = deproxy(obj);
+        if (this == deproxedObj)
             return true;
-        if (obj == null)
+        if (deproxedObj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (getClass() != deproxedObj.getClass())
             return false;
-        CatalogCategoryVirtual other = (CatalogCategoryVirtual) obj;
+        CatalogCategoryVirtual other = (CatalogCategoryVirtual) deproxedObj;
         if (code == null) {
             if (other.code != null)
                 return false;

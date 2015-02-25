@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_CUSTOMER_OPTIN")
-public class CustomerOptin extends AbstractEntity {
+public class CustomerOptin extends AbstractEntity<CustomerOptin> {
 
 	/**
 	 * Generated UID

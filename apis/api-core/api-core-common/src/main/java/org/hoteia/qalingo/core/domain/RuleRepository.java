@@ -35,7 +35,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_RULE_REPOSITORY")
-public class RuleRepository extends AbstractEntity {
+public class RuleRepository extends AbstractEntity<RuleRepository> {
 
 	/**
 	 * Generated UID

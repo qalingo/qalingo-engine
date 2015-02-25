@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TECO_TAX_STATE")
-public class TaxState extends AbstractEntity {
+public class TaxState extends AbstractEntity<TaxState> {
 
 	/**
 	 * Generated UID

@@ -23,7 +23,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CMS_CONTENT")
-public class CmsContent extends AbstractEntity {
+public class CmsContent extends AbstractEntity<CmsContent> {
 
 	/**
 	 * Generated UID

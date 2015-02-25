@@ -43,7 +43,7 @@ import org.apache.commons.lang.StringUtils;
     name="RULE_TYPE",
     discriminatorType=DiscriminatorType.STRING
 )
-public abstract class AbstractRuleReferential extends AbstractEntity {
+public abstract class AbstractRuleReferential<E> extends AbstractEntity<E> {
 
 	/**
 	 * Generated UID

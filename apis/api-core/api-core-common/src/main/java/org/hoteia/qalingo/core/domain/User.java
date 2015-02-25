@@ -40,7 +40,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TBO_USER")
-public class User extends AbstractEntity {
+public class User extends AbstractEntity<User> {
 
     /**
      * Generated UID

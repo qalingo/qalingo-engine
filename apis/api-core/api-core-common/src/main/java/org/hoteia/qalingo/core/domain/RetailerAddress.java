@@ -26,7 +26,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_RETAILER_ADDRESS")
-public class RetailerAddress extends AbstractAddress {
+public class RetailerAddress extends AbstractAddress<RetailerAddress> {
 
 	/**
 	 * Generated UID

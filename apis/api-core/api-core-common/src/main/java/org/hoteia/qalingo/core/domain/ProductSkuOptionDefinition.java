@@ -30,7 +30,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION")
-public class ProductSkuOptionDefinition extends AbstractExtendEntity {
+public class ProductSkuOptionDefinition extends AbstractEntity<ProductSkuOptionDefinition> {
 
     /**
      * Generated UID

@@ -29,7 +29,7 @@ import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 
 @Entity
 @Table(name="TBO_BATCH_PROCESS_OBJECT")
-public class BatchProcessObject extends AbstractEntity {
+public class BatchProcessObject extends AbstractEntity<BatchProcessObject> {
 
 	/**
 	 * Generated UID

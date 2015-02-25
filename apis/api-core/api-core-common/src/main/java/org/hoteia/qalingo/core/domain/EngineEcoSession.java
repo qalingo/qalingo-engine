@@ -36,7 +36,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION")
-public class EngineEcoSession extends AbstractEngineSession {
+public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
 
     /**
      * Generated UID

@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("paymentGatewayFake")
-public class PaymentGatewayFake extends AbstractPaymentGateway {
+public class PaymentGatewayFake extends AbstractPaymentGateway<PaymentGatewayFake> {
 
 	/**
 	 * Generated UID

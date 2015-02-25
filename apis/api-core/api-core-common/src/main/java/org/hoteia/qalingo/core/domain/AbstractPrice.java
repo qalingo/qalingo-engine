@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Transient;
 
-public abstract class AbstractPrice extends AbstractEntity {
+public abstract class AbstractPrice<E> extends AbstractEntity<E> {
 
     /**
      * Generated UID

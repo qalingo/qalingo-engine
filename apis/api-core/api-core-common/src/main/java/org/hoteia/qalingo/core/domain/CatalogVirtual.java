@@ -40,7 +40,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_CATALOG_VIRTUAL")
-public class CatalogVirtual extends AbstractCatalog<CatalogCategoryVirtual> {
+public class CatalogVirtual extends AbstractCatalog<CatalogVirtual, CatalogCategoryVirtual> {
 
     /**
      * Generated UID

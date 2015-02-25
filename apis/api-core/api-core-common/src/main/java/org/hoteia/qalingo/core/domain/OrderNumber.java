@@ -19,7 +19,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_ORDER_NUMBER")
-public class OrderNumber extends AbstractEntity {
+public class OrderNumber extends AbstractEntity<OrderNumber> {
 
 	/**
 	 * Generated UID

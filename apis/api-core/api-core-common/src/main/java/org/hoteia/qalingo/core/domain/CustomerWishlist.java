@@ -23,7 +23,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CUSTOMER_WISHLIST")
-public class CustomerWishlist extends AbstractEntity {
+public class CustomerWishlist extends AbstractEntity<CustomerWishlist> {
 
 	/**
 	 * Generated UID

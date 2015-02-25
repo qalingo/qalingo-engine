@@ -25,7 +25,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "TECO_GEOLOC_CITY", uniqueConstraints = @UniqueConstraint(columnNames = { "city", "country" }))
-public class GeolocCity extends AbstractEntity {
+public class GeolocCity extends AbstractEntity<GeolocCity> {
 
     /**
      * Generated UID

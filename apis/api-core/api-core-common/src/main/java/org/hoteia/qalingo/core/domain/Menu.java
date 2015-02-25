@@ -31,7 +31,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_MENU")
-public class Menu extends AbstractEntity {
+public class Menu extends AbstractEntity<Menu> {
 
 	/**
 	 * Generated UID

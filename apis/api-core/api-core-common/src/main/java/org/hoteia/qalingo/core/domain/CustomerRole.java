@@ -30,7 +30,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_ROLE")
-public class CustomerRole extends AbstractEntity {
+public class CustomerRole extends AbstractEntity<CustomerRole> {
 
 	/**
 	 * Generated UID

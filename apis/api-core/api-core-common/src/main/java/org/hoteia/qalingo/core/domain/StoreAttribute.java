@@ -28,7 +28,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_STORE_ATTRIBUTE")
-public class StoreAttribute extends AbstractAttribute {
+public class StoreAttribute extends AbstractAttribute<StoreAttribute> {
 
 	/**
 	 * Generated UID

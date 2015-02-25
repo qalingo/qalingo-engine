@@ -38,7 +38,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_CATALOG_MASTER")
-public class CatalogMaster extends AbstractCatalog<CatalogCategoryMaster> {
+public class CatalogMaster extends AbstractCatalog<CatalogMaster, CatalogCategoryMaster> {
 
 	/**
 	 * Generated UID

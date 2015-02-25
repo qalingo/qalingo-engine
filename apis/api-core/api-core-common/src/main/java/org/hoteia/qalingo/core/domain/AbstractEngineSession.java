@@ -10,7 +10,7 @@
 package org.hoteia.qalingo.core.domain;
 
 
-public abstract class AbstractEngineSession extends AbstractEntity {
+public abstract class AbstractEngineSession<E> extends AbstractEntity<E> {
 
     /**
      * Generated UID

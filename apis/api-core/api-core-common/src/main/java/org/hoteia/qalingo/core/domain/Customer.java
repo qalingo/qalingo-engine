@@ -43,7 +43,7 @@ import org.hoteia.qalingo.core.Constants;
 
 @Entity
 @Table(name="TECO_CUSTOMER")
-public class Customer extends AbstractEntity {
+public class Customer extends AbstractEntity<Customer> {
 
 	/**
 	 * Generated UID

@@ -12,7 +12,7 @@ package org.hoteia.qalingo.core.domain;
 import java.util.Date;
 import java.util.Set;
 
-public abstract class AbstractCatalog<A> extends AbstractEntity {
+public abstract class AbstractCatalog<E, A> extends AbstractEntity<E> {
 
 	/**
 	 * Generated UID

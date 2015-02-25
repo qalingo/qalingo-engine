@@ -28,7 +28,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CATALOG_CATEGORY_TYPE_ATTRIBUTE")
-public class CatalogCategoryTypeAttribute extends AbstractAttribute {
+public class CatalogCategoryTypeAttribute extends AbstractAttribute<CatalogCategoryTypeAttribute> {
 
 	/**
 	 * Generated UID
