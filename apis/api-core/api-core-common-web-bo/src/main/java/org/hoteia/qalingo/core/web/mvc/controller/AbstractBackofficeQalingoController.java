@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
+import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
@@ -75,6 +76,9 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 
     @Autowired
     protected WebBackofficeService webBackofficeService;
+    
+    @Autowired
+    protected SecurityRequestUtil securityRequestUtil;
     
     @Autowired
     protected SecurityUtil securityUtil;
