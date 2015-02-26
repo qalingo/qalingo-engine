@@ -17,11 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
@@ -60,6 +59,9 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 
     @Autowired
     protected SecurityRequestUtil securityRequestUtil;
+    
+    @Autowired
+    protected SecurityUtil securityUtil;
     
     /**
      * 
@@ -119,7 +121,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
         } else {
             headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
         }
-        String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+//        String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
         modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
     }
 	

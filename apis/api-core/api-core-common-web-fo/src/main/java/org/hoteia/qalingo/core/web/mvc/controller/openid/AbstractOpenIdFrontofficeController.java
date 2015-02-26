@@ -22,8 +22,6 @@ import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.helper.SecurityUtil;
-import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.WebManagementService;
@@ -60,16 +58,8 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
     @Autowired
     protected AttributeService attributeService;
 
-    @Autowired
-    protected SecurityRequestUtil securityRequestUtil;
-	
-    @Autowired
-    protected SecurityUtil securityUtil;
-    
 	void handleAuthenticationData(final HttpServletRequest request, final OpenIdAuthentication auth) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Market market = requestData.getMarket();
-        final MarketArea marketArea = requestData.getMarketArea();
 
 		final String email = auth.getEmail();
 		Customer customer = customerService.getCustomerByLoginOrEmail(email);

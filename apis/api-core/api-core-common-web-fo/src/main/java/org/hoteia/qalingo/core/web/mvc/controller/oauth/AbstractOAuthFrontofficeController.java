@@ -12,14 +12,7 @@ package org.hoteia.qalingo.core.web.mvc.controller.oauth;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.WebManagementService;
@@ -51,9 +44,6 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	
 	@Autowired
 	protected AttributeService attributeService;
-	
-	@Autowired
-    protected SecurityRequestUtil securityRequestUtil;
 	
 	protected static final Token EMPTY_TOKEN = null;
 

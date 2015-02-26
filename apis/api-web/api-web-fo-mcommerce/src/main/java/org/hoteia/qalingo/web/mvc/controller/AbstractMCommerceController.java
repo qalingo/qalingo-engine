@@ -71,9 +71,6 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
     @Autowired
     protected FormFactory formFactory;
 	
-    @Autowired
-    protected SecurityUtil securityUtil;
-    
     protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
