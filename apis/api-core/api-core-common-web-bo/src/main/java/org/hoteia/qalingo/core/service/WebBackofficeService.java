@@ -941,21 +941,21 @@ public class WebBackofficeService {
     /**
      * 
      */
-    public void buildAndSaveUserNewAccountMail(final RequestData requestData, final UserForm userForm) throws Exception {
+    public void buildAndSaveUserNewAccountMail(final RequestData requestData, final User user) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
 
         final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean = new UserNewAccountConfirmationEmailBean();
-        BeanUtils.copyProperties(userForm, userNewAccountConfirmationEmailBean);
+        BeanUtils.copyProperties(user, userNewAccountConfirmationEmailBean);
         userNewAccountConfirmationEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         userNewAccountConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         userNewAccountConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
-        userNewAccountConfirmationEmailBean.setToEmail(userForm.getEmail());
+        userNewAccountConfirmationEmailBean.setToEmail(user.getEmail());
 
-        userNewAccountConfirmationEmailBean.setTitle(userForm.getTitle());
-        userNewAccountConfirmationEmailBean.setFirstname(userForm.getFirstname());
-        userNewAccountConfirmationEmailBean.setLastname(userForm.getLastname());
-        userNewAccountConfirmationEmailBean.setEmail(userForm.getEmail());
+        userNewAccountConfirmationEmailBean.setTitle(user.getTitle());
+        userNewAccountConfirmationEmailBean.setFirstname(user.getFirstname());
+        userNewAccountConfirmationEmailBean.setLastname(user.getLastname());
+        userNewAccountConfirmationEmailBean.setEmail(user.getEmail());
         
         userNewAccountConfirmationEmailBean.setUserDetailsUrl(backofficeUrlService.buildAbsoluteUrl(requestData, backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData)));
         
