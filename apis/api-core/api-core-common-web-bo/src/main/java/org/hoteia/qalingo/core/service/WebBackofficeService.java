@@ -947,9 +947,9 @@ public class WebBackofficeService {
 
         final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean = new UserNewAccountConfirmationEmailBean();
         BeanUtils.copyProperties(user, userNewAccountConfirmationEmailBean);
-        userNewAccountConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION)));
+        userNewAccountConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         userNewAccountConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
-        userNewAccountConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION)));
+        userNewAccountConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
         userNewAccountConfirmationEmailBean.setToEmail(user.getEmail());
 
         userNewAccountConfirmationEmailBean.setTitle(user.getTitle());
