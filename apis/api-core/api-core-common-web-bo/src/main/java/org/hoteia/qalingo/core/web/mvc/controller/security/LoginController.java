@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.BooleanUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -42,12 +41,11 @@ public class LoginController extends AbstractBackofficeQalingoController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 		
-		// SANITY CHECK: User logged
-		final User currentUser = requestUtil.getCurrentUser(request);
-		if(currentUser != null){
-			final String url =  backofficeUrlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
-			return new ModelAndView(new RedirectView(url));
-		}
+        // SANITY CHECK: User logged
+        if(securityUtil.isAuthenticated()){
+            final String url = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(url));
+        }
 		
 		// SANITY CHECK : Param from spring-security
 		String error = request.getParameter(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR);
