@@ -647,7 +647,7 @@ public class RequestUtil {
     /**
 	 *
 	 */
-    public DateFormat getFormatDate(final RequestData requestData, final Integer dateStyle, final Integer timeStyle) throws Exception {
+    public DateFormat getCommonFormatDate(final RequestData requestData, final Integer dateStyle, final Integer timeStyle) throws Exception {
         final Locale locale = requestData.getLocale();
         DateFormat formatter = null;
         if(timeStyle != null){
@@ -666,6 +666,25 @@ public class RequestUtil {
         return formatter;
     }
 
+    /**
+     *
+     */
+   public String getFormatDatePattern(final RequestData requestData) throws Exception {
+       if(requestData.getMarketAreaLocalization() != null && StringUtils.isNotEmpty(requestData.getMarketAreaLocalization().getFormatDatePattern())){
+           return requestData.getMarketAreaLocalization().getFormatDatePattern();
+       } else {
+           return "yyyy-MM-dd";
+       }
+   }
+   
+   /**
+    *
+    */
+  public SimpleDateFormat getFormatDate(final RequestData requestData) throws Exception {
+      SimpleDateFormat formatter = new SimpleDateFormat(getFormatDatePattern(requestData));
+      return formatter;
+  }
+   
     /**
 	 *
 	 */

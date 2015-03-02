@@ -938,7 +938,7 @@ public class WebManagementService {
         if (order != null) {
             orderConfirmationEmailBean.setOrderNumber(order.getOrderNum());
             
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             if (order.getExpectedDeliveryDate() != null) {
                 orderConfirmationEmailBean.setExpectedDeliveryDate(dateFormat.format(order.getExpectedDeliveryDate()));
             } else {

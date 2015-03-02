@@ -687,7 +687,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             localizationViewBean.setActive(true);
         }
 
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (localization.getDateCreate() != null) {
             localizationViewBean.setDateCreate(dateFormat.format(localization.getDateCreate()));
         }
@@ -738,7 +738,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             currencyReferentialViewBean.setSign(currencyReferential.getSign());
             currencyReferentialViewBean.setAbbreviated(currencyReferential.getAbbreviated());
 
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             if (currencyReferential.getDateCreate() != null) {
                 currencyReferentialViewBean.setDateCreate(dateFormat.format(currencyReferential.getDateCreate()));
             }
@@ -893,7 +893,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
 
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (retailer.getDateCreate() != null) {
             retailerViewBean.setDateCreate(dateFormat.format(retailer.getDateCreate()));
         }
@@ -945,7 +945,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (customerComment.getDateCreate() != null) {
             customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
         }
@@ -1064,7 +1064,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
         
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (store.getDateCreate() != null) {
             storeViewBean.setDateCreate(dateFormat.format(store.getDateCreate()));
         }
@@ -1161,7 +1161,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (customerComment.getDateCreate() != null) {
             customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
         }
@@ -1234,7 +1234,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             customerViewBean.setEmail(customer.getEmail());
             customerViewBean.setLogin(customer.getLogin());
 
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             if (customer.getDateCreate() != null) {
                 customerViewBean.setDateCreate(dateFormat.format(customer.getDateCreate()));
             }
@@ -1531,7 +1531,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (customerComment.getDateCreate() != null) {
             customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
         }
@@ -1812,7 +1812,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         productMarketingViewBean.setDefault(productMarketing.isDefault());
 
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (productMarketing.getDateCreate() != null) {
             productMarketingViewBean.setDateCreate(dateFormat.format(productMarketing.getDateCreate()));
         }
@@ -1931,7 +1931,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         customerCommentViewBean.setComment(customerComment.getComment());
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (customerComment.getDateCreate() != null) {
             customerCommentViewBean.setDateCreate(dateFormat.format(customerComment.getDateCreate()));
         }
@@ -2101,7 +2101,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productSkuViewBean.setDefault(productSku.isDefault());
         productSkuViewBean.setSalable(productSku.isSalable(marketArea.getId()));
 
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (productMarketing.getDateCreate() != null) {
             productSkuViewBean.setDateCreate(dateFormat.format(productMarketing.getDateCreate()));
         }
@@ -2415,7 +2415,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         orderViewBean.setOrderNum(order.getOrderNum());
         
         if (order != null) {
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             if (order.getExpectedDeliveryDate() != null) {
                 orderViewBean.setExpectedDeliveryDate(dateFormat.format(order.getExpectedDeliveryDate()));
             } else {
@@ -2549,7 +2549,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
 
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (deliveryMethod.getDateCreate() != null) {
             deliveryMethodViewBean.setDateCreate(dateFormat.format(deliveryMethod.getDateCreate()));
         }
@@ -2580,7 +2580,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         taxViewBean.setDescription(tax.getDescription());
         taxViewBean.setPercent("" + tax.getPercent());
         
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (tax.getDateCreate() != null) {
             taxViewBean.setDateCreate(dateFormat.format(tax.getDateCreate()));
         }
@@ -2654,7 +2654,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         userViewBean.setAreaCode(user.getAreaCode());
         userViewBean.setCountryCode(user.getCountryCode());
         
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (user.getDateCreate() != null) {
             userViewBean.setDateCreate(dateFormat.format(user.getDateCreate()));
         } else {
@@ -2762,7 +2762,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         companyViewBean.setCountryCode(company.getCountryCode());
         companyViewBean.setCountryName(countryName);
         
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (company.getDateCreate() != null) {
             companyViewBean.setDateCreate(dateFormat.format(company.getDateCreate()));
         } else {
@@ -2812,7 +2812,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         attributeDefinitionViewBean.setMultiValue(attributeDefinition.isMultiValue());
         attributeDefinitionViewBean.setWithPlanner(attributeDefinition.isWithPlanner());
         
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date dateCreate = attributeDefinition.getDateCreate();
         if (dateCreate != null) {
             attributeDefinitionViewBean.setDateCreate(dateFormat.format(dateCreate));

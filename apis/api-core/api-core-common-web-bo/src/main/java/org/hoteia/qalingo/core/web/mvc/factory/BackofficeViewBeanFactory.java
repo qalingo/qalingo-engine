@@ -661,7 +661,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         AssetViewBean assetViewBean = super.buildViewBeanAsset(requestData, asset);
         assetViewBean.setAbsoluteWebPath(engineSettingService.getProductMarketingImageWebPath(asset));
 
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date createdDate = asset.getDateCreate();
         if (createdDate != null) {
             assetViewBean.setDateCreate(dateFormat.format(createdDate));
@@ -802,7 +802,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         ruleViewBean.setDescription(rule.getDescription());
         ruleViewBean.setSalience(rule.getSalience());
 
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (rule.getDateCreate() != null) {
             ruleViewBean.setDateCreate(dateFormat.format(rule.getDateCreate()));
         } else {
@@ -904,7 +904,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             }
         }
         
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date dateCreate = engineSetting.getDateCreate();
         if (dateCreate != null) {
             engineSettingViewBean.setDateCreate(dateFormat.format(dateCreate));
@@ -999,7 +999,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             warehouseViewBean.setLongitude(warehouse.getLongitude());
             warehouseViewBean.setLatitude(warehouse.getLatitude());
             
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             Date dateCreate = warehouse.getDateCreate();
             if (dateCreate != null) {
                 warehouseViewBean.setDateCreate(dateFormat.format(dateCreate));
@@ -1073,7 +1073,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
                 }
             }
             
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             Date dateCreate = paymentGateway.getDateCreate();
             if (dateCreate != null) {
                 paymentGatewayViewBean.setDateCreate(dateFormat.format(dateCreate));

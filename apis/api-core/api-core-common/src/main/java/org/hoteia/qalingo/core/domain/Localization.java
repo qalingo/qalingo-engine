@@ -63,6 +63,9 @@ public class Localization extends AbstractEntity<Localization> {
     @Column(name = "FALLBACK_LOCALE_CODE")
     private String fallbackLocaleCode;
     
+    @Column(name = "FORMAT_DATE_PATTERN")
+    private String formatDatePattern;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -153,6 +156,14 @@ public class Localization extends AbstractEntity<Localization> {
 	
 	public void setFallbackLocaleCode(String fallbackLocaleCode) {
         this.fallbackLocaleCode = fallbackLocaleCode;
+    }
+	
+	public String getFormatDatePattern() {
+        return formatDatePattern;
+    }
+	
+	public void setFormatDatePattern(String formatDatePattern) {
+        this.formatDatePattern = formatDatePattern;
     }
 	
     public Date getDateCreate() {
