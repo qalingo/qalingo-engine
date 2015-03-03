@@ -36,6 +36,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Email;
@@ -65,6 +66,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
+import org.hoteia.qalingo.core.web.mvc.form.CompanyForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
@@ -220,6 +222,36 @@ public class WebBackofficeService {
         user.setActive(userForm.isActive());
 
         return user;
+    }
+    
+    // COMPANY
+    
+    public Company createOrUpdateCompany(Company company, final CompanyForm companyForm) {
+        if (company == null) {
+            company = new Company();
+        }
+        company = handleCompanyForm(company, companyForm);
+        return userService.saveOrUpdateCompany(company);
+    }
+
+    protected Company handleCompanyForm(Company company, final CompanyForm companyForm) {
+        if (company == null) {
+            company = new Company();
+        }
+        company.setCode(companyForm.getCode());
+        company.setName(companyForm.getName());
+        company.setDescription(companyForm.getDescription());
+        company.setActive(companyForm.isActive());
+        company.setAddress1(companyForm.getAddress1());
+        company.setAddress2(companyForm.getAddress2());
+        company.setAddressAdditionalInformation(companyForm.getAddressAdditionalInformation());
+        company.setPostalCode(companyForm.getPostalCode());
+        company.setCity(companyForm.getCity());
+        company.setStateCode(companyForm.getStateCode());
+        company.setAreaCode(companyForm.getAreaCode());
+        company.setCountryCode(companyForm.getCountryCode());
+
+        return company;
     }
     
     // CUSTOMER

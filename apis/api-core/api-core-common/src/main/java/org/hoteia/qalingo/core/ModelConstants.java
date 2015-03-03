@@ -160,6 +160,7 @@ public class ModelConstants {
     public static final String ENGINE_SETTING_VALUE_FORM          = "engineSettingValueForm";
     public static final String CUSTOMER_FORM                      = "customerForm";
     public static final String USER_FORM                          = "userForm";
+    public static final String COMPANY_FORM                       = "companyForm";
     public static final String CART_FORM                          = "cartForm";
     public static final String PAYMENT_FORM                       = "paymentForm";
     public static final String FRONTOFFICE_CREATE_ACCOUNT_FORM    = "createAccountForm";
@@ -174,7 +175,7 @@ public class ModelConstants {
     public static final String FORGOTTEN_PASSWORD_FORM            = "forgottenPasswordForm";
     public static final String FOLLOW_US_FORM                     = "followUsForm";
     public static final String NEWSLETTER_QUICK_REGISTRATION_FORM = "newsletterQuickRegistrationForm";
-
+    
     public static final String CUSTOMER_CONTACT_FORM             = "customerContactForm";
     public static final String CUSTOMER_COMMENT_FORM             = "customerCommentForm";
 
