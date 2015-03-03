@@ -2730,6 +2730,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     }
 
     /**
+     * 
+     */
+    public List<CompanyViewBean> buildListViewBeanCompany(final RequestData requestData, final List<Company> companies) throws Exception {
+        final List<CompanyViewBean> companyViewBeans = new ArrayList<CompanyViewBean>();
+        for (Iterator<Company> iterator = companies.iterator(); iterator.hasNext();) {
+            Company company = (Company) iterator.next();
+            companyViewBeans.add(buildViewBeanCompany(requestData, company));
+        }
+        return companyViewBeans;
+    }
+    
+    /**
      * @throws Exception
      * 
      */
@@ -2777,18 +2789,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return companyViewBean;
     }
 
-    /**
-     * 
-     */
-    public List<CompanyViewBean> buildListViewBeanCompany(final RequestData requestData, final List<Company> companys) throws Exception {
-        final List<CompanyViewBean> companyViewBeans = new ArrayList<CompanyViewBean>();
-        for (Iterator<Company> iterator = companys.iterator(); iterator.hasNext();) {
-            Company company = (Company) iterator.next();
-            companyViewBeans.add(buildViewBeanCompany(requestData, company));
-        }
-        return companyViewBeans;
-    }
-    
     protected AttributeValueViewBean buildViewBeanAttributeValue(final RequestData requestData, final AbstractAttribute abstractAttribute) throws Exception{
         AttributeValueViewBean attributeValueViewBean = new AttributeValueViewBean();
         attributeValueViewBean.setAttributeDefinition(buildViewBeanAttributeDefinition(requestData, abstractAttribute.getAttributeDefinition()));
