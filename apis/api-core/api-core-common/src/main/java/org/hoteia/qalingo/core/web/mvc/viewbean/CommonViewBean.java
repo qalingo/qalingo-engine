@@ -37,6 +37,8 @@ public class CommonViewBean extends AbstractViewBean {
     protected RetailerViewBean currentMarketAreaRetailer;
     protected CurrencyReferentialViewBean currentMarketAreaCurrency;
 
+    protected LocalizationViewBean currentBackofficeLocalization;
+
 	public String getThemeResourcePrefixPath() {
 		return themeResourcePrefixPath;
 	}
@@ -179,6 +181,14 @@ public class CommonViewBean extends AbstractViewBean {
 	
 	public void setCurrentMarketAreaCurrency(CurrencyReferentialViewBean currentMarketAreaCurrency) {
         this.currentMarketAreaCurrency = currentMarketAreaCurrency;
+    }
+	
+	public LocalizationViewBean getCurrentBackofficeLocalization() {
+        return currentBackofficeLocalization;
+    }
+	
+	public void setCurrentBackofficeLocalization(LocalizationViewBean currentBackofficeLocalization) {
+        this.currentBackofficeLocalization = currentBackofficeLocalization;
     }
 	
 }

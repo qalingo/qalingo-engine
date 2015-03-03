@@ -51,10 +51,6 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.UserConnectionLog;
-import org.hoteia.qalingo.core.domain.UserGroup;
-import org.hoteia.qalingo.core.domain.UserPermission;
-import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -94,7 +90,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.WarehouseViewBean;
 import org.springframework.beans.BeanUtils;
@@ -122,6 +117,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 
         commonViewBean.setContextJsonUrl(backofficeUrlService.generateUrl(BoUrls.CONTEXT, requestData));
 
+        commonViewBean.setCurrentBackofficeLocalization(buildViewBeanLocalization(requestData, requestData.getBackofficeLocalization()));
+        
         return commonViewBean;
     }
     
