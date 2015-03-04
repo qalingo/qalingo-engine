@@ -124,7 +124,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         }
         
         // Save user as active
-        webManagementService.activeNewUser(requestData, user);
+        webBackofficeService.activeNewUser(requestData, user);
 
         // ADD SUCCESS MESSAGE
         String successMessage = getSpecificMessage(ScopeWebMessage.USER, "form_new_account_validation_success_message", locale);
