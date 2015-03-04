@@ -130,7 +130,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         String successMessage = getSpecificMessage(ScopeWebMessage.USER, "form_new_account_validation_success_message", locale);
         addSuccessMessage(request, successMessage);
 
-        final String urlRedirect = urlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestData);
+        final String urlRedirect = backofficeUrlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
     }
     
