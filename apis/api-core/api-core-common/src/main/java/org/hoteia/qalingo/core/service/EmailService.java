@@ -376,7 +376,7 @@ public class EmailService {
 
 			Map<String, String> urlParams = new HashMap<String, String>();
 			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL, URLEncoder.encode(customerNewAccountConfirmationEmailBean.getEmail(), Constants.ANSI));
-			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN, UUID.randomUUID().toString());
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_ACCOUNT_VALIDATION_TOKEN, UUID.randomUUID().toString());
 			String resetPasswordUrl = urlService.generateUrl(FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION, requestData, urlParams);
         	model.put("newCustomerValidationUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
 
@@ -553,7 +553,7 @@ public class EmailService {
 
             Map<String, String> urlParams = new HashMap<String, String>();
             urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL, URLEncoder.encode(userNewAccountConfirmationEmailBean.getEmail(), Constants.ANSI));
-            urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN, UUID.randomUUID().toString());
+            urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_ACCOUNT_VALIDATION_TOKEN, UUID.randomUUID().toString());
             String resetPasswordUrl = urlService.generateUrl(FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION, requestData, urlParams);
             model.put("newUserValidationUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
 
