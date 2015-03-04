@@ -178,6 +178,28 @@ public class WebBackofficeService {
         return user;
     }
     
+    /**
+     * 
+     */
+    public User activeNewUser(final RequestData requestData, User user) throws Exception {
+        user.setValidated(true);
+        return updateCurrentUser(requestData, user);
+    }
+    
+    public User updateCurrentUser(final RequestData requestData, User user) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        user.setActive(true);
+        user.setDateUpdate(new Date());
+
+        // UPDATE CUSTOMER
+        User savedUser = userService.saveOrUpdateUser(user);
+        
+        // UPDATE SESSION
+        requestUtil.updateCurrentUser(request, savedUser);
+        
+        return savedUser;
+    }
+    
     protected User handleUserForm(User user, final UserForm userForm) {
         if (user == null) {
             user = new User();

@@ -80,7 +80,8 @@ public class RequestConstants {
 	public static final String REQUEST_PARAMETER_PAGE_ID					= "page-id";
 
 	public static final String REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL	= "customer-email";
-	public static final String REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN	= "validation-token";
+    public static final String REQUEST_PARAMETER_NEW_USER_VALIDATION_EMAIL      = "user-email";
+	public static final String REQUEST_PARAMETER_NEW_ACCOUNT_VALIDATION_TOKEN	= "validation-token";
 
 	public static final String REQUEST_PARAMETER_PASSWORD_RESET_TOKEN			= "reset-token";
 	public static final String REQUEST_PARAMETER_PASSWORD_RESET_EMAIL			= "reset-email";

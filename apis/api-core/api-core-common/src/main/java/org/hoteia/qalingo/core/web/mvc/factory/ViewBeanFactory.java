@@ -2644,7 +2644,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         userViewBean.setEmail(user.getEmail());
         userViewBean.setPassword(user.getPassword());
         userViewBean.setActive(user.isActive());
-
+        userViewBean.setValidated(user.isValidated());
+        
         userViewBean.setAddress1(user.getAddress1());
         userViewBean.setAddress2(user.getAddress2());
         userViewBean.setAddressAdditionalInformation(user.getAddressAdditionalInformation());

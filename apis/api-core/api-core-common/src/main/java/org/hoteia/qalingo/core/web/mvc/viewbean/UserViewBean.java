@@ -28,6 +28,7 @@ public class UserViewBean extends AbstractViewBean {
 	private String email;
 	private String password;
 	private boolean active;
+    private boolean validated;
 
     private String address1;
     private String address2;
@@ -107,7 +108,15 @@ public class UserViewBean extends AbstractViewBean {
 		this.active = active;
 	}
 
-	public String getAddress1() {
+	public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
+    }
+
+    public String getAddress1() {
         return address1;
     }
 

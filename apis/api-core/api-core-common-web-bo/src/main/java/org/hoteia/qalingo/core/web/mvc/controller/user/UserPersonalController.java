@@ -11,13 +11,17 @@ package org.hoteia.qalingo.core.web.mvc.controller.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
@@ -96,6 +100,37 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         requestUtil.updateCurrentUser(request, userService.getUserByLoginOrEmail(newEmail));
         
         final String urlRedirect = backofficeUrlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
+    }
+    
+    @RequestMapping(value = BoUrls.USER_NEW_ACCOUNT_VALIDATION_URL, method = RequestMethod.GET)
+    public ModelAndView newAccountValidation(final HttpServletRequest request, final Model model) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+
+        String token = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_ACCOUNT_VALIDATION_TOKEN);
+        if (StringUtils.isEmpty(token)) {
+            // ADD ERROR MESSAGE
+            String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_token_is_wrong", locale);
+            addErrorMessage(request, errorMessage);
+        }
+        
+        String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL);
+        final User user = userService.getUserByLoginOrEmail(email);
+        if (user == null) {
+            // ADD ERROR MESSAGE
+            String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_email_or_login_are_wrong", locale);
+            addErrorMessage(request, errorMessage);
+        }
+        
+        // Save user as active
+        webManagementService.activeNewUser(requestData, user);
+
+        // ADD SUCCESS MESSAGE
+        String successMessage = getSpecificMessage(ScopeWebMessage.USER, "form_new_account_validation_success_message", locale);
+        addSuccessMessage(request, successMessage);
+
+        final String urlRedirect = urlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
     }
     

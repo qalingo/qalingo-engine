@@ -203,7 +203,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 
-		String token = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN);
+		String token = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_ACCOUNT_VALIDATION_TOKEN);
 		if (StringUtils.isEmpty(token)) {
 			// ADD ERROR MESSAGE
 			String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_token_is_wrong", locale);

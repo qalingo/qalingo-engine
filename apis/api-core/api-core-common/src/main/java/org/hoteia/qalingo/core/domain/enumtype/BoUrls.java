@@ -131,6 +131,7 @@ public enum BoUrls {
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE, true),
     USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE, true),
     USER_CREATE_ACCOUNT(BoUrls.USER_CREATE_ACCOUNT_URL, BoUrls.USER_CREATE_ACCOUNT_KEY, BoUrls.USER_CREATE_ACCOUNT_VELOCITY_PAGE, true),
+    USER_NEW_ACCOUNT_VALIDATION(BoUrls.USER_NEW_ACCOUNT_VALIDATION_URL, BoUrls.USER_NEW_ACCOUNT_VALIDATION_KEY, null, true),
 
     COMPANY_DETAILS(BoUrls.COMPANY_DETAILS_URL, BoUrls.COMPANY_DETAILS_KEY, BoUrls.COMPANY_DETAILS_VELOCITY_PAGE, true),
     COMPANY_EDIT(BoUrls.COMPANY_EDIT_URL, BoUrls.COMPANY_EDIT_KEY, BoUrls.COMPANY_EDIT_VELOCITY_PAGE, true),
@@ -164,7 +165,10 @@ public enum BoUrls {
     public static final String PERSONAL_EDIT_KEY                = "personal-edit";
     public static final String PERSONAL_EDIT_URL                = "/personal-edit.html";
     public static final String PERSONAL_EDIT_VELOCITY_PAGE      = "user/personal-edit";
-	    
+
+    public static final String USER_NEW_ACCOUNT_VALIDATION_KEY              = "user-new-account-validation";
+    public static final String USER_NEW_ACCOUNT_VALIDATION_URL              = "/**/user-new-account-validation.html";
+    
 	public static final String CHANGE_LANGUAGE_URL		= "/**/change-language.html";
 	public static final String CHANGE_CONTEXT_URL		= "/**/change-context.html";
 	

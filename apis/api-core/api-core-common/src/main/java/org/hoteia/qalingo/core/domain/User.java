@@ -80,6 +80,9 @@ public class User extends AbstractEntity<User> {
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
     private boolean active;
 
+    @Column(name = "VALIDATED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean validated;
+    
     @Column(name = "ADDRESS1")
     private String address1;
 
@@ -213,6 +216,14 @@ public class User extends AbstractEntity<User> {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 
     public String getAddress1() {
