@@ -32,10 +32,10 @@ public class FetchPlanGraphUser {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(User_.defaultLocalization.getName()));
         fetchplans.add(new SpecificFetchMode(User_.company.getName()));
-        fetchplans.add(new SpecificFetchMode(User_.groups.getName()));
         fetchplans.add(new SpecificFetchMode(User_.credentials.getName()));
-        fetchplans.add(new SpecificFetchMode(UserGroup_.roles.getName(), new SpecificAlias(User_.groups + "." + UserGroup_.roles.getName())));
-        fetchplans.add(new SpecificFetchMode(UserRole_.permissions.getName(), new SpecificAlias(User_.groups + "." + UserGroup_.roles + "." + UserRole_.permissions)));
+        fetchplans.add(new SpecificFetchMode(User_.groups.getName()));
+        fetchplans.add(new SpecificFetchMode(UserGroup_.roles.getName(), new SpecificAlias(User_.groups.getName() + "." + UserGroup_.roles.getName())));
+        fetchplans.add(new SpecificFetchMode(UserRole_.permissions.getName(), new SpecificAlias(User_.groups.getName() + "." + UserGroup_.roles.getName() + "." + UserRole_.permissions.getName())));
         fetchplans.add(new SpecificFetchMode(User_.connectionLogs.getName()));
         return new FetchPlan(fetchplans);
     }
