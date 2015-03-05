@@ -15,6 +15,9 @@ import java.util.List;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.domain.User_;
+import org.hoteia.qalingo.core.domain.UserGroup_;
+import org.hoteia.qalingo.core.domain.UserRole_;
 
 public class FetchPlanGraphUser {
 
