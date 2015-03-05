@@ -15,25 +15,24 @@ import java.util.List;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
-import org.hoteia.qalingo.core.domain.UserGroup_;
 
 public class FetchPlanGraphUser {
 
     public static FetchPlan defaultCompanyFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("localizations"));
+        fetchplans.add(new SpecificFetchMode(Company_.localizations.getName()));
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan defaultUserFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("defaultLocalization"));
-        fetchplans.add(new SpecificFetchMode("company"));
-        fetchplans.add(new SpecificFetchMode("groups"));
-        fetchplans.add(new SpecificFetchMode("credentials"));
-        fetchplans.add(new SpecificFetchMode("roles", new SpecificAlias("groups.roles")));
-        fetchplans.add(new SpecificFetchMode("permissions", new SpecificAlias("groups.roles.permissions")));
-        fetchplans.add(new SpecificFetchMode("connectionLogs"));
+        fetchplans.add(new SpecificFetchMode(User_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.company.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.groups.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.credentials.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.roles.getName(), new SpecificAlias(UserGroup_.groups + "." + UserGroup_.roles.getName())));
+        fetchplans.add(new SpecificFetchMode(User_.permissions.getName(), new SpecificAlias(UserGroup_.groups + "." + UserGroup_.roles + "." + UserRole_.permissions)));
+        fetchplans.add(new SpecificFetchMode(User_.connectionLogs.getName()));
         return new FetchPlan(fetchplans);
     }
     

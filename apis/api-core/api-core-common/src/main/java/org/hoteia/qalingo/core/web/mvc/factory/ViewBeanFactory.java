@@ -2667,48 +2667,56 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             userViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
-        final Set<UserGroup> groups = user.getGroups();
-        for (Iterator<UserGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
-            UserGroup group = (UserGroup) iteratorGroup.next();
-            String keyUserGroup = group.getCode();
-            String valueUserGroup = group.getName();
-            userViewBean.getGroups().put(keyUserGroup, valueUserGroup);
+        if(user.getGroups() != null && Hibernate.isInitialized(user.getGroups())){
+            final Set<UserGroup> groups = user.getGroups();
+            for (Iterator<UserGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
+                UserGroup group = (UserGroup) iteratorGroup.next();
+                String keyUserGroup = group.getCode();
+                String valueUserGroup = group.getName();
+                userViewBean.getGroups().put(keyUserGroup, valueUserGroup);
 
-            final Set<UserRole> roles = group.getRoles();
-            for (Iterator<UserRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
-                UserRole role = (UserRole) iteratorRole.next();
-                String keyUserRole = role.getCode();
-                String valueUserRole = role.getName();
-                userViewBean.getRoles().put(keyUserRole, valueUserRole);
+                if(group.getRoles() != null && Hibernate.isInitialized(group.getRoles())){
+                    final Set<UserRole> roles = group.getRoles();
+                    for (Iterator<UserRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
+                        UserRole role = (UserRole) iteratorRole.next();
+                        String keyUserRole = role.getCode();
+                        String valueUserRole = role.getName();
+                        userViewBean.getRoles().put(keyUserRole, valueUserRole);
 
-                final Set<UserPermission> permissions = role.getPermissions();
-                for (Iterator<UserPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
-                    UserPermission permission = (UserPermission) iteratorPermission.next();
-                    String keyUserPermission = permission.getCode();
-                    String valueUserPermission = permission.getName();
-                    userViewBean.getPermissions().put(keyUserPermission, valueUserPermission);
+                        if(role.getPermissions() != null && Hibernate.isInitialized(role.getPermissions())){
+                            final Set<UserPermission> permissions = role.getPermissions();
+                            for (Iterator<UserPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
+                                UserPermission permission = (UserPermission) iteratorPermission.next();
+                                String keyUserPermission = permission.getCode();
+                                String valueUserPermission = permission.getName();
+                                userViewBean.getPermissions().put(keyUserPermission, valueUserPermission);
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        final Set<UserConnectionLog> connectionLogs = user.getConnectionLogs();
-        for (Iterator<UserConnectionLog> iteratorUserConnectionLog = connectionLogs.iterator(); iteratorUserConnectionLog.hasNext();) {
-            UserConnectionLog connectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
-            UserConnectionLogValueBean connectionLogValueBean = new UserConnectionLogValueBean();
-            connectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
-            connectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(connectionLog.getHost())) {
-                connectionLogValueBean.setHost(connectionLog.getHost());
+        if(user.getConnectionLogs() != null && Hibernate.isInitialized(user.getConnectionLogs())){
+            final Set<UserConnectionLog> connectionLogs = user.getConnectionLogs();
+            for (Iterator<UserConnectionLog> iteratorUserConnectionLog = connectionLogs.iterator(); iteratorUserConnectionLog.hasNext();) {
+                UserConnectionLog connectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
+                UserConnectionLogValueBean connectionLogValueBean = new UserConnectionLogValueBean();
+                connectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
+                connectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
+                if (StringUtils.isNotEmpty(connectionLog.getHost())) {
+                    connectionLogValueBean.setHost(connectionLog.getHost());
+                }
+                connectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
+                if (StringUtils.isNotEmpty(connectionLog.getPublicAddress())) {
+                    connectionLogValueBean.setPublicAddress(connectionLog.getPublicAddress());
+                }
+                connectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
+                if (StringUtils.isNotEmpty(connectionLog.getPrivateAddress())) {
+                    connectionLogValueBean.setPublicAddress(connectionLog.getPrivateAddress());
+                }
+                userViewBean.getUserConnectionLogs().add(connectionLogValueBean);
             }
-            connectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(connectionLog.getPublicAddress())) {
-                connectionLogValueBean.setPublicAddress(connectionLog.getPublicAddress());
-            }
-            connectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(connectionLog.getPrivateAddress())) {
-                connectionLogValueBean.setPublicAddress(connectionLog.getPrivateAddress());
-            }
-            userViewBean.getUserConnectionLogs().add(connectionLogValueBean);
         }
 
         final List<String> excludedPatterns = new ArrayList<String>();
