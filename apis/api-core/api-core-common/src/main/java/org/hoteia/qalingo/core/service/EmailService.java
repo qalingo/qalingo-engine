@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import org.hoteia.qalingo.core.email.bean.AbstractEmailBean;
+import org.hoteia.qalingo.core.email.bean.AdminNotficationEmailBean;
 import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
@@ -122,6 +123,59 @@ public class EmailService {
 	    emailDao.handleEmailException(email, exception);
 	}
 	
+    /**
+     * @throws Exception 
+     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveAdminNotification(Localization localization, Customer customer, String velocityPath, AdminNotficationEmailBean adminNotficationEmailBean)
+     */
+    public void buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotficationEmailBean adminNotficationEmailBean) throws Exception {
+        try {
+            final String contextNameValue = requestData.getContextNameValue();
+            final Localization localization = requestData.getMarketAreaLocalization();
+            final Locale locale = localization.getLocale();
+            
+            // SANITY CHECK
+            checkEmailAddresses(adminNotficationEmailBean);
+            
+            Map<String, Object> model = new HashMap<String, Object>();
+            DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
+            java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
+            model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+            model.put("adminNotficationEmailBean", adminNotficationEmailBean);
+            model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+
+            String fromAddress = handleFromAddress(contactEmailBean.getFromAddress(), contextNameValue);
+            String fromName = handleFromName(contactEmailBean.getFromName(), locale);
+            String toEmail = contactEmailBean.getToEmail();
+
+            MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_CONTACT, model);
+            mimeMessagePreparator.setTo(toEmail);
+            mimeMessagePreparator.setFrom(fromAddress);
+            mimeMessagePreparator.setFromName(fromName);
+            mimeMessagePreparator.setReplyTo(fromAddress);
+            Object[] parameters = {contactEmailBean.getLastname(), contactEmailBean.getFirstname()};
+            mimeMessagePreparator.setSubject(adminNotficationEmailBean.getSubject());
+            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-html-content.vm", model));
+            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-text-content.vm", model));
+            
+            mimeMessagePreparator.getHtmlContent();
+            
+            Email email = new Email();
+            email.setType(Email.EMAIl_TYPE_CONTACT);
+            email.setStatus(Email.EMAIl_STATUS_PENDING);
+            saveOrUpdateEmail(email, mimeMessagePreparator);
+            
+        } catch (MailException e) {
+            logger.error("Error, can't save the message :", e);
+            throw e;
+        } catch (VelocityException e) {
+            logger.error("Error, can't build the message :", e);
+            throw e;
+        } catch (IOException e) {
+            logger.error("Error, can't serializable the message :", e);
+            throw e;
+        }
+    }
+    
     /**
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveContactMail(Localization localization, Customer customer, String velocityPath, ContactEmailBean contactEmailBean)
