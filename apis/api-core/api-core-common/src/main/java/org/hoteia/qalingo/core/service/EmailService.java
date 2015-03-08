@@ -127,14 +127,14 @@ public class EmailService {
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveAdminNotification(Localization localization, Customer customer, String velocityPath, AdminNotficationEmailBean adminNotficationEmailBean)
      */
-    public void buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotificationEmailBean adminNotficationEmailBean) throws Exception {
+    public void buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotificationEmailBean adminNotificationEmailBean) throws Exception {
         try {
             final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
             final Locale locale = localization.getLocale();
             
             // SANITY CHECK
-            checkEmailAddresses(adminNotficationEmailBean);
+            checkEmailAddresses(adminNotificationEmailBean);
             
             Map<String, Object> model = new HashMap<String, Object>();
             DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
@@ -143,16 +143,15 @@ public class EmailService {
             model.put("adminNotficationEmailBean", adminNotficationEmailBean);
             model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-            String fromAddress = handleFromAddress(contactEmailBean.getFromAddress(), contextNameValue);
-            String fromName = handleFromName(contactEmailBean.getFromName(), locale);
-            String toEmail = contactEmailBean.getToEmail();
+            String fromAddress = handleFromAddress(adminNotificationEmailBean.getFromAddress(), contextNameValue);
+            String fromName = handleFromName(adminNotificationEmailBean.getFromName(), locale);
+            String toEmail = adminNotificationEmailBean.getToEmail();
 
             MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_CONTACT, model);
             mimeMessagePreparator.setTo(toEmail);
             mimeMessagePreparator.setFrom(fromAddress);
             mimeMessagePreparator.setFromName(fromName);
             mimeMessagePreparator.setReplyTo(fromAddress);
-            Object[] parameters = {contactEmailBean.getLastname(), contactEmailBean.getFirstname()};
             mimeMessagePreparator.setSubject(adminNotficationEmailBean.getSubject());
             mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-html-content.vm", model));
             mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-text-content.vm", model));
