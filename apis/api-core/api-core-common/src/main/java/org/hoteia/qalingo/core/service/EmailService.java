@@ -125,7 +125,7 @@ public class EmailService {
 	
     /**
      * @throws Exception 
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveAdminNotification(Localization localization, Customer customer, String velocityPath, AdminNotficationEmailBean adminNotficationEmailBean)
+     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveAdminNotification(Localization localization, Customer customer, String velocityPath, AdminNotficationEmailBean adminNotificationEmailBean)
      */
     public void buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotificationEmailBean adminNotificationEmailBean) throws Exception {
         try {
@@ -140,7 +140,7 @@ public class EmailService {
             DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
             java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
             model.put(CURRENT_DATE, dateFormatter.format(currentDate));
-            model.put("adminNotficationEmailBean", adminNotficationEmailBean);
+            model.put("adminNotificationEmailBean", adminNotificationEmailBean);
             model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
             String fromAddress = handleFromAddress(adminNotificationEmailBean.getFromAddress(), contextNameValue);
@@ -152,7 +152,7 @@ public class EmailService {
             mimeMessagePreparator.setFrom(fromAddress);
             mimeMessagePreparator.setFromName(fromName);
             mimeMessagePreparator.setReplyTo(fromAddress);
-            mimeMessagePreparator.setSubject(adminNotficationEmailBean.getSubject());
+            mimeMessagePreparator.setSubject(adminNotificationEmailBean.getSubject());
             mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-html-content.vm", model));
             mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-text-content.vm", model));
             
