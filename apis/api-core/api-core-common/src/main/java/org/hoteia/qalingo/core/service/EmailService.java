@@ -35,7 +35,7 @@ import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import org.hoteia.qalingo.core.email.bean.AbstractEmailBean;
-import org.hoteia.qalingo.core.email.bean.AdminNotficationEmailBean;
+import org.hoteia.qalingo.core.email.bean.AdminNotificationEmailBean;
 import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
@@ -127,7 +127,7 @@ public class EmailService {
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveAdminNotification(Localization localization, Customer customer, String velocityPath, AdminNotficationEmailBean adminNotficationEmailBean)
      */
-    public void buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotficationEmailBean adminNotficationEmailBean) throws Exception {
+    public void buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotificationEmailBean adminNotficationEmailBean) throws Exception {
         try {
             final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();

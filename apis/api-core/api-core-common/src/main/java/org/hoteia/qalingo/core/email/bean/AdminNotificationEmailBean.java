@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
 
-public class AdminNotficationEmailBean extends AbstractEmailBean implements Serializable {
+public class AdminNotificationEmailBean extends AbstractEmailBean implements Serializable {
 
 	/**
      * 
