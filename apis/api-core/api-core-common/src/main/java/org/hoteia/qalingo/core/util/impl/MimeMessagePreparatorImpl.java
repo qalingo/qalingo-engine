@@ -34,6 +34,7 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 	private String fromName;
 	private String to;
 	private String cc;
+	private String bcc;
 	private String replyTo;
 	private String subject;
 	private String plainTextContent;
@@ -75,6 +76,14 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 	public void setCc(String cc) {
 		this.cc = cc;
 	}
+	
+	public String getBcc() {
+        return bcc;
+    }
+	
+	public void setBcc(String bcc) {
+        this.bcc = bcc;
+    }
 
 	public String getReplyTo() {
 		return this.replyTo;
@@ -135,39 +144,42 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 	public void prepare(MimeMessage message) throws Exception {
 
 		// AUTO unsubscribe for Gmail/Hotmail etc : RFC2369
-		if(StringUtils.isNotEmpty(getUnsubscribeUrlOrEmail())){
-			message.addHeader("List-Unsubscribe", "<" + getUnsubscribeUrlOrEmail() + ">");
-		}
+        if (StringUtils.isNotEmpty(getUnsubscribeUrlOrEmail())) {
+            message.addHeader("List-Unsubscribe", "<" + getUnsubscribeUrlOrEmail() + ">");
+        }
 
-		if(getFrom() != null){
-			List<InternetAddress> toAddress = new ArrayList<InternetAddress>();
-			toAddress.add(new InternetAddress(getFrom(), getFromName()));
-			message.addFrom(toAddress.toArray(new InternetAddress[toAddress.size()]));
-		}
-		if(getTo() != null){
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(getTo()));
-		}
-		if(getCc() != null){
-			message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(getCc()));
-		}
-		if(getSubject() != null){
-			message.setSubject(getSubject());
-		}
+        if (getFrom() != null) {
+            List<InternetAddress> toAddress = new ArrayList<InternetAddress>();
+            toAddress.add(new InternetAddress(getFrom(), getFromName()));
+            message.addFrom(toAddress.toArray(new InternetAddress[toAddress.size()]));
+        }
+        if (getTo() != null) {
+            message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(getTo()));
+        }
+        if (getCc() != null) {
+            message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(getCc()));
+        }
+        if (getBcc() != null) {
+            message.addRecipients(Message.RecipientType.BCC, InternetAddress.parse(getBcc()));
+        }
+        if (getSubject() != null) {
+            message.setSubject(getSubject());
+        }
 		
 		MimeMultipart mimeMultipart = new MimeMultipart("alternative");// multipart/mixed or mixed or related or alternative
 		message.setContent(mimeMultipart);
 				
-		if(getPlainTextContent() != null){
-			BodyPart textBodyPart = new MimeBodyPart();
-			textBodyPart.setContent(getPlainTextContent(), "text/plain");
-			mimeMultipart.addBodyPart(textBodyPart);
-		}
-		
-		if(getHtmlContent() != null){
-			BodyPart htmlBodyPart = new MimeBodyPart();
-			htmlBodyPart.setContent(getHtmlContent(), "text/html");
-			mimeMultipart.addBodyPart(htmlBodyPart);
-		}
+        if (getPlainTextContent() != null) {
+            BodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setContent(getPlainTextContent(), "text/plain");
+            mimeMultipart.addBodyPart(textBodyPart);
+        }
+
+        if (getHtmlContent() != null) {
+            BodyPart htmlBodyPart = new MimeBodyPart();
+            htmlBodyPart.setContent(getHtmlContent(), "text/html");
+            mimeMultipart.addBodyPart(htmlBodyPart);
+        }
 
 	}
 }
