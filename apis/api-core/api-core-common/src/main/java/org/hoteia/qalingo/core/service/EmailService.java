@@ -147,7 +147,7 @@ public class EmailService {
             String fromName = handleFromName(adminNotificationEmailBean.getFromName(), locale);
             String toEmail = adminNotificationEmailBean.getToEmail();
 
-            MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_CONTACT, model);
+            MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_ADMIN_NOTIFICATION, model);
             mimeMessagePreparator.setTo(toEmail);
             mimeMessagePreparator.setFrom(fromAddress);
             mimeMessagePreparator.setFromName(fromName);
