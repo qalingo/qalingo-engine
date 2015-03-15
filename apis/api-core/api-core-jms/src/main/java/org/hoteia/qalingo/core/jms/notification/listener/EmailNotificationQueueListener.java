@@ -72,6 +72,8 @@ public class EmailNotificationQueueListener implements MessageListener, Exceptio
 
                     JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
                     jobParametersBuilder.addDate("date", new Date());
+                    jobParametersBuilder.addLong("id", emailnotificationMessageJms.getEmailId());
+                    jobParametersBuilder.addString("type", emailnotificationMessageJms.getEmailType());
                     JobParameters params = jobParametersBuilder.toJobParameters();
                     jobLauncher.run(emailSyncJob, params);
                 }

@@ -61,6 +61,7 @@ public class EmailNotificationAspect {
             emailnotificationMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
             if(email != null){
                 emailnotificationMessageJms.setEmailType(email.getType());
+                emailnotificationMessageJms.setEmailId(email.getId());
             }
             
             // Generate and send the JMS message
