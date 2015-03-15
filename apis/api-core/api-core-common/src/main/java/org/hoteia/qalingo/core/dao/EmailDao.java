@@ -26,7 +26,6 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 import org.slf4j.Logger;
@@ -122,7 +121,7 @@ public class EmailDao extends AbstractGenericDao {
      * @see org.hoteia.qalingo.core.dao.EmailDao#saveEmail(Email email,
      *      MimeMessagePreparatorImpl mimeMessagePreparator)
      */
-    public void saveEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
+    public Email saveEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
         Session session = (Session) em.getDelegate();
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -139,7 +138,7 @@ public class EmailDao extends AbstractGenericDao {
 
         email.setEmailContent(blob);
 
-        saveOrUpdateEmail(email);
+        return saveOrUpdateEmail(email);
     }
 
     /**
@@ -147,9 +146,9 @@ public class EmailDao extends AbstractGenericDao {
      * @see org.hoteia.qalingo.core.dao.EmailDao#saveEmail(Email email,
      *      Exception e)
      */
-    public void saveEmail(final Email email, final Exception exception) throws IOException {
+    public Email saveEmail(final Email email, final Exception exception) throws IOException {
         handleEmailException(email, exception);
-        saveOrUpdateEmail(email);
+        return saveOrUpdateEmail(email);
     }
 
     /**

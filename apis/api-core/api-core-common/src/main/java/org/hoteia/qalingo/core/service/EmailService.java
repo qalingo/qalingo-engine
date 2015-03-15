@@ -103,12 +103,12 @@ public class EmailService {
 		return emailDao.findIdsForEmailSync(type, params);
 	}
 	
-	public void saveOrUpdateEmail(final Email email) {
-		emailDao.saveOrUpdateEmail(email);
+	public Email saveOrUpdateEmail(final Email email) {
+	    return emailDao.saveOrUpdateEmail(email);
 	}
 	
-	public void saveOrUpdateEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
-		emailDao.saveEmail(email, mimeMessagePreparator);
+	public Email saveOrUpdateEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
+		return emailDao.saveEmail(email, mimeMessagePreparator);
 	}
 	
 	public void deleteEmail(final Email email) {
@@ -127,7 +127,8 @@ public class EmailService {
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveAdminNotification(Localization localization, Customer customer, String velocityPath, AdminNotficationEmailBean adminNotificationEmailBean)
      */
-    public void buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotificationEmailBean adminNotificationEmailBean) throws Exception {
+    public Email buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotificationEmailBean adminNotificationEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
@@ -158,7 +159,7 @@ public class EmailService {
             
             mimeMessagePreparator.getHtmlContent();
             
-            Email email = new Email();
+            email = new Email();
             email.setType(Email.EMAIl_TYPE_CONTACT);
             email.setStatus(Email.EMAIl_STATUS_PENDING);
             saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -173,14 +174,16 @@ public class EmailService {
             logger.error("Error, can't serializable the message :", e);
             throw e;
         }
+        return email;
     }
     
     /**
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveContactMail(Localization localization, Customer customer, String velocityPath, ContactEmailBean contactEmailBean)
      */
-    public void buildAndSaveContactMail(final RequestData requestData, final String velocityPath, 
+    public Email buildAndSaveContactMail(final RequestData requestData, final String velocityPath, 
                                         final ContactEmailBean contactEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -212,7 +215,7 @@ public class EmailService {
         	
         	mimeMessagePreparator.getHtmlContent();
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_CONTACT);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -227,13 +230,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveRetailerContactMail(Localization localization, Customer customer, String velocityPath, RetailerContactEmailBean retailerContactEmailBean)
      */
-    public void buildAndSaveRetailerContactMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+    public Email buildAndSaveRetailerContactMail(final RequestData requestData, final Customer customer, final String velocityPath, 
                                                 final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -264,7 +269,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "retailer-contact-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "retailer-contact-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_RETAILER_CONTACT);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -279,13 +284,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterSubscriptionnConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterEmailBean newsletterEmailBean)
      */
-    public void saveAndBuildNewsletterSubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
+    public Email buildAndSaveNewsletterSubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final MarketArea marketArea = requestData.getMarketArea();
@@ -326,7 +333,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-subscription-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-subscription-confirmation-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -341,13 +348,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterUnsubscriptionConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterEmailBean newsletterEmailBean)
      */
-    public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
+    public Email buildAndSaveNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -389,7 +398,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-unsubscription-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-unsubscription-confirmation-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -404,13 +413,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerNewAccountMail(Localization localization, Customer customer, String velocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean)
      */
-    public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final String velocityPath, 
+    public Email buildAndSaveCustomerNewAccountMail(final RequestData requestData, final String velocityPath, 
     											   final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -447,7 +458,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -462,14 +473,16 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String velocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean)
      */
-    public void buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+    public Email buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													  final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -510,7 +523,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_FORGOTTEN_PASSWORD);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -525,13 +538,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerResetPasswordConfirmationMail(Localization localization, Customer customer, String velocityPath, CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean)
      */
-    public void buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+    public Email buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     															  final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -566,7 +581,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -581,13 +596,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveUserNewAccountMail(Localization localization, User user, String velocityPath, UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean)
      */
-    public void buildAndSaveUserNewAccountMail(final RequestData requestData, final String velocityPath, 
+    public Email buildAndSaveUserNewAccountMail(final RequestData requestData, final String velocityPath, 
                                                    final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
@@ -624,7 +641,7 @@ public class EmailService {
             mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-html-content.vm", model));
             mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-text-content.vm", model));
             
-            Email email = new Email();
+            email = new Email();
             email.setType(Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION);
             email.setStatus(Email.EMAIl_STATUS_PENDING);
             saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -639,14 +656,16 @@ public class EmailService {
             logger.error("Error, can't serializable the message :", e);
             throw e;
         }
+        return email;
     }
     
     /**
      * @throws Exception 
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveUserForgottenPasswordMail(Localization localization, User user, String velocityPath, UserForgottenPasswordEmailBean userForgottenPasswordEmailBean)
      */
-    public void buildAndSaveUserForgottenPasswordMail(final RequestData requestData, final User user, final String velocityPath, 
+    public Email buildAndSaveUserForgottenPasswordMail(final RequestData requestData, final User user, final String velocityPath, 
                                                           final UserForgottenPasswordEmailBean userForgottenPasswordEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
@@ -689,7 +708,7 @@ public class EmailService {
             mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-html-content.vm", model));
             mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-text-content.vm", model));
             
-            Email email = new Email();
+            email = new Email();
             email.setType(Email.EMAIl_TYPE_FORGOTTEN_PASSWORD);
             email.setStatus(Email.EMAIl_STATUS_PENDING);
             saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -704,13 +723,15 @@ public class EmailService {
             logger.error("Error, can't serializable the message :", e);
             throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveUserResetPasswordConfirmationMail(Localization localization, User user, String velocityPath, UserResetPasswordConfirmationEmailBean userResetPasswordConfirmationEmailBean)
      */
-    public void buildAndSaveUserResetPasswordConfirmationMail(final RequestData requestData, final User user, final String velocityPath, 
+    public Email buildAndSaveUserResetPasswordConfirmationMail(final RequestData requestData, final User user, final String velocityPath, 
                                                                   final UserResetPasswordConfirmationEmailBean userResetPasswordConfirmationEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
             final Localization localization = requestData.getMarketAreaLocalization();
@@ -745,7 +766,7 @@ public class EmailService {
             mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-html-content.vm", model));
             mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-text-content.vm", model));
             
-            Email email = new Email();
+            email = new Email();
             email.setType(Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION);
             email.setStatus(Email.EMAIl_STATUS_PENDING);
             saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -760,13 +781,15 @@ public class EmailService {
             logger.error("Error, can't serializable the message :", e);
             throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean)
      */
-    public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+    public Email buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												 final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -798,7 +821,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-confirmation-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_CONFIRMATION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -813,13 +836,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean)
      */
-    public void buildAndSaveOrderShippedConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+    public Email buildAndSaveOrderShippedConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													 final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -851,7 +876,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_SHIPPED);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -866,13 +891,15 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
     
     /**
      * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean)
      */
-    public void buildAndSaveAbandonedShoppingCartMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+    public Email buildAndSaveAbandonedShoppingCartMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												  final AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception {
+        Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
         	final Localization localization = requestData.getMarketAreaLocalization();
@@ -904,7 +931,7 @@ public class EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-text-content.vm", model));
         	
-        	Email email = new Email();
+        	email = new Email();
         	email.setType(Email.EMAIl_TYPE_ABANDONED_SHOPPING_CART);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
@@ -919,6 +946,7 @@ public class EmailService {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
+        return email;
     }
 
     protected String handleFromAddress(String emailFromAddress, String contextValue){
