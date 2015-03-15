@@ -63,6 +63,8 @@ public class EmailDao extends AbstractGenericDao {
         
         criteria.setProjection(Projections.property("id"));//Property.forName()
 
+        criteria.addOrder(Order.asc("id"));
+        
         @SuppressWarnings("unchecked")
         List<Long> emailIds = criteria.list();
 //        List<Long> emailIds = new ArrayList<Long>(emails.size());
@@ -80,6 +82,8 @@ public class EmailDao extends AbstractGenericDao {
         criteria.add(Restrictions.le("processedCount", 5));
         
         criteria.setProjection(Projections.property("id"));//Property.forName()
+        
+        criteria.addOrder(Order.asc("id"));
         
         @SuppressWarnings("unchecked")
         List<Long> emailIds = criteria.list();
