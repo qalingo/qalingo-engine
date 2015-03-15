@@ -160,7 +160,7 @@ public class EmailService {
             mimeMessagePreparator.getHtmlContent();
             
             email = new Email();
-            email.setType(Email.EMAIl_TYPE_CONTACT);
+            email.setType(Email.EMAIl_TYPE_ADMIN_NOTIFICATION);
             email.setStatus(Email.EMAIl_STATUS_PENDING);
             saveOrUpdateEmail(email, mimeMessagePreparator);
             

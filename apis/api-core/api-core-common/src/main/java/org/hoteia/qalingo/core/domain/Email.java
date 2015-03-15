@@ -42,7 +42,7 @@ public class Email extends AbstractEntity<Email> {
 	public static final String EMAIl_TYPE_ORDER_CONFIRMATION						= "ORDER_CONFIRMATION";
 	public static final String EMAIl_TYPE_ORDER_SHIPPED								= "ORDER_SHIPPED";
 	public static final String EMAIl_TYPE_ABANDONED_SHOPPING_CART					= "ABANDONED_SHOPPING_CART";
-    public static final String EMAIl_TYPE_ADMIN_NOTIFICATION                              = "ADMIN_NOTIFICATION";
+    public static final String EMAIl_TYPE_ADMIN_NOTIFICATION                        = "ADMIN_NOTIFICATION";
 	
 	public static final String EMAIl_STATUS_PENDING = "PENDING";
 	public static final String EMAIl_STATUS_SENDED = "SENDED";
