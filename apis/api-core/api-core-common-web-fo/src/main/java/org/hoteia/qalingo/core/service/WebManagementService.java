@@ -643,7 +643,7 @@ public class WebManagementService {
         }
         
         customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD.getPropertyKey());
-        customer.setNetworkOrigin(marketArea.getCode());
+        customer.setMarketAreaOrigin(marketArea.getCode());
         
         customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
         customer.setActive(true);
