@@ -14,6 +14,11 @@ package org.hoteia.qalingo.core.domain.enumtype;
  */
 public enum OAuthType {
 
+    /**
+     * 
+     */
+    AUTO_LOGIN("auto-login"),
+    
 	/**
 	 * 
 	 */

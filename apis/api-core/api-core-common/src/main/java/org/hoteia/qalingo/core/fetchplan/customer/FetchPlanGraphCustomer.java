@@ -32,7 +32,7 @@ public class FetchPlanGraphCustomer {
         fetchplans.add(new SpecificFetchMode(Customer_.customerMarketAreas.getName()));
 
         fetchplans.add(new SpecificFetchMode(Customer_.attributes.getName()));
-        fetchplans.add(new SpecificFetchMode(Customer_.oauthAccesses.getName()));
+        fetchplans.add(new SpecificFetchMode(Customer_.oauthTokens.getName()));
         fetchplans.add(new SpecificFetchMode(Customer_.customerOrderAudit.getName()));
         fetchplans.add(new SpecificFetchMode(Customer_.paymentInformations.getName()));
 

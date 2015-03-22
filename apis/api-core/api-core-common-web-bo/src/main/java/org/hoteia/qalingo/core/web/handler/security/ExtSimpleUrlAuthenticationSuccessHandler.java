@@ -38,10 +38,10 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     @Autowired
-    private UserService userService;
+    protected UserService userService;
 
     @Autowired
-    private UserConnectionLogService userConnectionLogService;
+    protected UserConnectionLogService userConnectionLogService;
     
 	@Autowired
     protected RequestUtil requestUtil;
@@ -57,7 +57,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
                                         Authentication authentication) throws IOException, ServletException {
 
     	// Find the current user
-    	User user = userService.getUserByLoginOrEmail(authentication.getName());
+    	final User user = userService.getUserByLoginOrEmail(authentication.getName());
 
     	// Persit only the new UserConnectionLog
     	UserConnectionLog userConnectionLog = new UserConnectionLog();

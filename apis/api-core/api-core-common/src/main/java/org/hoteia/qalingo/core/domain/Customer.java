@@ -136,7 +136,7 @@ public class Customer extends AbstractEntity<Customer> {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerOAuth.class)
     @JoinColumn(name = "CUSTOMER_ID")
-    private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>();
+    private Set<CustomerOAuth> oauthTokens = new HashSet<CustomerOAuth>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerPaymentInformation.class)
     @JoinColumn(name = "CUSTOMER_ID")
@@ -458,12 +458,27 @@ public class Customer extends AbstractEntity<Customer> {
 		this.groups = groups;
 	}
 	
-	public Set<CustomerOAuth> getOauthAccesses() {
-	    return oauthAccesses;
+	public Set<CustomerOAuth> getOauthTokens() {
+        return oauthTokens;
     }
 	
-	public void setOauthAccesses(Set<CustomerOAuth> oauthAccesses) {
-	    this.oauthAccesses = oauthAccesses;
+    public CustomerOAuth getOauthToken(String oauthToken, String oauthType) {
+        if(oauthTokens != null 
+                && Hibernate.isInitialized(oauthTokens)
+                && oauthToken != null){
+            for (Iterator<CustomerOAuth> iterator = oauthTokens.iterator(); iterator.hasNext();) {
+                CustomerOAuth oAuth = (CustomerOAuth) iterator.next();
+                if(oauthToken.equals(oAuth.getOauthToken())
+                        && oauthType.equals(oAuth.getType())){
+                    return oAuth;
+                }
+            }
+        }
+        return null;
+    }
+    
+	public void setOauthTokens(Set<CustomerOAuth> oauthTokens) {
+        this.oauthTokens = oauthTokens;
     }
 	
 	public Set<CustomerPaymentInformation> getPaymentInformations() {

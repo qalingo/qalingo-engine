@@ -35,9 +35,9 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 	
     protected ExtRedirectStrategy redirectStrategy;
     
-    private boolean forceHttps = false;
+    protected boolean forceHttps = false;
 
-    private boolean useForward = false;
+    protected boolean useForward = false;
     
     @Deprecated
     public ExtLoginUrlAuthenticationEntryPoint() {

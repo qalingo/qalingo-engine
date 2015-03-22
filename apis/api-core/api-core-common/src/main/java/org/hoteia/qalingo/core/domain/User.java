@@ -119,6 +119,10 @@ public class User extends AbstractEntity<User> {
     @JoinColumn(name = "USER_ID")
     private Set<UserCredential> credentials = new HashSet<UserCredential>();
     
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.UserOAuth.class)
+    @JoinColumn(name = "USER_ID")
+    private Set<UserOAuth> oauthTokens = new HashSet<UserOAuth>();
+    
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TBO_USER_GROUP_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
     private Set<UserGroup> groups = new HashSet<UserGroup>();
@@ -340,6 +344,29 @@ public class User extends AbstractEntity<User> {
     
     public void setCredentials(Set<UserCredential> credentials) {
         this.credentials = credentials;
+    }
+    
+    public Set<UserOAuth> getOauthTokens() {
+        return oauthTokens;
+    }
+    
+    public UserOAuth getOauthToken(String oauthToken, String oauthType) {
+        if(oauthTokens != null 
+                && Hibernate.isInitialized(oauthTokens)
+                && oauthToken != null){
+            for (Iterator<UserOAuth> iterator = oauthTokens.iterator(); iterator.hasNext();) {
+                UserOAuth oAuth = (UserOAuth) iterator.next();
+                if(oauthToken.equals(oAuth.getOauthToken())
+                        && oauthType.equals(oAuth.getType())){
+                    return oAuth;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void setOauthTokens(Set<UserOAuth> oauthTokens) {
+        this.oauthTokens = oauthTokens;
     }
     
     public Set<UserGroup> getGroups() {

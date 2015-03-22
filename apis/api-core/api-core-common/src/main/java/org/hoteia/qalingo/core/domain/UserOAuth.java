@@ -23,7 +23,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CUSTOMER_OAUTH")
-public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
+public class UserOAuth extends AbstractEntity<UserOAuth> {
 
 	/**
 	 * Generated UID
@@ -59,7 +59,7 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public CustomerOAuth() {
+	public UserOAuth() {
 	}
 	
 	public Long getId() {
@@ -146,7 +146,7 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CustomerOAuth other = (CustomerOAuth) obj;
+        UserOAuth other = (UserOAuth) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
