@@ -22,13 +22,13 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_CUSTOMER_OAUTH")
+@Table(name="TBO_USER_OAUTH")
 public class UserOAuth extends AbstractEntity<UserOAuth> {
 
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = 2501221341288490523L;
+	private static final long serialVersionUID = 2501221341338490523L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
