@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
@@ -65,8 +68,12 @@ public class PaymentGatewayAttribute extends AbstractAttribute<PaymentGatewayAtt
 	@Lob
 	private byte[] blobValue;
 	
-    @Column(name = "BOOLEAN_VALUE")
+    @Column(name="BOOLEAN_VALUE")
     private Boolean booleanValue;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
 
     @Column(name = "LOCALIZATION_CODE")
     private String localizationCode;
@@ -155,6 +162,14 @@ public class PaymentGatewayAttribute extends AbstractAttribute<PaymentGatewayAtt
     
     public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
+    }
+
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
     }
 
     public String getLocalizationCode() {

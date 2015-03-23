@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -140,7 +141,7 @@ public abstract class AbstractPaymentGateway<E> extends AbstractEntity<E> {
 		return attributes;
 	}
 	
-    public boolean updateAttribute(String code, String value) {
+    public boolean updateAttribute(String code, String value) throws ParseException {
         if (attributes != null 
                 && Hibernate.isInitialized(attributes)) {
             for (Iterator<PaymentGatewayAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
@@ -154,7 +155,7 @@ public abstract class AbstractPaymentGateway<E> extends AbstractEntity<E> {
         return false;
     }
     
-    public void addAttribute(MarketArea marketArea, AttributeDefinition attributeDefinition, String value) {
+    public void addAttribute(MarketArea marketArea, AttributeDefinition attributeDefinition, String value) throws ParseException {
         PaymentGatewayAttribute attribute = new PaymentGatewayAttribute();
         attribute.setAttributeDefinition(attributeDefinition);
         if(marketArea != null){

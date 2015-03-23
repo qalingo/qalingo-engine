@@ -64,9 +64,6 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute<CatalogCat
 	@Column(name="FLOAT_VALUE")
 	private Float floatValue;
 
-    @Column(name = "DATE_VALUE")
-    private Date dateValue;
-
 	@Column(name="BLOB_VALUE")
 	@Lob
 	private byte[] blobValue;
@@ -74,8 +71,12 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute<CatalogCat
 	@Column(name="BOOLEAN_VALUE")
 	private Boolean booleanValue;
 	
-	@Column(name="LOCALIZATION_CODE")
-	private String localizationCode;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
+
+    @Column(name = "LOCALIZATION_CODE")
+    private String localizationCode;
 	
 //	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
 //	private boolean isGlobal;
@@ -169,14 +170,6 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute<CatalogCat
 		this.floatValue = floatValue;
 	}
 
-	public Date getDateValue() {
-        return dateValue;
-    }
-	
-	public void setDateValue(Date dateValue) {
-        this.dateValue = dateValue;
-    }
-	
 	public byte[] getBlobValue() {
 		return blobValue;
 	}
@@ -193,9 +186,17 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute<CatalogCat
 		this.booleanValue = booleanValue;
 	}
 
-	public String getLocalizationCode() {
-		return localizationCode;
-	}
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
+    }
+
+    public String getLocalizationCode() {
+        return localizationCode;
+    }
 
 	public void setLocalizationCode(String localizationCode) {
 		this.localizationCode = localizationCode;

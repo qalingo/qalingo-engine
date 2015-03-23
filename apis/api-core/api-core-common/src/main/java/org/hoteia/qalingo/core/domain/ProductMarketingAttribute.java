@@ -68,8 +68,12 @@ public class ProductMarketingAttribute extends AbstractAttribute<ProductMarketin
 	@Lob
 	private byte[] blobValue;
 	
-	@Column(name="BOOLEAN_VALUE")
-	private Boolean booleanValue;
+    @Column(name="BOOLEAN_VALUE")
+    private Boolean booleanValue;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
 	
 	@Column(name="LOCALIZATION_CODE")
 	private String localizationCode;
@@ -182,9 +186,17 @@ public class ProductMarketingAttribute extends AbstractAttribute<ProductMarketin
 		this.booleanValue = booleanValue;
 	}
 
-	public String getLocalizationCode() {
-		return localizationCode;
-	}
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
+    }
+
+    public String getLocalizationCode() {
+        return localizationCode;
+    }
 
 	public void setLocalizationCode(String localizationCode) {
 		this.localizationCode = localizationCode;

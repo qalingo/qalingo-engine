@@ -71,6 +71,10 @@ public class MarketPlaceAttribute extends AbstractAttribute<MarketPlaceAttribute
     @Column(name = "BOOLEAN_VALUE")
     private Boolean booleanValue;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
+
     @Column(name = "LOCALIZATION_CODE")
     private String localizationCode;
 	
@@ -183,6 +187,14 @@ public class MarketPlaceAttribute extends AbstractAttribute<MarketPlaceAttribute
     
     public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
+    }
+
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
     }
 
     public String getLocalizationCode() {

@@ -71,8 +71,12 @@ public class StoreAttribute extends AbstractAttribute<StoreAttribute> {
 	@Column(name="BOOLEAN_VALUE")
 	private Boolean booleanValue;
 	
-	@Column(name="LOCALIZATION_CODE")
-	private String localizationCode;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
+
+    @Column(name = "LOCALIZATION_CODE")
+    private String localizationCode;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
@@ -176,9 +180,17 @@ public class StoreAttribute extends AbstractAttribute<StoreAttribute> {
 		this.booleanValue = booleanValue;
 	}
 
-	public String getLocalizationCode() {
-		return localizationCode;
-	}
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
+    }
+
+    public String getLocalizationCode() {
+        return localizationCode;
+    }
 
 	public void setLocalizationCode(String localizationCode) {
 		this.localizationCode = localizationCode;

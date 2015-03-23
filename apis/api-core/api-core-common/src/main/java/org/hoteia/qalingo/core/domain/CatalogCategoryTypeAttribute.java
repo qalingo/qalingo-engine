@@ -71,8 +71,12 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute<CatalogCateg
 	@Column(name="BOOLEAN_VALUE")
 	private Boolean booleanValue;
 	
-	@Column(name="LOCALIZATION_CODE")
-	private String localizationCode;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
+
+    @Column(name = "LOCALIZATION_CODE")
+    private String localizationCode;
 	
     @Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
@@ -179,9 +183,17 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute<CatalogCateg
 		this.booleanValue = booleanValue;
 	}
 
-	public String getLocalizationCode() {
-		return localizationCode;
-	}
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
+    }
+
+    public String getLocalizationCode() {
+        return localizationCode;
+    }
 
 	public void setLocalizationCode(String localizationCode) {
 		this.localizationCode = localizationCode;
