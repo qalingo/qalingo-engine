@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -333,7 +334,7 @@ public class WebBackofficeService {
     }
     
 	public CatalogCategoryMaster createCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Localization localization, final CatalogCategoryMaster parentCatalogCategory, 
-	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
+	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException, ParseException {
 		String catalogCategoryCode = catalogCategoryForm.getCode();
 		
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
@@ -405,7 +406,7 @@ public class WebBackofficeService {
 	}
 	
 	public CatalogCategoryMaster updateCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Retailer retailer, final Localization localization, 
-	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
+	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws ParseException {
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
             catalogCategory.setCode(catalogCategoryForm.getCode());
         }
@@ -476,7 +477,7 @@ public class WebBackofficeService {
 	}
 	
 	public CatalogCategoryVirtual createCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Localization localization, final CatalogCategoryVirtual parentCatalogCategory,
-	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
+	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException, ParseException {
         String catalogCategoryCode = catalogCategoryForm.getCode();
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
             catalogCategory.setCode(catalogCategoryForm.getCode());
@@ -545,7 +546,7 @@ public class WebBackofficeService {
 	}
 	
 	public CatalogCategoryVirtual updateCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Retailer retailer, final Localization localization, 
-	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
+	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws ParseException {
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
             catalogCategory.setCode(catalogCategoryForm.getCode());
         }
@@ -643,7 +644,7 @@ public class WebBackofficeService {
 		return catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 
-    private ProductBrandAttribute buildProductBrandAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) {
+    private ProductBrandAttribute buildProductBrandAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
 
         // TODO : denis : 20130125 : add cache
         AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
@@ -657,7 +658,7 @@ public class WebBackofficeService {
         return productBrandAttribute;
     }
 	   
-	private CatalogCategoryMasterAttribute buildCatalogCategoryMasterAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) {
+	private CatalogCategoryMasterAttribute buildCatalogCategoryMasterAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
 		
 		//TODO : denis : 20130125 : add cache
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
@@ -671,7 +672,7 @@ public class WebBackofficeService {
 		return catalogCategoryMasterAttribute;
 	}
 	
-	private CatalogCategoryVirtualAttribute buildCatalogCategoryVirtualAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) {
+	private CatalogCategoryVirtualAttribute buildCatalogCategoryVirtualAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
 		
 		//TODO : denis : 20130125 : add cache
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
@@ -891,7 +892,7 @@ public class WebBackofficeService {
         return engineSettingService.saveOrUpdateEngineSettingValue(engineSettingValue);
     }
 
-    public AbstractPaymentGateway createOrUpdatePaymentGateway(final MarketArea marketArea, AbstractPaymentGateway paymentGateway, final PaymentGatewayForm paymentGatewayForm) {
+    public AbstractPaymentGateway createOrUpdatePaymentGateway(final MarketArea marketArea, AbstractPaymentGateway paymentGateway, final PaymentGatewayForm paymentGatewayForm) throws ParseException {
         if (StringUtils.isNotEmpty(paymentGatewayForm.getCode())) {
             paymentGateway.setCode(paymentGatewayForm.getCode());
         }
