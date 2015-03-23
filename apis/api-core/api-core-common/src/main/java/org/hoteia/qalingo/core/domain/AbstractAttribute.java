@@ -9,6 +9,9 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import org.apache.commons.lang.BooleanUtils;
 
 public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
@@ -19,15 +22,15 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
 	private static final long serialVersionUID = 2397084953607874647L;
 	
 	// TODO : ENUM OR NOT ?
-    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS = "MARKET_AREA_EMAIL_FROM_ADDRESS";
-    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_NAME = "MARKET_AREA_EMAIL_FROM_NAME";
-    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT = "MARKET_AREA_EMAIL_CONTACT";
-    public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME = "MARKET_AREA_DOMAIN_NAME";
-    public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS = "MARKET_AREA_SHARE_OPTIONS";
-    public final static String MARKET_AREA_ATTRIBUTE_SAVE_PAYMENT_INFORMATION = "MARKET_AREA_SAVE_PAYMENT_INFORMATION";
-    public final static String MARKET_AREA_ATTRIBUTE_ORDER_CONFIRMATION_TEMPLATE = "MARKET_AREA_ORDER_CONFIRMATION_TEMPLATE";
+    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS             = "MARKET_AREA_EMAIL_FROM_ADDRESS";
+    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_NAME                = "MARKET_AREA_EMAIL_FROM_NAME";
+    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT               = "MARKET_AREA_EMAIL_CONTACT";
+    public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME                    = "MARKET_AREA_DOMAIN_NAME";
+    public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS                  = "MARKET_AREA_SHARE_OPTIONS";
+    public final static String MARKET_AREA_ATTRIBUTE_SAVE_PAYMENT_INFORMATION       = "MARKET_AREA_SAVE_PAYMENT_INFORMATION";
+    public final static String MARKET_AREA_ATTRIBUTE_ORDER_CONFIRMATION_TEMPLATE    = "MARKET_AREA_ORDER_CONFIRMATION_TEMPLATE";
     public final static String MARKET_AREA_ATTRIBUTE_SHIPPING_CONFIRMATION_TEMPLATE = "MARKET_AREA_SHIPPING_CONFIRMATION_TEMPLATE";
-    public final static String MARKET_AREA_ATTRIBUTE_INVOICE_TEMPLATE = "MARKET_AREA_INVOICE_TEMPLATE";
+    public final static String MARKET_AREA_ATTRIBUTE_INVOICE_TEMPLATE               = "MARKET_AREA_INVOICE_TEMPLATE";
 
 	public final static String CUSTOMER_ATTRIBUTE_SCREENAME = "CUSTOMER_SCREENNAME";
 
@@ -88,6 +91,10 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
 
     public abstract void setBooleanValue(Boolean value);
 
+    public abstract Date getDateValue();
+
+    public abstract void setDateValue(Date value);
+    
     public abstract Long getMarketAreaId();
     
     public abstract void setMarketAreaId(Long marketAreaId);
@@ -112,7 +119,9 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
 			return (Object) getBlobValue();
 		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN) {
 			return (Object) getBooleanValue();
-		}
+		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DATE) {
+            return (Object) getDateValue();
+        }
 		return null;
 	}
 	
@@ -145,11 +154,15 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
 			if(getBooleanValue() != null){
 				return getBooleanValue().toString();
 			}
-		}
+		} else if(getAttributeDefinition().getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DATE){
+            if(getDateValue() != null){
+                return AttributeDefinition.fullAttributeDateFormat.format(getDateValue());
+            }
+        }
 		return null;
 	}
 	
-    public void setValue(String value) {
+    public void setValue(String value) throws ParseException {
         AttributeDefinition attributeDefinition = getAttributeDefinition();
         if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_SHORT_STRING) {
             setShortStringValue(value);
@@ -165,6 +178,8 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
             setBlobValue(value.getBytes());
         } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN) {
             setBooleanValue(BooleanUtils.toBoolean(value));
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DATE) {
+            setDateValue(AttributeDefinition.fullAttributeDateFormat.parse(value));
         }
     }
 	

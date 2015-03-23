@@ -115,6 +115,10 @@ public class User extends AbstractEntity<User> {
     @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
     private Company company;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.UserAttribute.class)
+    @JoinColumn(name = "USER_ID")
+    private Set<UserAttribute> attributes = new HashSet<UserAttribute>(); 
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.UserCredential.class)
     @JoinColumn(name = "USER_ID")
     private Set<UserCredential> credentials = new HashSet<UserCredential>();
@@ -310,6 +314,14 @@ public class User extends AbstractEntity<User> {
         this.company = company;
     }
 
+    public Set<UserAttribute> getAttributes() {
+        return attributes;
+    }
+    
+    public void setAttributes(Set<UserAttribute> attributes) {
+        this.attributes = attributes;
+    }
+    
     public Set<UserCredential> getCredentials() {
         return credentials;
     }

@@ -36,7 +36,11 @@ INSERT INTO teco_localization
 (11, 'zh-sg', 'SG', 'zh', 'Chinese - Singapore', 'zh_CN', 'Chinese localization for Singapore.'), 
 (12, 'zh-tw', 'TW', 'zh', 'Chinese - Taiwan', 'zh_TW', 'Chinese localization for Taiwan.'),
 (13, 'vi-VN', 'VN', 'vi', 'Vietnamese', 'vi_VN', 'Vietnamese localization for Vietnam.'),
-(14, 'ru',    'RU', 'ru', 'Russian', 'ru_RU', 'Russian localization for Russie.');
+(14, 'ru',    'RU', 'ru', 'Russian', 'ru_RU', 'Russian localization for Russie.'),
+(15, 'ca',    'ES', 'es', 'Catalan', 'ca_ES', 'Catalan localization for France/Spain.'),
+(16, 'eu',    'FR', 'eu', 'Basque', 'eu_FR', 'Basque localization for France/Spain.'),
+(17, 'co',    'FR', 'co', 'Corse', 'co', 'Russian localization for France/Italie.');
+
 
 INSERT INTO tbo_group 
 (id, name, description, code, version)

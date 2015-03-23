@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -39,6 +40,7 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     public static int ATTRIBUTE_TYPE_INTEGER        = 5;
     public static int ATTRIBUTE_TYPE_BLOB           = 6;
     public static int ATTRIBUTE_TYPE_BOOLEAN        = 7;
+    public static int ATTRIBUTE_TYPE_DATE           = 8;
 
     public static int OBJECT_TYPE_CATALOG_CATEGORY              = 1;
     public static int OBJECT_TYPE_PRODUCT_MARKETING             = 2;
@@ -51,9 +53,12 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     public static int OBJECT_TYPE_TAX                           = 9;
     public static int OBJECT_TYPE_RETAILER                      = 10;
     public static int OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION = 11;
-	
+    public static int OBJECT_TYPE_USER                          = 12;
+
     public static final String CACHE_NAME = "web_cache_settings";
 
+    public static SimpleDateFormat fullAttributeDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
@@ -168,6 +173,8 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
             return "BLOB";
         } else if (type == ATTRIBUTE_TYPE_BOOLEAN) {
             return "BOOLEAN";
+        } else if (type == ATTRIBUTE_TYPE_DATE) {
+            return "DATE";
         }
         return null;
     }
