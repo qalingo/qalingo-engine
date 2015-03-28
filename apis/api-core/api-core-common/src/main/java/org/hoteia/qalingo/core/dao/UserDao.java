@@ -24,6 +24,7 @@ import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.UserGroup;
+import org.hoteia.qalingo.core.domain.UserOAuth;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.user.FetchPlanGraphUser;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -302,6 +303,26 @@ public class UserDao extends AbstractGenericDao {
         } else {
             em.persist(userCredential);
             return userCredential;
+        }
+    }
+    
+    // OAUTH
+    
+    public UserOAuth saveOrUpdateUserOAuth(final UserOAuth userOAuth) throws Exception {
+        if(userOAuth.getDateCreate() == null){
+            userOAuth.setDateCreate(new Date());
+        }
+        userOAuth.setDateUpdate(new Date());
+        if (userOAuth.getId() != null) {
+            if(em.contains(userOAuth)){
+                em.refresh(userOAuth);
+            }
+            UserOAuth mergedUserOAuth = em.merge(userOAuth);
+            em.flush();
+            return mergedUserOAuth;
+        } else {
+            em.persist(userOAuth);
+            return userOAuth;
         }
     }
     

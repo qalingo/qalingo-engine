@@ -203,7 +203,10 @@ public abstract class AbstractUrlService {
     }
 
     protected String buildContextPath(final RequestData requestData) {
-        return requestData.getContextPath();
+        if (StringUtils.isNotEmpty(requestData.getContextPath())) {
+            return requestData.getContextPath();
+        }
+        return "";
     }
 
 }

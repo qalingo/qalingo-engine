@@ -463,13 +463,20 @@ public class Customer extends AbstractEntity<Customer> {
     }
 	
     public CustomerOAuth getOauthToken(String oauthToken, String oauthType) {
+        CustomerOAuth oAuth = getOauthToken(oauthType);
+        if(oAuth != null 
+                && oauthToken.equals(oAuth.getOauthToken())){
+            return oAuth;
+        }
+        return null;
+    }
+    
+    public CustomerOAuth getOauthToken(String oauthType) {
         if(oauthTokens != null 
-                && Hibernate.isInitialized(oauthTokens)
-                && oauthToken != null){
+                && Hibernate.isInitialized(oauthTokens)){
             for (Iterator<CustomerOAuth> iterator = oauthTokens.iterator(); iterator.hasNext();) {
                 CustomerOAuth oAuth = (CustomerOAuth) iterator.next();
-                if(oauthToken.equals(oAuth.getOauthToken())
-                        && oauthType.equals(oAuth.getType())){
+                if(oauthType.equals(oAuth.getType())){
                     return oAuth;
                 }
             }

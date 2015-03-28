@@ -363,13 +363,20 @@ public class User extends AbstractEntity<User> {
     }
     
     public UserOAuth getOauthToken(String oauthToken, String oauthType) {
+        UserOAuth oAuth = getOauthToken(oauthType);
+        if(oAuth != null 
+                && oauthToken.equals(oAuth.getOauthToken())){
+            return oAuth;
+        }
+        return null;
+    }
+    
+    public UserOAuth getOauthToken(String oauthType) {
         if(oauthTokens != null 
-                && Hibernate.isInitialized(oauthTokens)
-                && oauthToken != null){
+                && Hibernate.isInitialized(oauthTokens)){
             for (Iterator<UserOAuth> iterator = oauthTokens.iterator(); iterator.hasNext();) {
                 UserOAuth oAuth = (UserOAuth) iterator.next();
-                if(oauthToken.equals(oAuth.getOauthToken())
-                        && oauthType.equals(oAuth.getType())){
+                if(oauthType.equals(oAuth.getType())){
                     return oAuth;
                 }
             }

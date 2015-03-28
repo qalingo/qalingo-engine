@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.security.helper;
 
 import java.util.Random;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -46,6 +47,10 @@ public class SecurityUtil {
 		
 		return new String(generatePswd(10, 10, 1, 1, 0));
 	}
+	
+   public String generateOauthToken() {
+        return UUID.randomUUID().toString().replace("_", "");
+    }
 	
 	public String encodePassword(String clearPassword) {
 		String result = encoder.encode(clearPassword);
