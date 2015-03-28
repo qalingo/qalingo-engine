@@ -43,7 +43,7 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
     private String oauthToken;
 
 	@Column(name="USER_ID")
-    private String userId;
+    private Long userId;
 	
 	@Column(name="EXPIRES")
     private String expires;
@@ -86,11 +86,11 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
     	this.oauthToken = oauthToken;
     }
 
-	public String getUserId() {
+	public Long getUserId() {
         return userId;
     }
 	
-	public void setUserId(String userId) {
+	public void setUserId(Long userId) {
         this.userId = userId;
     }
 	

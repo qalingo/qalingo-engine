@@ -43,7 +43,7 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
     private String oauthToken;
 
 	@Column(name="CUSTOMER_ID")
-    private String customerId;
+    private Long customerId;
 	
 	@Column(name="EXPIRES")
     private String expires;
@@ -86,11 +86,11 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
     	this.oauthToken = oauthToken;
     }
 
-	public String getCustomerId() {
+	public Long getCustomerId() {
         return customerId;
     }
 	
-	public void setCustomerId(String customerId) {
+	public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 	
