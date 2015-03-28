@@ -133,7 +133,7 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
-        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
         return result;
     }
 
@@ -159,17 +159,17 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
             return false;
         if (type != other.type)
             return false;
-        if (customerId == null) {
-            if (other.customerId != null)
+        if (userId == null) {
+            if (other.userId != null)
                 return false;
-        } else if (!customerId.equals(other.customerId))
+        } else if (!userId.equals(other.userId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "CustomerOAuth [id=" + id + ", version=" + version + ", oauthToken=" + oauthToken + ", customerId=" + customerId + ", expires=" + expires + ", type=" + type + ", dateCreate=" + dateCreate
+        return "UserOAuth [id=" + id + ", version=" + version + ", oauthToken=" + oauthToken + ", userId=" + userId + ", expires=" + expires + ", type=" + type + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
 
