@@ -18,6 +18,7 @@ import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
+import org.hoteia.qalingo.core.domain.CustomerToken;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
@@ -147,4 +148,10 @@ public class CustomerService {
         return customerDao.saveOrUpdateCustomerCredential(customerCredential);
     }
 
+    // TOKEN
+
+    public CustomerToken saveOrUpdateCustomerToken(final CustomerToken customerToken) throws Exception {
+        return customerDao.saveOrUpdateCustomerToken(customerToken);
+    }
+    
 }

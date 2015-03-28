@@ -22,8 +22,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_USER_OAUTH")
-public class UserOAuth extends AbstractEntity<UserOAuth> {
+@Table(name="TBO_USER_TOKEN")
+public class UserToken extends AbstractEntity<UserToken> {
 
 	/**
 	 * Generated UID
@@ -40,7 +40,7 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
 	private int version;
 	
 	@Column(name="OAUTH_TOKEN")
-    private String oauthToken;
+    private String token;
 
 	@Column(name="USER_ID")
     private Long userId;
@@ -59,7 +59,7 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public UserOAuth() {
+	public UserToken() {
 	}
 	
 	public Long getId() {
@@ -78,12 +78,12 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
     	this.version = version;
     }
 
-	public String getOauthToken() {
-    	return oauthToken;
+	public String getToken() {
+    	return token;
     }
 
-	public void setOauthToken(String oauthToken) {
-    	this.oauthToken = oauthToken;
+	public void setToken(String token) {
+    	this.token = token;
     }
 
 	public Long getUserId() {
@@ -146,7 +146,7 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        UserOAuth other = (UserOAuth) obj;
+        UserToken other = (UserToken) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -169,7 +169,7 @@ public class UserOAuth extends AbstractEntity<UserOAuth> {
 
     @Override
     public String toString() {
-        return "UserOAuth [id=" + id + ", version=" + version + ", oauthToken=" + oauthToken + ", userId=" + userId + ", expires=" + expires + ", type=" + type + ", dateCreate=" + dateCreate
+        return "UserToken [id=" + id + ", version=" + version + ", token=" + token + ", userId=" + userId + ", expires=" + expires + ", type=" + type + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
 

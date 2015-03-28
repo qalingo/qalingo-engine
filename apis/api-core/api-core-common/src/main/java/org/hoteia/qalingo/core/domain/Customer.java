@@ -98,9 +98,6 @@ public class Customer extends AbstractEntity<Customer> {
     @Column(name = "VALIDATED", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean validated;
 
-    @Column(name = "VALIDATION_TOKEN")
-    private String validationToken;
-
     @Column(name = "IS_ANONYMOUS", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean anonymous;
 
@@ -134,9 +131,9 @@ public class Customer extends AbstractEntity<Customer> {
     @JoinTable(name = "TECO_CUSTOMER_GROUP_REL", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
     private Set<CustomerGroup> groups = new HashSet<CustomerGroup>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerOAuth.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerToken.class)
     @JoinColumn(name = "CUSTOMER_ID")
-    private Set<CustomerOAuth> oauthTokens = new HashSet<CustomerOAuth>();
+    private Set<CustomerToken> tokens = new HashSet<CustomerToken>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerPaymentInformation.class)
     @JoinColumn(name = "CUSTOMER_ID")
@@ -286,14 +283,6 @@ public class Customer extends AbstractEntity<Customer> {
     	this.validated = validated;
     }
 	
-	public String getValidationToken() {
-	    return validationToken;
-    }
-	
-	public void setValidationToken(String validationToken) {
-	    this.validationToken = validationToken;
-    }
-
 	public boolean isAnonymous() {
     	return anonymous;
     }
@@ -458,34 +447,34 @@ public class Customer extends AbstractEntity<Customer> {
 		this.groups = groups;
 	}
 	
-	public Set<CustomerOAuth> getOauthTokens() {
-        return oauthTokens;
+	public Set<CustomerToken> getTokens() {
+        return tokens;
     }
 	
-    public CustomerOAuth getOauthToken(String oauthToken, String oauthType) {
-        CustomerOAuth oAuth = getOauthToken(oauthType);
-        if(oAuth != null 
-                && oauthToken.equals(oAuth.getOauthToken())){
-            return oAuth;
+    public CustomerToken getToken(String token, String tokenType) {
+        CustomerToken customerToken = getToken(tokenType);
+        if(customerToken != null 
+                && token.equals(customerToken.getToken())){
+            return customerToken;
         }
         return null;
     }
     
-    public CustomerOAuth getOauthToken(String oauthType) {
-        if(oauthTokens != null 
-                && Hibernate.isInitialized(oauthTokens)){
-            for (Iterator<CustomerOAuth> iterator = oauthTokens.iterator(); iterator.hasNext();) {
-                CustomerOAuth oAuth = (CustomerOAuth) iterator.next();
-                if(oauthType.equals(oAuth.getType())){
-                    return oAuth;
+    public CustomerToken getToken(String tokenType) {
+        if(tokens != null 
+                && Hibernate.isInitialized(tokens)){
+            for (Iterator<CustomerToken> iterator = tokens.iterator(); iterator.hasNext();) {
+                CustomerToken token = (CustomerToken) iterator.next();
+                if(tokenType.equals(token.getType())){
+                    return token;
                 }
             }
         }
         return null;
     }
     
-	public void setOauthTokens(Set<CustomerOAuth> oauthTokens) {
-        this.oauthTokens = oauthTokens;
+	public void setTokens(Set<CustomerToken> tokens) {
+        this.tokens = tokens;
     }
 	
 	public Set<CustomerPaymentInformation> getPaymentInformations() {
@@ -698,7 +687,7 @@ public class Customer extends AbstractEntity<Customer> {
     public String toString() {
         return "Customer [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", avatarImg=" + avatarImg + ", permalink=" + permalink + ", gender=" + gender + ", title="
                 + title + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", password=" + password + ", defaultLocale=" + defaultLocale + ", active=" + active
-                + ", validated=" + validated + ", validationToken=" + validationToken + ", anonymous=" + anonymous + ", defaultShippingAddressId=" + defaultShippingAddressId
+                + ", validated=" + validated + ", anonymous=" + anonymous + ", defaultShippingAddressId=" + defaultShippingAddressId
                 + ", defaultBillingAddressId=" + defaultBillingAddressId + ", platformOrigin=" + platformOrigin + ", networkOrigin=" + networkOrigin + ", dateCreate=" + dateCreate + ", dateUpdate="
                 + dateUpdate + "]";
     }

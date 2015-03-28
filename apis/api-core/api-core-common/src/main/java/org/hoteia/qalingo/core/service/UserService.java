@@ -16,7 +16,7 @@ import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.UserGroup;
-import org.hoteia.qalingo.core.domain.UserOAuth;
+import org.hoteia.qalingo.core.domain.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,10 +150,10 @@ public class UserService {
         return userDao.saveOrUpdateUserCredential(userCredential);
     }
     
-    // OAUTH
+    // TOKEN
 
-    public UserOAuth saveOrUpdateUserOAuth(final UserOAuth userOAuth) throws Exception {
-        return userDao.saveOrUpdateUserOAuth(userOAuth);
+    public UserToken saveOrUpdateUserToken(final UserToken userToken) throws Exception {
+        return userDao.saveOrUpdateUserToken(userToken);
     }
 
 }

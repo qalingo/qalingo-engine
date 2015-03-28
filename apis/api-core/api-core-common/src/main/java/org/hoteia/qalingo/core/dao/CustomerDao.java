@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerToken;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
@@ -238,6 +239,26 @@ public class CustomerDao extends AbstractGenericDao {
         }
 	}
 	
+    // OAUTH
+    
+    public CustomerToken saveOrUpdateCustomerToken(final CustomerToken customerToken) throws Exception {
+        if(customerToken.getDateCreate() == null){
+            customerToken.setDateCreate(new Date());
+        }
+        customerToken.setDateUpdate(new Date());
+        if (customerToken.getId() != null) {
+            if(em.contains(customerToken)){
+                em.refresh(customerToken);
+            }
+            CustomerToken mergedCustomerToken = em.merge(customerToken);
+            em.flush();
+            return mergedCustomerToken;
+        } else {
+            em.persist(customerToken);
+            return customerToken;
+        }
+    }
+    
     @Override
     protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {

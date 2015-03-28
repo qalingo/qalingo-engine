@@ -22,8 +22,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_CUSTOMER_OAUTH")
-public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
+@Table(name="TECO_CUSTOMER_TOKEN")
+public class CustomerToken extends AbstractEntity<CustomerToken> {
 
 	/**
 	 * Generated UID
@@ -40,7 +40,7 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
 	private int version;
 	
 	@Column(name="OAUTH_TOKEN")
-    private String oauthToken;
+    private String token;
 
 	@Column(name="CUSTOMER_ID")
     private Long customerId;
@@ -59,7 +59,7 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public CustomerOAuth() {
+	public CustomerToken() {
 	}
 	
 	public Long getId() {
@@ -78,12 +78,12 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
     	this.version = version;
     }
 
-	public String getOauthToken() {
-    	return oauthToken;
+	public String getToken() {
+    	return token;
     }
 
-	public void setOauthToken(String oauthToken) {
-    	this.oauthToken = oauthToken;
+	public void setToken(String token) {
+    	this.token = token;
     }
 
 	public Long getCustomerId() {
@@ -146,7 +146,7 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CustomerOAuth other = (CustomerOAuth) obj;
+        CustomerToken other = (CustomerToken) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -169,7 +169,7 @@ public class CustomerOAuth extends AbstractEntity<CustomerOAuth> {
 
     @Override
     public String toString() {
-        return "CustomerOAuth [id=" + id + ", version=" + version + ", oauthToken=" + oauthToken + ", customerId=" + customerId + ", expires=" + expires + ", type=" + type + ", dateCreate=" + dateCreate
+        return "CustomerToken [id=" + id + ", version=" + version + ", token=" + token + ", customerId=" + customerId + ", expires=" + expires + ", type=" + type + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
 

@@ -48,9 +48,9 @@ public class SecurityUtil {
 		return new String(generatePswd(10, 10, 1, 1, 0));
 	}
 	
-   public String generateOauthToken() {
-       String oauthToken = new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1));
-       return oauthToken;
+   public String generateToken() {
+       String token = new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1));
+       return token;
     }
 	
 	public String encodePassword(String clearPassword) {

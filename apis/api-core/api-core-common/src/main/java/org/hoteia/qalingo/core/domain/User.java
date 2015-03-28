@@ -123,9 +123,9 @@ public class User extends AbstractEntity<User> {
     @JoinColumn(name = "USER_ID")
     private Set<UserCredential> credentials = new HashSet<UserCredential>();
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.UserOAuth.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.UserToken.class)
     @JoinColumn(name = "USER_ID")
-    private Set<UserOAuth> oauthTokens = new HashSet<UserOAuth>();
+    private Set<UserToken> tokens = new HashSet<UserToken>();
     
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TBO_USER_GROUP_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
@@ -358,34 +358,34 @@ public class User extends AbstractEntity<User> {
         this.credentials = credentials;
     }
     
-    public Set<UserOAuth> getOauthTokens() {
-        return oauthTokens;
+    public Set<UserToken> getTokens() {
+        return tokens;
     }
     
-    public UserOAuth getOauthToken(String oauthToken, String oauthType) {
-        UserOAuth oAuth = getOauthToken(oauthType);
-        if(oAuth != null 
-                && oauthToken.equals(oAuth.getOauthToken())){
-            return oAuth;
+    public UserToken getToken(String token, String tokenType) {
+        UserToken userToken = getToken(tokenType);
+        if(userToken != null 
+                && token.equals(userToken.getToken())){
+            return userToken;
         }
         return null;
     }
     
-    public UserOAuth getOauthToken(String oauthType) {
-        if(oauthTokens != null 
-                && Hibernate.isInitialized(oauthTokens)){
-            for (Iterator<UserOAuth> iterator = oauthTokens.iterator(); iterator.hasNext();) {
-                UserOAuth oAuth = (UserOAuth) iterator.next();
-                if(oauthType.equals(oAuth.getType())){
-                    return oAuth;
+    public UserToken getToken(String tokenType) {
+        if(tokens != null 
+                && Hibernate.isInitialized(tokens)){
+            for (Iterator<UserToken> iterator = tokens.iterator(); iterator.hasNext();) {
+                UserToken token = (UserToken) iterator.next();
+                if(tokenType.equals(token.getType())){
+                    return token;
                 }
             }
         }
         return null;
     }
     
-    public void setOauthTokens(Set<UserOAuth> oauthTokens) {
-        this.oauthTokens = oauthTokens;
+    public void setTokens(Set<UserToken> tokens) {
+        this.tokens = tokens;
     }
     
     public Set<UserGroup> getGroups() {
