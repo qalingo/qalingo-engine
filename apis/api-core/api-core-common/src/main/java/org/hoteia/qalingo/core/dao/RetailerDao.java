@@ -79,6 +79,21 @@ public class RetailerDao extends AbstractGenericDao {
         }
         return retailer;
     }
+    
+    public Retailer getRetailerByCompanyCode(final String companyCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Retailer.class);
+
+        FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
+
+        criteria.createAlias("company", "company", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("company.code", companyCode));
+        
+        Retailer retailer = (Retailer) criteria.uniqueResult();
+        if(retailer != null){
+            retailer.setFetchPlan(fetchPlan);
+        }
+        return retailer;
+    }
 	
     public Long getMaxRetailerId() {
         Criteria criteria = createDefaultCriteria(Retailer.class);

@@ -56,6 +56,10 @@ public class RetailerService {
         return retailerDao.getRetailerByCode(retailerCode, params);
     }
 
+    public Retailer getRetailerByCompanyCode(final String companyCode, Object... params) {
+        return retailerDao.getRetailerByCompanyCode(companyCode, params);
+    }
+    
     public Long getMaxRetailerId() {
         return retailerDao.getMaxRetailerId();
     }
