@@ -11,6 +11,8 @@ package org.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 public abstract class AbstractCustomerEmailBean extends AbstractEmailBean implements Serializable {
 
 	/**
@@ -24,7 +26,10 @@ public abstract class AbstractCustomerEmailBean extends AbstractEmailBean implem
     private String email;
 	
 	public String getTitle() {
-	    return title;
+        if(StringUtils.isNotEmpty(title)){
+            return title;
+        }
+        return "";
     }
 	
 	public void setTitle(String title) {
@@ -32,7 +37,10 @@ public abstract class AbstractCustomerEmailBean extends AbstractEmailBean implem
     }
 
 	public String getFirstname() {
-    	return firstname;
+        if(StringUtils.isNotEmpty(firstname)){
+            return firstname;
+        }
+        return "";
     }
 
 	public void setFirstname(String firstname) {
@@ -40,7 +48,10 @@ public abstract class AbstractCustomerEmailBean extends AbstractEmailBean implem
     }
 
 	public String getLastname() {
-    	return lastname;
+        if(StringUtils.isNotEmpty(lastname)){
+            return lastname;
+        }
+        return "";
     }
 
 	public void setLastname(String lastname) {
@@ -54,5 +65,39 @@ public abstract class AbstractCustomerEmailBean extends AbstractEmailBean implem
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getFullLastnameFirstnameLabel(){
+	    StringBuffer label = new StringBuffer();
+	    if(StringUtils.isNotEmpty(title)){
+	        label.append(title);
+            label.append(" ");
+	    }
+        if(StringUtils.isNotEmpty(lastname)){
+            label.append(lastname);
+            label.append(" ");
+        }
+        if(StringUtils.isNotEmpty(firstname)){
+            label.append(firstname);
+            label.append(" ");
+        }
+        return label.toString();
+	}
 
+   public String getFullFirstnameLastnameLabel(){
+        StringBuffer label = new StringBuffer();
+        if(StringUtils.isNotEmpty(title)){
+            label.append(title);
+            label.append(" ");
+        }
+        if(StringUtils.isNotEmpty(firstname)){
+            label.append(firstname);
+            label.append(" ");
+        }
+        if(StringUtils.isNotEmpty(lastname)){
+            label.append(lastname);
+            label.append(" ");
+        }
+        return label.toString();
+    }
+	   
 }

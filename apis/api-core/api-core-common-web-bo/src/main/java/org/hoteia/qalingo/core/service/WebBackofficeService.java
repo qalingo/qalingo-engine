@@ -1152,13 +1152,8 @@ public class WebBackofficeService {
         emailService.buildAndSaveUserNewAccountMail(requestData, requestData.getVelocityEmailPrefix(), userNewAccountConfirmationEmailBean);
     }
     
-    protected String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String contextNameValue, final String emailType) throws Exception{
-        String emailFromAddress = marketArea.getEmailFromAddress(contextNameValue, emailType);
-        if(StringUtils.isEmpty(emailFromAddress)){
-            final HttpServletRequest request = requestData.getRequest();
-            final String contextValue = requestUtil.getCurrentContextNameValue();
-            emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
-        }
-        return emailFromAddress;
+    protected String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String targetContextNameValue, final String emailType) throws Exception{
+        String currentContextNameValue = requestUtil.getCurrentContextNameValue();
+        return emailService.getEmailFromAddress(requestData, marketArea, currentContextNameValue, targetContextNameValue, emailType);
     }
 }

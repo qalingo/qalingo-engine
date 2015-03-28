@@ -948,7 +948,15 @@ public class EmailService {
         }
         return email;
     }
-
+    
+    public String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String currentContextNameValue, final String targetContextNameValue, final String emailType) throws Exception{
+        String emailFromAddress = marketArea.getEmailFromAddress(targetContextNameValue, emailType);
+        if(StringUtils.isEmpty(emailFromAddress) && StringUtils.isNotEmpty(currentContextNameValue)){
+            emailFromAddress = engineSettingService.getDefaultEmailAddress(currentContextNameValue);
+        }
+        return emailFromAddress;
+    }
+    
     protected String handleFromAddress(String emailFromAddress, String contextValue){
         if(StringUtils.isEmpty(emailFromAddress)){
             emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
