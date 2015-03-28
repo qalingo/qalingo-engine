@@ -49,7 +49,8 @@ public class SecurityUtil {
 	}
 	
    public String generateOauthToken() {
-        return UUID.randomUUID().toString().replace("_", "");
+       String oauthToken = new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1));
+       return oauthToken;
     }
 	
 	public String encodePassword(String clearPassword) {
