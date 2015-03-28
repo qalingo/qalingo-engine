@@ -171,9 +171,9 @@ public class UserDao extends AbstractGenericDao {
         }
         userGroup.setDateUpdate(new Date());
         if (userGroup.getId() != null) {
-            if(em.contains(userGroup)){
-                em.refresh(userGroup);
-            }
+//            if(em.contains(userGroup)){
+//                em.refresh(userGroup);
+//            }
             UserGroup mergedUserGroup = em.merge(userGroup);
             em.flush();
             return mergedUserGroup;
