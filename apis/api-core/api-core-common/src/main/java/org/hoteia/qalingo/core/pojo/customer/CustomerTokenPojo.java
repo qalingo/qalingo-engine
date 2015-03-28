@@ -13,7 +13,7 @@ import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 
 import java.util.Date;
 
-public class CustomerOAuthPojo {
+public class CustomerTokenPojo {
 
     private Long id;
     private int version;

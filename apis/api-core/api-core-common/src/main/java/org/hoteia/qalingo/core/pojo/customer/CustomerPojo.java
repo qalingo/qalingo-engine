@@ -53,7 +53,7 @@ public class CustomerPojo extends AbstractPojo {
     private List<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
     private List<CustomerMarketAreaPojo> customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>();
     private List<CustomerAttributePojo> customerAttributes = new ArrayList<CustomerAttributePojo>();
-    private List<CustomerOAuthPojo> oauthTokens = new ArrayList<CustomerOAuthPojo>();
+    private List<CustomerTokenPojo> tokens = new ArrayList<CustomerTokenPojo>();
     private List<CustomerGroupPojo> customerGroups = new ArrayList<CustomerGroupPojo>();
 
     public CustomerPojo() {}
@@ -226,12 +226,12 @@ public class CustomerPojo extends AbstractPojo {
         this.customerGroups = customerGroups;
     }
 
-    public List<CustomerOAuthPojo> getOauthTokens() {
-        return oauthTokens;
+    public List<CustomerTokenPojo> getTokens() {
+        return tokens;
     }
     
-    public void setOauthTokens(List<CustomerOAuthPojo> oauthTokens) {
-        this.oauthTokens = oauthTokens;
+    public void setTokens(List<CustomerTokenPojo> tokens) {
+        this.tokens = tokens;
     }
     
 }
