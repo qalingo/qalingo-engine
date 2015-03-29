@@ -42,7 +42,7 @@ public class FetchPlanGraphRetailer {
         fetchplans.add(new SpecificFetchMode(Retailer_.customerRates.getName()));
         fetchplans.add(new SpecificFetchMode(Retailer_.customerComments.getName()));
         fetchplans.add(new SpecificFetchMode(Retailer_.tags.getName()));
-        fetchplans.add(new SpecificFetchMode(Retailer_.warehouse.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.warehouses.getName()));
         return new FetchPlan(fetchplans);
     }
     

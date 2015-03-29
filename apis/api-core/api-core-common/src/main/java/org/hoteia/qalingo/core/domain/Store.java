@@ -118,6 +118,10 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
     private Retailer retailer;
 
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
+    @JoinColumn(name = "WAREHOUSE_ID", insertable = true, updatable = true)
+    private Warehouse warehouse;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreAttribute.class)
     @JoinColumn(name = "STORE_ID")
     private Set<StoreAttribute> attributes = new HashSet<StoreAttribute>();
@@ -328,6 +332,14 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     
     public void setRetailer(Retailer retailer) {
         this.retailer = retailer;
+    }
+    
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+    
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
     
     public Set<StoreAttribute> getAttributes() {
