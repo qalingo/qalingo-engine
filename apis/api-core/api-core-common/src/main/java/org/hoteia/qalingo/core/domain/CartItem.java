@@ -190,15 +190,15 @@ public class CartItem extends AbstractEntity<CartItem> {
         this.taxes = taxes;
     }
 
-    public ProductSkuPrice getPrice(final Long marketAreaId, final Long retailerId) {
+    public ProductSkuPrice getPrice(final Long marketAreaId, final Long storeId) {
         if (productSku != null 
                 && Hibernate.isInitialized(productSku)
                 && productSku.getPrices() != null 
                 && Hibernate.isInitialized(productSku.getPrices())) {
             for (Iterator<ProductSkuPrice> iterator = productSku.getPrices().iterator(); iterator.hasNext();) {
                 final ProductSkuPrice productSkuPrice = (ProductSkuPrice) iterator.next();
-                if (productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.getRetailerId() != null
-                        && productSkuPrice.getRetailerId().equals(retailerId)) {
+                if (productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.getStoreId() != null
+                        && productSkuPrice.getStoreId().equals(storeId)) {
                     return productSkuPrice;
                 }
             }
