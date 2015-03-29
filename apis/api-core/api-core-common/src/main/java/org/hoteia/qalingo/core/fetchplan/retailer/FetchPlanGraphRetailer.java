@@ -21,44 +21,44 @@ public class FetchPlanGraphRetailer {
     
     public static FetchPlan defaultRetailerFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(Retailer_.links));
-        fetchplans.add(new SpecificFetchMode(Retailer_.addresses));
-        fetchplans.add(new SpecificFetchMode(Retailer_.stores));
-        fetchplans.add(new SpecificFetchMode(Retailer_.assets));
-        fetchplans.add(new SpecificFetchMode(Retailer_.attributes));
-        fetchplans.add(new SpecificFetchMode(Retailer_.customerRates));
-        fetchplans.add(new SpecificFetchMode(Retailer_.customerComments));
-        fetchplans.add(new SpecificFetchMode(Retailer_.tags));
+        fetchplans.add(new SpecificFetchMode(Retailer_.links.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.stores.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.customerRates.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.customerComments.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.tags.getName()));
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan fullRetailerFetchPlan() {
     	List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(Retailer_.links));
-        fetchplans.add(new SpecificFetchMode(Retailer_.addresses));
-        fetchplans.add(new SpecificFetchMode(Retailer_.stores));
-        fetchplans.add(new SpecificFetchMode(Retailer_.assets));
-        fetchplans.add(new SpecificFetchMode(Retailer_.attributes));
-        fetchplans.add(new SpecificFetchMode(Retailer_.customerRates));
-        fetchplans.add(new SpecificFetchMode(Retailer_.customerComments));
-        fetchplans.add(new SpecificFetchMode(Retailer_.tags));
-        fetchplans.add(new SpecificFetchMode(Retailer_.warehouse));
+        fetchplans.add(new SpecificFetchMode(Retailer_.links.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.stores.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.customerRates.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.customerComments.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.tags.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.warehouse.getName()));
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan defaultStoreFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(Store_.storeAttributes));
-        fetchplans.add(new SpecificFetchMode(Store_.assets));
+        fetchplans.add(new SpecificFetchMode(Store_.storeAttributes.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.assets.getName()));
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan fullStoreFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(Store_.retailer));
-        fetchplans.add(new SpecificFetchMode(Store_.attributes));
-        fetchplans.add(new SpecificFetchMode(Store_.assets));
-        fetchplans.add(new SpecificFetchMode(Store_.businessHours));
+        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.businessHours.getName()));
         return new FetchPlan(fetchplans);
     }
     
