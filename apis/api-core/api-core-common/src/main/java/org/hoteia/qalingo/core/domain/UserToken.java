@@ -39,7 +39,7 @@ public class UserToken extends AbstractEntity<UserToken> {
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
 	
-	@Column(name="OAUTH_TOKEN")
+	@Column(name="TOKEN")
     private String token;
 
 	@Column(name="USER_ID")

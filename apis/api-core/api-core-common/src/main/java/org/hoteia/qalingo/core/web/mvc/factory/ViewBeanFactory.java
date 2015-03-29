@@ -2767,6 +2767,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             companyViewBean.setId(company.getId().toString());
         }
         companyViewBean.setCode(company.getCode());
+        companyViewBean.setActive(company.isActive());
         companyViewBean.setName(company.getName());
         companyViewBean.setDescription(company.getDescription());
 
