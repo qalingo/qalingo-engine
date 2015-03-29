@@ -53,8 +53,8 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
 	
-	@Column(name="RETAILER_ID")
-	private Long retailerId;
+	@Column(name="STORE_ID")
+	private Long storeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
@@ -128,13 +128,13 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 		this.marketAreaId = marketAreaId;
 	}
 	
-	public Long getRetailerId() {
-		return retailerId;
-	}
+	public Long getStoreId() {
+        return storeId;
+    }
 	
-	public void setRetailerId(Long retailerId) {
-		this.retailerId = retailerId;
-	}
+	public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
 	
 	public ProductSku getProductSku() {
         return productSku;
@@ -183,7 +183,7 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
-        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        result = prime * result + ((storeId == null) ? 0 : storeId.hashCode());
         return result;
     }
 
@@ -212,17 +212,17 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
                 return false;
         } else if (!marketAreaId.equals(other.marketAreaId))
             return false;
-        if (retailerId == null) {
-            if (other.retailerId != null)
+        if (storeId == null) {
+            if (other.storeId != null)
                 return false;
-        } else if (!retailerId.equals(other.retailerId))
+        } else if (!storeId.equals(other.storeId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "ProductSkuPrice [id=" + id + ", version=" + version + ", catalogPrice=" + catalogPrice + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", retailerId=" + retailerId
+        return "ProductSkuPrice [id=" + id + ", version=" + version + ", catalogPrice=" + catalogPrice + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", storeId=" + storeId
                 + ", productSku=" + productSku + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
