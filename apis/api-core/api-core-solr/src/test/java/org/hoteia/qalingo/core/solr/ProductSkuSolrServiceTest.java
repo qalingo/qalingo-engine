@@ -77,7 +77,7 @@ public class ProductSkuSolrServiceTest {
         ProductSkuPrice productSkuPrice = new ProductSkuPrice();
         productSkuPrice.setId(new Long("1"));
         productSkuPrice.setMarketAreaId(new Long("1"));
-        productSkuPrice.setRetailerId(new Long("1"));
+        productSkuPrice.setStoreId(new Long("1"));
         productSkuPrice.setSalePrice(new BigDecimal("2"));
         productSku.getPrices().add(productSkuPrice);
     }
