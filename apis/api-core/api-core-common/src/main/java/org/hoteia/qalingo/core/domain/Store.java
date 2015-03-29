@@ -62,6 +62,9 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean active;
     
+    @Column(name = "IS_PRIMARY", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean primary;
+    
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
@@ -183,6 +186,14 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
         this.active = active;
     }
     
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(boolean primary) {
+        this.primary = primary;
+    }
+
     public String getCode() {
         return code;
     }

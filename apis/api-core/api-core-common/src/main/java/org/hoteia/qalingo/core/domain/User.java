@@ -107,6 +107,9 @@ public class User extends AbstractEntity<User> {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
     
+    @Column(name = "MOBILE")
+    private String mobile;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
     private Localization defaultLocalization;
@@ -298,6 +301,14 @@ public class User extends AbstractEntity<User> {
         this.countryCode = countryCode;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+    
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+    
     public Localization getDefaultLocalization() {
         return defaultLocalization;
     }
