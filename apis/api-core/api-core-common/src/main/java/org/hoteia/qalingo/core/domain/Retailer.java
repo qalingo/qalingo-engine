@@ -110,7 +110,7 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerAddress> addresses = new HashSet<RetailerAddress>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Asset.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<Store> stores = new HashSet<Store>();
 
@@ -123,18 +123,18 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
     private Set<RetailerAttribute> attributes = new HashSet<RetailerAttribute>();
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
-    @JoinTable(name = "TECO_RETAILER_BRAND_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "BRAND_ID"))
+    @JoinTable(name = "TECO_RETAILER_BRAND_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"))
     private Set<ProductBrand> brands = new HashSet<ProductBrand>();
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerCustomerRate.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerCustomerRate> customerRates = new HashSet<RetailerCustomerRate>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerCustomerComment.class)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class)
     @JoinTable(name = "TECO_RETAILER_RETAILER_TAG_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_TAG_ID"))
     private Set<RetailerTag> tags;
 
