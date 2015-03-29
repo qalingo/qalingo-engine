@@ -112,9 +112,9 @@ public class UserDao extends AbstractGenericDao {
         }
 
         if (user.getId() != null) {
-            if(em.contains(user)){
-                em.refresh(user);
-            }
+//            if(em.contains(user)){
+//                em.refresh(user);
+//            }
             User mergedUser = em.merge(user);
             em.flush();
             return mergedUser;
