@@ -48,7 +48,7 @@ public class FetchPlanGraphRetailer {
     
     public static FetchPlan defaultStoreFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(Store_.storeAttributes.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.assets.getName()));
         return new FetchPlan(fetchplans);
     }
