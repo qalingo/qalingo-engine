@@ -195,6 +195,9 @@ public class WebBackofficeService {
         return updateCurrentUser(requestData, user);
     }
     
+    /**
+     * 
+     */
     public User updateCurrentUser(final RequestData requestData, User user) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         user.setDateUpdate(new Date());
@@ -256,6 +259,9 @@ public class WebBackofficeService {
     
     // COMPANY
     
+    /**
+     * 
+     */
     public Company createOrUpdateCompany(Company company, final CompanyForm companyForm) {
         if (company == null) {
             company = new Company();
@@ -264,6 +270,22 @@ public class WebBackofficeService {
         return userService.saveOrUpdateCompany(company);
     }
 
+    /**
+     * 
+     */
+    public Company updateCurrentCompany(final RequestData requestData, Company company) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        company.setDateUpdate(new Date());
+
+        // UPDATE COMPANY
+        Company savedCompany = userService.saveOrUpdateCompany(company);
+        
+        // UPDATE SESSION
+        requestUtil.updateCurrentCompany(request, savedCompany);
+        
+        return savedCompany;
+    }
+    
     protected Company handleCompanyForm(Company company, final CompanyForm companyForm) {
         if (company == null) {
             company = new Company();

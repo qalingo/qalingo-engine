@@ -1052,8 +1052,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // TAGS
         Set<StoreTag> tags = store.getTags();
-        if (Hibernate.isInitialized(tags) &&
-                tags != null) {
+        if (Hibernate.isInitialized(tags) 
+                && tags != null) {
             for (Iterator<StoreTag> iterator = tags.iterator(); iterator.hasNext();) {
                 StoreTag storeTag = (StoreTag) iterator.next();
                 StoreTagViewBean storeTagViewBean = new StoreTagViewBean();
@@ -1074,15 +1074,20 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         storeViewBean.setBusinessHour(buildViewBeanStoreBusinessHour(store));
         
-        List<String> sliders = new ArrayList<String>();
-        for (Iterator<Asset> iterator = store.getAssets().iterator(); iterator.hasNext();) {
-            Asset assetSlideshow = (Asset) iterator.next();
-            if(AssetType.SLIDESHOW.getPropertyKey().equals(assetSlideshow.getType())){
-                final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(assetSlideshow);
-                sliders.add(iconImage);
+        // ASSETS
+        Set<Asset> assets = store.getAssets();
+        if (Hibernate.isInitialized(assets) 
+                && assets != null) {
+            List<String> sliders = new ArrayList<String>();
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset assetSlideshow = (Asset) iterator.next();
+                if(AssetType.SLIDESHOW.getPropertyKey().equals(assetSlideshow.getType())){
+                    final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(assetSlideshow);
+                    sliders.add(iconImage);
+                }
             }
+            storeViewBean.setSliders(sliders);
         }
-	    storeViewBean.setSliders(sliders);
 	    
         storeViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
         
