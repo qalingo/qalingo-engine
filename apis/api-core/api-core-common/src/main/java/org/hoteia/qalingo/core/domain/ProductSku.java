@@ -249,12 +249,12 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 		return prices;
 	}
 	
-	public ProductSkuPrice getPrice(final Long marketAreaId, final Long retailerId){
+	public ProductSkuPrice getPrice(final Long marketAreaId, final Long storeId){
 	    if(prices != null
 	            && Hibernate.isInitialized(prices)){
 	        for (ProductSkuPrice productSkuPrice : prices) {
 	            if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
-	                    && productSkuPrice.getRetailerId().equals(retailerId)) {
+	                    && productSkuPrice.getStoreId().equals(storeId)) {
 	                return productSkuPrice;
 	            }
 	        }    
