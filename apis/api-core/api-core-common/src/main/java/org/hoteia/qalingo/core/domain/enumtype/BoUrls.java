@@ -151,19 +151,19 @@ public enum BoUrls {
 	public static final String HOME_VELOCITY_PAGE	= "home";
 
 	public static final String FAQ_KEY				= "faq";
-	public static final String FAQ_URL				= "/faq.html";
+	public static final String FAQ_URL				= "/**/faq.html";
 	public static final String FAQ_VELOCITY_PAGE	= "faq/faq";
 
 	public static final String LEGAL_TERMS_KEY				= "legal-terms";
-	public static final String LEGAL_TERMS_URL				= "/legal-terms.html";
+	public static final String LEGAL_TERMS_URL				= "/**/legal-terms.html";
 	public static final String LEGAL_TERMS_VELOCITY_PAGE	= "legal-terms/legal-terms";
 
     public static final String PERSONAL_DETAILS_KEY                 = "personal-details";
-    public static final String PERSONAL_DETAILS_URL                 = "/personal-details.html";
+    public static final String PERSONAL_DETAILS_URL                 = "/**/personal-details.html";
     public static final String PERSONAL_DETAILS_VELOCITY_PAGE       = "user/personal-details";
 	    
     public static final String PERSONAL_EDIT_KEY                = "personal-edit";
-    public static final String PERSONAL_EDIT_URL                = "/personal-edit.html";
+    public static final String PERSONAL_EDIT_URL                = "/**/personal-edit.html";
     public static final String PERSONAL_EDIT_VELOCITY_PAGE      = "user/personal-edit";
 
     public static final String USER_NEW_ACCOUNT_VALIDATION_KEY              = "user-new-account-validation";
@@ -173,7 +173,7 @@ public enum BoUrls {
 	public static final String CHANGE_CONTEXT_URL		= "/**/change-context.html";
 	
     public static final String LOGIN_KEY                = "login";
-    public static final String LOGIN_URL                = "/login.html";
+    public static final String LOGIN_URL                = "/**/login.html";
     public static final String LOGIN_VELOCITY_PAGE      = "security/login";
 
     public static final String LOGIN_CHECK_URL          = "/login-check.html";
@@ -183,15 +183,15 @@ public enum BoUrls {
     public static final String LOGOUT_VELOCITY_PAGE     = "security/logout";
 
     public static final String FORBIDDEN_KEY            = "forbidden";
-    public static final String FORBIDDEN_URL            = "/forbidden.html";
+    public static final String FORBIDDEN_URL            = "/**/forbidden.html";
     public static final String FORBIDDEN_VELOCITY_PAGE  = "security/forbidden";
 
     public static final String TIMEOUT_KEY              = "timeout";
-    public static final String TIMEOUT_URL              = "/timeout.html";
+    public static final String TIMEOUT_URL              = "/**/timeout.html";
     public static final String TIMEOUT_VELOCITY_PAGE    = "security/timeout";
 	    
     public static final String FORGOTTEN_PASSWORD_KEY           = "forgotten-password";
-    public static final String FORGOTTEN_PASSWORD_URL           = "/forgotten-password.html";
+    public static final String FORGOTTEN_PASSWORD_URL           = "/**/forgotten-password.html";
     public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE = "security/forgotten-password-edit";
 
     public static final String RESET_PASSWORD_KEY                   = "reset-password";
