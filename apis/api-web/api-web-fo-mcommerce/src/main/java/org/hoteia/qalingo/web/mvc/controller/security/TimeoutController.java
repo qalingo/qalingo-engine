@@ -9,16 +9,24 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.security;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,7 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class TimeoutController extends AbstractMCommerceController {
 
 	@RequestMapping(FoUrls.TIMEOUT_URL)
-	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView timeout(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.TIMEOUT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		if(securityUtil.isAuthenticated()){
@@ -42,7 +50,31 @@ public class TimeoutController extends AbstractMCommerceController {
 		
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.TIMEOUT.getKey());
 		
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+
         return modelAndView;
 	}
+	
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData) {
+        final Locale locale = requestData.getLocale();
+        
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.TIMEOUT.getKey(), locale));
+        
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.TIMEOUT.getKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.TIMEOUT, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
+        return breadcrumbViewBean;
+    }
 	
 }

@@ -62,23 +62,31 @@ public class LoginController extends AbstractMCommerceController {
         
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.LOGIN.getKey());
         
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+
+        return modelAndView;
+    }
+    
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData) {
+        final Locale locale = requestData.getLocale();
+        
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "login", locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.LOGIN.getKey(), locale));
         
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
         MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "login", locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.LOGIN.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.LOGIN, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);
         
-        return modelAndView;
+        return breadcrumbViewBean;
     }
     
     @RequestMapping(FoUrls.CART_AUTH_URL)

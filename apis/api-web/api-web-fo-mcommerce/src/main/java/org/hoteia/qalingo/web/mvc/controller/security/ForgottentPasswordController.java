@@ -58,7 +58,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
 
         // BREADCRUMB
-        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, FoUrls.FORGOTTEN_PASSWORD));
         
         return modelAndView;
 	}
@@ -95,7 +95,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
 
         // BREADCRUMB
-        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, FoUrls.FORGOTTEN_PASSWORD));
         
         return modelAndView;
 	}
@@ -131,7 +131,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RESET_PASSWORD.getKey());
 
-        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, FoUrls.RESET_PASSWORD));
 
         return modelAndView;
 	}
@@ -229,12 +229,12 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		return frontofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request));
 	}
 	
-    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData) {
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, FoUrls urlContext) {
         final Locale locale = requestData.getLocale();
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "forgotten_password", locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, urlContext.getKey(), locale));
 
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
         MenuViewBean menu = new MenuViewBean();
@@ -243,8 +243,8 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "forgotten_password", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, urlContext.getKey(), locale));
+        menu.setUrl(urlService.generateUrl(urlContext, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);
 
