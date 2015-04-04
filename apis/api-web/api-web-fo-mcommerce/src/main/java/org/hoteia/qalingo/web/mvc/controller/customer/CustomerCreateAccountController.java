@@ -79,16 +79,18 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "customer_create_account", locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
         
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setKey(FoUrls.HOME.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "customer_create_account", locale));
+        menu.setKey(FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.CUSTOMER_CREATE_ACCOUNT, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);

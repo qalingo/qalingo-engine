@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.controller.security;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,6 +22,7 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
@@ -251,16 +251,18 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "forgotten_password", locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.FORGOTTEN_PASSWORD.getKey(), locale));
 
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, BoUrls.HOME.getMessageKey(), locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "forgotten_password", locale));
+        menu.setKey(FoUrls.FORGOTTEN_PASSWORD.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.FORGOTTEN_PASSWORD.getKey(), locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FORGOTTEN_PASSWORD, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);

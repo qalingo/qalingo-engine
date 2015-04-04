@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.common;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -93,16 +92,18 @@ public class ContactController extends AbstractMCommerceController {
         
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "contact", locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CONTACT.getKey(), locale));
         
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contact", locale));
+        menu.setKey(FoUrls.CONTACT.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CONTACT.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);

@@ -205,21 +205,22 @@ public class CatalogSearchController extends AbstractMCommerceController {
         
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "catalog_search", locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CATALOG_SEARCH.getKey(), locale));
         
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setKey(FoUrls.HOME.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "catalog_search", locale));
+        menu.setKey(FoUrls.HOME.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CATALOG_SEARCH.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.CATALOG_SEARCH, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);
         
-        breadcrumbViewBean.setMenus(menuViewBeans);
         return breadcrumbViewBean;
     }
     

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.security;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,13 +61,15 @@ public class TimeoutController extends AbstractMCommerceController {
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
         breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.TIMEOUT.getKey(), locale));
         
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
+        menu.setKey(FoUrls.TIMEOUT.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.TIMEOUT.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.TIMEOUT, requestData));
         menu.setActive(true);

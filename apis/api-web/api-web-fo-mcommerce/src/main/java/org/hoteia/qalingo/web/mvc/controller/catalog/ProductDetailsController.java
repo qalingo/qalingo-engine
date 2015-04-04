@@ -153,25 +153,27 @@ public class ProductDetailsController extends AbstractMCommerceController {
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
         breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.PRODUCT_DETAILS.getMessageKey(), params, locale));
 
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
         Object[] catalogCategoryParams = { productMarketing.getI18nName(localizationCode) };
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CATEGORY_AS_LINE.getMessageKey(), catalogCategoryParams, locale));
         menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
+        menu.setKey(FoUrls.PRODUCT_DETAILS.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.PRODUCT_DETAILS.getMessageKey(), params, locale));
         menu.setUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productMarketing));
         menu.setActive(true);
         menuViewBeans.add(menu);
 
-        breadcrumbViewBean.setMenus(menuViewBeans);
         return breadcrumbViewBean;
     }
     

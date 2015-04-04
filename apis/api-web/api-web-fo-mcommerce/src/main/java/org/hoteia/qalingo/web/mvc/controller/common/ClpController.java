@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.common;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,19 +52,21 @@ public class ClpController extends AbstractMCommerceController {
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
         breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CLP.getMessageKey(), locale));
 
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
+
         MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
+        menu.setKey(FoUrls.CLP.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CLP.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.CLP, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);
 
-        breadcrumbViewBean.setMenus(menuViewBeans);
         return breadcrumbViewBean;
     }
 }

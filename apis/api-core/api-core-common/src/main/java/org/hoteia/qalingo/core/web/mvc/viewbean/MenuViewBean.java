@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 
 public class MenuViewBean extends AbstractViewBean {
 
@@ -21,6 +22,7 @@ public class MenuViewBean extends AbstractViewBean {
      */
     private static final long serialVersionUID = 4594828019275682815L;
 
+    protected String key;
     protected String name;
     protected String alt;
     protected String img;
@@ -33,6 +35,14 @@ public class MenuViewBean extends AbstractViewBean {
 
     List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
 
+    public String getKey() {
+        return key;
+    }
+    
+    public void setKey(String key) {
+        this.key = key;
+    }
+    
     public String getName() {
         return name;
     }
@@ -68,6 +78,14 @@ public class MenuViewBean extends AbstractViewBean {
         this.url = url;
     }
 
+    public boolean isHome() {
+        if(key != null
+                && FoUrls.HOME.getKey().equalsIgnoreCase(key)){
+            return true;
+        }
+        return false;
+    }
+    
     public boolean isActive() {
         return active;
     }

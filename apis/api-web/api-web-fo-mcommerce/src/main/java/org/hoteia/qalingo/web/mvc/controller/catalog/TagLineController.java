@@ -110,27 +110,28 @@ public class TagLineController extends AbstractMCommerceController {
 	
     protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, String tagCode) {
         final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();
         Object[] params = { tagCode };
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "tag_line", params, locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.TAG_AS_LINE.getKey(), params, locale));
 
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
+        
         MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "tag_line", params, locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, tagCode));
+        menu.setKey(FoUrls.TAG_AS_LINE.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.TAG_AS_LINE.getKey(), params, locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.TAG_AS_LINE, requestData, tagCode));
         menu.setActive(true);
         menuViewBeans.add(menu);
 
-        breadcrumbViewBean.setMenus(menuViewBeans);
         return breadcrumbViewBean;
     }
 	

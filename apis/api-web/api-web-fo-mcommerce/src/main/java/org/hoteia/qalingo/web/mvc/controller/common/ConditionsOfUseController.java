@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.common;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,19 +52,21 @@ public class ConditionsOfUseController extends AbstractMCommerceController {
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
         breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CONDITIONS_OF_USE.getMessageKey(), locale));
 
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
+
         MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
+        menu.setKey(FoUrls.CONDITIONS_OF_USE.getKey());
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CONDITIONS_OF_USE.getMessageKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);
 
-        breadcrumbViewBean.setMenus(menuViewBeans);
         return breadcrumbViewBean;
     }
 }
