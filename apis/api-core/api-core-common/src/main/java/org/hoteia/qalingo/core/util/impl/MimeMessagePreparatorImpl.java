@@ -171,12 +171,14 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 				
         if (getPlainTextContent() != null) {
             BodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setHeader("Content-Type", "text/plain; charset=\"UTF-8\"");
             textBodyPart.setContent(getPlainTextContent(), "text/plain");
             mimeMultipart.addBodyPart(textBodyPart);
         }
 
         if (getHtmlContent() != null) {
             BodyPart htmlBodyPart = new MimeBodyPart();
+            htmlBodyPart.setHeader("Content-Type", "text/html; charset=\"UTF-8\"");
             htmlBodyPart.setContent(getHtmlContent(), "text/html");
             mimeMultipart.addBodyPart(htmlBodyPart);
         }
