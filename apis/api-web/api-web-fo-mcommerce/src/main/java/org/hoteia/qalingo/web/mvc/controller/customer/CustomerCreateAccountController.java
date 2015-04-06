@@ -77,23 +77,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	        modelAndView.addObject(ModelConstants.CAPTCHA_VIEW_BEAN, captchaViewBean);
 		}
 		
-        // BREADCRUMB
-        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
-        
-        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
-        MenuViewBean menu = new MenuViewBean();
-        menu.setKey(FoUrls.HOME.getKey());
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getKey(), locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-        menuViewBeans.add(menu);
-        
-        menu = new MenuViewBean();
-        menu.setKey(FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey());
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.CUSTOMER_CREATE_ACCOUNT, requestData));
-        menu.setActive(true);
-        menuViewBeans.add(menu);
+		model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildCommonBreadcrumbViewBean(requestData));
         
         return modelAndView;
 	}
@@ -136,6 +120,30 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		
 		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
+	}
+	
+	protected BreadcrumbViewBean buildCommonBreadcrumbViewBean(final RequestData requestData) {
+        final Locale locale = requestData.getLocale();
+        
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
+        
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
+        MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setKey(FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.CUSTOMER_CREATE_ACCOUNT, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+        
+        return breadcrumbViewBean;
 	}
 	
     @RequestMapping(value = FoUrls.CART_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
