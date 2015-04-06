@@ -23,6 +23,8 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
+import com.google.api.client.util.Base64;
+
 public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Serializable {
 
 	/**
@@ -172,6 +174,7 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
         if (getPlainTextContent() != null) {
             BodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setHeader("Content-Type", "text/plain; charset=\"UTF-8\"");
+            textBodyPart.setHeader("Content-Transfer-Encoding", "base64");
             textBodyPart.setContent(getPlainTextContent(), "text/plain");
             mimeMultipart.addBodyPart(textBodyPart);
         }
@@ -179,6 +182,7 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
         if (getHtmlContent() != null) {
             BodyPart htmlBodyPart = new MimeBodyPart();
             htmlBodyPart.setHeader("Content-Type", "text/html; charset=\"UTF-8\"");
+            htmlBodyPart.setHeader("Content-Transfer-Encoding", "base64");
             htmlBodyPart.setContent(getHtmlContent(), "text/html");
             mimeMultipart.addBodyPart(htmlBodyPart);
         }

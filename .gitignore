@@ -3,6 +3,7 @@
 .classpath
 .project
 *.iml
+*.log
 target
 pom.xml.releaseBackup
 release.properties
