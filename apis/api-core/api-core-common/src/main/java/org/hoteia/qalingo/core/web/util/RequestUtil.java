@@ -1991,10 +1991,17 @@ public class RequestUtil {
         }
         
         if (marketAreaGeoloc != null) {
-            marketPlace = marketService.getMarketPlaceByCode(marketAreaGeoloc.getMarket().getMarketPlace().getCode());
-            market = marketAreaGeoloc.getMarket();
-            marketArea = marketAreaGeoloc;
-            return marketArea;
+            try {
+                market = marketService.getMarketByCode(marketAreaGeoloc.getMarket().getCode());
+                
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+//            marketPlace = marketService.getMarketPlaceByCode(marketAreaGeoloc.getMarket().getMarketPlace().getCode());
+//            marketArea = marketAreaGeoloc;
+            if(market != null){
+                return marketAreaGeoloc;
+            }
         }
 
         // STEP 3 - DEFAULT MARTKETPLACE
