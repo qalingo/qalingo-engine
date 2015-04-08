@@ -146,7 +146,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     productSkuPojo.setI18nName(productSku.getI18nName(localizationCode));
                     
-                    ProductSkuPrice price = productSku.getPrice(marketArea.getId(), retailer.getId());
+                    ProductSkuPrice price = productSku.getSalePrice(marketArea.getId(), retailer.getId());
                     if(price != null){
                         productSkuPojo.setPriceWithStandardCurrencySign(price.getPriceWithStandardCurrencySign());
                     }

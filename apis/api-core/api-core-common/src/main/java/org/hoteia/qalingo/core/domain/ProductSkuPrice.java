@@ -114,6 +114,30 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 		this.salePrice = salePrice;
 	}
 	
+    public boolean isCatalogPrice() {
+        return isCatalogPrice;
+    }
+
+    public void setCatalogPrice(boolean isCatalogPrice) {
+        this.isCatalogPrice = isCatalogPrice;
+    }
+
+    public boolean isDiscount() {
+        return isDiscount;
+    }
+
+    public void setDiscount(boolean isDiscount) {
+        this.isDiscount = isDiscount;
+    }
+
+    public ProductSkuPrice getPrice() {
+        return price;
+    }
+
+    public void setPrice(ProductSkuPrice price) {
+        this.price = price;
+    }
+
     @Override
 	public CurrencyReferential getCurrency() {
 		return currency;

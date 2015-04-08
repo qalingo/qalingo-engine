@@ -15,6 +15,8 @@ import java.util.List;
 import org.hoteia.qalingo.core.domain.ProductBrand_;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition_;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
@@ -72,7 +74,7 @@ public class FetchPlanGraphProduct {
     public static FetchPlan productSkuOptionDefinitionDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.attributes.getName()));
-        fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.productSkuOptionType.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.productSkuOptionDefinitionType.getName()));
         return new FetchPlan(fetchplans);
     }
     

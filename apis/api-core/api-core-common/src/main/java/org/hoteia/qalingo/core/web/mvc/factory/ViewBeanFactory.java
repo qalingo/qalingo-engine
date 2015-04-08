@@ -2114,11 +2114,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             productSkuViewBean.setDateUpdate(dateFormat.format(productMarketing.getDateUpdate()));
         }
         
-        final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
-        if(productSkuPrice != null){
-            productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
-            productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
-            productSkuViewBean.setPriceWithCurrencySign(productSkuPrice.getPriceWithStandardCurrencySign());
+        final ProductSkuPrice productSkuCatalogPrice = productSku.getCatalogPrice(marketArea.getId());
+        if(productSkuCatalogPrice != null){
+            productSkuViewBean.setCatalogPrice(productSkuCatalogPrice.getSalePrice().toString());
+        }
+        final ProductSkuPrice productSkuSalePrice = productSku.getSalePrice(marketArea.getId(), retailer.getId());
+        if(productSkuSalePrice != null){
+            productSkuViewBean.setSalePrice(productSkuSalePrice.getSalePrice().toString());
+            productSkuViewBean.setPriceWithCurrencySign(productSkuSalePrice.getPriceWithStandardCurrencySign());
         } else {
             productSkuViewBean.setPriceWithCurrencySign("NA");
         }

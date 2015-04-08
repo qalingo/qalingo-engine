@@ -104,10 +104,10 @@ public class DeliveryMethodPrice extends AbstractPrice<DeliveryMethodPrice> {
 	
 	@Override
     public BigDecimal getSalePrice() {
-        if (salePrice == null) {
-            return price;
-        }
-        return salePrice;
+//        if (salePrice == null) {
+//            return price;
+//        }
+        return price;
     }
 	
     @Override

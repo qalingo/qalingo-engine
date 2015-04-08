@@ -27,6 +27,7 @@ public class MenuViewBean extends AbstractViewBean {
     protected String alt;
     protected String img;
     protected String url;
+    protected boolean blank;
     protected boolean active;
     protected boolean catalog = false;
 
@@ -86,6 +87,14 @@ public class MenuViewBean extends AbstractViewBean {
         return false;
     }
     
+    public boolean isBlank() {
+        return blank;
+    }
+
+    public void setBlank(boolean blank) {
+        this.blank = blank;
+    }
+
     public boolean isActive() {
         return active;
     }

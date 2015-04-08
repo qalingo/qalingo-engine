@@ -57,7 +57,7 @@ public class ProductSkuOptionDefinition extends AbstractEntity<ProductSkuOptionD
     @Lob
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionAttribute.class)
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID")
     private Set<ProductSkuOptionDefinitionAttribute> attributes = new HashSet<ProductSkuOptionDefinitionAttribute>();
 

@@ -85,7 +85,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
         }
         
         if(marketArea != null && retailer != null){
-            ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
+            ProductSkuPrice productSkuPrice = productSku.getSalePrice(marketArea.getId(), retailer.getId());
             if(productSkuPrice != null){
                 BigDecimal salePrice = productSkuPrice.getSalePrice();
                 productSkuSolr.setPrice(salePrice.toString());

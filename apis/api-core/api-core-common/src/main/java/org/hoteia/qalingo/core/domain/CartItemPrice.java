@@ -35,10 +35,10 @@ public class CartItemPrice extends AbstractPrice<CartItemPrice> {
 	
 	@Override
     public BigDecimal getSalePrice() {
-        if (salePrice == null) {
-            return catalogPrice;
-        }
-        return salePrice;
+//        if (salePrice == null) {
+//            return catalogPrice;
+//        }
+        return catalogPrice;
     }
 	
     @Override

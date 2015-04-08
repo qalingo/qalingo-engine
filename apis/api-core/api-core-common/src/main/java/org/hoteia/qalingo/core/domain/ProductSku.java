@@ -249,18 +249,31 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 		return prices;
 	}
 	
-	public ProductSkuPrice getPrice(final Long marketAreaId, final Long storeId){
+	public ProductSkuPrice getCatalogPrice(final Long marketAreaId){
 	    if(prices != null
 	            && Hibernate.isInitialized(prices)){
 	        for (ProductSkuPrice productSkuPrice : prices) {
 	            if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
-	                    && productSkuPrice.getStoreId().equals(storeId)) {
+	                    && productSkuPrice.isCatalogPrice()) {
 	                return productSkuPrice;
 	            }
 	        }    
 	    }
 	    return null;
 	}
+	
+    public ProductSkuPrice getSalePrice(final Long marketAreaId, final Long storeId){
+        if(prices != null
+                && Hibernate.isInitialized(prices)){
+            for (ProductSkuPrice productSkuPrice : prices) {
+                if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
+                        && productSkuPrice.getStoreId().equals(storeId)) {
+                    return productSkuPrice;
+                }
+            }    
+        }
+        return null;
+    }
 	
 	public void setPrices(Set<ProductSkuPrice> prices) {
 		this.prices = prices;
