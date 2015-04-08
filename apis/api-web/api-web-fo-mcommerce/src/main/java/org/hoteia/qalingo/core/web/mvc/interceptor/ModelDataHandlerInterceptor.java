@@ -150,7 +150,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_CURRENCIES_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanCurrenciesByMarketArea(requestData));
 
             // HEADER
-            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMenu(requestData, new FetchPlan(categoryVirtualFetchPlans)));
+            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanHeaderMenu(requestData, new FetchPlan(categoryVirtualFetchPlans)));
             
             // FOOTER
             modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanFooterMenu(requestData));

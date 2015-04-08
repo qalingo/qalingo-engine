@@ -27,7 +27,9 @@ public class MenuViewBean extends AbstractViewBean {
     protected String alt;
     protected String img;
     protected String url;
-    protected boolean blank;
+    protected String type;
+    
+    protected boolean external;
     protected boolean active;
     protected boolean catalog = false;
 
@@ -79,6 +81,14 @@ public class MenuViewBean extends AbstractViewBean {
         this.url = url;
     }
 
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public boolean isHome() {
         if(key != null
                 && FoUrls.HOME.getKey().equalsIgnoreCase(key)){
@@ -87,12 +97,12 @@ public class MenuViewBean extends AbstractViewBean {
         return false;
     }
     
-    public boolean isBlank() {
-        return blank;
+    public boolean isExternal() {
+        return external;
     }
 
-    public void setBlank(boolean blank) {
-        this.blank = blank;
+    public void setExternal(boolean external) {
+        this.external = external;
     }
 
     public boolean isActive() {

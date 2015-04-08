@@ -127,7 +127,46 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     /**
      * 
      */
-    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData, final FetchPlan categoryFetchPlan) throws Exception {
+    public List<MenuViewBean> buildListViewBeanHeaderNav(final RequestData requestData, final FetchPlan categoryFetchPlan) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final Locale locale = localization.getLocale();
+
+        final String currentUrl = requestUtil.getCurrentRequestUrl(request);
+
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+
+        MenuViewBean menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menu.setActive(currentUrl.contains(FoUrls.HOME.getUrlPatternKey()));
+        menuViewBeans.add(menu);
+        
+        // Set active menu
+        for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
+            MenuViewBean menuCheck = (MenuViewBean) iteratorMenu.next();
+            menuCheck.setActive(false);
+            if (currentUrl != null && currentUrl.contains(menuCheck.getUrl())) {
+                menuCheck.setActive(true);
+                for (Iterator<MenuViewBean> iteratorSubMenu = menuCheck.getSubMenus().iterator(); iteratorSubMenu.hasNext();) {
+                    MenuViewBean subMenu = (MenuViewBean) iteratorSubMenu.next();
+                    subMenu.setActive(false);
+                    if (currentUrl != null && currentUrl.contains(subMenu.getUrl())) {
+                        subMenu.setActive(true);
+                    }
+                }
+            }
+        }
+
+        return menuViewBeans;
+    }
+   
+    /**
+     * 
+     */
+    public List<MenuViewBean> buildListViewBeanHeaderMenu(final RequestData requestData, final FetchPlan categoryFetchPlan) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();

@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-public class FooterMenuViewBean extends AbstractViewBean {
+public class FooterMenuViewBean extends MenuViewBean {
 
     /**
      * Generated UID
@@ -21,50 +21,5 @@ public class FooterMenuViewBean extends AbstractViewBean {
     public static final String MENU_TYPE_PRODUCT       = "MENU_TYPE_PRODUCT";
     public static final String MENU_TYPE_MORE          = "MENU_TYPE_MORE";
 
-    protected String name;
-    protected String img;
-    protected String url;
-    protected String type;
-    protected boolean isExternal = false;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public boolean isExternal() {
-        return isExternal;
-    }
-
-    public void setExternal(boolean isExternal) {
-        this.isExternal = isExternal;
-    }
 
 }
