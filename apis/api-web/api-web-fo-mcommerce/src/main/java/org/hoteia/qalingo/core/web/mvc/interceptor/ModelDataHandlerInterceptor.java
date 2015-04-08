@@ -150,10 +150,12 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_CURRENCIES_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanCurrenciesByMarketArea(requestData));
 
             // HEADER
-            modelAndView.getModelMap().put(ModelConstants.HEADER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanHeaderMenu(requestData, new FetchPlan(categoryVirtualFetchPlans)));
+            modelAndView.getModelMap().put(ModelConstants.HEADER_NAVS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanHeaderNav(requestData));
+            modelAndView.getModelMap().put(ModelConstants.HEADER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanHeaderMenu(requestData));
             
             // FOOTER
             modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanFooterMenu(requestData));
+            modelAndView.getModelMap().put(ModelConstants.FOOTER_NAVS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanFooterNav(requestData));
 
             final List<CatalogCategoryVirtual> virtualRootCategories = catalogCategoryService.findRootVirtualCatalogCategoriesByCatalogCode(currentMarketArea.getCatalog().getCode(), new FetchPlan(categoryVirtualFetchPlans));
             final List<CatalogCategoryViewBean> virtualRootCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanRootCatalogCategory(requestUtil.getRequestData(request), virtualRootCategories, new FetchPlan(categoryVirtualFetchPlans), null, null);
