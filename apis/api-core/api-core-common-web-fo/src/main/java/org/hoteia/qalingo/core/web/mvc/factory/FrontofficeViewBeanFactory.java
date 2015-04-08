@@ -44,7 +44,6 @@ import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.FooterMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
@@ -258,93 +257,103 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     /**
      * 
      */
-    public List<FooterMenuViewBean> buildListViewBeanFooterMenu(final RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanFooterMenu(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
-        List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
+        List<MenuViewBean> MenuViewBeans = new ArrayList<MenuViewBean>();
 
-        FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
+        String MENU_TYPE_CUSTOMER_CARE = "MENU_TYPE_CUSTOMER_CARE";
+        String MENU_TYPE_OUR_COMPANY   = "MENU_TYPE_OUR_COMPANY";
+        String MENU_TYPE_PRODUCT       = "MENU_TYPE_PRODUCT";
+        String MENU_TYPE_MORE          = "MENU_TYPE_MORE";
+        
+        MenuViewBean footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
+        MenuViewBeans.add(footerMenuList);
         
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
+        MenuViewBeans.add(footerMenuList);
 
-        return footerMenuViewBeans;
+        return MenuViewBeans;
     }
     
     /**
      * 
      */
-    public List<FooterMenuViewBean> buildListViewBeanFooterNav(final RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanFooterNav(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
-        List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
+        List<MenuViewBean> MenuViewBeans = new ArrayList<MenuViewBean>();
 
-        FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
+        String MENU_TYPE_CUSTOMER_CARE = "MENU_TYPE_CUSTOMER_CARE";
+        String MENU_TYPE_OUR_COMPANY   = "MENU_TYPE_OUR_COMPANY";
+        String MENU_TYPE_PRODUCT       = "MENU_TYPE_PRODUCT";
+        String MENU_TYPE_MORE          = "MENU_TYPE_MORE";
+        
+        MenuViewBean footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
+        MenuViewBeans.add(footerMenuList);
         
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
+        MenuViewBeans.add(footerMenuList);
 
-        footerMenuList = new FooterMenuViewBean();
+        footerMenuList = new MenuViewBean();
         footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
         footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
-        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
-        footerMenuViewBeans.add(footerMenuList);
+        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
+        MenuViewBeans.add(footerMenuList);
         
-        return footerMenuViewBeans;
+        return MenuViewBeans;
     }
     
     // SEARCH
