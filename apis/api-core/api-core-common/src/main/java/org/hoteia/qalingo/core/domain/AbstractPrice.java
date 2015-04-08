@@ -21,16 +21,9 @@ public abstract class AbstractPrice<E> extends AbstractEntity<E> {
     private static final long serialVersionUID = 3213518619670352263L;
 
     @Transient
-    protected BigDecimal salePrice;
-
-    @Transient
     protected BigDecimal moneySaving;
     
     public abstract BigDecimal getSalePrice();
-    
-    public void setSalePrice(BigDecimal salePrice) {
-        this.salePrice = salePrice;
-    }
     
     public BigDecimal getMoneySaving() {
         if (moneySaving == null) {

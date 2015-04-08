@@ -22,6 +22,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -60,6 +61,10 @@ public class ProductSkuOptionDefinition extends AbstractEntity<ProductSkuOptionD
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID")
     private Set<ProductSkuOptionDefinitionAttribute> attributes = new HashSet<ProductSkuOptionDefinitionAttribute>();
 
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType.class)
+    @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_TYPE_ID", insertable = true, updatable = true)
+    private ProductSkuOptionDefinitionType productSkuOptionDefinitionType;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -119,6 +124,14 @@ public class ProductSkuOptionDefinition extends AbstractEntity<ProductSkuOptionD
         this.attributes = attributes;
     }
 
+    public ProductSkuOptionDefinitionType getProductSkuOptionDefinitionType() {
+		return productSkuOptionDefinitionType;
+	}
+    
+    public void setProductSkuOptionType(ProductSkuOptionDefinitionType productSkuOptionDefinitionType) {
+		this.productSkuOptionDefinitionType = productSkuOptionDefinitionType;
+	}
+    
     public Date getDateCreate() {
         return dateCreate;
     }

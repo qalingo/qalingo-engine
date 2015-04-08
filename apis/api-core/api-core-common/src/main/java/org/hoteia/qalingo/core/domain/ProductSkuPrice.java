@@ -43,8 +43,18 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
 	
-	@Column(name="PRICE_CATALOG")
-	private BigDecimal catalogPrice;
+	@Column(name="SALE_PRICE")
+	private BigDecimal salePrice;
+
+    @Column(name = "IS_CATALOG_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isCatalogPrice;
+    
+    @Column(name = "IS_DISCOUNT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDiscount;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="PRODUCT_SKU_PRICE_ID", insertable = true, updatable = true)
+	private ProductSkuPrice price;
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)
@@ -95,21 +105,14 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 		this.version = version;
 	}
 
-	public BigDecimal getCatalogPrice() {
-        return catalogPrice;
-    }
-	
-	public void setCatalogPrice(BigDecimal catalogPrice) {
-        this.catalogPrice = catalogPrice;
-    }
-	
 	@Override
-    public BigDecimal getSalePrice() {
-        if (salePrice == null) {
-            return catalogPrice;
-        }
-        return salePrice;
-    }
+	public BigDecimal getSalePrice() {
+		return salePrice;
+	}
+	
+	public void setSalePrice(BigDecimal salePrice) {
+		this.salePrice = salePrice;
+	}
 	
     @Override
 	public CurrencyReferential getCurrency() {
@@ -222,7 +225,7 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 
     @Override
     public String toString() {
-        return "ProductSkuPrice [id=" + id + ", version=" + version + ", catalogPrice=" + catalogPrice + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", storeId=" + storeId
+        return "ProductSkuPrice [id=" + id + ", version=" + version + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", storeId=" + storeId
                 + ", productSku=" + productSku + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

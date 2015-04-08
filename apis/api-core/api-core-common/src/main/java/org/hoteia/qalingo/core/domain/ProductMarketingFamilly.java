@@ -36,7 +36,7 @@ public class ProductMarketingFamilly extends AbstractEntity<ProductMarketingFami
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = -3980707330914384779L;
+    private static final long serialVersionUID = -3980701330914384779L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,9 +61,9 @@ public class ProductMarketingFamilly extends AbstractEntity<ProductMarketingFami
     @JoinTable(name = "TECO_PRODUCT_MARKETING_FAMILLY_TAX_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TYPE_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
     private Set<Tax> taxes = new HashSet<Tax>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOption.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "TECO_PRODUCT_MARKETING_FAMILLY_PRODUCT_SKU_OPTION_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_OPTION_ID"))
-    private Set<ProductSkuOption> productSkuOptions = new HashSet<ProductSkuOption>();
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionRel.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_PRODUCT_MARKETING_FAMILLY_PRODUCT_SKU_OPTION_DEFINITION_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID"))
+    private Set<ProductSkuOptionDefinition> productSkuOptionDefinition = new HashSet<ProductSkuOptionDefinition>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -124,13 +124,13 @@ public class ProductMarketingFamilly extends AbstractEntity<ProductMarketingFami
         this.taxes = taxes;
     }
 
-    public Set<ProductSkuOption> getProductSkuOptions() {
-        return productSkuOptions;
-    }
-
-    public void setProductSkuOptions(Set<ProductSkuOption> productSkuOptions) {
-        this.productSkuOptions = productSkuOptions;
-    }
+    public Set<ProductSkuOptionDefinition> getProductSkuOptionDefinition() {
+		return productSkuOptionDefinition;
+	}
+    
+    public void setProductSkuOptionDefinition(Set<ProductSkuOptionDefinition> productSkuOptionDefinition) {
+		this.productSkuOptionDefinition = productSkuOptionDefinition;
+	}
 
     public Date getDateCreate() {
         return dateCreate;
@@ -188,8 +188,7 @@ public class ProductMarketingFamilly extends AbstractEntity<ProductMarketingFami
 
     @Override
     public String toString() {
-        return "ProductMarketingFamilly [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", taxes=" + taxes + ", dateCreate=" + dateCreate
-                + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductMarketingFamilly [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

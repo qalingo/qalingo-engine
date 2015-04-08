@@ -34,6 +34,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.slf4j.Logger;
@@ -614,6 +615,67 @@ public class ProductDao extends AbstractGenericDao {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
             return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productSkuOptionDefinitionDefaultFetchPlan());
+        }
+    }
+    
+    public ProductSkuOptionDefinitionType getProductSkuOptionDefinitionTypeById(final Long productSkuOptionDefinitionTypeId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuOptionDefinitionType.class);
+        FetchPlan fetchPlan = handleSpecificProductSkuOptionDefinitionTypeFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("id", productSkuOptionDefinitionTypeId));
+        ProductSkuOptionDefinitionType productSkuOptionDefinitionType = (ProductSkuOptionDefinitionType) criteria.uniqueResult();
+        if(productSkuOptionDefinitionType != null){
+            productSkuOptionDefinitionType.setFetchPlan(fetchPlan);
+        }
+        return productSkuOptionDefinitionType;
+    }
+
+    public ProductSkuOptionDefinitionType getProductSkuOptionDefinitionTypeByCode(final String productSkuOptionDefinitionTypeCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuOptionDefinitionType.class);
+        FetchPlan fetchPlan = handleSpecificProductSkuOptionDefinitionTypeFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("code", handleCodeValue(productSkuOptionDefinitionTypeCode)));
+        ProductSkuOptionDefinitionType productSkuOptionDefinitionType = (ProductSkuOptionDefinitionType) criteria.uniqueResult();
+        if(productSkuOptionDefinitionType != null){
+            productSkuOptionDefinitionType.setFetchPlan(fetchPlan);
+        }
+        return productSkuOptionDefinitionType;
+    }
+    
+    public List<ProductSkuOptionDefinitionType> findAllProductSkuOptionDefinitionTypes(Object... params) {
+        Criteria criteria = getSession().createCriteria(ProductSkuOptionDefinitionType.class);
+        handleSpecificProductSkuOptionDefinitionTypeFetchMode(criteria, params);
+        
+        @SuppressWarnings("unchecked")
+        List<ProductSkuOptionDefinitionType> productSkuOptionDefinitionTypes = criteria.list();
+        return productSkuOptionDefinitionTypes;
+    }
+    
+    public ProductSkuOptionDefinitionType saveOrUpdateProductSkuOptionDefinitionType(final ProductSkuOptionDefinitionType productSkuOptionDefinitionType) {
+        if(productSkuOptionDefinitionType.getDateCreate() == null){
+            productSkuOptionDefinitionType.setDateCreate(new Date());
+        }
+        productSkuOptionDefinitionType.setDateUpdate(new Date());
+        if (productSkuOptionDefinitionType.getId() != null) {
+            if(em.contains(productSkuOptionDefinitionType)){
+                em.refresh(productSkuOptionDefinitionType);
+            }
+            ProductSkuOptionDefinitionType mergedProductSkuOptionDefinitionType = em.merge(productSkuOptionDefinitionType);
+            em.flush();
+            return mergedProductSkuOptionDefinitionType;
+        } else {
+            em.persist(productSkuOptionDefinitionType);
+            return productSkuOptionDefinitionType;
+        }
+    }
+
+    public void deleteProductSkuOptionDefinitionType(final ProductSkuOptionDefinitionType productSkuOptionDefinitionType) {
+        em.remove(productSkuOptionDefinitionType);
+    }
+    
+    protected FetchPlan handleSpecificProductSkuOptionDefinitionTypeFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productSkuOptionDefinitionTypeDefaultFetchPlan());
         }
     }
     

@@ -25,6 +25,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -311,7 +312,7 @@ public class ProductService {
         productDao.deleteProductSkuAsset(productSkuAsset);
     }
    
-    // PRODUCT SKU OPTION
+    // PRODUCT SKU OPTION DEFINITION
 
     public ProductSkuOptionDefinition getProductSkuOptionDefinitionById(final Long productSkuOptionDefinitionId, Object... params) {
         return productDao.getProductSkuOptionDefinitionById(productSkuOptionDefinitionId, params);
@@ -341,6 +342,36 @@ public class ProductService {
 
     public void deleteProductSkuOptionDefinition(final ProductSkuOptionDefinition productSkuOptionDefinition) {
         productDao.deleteProductSkuOptionDefinition(productSkuOptionDefinition);
+    }
+    
+    public ProductSkuOptionDefinitionType getProductSkuOptionDefinitionTypeById(final Long productSkuOptionDefinitionTypeId, Object... params) {
+        return productDao.getProductSkuOptionDefinitionTypeById(productSkuOptionDefinitionTypeId, params);
+    }
+
+    public ProductSkuOptionDefinitionType getProductSkuOptionDefinitionTypeById(final String rawProductSkuOptionDefinitionTypeId, Object... params) {
+        long productSkuOptionDefinitionTypeId = -1;
+        try {
+            productSkuOptionDefinitionTypeId = Long.parseLong(rawProductSkuOptionDefinitionTypeId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getProductSkuOptionDefinitionTypeById(productSkuOptionDefinitionTypeId, params);
+    }
+
+    public ProductSkuOptionDefinitionType getProductSkuOptionDefinitionTypeByCode(final String productSkuOptionDefinitionTypeCode, Object... params) {
+        return productDao.getProductSkuOptionDefinitionTypeByCode(productSkuOptionDefinitionTypeCode, params);
+    }
+
+    public List<ProductSkuOptionDefinitionType> findAllProductSkuOptionDefinitionTypes(Object... params) {
+        return productDao.findAllProductSkuOptionDefinitionTypes(params);
+    }
+    
+    public ProductSkuOptionDefinitionType saveOrUpdateProductSkuOptionDefinitionType(final ProductSkuOptionDefinitionType productSkuOptionDefinitionType) {
+        return productDao.saveOrUpdateProductSkuOptionDefinitionType(productSkuOptionDefinitionType);
+    }
+
+    public void deleteProductSkuOptionDefinitionType(final ProductSkuOptionDefinitionType productSkuOptionDefinitionType) {
+        productDao.deleteProductSkuOptionDefinitionType(productSkuOptionDefinitionType);
     }
     
     // PRODUCT BRAND

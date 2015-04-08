@@ -71,7 +71,14 @@ public class FetchPlanGraphProduct {
     
     public static FetchPlan productSkuOptionDefinitionDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(ProductBrand_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.productSkuOptionType.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan productSkuOptionDefinitionTypeDefaultFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinitionType_.attributes.getName()));
         return new FetchPlan(fetchplans);
     }
     

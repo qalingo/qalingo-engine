@@ -75,9 +75,9 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuAttribute> attributes = new HashSet<ProductSkuAttribute>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOption.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionRel.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    private Set<ProductSkuOption> options = new HashSet<ProductSkuOption>();
+    private Set<ProductSkuOptionRel> optionRels = new HashSet<ProductSkuOptionRel>();
     
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
     @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
@@ -189,12 +189,12 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         this.attributes = attributes;
     }
 	
-	public Set<ProductSkuOption> getOptions() {
-        return options;
+	public Set<ProductSkuOptionRel> getOptionRels() {
+        return optionRels;
     }
 	
-	public void setOptions(Set<ProductSkuOption> options) {
-        this.options = options;
+	public void setOptionRels(Set<ProductSkuOptionRel> optionRels) {
+        this.optionRels = optionRels;
     }
 	
 	public ProductMarketing getProductMarketing() {
