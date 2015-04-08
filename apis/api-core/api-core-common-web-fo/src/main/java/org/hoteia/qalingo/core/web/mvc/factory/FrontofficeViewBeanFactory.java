@@ -44,6 +44,7 @@ import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.FooterMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
@@ -246,6 +247,98 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         }
 
         return menuViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public List<FooterMenuViewBean> buildListViewBeanFooterMenu(final RequestData requestData) throws Exception {
+        final Locale locale = requestData.getLocale();
+        List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
+
+        FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+        
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+
+        return footerMenuViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public List<FooterMenuViewBean> buildListViewBeanFooterNav(final RequestData requestData) throws Exception {
+        final Locale locale = requestData.getLocale();
+        List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
+
+        FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+        
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+        
+        return footerMenuViewBeans;
     }
     
     // SEARCH

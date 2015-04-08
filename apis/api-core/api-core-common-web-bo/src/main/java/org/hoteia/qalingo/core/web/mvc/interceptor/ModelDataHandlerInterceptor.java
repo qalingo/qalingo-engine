@@ -118,7 +118,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.BACKOFFICE_LOCALIZATION_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanLocalization(requestData, backofficeLocalizations));
             
             // HEADER
-            modelAndView.getModelMap().put(ModelConstants.HEADER_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanMenu(requestData));
+            modelAndView.getModelMap().put(ModelConstants.HEADER_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanHeaderMenu(requestData));
             modelAndView.getModelMap().put(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanMorePageMenu(requestData));
             
             // FOOTER

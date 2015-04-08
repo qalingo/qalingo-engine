@@ -53,6 +53,7 @@ import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
@@ -73,6 +74,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingValueViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.FooterMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.GlobalSearchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.LegalTermsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
@@ -140,7 +142,13 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return seoDataViewBean;
     }
     
-    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanHeaderNav(final RequestData requestData) throws Exception {
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        return menuViewBeans;
+    }
+
+    
+    public List<MenuViewBean> buildListViewBeanHeaderMenu(final RequestData requestData) throws Exception {
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
         return menuViewBeans;
     }
@@ -186,6 +194,86 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return menuViewBeans;
     }
 
+    /**
+     * 
+     */
+    public List<FooterMenuViewBean> buildListViewBeanFooterMenu(final RequestData requestData) throws Exception {
+        final Locale locale = requestData.getLocale();
+        List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
+
+        FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+        
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+
+        return footerMenuViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public List<FooterMenuViewBean> buildListViewBeanFooterNav(final RequestData requestData) throws Exception {
+        final Locale locale = requestData.getLocale();
+        List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
+
+        FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_CUSTOMER_CARE);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+        
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+
+        footerMenuList = new FooterMenuViewBean();
+        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
+        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        footerMenuList.setType(FooterMenuViewBean.MENU_TYPE_OUR_COMPANY);
+        footerMenuViewBeans.add(footerMenuList);
+        
+        return footerMenuViewBeans;
+    }
+    
     public List<MarketViewBean> buildListViewBeanMarketByMarketPlace(final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
         List<MarketViewBean> marketViewBeans = new ArrayList<MarketViewBean>();
         for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {

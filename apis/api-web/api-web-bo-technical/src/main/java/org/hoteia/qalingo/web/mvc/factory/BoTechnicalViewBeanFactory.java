@@ -31,7 +31,7 @@ public class BoTechnicalViewBeanFactory extends BackofficeViewBeanFactory {
      * 
      */
     @Override
-    public List<MenuViewBean> buildListViewBeanMenu(RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanHeaderMenu(RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = localization.getLocale();
