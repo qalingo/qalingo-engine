@@ -299,7 +299,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<FooterMenuViewBean> buildViewBeanFooterMenu(final RequestData requestData) throws Exception {
+    public List<FooterMenuViewBean> buildListViewBeanFooterMenu(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
         List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
 
@@ -345,7 +345,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<FooterMenuViewBean> buildViewBeanFooterNav(final RequestData requestData) throws Exception {
+    public List<FooterMenuViewBean> buildListViewBeanFooterNav(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
         List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
 
