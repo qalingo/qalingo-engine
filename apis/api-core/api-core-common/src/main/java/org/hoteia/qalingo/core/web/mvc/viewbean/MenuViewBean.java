@@ -33,6 +33,8 @@ public class MenuViewBean extends AbstractViewBean {
     protected boolean active;
     protected boolean catalog = false;
 
+    protected int ordering;
+    
     protected String cssClass;
     protected String cssIcon;
 
@@ -119,6 +121,14 @@ public class MenuViewBean extends AbstractViewBean {
 
     public void setCatalog(boolean catalog) {
         this.catalog = catalog;
+    }
+
+    public int getOrdering() {
+        return ordering;
+    }
+
+    public void setOrdering(int ordering) {
+        this.ordering = ordering;
     }
 
     public String getCssClass() {
