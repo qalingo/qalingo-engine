@@ -65,6 +65,12 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @Column(name = "IS_PRIMARY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean primary;
     
+    @Column(name = "IS_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean b2c;
+    
+    @Column(name = "IS_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean b2b;
+    
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
@@ -196,6 +202,22 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
 
     public void setPrimary(boolean primary) {
         this.primary = primary;
+    }
+
+    public boolean isB2c() {
+        return b2c;
+    }
+
+    public void setB2c(boolean b2c) {
+        this.b2c = b2c;
+    }
+
+    public boolean isB2b() {
+        return b2b;
+    }
+
+    public void setB2b(boolean b2b) {
+        this.b2b = b2b;
     }
 
     public String getCode() {

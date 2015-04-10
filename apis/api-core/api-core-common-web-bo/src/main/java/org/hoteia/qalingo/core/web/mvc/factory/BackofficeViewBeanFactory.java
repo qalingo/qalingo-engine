@@ -163,32 +163,38 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 
         // TODO : denis : move this part in the global list menu java/vm
 
-        MenuViewBean menu = new MenuViewBean();
-        menu.setCssIcon("fa fa-question");
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
-        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
-        menu.setActive(currentUrl.contains(BoUrls.FAQ.getUrlPatternKey()));
-        menuViewBeans.add(menu);
-
-        menu = new MenuViewBean();
-        menu.setCssIcon("fa fa-user");
-        menu.setName(getSpecificMessage(ScopeWebMessage.COMMON, "header_link_my_account", locale));
-        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
-        menu.setActive(currentUrl.contains(BoUrls.PERSONAL_DETAILS.getUrlPatternKey()));
-        menuViewBeans.add(menu);
+        int ordering = 1;
         
-        menu = new MenuViewBean();
-        menu.setCssIcon("fa fa-lock");
+        MenuViewBean menuViewBean = new MenuViewBean();
+        menuViewBean.setCssIcon("fa fa-question");
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        menuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
+        menuViewBean.setActive(currentUrl.contains(BoUrls.FAQ.getUrlPatternKey()));
+        menuViewBean.setOrdering(ordering++);
+        menuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setCssIcon("fa fa-user");
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.COMMON, "header_link_my_account", locale));
+        menuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
+        menuViewBean.setActive(currentUrl.contains(BoUrls.PERSONAL_DETAILS.getUrlPatternKey()));
+        menuViewBean.setOrdering(ordering++);
+        menuViewBeans.add(menuViewBean);
+        
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setCssIcon("fa fa-lock");
         if(currentUser != null){
-            menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_logout", locale));
-            menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestData));
-            menu.setActive(currentUrl.contains(BoUrls.LOGOUT.getUrlPatternKey()));
+            menuViewBean.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_logout", locale));
+            menuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestData));
+            menuViewBean.setOrdering(ordering++);
+            menuViewBean.setActive(currentUrl.contains(BoUrls.LOGOUT.getUrlPatternKey()));
         } else {
-            menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_login", locale));
-            menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
-            menu.setActive(currentUrl.contains(BoUrls.LOGIN.getUrlPatternKey()));
+            menuViewBean.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_login", locale));
+            menuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
+            menuViewBean.setOrdering(ordering++);
+            menuViewBean.setActive(currentUrl.contains(BoUrls.LOGIN.getUrlPatternKey()));
         }
-        menuViewBeans.add(menu);
+        menuViewBeans.add(menuViewBean);
         
         return menuViewBeans;
     }
@@ -202,38 +208,43 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 
         String MENU_TYPE_CUSTOMER_CARE = "MENU_TYPE_CUSTOMER_CARE";
         String MENU_TYPE_OUR_COMPANY   = "MENU_TYPE_OUR_COMPANY";
-        String MENU_TYPE_PRODUCT       = "MENU_TYPE_PRODUCT";
-        String MENU_TYPE_MORE          = "MENU_TYPE_MORE";
         
-        MenuViewBean footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        int ordering = 1;
         
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        MenuViewBean menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
 
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+        
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
 
         return MenuViewBeans;
     }

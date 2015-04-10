@@ -403,36 +403,43 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public List<MenuViewBean> buildListViewBeanCutomerMenu(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
 
+        int ordering = 1;
         List<MenuViewBean> customerLinks = new ArrayList<MenuViewBean>();
-        MenuViewBean cutomerMenuViewBean = new MenuViewBean();
-        cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_details_label", locale));
-        cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
-        customerLinks.add(cutomerMenuViewBean);
+        MenuViewBean menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_details_label", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+        menuViewBean.setOrdering(ordering++);
+        customerLinks.add(menuViewBean);
 
-        cutomerMenuViewBean = new MenuViewBean();
-        cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_address_list_label", locale));
-        cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestData));
-        customerLinks.add(cutomerMenuViewBean);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_address_list_label", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestData));
+        menuViewBean.setOrdering(ordering++);
+        customerLinks.add(menuViewBean);
 
-        cutomerMenuViewBean = new MenuViewBean();
-        cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_add_address_label", locale));
-        cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestData));
-        customerLinks.add(cutomerMenuViewBean);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_add_address_label", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestData));
+        menuViewBean.setOrdering(ordering++);
+        customerLinks.add(menuViewBean);
 
-        cutomerMenuViewBean = new MenuViewBean();
-        cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_order_list_label", locale));
-        cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_LIST, requestData));
-        customerLinks.add(cutomerMenuViewBean);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_order_list_label", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_LIST, requestData));
+        menuViewBean.setOrdering(ordering++);
+        customerLinks.add(menuViewBean);
 
-        cutomerMenuViewBean = new MenuViewBean();
-        cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_wishlist_label", locale));
-        cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
-        customerLinks.add(cutomerMenuViewBean);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_wishlist_label", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
+        menuViewBean.setOrdering(ordering++);
+        customerLinks.add(menuViewBean);
 
-        cutomerMenuViewBean = new MenuViewBean();
-        cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_product_comment_label", locale));
-        cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestData));
-        customerLinks.add(cutomerMenuViewBean);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_product_comment_label", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestData));
+        menuViewBean.setOrdering(ordering++);
+        customerLinks.add(menuViewBean);
 
         return customerLinks;
     }

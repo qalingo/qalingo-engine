@@ -138,11 +138,14 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 
-        MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-        menu.setActive(currentUrl.contains(FoUrls.HOME.getUrlPatternKey()));
-        menuViewBeans.add(menu);
+        int ordering = 1;
+        
+        MenuViewBean menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBean.setActive(currentUrl.contains(FoUrls.HOME.getUrlPatternKey()));
+        menuViewBean.setOrdering(ordering++);
+        menuViewBeans.add(menuViewBean);
         
         // Set active menu
         for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
@@ -177,11 +180,14 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 
-        MenuViewBean menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-        menu.setActive(currentUrl.contains(FoUrls.HOME.getUrlPatternKey()));
-        menuViewBeans.add(menu);
+        int ordering = 1;
+        
+        MenuViewBean menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBean.setActive(currentUrl.contains(FoUrls.HOME.getUrlPatternKey()));
+        menuViewBean.setOrdering(ordering++);
+        menuViewBeans.add(menuViewBean);
 
         CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogbyMarketAreaId(marketArea.getId());
         List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
@@ -197,11 +203,12 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     final CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorCatalogCategory.next();
                     final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), new FetchPlan(categoryVirtualFetchPlans));
                     
-                    menu = new MenuViewBean();
+                    menuViewBean = new MenuViewBean();
                     final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localizationCode);
-                    menu.setName(seoCatalogCategoryName);
-                    menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategoryReloaded));
-                    menu.setCatalog(true);
+                    menuViewBean.setName(seoCatalogCategoryName);
+                    menuViewBean.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategoryReloaded));
+                    menuViewBean.setOrdering(ordering++);
+                    menuViewBean.setCatalog(true);
                     
                     List<CatalogCategoryVirtual> subCatalogCategories = catalogCategoryReloaded.getSortedChildCatalogCategories();
                     if (subCatalogCategories != null) {
@@ -216,24 +223,26 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                             subMenu.setCatalog(true);
                             subMenus.add(subMenu);
                         }
-                        menu.setSubMenus(subMenus);
+                        menuViewBean.setSubMenus(subMenus);
                     }
-                    menuViewBeans.add(menu);
+                    menuViewBeans.add(menuViewBean);
                 }
             }
         }
 
-        menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our_company", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.OUR_COMPANY, requestData));
-        menu.setActive(currentUrl.contains(FoUrls.OUR_COMPANY.getUrlPatternKey()));
-        menuViewBeans.add(menu);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our_company", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.OUR_COMPANY, requestData));
+        menuViewBean.setActive(currentUrl.contains(FoUrls.OUR_COMPANY.getUrlPatternKey()));
+        menuViewBean.setOrdering(ordering++);
+        menuViewBeans.add(menuViewBean);
         
-        menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
-        menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
-        menu.setActive(currentUrl.contains(FoUrls.STORE_LOCATION.getUrlPatternKey()));
-        menuViewBeans.add(menu);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menuViewBean.setActive(currentUrl.contains(FoUrls.STORE_LOCATION.getUrlPatternKey()));
+        menuViewBean.setOrdering(ordering++);
+        menuViewBeans.add(menuViewBean);
 
         // Set active menu
         for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
@@ -266,41 +275,48 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         String MENU_TYPE_PRODUCT       = "MENU_TYPE_PRODUCT";
         String MENU_TYPE_MORE          = "MENU_TYPE_MORE";
         
-        MenuViewBean footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        int ordering = 1;
         
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        MenuViewBean menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        MenuViewBeans.add(menuViewBean);
 
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+        
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
 
         return MenuViewBeans;
     }
@@ -317,41 +333,49 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         String MENU_TYPE_PRODUCT       = "MENU_TYPE_PRODUCT";
         String MENU_TYPE_MORE          = "MENU_TYPE_MORE";
         
-        MenuViewBean footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
-        footerMenuList.setType(MENU_TYPE_CUSTOMER_CARE);
-        MenuViewBeans.add(footerMenuList);
-
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        int ordering = 1;
         
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        MenuViewBean menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_USE, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
 
-        footerMenuList = new MenuViewBean();
-        footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
-        footerMenuList.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
-        footerMenuList.setType(MENU_TYPE_OUR_COMPANY);
-        MenuViewBeans.add(footerMenuList);
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.FAQ, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
+        menuViewBean.setType(MENU_TYPE_CUSTOMER_CARE);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.LEGAL_TERMS, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+        
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
+
+        menuViewBean = new MenuViewBean();
+        menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
+        menuViewBean.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
+        menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
+        menuViewBean.setOrdering(ordering++);
+        MenuViewBeans.add(menuViewBean);
         
         return MenuViewBeans;
     }
