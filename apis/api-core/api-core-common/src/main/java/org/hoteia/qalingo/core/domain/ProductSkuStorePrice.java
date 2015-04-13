@@ -26,8 +26,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_SKU_PRICE")
-public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
+@Table(name="TECO_PRODUCT_SKU_STORE_PRICE")
+public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 
 	/**
 	 * Generated UID
@@ -54,7 +54,7 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PRODUCT_SKU_PRICE_ID", insertable = true, updatable = true)
-	private ProductSkuPrice price;
+	private ProductSkuStorePrice price;
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)
@@ -86,7 +86,7 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
     
-	public ProductSkuPrice() {
+	public ProductSkuStorePrice() {
 	}
 	
 	public Long getId() {
@@ -130,11 +130,11 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
         this.isDiscount = isDiscount;
     }
 
-    public ProductSkuPrice getPrice() {
+    public ProductSkuStorePrice getPrice() {
         return price;
     }
 
-    public void setPrice(ProductSkuPrice price) {
+    public void setPrice(ProductSkuStorePrice price) {
         this.price = price;
     }
 
@@ -223,7 +223,7 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductSkuPrice other = (ProductSkuPrice) obj;
+        ProductSkuStorePrice other = (ProductSkuStorePrice) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;

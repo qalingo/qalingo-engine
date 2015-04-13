@@ -71,7 +71,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductMarketingTag;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.ProductSkuTag;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
@@ -176,7 +176,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.hoteia.qalingo.core.domain.ProductSku_;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 
 /**
  * 
@@ -2074,11 +2074,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             productSkuViewBean.setDateUpdate(dateFormat.format(productMarketing.getDateUpdate()));
         }
         
-        final ProductSkuPrice productSkuCatalogPrice = productSku.getCatalogPrice(marketArea.getId());
+        final ProductSkuStorePrice productSkuCatalogPrice = productSku.getCatalogPrice(marketArea.getId());
         if(productSkuCatalogPrice != null){
             productSkuViewBean.setCatalogPrice(productSkuCatalogPrice.getSalePrice().toString());
         }
-        final ProductSkuPrice productSkuSalePrice = productSku.getSalePrice(marketArea.getId(), retailer.getId());
+        final ProductSkuStorePrice productSkuSalePrice = productSku.getSalePrice(marketArea.getId(), retailer.getId());
         if(productSkuSalePrice != null){
             productSkuViewBean.setSalePrice(productSkuSalePrice.getSalePrice().toString());
             productSkuViewBean.setPriceWithCurrencySign(productSkuSalePrice.getPriceWithStandardCurrencySign());

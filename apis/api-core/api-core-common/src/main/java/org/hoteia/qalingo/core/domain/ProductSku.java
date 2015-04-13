@@ -90,9 +90,10 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuPrice.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStorePrice.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>();
+    @Deprecated
+    private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStock.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
@@ -256,14 +257,16 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return assetsByMarketArea;
 	}
 	
-	public Set<ProductSkuPrice> getPrices() {
+    @Deprecated
+	public Set<ProductSkuStorePrice> getPrices() {
 		return prices;
 	}
 	
-	public ProductSkuPrice getCatalogPrice(final Long marketAreaId){
+    @Deprecated
+	public ProductSkuStorePrice getCatalogPrice(final Long marketAreaId){
 	    if(prices != null
 	            && Hibernate.isInitialized(prices)){
-	        for (ProductSkuPrice productSkuPrice : prices) {
+	        for (ProductSkuStorePrice productSkuPrice : prices) {
 	            if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
 	                    && productSkuPrice.isCatalogPrice()) {
 	                return productSkuPrice;
@@ -273,10 +276,11 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 	    return null;
 	}
 	
-    public ProductSkuPrice getSalePrice(final Long marketAreaId, final Long storeId){
+    @Deprecated
+    public ProductSkuStorePrice getSalePrice(final Long marketAreaId, final Long storeId){
         if(prices != null
                 && Hibernate.isInitialized(prices)){
-            for (ProductSkuPrice productSkuPrice : prices) {
+            for (ProductSkuStorePrice productSkuPrice : prices) {
                 if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
                         && productSkuPrice.getStoreId().equals(storeId)) {
                     return productSkuPrice;
@@ -286,7 +290,8 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return null;
     }
 	
-	public void setPrices(Set<ProductSkuPrice> prices) {
+    @Deprecated
+	public void setPrices(Set<ProductSkuStorePrice> prices) {
 		this.prices = prices;
 	}
 	

@@ -26,7 +26,7 @@ import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
@@ -85,7 +85,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
         }
         
         if(marketArea != null && retailer != null){
-            ProductSkuPrice productSkuPrice = productSku.getSalePrice(marketArea.getId(), retailer.getId());
+            ProductSkuStorePrice productSkuPrice = productSku.getSalePrice(marketArea.getId(), retailer.getId());
             if(productSkuPrice != null){
                 BigDecimal salePrice = productSkuPrice.getSalePrice();
                 productSkuSolr.setPrice(salePrice.toString());

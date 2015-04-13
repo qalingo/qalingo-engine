@@ -20,7 +20,7 @@ import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
@@ -78,7 +78,7 @@ public class ProductMarketingSolrServiceTest {
         ProductSku productSku = new ProductSku();
         productSku.setId(new Long("1"));
         productSku.setDefault(true);
-        ProductSkuPrice productSkuPrice = new ProductSkuPrice();
+        ProductSkuStorePrice productSkuPrice = new ProductSkuStorePrice();
         productSkuPrice.setId(new Long("1"));
         productSkuPrice.setMarketAreaId(new Long("1"));
         productSkuPrice.setStoreId(new Long("1"));

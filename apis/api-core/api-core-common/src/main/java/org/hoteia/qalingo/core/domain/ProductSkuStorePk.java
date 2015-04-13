@@ -6,27 +6,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class ProductSkuOptionPk extends AbstractEntity<ProductSkuOptionPk> {
+public class ProductSkuStorePk extends AbstractEntity<ProductSkuStorePk> {
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 8745892210688286668L;
+    private static final long serialVersionUID = 8745892515688286668L;
 
     @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private ProductSku productSku;
     
-    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition.class)
-    @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID")
-    private ProductSkuOptionDefinition productSkuOptionDefinition;
+    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @JoinColumn(name = "STORE_ID")
+    private Store store;
     
-    public ProductSkuOptionPk() {
+    public ProductSkuStorePk() {
     }
     
-    public ProductSkuOptionPk(final ProductSku productSku, final ProductSkuOptionDefinition productSkuOptionDefinition) {
+    public ProductSkuStorePk(final ProductSku productSku, final Store store) {
         this.productSku = productSku;
-        this.productSkuOptionDefinition = productSkuOptionDefinition;
+        this.store = store;
     }
     
     public ProductSku getProductSku() {
@@ -37,12 +37,12 @@ public class ProductSkuOptionPk extends AbstractEntity<ProductSkuOptionPk> {
         this.productSku = productSku;
     }
     
-    public ProductSkuOptionDefinition getProductSkuOptionDefinition() {
-        return productSkuOptionDefinition;
+    public Store getStore() {
+        return store;
     }
     
-    public void setProductSkuOptionDefinition(ProductSkuOptionDefinition productSkuOptionDefinition) {
-        this.productSkuOptionDefinition = productSkuOptionDefinition;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ProductSkuOptionPk extends AbstractEntity<ProductSkuOptionPk> {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((productSku == null) ? 0 : productSku.hashCode());
-        result = prime * result + ((productSkuOptionDefinition == null) ? 0 : productSkuOptionDefinition.hashCode());
+        result = prime * result + ((store == null) ? 0 : store.hashCode());
         return result;
     }
 
@@ -63,11 +63,11 @@ public class ProductSkuOptionPk extends AbstractEntity<ProductSkuOptionPk> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductSkuOptionPk other = (ProductSkuOptionPk) obj;
-        if (productSkuOptionDefinition == null) {
-            if (other.productSkuOptionDefinition != null)
+        ProductSkuStorePk other = (ProductSkuStorePk) obj;
+        if (store == null) {
+            if (other.store != null)
                 return false;
-        } else if (!productSkuOptionDefinition.equals(other.productSkuOptionDefinition))
+        } else if (!store.equals(other.store))
             return false;
         if (productSku == null) {
             if (other.productSku != null)
