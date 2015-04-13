@@ -147,7 +147,7 @@ public class Company extends AbstractEntity<Company> {
     }
 
     public void setCode(String code) {
-        this.code = code.replaceAll(" ", "");
+        this.code = code;
     }
     
     public String getName() {

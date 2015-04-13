@@ -60,6 +60,9 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
+
+    @Column(name = "EAN")
+    private String ean;
     
     @Column(name = "NAME")
     private String name;
@@ -154,7 +157,15 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     }
     
     public void setCode(String code) {
-        this.code = code.replaceAll(" ", "");
+        this.code = code;
+    }
+    
+    public String getEan() {
+        return ean;
+    }
+    
+    public void setEan(String ean) {
+        this.ean = ean;
     }
     
 	public String getName() {

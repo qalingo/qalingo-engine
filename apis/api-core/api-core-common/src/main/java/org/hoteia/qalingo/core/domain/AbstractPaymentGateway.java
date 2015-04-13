@@ -118,7 +118,7 @@ public abstract class AbstractPaymentGateway<E> extends AbstractEntity<E> {
     }
     
     public void setCode(String code) {
-        this.code = code.replaceAll(" ", "");
+        this.code = code;
     }
 
 	public String getName() {

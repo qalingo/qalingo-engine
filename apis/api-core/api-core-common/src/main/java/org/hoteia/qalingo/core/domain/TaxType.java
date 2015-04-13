@@ -98,7 +98,7 @@ public class TaxType extends AbstractEntity<TaxType> {
 	}
 	
 	public void setCode(String code) {
-		this.code = code.replaceAll(" ", "");
+	    this.code = code;
 	}
 	
 	public Date getDateCreate() {

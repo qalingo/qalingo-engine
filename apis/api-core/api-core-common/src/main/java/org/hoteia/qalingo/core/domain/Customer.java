@@ -184,7 +184,7 @@ public class Customer extends AbstractEntity<Customer> {
 	}
 	
 	public void setCode(String code) {
-		this.code = code.replaceAll(" ", "");
+	    this.code = code;
 	}
 	
 	public String getLogin() {

@@ -225,7 +225,7 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     }
 
     public void setCode(String code) {
-        this.code = code.replaceAll(" ", "");
+        this.code = code;
     }
 
     public String getType() {

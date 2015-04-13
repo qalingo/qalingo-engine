@@ -98,7 +98,7 @@ public class Localization extends AbstractEntity<Localization> {
     }
 
     public void setCode(String code) {
-        this.code = code.replaceAll(" ", "");
+        this.code = code;
     }
 
     public String getName() {

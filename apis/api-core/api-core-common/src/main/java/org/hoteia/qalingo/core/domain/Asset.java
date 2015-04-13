@@ -49,6 +49,9 @@ public class Asset extends AbstractEntity<Asset> {
     @Lob
     private String description;
 
+    @Column(name = "ORIGIN")
+    private String origin;
+    
     @Column(name = "PATH")
     private String path;
 
@@ -118,6 +121,14 @@ public class Asset extends AbstractEntity<Asset> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getOrigin() {
+        return origin;
+    }
+	
+	public void setOrigin(String origin) {
+        this.origin = origin;
+    }
 	
 	public String getPath() {
 		return path;

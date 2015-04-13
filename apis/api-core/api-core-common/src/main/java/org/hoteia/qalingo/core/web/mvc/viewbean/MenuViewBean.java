@@ -39,7 +39,7 @@ public class MenuViewBean extends AbstractViewBean {
     protected String cssClass;
     protected String cssIcon;
 
-    List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
+    protected List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
 
     public String getKey() {
         return key;

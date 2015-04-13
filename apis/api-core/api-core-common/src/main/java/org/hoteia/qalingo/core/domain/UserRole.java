@@ -108,7 +108,7 @@ public class UserRole extends AbstractEntity<UserTokenAuth> {
 	}
 	
 	public void setCode(String code) {
-		this.code = code.replaceAll(" ", "");
+	    this.code = code;
 	}
 
 	public Date getDateCreate() {

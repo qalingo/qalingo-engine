@@ -98,7 +98,7 @@ public class UserPermission extends AbstractEntity<UserPermission> {
 	}
 	
 	public void setCode(String code) {
-		this.code = code.replaceAll(" ", "");
+	    this.code = code;
 	}
 
 	public Date getDateCreate() {
