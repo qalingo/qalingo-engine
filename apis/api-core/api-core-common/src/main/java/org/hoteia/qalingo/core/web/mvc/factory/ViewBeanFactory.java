@@ -176,7 +176,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.hoteia.qalingo.core.domain.ProductSku_;
-import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 
 /**
  * 
@@ -2226,7 +2226,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice.currency.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
         FetchPlan productSkuFetchPlan = new FetchPlan(productSkuFetchPlans);
         
