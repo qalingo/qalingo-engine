@@ -22,7 +22,7 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductBrand_;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -66,7 +66,7 @@ public class BrandController extends AbstractMCommerceController {
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
     }
     

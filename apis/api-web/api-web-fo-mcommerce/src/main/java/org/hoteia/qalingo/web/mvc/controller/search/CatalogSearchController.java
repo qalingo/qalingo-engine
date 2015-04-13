@@ -27,7 +27,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -74,7 +74,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
         
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
@@ -82,7 +82,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productAssociationLinks.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
     }
