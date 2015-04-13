@@ -2226,7 +2226,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice.currency.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
         FetchPlan productSkuFetchPlan = new FetchPlan(productSkuFetchPlans);
         
