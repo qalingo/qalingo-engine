@@ -20,6 +20,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -46,11 +47,17 @@ public class ProductSkuStoreRel extends AbstractEntity<ProductSkuStoreRel> {
     private boolean isDefaultStore;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreAttribute.class)
-    @JoinColumn(name = "PRODUCT_SKU_STORE_ID")
+    @JoinColumns({
+        @JoinColumn(name = "PRODUCT_SKU_ID"),
+        @JoinColumn(name = "STORE_ID") 
+    })
     private Set<ProductSkuStoreAttribute> attributes = new HashSet<ProductSkuStoreAttribute>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStorePrice.class)
-    @JoinColumn(name = "PRODUCT_SKU_STORE_ID")
+    @JoinColumns({
+        @JoinColumn(name = "PRODUCT_SKU_ID"),
+        @JoinColumn(name = "STORE_ID") 
+    })
     private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
 
     public ProductSkuStoreRel() {
