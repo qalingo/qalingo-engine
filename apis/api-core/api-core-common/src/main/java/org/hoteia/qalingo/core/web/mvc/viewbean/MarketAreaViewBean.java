@@ -24,6 +24,7 @@ public class MarketAreaViewBean extends AbstractViewBean {
 	private String name;
 	private String description;
     
+    private boolean opened;
 	private boolean isDefault;
 	private boolean isEcommerce;
 	private String theme;
@@ -63,7 +64,15 @@ public class MarketAreaViewBean extends AbstractViewBean {
     	this.description = description;
     }
 
-	public boolean isDefault() {
+	public boolean isOpened() {
+        return opened;
+    }
+
+    public void setOpened(boolean opened) {
+        this.opened = opened;
+    }
+
+    public boolean isDefault() {
     	return isDefault;
     }
 

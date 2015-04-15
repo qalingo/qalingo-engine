@@ -24,6 +24,7 @@ public class MarketAreaPojo {
     private String code;
     private String name;
     private String description;
+    private boolean opened = false;
     private boolean isDefault = false;
     private boolean isSelected = false;
     private String theme;
@@ -76,6 +77,14 @@ public class MarketAreaPojo {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isOpened() {
+        return opened;
+    }
+
+    public void setOpened(boolean opened) {
+        this.opened = opened;
     }
 
     public boolean isDefault() {

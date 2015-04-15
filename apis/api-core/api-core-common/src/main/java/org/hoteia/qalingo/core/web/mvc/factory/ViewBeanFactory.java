@@ -587,6 +587,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         marketAreaViewBean.setName(marketArea.getName());
         marketAreaViewBean.setDescription(marketArea.getDescription());
 
+        marketAreaViewBean.setOpened(marketArea.isOpened());
+        marketAreaViewBean.setEcommerce(marketArea.isEcommerce());
+        marketAreaViewBean.setDefault(marketArea.isDefault());
+
         marketAreaViewBean.setLatitude(marketArea.getLatitude());
         marketAreaViewBean.setLongitude(marketArea.getLongitude());
 

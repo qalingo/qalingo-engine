@@ -73,6 +73,9 @@ public class MarketArea extends AbstractEntity<MarketArea> {
     @Lob
     private String description;
 
+    @Column(name = "IS_OPENED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean opened;
+    
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
@@ -188,6 +191,14 @@ public class MarketArea extends AbstractEntity<MarketArea> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isOpened() {
+        return opened;
+    }
+
+    public void setOpened(boolean opened) {
+        this.opened = opened;
     }
 
     public boolean isDefault() {

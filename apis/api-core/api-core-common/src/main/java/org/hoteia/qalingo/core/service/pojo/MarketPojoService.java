@@ -96,7 +96,7 @@ public class MarketPojoService {
         MarketArea marketAreaGeoloc = null;
         if(geolocData != null){
             if(geolocData != null && StringUtils.isNotEmpty(geolocData.getCountryIsoCode())){
-                List<MarketArea> marketAreas = marketService.getMarketAreaByGeolocCountryCode(geolocData.getCountryIsoCode());
+                List<MarketArea> marketAreas = marketService.getMarketAreaOpenedByGeolocCountryCode(geolocData.getCountryIsoCode());
                 if(marketAreas != null && marketAreas.size() == 1){
                     marketAreaGeoloc = marketAreas.get(0);
                 } else {

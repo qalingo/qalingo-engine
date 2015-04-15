@@ -186,13 +186,19 @@ public class Market extends AbstractEntity<Market> {
                 && Hibernate.isInitialized(marketAreas)) {
             for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
                 MarketArea marketArea = (MarketArea) iterator.next();
-                if (marketArea.isDefault()) {
+                if (marketArea.isOpened() && marketArea.isDefault()) {
                     defaultMarketArea = marketArea;
+                    break;
                 }
             }
             if (defaultMarketArea == null) {
-                Iterator<MarketArea> iterator = marketAreas.iterator();
-                defaultMarketArea = (MarketArea) iterator.next();
+                for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
+                    MarketArea marketArea = (MarketArea) iterator.next();
+                    if (marketArea.isOpened()) {
+                        defaultMarketArea = marketArea;
+                        break;
+                    }
+                }
             }
         }
         return defaultMarketArea;
