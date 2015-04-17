@@ -24,6 +24,7 @@ public class ProductSkuPojo {
     private Long id;
     private int version;
     private String code;
+    private String ean;
     private String name;
     private String i18nName;
     private Integer width;
@@ -46,7 +47,7 @@ public class ProductSkuPojo {
     private List<ProductSkuAttributePojo> productSkuGlobalAttributes = new ArrayList<ProductSkuAttributePojo>();
     private List<ProductSkuAttributePojo> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttributePojo>();
     
-    protected List<AssetPojo> assets = new ArrayList<AssetPojo>();
+    private List<AssetPojo> assets = new ArrayList<AssetPojo>();
     private List<ProductSkuPricePojo> prices = new ArrayList<ProductSkuPricePojo>();
     private List<ProductSkuStockPojo> stocks = new ArrayList<ProductSkuStockPojo>();
     private List<RetailerPojo> retailers = new ArrayList<RetailerPojo>();
@@ -77,6 +78,14 @@ public class ProductSkuPojo {
         this.code = code;
     }
 
+    public String getEan() {
+        return ean;
+    }
+    
+    public void setEan(String ean) {
+        this.ean = ean;
+    }
+    
     public String getName() {
         return name;
     }
