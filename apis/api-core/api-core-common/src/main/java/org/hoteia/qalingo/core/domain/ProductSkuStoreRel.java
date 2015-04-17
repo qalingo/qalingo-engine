@@ -38,7 +38,7 @@ public class ProductSkuStoreRel extends AbstractEntity<ProductSkuStoreRel> {
     private static final long serialVersionUID = 2179540514678304872L;
 
     @EmbeddedId
-    private ProductSkuOptionPk pk;
+    private ProductSkuStorePk pk;
     
     @Column(name = "RANKING")
     private Integer ranking;
@@ -61,18 +61,18 @@ public class ProductSkuStoreRel extends AbstractEntity<ProductSkuStoreRel> {
     private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
 
     public ProductSkuStoreRel() {
-        this.pk = new ProductSkuOptionPk();
+        this.pk = new ProductSkuStorePk();
     }
     
-    public ProductSkuStoreRel(final ProductSku productSku, final ProductSkuOptionDefinition productSkuOptionDefinition) {
-        this.pk = new ProductSkuOptionPk(productSku, productSkuOptionDefinition);
+    public ProductSkuStoreRel(final ProductSku productSku, final Store store) {
+        this.pk = new ProductSkuStorePk(productSku, store);
     }
 
-    public ProductSkuOptionPk getPk() {
+    public ProductSkuStorePk getPk() {
         return pk;
     }
 
-    public void setPk(ProductSkuOptionPk pk) {
+    public void setPk(ProductSkuStorePk pk) {
         this.pk = pk;
     }
 
@@ -86,12 +86,12 @@ public class ProductSkuStoreRel extends AbstractEntity<ProductSkuStoreRel> {
     }
     
     @Transient
-    public ProductSkuOptionDefinition getProductSkuOptionDefinition() {
-        return getPk().getProductSkuOptionDefinition();
+    public Store getStore() {
+        return getPk().getStore();
     }
 
-    public void setProductSkuOptionDefinition(final ProductSkuOptionDefinition productSkuOptionDefinition) {
-        pk.setProductSkuOptionDefinition(productSkuOptionDefinition);
+    public void setStore(final Store store) {
+        pk.setStore(store);
     }
     
     public Integer getRanking() {

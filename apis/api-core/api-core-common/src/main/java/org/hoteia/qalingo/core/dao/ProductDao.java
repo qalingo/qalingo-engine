@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
+import org.hoteia.qalingo.core.domain.ProductSkuStoreRel;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.slf4j.Logger;
@@ -381,6 +382,17 @@ public class ProductDao extends AbstractGenericDao {
         }
         return productSku;
     }
+    
+    public ProductSku getProductSkuByEAN(final String skuEAN, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
+        FetchPlan fetchPlan = handleSpecificProductSkuFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("ean", handleCodeValue(skuEAN)));
+        ProductSku productSku = (ProductSku) criteria.uniqueResult();
+        if(productSku != null){
+            productSku.setFetchPlan(fetchPlan);
+        }
+        return productSku;
+    }
         
     public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
@@ -522,6 +534,109 @@ public class ProductDao extends AbstractGenericDao {
         } else {
             return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productSkuDefaultFetchPlan());
         }
+    }
+    
+    // PRODUCT SKU STORE
+    
+    public ProductSkuStoreRel getProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
+
+        criteria.add(Restrictions.eq("pk.attributes.attributeDefinition.code", "EAN"));
+        
+        criteria.createAlias("attributes", "attribute", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("attribute.shortStringValue", skuEAN));
+        
+        criteria.add(Restrictions.eq("pk.store.id", storeId));
+
+        ProductSkuStoreRel productSkuStoreRel = (ProductSkuStoreRel) criteria.uniqueResult();
+        return productSkuStoreRel;
+    }
+    
+    public List<ProductSkuStoreRel> findProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
+
+        criteria.createAlias("attributes", "attribute", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("attribute.shortStringValue", skuEAN));
+        
+        criteria.add(Restrictions.eq("pk.store.id", storeId));
+
+        @SuppressWarnings("unchecked")
+        List<ProductSkuStoreRel> productSkuStoreRels = criteria.list();
+        return productSkuStoreRels;
+    }
+
+//    public List<ProductSku> findProductSkusNotInThisMasterCatalogCategoryId(final Long categoryId, Object... params) {
+//        DetachedCriteria subquery = DetachedCriteria.forClass(ProductSku.class);
+//        subquery.createAlias("catalogCategoryMasterProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
+//        subquery.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryMaster.id", categoryId));
+//        subquery.setProjection(Projections.property("id"));
+//
+//        Criteria criteria = createDefaultCriteria(ProductSku.class);
+//        handleSpecificProductSkuFetchMode(criteria, params);
+//        criteria.add(Subqueries.notIn("id", subquery));
+//
+//        criteria.addOrder(Order.asc("id"));
+//
+//        @SuppressWarnings("unchecked")
+//        List<ProductSku> productSkus = criteria.list();
+//        return productSkus;
+//    }
+    
+//    public List<ProductSku> findProductSkusByVirtualCatalogCategoryId(final Long categoryId, Object... params) {
+//        Criteria criteria = createDefaultCriteria(ProductSku.class);
+//        handleSpecificProductSkuFetchMode(criteria, params);
+//
+//        criteria.createAlias("catalogCategoryVirtualProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
+//        criteria.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryVirtual.id", categoryId));
+//        
+//        criteria.addOrder(Order.asc("id"));
+//
+//        @SuppressWarnings("unchecked")
+//        List<ProductSku> productSkus = criteria.list();
+//        return productSkus;
+//    }
+    
+//    public List<ProductSku> findProductSkusNotInThisVirtualCatalogCategoryId(final Long categoryId, Object... params) {
+//        Criteria criteriaSubListId = createDefaultCriteria(ProductSku.class);
+//        criteriaSubListId.createAlias("catalogCategoryVirtualProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
+//        criteriaSubListId.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryVirtual.id", categoryId));
+//
+//        @SuppressWarnings("unchecked")
+//        List<ProductSku> subProductSkus = criteriaSubListId.list();
+//        
+//        List<Long> productSkuIds = new ArrayList<Long>();
+//        for (Iterator<ProductSku> iterator = subProductSkus.iterator(); iterator.hasNext();) {
+//            ProductSku productSku = (ProductSku) iterator.next();
+//            productSkuIds.add(productSku.getId());
+//        }
+//        
+//        Criteria criteria = createDefaultCriteria(ProductSku.class);
+//        handleSpecificProductSkuFetchMode(criteria, params);
+//        criteria.add(Restrictions.not(Restrictions.in("id", productSkuIds)));
+//        
+//        criteria.addOrder(Order.asc("id"));
+//
+//        @SuppressWarnings("unchecked")
+//        List<ProductSku> productSkus = criteria.list();
+//        return productSkus;
+//    }
+    
+    public ProductSkuStoreRel saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel) {
+        em.persist(productSkuStoreRel);
+        return productSkuStoreRel;
+    }
+    
+    public ProductSkuStoreRel updateProductSku(final ProductSkuStoreRel productSkuStoreRel) {
+        if(em.contains(productSkuStoreRel)){
+            em.refresh(productSkuStoreRel);
+        }
+        ProductSkuStoreRel mergedProductSkuStoreRel = em.merge(productSkuStoreRel);
+        em.flush();
+        return mergedProductSkuStoreRel;
+    }
+
+    public void deleteProductSku(final ProductSkuStoreRel productSkuStoreRel) {
+        em.remove(productSkuStoreRel);
     }
     
     // ASSET

@@ -26,6 +26,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
+import org.hoteia.qalingo.core.domain.ProductSkuStoreRel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -230,6 +231,10 @@ public class ProductService {
         return productDao.getProductSkuByCode(skuCode, params);
     }
 
+    public ProductSku getProductSkuByEAN(final String skuEAN, Object... params) {
+        return productDao.getProductSkuByEAN(skuEAN, params);
+    }
+    
     public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketingId, Object... params) {
         List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketingId, params);
         return skus;
@@ -287,7 +292,29 @@ public class ProductService {
     public void deleteProductSku(final ProductSku productSku) {
         productDao.deleteProductSku(productSku);
     }
+    
+    // PRODUCT SKU
 
+    public ProductSkuStoreRel getProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
+        return productDao.getProductSkuStoreRelByEANAndStoreId(skuEAN, storeId, params);
+    }
+
+    public List<ProductSkuStoreRel> findProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
+        return productDao.findProductSkuStoreRelByEANAndStoreId(skuEAN, storeId, params);
+    }
+    
+    public ProductSkuStoreRel saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel)  {
+        return productDao.saveNewProductSkuStore(productSkuStoreRel);
+    }
+    
+    public ProductSkuStoreRel updateProductSku(final ProductSkuStoreRel productSkuStoreRel) {
+        return productDao.updateProductSku(productSkuStoreRel);
+    }
+    
+    public void deleteProductSku(final ProductSkuStoreRel productSkuStoreRel) {
+        productDao.deleteProductSku(productSkuStoreRel);
+    }
+    
     // PRODUCT SKU ASSET
 
     public Asset getProductSkuAssetById(final Long assetId, Object... params) {
