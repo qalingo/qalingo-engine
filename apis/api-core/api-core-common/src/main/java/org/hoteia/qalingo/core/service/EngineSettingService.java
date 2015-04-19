@@ -592,7 +592,7 @@ public class EngineSettingService {
     /**
      * 
      */
-    public String getProductMarketingImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
+    public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
         String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + productSku.getCode().toLowerCase() + File.separator;
         return productMarketingImageFilePath;
     }
