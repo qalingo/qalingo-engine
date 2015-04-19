@@ -317,6 +317,10 @@ public class ProductSkuViewBean extends AbstractViewBean {
                 return assetViewBean;
             }
         }
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            return assetViewBean;
+        }
         return null;
     }
     
