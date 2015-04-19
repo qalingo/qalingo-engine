@@ -21,6 +21,8 @@ import org.hoteia.qalingo.core.dao.EngineSettingDao;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -214,7 +216,7 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH);
     }
 
-    public EngineSetting getSettingAssetPoductSkuFilePath() {
+    public EngineSetting getSettingAssetProductSkuFilePath() {
         return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_PRODUCT_SKU_FILE_PATH);
     }
     
@@ -510,16 +512,13 @@ public class EngineSettingService {
             prefixPath = engineSetting.getDefaultValue();
         }
         String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (catalogImageWebPath.endsWith("/")) {
-            catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
-        }
         return catalogImageWebPath;
     }
     
     /**
      * 
      */
-    public String getProductMarketingImageFilePath(String assetType) throws Exception {
+    public String getProductMarketingImageFilePath(final String assetType) throws Exception {
         EngineSetting engineSetting = getSettingAssetProductMarketingFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
@@ -530,9 +529,17 @@ public class EngineSettingService {
             rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
         }
         String productMarketingImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
-        if (productMarketingImageFilePath.endsWith(File.separator)) {
-            productMarketingImageFilePath = productMarketingImageFilePath.substring(0, productMarketingImageFilePath.length() - 1);
-        }
+//        if (productMarketingImageFilePath.endsWith(File.separator)) {
+//            productMarketingImageFilePath = productMarketingImageFilePath.substring(0, productMarketingImageFilePath.length() - 1);
+//        }
+        return productMarketingImageFilePath;
+    }
+    
+    /**
+     * 
+     */
+    public String getProductMarketingImageFilePath(final ProductMarketing productMarketing, final String assetType) throws Exception {
+        String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType) + productMarketing.getCode().toLowerCase() + File.separator;
         return productMarketingImageFilePath;
     }
     
@@ -540,23 +547,33 @@ public class EngineSettingService {
      * 
      */
     public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
+        String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + asset.getPath();
+        return productMarketingImageWebPath;
+    }
+    
+    /**
+     * 
+     */
+    public String getProductMarketingImageWebPath(final ProductMarketing productMarketing, final Asset asset) throws Exception {
+        String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + productMarketing.getCode().toLowerCase() + "/" + asset.getPath();
+        return productMarketingImageWebPath;
+    }
+    
+    
+    protected String getProductMarketingPrefixImageWebPath(final Asset asset) throws Exception{
         EngineSetting engineSetting = getSettingAssetProductMarketingFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (productMarketingImageWebPath.endsWith("/")) {
-            productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
-        }
-        return productMarketingImageWebPath;
+        return getRootAssetWebPath() + prefixPath + "/"+ asset.getType().toLowerCase() + "/";
     }
 
     /**
      * 
      */
     public String getProductSkuImageFilePath(String assetType) throws Exception {
-        EngineSetting engineSetting = getSettingAssetPoductSkuFilePath();
+        EngineSetting engineSetting = getSettingAssetProductSkuFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
@@ -566,28 +583,45 @@ public class EngineSettingService {
             rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
         }
         String productSkuImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
-        if (productSkuImageFilePath.endsWith(File.separator)) {
-            productSkuImageFilePath = productSkuImageFilePath.substring(0, productSkuImageFilePath.length() - 1);
-        }
+//        if (productSkuImageFilePath.endsWith(File.separator)) {
+//            productSkuImageFilePath = productSkuImageFilePath.substring(0, productSkuImageFilePath.length() - 1);
+//        }
         return productSkuImageFilePath;
     }
     
     /**
      * 
      */
+    public String getProductMarketingImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
+        String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + productSku.getCode().toLowerCase() + File.separator;
+        return productMarketingImageFilePath;
+    }
+    
+    /**
+     * 
+     */
     public String getProductSkuImageWebPath(final Asset asset) throws Exception {
-        EngineSetting engineSetting = getSettingAssetPoductSkuFilePath();
+        String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + asset.getPath();
+        return productSkuImageWebPath;
+    }
+
+    /**
+     * 
+     */
+    public String getProductSkuImageWebPath(final ProductSku productSku, final Asset asset) throws Exception {
+        String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + productSku.getCode().toLowerCase() + "/" + asset.getPath();
+        return productSkuImageWebPath;
+    }
+    
+    protected String getProductSkuPrefixImageWebPath(final Asset asset) throws Exception{
+        EngineSetting engineSetting = getSettingAssetProductSkuFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (productSkuImageWebPath.endsWith("/")) {
-            productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
-        }
-        return productSkuImageWebPath;
+        return getRootAssetWebPath() + prefixPath + "/"+ asset.getType().toLowerCase() + "/";
     }
-        
+    
     /**
      * 
      */
@@ -618,9 +652,6 @@ public class EngineSettingService {
             prefixPath = engineSetting.getDefaultValue();
         }
         String productBrandImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (productBrandImageWebPath.endsWith("/")) {
-            productBrandImageWebPath = productBrandImageWebPath.substring(0, productBrandImageWebPath.length() - 1);
-        }
         return productBrandImageWebPath;
     }
     
@@ -654,9 +685,6 @@ public class EngineSettingService {
             prefixPath = engineSetting.getDefaultValue();
         }
         String retailerImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScopePathValue() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        if (retailerImageWebPath.endsWith("/")) {
-            retailerImageWebPath = retailerImageWebPath.substring(0, retailerImageWebPath.length() - 1);
-        }
         return retailerImageWebPath;
     }
     
