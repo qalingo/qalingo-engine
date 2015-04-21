@@ -264,12 +264,28 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
         return name;
     }
     
-    public String getI18nDescription(String localizationCode) {
-        String i18Description = (String) getValue(ProductBrandAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_DESCRIPTION, null, localizationCode);
+    public String getI18nLongDescription(String localizationCode) {
+        String i18Description = (String) getValue(ProductBrandAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_LONG_DESCRIPTION, null, localizationCode);
         if(StringUtils.isNotEmpty(i18Description)){
             return i18Description;
         }
         return description;
+    }
+    
+    public String getI18nShortDescription(String localizationCode) {
+        String i18Description = (String) getValue(ProductBrandAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_SHORT_DESCRIPTION, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Description)){
+            return i18Description;
+        }
+        return description;
+    }
+    
+    public String getOriginCountryCode() {
+        String originCountryCode = (String) getValue(ProductBrandAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_ORIGIN_COUNTRY_CODE, null, null);
+        if(StringUtils.isNotEmpty(originCountryCode)){
+            return originCountryCode;
+        }
+        return null;
     }
 
     @Override

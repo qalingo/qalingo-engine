@@ -30,8 +30,9 @@ public class ProductBrandViewBean extends AbstractViewBean {
 	protected String description;
 
     protected String i18nName;
-    protected String i18nDescription;
+    protected String i18nLongDescription;
     protected String i18nShortDescription;
+    protected String originCountryCode;
     
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
 	
@@ -62,9 +63,9 @@ public class ProductBrandViewBean extends AbstractViewBean {
 		this.name = name;
 	}
 	
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
 	public void setDescription(String description) {
 		this.description = description;
@@ -81,15 +82,20 @@ public class ProductBrandViewBean extends AbstractViewBean {
         this.i18nName = i18nName;
     }
     
+    @Deprecated
     public String getI18nDescription() {
-        if(StringUtils.isNotEmpty(i18nDescription)){
-            return i18nDescription;
+        return getI18nLongDescription();
+    }
+    
+    public String getI18nLongDescription() {
+        if(StringUtils.isNotEmpty(i18nLongDescription)){
+            return i18nLongDescription;
         }
         return description;
     }
     
-    public void setI18nDescription(String i18nDescription) {
-        this.i18nDescription = i18nDescription;
+    public void setI18nLongDescription(String i18nLongDescription) {
+        this.i18nLongDescription = i18nLongDescription;
     }
     
     public String getI18nShortDescription() {
@@ -107,14 +113,22 @@ public class ProductBrandViewBean extends AbstractViewBean {
             } else {
                 return getI18nShortDescription();
             }
-        } else if (StringUtils.isNotEmpty(getI18nDescription())){
-            if(getI18nDescription().length() >= 150){
-                return CoreUtil.handleTruncatedDescription(getI18nDescription());
+        } else if (StringUtils.isNotEmpty(getI18nLongDescription())){
+            if(getI18nLongDescription().length() >= 150){
+                return CoreUtil.handleTruncatedDescription(getI18nLongDescription());
             } else {
-                return getI18nDescription();
+                return getI18nLongDescription();
             }
         }
         return "";
+    }
+    
+    public String getOriginCountryCode() {
+        return originCountryCode;
+    }
+    
+    public void setOriginCountryCode(String originCountryCode) {
+        this.originCountryCode = originCountryCode;
     }
     
 	public List<ProductMarketingViewBean> getProductMarketings() {

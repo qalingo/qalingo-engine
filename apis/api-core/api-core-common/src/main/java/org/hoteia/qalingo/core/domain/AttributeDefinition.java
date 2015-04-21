@@ -54,6 +54,7 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     public static int OBJECT_TYPE_RETAILER                      = 10;
     public static int OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION = 11;
     public static int OBJECT_TYPE_USER                          = 12;
+    public static int OBJECT_TYPE_PRODUCT_BRAND                 = 13;
 
     public static final String CACHE_NAME = "web_cache_settings";
 

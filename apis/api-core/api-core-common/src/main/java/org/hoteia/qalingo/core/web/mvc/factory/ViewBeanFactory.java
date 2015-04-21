@@ -1396,7 +1396,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productBrandViewBean.setDescription(productBrand.getDescription());
         
         productBrandViewBean.setI18nName(productBrand.getI18nName(localizationCode));
-        productBrandViewBean.setI18nDescription(productBrand.getI18nDescription(localizationCode));
+        productBrandViewBean.setI18nLongDescription(productBrand.getI18nLongDescription(localizationCode));
+        productBrandViewBean.setI18nShortDescription(productBrand.getI18nShortDescription(localizationCode));
+        productBrandViewBean.setOriginCountryCode(productBrand.getOriginCountryCode());
         
         // ATTRIBUTES
         if (Hibernate.isInitialized(productBrand.getAttributes()) && productBrand.getAttributes() != null) {

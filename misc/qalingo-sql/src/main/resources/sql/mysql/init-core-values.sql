@@ -89,6 +89,16 @@ VALUES
 (2010, 'Product Marketing: attribute description', 'Product Marketing: attribute description', 'PRODUCT_MARKETING_I18N_DESCRIPTION', 2, 2, 1, 1, 0, 1, 2),
 (2020, 'Product Marketing: featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_FEATURED',                7, 2, 0, 1, 0, 1, 3);
 
+-- ATTRIBUTES : CATALOG CATEGORY
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
+VALUES 
+(2501, 'Product Brand: attribute name', 'Product Brand: attribute name',                               'PRODUCT_BRAND_I18N_NAME',                1, 13, 1, 1, 0, 1, 1),
+(2502, 'Product Brand: attribute long description', 'Product Brand: attribute long description',       'PRODUCT_BRAND_I18N_LONG_DESCRIPTION',    2, 13, 1, 1, 0, 1, 2),
+(2503, 'Product Brand: attribute short description', 'Product Brand: attribute short description',     'PRODUCT_BRAND_I18N_SHORT_DESCRIPTION',   2, 13, 1, 1, 0, 1, 3);
+(2504, 'Product Brand: attribute origin country code', 'Product Brand: attribute origin country code', 'PRODUCT_BRAND_I18N_ORIGIN_COUNTRY_CODE', 1, 13, 0, 1, 0, 1, 4);
+
+
 -- ATTRIBUTES : PRODUCT SKU
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
