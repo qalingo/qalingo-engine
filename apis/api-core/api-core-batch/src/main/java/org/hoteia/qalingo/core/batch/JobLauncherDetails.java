@@ -15,9 +15,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.JobExecutionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -30,15 +30,15 @@ public class JobLauncherDetails extends QuartzJobBean {
 	/**
 	 * Special key in job data map for the name of a job to run.
 	 */
-	static final String JOB_NAME = "jobName";
+	static public final String JOB_NAME = "jobName";
 
-	private static Log log = LogFactory.getLog(JobLauncherDetails.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private JobLocator jobLocator;
+	protected JobLocator jobLocator;
 
-	private JobLauncher jobLauncher;
+	protected JobLauncher jobLauncher;
 
-	private DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss' 'z");
+	protected DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss' 'z");
 	
 	/**
 	 * Public setter for the {@link JobLocator}.
@@ -61,14 +61,14 @@ public class JobLauncherDetails extends QuartzJobBean {
 		Map<String, Object> jobDataMap = context.getMergedJobDataMap();
 		
 		String jobName = (String) jobDataMap.get(JOB_NAME);
-		log.info("Quartz trigger firing with Spring Batch jobName=" + jobName);
+		logger.info("Quartz trigger firing with Spring Batch jobName=" + jobName);
 		
 		JobParameters jobParameters = getJobParametersFromJobMap(jobDataMap);
 		try {
 			jobLauncher.run(jobLocator.getJob(jobName), jobParameters);
 
 		} catch (JobExecutionException e) {
-			log.error("Could not execute job.", e);
+		    logger.error("Could not execute job.", e);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class JobLauncherDetails extends QuartzJobBean {
 	 * 
 	 * @return a {@link JobParameters} instance
 	 */
-	private JobParameters getJobParametersFromJobMap(Map<String, Object> jobDataMap) {
+	protected JobParameters getJobParametersFromJobMap(Map<String, Object> jobDataMap) {
 
 		JobParametersBuilder builder = new JobParametersBuilder();
 		builder.addString("Exec ISO date", isoDateFormat.format(new Date()));  
@@ -102,7 +102,7 @@ public class JobLauncherDetails extends QuartzJobBean {
 				builder.addDate(key, (Date) value);
 				
 			} else {
-				log.debug("JobDataMap contains values which are not job parameters (ignoring).");
+			    logger.debug("JobDataMap contains values which are not job parameters (ignoring).");
 			}
 		}
 
