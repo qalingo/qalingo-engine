@@ -63,7 +63,7 @@ public class ProductSkuOptionDefinition extends AbstractEntity<ProductSkuOptionD
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType.class)
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_TYPE_ID", insertable = true, updatable = true)
-    private ProductSkuOptionDefinitionType productSkuOptionDefinitionType;
+    private ProductSkuOptionDefinitionType optionDefinitionType;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -124,12 +124,12 @@ public class ProductSkuOptionDefinition extends AbstractEntity<ProductSkuOptionD
         this.attributes = attributes;
     }
 
-    public ProductSkuOptionDefinitionType getProductSkuOptionDefinitionType() {
-		return productSkuOptionDefinitionType;
+    public ProductSkuOptionDefinitionType getOptionDefinitionType() {
+		return optionDefinitionType;
 	}
     
-    public void setProductSkuOptionType(ProductSkuOptionDefinitionType productSkuOptionDefinitionType) {
-		this.productSkuOptionDefinitionType = productSkuOptionDefinitionType;
+    public void setOptionDefinitionType(ProductSkuOptionDefinitionType optionDefinitionType) {
+		this.optionDefinitionType = optionDefinitionType;
 	}
     
     public Date getDateCreate() {

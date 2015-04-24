@@ -44,9 +44,10 @@ public class ProductSkuPojo {
     
     private ProductMarketingPojo productMarketing;
 
-    private List<ProductSkuAttributePojo> productSkuGlobalAttributes = new ArrayList<ProductSkuAttributePojo>();
-    private List<ProductSkuAttributePojo> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttributePojo>();
-    
+    private List<ProductSkuAttributePojo> attributes = new ArrayList<ProductSkuAttributePojo>();
+
+    private List<ProductSkuOptionDefinitionPojo> optionDefinitions = new ArrayList<ProductSkuOptionDefinitionPojo>();
+
     private List<AssetPojo> assets = new ArrayList<AssetPojo>();
     private List<ProductSkuPricePojo> prices = new ArrayList<ProductSkuPricePojo>();
     private List<ProductSkuStockPojo> stocks = new ArrayList<ProductSkuStockPojo>();
@@ -215,22 +216,22 @@ public class ProductSkuPojo {
         this.productMarketing = productMarketing;
     }
 
-    public List<ProductSkuAttributePojo> getProductSkuGlobalAttributes() {
-        return productSkuGlobalAttributes;
+    public List<ProductSkuAttributePojo> getAttributes() {
+        return attributes;
     }
 
-    public void setProductSkuGlobalAttributes(List<ProductSkuAttributePojo> productSkuGlobalAttributes) {
-        this.productSkuGlobalAttributes = productSkuGlobalAttributes;
+    public void setAttributes(List<ProductSkuAttributePojo> attributes) {
+        this.attributes = attributes;
     }
 
-    public List<ProductSkuAttributePojo> getProductSkuMarketAreaAttributes() {
-        return productSkuMarketAreaAttributes;
+    public List<ProductSkuOptionDefinitionPojo> getOptionDefinitions() {
+        return optionDefinitions;
     }
-
-    public void setProductSkuMarketAreaAttributes(List<ProductSkuAttributePojo> productSkuMarketAreaAttributes) {
-        this.productSkuMarketAreaAttributes = productSkuMarketAreaAttributes;
+    
+    public void setOptionDefinitions(List<ProductSkuOptionDefinitionPojo> optionDefinitions) {
+        this.optionDefinitions = optionDefinitions;
     }
-
+    
     public List<AssetPojo> getAssets() {
         return assets;
     }
