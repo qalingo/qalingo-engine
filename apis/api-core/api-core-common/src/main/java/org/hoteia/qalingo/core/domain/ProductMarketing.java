@@ -201,7 +201,7 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
 		ProductSku defaultProductSku = null;
 		if(productSkus != null
 		        && Hibernate.isInitialized(productSkus)
-		        && productSkus.size() > 0){
+		        && !productSkus.isEmpty()){
 			for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSku productSku = (ProductSku) iterator.next();
 				if(productSku.isDefault()){
@@ -209,8 +209,7 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
 				}
 			}
 			if(defaultProductSku == null){
-				Iterator<ProductSku> iterator = productSkus.iterator();
-				defaultProductSku = (ProductSku) iterator.next();
+				defaultProductSku = (ProductSku) productSkus.iterator().next();
 			}
 		}
 		return defaultProductSku;
@@ -220,7 +219,7 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
         List<String> skuCodes = new ArrayList<String>();
         if(productSkus != null
                 && Hibernate.isInitialized(productSkus)
-                && productSkus.size() > 0){
+                && !productSkus.isEmpty()){
             for (Iterator<ProductSku> iterator = getProductSkus().iterator(); iterator.hasNext();) {
                 ProductSku sku = (ProductSku) iterator.next();
                 skuCodes.add(sku.getCode());
