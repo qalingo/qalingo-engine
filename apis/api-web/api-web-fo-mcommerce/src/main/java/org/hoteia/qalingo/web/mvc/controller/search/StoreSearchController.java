@@ -69,6 +69,9 @@ public class StoreSearchController extends AbstractMCommerceController {
 	@Autowired
 	public ProductService productMarketingService;
 	
+    @Autowired
+    public RetailerService retailerService;
+    
 	@Autowired
 	public StoreSolrService storeSolrService;
 
@@ -272,5 +275,5 @@ public class StoreSearchController extends AbstractMCommerceController {
         request.getSession().setAttribute(sessionKeyPagedListHolder, pagedListHolder);
         return pagedListHolder;
 	}
-	
+    
 }
