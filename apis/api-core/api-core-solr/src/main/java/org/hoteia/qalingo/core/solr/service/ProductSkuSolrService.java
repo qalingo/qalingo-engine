@@ -26,6 +26,8 @@ import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -81,6 +83,15 @@ public class ProductSkuSolrService extends AbstractSolrService {
                 productSkuSolr.addCatalogCode(catalogCode);
                 String catalogCategoryCode = catalogCategoryVirtual.getCatalog().getCode() + "_" + catalogCategoryVirtual.getCode(); 
                 productSkuSolr.addCatalogCategories(catalogCategoryCode);
+            }
+        }
+        
+        if(productSku.getOptionRels() != null
+                && Hibernate.isInitialized(productSku.getOptionRels())
+                && !productSku.getOptionRels().isEmpty()){
+            for (ProductSkuOptionRel productSkuOptionRel : productSku.getOptionRels()) {
+                ProductSkuOptionDefinition productSkuOptionDefinition = productSkuOptionRel.getProductSkuOptionDefinition(); 
+                productSkuSolr.addOptionDefinition(productSkuOptionDefinition.getCode());
             }
         }
         

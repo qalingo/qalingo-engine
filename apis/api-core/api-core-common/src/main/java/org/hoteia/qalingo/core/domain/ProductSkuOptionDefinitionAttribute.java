@@ -28,7 +28,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE")
-public class ProductSkuOptionDefinitionAttribute extends AbstractEntity<ProductSkuOptionDefinitionAttribute> {
+public class ProductSkuOptionDefinitionAttribute extends AbstractAttribute<ProductSkuOptionDefinitionAttribute> {
 
     /**
      * Generated UID
@@ -37,58 +37,69 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity<ProductS
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false)
+    @Column(name="ID", nullable=false)
     private Long id;
-
+    
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
     private int version;
-
+    
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
+    @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
     private AttributeDefinition attributeDefinition;
+    
+    @Column(name = "SHORT_STRING_VALUE")
+    private String shortStringValue;
 
-    @Column(name = "STRING_VALUE")
-    private String stringValue;
-
-    @Column(name = "INTEGER_VALUE")
+    @Column(name = "LONG_STRING_VALUE")
+    @Lob
+    private String longStringValue;
+    
+    @Column(name="INTEGER_VALUE")
     private Integer integerValue;
-
-    @Column(name = "DOUBLE_VALUE")
+    
+    @Column(name="DOUBLE_VALUE")
     private Double doubleValue;
-
-    @Column(name = "FLOAT_VALUE")
+    
+    @Column(name="FLOAT_VALUE")
     private Float floatValue;
-
-    @Column(name = "BLOB_VALUE")
+    
+    @Column(name="BLOB_VALUE")
     @Lob
     private byte[] blobValue;
-
-    @Column(name = "BOOLEAN_VALUE")
+    
+    @Column(name="BOOLEAN_VALUE")
     private Boolean booleanValue;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
 
     @Column(name = "LOCALIZATION_CODE")
     private String localizationCode;
-
+    
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "START_DATE")
+    @Column(name="START_DATE")
     private Date startDate;
-
+    
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "END_DATE")
+    @Column(name="END_DATE")
     private Date endDate;
-
+    
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DATE_CREATE")
+    @Column(name="DATE_CREATE")
     private Date dateCreate;
-
+    
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DATE_UPDATE")
+    @Column(name="DATE_UPDATE")
     private Date dateUpdate;
 
     public ProductSkuOptionDefinitionAttribute() {
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -113,12 +124,20 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity<ProductS
         this.attributeDefinition = attributeDefinition;
     }
 
-    public String getStringValue() {
-        return stringValue;
+    public String getShortStringValue() {
+        return shortStringValue;
     }
-
-    public void setStringValue(String stringValue) {
-        this.stringValue = stringValue;
+    
+    public void setShortStringValue(String shortStringValue) {
+        this.shortStringValue = shortStringValue;
+    }
+    
+    public String getLongStringValue() {
+        return longStringValue;
+    }
+    
+    public void setLongStringValue(String longStringValue) {
+        this.longStringValue = longStringValue;
     }
 
     public Integer getIntegerValue() {
@@ -161,12 +180,28 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity<ProductS
         this.booleanValue = booleanValue;
     }
 
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
+    }
+
     public String getLocalizationCode() {
         return localizationCode;
     }
 
     public void setLocalizationCode(String localizationCode) {
         this.localizationCode = localizationCode;
+    }
+    
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
     }
 
     public Date getStartDate() {
@@ -235,9 +270,10 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity<ProductS
 
     @Override
     public String toString() {
-        return "ProductSkuOptionDefinitionAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
-                + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", startDate=" + startDate
-                + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductSkuOptionDefinitionAttribute [id=" + id + ", version=" + version + ", attributeDefinition=" + attributeDefinition + ", shortStringValue=" + shortStringValue
+                + ", longStringValue=" + longStringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue=" + floatValue + ", blobValue="
+                + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", dateValue=" + dateValue + ", localizationCode=" + localizationCode + ", marketAreaId=" + marketAreaId
+                + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

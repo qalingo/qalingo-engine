@@ -30,6 +30,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -57,9 +58,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
-import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 
 /**
  * 
@@ -568,18 +566,34 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         	searchFacetViewBean.setName(facetField.getName());
             List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
-                Count count = (Count) iterator.next();
-                String specificCatalogCategoryCode = count.getName();
+                Count value = (Count) iterator.next();
+                String specificCatalogCategoryCode = value.getName();
                 if(specificCatalogCategoryCode.contains(catalog.getCode())){
                     String categoryCode = specificCatalogCategoryCode.replace(catalog.getCode() + "_", "");
                     final CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalog.getCode(), new FetchPlan(categoryVirtualFetchPlans));
                     if(catalogCategoryVirtual != null){
-                        ValueBean valueBean = new ValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode) + " (" + count.getCount() + ")");                
-                        values.add(valueBean);
+                        ValueBean valueBean = new ValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode) + " (" + value.getCount() + ")");                
+                        if(!searchFacetViewBean.getValues().contains(valueBean)){
+                            searchFacetViewBean.getValues().add(valueBean);
+                        }
                     }
                 }
             }
-            searchFacetViewBean.setValues(values);
+            
+        } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE.equalsIgnoreCase(facetField.getName())){
+            searchFacetViewBean.setName(facetField.getName());
+            List<ValueBean> values = new ArrayList<ValueBean>();
+            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
+                Count value = (Count) iterator.next();
+                String skuOptionDefinitionCode = value.getName();
+                final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode, new FetchPlan(skuOptionDefinitionFetchPlans));
+                if(productSkuOptionDefinition != null){
+                    ValueBean valueBean = new ValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode) + " (" + value.getCount() + ")");                
+                    if(!searchFacetViewBean.getValues().contains(valueBean)){
+                        searchFacetViewBean.getValues().add(valueBean);
+                    }
+                }
+            }
         }
         
         return searchFacetViewBean;
