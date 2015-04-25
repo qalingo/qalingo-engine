@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.jms.indexing.listener;
 import java.beans.ExceptionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jms.JMSException;
@@ -34,6 +35,7 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.jms.indexing.producer.IndexingObjectMessageJms;
 import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
@@ -72,8 +74,6 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
     protected StoreSolrService storeSolrService;
     
     protected List<SpecificFetchMode> categoryFetchPlans = new ArrayList<SpecificFetchMode>();
-    protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
-    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public IndexingObjectQueueListener() {
@@ -81,21 +81,6 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
         categoryFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
         categoryFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
         categoryFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.attributes.getName()));
-        
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productAssociationLinks.getName()));
-        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
-        
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
-        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
         
         storeFetchPlans.add(new SpecificFetchMode(Store_.retailer.getName()));
         storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
@@ -117,20 +102,27 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                     Long objectId = documentMessageJms.getObjectId();
 
                     if("ProductMarketing".equals(documentMessageJms.getObjectType())){
-                        final ProductMarketing productMarketing = productService.getProductMarketingById(objectId, new FetchPlan(productMarketingFetchPlans));
+                        final ProductMarketing productMarketing = productService.getProductMarketingById(objectId, FetchPlanGraphProduct.fullIndexedProductMarketingFetchPlan());
                         if(productMarketing != null){
-                            ProductSku productSku = productMarketing.getDefaultProductSku();
-                            if(productSku != null){
-                                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId(), new FetchPlan(categoryFetchPlans)); 
+                            ProductSku defaultProductSku = productMarketing.getDefaultProductSku();
+                            if(defaultProductSku != null){
+                                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(defaultProductSku.getId(), new FetchPlan(categoryFetchPlans)); 
+                                List<ProductSku> productSkus = new ArrayList<ProductSku>();
+                                for (Iterator<ProductSku> iteratorProductSku = productMarketing.getProductSkus().iterator(); iteratorProductSku.hasNext();) {
+                                    ProductSku productSku = (ProductSku) iteratorProductSku.next();
+                                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode(), FetchPlanGraphProduct.fullIndexedProductSkuFetchPlan());
+                                    productSkus.add(reloadedProductSku);
+                                }
                                 try {
-                                    productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, null, null);
+                                    productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, productSkus, catalogCategories, null, null);
+                                    
                                 } catch (SolrServerException e) {
                                     logger.error("Processed message to indexing failed, value: " + valueJMSMessage);
                                 }
                             }
                         }
                     } else if("ProductSku".equals(documentMessageJms.getObjectType())){
-                        final ProductSku productSku = productService.getProductSkuById(objectId, new FetchPlan(productSkuFetchPlans));
+                        final ProductSku productSku = productService.getProductSkuById(objectId, FetchPlanGraphProduct.fullIndexedProductSkuFetchPlan());
                         if(productSku != null){
                             List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId(), new FetchPlan(categoryFetchPlans)); 
                             try {
