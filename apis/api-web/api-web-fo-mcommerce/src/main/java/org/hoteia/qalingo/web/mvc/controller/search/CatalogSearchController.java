@@ -116,20 +116,27 @@ public class CatalogSearchController extends AbstractMCommerceController {
         String order = searchForm.getOrder();
         int pageSize = searchForm.getPageSize();
         
+        final List<String> facetFields = new ArrayList<String>();
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
+        
 		try {
             PagedListHolder<ProductMarketingViewBean> pagedListHolder;
 		    if(searchForm.getPage() == 0){
 	            ProductMarketingResponseBean productMarketingResponseBean = null;
 	            if(searchForm.getPrice() != null){
-	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-	                        searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue(), 
-	                        searchForm.getCatalogCategoryList());
-	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-	                        searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
+	                if(searchForm.getCatalogCategoryList() != null){
+	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
+	                            searchForm.getText(), facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue(), 
+	                            searchForm.getCatalogCategoryList());
+	                } else {
+	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
+	                            searchForm.getText(), facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
+	                }
 	                
 	            } else {
 	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-	                                                        searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
+	                                                        searchForm.getText(), facetFields);
 	            }
 	            
 	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, productMarketingResponseBean, pageSize, sortBy, order);
