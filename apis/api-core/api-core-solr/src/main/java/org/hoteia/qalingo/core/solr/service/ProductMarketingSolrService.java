@@ -12,8 +12,10 @@ package org.hoteia.qalingo.core.solr.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -28,6 +30,8 @@ import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -83,6 +87,28 @@ public class ProductMarketingSolrService extends AbstractSolrService {
                 productMarketingSolr.addCatalogCode(catalogCode);
                 String catalogCategoryCode = catalogCategoryVirtual.getCatalog().getCode() + "_" + catalogCategoryVirtual.getCode(); 
                 productMarketingSolr.addCatalogCategories(catalogCategoryCode);
+            }
+        }
+        
+        if(productMarketing.getProductSkus() != null
+                && Hibernate.isInitialized(productMarketing.getProductSkus())
+                && !productMarketing.getProductSkus().isEmpty()){
+            Map<String, String> skuOptionDefinitionsCodes = new HashMap<String, String>();
+            for (ProductSku productSku : productMarketing.getProductSkus()) {
+                if(productSku.getOptionRels() != null
+                        && Hibernate.isInitialized(productSku.getOptionRels())
+                        && !productSku.getOptionRels().isEmpty()){
+                    for (ProductSkuOptionRel productSkuOptionRel : productSku.getOptionRels()) {
+                        if(productSkuOptionRel.getProductSkuOptionDefinition() != null
+                                && Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition())){
+                            skuOptionDefinitionsCodes.put(productSkuOptionRel.getProductSkuOptionDefinition().getCode(), productSkuOptionRel.getProductSkuOptionDefinition().getCode());
+                        }
+                    }
+                }
+            }
+            for (Iterator<String> iterator = skuOptionDefinitionsCodes.keySet().iterator(); iterator.hasNext();) {
+                String skuOptionDefinitionsCode = (String) iterator.next();
+                productMarketingSolr.addOptionDefinition(skuOptionDefinitionsCode);
             }
         }
         

@@ -52,6 +52,9 @@ public class ProductMarketingSolr {
     @Field
     private List<String> tags = new ArrayList<String>();
     
+    @Field
+    private List<String> optionDefinitions = new ArrayList<String>();
+
 	@Field("datecreate")
 	private Date dateCreate;
 
@@ -179,6 +182,23 @@ public class ProductMarketingSolr {
         if(!this.tags.contains(tag)){
             this.tags.add(tag);
         }
+    }
+    
+    public List<String> getOptionDefinitions() {
+        return optionDefinitions;
+    }
+    
+    public void addOptionDefinition(String optionDefinition){
+        if(this.optionDefinitions == null){
+            this.optionDefinitions = new ArrayList<String>();
+        }
+        if(!this.optionDefinitions.contains(optionDefinition)){
+            this.optionDefinitions.add(optionDefinition);
+        }
+    }
+    
+    public void setOptionDefinitions(List<String> optionDefinitions) {
+        this.optionDefinitions = optionDefinitions;
     }
     
 	public Date getDateCreate() {
