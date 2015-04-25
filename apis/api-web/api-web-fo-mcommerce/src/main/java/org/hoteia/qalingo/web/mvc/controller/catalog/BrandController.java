@@ -26,6 +26,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_;
 
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
