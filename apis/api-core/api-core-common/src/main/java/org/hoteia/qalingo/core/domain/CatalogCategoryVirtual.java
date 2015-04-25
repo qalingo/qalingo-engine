@@ -77,7 +77,7 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     @Column(name = "RANKING")
     private Integer ranking;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "VIRTUAL_CATALOG_ID", insertable = true, updatable = true)
     private CatalogVirtual catalog;
     
