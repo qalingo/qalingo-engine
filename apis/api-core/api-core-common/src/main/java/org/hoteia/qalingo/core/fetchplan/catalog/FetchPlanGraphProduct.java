@@ -70,7 +70,7 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan fullIndexedProductSkuFetchPlan(){
+    public static FetchPlan fullProductSkuFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
