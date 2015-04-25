@@ -2765,7 +2765,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return companyViewBean;
     }
 
-    protected AttributeValueViewBean buildViewBeanAttributeValue(final RequestData requestData, final AbstractAttribute abstractAttribute) throws Exception{
+    protected AttributeValueViewBean buildViewBeanAttributeValue(final RequestData requestData, final AbstractAttribute abstractAttribute) throws Exception {
         AttributeValueViewBean attributeValueViewBean = new AttributeValueViewBean();
         attributeValueViewBean.setAttributeDefinition(buildViewBeanAttributeDefinition(requestData, abstractAttribute.getAttributeDefinition()));
         attributeValueViewBean.setLocalizationCode(abstractAttribute.getLocalizationCode());
@@ -2773,7 +2773,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return attributeValueViewBean;
     }
     
-    protected AttributeDefinitionViewBean buildViewBeanAttributeDefinition(final RequestData requestData, final AttributeDefinition attributeDefinition) throws Exception{
+    protected AttributeDefinitionViewBean buildViewBeanAttributeDefinition(final RequestData requestData, final AttributeDefinition attributeDefinition) throws Exception {
         AttributeDefinitionViewBean attributeDefinitionViewBean = new AttributeDefinitionViewBean();
         
         attributeDefinitionViewBean.setName(attributeDefinition.getName());
@@ -2815,7 +2815,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return false;
     }
     
-    protected String buildCommonFormatDate(RequestData requestData, Date date){
+    protected String buildCommonFormatDate(RequestData requestData, Date date) throws Exception {
         DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         return dateFormat.format(date);
     }
