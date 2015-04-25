@@ -53,6 +53,7 @@ public class ProductMarketingSolrServiceTest {
     private CatalogVirtual virtualCatalog;
     private MarketArea marketArea;
     private Retailer retailer;
+    private List<String> facetFields = new ArrayList<String>();
     
     @Before
     public void setUp() throws Exception {
@@ -86,6 +87,8 @@ public class ProductMarketingSolrServiceTest {
         productSku.getPrices().add(productSkuPrice);
         productMarketing.getProductSkus().add(productSku);
         
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
     }
     
     /**
@@ -113,7 +116,8 @@ public class ProductMarketingSolrServiceTest {
     @Test
     public void testSearchId() throws SolrServerException, IOException {
         logger.debug("--------------->Search: Id");
-        responseBean = productMarketingSolrService.searchProductMarketing("id", "", "");
+        
+        responseBean = productMarketingSolrService.searchProductMarketing("id", "", facetFields);
         printData();
     }
     
@@ -123,7 +127,7 @@ public class ProductMarketingSolrServiceTest {
     @Test
     public void testSearchIdWithText() throws SolrServerException, IOException {
         logger.debug("--------------->search: code with some text");
-        responseBean = productMarketingSolrService.searchProductMarketing("code", "N", "");
+        responseBean = productMarketingSolrService.searchProductMarketing("code", "N", facetFields);
         printData();
     }
     
@@ -133,7 +137,8 @@ public class ProductMarketingSolrServiceTest {
     @Test
     public void testSearchIdWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->search: code with facet");
-        responseBean = productMarketingSolrService.searchProductMarketing("code", "", "code");
+        facetFields.add("code");
+        responseBean = productMarketingSolrService.searchProductMarketing("code", "", facetFields);
         printData();
     }
     
@@ -143,7 +148,8 @@ public class ProductMarketingSolrServiceTest {
     @Test(expected = org.apache.solr.common.SolrException.class)
     public void testSearch() throws SolrServerException, IOException {
         logger.debug("--------------->Search unknown field");
-        responseBean = productMarketingSolrService.searchProductMarketing("abc", "91", "xyz");
+        facetFields.add("xyz");
+        responseBean = productMarketingSolrService.searchProductMarketing("abc", "91", facetFields);
         printData();
     }
     
@@ -153,7 +159,7 @@ public class ProductMarketingSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySearch() throws SolrServerException, IOException {
         logger.debug("--------------->Empty Search ");
-        responseBean = productMarketingSolrService.searchProductMarketing("", "", "");
+        responseBean = productMarketingSolrService.searchProductMarketing("", "", facetFields);
         printData();
     }
     
