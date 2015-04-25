@@ -55,7 +55,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
     @Autowired
     protected ProductService productService;
     
-    public void addOrUpdateProductMarketing(final ProductMarketing productMarketing, final List<CatalogCategoryVirtual> catalogCategories, 
+    public void addOrUpdateProductMarketing(final ProductMarketing productMarketing, final List<ProductSku> productSkus, final List<CatalogCategoryVirtual> catalogCategories, 
                                             final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productMarketing.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
@@ -90,9 +90,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             }
         }
         
-        if(productMarketing.getProductSkus() != null
-                && Hibernate.isInitialized(productMarketing.getProductSkus())
-                && !productMarketing.getProductSkus().isEmpty()){
+        if(productSkus != null && productSkus.isEmpty()){
             Map<String, String> skuOptionDefinitionsCodes = new HashMap<String, String>();
             for (ProductSku productSku : productMarketing.getProductSkus()) {
                 if(productSku.getOptionRels() != null

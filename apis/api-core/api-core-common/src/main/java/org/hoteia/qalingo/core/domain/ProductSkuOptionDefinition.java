@@ -63,7 +63,7 @@ public class ProductSkuOptionDefinition extends AbstractExtendEntity<ProductSkuO
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID")
     private Set<ProductSkuOptionDefinitionAttribute> attributes = new HashSet<ProductSkuOptionDefinitionAttribute>();
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType.class)
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_TYPE_ID", insertable = true, updatable = true)
     private ProductSkuOptionDefinitionType optionDefinitionType;
     

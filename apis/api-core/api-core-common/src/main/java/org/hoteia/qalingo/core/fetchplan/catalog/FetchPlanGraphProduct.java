@@ -15,6 +15,7 @@ import java.util.List;
 import org.hoteia.qalingo.core.domain.ProductBrand_;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionPk_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -45,6 +46,10 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan fullIndexedProductMarketingFetchPlan(){
+        return fullProductMarketingFetchPlan();
+    }
+    
     public static FetchPlan productSkuDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
@@ -63,6 +68,27 @@ public class FetchPlanGraphProduct {
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.assets.getName()));
         
         return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan fullIndexedProductSkuFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() + "." + CatalogCategoryVirtualProductSkuPk_.catalogCategoryVirtual.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName() + "." + ProductSkuOptionRel_.pk.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName() + "." + ProductSkuOptionRel_.pk.getName() + "." + ProductSkuOptionPk_.productSkuOptionDefinition.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName() + "." + ProductSkuOptionRel_.pk.getName() + "." + ProductSkuOptionPk_.productSkuOptionDefinition.getName()+ "." + ProductSkuOptionDefinition_.attributes.getName()));
+
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan fullIndexedProductSkuFetchPlan(){
+        return fullProductSkuFetchPlan();
     }
     
     public static FetchPlan productBrandDefaultFetchPlan(){

@@ -46,6 +46,7 @@ public class ProductMarketingSolrServiceTest {
 	protected ProductMarketingSolrService productMarketingSolrService; 
 
 	protected ProductMarketing productMarketing;
+    private List<ProductSku> productSkus;
     private List<CatalogCategoryVirtual> catalogCategories;
 
 	protected ProductMarketingResponseBean responseBean;
@@ -85,7 +86,7 @@ public class ProductMarketingSolrServiceTest {
         productSkuPrice.setStoreId(new Long("1"));
         productSkuPrice.setSalePrice(new BigDecimal("2"));
         productSku.getPrices().add(productSkuPrice);
-        productMarketing.getProductSkus().add(productSku);
+        productSkus.add(productSku);
         
         facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
         facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
@@ -97,7 +98,7 @@ public class ProductMarketingSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankID() throws SolrServerException, IOException {
         productMarketing.setId(null);
-        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
+        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, productSkus, catalogCategories, marketArea, retailer);
         logger.debug("--------------->testFirstIndexData()");
     }
     
@@ -107,7 +108,7 @@ public class ProductMarketingSolrServiceTest {
     @Test
     public void testIndexData() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexData");
-        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
+        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, productSkus, catalogCategories, marketArea, retailer);
     }
     
 	/**
