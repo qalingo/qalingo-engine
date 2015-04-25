@@ -273,23 +273,4 @@ public class StoreSearchController extends AbstractMCommerceController {
         return pagedListHolder;
 	}
 	
-    // TODO : Temporary
-    
-    @Autowired
-    public RetailerService retailerService;
-
-    @RequestMapping(value = "/**/search-load-store-index.html", method = RequestMethod.GET)
-    public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, Model model) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        List<Retailer> retailers = retailerService.findAllRetailers();;
-        for (Retailer retailer : retailers) {
-            List<Store> stores = retailerService.findStoresByRetailerId(retailer.getId());
-            for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
-                Store store = (Store) iterator.next();
-                storeSolrService.addOrUpdateStore(store);
-            }
-        }
-        return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.STORE_SEARCH, requestUtil.getRequestData(request))));
-    }
-    
 }

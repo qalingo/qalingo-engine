@@ -240,31 +240,4 @@ public class CatalogSearchController extends AbstractMCommerceController {
         return formFactory.buildSearchForm(requestData);
     }
     
-    // TODO : Temporary
-    
-    @Autowired
-    public ProductService productService;
-
-    @Autowired
-    private CatalogCategoryService catalogCategoryService;
-    
-    @RequestMapping(value = "/**/search-load-catalog-index.html", method = RequestMethod.GET)
-    public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, Model model) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
-
-        List<ProductMarketing> products = productService.findProductMarketings();
-        for (Iterator<ProductMarketing> iteratorProductMarketing = products.iterator(); iteratorProductMarketing.hasNext();) {
-            ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
-            for (Iterator<ProductSku> iteratorProductSku = productMarketing.getProductSkus().iterator(); iteratorProductSku.hasNext();) {
-                ProductSku productSku = (ProductSku) iteratorProductSku.next();
-                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId()); 
-                productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
-            }
-        }
-
-        return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CATALOG_SEARCH, requestUtil.getRequestData(request))));
-    }
-	
 }
