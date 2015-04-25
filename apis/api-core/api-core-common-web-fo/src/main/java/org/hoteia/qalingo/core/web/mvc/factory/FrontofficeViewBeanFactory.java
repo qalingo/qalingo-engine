@@ -32,6 +32,10 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.Store;
+
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
+
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -586,7 +590,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count value = (Count) iterator.next();
                 String skuOptionDefinitionCode = value.getName();
-                final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode, new FetchPlan(skuOptionDefinitionFetchPlans));
+                final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode);
                 if(productSkuOptionDefinition != null){
                     ValueBean valueBean = new ValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode) + " (" + value.getCount() + ")");                
                     if(!searchFacetViewBean.getValues().contains(valueBean)){
