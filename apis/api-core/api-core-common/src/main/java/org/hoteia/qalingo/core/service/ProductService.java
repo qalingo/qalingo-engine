@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -293,18 +294,18 @@ public class ProductService {
         productDao.deleteProductSku(productSku);
     }
     
-    // PRODUCT SKU
+    // PRODUCT SKU STORE
 
-    public ProductSkuStoreRel getProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
-        return productDao.getProductSkuStoreRelByEANAndStoreId(skuEAN, storeId, params);
-    }
-
-    public List<ProductSkuStoreRel> findProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
-        return productDao.findProductSkuStoreRelByEANAndStoreId(skuEAN, storeId, params);
+    public List<ProductSkuStoreRel> findProductSkuStoreRelByProductSkuId(final Long productSkuId, Object... params) {
+        return productDao.findProductSkuStoreRelByProductSkuId(productSkuId, params);
     }
     
-    public ProductSkuStoreRel saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel)  {
-        return productDao.saveNewProductSkuStore(productSkuStoreRel);
+    public List<ProductSkuStoreRel> findProductSkuStoreRelByStoreId(final Long storeId, Object... params) {
+        return productDao.findProductSkuStoreRelByStoreId(storeId, params);
+    }
+    
+    public void saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel)  {
+        productDao.saveNewProductSkuStore(productSkuStoreRel);
     }
     
     public ProductSkuStoreRel updateProductSku(final ProductSkuStoreRel productSkuStoreRel) {
@@ -482,4 +483,13 @@ public class ProductService {
     public void deleteProductBrandCustomerComment(final ProductBrandCustomerComment customerRate) {
         productDao.deleteProductBrandCustomerComment(customerRate);
     }
+    
+    public void createCatalogCategoryMasterProductSkuRel(final CatalogCategoryMasterProductSkuRel catalogCategoryMasterProductSkuRel) {
+    	productDao.createCatalogCategoryMasterProductSkuRel(catalogCategoryMasterProductSkuRel);
+    }
+    
+    public void createCatalogCategoryVirtualProductSkuRel(final CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel) {
+    	productDao.createCatalogCategoryVirtualProductSkuRel(catalogCategoryVirtualProductSkuRel);
+    }
+
 }

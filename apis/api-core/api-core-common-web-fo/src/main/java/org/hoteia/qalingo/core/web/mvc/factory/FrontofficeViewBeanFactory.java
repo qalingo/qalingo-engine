@@ -559,7 +559,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     String skuOptionDefinitionCode = value.getName();
                     final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode);
                     if(productSkuOptionDefinition != null && productSkuOptionDefinition.getOptionDefinitionType() != null){
-                        String key = productSkuOptionDefinition.getOptionDefinitionType().getCode();
+                        String key = productSkuOptionDefinition.getOptionDefinitionType().getI18nName(localizationCode);
                         List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
                         if(skuOptions == null){
                             skuOptions = new ArrayList<SearchFacetValueBean>();

@@ -26,6 +26,8 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductBrandCustomerRate;
@@ -538,26 +540,26 @@ public class ProductDao extends AbstractGenericDao {
     
     // PRODUCT SKU STORE
     
-    public ProductSkuStoreRel getProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
+    public List<ProductSkuStoreRel> findProductSkuStoreRelByProductSkuId(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
 
-        criteria.add(Restrictions.eq("pk.attributes.attributeDefinition.code", "EAN"));
-        
-        criteria.createAlias("attributes", "attribute", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("attribute.shortStringValue", skuEAN));
-        
-        criteria.add(Restrictions.eq("pk.store.id", storeId));
+        criteria.createAlias("pk.store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("pk.productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.productSku.id", productSkuId));
 
-        ProductSkuStoreRel productSkuStoreRel = (ProductSkuStoreRel) criteria.uniqueResult();
-        return productSkuStoreRel;
+        criteria.createAlias("prices", "prices", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("attributes", "attributes", JoinType.LEFT_OUTER_JOIN);
+
+        @SuppressWarnings("unchecked")
+        List<ProductSkuStoreRel> productSkuStoreRels = criteria.list();
+        return productSkuStoreRels;
     }
     
-    public List<ProductSkuStoreRel> findProductSkuStoreRelByEANAndStoreId(final String skuEAN, final Long storeId, Object... params) {
+    public List<ProductSkuStoreRel> findProductSkuStoreRelByStoreId(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
 
-        criteria.createAlias("attributes", "attribute", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("attribute.shortStringValue", skuEAN));
-        
+        criteria.createAlias("pk.store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("pk.productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("pk.store.id", storeId));
 
         @SuppressWarnings("unchecked")
@@ -565,65 +567,8 @@ public class ProductDao extends AbstractGenericDao {
         return productSkuStoreRels;
     }
 
-//    public List<ProductSku> findProductSkusNotInThisMasterCatalogCategoryId(final Long categoryId, Object... params) {
-//        DetachedCriteria subquery = DetachedCriteria.forClass(ProductSku.class);
-//        subquery.createAlias("catalogCategoryMasterProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
-//        subquery.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryMaster.id", categoryId));
-//        subquery.setProjection(Projections.property("id"));
-//
-//        Criteria criteria = createDefaultCriteria(ProductSku.class);
-//        handleSpecificProductSkuFetchMode(criteria, params);
-//        criteria.add(Subqueries.notIn("id", subquery));
-//
-//        criteria.addOrder(Order.asc("id"));
-//
-//        @SuppressWarnings("unchecked")
-//        List<ProductSku> productSkus = criteria.list();
-//        return productSkus;
-//    }
-    
-//    public List<ProductSku> findProductSkusByVirtualCatalogCategoryId(final Long categoryId, Object... params) {
-//        Criteria criteria = createDefaultCriteria(ProductSku.class);
-//        handleSpecificProductSkuFetchMode(criteria, params);
-//
-//        criteria.createAlias("catalogCategoryVirtualProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
-//        criteria.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryVirtual.id", categoryId));
-//        
-//        criteria.addOrder(Order.asc("id"));
-//
-//        @SuppressWarnings("unchecked")
-//        List<ProductSku> productSkus = criteria.list();
-//        return productSkus;
-//    }
-    
-//    public List<ProductSku> findProductSkusNotInThisVirtualCatalogCategoryId(final Long categoryId, Object... params) {
-//        Criteria criteriaSubListId = createDefaultCriteria(ProductSku.class);
-//        criteriaSubListId.createAlias("catalogCategoryVirtualProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
-//        criteriaSubListId.add(Restrictions.eq("catalogCategoryProductSkuRel.pk.catalogCategoryVirtual.id", categoryId));
-//
-//        @SuppressWarnings("unchecked")
-//        List<ProductSku> subProductSkus = criteriaSubListId.list();
-//        
-//        List<Long> productSkuIds = new ArrayList<Long>();
-//        for (Iterator<ProductSku> iterator = subProductSkus.iterator(); iterator.hasNext();) {
-//            ProductSku productSku = (ProductSku) iterator.next();
-//            productSkuIds.add(productSku.getId());
-//        }
-//        
-//        Criteria criteria = createDefaultCriteria(ProductSku.class);
-//        handleSpecificProductSkuFetchMode(criteria, params);
-//        criteria.add(Restrictions.not(Restrictions.in("id", productSkuIds)));
-//        
-//        criteria.addOrder(Order.asc("id"));
-//
-//        @SuppressWarnings("unchecked")
-//        List<ProductSku> productSkus = criteria.list();
-//        return productSkus;
-//    }
-    
-    public ProductSkuStoreRel saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel) {
+    public void saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel) {
         em.persist(productSkuStoreRel);
-        return productSkuStoreRel;
     }
     
     public ProductSkuStoreRel updateProductSku(final ProductSkuStoreRel productSkuStoreRel) {
@@ -982,6 +927,16 @@ public class ProductDao extends AbstractGenericDao {
         } else {
             return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productBrandDefaultFetchPlan());
         }
+    }
+    
+    
+    
+    public void createCatalogCategoryMasterProductSkuRel(final CatalogCategoryMasterProductSkuRel catalogCategoryMasterProductSkuRel) {
+        em.persist(catalogCategoryMasterProductSkuRel);
+    }
+    
+    public void createCatalogCategoryVirtualProductSkuRel(final CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel) {
+        em.persist(catalogCategoryVirtualProductSkuRel);
     }
     
 }

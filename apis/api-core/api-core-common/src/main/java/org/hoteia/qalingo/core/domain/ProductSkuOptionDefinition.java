@@ -161,7 +161,7 @@ public class ProductSkuOptionDefinition extends AbstractExtendEntity<ProductSkuO
     }
     
     public String getI18nName(String localizationCode) {
-        String i18nName = (String) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        String i18nName = (String) getValue(ProductSkuAttribute.PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE_I18N_NAME, null, localizationCode);
         if(StringUtils.isEmpty(i18nName)){
             i18nName = getName();
         }

@@ -28,9 +28,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
+
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION_TYPE")
-public class ProductSkuOptionDefinitionType extends AbstractEntity<ProductSkuOptionDefinitionType> {
+public class ProductSkuOptionDefinitionType extends AbstractExtendEntity<ProductSkuOptionDefinition, ProductSkuOptionDefinitionTypeAttribute> {
 
     /**
      * Generated UID
@@ -135,6 +137,24 @@ public class ProductSkuOptionDefinitionType extends AbstractEntity<ProductSkuOpt
         this.dateUpdate = dateUpdate;
     }
 
+    // Attributes
+    
+    public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
+        AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if(attribute != null) {
+            return attribute.getValue();
+        }
+        return null;
+    }
+    
+    public String getI18nName(String localizationCode) {
+        String i18nName = (String) getValue(ProductSkuAttribute.PRODUCT_SKU_OPTION_DEFINITION_TYPE_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        if(StringUtils.isEmpty(i18nName)){
+            i18nName = getName();
+        }
+        return i18nName;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
