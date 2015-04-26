@@ -104,7 +104,14 @@ public class StoreSearchController extends AbstractMCommerceController {
 		
 		String sessionKeyPagedListHolder = "Search_Store_PagedListHolder_" + request.getSession().getId();
         String sessionKeyFacet = "Search_Store_Facet_" + request.getSession().getId();
-        int page = searchForm.getPage() - 1;
+        
+        int page = 0;
+        try {
+            page = Integer.parseInt(request.getParameter("page")) - 1;
+        } catch (Exception e) {
+            // NO NEED
+        }
+        
         String mode = request.getParameter(Constants.PAGE_VIEW_MODE);
         String cities = request.getParameter("cities");
         String countries = request.getParameter("countries");

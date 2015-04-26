@@ -110,7 +110,14 @@ public class CatalogSearchController extends AbstractMCommerceController {
 		
 		String sessionKeyPagedListHolder = "Search_ProductMarketing_PagedListHolder_" + request.getSession().getId();
         String sessionKeyFacet = "Search_ProductMarketing_Facet_" + request.getSession().getId();
-        int page = searchForm.getPage() - 1;
+        
+        int page = 0;
+        try {
+            page = Integer.parseInt(request.getParameter("page")) - 1;
+        } catch (Exception e) {
+            // NO NEED
+        }
+        
         String mode = request.getParameter(Constants.PAGE_VIEW_MODE);
         String sortBy = searchForm.getSortBy();
         String order = searchForm.getOrder();
