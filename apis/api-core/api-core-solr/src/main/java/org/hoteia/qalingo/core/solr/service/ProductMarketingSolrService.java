@@ -90,12 +90,11 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             }
         }
         
-        if(productSkus != null && productSkus.isEmpty()){
+        if(productSkus != null){
             Map<String, String> skuOptionDefinitionsCodes = new HashMap<String, String>();
-            for (ProductSku productSku : productMarketing.getProductSkus()) {
+            for (ProductSku productSku : productSkus) {
                 if(productSku.getOptionRels() != null
-                        && Hibernate.isInitialized(productSku.getOptionRels())
-                        && !productSku.getOptionRels().isEmpty()){
+                        && Hibernate.isInitialized(productSku.getOptionRels())){
                     for (ProductSkuOptionRel productSkuOptionRel : productSku.getOptionRels()) {
                         if(productSkuOptionRel.getProductSkuOptionDefinition() != null
                                 && Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition())){

@@ -544,8 +544,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public List<MarketAreaViewBean> buildListViewBeanMarketArea(final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
         List<MarketAreaViewBean> marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
         final MarketArea currentMarketArea = requestData.getMarketArea();
-        if(marketAreas!= null
-                && !marketAreas.isEmpty()){
+        if(marketAreas != null){
             for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
                 final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
                 
