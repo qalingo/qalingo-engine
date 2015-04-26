@@ -123,7 +123,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
         
 		try {
             PagedListHolder<ProductMarketingViewBean> pagedListHolder;
-		    if(searchForm.getPage() == 0){
+		    if(page == 0){
 	            ProductMarketingResponseBean productMarketingResponseBean = null;
 	            if(searchForm.getPrice() != null){
 	                if(searchForm.getCatalogCategoryList() != null){

@@ -187,7 +187,6 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         if(facetFields != null && !facetFields.isEmpty()){
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
-            solrQuery.setFacetLimit(8);
             for(String facetField : facetFields){
                 solrQuery.addFacetField(facetField);
             }
@@ -222,7 +221,6 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
-        solrQuery.setFacetLimit(8);
         solrQuery.addFacetField(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
         
         logger.debug("QueryRequest solrQuery: " + solrQuery);

@@ -91,7 +91,6 @@ public class StoreSolrService extends AbstractSolrService {
         if (facetFields != null && facetFields.size() > 0) {
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
-            solrQuery.setFacetLimit(30);
             for( String facetField : facetFields){
             	solrQuery.addFacetField(facetField);
             }
@@ -148,7 +147,6 @@ public class StoreSolrService extends AbstractSolrService {
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
-        solrQuery.setFacetLimit(8);
         solrQuery.addFacetField("name");
         
         logger.debug("QueryRequest solrQuery: " + solrQuery);

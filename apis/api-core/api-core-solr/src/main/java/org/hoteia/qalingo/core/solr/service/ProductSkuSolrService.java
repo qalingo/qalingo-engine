@@ -134,7 +134,6 @@ public class ProductSkuSolrService extends AbstractSolrService {
         if (StringUtils.isNotEmpty(facetField)) {
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
-            solrQuery.setFacetLimit(8);
             solrQuery.addFacetField(facetField);
         }
 
@@ -164,7 +163,6 @@ public class ProductSkuSolrService extends AbstractSolrService {
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
-        solrQuery.setFacetLimit(8);
         solrQuery.addFacetField("name");
         solrQuery.addFacetField("code");
 
