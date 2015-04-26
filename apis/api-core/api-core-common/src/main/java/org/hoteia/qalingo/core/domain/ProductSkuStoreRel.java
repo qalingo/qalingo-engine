@@ -30,7 +30,7 @@ import javax.persistence.Transient;
 @AssociationOverrides({
     @AssociationOverride(name = "pk.productSku", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID")),
     @AssociationOverride(name = "pk.store", joinColumns = @JoinColumn(name = "STORE_ID"))})
-public class ProductSkuStoreRel extends AbstractEntity<ProductSkuStoreRel> {
+public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel, ProductSkuStoreAttribute> {
 
     /**
      * Generated UID
@@ -126,6 +126,24 @@ public class ProductSkuStoreRel extends AbstractEntity<ProductSkuStoreRel> {
         this.prices = prices;
     }
 
+    // Attributes
+    
+    public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
+        AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if(attribute != null) {
+            return attribute.getValue();
+        }
+        return null;
+    }
+    
+    public Object getValue(String attributeCode) {
+        AbstractAttribute attribute = getAttribute(attributeCode, null, null);
+        if(attribute != null) {
+            return attribute.getValue();
+        }
+        return null;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

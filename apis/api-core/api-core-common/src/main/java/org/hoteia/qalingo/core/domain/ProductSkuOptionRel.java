@@ -88,7 +88,7 @@ public class ProductSkuOptionRel extends AbstractEntity<ProductSkuOptionRel> {
     public void setDefaultSkuOption(boolean isDefaultSkuOption) {
         this.isDefaultSkuOption = isDefaultSkuOption;
     }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;

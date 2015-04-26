@@ -107,7 +107,7 @@ public class StoreSearchController extends AbstractMCommerceController {
         
         int page = 0;
         try {
-            page = Integer.parseInt(request.getParameter("page")) - 1;
+            page = Integer.parseInt(request.getParameter("page"));
         } catch (Exception e) {
             // NO NEED
         }
@@ -160,13 +160,14 @@ public class StoreSearchController extends AbstractMCommerceController {
                 modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, facets);
 			}
 	        
+			int pageListPosition = page - 1;
 	        int pageCurrent = pagedListHolder.getPage();
-	        if (pageCurrent < page) { 
-	        	for (int i = pageCurrent; i < page; i++) {
+	        if (pageCurrent < pageListPosition) { 
+	        	for (int i = pageCurrent; i < pageListPosition; i++) {
 	        	    pagedListHolder.nextPage(); 
 				}
-	        } else if (pageCurrent > page) { 
-	        	for (int i = page; i < pageCurrent; i++) {
+	        } else if (pageCurrent > pageListPosition) { 
+	        	for (int i = pageListPosition; i < pageCurrent; i++) {
 	        	    pagedListHolder.previousPage(); 
 				}
 	        }
