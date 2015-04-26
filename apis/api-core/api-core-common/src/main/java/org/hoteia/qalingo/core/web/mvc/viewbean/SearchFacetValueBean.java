@@ -20,7 +20,7 @@ public class SearchFacetValueBean implements Serializable {
     
     private String code;
     private String label;
-    private String selected = "selected";
+    private boolean selected = true;
     private long count;
 	
 	public SearchFacetValueBean(){
@@ -48,15 +48,15 @@ public class SearchFacetValueBean implements Serializable {
         this.label = label;
     }
 	
-	public String getSelected() {
+	public boolean isSelected() {
         return selected;
     }
-	
-	public void setSelected(String selected) {
+
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
-	
-	public long getCount() {
+
+    public long getCount() {
         return count;
     }
 	
