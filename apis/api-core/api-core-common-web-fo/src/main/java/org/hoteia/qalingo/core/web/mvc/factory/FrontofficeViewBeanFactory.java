@@ -32,11 +32,9 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.Store;
-
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
-
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
@@ -539,11 +537,55 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     public List<SearchFacetViewBean> buildListViewBeanCatalogSearchFacet(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
-        List<FacetField> facetFields = productMarketingResponseBean.getProductMarketingSolrFacetFieldList();
+        final List<FacetField> facetFields = productMarketingResponseBean.getProductMarketingSolrFacetFieldList();
         for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
-            searchFacetViewBeans.add(buildViewBeanCatalogSearchFacet(requestData, facetField));
+            if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE.equalsIgnoreCase(facetField.getName())) {
+                searchFacetViewBeans.add(buildViewBeanCatalogSearchFacet(requestData, facetField));
+                
+            } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE.equalsIgnoreCase(facetField.getName())) {
+                
+                // GROUP SKU OPTIONS BY TYPE
+                Map<String, List<ValueBean>> skuOptionsByType = new HashMap<String, List<ValueBean>>();
+                for (Iterator<Count> iteratorFacetField = facetField.getValues().iterator(); iteratorFacetField.hasNext();) {
+                    Count value = (Count) iteratorFacetField.next();
+                    String skuOptionDefinitionCode = value.getName();
+                    final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode);
+                    if(productSkuOptionDefinition != null && productSkuOptionDefinition.getOptionDefinitionType() != null){
+                        String key = productSkuOptionDefinition.getOptionDefinitionType().getCode();
+                        List<ValueBean> skuOptions = skuOptionsByType.get(key);
+                        if(skuOptions == null){
+                            skuOptions = new ArrayList<ValueBean>();
+                        }
+                        ValueBean valueBean = new ValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode) + " (" + value.getCount() + ")");                
+                        skuOptions.add(valueBean);
+                        skuOptionsByType.put(key, skuOptions);
+                    }
+                }
+                
+                for (Iterator<String> iteratorSkuOption = skuOptionsByType.keySet().iterator(); iteratorSkuOption.hasNext();) {
+                    String key = (String) iteratorSkuOption.next();
+
+                    final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
+                    searchFacetViewBean.setName(key);
+
+                    List<ValueBean> skuOptions = skuOptionsByType.get(key);
+                    for(ValueBean valueBean : skuOptions){
+                        if(!searchFacetViewBean.getValues().contains(valueBean)){
+                            searchFacetViewBean.getValues().add(valueBean);
+                        }
+                    }
+                    searchFacetViewBeans.add(searchFacetViewBean);
+                }
+                
+            } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
+                searchFacetViewBeans.add(buildViewBeanCatalogSearchFacet(requestData, facetField));
+
+            }
         }
         return searchFacetViewBeans;
     }
@@ -585,6 +627,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             }
             
         } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE.equalsIgnoreCase(facetField.getName())){
+
+            // PARENT METHODE
+            
+        } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())){
             searchFacetViewBean.setName(facetField.getName());
             List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
