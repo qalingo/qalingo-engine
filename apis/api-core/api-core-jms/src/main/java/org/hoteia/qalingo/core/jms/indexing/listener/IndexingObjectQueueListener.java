@@ -124,20 +124,16 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                     } else if("ProductSku".equals(documentMessageJms.getObjectType())){
                         final ProductSku productSku = productService.getProductSkuById(objectId, FetchPlanGraphProduct.fullIndexedProductSkuFetchPlan());
                         if(productSku != null){
+                            final ProductMarketing productMarketing = productService.getProductMarketingById(productSku.getProductMarketing().getId(), FetchPlanGraphProduct.fullIndexedProductMarketingFetchPlan());
                             List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId(), new FetchPlan(categoryFetchPlans)); 
                             try {
-                                productSkuSolrService.addOrUpdateProductSku(productSku, catalogCategories, null, null);
+                                productSkuSolrService.addOrUpdateProductSku(productMarketing, productSku, catalogCategories, null, null);
                             } catch (SolrServerException e) {
                                 logger.error("Processed message to indexing failed, value: " + valueJMSMessage);
                             }
-                        }
-                        
-                        // AND UPDATE THE PRODUCT MARKETING - AGREGATE SKU OPTIONS !
-                        final ProductMarketing productMarketing = productService.getProductMarketingById(productSku.getProductMarketing().getId(), FetchPlanGraphProduct.fullIndexedProductMarketingFetchPlan());
-                        if(productMarketing != null){
-                            ProductSku defaultProductSku = productMarketing.getDefaultProductSku();
-                            if(defaultProductSku != null){
-                                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(defaultProductSku.getId(), new FetchPlan(categoryFetchPlans)); 
+                            
+                            // AND UPDATE THE PRODUCT MARKETING - AGREGATE SKU OPTIONS !
+                            if(productMarketing != null){
                                 List<ProductSku> productSkus = new ArrayList<ProductSku>();
                                 for (Iterator<ProductSku> iteratorProductSku = productMarketing.getProductSkus().iterator(); iteratorProductSku.hasNext();) {
                                     ProductSku productSkuIterator = (ProductSku) iteratorProductSku.next();

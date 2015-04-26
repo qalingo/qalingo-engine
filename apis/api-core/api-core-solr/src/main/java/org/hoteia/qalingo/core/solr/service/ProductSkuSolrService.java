@@ -25,6 +25,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
@@ -51,7 +52,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
     @Autowired
     protected ProductService productService;
     
-    public void addOrUpdateProductSku(final ProductSku productSku, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
+    public void addOrUpdateProductSku(final ProductMarketing productMarketing, final ProductSku productSku, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productSku.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
@@ -64,11 +65,9 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolr.setName(productSku.getName());
         productSkuSolr.setDescription(productSku.getDescription());
 
-        if(productSku.getProductMarketing() != null
-                && Hibernate.isInitialized(productSku.getProductMarketing())
-                && productSku.getProductMarketing().getProductBrand() != null
-                && Hibernate.isInitialized(productSku.getProductMarketing().getProductBrand())){
-            productSkuSolr.setProductBrandCode(productSku.getProductMarketing().getProductBrand().getCode());
+        if(productMarketing.getProductBrand() != null
+                && Hibernate.isInitialized(productMarketing.getProductBrand())){
+            productSkuSolr.setProductBrandCode(productMarketing.getProductBrand().getCode());
         }
         
         CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productSku, catalogCategories, true);

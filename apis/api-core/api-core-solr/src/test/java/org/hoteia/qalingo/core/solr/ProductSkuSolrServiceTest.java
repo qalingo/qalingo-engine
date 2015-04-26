@@ -18,6 +18,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -44,7 +45,8 @@ public class ProductSkuSolrServiceTest {
 	@Autowired
 	protected ProductSkuSolrService productSkuSolrService; 
 
-	protected ProductSku productSku;
+    protected ProductMarketing productMarketing;
+    protected ProductSku productSku;
     private List<CatalogCategoryVirtual> catalogCategories;
 
 	protected ProductSkuResponseBean responseBean;
@@ -68,6 +70,12 @@ public class ProductSkuSolrServiceTest {
         
         catalogCategories = new ArrayList<CatalogCategoryVirtual>();
 
+        productMarketing = new ProductMarketing();
+        productMarketing.setId(new Long("1"));
+        productMarketing.setName("Product Marketing");
+        productMarketing.setDescription("Product Marketing ...");
+        productMarketing.setCode("productMarketing");
+        
         productSku = new ProductSku();
         productSku.setId(new Long("1"));
         productSku.setDefault(true);
@@ -88,7 +96,7 @@ public class ProductSkuSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankID() throws SolrServerException, IOException {
         productSku.setId(null);
-        productSkuSolrService.addOrUpdateProductSku(productSku, catalogCategories, marketArea, retailer);
+        productSkuSolrService.addOrUpdateProductSku(productMarketing, productSku, catalogCategories, marketArea, retailer);
         logger.debug("--------------->testFirstIndexData()");
     }
     
@@ -103,7 +111,7 @@ public class ProductSkuSolrServiceTest {
         productSku.setName("Product Sku");
         productSku.setDescription("Product Sku ...");
         productSku.setCode("productSku");
-        productSkuSolrService.addOrUpdateProductSku(productSku, catalogCategories, marketArea, retailer);
+        productSkuSolrService.addOrUpdateProductSku(productMarketing, productSku, catalogCategories, marketArea, retailer);
     }
     
 	/**
