@@ -18,6 +18,8 @@ import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionRel_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionPk_;
+import org.hoteia.qalingo.core.domain.ProductSkuStoreRel_;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePk_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition_;
@@ -112,6 +114,15 @@ public class FetchPlanGraphProduct {
     public static FetchPlan productSkuOptionDefinitionTypeDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinitionType_.attributes.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan productSkuStoreRelDefaultFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.prices.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.pk.getName() + "." + ProductSkuStorePk_.store.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.pk.getName() + "." + ProductSkuStorePk_.productSku.getName()));
         return new FetchPlan(fetchplans);
     }
     
