@@ -543,11 +543,10 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductSkuStoreRel> findProductSkuStoreRelByProductSkuId(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
 
-        handleSpecificProductSkuStoreRelFetchMode(criteria, params);
-
-        criteria.createAlias("pk.store", "store", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("pk.productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("pk.productSku.id", productSkuId));
+
+        handleSpecificProductSkuStoreRelFetchMode(criteria, params);
 
         @SuppressWarnings("unchecked")
         List<ProductSkuStoreRel> productSkuStoreRels = criteria.list();
@@ -557,11 +556,10 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductSkuStoreRel> findProductSkuStoreRelByStoreId(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
 
-        handleSpecificProductSkuStoreRelFetchMode(criteria, params);
-        
         criteria.createAlias("pk.store", "store", JoinType.LEFT_OUTER_JOIN);
-        criteria.createAlias("pk.productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("pk.store.id", storeId));
+
+        handleSpecificProductSkuStoreRelFetchMode(criteria, params);
 
         @SuppressWarnings("unchecked")
         List<ProductSkuStoreRel> productSkuStoreRels = criteria.list();

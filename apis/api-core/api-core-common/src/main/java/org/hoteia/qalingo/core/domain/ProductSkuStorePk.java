@@ -13,11 +13,11 @@ public class ProductSkuStorePk extends AbstractEntity<ProductSkuStorePk> {
      */
     private static final long serialVersionUID = 8745892515688286668L;
 
-    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
+    @ManyToOne(fetch = FetchType.EAGER,  targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private ProductSku productSku;
     
-    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @ManyToOne(fetch = FetchType.EAGER,  targetEntity = org.hoteia.qalingo.core.domain.Store.class)
     @JoinColumn(name = "STORE_ID")
     private Store store;
     
