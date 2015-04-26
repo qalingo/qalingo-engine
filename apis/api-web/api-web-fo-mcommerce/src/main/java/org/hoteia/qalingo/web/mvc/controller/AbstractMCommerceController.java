@@ -122,7 +122,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
         if(pageSize == 0){
             pageSize = 16;
         }
-        
+        final HttpServletRequest request = requestData.getRequest();
         final List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
         List<ProductMarketingSolr> searchtItems = productMarketingResponseBean.getProductMarketingSolrList();
         for (Iterator<ProductMarketingSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {
@@ -144,7 +144,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
             pagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
         }
         pagedListHolder.resort();
-//        request.getSession().setAttribute(sessionKeyPagedListHolder, productsViewBeanPagedListHolder);
+        request.getSession().setAttribute(sessionKeyPagedListHolder, pagedListHolder);
         return pagedListHolder;
     }
 }

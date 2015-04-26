@@ -17,7 +17,7 @@ public class SearchFacetViewBean extends AbstractViewBean {
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = 8803558268157558979L;
+	private static final long serialVersionUID = 8803558268157558971L;
 	
 	private String name;
     private String type = "CHECKBOX";
