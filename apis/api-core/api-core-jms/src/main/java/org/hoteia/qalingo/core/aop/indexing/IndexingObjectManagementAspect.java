@@ -13,6 +13,8 @@ import java.net.InetAddress;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Store;
@@ -70,6 +72,20 @@ public class IndexingObjectManagementAspect {
                 if(productSku != null
                         && productSku.getId() != null){
                     indexingObjectMessageJms.setObjectId(productSku.getId());
+                    indexingObjectMessageJms.setObjectType("ProductSku");
+                }
+            } else if(result instanceof CatalogCategoryVirtualProductSkuRel){
+                final CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) result;
+                if(catalogCategoryVirtualProductSkuRel != null
+                        && catalogCategoryVirtualProductSkuRel.getProductSku() != null){
+                    indexingObjectMessageJms.setObjectId(catalogCategoryVirtualProductSkuRel.getProductSku().getId());
+                    indexingObjectMessageJms.setObjectType("ProductSku");
+                }
+            } else if(result instanceof CatalogCategoryMasterProductSkuRel){
+                final CatalogCategoryMasterProductSkuRel catalogCategoryMasterProductSkuRel = (CatalogCategoryMasterProductSkuRel) result;
+                if(catalogCategoryMasterProductSkuRel != null
+                        && catalogCategoryMasterProductSkuRel.getProductSku() != null){
+                    indexingObjectMessageJms.setObjectId(catalogCategoryMasterProductSkuRel.getProductSku().getId());
                     indexingObjectMessageJms.setObjectType("ProductSku");
                 }
             } else if(result instanceof Store){

@@ -484,9 +484,13 @@ public class ProductService {
         productDao.deleteProductBrandCustomerComment(customerRate);
     }
     
+    // CATALOG CATEGORY MASTER PRODUCT SKU REL
+    
     public void createCatalogCategoryMasterProductSkuRel(final CatalogCategoryMasterProductSkuRel catalogCategoryMasterProductSkuRel) {
     	productDao.createCatalogCategoryMasterProductSkuRel(catalogCategoryMasterProductSkuRel);
     }
+    
+    // CATALOG CATEGORY VIRTUAL PRODUCT SKU REL
     
     public void createCatalogCategoryVirtualProductSkuRel(final CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel) {
     	productDao.createCatalogCategoryVirtualProductSkuRel(catalogCategoryVirtualProductSkuRel);
