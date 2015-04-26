@@ -20,6 +20,7 @@ public class SearchFacetValueBean implements Serializable {
     
     private String code;
     private String label;
+    private String selected = "selected";
     private long count;
 	
 	public SearchFacetValueBean(){
@@ -45,6 +46,14 @@ public class SearchFacetValueBean implements Serializable {
 	
 	public void setLabel(String label) {
         this.label = label;
+    }
+	
+	public String getSelected() {
+        return selected;
+    }
+	
+	public void setSelected(String selected) {
+        this.selected = selected;
     }
 	
 	public long getCount() {

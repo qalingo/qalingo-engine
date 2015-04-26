@@ -109,8 +109,8 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                                 List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(defaultProductSku.getId(), new FetchPlan(categoryFetchPlans)); 
                                 List<ProductSku> productSkus = new ArrayList<ProductSku>();
                                 for (Iterator<ProductSku> iteratorProductSku = productMarketing.getProductSkus().iterator(); iteratorProductSku.hasNext();) {
-                                    ProductSku productSku = (ProductSku) iteratorProductSku.next();
-                                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode(), FetchPlanGraphProduct.fullIndexedProductSkuFetchPlan());
+                                    ProductSku productSkuIterator = (ProductSku) iteratorProductSku.next();
+                                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuIterator.getCode(), FetchPlanGraphProduct.fullIndexedProductSkuFetchPlan());
                                     productSkus.add(reloadedProductSku);
                                 }
                                 try {
@@ -129,6 +129,27 @@ public class IndexingObjectQueueListener implements MessageListener, ExceptionLi
                                 productSkuSolrService.addOrUpdateProductSku(productSku, catalogCategories, null, null);
                             } catch (SolrServerException e) {
                                 logger.error("Processed message to indexing failed, value: " + valueJMSMessage);
+                            }
+                        }
+                        
+                        // AND UPDATE THE PRODUCT MARKETING - AGREGATE SKU OPTIONS !
+                        final ProductMarketing productMarketing = productService.getProductMarketingById(productSku.getProductMarketing().getId(), FetchPlanGraphProduct.fullIndexedProductMarketingFetchPlan());
+                        if(productMarketing != null){
+                            ProductSku defaultProductSku = productMarketing.getDefaultProductSku();
+                            if(defaultProductSku != null){
+                                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(defaultProductSku.getId(), new FetchPlan(categoryFetchPlans)); 
+                                List<ProductSku> productSkus = new ArrayList<ProductSku>();
+                                for (Iterator<ProductSku> iteratorProductSku = productMarketing.getProductSkus().iterator(); iteratorProductSku.hasNext();) {
+                                    ProductSku productSkuIterator = (ProductSku) iteratorProductSku.next();
+                                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuIterator.getCode(), FetchPlanGraphProduct.fullIndexedProductSkuFetchPlan());
+                                    productSkus.add(reloadedProductSku);
+                                }
+                                try {
+                                    productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, productSkus, catalogCategories, null, null);
+                                    
+                                } catch (SolrServerException e) {
+                                    logger.error("Processed message to indexing failed, value: " + valueJMSMessage);
+                                }
                             }
                         }
                         

@@ -545,7 +545,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
             if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE.equalsIgnoreCase(facetField.getName())) {
-                searchFacetViewBeans.add(buildViewBeanCatalogSearchFacet(requestData, facetField));
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
+                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    searchFacetViewBeans.add(searchFacetViewBean);
+                }
                 
             } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE.equalsIgnoreCase(facetField.getName())) {
                 
@@ -577,11 +580,16 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     for(SearchFacetValueBean valueBean : skuOptions){
                         searchFacetViewBean.addValue(valueBean);
                     }
-                    searchFacetViewBeans.add(searchFacetViewBean);
+                    if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                        searchFacetViewBeans.add(searchFacetViewBean);
+                    }
                 }
                 
             } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
-                searchFacetViewBeans.add(buildViewBeanCatalogSearchFacet(requestData, facetField));
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
+                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    searchFacetViewBeans.add(searchFacetViewBean);
+                }
 
             }
         }
