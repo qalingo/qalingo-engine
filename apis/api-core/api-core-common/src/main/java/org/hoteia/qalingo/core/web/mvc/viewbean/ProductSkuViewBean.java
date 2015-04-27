@@ -429,14 +429,6 @@ public class ProductSkuViewBean extends AbstractViewBean {
         this.currencyAbbreviated = currencyAbbreviated;
     }
 
-    public String getPriceWithCurrencySign() {
-        return priceWithCurrencySign;
-    }
-
-    public void setPriceWithCurrencySign(String priceWithCurrencySign) {
-        this.priceWithCurrencySign = priceWithCurrencySign;
-    }
-    
     public String getAddToCartUrl() {
         return addToCartUrl;
     }

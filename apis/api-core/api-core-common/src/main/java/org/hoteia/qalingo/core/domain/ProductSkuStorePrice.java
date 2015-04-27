@@ -53,10 +53,6 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
     private boolean isDiscount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_SKU_PRICE_ID", insertable = true, updatable = true)
-	private ProductSkuStorePrice price;
-
-	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)
 	private CurrencyReferential currency;
 	
@@ -128,14 +124,6 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 
     public void setDiscount(boolean isDiscount) {
         this.isDiscount = isDiscount;
-    }
-
-    public ProductSkuStorePrice getPrice() {
-        return price;
-    }
-
-    public void setPrice(ProductSkuStorePrice price) {
-        this.price = price;
     }
 
     @Override
