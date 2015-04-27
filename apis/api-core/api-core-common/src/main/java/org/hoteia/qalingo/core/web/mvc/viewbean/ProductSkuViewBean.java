@@ -51,6 +51,8 @@ public class ProductSkuViewBean extends AbstractViewBean {
     protected List<ProductSkuCustomerCommentViewBean> comments = new ArrayList<ProductSkuCustomerCommentViewBean>();
     protected List<ProductSkuTagViewBean> tags = new ArrayList<ProductSkuTagViewBean>();
 
+    protected List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitions = new ArrayList<ProductSkuOptionDefinitionViewBean>();
+
     protected List<CatalogCategoryViewBean> catalogCategories = new ArrayList<CatalogCategoryViewBean>();
 
     protected String catalogPrice;
@@ -342,6 +344,14 @@ public class ProductSkuViewBean extends AbstractViewBean {
 
     public void setTags(List<ProductSkuTagViewBean> tags) {
         this.tags = tags;
+    }
+    
+    public List<ProductSkuOptionDefinitionViewBean> getSkuOptionDefinitions() {
+        return skuOptionDefinitions;
+    }
+    
+    public void setSkuOptionDefinitions(List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitions) {
+        this.skuOptionDefinitions = skuOptionDefinitions;
     }
     
     public List<CatalogCategoryViewBean> getCatalogCategories() {

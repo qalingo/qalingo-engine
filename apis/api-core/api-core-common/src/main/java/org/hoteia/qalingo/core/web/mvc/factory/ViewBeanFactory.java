@@ -71,6 +71,9 @@ import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductMarketingTag;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.ProductSkuTag;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -89,7 +92,6 @@ import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
@@ -122,11 +124,9 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerConnectionLogValueBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
@@ -136,6 +136,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OperationHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
@@ -148,8 +149,10 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuOptionDefinitionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerCustomerCommentViewBean;
@@ -174,9 +177,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.domain.ProductSku_;
-import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 
 /**
  * 
@@ -2150,6 +2150,32 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 productSkuTagViewBean.setName(productSkuTag.getName());
                 productSkuTagViewBean.setDescription(productSkuTag.getDescription());
                 productSkuViewBean.getTags().add(productSkuTagViewBean);
+            }
+        }
+        
+        // SKU OPTIONS
+        Set<ProductSkuOptionRel> optionRels = productSku.getOptionRels();
+        if (Hibernate.isInitialized(optionRels) 
+                && optionRels != null) {
+            for (Iterator<ProductSkuOptionRel> iterator = optionRels.iterator(); iterator.hasNext();) {
+                ProductSkuOptionRel productSkuOptionRel = (ProductSkuOptionRel) iterator.next();
+                if (Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition()) 
+                        && productSkuOptionRel.getProductSkuOptionDefinition() != null) {
+                    ProductSkuOptionDefinition productSkuOptionDefinition = productSkuOptionRel.getProductSkuOptionDefinition();
+                    
+                    ProductSkuOptionDefinitionViewBean productSkuOptionDefinitionViewBean = new ProductSkuOptionDefinitionViewBean();
+                    productSkuOptionDefinitionViewBean.setCode(productSkuOptionDefinition.getCode());
+                    productSkuOptionDefinitionViewBean.setName(productSkuOptionDefinition.getName());
+                    
+                    if (Hibernate.isInitialized(productSkuOptionDefinition.getOptionDefinitionType()) 
+                            && productSkuOptionDefinition.getOptionDefinitionType() != null) {
+                        ProductSkuOptionDefinitionType productSkuOptionDefinitionType = productSkuOptionDefinition.getOptionDefinitionType();
+                        productSkuOptionDefinitionViewBean.setTypeCode(productSkuOptionDefinitionType.getCode());
+                        productSkuOptionDefinitionViewBean.setTypeName(productSkuOptionDefinitionType.getName());
+                    }
+                    
+                    productSkuViewBean.getSkuOptionDefinitions().add(productSkuOptionDefinitionViewBean);
+                }
             }
         }
         
