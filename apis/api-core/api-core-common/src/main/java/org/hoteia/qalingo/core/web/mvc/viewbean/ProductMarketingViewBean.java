@@ -394,27 +394,48 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 		return null;
 	}
 
-	public String getPriceWithCurrencySign() {
+	public String getBestPriceWithCurrencySign() {
 		if (productSkus != null) {
 			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
 				if (productSkuViewBean.isDefault()) {
-					if (productSkuViewBean.getPriceWithCurrencySign() != null) {
-						return productSkuViewBean.getPriceWithCurrencySign();
+					if (productSkuViewBean.getBestPriceWithCurrencySign() != null) {
+						return productSkuViewBean.getBestPriceWithCurrencySign();
 					}
 				}
 			}
 			if (!productSkus.isEmpty()) {
 				ProductSkuViewBean productSkuViewBean = productSkus.get(0);
 				if (productSkuViewBean != null
-						&& productSkuViewBean.getPriceWithCurrencySign() != null) {
-					return productSkuViewBean.getPriceWithCurrencySign();
+						&& productSkuViewBean.getBestPriceWithCurrencySign() != null) {
+					return productSkuViewBean.getBestPriceWithCurrencySign();
 				}
 			}
 		}
 		return null;
 	}
 
+    public String getSalePriceWithCurrencySign() {
+        if (productSkus != null) {
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if (productSkuViewBean.isDefault()) {
+                    if (productSkuViewBean.getSalePriceWithCurrencySign() != null) {
+                        return productSkuViewBean.getSalePriceWithCurrencySign();
+                    }
+                }
+            }
+            if (!productSkus.isEmpty()) {
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                if (productSkuViewBean != null
+                        && productSkuViewBean.getSalePriceWithCurrencySign() != null) {
+                    return productSkuViewBean.getSalePriceWithCurrencySign();
+                }
+            }
+        }
+        return null;
+    }
+    
     public List<ProductMarketingCustomerCommentViewBean> getComments() {
         return comments;
     }
