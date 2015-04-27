@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrand_;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -80,6 +81,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
         
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName() + "." + ProductBrand_.attributes.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
