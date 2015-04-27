@@ -55,11 +55,12 @@ public class ProductSkuViewBean extends AbstractViewBean {
 
     protected List<CatalogCategoryViewBean> catalogCategories = new ArrayList<CatalogCategoryViewBean>();
 
+    @Deprecated
     protected String catalogPrice;
-    protected String salePrice;
+    protected String salePriceWithCurrencySign;
+    protected String bestPriceWithCurrencySign;
     protected String currencySign;
     protected String currencyAbbreviated;
-    protected String priceWithCurrencySign;
     
     protected String addToCartUrl;
     protected String removeFromCartUrl;
@@ -386,20 +387,30 @@ public class ProductSkuViewBean extends AbstractViewBean {
         this.catalogCategories = catalogCategories;
     }
     
+    @Deprecated
     public String getCatalogPrice() {
         return catalogPrice;
     }
 
+    @Deprecated
     public void setCatalogPrice(String catalogPrice) {
         this.catalogPrice = catalogPrice;
     }
 
-    public String getSalePrice() {
-        return salePrice;
+    public String getSalePriceWithCurrencySign() {
+        return salePriceWithCurrencySign;
     }
 
-    public void setSalePrice(String salePrice) {
-        this.salePrice = salePrice;
+    public void setSalePriceWithCurrencySign(String salePriceWithCurrencySign) {
+        this.salePriceWithCurrencySign = salePriceWithCurrencySign;
+    }
+
+    public String getBestPriceWithCurrencySign() {
+        return bestPriceWithCurrencySign;
+    }
+
+    public void setBestPriceWithCurrencySign(String bestPriceWithCurrencySign) {
+        this.bestPriceWithCurrencySign = bestPriceWithCurrencySign;
     }
 
     public String getCurrencySign() {

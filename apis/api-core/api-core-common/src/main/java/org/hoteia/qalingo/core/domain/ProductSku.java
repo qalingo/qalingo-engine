@@ -92,17 +92,22 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStorePrice.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    @Deprecated
     private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStock.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
+    @Deprecated
     private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>();
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
     @JoinTable(name = "TECO_PRODUCT_SKU_STORE_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_ID"))
+    @Deprecated
     private Set<Store> stores = new HashSet<Store>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreRel.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuStoreRel> productSkuStoreRels = new HashSet<ProductSkuStoreRel>();
+    
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<CatalogCategoryMasterProductSkuRel> catalogCategoryMasterProductSkuRels = new HashSet<CatalogCategoryMasterProductSkuRel>();
@@ -257,12 +262,34 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return assetsByMarketArea;
 	}
 	
-    @Deprecated
 	public Set<ProductSkuStorePrice> getPrices() {
 		return prices;
 	}
-	
-    @Deprecated
+
+    public ProductSkuStorePrice getBestPrice(final Long marketAreaId) {
+        if (prices != null && Hibernate.isInitialized(prices)) {
+            for (ProductSkuStorePrice productSkuPrice : prices) {
+                if (productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.isDiscount()) {
+                    return productSkuPrice;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public ProductSkuStorePrice getPublicPrice(final Long marketAreaId){
+        if(prices != null
+                && Hibernate.isInitialized(prices)){
+            for (ProductSkuStorePrice productSkuPrice : prices) {
+                if (productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.isCatalogPrice()) {
+                    return productSkuPrice;
+                }
+            }    
+        }
+        return null;
+    }
+
+	@Deprecated
 	public ProductSkuStorePrice getCatalogPrice(final Long marketAreaId){
 	    if(prices != null
 	            && Hibernate.isInitialized(prices)){
@@ -295,6 +322,7 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 		this.prices = prices;
 	}
 	
+    @Deprecated
 	public Set<ProductSkuStock> getStocks() {
 		return stocks;
 	}
@@ -303,12 +331,21 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 		this.stocks = stocks;
 	}
 	
+	@Deprecated
 	public Set<Store> getStores() {
         return stores;
     }
 	
 	public void setStores(Set<Store> stores) {
         this.stores = stores;
+    }
+	
+	public Set<ProductSkuStoreRel> getProductSkuStoreRels() {
+        return productSkuStoreRels;
+    }
+	
+	public void setProductSkuStoreRels(Set<ProductSkuStoreRel> productSkuStoreRels) {
+        this.productSkuStoreRels = productSkuStoreRels;
     }
 	
 	public Set<CatalogCategoryMasterProductSkuRel> getCatalogCategoryMasterProductSkuRels() {

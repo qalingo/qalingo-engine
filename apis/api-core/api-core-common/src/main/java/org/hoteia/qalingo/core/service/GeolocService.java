@@ -140,7 +140,7 @@ public class GeolocService {
         if(geoCode != null && geoCode.getResults().size() > 0) {
             GoogleGeoCodeResult googleGeoCodeResult = geoCode.getResults().get(0);
             String formatedAdress = googleGeoCodeResult.getFormattedAddress();
-            formatedAdress = formatedAdress.replace(" ", "+");
+            formatedAdress = formatedAdress.replace(" ", "+").replace("\"", "+");
             
             geolocAddress = new GeolocAddress();
             geolocAddress.setAddress(googleGeoCodeResult.getAddress());
