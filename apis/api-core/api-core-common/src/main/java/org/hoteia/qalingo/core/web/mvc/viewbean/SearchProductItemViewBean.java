@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -113,51 +112,47 @@ public class SearchProductItemViewBean extends AbstractViewBean {
 		return productSkus;
 	}
 
-	public String getPriceWithCurrencySign() {
-		if (productSkus != null) {
-			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
-					.hasNext();) {
-				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator
-						.next();
-				if (productSkuViewBean.isDefault()) {
-					if (productSkuViewBean.getPriceWithCurrencySign() != null) {
-						return productSkuViewBean.getPriceWithCurrencySign();
-					}
-				}
-			}
-			if (!productSkus.isEmpty()) {
-				ProductSkuViewBean productSkuViewBean = productSkus.get(0);
-				if (productSkuViewBean != null
-						&& productSkuViewBean.getPriceWithCurrencySign() != null) {
-					return productSkuViewBean.getPriceWithCurrencySign();
-				}
-			}
-		}
-		return null;
-	}
+    public String getBestPriceWithCurrencySign() {
+        if (productSkus != null) {
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if (productSkuViewBean.isDefault()) {
+                    if (productSkuViewBean.getBestPriceWithCurrencySign() != null) {
+                        return productSkuViewBean.getBestPriceWithCurrencySign();
+                    }
+                }
+            }
+            if (!productSkus.isEmpty()) {
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                if (productSkuViewBean != null
+                        && productSkuViewBean.getBestPriceWithCurrencySign() != null) {
+                    return productSkuViewBean.getBestPriceWithCurrencySign();
+                }
+            }
+        }
+        return null;
+    }
 
-	public BigDecimal getPrice() {
-		if (productSkus != null) {
-			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
-					.hasNext();) {
-				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator
-						.next();
-				if (productSkuViewBean.isDefault()) {
-					if (productSkuViewBean.getPriceWithCurrencySign() != null) {
-						return new BigDecimal(productSkuViewBean.getSalePrice());
-					}
-				}
-			}
-			if (!productSkus.isEmpty()) {
-				ProductSkuViewBean productSkuViewBean = productSkus.get(0);
-				if (productSkuViewBean != null
-						&& productSkuViewBean.getPriceWithCurrencySign() != null) {
-					return new BigDecimal(productSkuViewBean.getSalePrice());
-				}
-			}
-		}
-		return null;
-	}
+    public String getSalePriceWithCurrencySign() {
+        if (productSkus != null) {
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if (productSkuViewBean.isDefault()) {
+                    if (productSkuViewBean.getSalePriceWithCurrencySign() != null) {
+                        return productSkuViewBean.getSalePriceWithCurrencySign();
+                    }
+                }
+            }
+            if (!productSkus.isEmpty()) {
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                if (productSkuViewBean != null
+                        && productSkuViewBean.getSalePriceWithCurrencySign() != null) {
+                    return productSkuViewBean.getSalePriceWithCurrencySign();
+                }
+            }
+        }
+        return null;
+    }
 
 	public String getCategoryName() {
 		return categoryName;

@@ -2089,9 +2089,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         final ProductSkuStorePrice productSkuSalePrice = productSku.getPublicPrice(marketArea.getId());
         if(productSkuSalePrice != null){
-            productSkuViewBean.setPriceWithCurrencySign(productSkuSalePrice.getPriceWithStandardCurrencySign());
+            productSkuViewBean.setSalePriceWithCurrencySign(productSkuSalePrice.getPriceWithStandardCurrencySign());
         } else {
-            productSkuViewBean.setPriceWithCurrencySign("NA");
+            productSkuViewBean.setSalePriceWithCurrencySign("NA");
         }
         
         // BRAND
