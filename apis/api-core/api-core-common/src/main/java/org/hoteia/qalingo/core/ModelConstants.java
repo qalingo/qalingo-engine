@@ -108,7 +108,7 @@ public class ModelConstants {
     public static final String PRODUCT_BRAND_COMMENTS_VIEW_BEAN     = "productBrandComments";
     public static final String PRODUCT_BRAND_RATES_VIEW_BEAN        = "productBrandRates";
     public static final String RECENT_PPRODUCT_MARKETING_VIEW_BEAN  = "recentProducts";
-    public static final String RELATED_PPRODUCT_MARKETING_VIEW_BEAN = "relatedProductMarketings";
+    public static final String RELATED_PRODUCT_MARKETING_VIEW_BEAN = "relatedProductMarketings";
     
     public static final String PRODUCT_COMMENT_SUBMIT_URL           = "productCommentUrl";
 

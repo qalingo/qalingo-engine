@@ -122,7 +122,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         //for now, get the featured products in same category
         //TODO: define related products
         final List<ProductMarketingViewBean> relatedProducts = catalogCategoryViewBean.getFeaturedProductMarketings();
-        model.addAttribute(ModelConstants.RELATED_PPRODUCT_MARKETING_VIEW_BEAN, relatedProducts);
+        model.addAttribute(ModelConstants.RELATED_PRODUCT_MARKETING_VIEW_BEAN, relatedProducts);
         
         final CustomerProductRatesViewBean customerProductRatesViewBean = frontofficeViewBeanFactory.getProductMarketingCustomerRateDetails(productMarketing.getId());
         model.addAttribute(ModelConstants.PRODUCT_MARKETING_RATES_VIEW_BEAN, customerProductRatesViewBean);
