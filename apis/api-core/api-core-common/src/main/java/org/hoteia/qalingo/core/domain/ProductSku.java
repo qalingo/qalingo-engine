@@ -90,9 +90,9 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStorePrice.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuPrice.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
+    private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStock.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
@@ -262,13 +262,13 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return assetsByMarketArea;
 	}
 	
-	public Set<ProductSkuStorePrice> getPrices() {
+	public Set<ProductSkuPrice> getPrices() {
 		return prices;
 	}
 
-    public ProductSkuStorePrice getBestPrice(final Long marketAreaId) {
+    public ProductSkuPrice getBestPrice(final Long marketAreaId) {
         if (prices != null && Hibernate.isInitialized(prices)) {
-            for (ProductSkuStorePrice productSkuPrice : prices) {
+            for (ProductSkuPrice productSkuPrice : prices) {
                 if (productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.isDiscount()) {
                     return productSkuPrice;
                 }
@@ -277,10 +277,10 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return null;
     }
     
-    public ProductSkuStorePrice getPublicPrice(final Long marketAreaId){
+    public ProductSkuPrice getPublicPrice(final Long marketAreaId){
         if(prices != null
                 && Hibernate.isInitialized(prices)){
-            for (ProductSkuStorePrice productSkuPrice : prices) {
+            for (ProductSkuPrice productSkuPrice : prices) {
                 if (productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.isCatalogPrice()) {
                     return productSkuPrice;
                 }
