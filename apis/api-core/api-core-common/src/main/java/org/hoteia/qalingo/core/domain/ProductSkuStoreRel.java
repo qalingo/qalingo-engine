@@ -22,6 +22,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -60,6 +61,13 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     })
     private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreStock.class)
+    @JoinColumns({
+        @JoinColumn(name = "PRODUCT_SKU_ID"),
+        @JoinColumn(name = "STORE_ID") 
+    })
+    private ProductSkuStoreStock stock;
+    
     public ProductSkuStoreRel() {
         this.pk = new ProductSkuStorePk();
     }
@@ -126,6 +134,14 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         this.prices = prices;
     }
 
+    public ProductSkuStoreStock getStock() {
+        return stock;
+    }
+    
+    public void setStock(ProductSkuStoreStock stock) {
+        this.stock = stock;
+    }
+    
     // Attributes
     
     public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {

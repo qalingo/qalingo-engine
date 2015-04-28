@@ -140,7 +140,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 		
 		try {
             PagedListHolder<StoreViewBean> pagedListHolder;
-			if(searchForm.getPage() == 0){
+            if(page == 0){
 	            StoreResponseBean storeResponseBean = null;
 	            List<String> facetFields = Arrays.asList(StoreResponseBean.STORE_DEFAULT_FACET_FIELD,StoreResponseBean.STORE_SECOND_FACET_FIELD);
 	            storeResponseBean = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), facetFields, cityList,countryList);
