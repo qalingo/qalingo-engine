@@ -96,7 +96,6 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStock.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    @Deprecated
     private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>();
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
@@ -290,10 +289,10 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     }
 
 	@Deprecated
-	public ProductSkuStorePrice getCatalogPrice(final Long marketAreaId){
+	public ProductSkuPrice getCatalogPrice(final Long marketAreaId){
 	    if(prices != null
 	            && Hibernate.isInitialized(prices)){
-	        for (ProductSkuStorePrice productSkuPrice : prices) {
+	        for (ProductSkuPrice productSkuPrice : prices) {
 	            if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
 	                    && productSkuPrice.isCatalogPrice()) {
 	                return productSkuPrice;
@@ -304,12 +303,12 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 	}
 	
     @Deprecated
-    public ProductSkuStorePrice getSalePrice(final Long marketAreaId, final Long storeId){
+    public ProductSkuPrice getSalePrice(final Long marketAreaId, final Long storeId){
         if(prices != null
                 && Hibernate.isInitialized(prices)){
-            for (ProductSkuStorePrice productSkuPrice : prices) {
+            for (ProductSkuPrice productSkuPrice : prices) {
                 if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
-                        && productSkuPrice.getStoreId().equals(storeId)) {
+                        && productSkuPrice.isCatalogPrice()) {
                     return productSkuPrice;
                 }
             }    
@@ -317,12 +316,10 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return null;
     }
 	
-    @Deprecated
-	public void setPrices(Set<ProductSkuStorePrice> prices) {
+	public void setPrices(Set<ProductSkuPrice> prices) {
 		this.prices = prices;
 	}
 	
-    @Deprecated
 	public Set<ProductSkuStock> getStocks() {
 		return stocks;
 	}
@@ -331,7 +328,6 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 		this.stocks = stocks;
 	}
 	
-	@Deprecated
 	public Set<Store> getStores() {
         return stores;
     }
