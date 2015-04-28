@@ -29,6 +29,7 @@ import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractAttribute;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
@@ -2081,14 +2082,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             productSkuViewBean.setDateUpdate(buildCommonFormatDate(requestData, productMarketing.getDateUpdate()));
         }
         
-        final ProductSkuStorePrice productSkuBestPrice = productSku.getBestPrice(marketArea.getId());
+        final ProductSkuPrice productSkuBestPrice = productSku.getBestPrice(marketArea.getId());
         if(productSkuBestPrice != null
                 && StringUtils.isNotEmpty(productSkuBestPrice.getPriceWithStandardCurrencySign())){
             productSkuViewBean.setBestPriceWithCurrencySign(productSkuBestPrice.getPriceWithStandardCurrencySign());
         } else {
             productSkuViewBean.setBestPriceWithCurrencySign("NA");
         }
-        final ProductSkuStorePrice productSkuSalePrice = productSku.getPublicPrice(marketArea.getId());
+        final ProductSkuPrice productSkuSalePrice = productSku.getPublicPrice(marketArea.getId());
         if(productSkuSalePrice != null
                 && StringUtils.isNotEmpty(productSkuSalePrice.getPriceWithStandardCurrencySign())){
             productSkuViewBean.setSalePriceWithCurrencySign(productSkuSalePrice.getPriceWithStandardCurrencySign());
