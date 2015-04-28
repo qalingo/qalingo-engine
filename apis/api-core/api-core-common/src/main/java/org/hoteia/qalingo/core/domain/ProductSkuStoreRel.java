@@ -22,9 +22,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_STORE_REL")
@@ -61,12 +62,12 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     })
     private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreStock.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreStock.class)
     @JoinColumns({
         @JoinColumn(name = "PRODUCT_SKU_ID"),
         @JoinColumn(name = "STORE_ID") 
     })
-    private ProductSkuStoreStock stock;
+    private Set<ProductSkuStoreStock> stocks = new HashSet<ProductSkuStoreStock>();
     
     public ProductSkuStoreRel() {
         this.pk = new ProductSkuStorePk();
@@ -134,12 +135,19 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         this.prices = prices;
     }
 
-    public ProductSkuStoreStock getStock() {
-        return stock;
+    public Set<ProductSkuStoreStock> getStocks() {
+        return stocks;
     }
     
-    public void setStock(ProductSkuStoreStock stock) {
-        this.stock = stock;
+    public ProductSkuStoreStock getStock() {
+        if(Hibernate.isInitialized(stocks) && stocks != null && !stocks.isEmpty()){
+            return stocks.iterator().next();
+        }
+        return null;
+    }
+    
+    public void setStocks(Set<ProductSkuStoreStock> stocks) {
+        this.stocks = stocks;
     }
     
     // Attributes
