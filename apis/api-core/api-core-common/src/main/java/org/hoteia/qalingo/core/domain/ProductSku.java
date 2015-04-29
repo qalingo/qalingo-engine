@@ -273,7 +273,7 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
                 }
             }
         }
-        return null;
+        return getPublicPrice(marketAreaId);
     }
     
     public ProductSkuPrice getPublicPrice(final Long marketAreaId){
