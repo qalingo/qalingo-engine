@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.web.mvc.controller.common;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,9 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Store;
-import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.Store_;
+import org.hoteia.qalingo.core.domain.bean.GeolocData;
+import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -50,17 +55,27 @@ public class StoreLocationController extends AbstractMCommerceController {
     protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
 
 	public StoreLocationController() {
-	    storeFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
-        storeFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+	    storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
+        storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
     }
 	
 	@RequestMapping(FoUrls.STORE_LOCATION_URL)
 	public ModelAndView storeLocation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_LOCATION.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
+        final MarketArea marketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
+        final GeolocData geolocData = requestData.getGeolocData();
         
-        final List<Store> stores = retailerService.findStores();
+        final List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), "50", 100);
+        List<Store> stores = new ArrayList<Store>();
+        if(geolocatedStores != null){
+            for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
+                GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
+                Store store = retailerService.getStoreById(geolocatedStore.getId(), new FetchPlan(storeFetchPlans));
+                stores.add(store);
+            }
+        }
 		final List<StoreViewBean> storeViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
         modelAndView.addObject("stores", storeViewBeans);
 
