@@ -262,14 +262,14 @@ public class ProductSkuStoreAttribute extends AbstractAttribute<ProductSkuStoreA
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((attributeDefinition == null) ? 0 : attributeDefinition.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object sourceObj) {
-        Object obj = deproxy(sourceObj);
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -277,6 +277,11 @@ public class ProductSkuStoreAttribute extends AbstractAttribute<ProductSkuStoreA
         if (getClass() != obj.getClass())
             return false;
         ProductSkuStoreAttribute other = (ProductSkuStoreAttribute) obj;
+        if (attributeDefinition == null) {
+            if (other.attributeDefinition != null)
+                return false;
+        } else if (!attributeDefinition.equals(other.attributeDefinition))
+            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;

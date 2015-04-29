@@ -566,11 +566,11 @@ public class ProductDao extends AbstractGenericDao {
         return productSkuStoreRels;
     }
 
-    public void saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel) {
+    public void saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
         em.persist(productSkuStoreRel);
     }
     
-    public ProductSkuStoreRel updateProductSku(final ProductSkuStoreRel productSkuStoreRel) {
+    public ProductSkuStoreRel updateProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
         if(em.contains(productSkuStoreRel)){
             em.refresh(productSkuStoreRel);
         }
@@ -579,7 +579,7 @@ public class ProductDao extends AbstractGenericDao {
         return mergedProductSkuStoreRel;
     }
 
-    public void deleteProductSku(final ProductSkuStoreRel productSkuStoreRel) {
+    public void deleteProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
         em.remove(productSkuStoreRel);
     }
     

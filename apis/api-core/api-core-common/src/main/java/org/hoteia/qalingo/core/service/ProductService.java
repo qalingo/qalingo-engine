@@ -304,16 +304,16 @@ public class ProductService {
         return productDao.findProductSkuStoreRelByStoreId(storeId, params);
     }
     
-    public void saveNewProductSkuStore(final ProductSkuStoreRel productSkuStoreRel)  {
-        productDao.saveNewProductSkuStore(productSkuStoreRel);
+    public void saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel)  {
+        productDao.saveNewProductSkuStoreRel(productSkuStoreRel);
     }
     
-    public ProductSkuStoreRel updateProductSku(final ProductSkuStoreRel productSkuStoreRel) {
-        return productDao.updateProductSku(productSkuStoreRel);
+    public ProductSkuStoreRel updateProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
+        return productDao.updateProductSkuStoreRel(productSkuStoreRel);
     }
     
-    public void deleteProductSku(final ProductSkuStoreRel productSkuStoreRel) {
-        productDao.deleteProductSku(productSkuStoreRel);
+    public void deleteProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
+        productDao.deleteProductSkuStoreRel(productSkuStoreRel);
     }
     
     // PRODUCT SKU ASSET
