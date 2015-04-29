@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.core.security.helper;
 
 import java.util.Random;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,7 +33,8 @@ public class SecurityUtil {
 	protected PasswordEncoder encoder;
 	
 	public boolean isAuthenticated(){
-	    if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+	    if(SecurityContextHolder.getContext().getAuthentication() != null
+	            && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
 	            && !StringUtils.equals("anonymousUser", SecurityContextHolder.getContext().getAuthentication().getName())){
 	        return true;
 	    }
