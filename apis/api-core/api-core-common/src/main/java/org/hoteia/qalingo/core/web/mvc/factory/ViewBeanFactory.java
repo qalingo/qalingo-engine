@@ -2123,27 +2123,28 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 productSkuViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
             }
         }
-        
-        // ASSETS
-        if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+            
+         // ASSETS
+        if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null && !productSku.getAssets().isEmpty()) {
             for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                final String path = engineSettingService.getProductSkuImageWebPath(productSku, asset);
                 assetViewBean.setRelativeWebPath(path);
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 productSkuViewBean.getAssets().add(assetViewBean);
             }
+        } else {
+            // FALLBACK ASSET
+            Asset asset = new Asset();
+            asset.setType(Asset.ASSET_TYPE_DEFAULT);
+            asset.setPath("default-product-sku.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getProductSkuImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            productSkuViewBean.getAssets().add(assetViewBean);
         }
-        // FALLBACK ASSET
-        Asset asset = new Asset();
-        asset.setType(Asset.ASSET_TYPE_DEFAULT);
-        asset.setPath("default-product-sku.png");
-        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-        final String path = engineSettingService.getProductSkuImageWebPath(asset);
-        assetViewBean.setRelativeWebPath(path);
-        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-        productSkuViewBean.getAssets().add(assetViewBean);
         
         // TAGS
         List<ProductSkuTag> tags = productSku.getTags();
