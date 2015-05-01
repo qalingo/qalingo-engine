@@ -93,9 +93,9 @@
             <aop:pointcut id="notificationServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.NotificationService.get*(..))" />
             <aop:around method="around" pointcut-ref="notificationServicePointcut" />
         </aop:aspect>
-        <aop:aspect id="triggerCacheOrderCustomerService" ref="cacheManagementAspect">
-            <aop:pointcut id="orderCustomerServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.OrderCustomerService.get*(..))" />
-            <aop:around method="around" pointcut-ref="orderCustomerServicePointcut" />
+        <aop:aspect id="triggerCacheOrderPurchaseService" ref="cacheManagementAspect">
+            <aop:pointcut id="orderPurchaseServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.OrderPurchaseService.get*(..))" />
+            <aop:around method="around" pointcut-ref="orderPurchaseServicePointcut" />
         </aop:aspect>
         <aop:aspect id="triggerCachePaymentGatewayService" ref="cacheManagementAspect">
             <aop:pointcut id="paymentGatewayServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.PaymentGatewayService.get*(..))" />
