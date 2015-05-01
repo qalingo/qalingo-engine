@@ -1,17 +1,17 @@
 package org.hoteia.qalingo.core.pojo.checkout;
 
 import org.hoteia.qalingo.core.pojo.AbstractPojoResponse;
-import org.hoteia.qalingo.core.pojo.OrderCustomerPojo;
+import org.hoteia.qalingo.core.pojo.OrderPurchasePojo;
 
 public class CheckoutProcessPojoResponse extends AbstractPojoResponse {
 
-    private OrderCustomerPojo orderCustomer;
+    private OrderPurchasePojo orderCustomer;
     
-    public OrderCustomerPojo getOrderCustomer() {
+    public OrderPurchasePojo getOrderCustomer() {
         return orderCustomer;
     }
     
-    public void setOrderCustomer(OrderCustomerPojo orderCustomer) {
+    public void setOrderCustomer(OrderPurchasePojo orderCustomer) {
         this.orderCustomer = orderCustomer;
     }
     

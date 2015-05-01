@@ -32,14 +32,14 @@ import org.apache.commons.logging.LogFactory;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderShipment;
 import org.hoteia.qalingo.core.domain.enumtype.OrderDocumentType;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeDocumentMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
-import org.hoteia.qalingo.core.pojo.OrderCustomerPojo;
+import org.hoteia.qalingo.core.pojo.OrderPurchasePojo;
 import org.hoteia.qalingo.core.service.pojo.OrderPojoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,23 +68,23 @@ public class DocumentService {
     
     // ORDER CONFIRMATION CONFIRMATION
     
-    public String getOrderConfirmationFilePath(final OrderCustomer order) {
+    public String getOrderConfirmationFilePath(final OrderPurchase order) {
         final String filePathPrefix = buildFilePathSegment(order);
         final String fullFilePath = filePathPrefix + OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullFilePath;
     }
     
-    public String getOrderConfirmationWebPath(final OrderCustomer order) {
+    public String getOrderConfirmationWebPath(final OrderPurchase order) {
         final String documentWebRootPath = buildWebPathSegment(order);
         final String fullPath = documentWebRootPath + "/" + order.getPrefixHashFolder() + "/" + OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullPath;
     }
     
-    public String buildOrderConfirmationFileName(final OrderCustomer order) {
+    public String buildOrderConfirmationFileName(final OrderPurchase order) {
         return OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
     }
     
-    public void generateOrderConfirmation(final OrderCustomer order) {
+    public void generateOrderConfirmation(final OrderPurchase order) {
         try {
             final MarketArea marketArea = marketService.getMarketAreaById(order.getMarketAreaId());
             final Localization localization = localizationService.getLocalizationById(order.getLocalizationId());
@@ -99,7 +99,7 @@ public class DocumentService {
                 orderItem.getProductSku().setStores(null);
             }
             
-            final OrderCustomerPojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
+            final OrderPurchasePojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
             
             final String jrxml = getOrderConfirmationTemplateByMarketArea(marketArea);
             File fileJrxml = new File (jrxml);
@@ -156,23 +156,23 @@ public class DocumentService {
     
     // ORDER SHIPPING CONFIRMATION
     
-    public String getShippingConfirmationFilePath(final OrderCustomer order) {
+    public String getShippingConfirmationFilePath(final OrderPurchase order) {
         final String filePathPrefix = buildFilePathSegment(order);
         final String fullFilePath = filePathPrefix + OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullFilePath;
     }
     
-    public String getShippingConfirmationWebPath(final OrderCustomer order) {
+    public String getShippingConfirmationWebPath(final OrderPurchase order) {
         final String documentWebRootPath = buildWebPathSegment(order);
         String fullPath = documentWebRootPath + "/" + order.getPrefixHashFolder() + "/" + OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullPath;
     }
 
-    public String buildShippingConfirmationFileName(final OrderCustomer order) {
+    public String buildShippingConfirmationFileName(final OrderPurchase order) {
         return OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
     }
     
-    public void generateShippingConfirmation(final OrderCustomer order) {
+    public void generateShippingConfirmation(final OrderPurchase order) {
         try {
             final MarketArea marketArea = marketService.getMarketAreaById(order.getMarketAreaId());
             final Localization localization = localizationService.getLocalizationById(order.getLocalizationId());
@@ -187,7 +187,7 @@ public class DocumentService {
                 orderItem.getProductSku().setStores(null);
             }
             
-            final OrderCustomerPojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
+            final OrderPurchasePojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
             
             final String jrxml = getShippingConfirmationTemplateByMarketArea(marketArea);
             File fileJrxml = new File (jrxml);
@@ -244,23 +244,23 @@ public class DocumentService {
     
     // INVOICE
     
-    public String getInvoiceFilePath(final OrderCustomer order) {
+    public String getInvoiceFilePath(final OrderPurchase order) {
         final String filePathPrefix = buildFilePathSegment(order);
         final String fullFilePath = filePathPrefix + OrderDocumentType.INVOICE.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullFilePath;
     }
     
-    public String getInvoiceWebPath(final OrderCustomer order) {
+    public String getInvoiceWebPath(final OrderPurchase order) {
         final String documentWebRootPath = buildWebPathSegment(order);
         final String fullPath = documentWebRootPath + "/" + order.getPrefixHashFolder() + "/" + OrderDocumentType.INVOICE.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullPath;
     }
 
-    public String buildInvoiceFileName(final OrderCustomer order) {
+    public String buildInvoiceFileName(final OrderPurchase order) {
         return OrderDocumentType.INVOICE.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
     }
     
-    public void generateInvoice(final OrderCustomer order) {
+    public void generateInvoice(final OrderPurchase order) {
         try {
             final MarketArea marketArea = marketService.getMarketAreaById(order.getMarketAreaId());
             final Localization localization = localizationService.getLocalizationById(order.getLocalizationId());
@@ -275,7 +275,7 @@ public class DocumentService {
                 orderItem.getProductSku().setStores(null);
             }
             
-            final OrderCustomerPojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
+            final OrderPurchasePojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
             
             final String jrxml = getInvoiceTemplateByMarketArea(marketArea);
             File fileJrxml = new File (jrxml);
@@ -330,7 +330,7 @@ public class DocumentService {
         return defaultInvoiceTemplate;
     }
     
-    private String buildFilePathSegment(final OrderCustomer order){
+    private String buildFilePathSegment(final OrderPurchase order){
         final EngineSetting documentFileRootPathEngineSetting = engineSettingService.getSettingDocumentFileRootPath();
         String documentFileRootPath = documentFileRootPathEngineSetting.getDefaultValue();
         String filePathSegment = documentFileRootPath + "/" + order.getPrefixHashFolder() + "/";
@@ -341,7 +341,7 @@ public class DocumentService {
         return filePathSegment;
     }
     
-    private String buildWebPathSegment(final OrderCustomer order){
+    private String buildWebPathSegment(final OrderPurchase order){
         EngineSetting documentWebRootPathEngineSetting = engineSettingService.getSettingDocumentWebRootPath();
         String documentWebRootPath = documentWebRootPathEngineSetting.getDefaultValue();
         if (documentWebRootPath != null && documentWebRootPath.endsWith("/")) {

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -45,7 +45,7 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
         final Locale locale = requestData.getLocale();
 
         // SANITY CHECK
-        final OrderCustomer lastOrder = requestUtil.getLastOrder(requestData);
+        final OrderPurchase lastOrder = requestUtil.getLastOrder(requestData);
         
         if (lastOrder == null) {
             return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request))));

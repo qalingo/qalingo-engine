@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.OrderCustomerService;
+import org.hoteia.qalingo.core.service.OrderPurchaseService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -42,7 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class OrderController extends AbstractBusinessBackofficeController {
 
 	@Autowired
-	private OrderCustomerService orderCustomerService;
+	private OrderPurchaseService orderCustomerService;
 
 	@RequestMapping(value = BoUrls.ORDER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView orderList(final HttpServletRequest request, final Model model) throws Exception {
@@ -62,7 +62,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
         final RequestData requestData = requestUtil.getRequestData(request);
         
 		final String orderNum = request.getParameter(RequestConstants.REQUEST_PARAMETER_ORDER_NUM);
-		final OrderCustomer orderCustomer = orderCustomerService.getOrderByOrderNum(orderNum);
+		final OrderPurchase orderCustomer = orderCustomerService.getOrderByOrderNum(orderNum);
 		
 		if(orderCustomer != null){
 	        modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), orderCustomer));
@@ -115,9 +115,9 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		
 		final List<OrderViewBean> orderViewBeans = new ArrayList<OrderViewBean>();
 
-		final List<OrderCustomer> orderCustomers = orderCustomerService.findOrders();
-		for (Iterator<OrderCustomer> iterator = orderCustomers.iterator(); iterator.hasNext();) {
-			OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
+		final List<OrderPurchase> orderCustomers = orderCustomerService.findOrders();
+		for (Iterator<OrderPurchase> iterator = orderCustomers.iterator(); iterator.hasNext();) {
+			OrderPurchase orderCustomer = (OrderPurchase) iterator.next();
 			orderViewBeans.add(backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), orderCustomer));
 		}
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);

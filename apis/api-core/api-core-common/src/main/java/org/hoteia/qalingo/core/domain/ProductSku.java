@@ -123,9 +123,9 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuCustomerComment> customerComments = new HashSet<ProductSkuCustomerComment>();
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuTag.class)
-    @JoinTable(name = "TECO_PRODUCT_SKU_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_TAG_ID"))
-    private Set<ProductSkuTag> tags = new HashSet<ProductSkuTag>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuTagRel.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuTagRel> tagRels = new HashSet<ProductSkuTagRel>();
     
     @Transient
     private Integer ranking;
@@ -399,12 +399,12 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         this.customerComments = customerComments;
     }
     
-    public Set<ProductSkuTag> getTags() {
-        return tags;
+    public Set<ProductSkuTagRel> getTagRels() {
+        return tagRels;
     }
     
-    public void setTags(Set<ProductSkuTag> tags) {
-        this.tags = tags;
+    public void setTagRels(Set<ProductSkuTagRel> tagRels) {
+        this.tagRels = tagRels;
     }
     
     public Integer getRanking() {

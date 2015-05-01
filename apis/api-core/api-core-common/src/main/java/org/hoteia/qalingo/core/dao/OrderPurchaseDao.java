@@ -19,7 +19,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderNumber;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
@@ -29,51 +29,51 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository("orderCustomerDao")
-public class OrderCustomerDao extends AbstractGenericDao {
+public class OrderPurchaseDao extends AbstractGenericDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public OrderCustomer getOrderById(final Long orderCustomerId, Object... params) {
-        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
+    public OrderPurchase getOrderById(final Long orderCustomerId, Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
         FetchPlan fetchPlan =  handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", orderCustomerId));
-        OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
+        OrderPurchase orderCustomer = (OrderPurchase) criteria.uniqueResult();
         if(orderCustomer != null){
             orderCustomer.setFetchPlan(fetchPlan);
         }
         return orderCustomer;
     }
 
-    public OrderCustomer getOrderByOrderNum(final String orderNum, Object... params) {
-        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
+    public OrderPurchase getOrderByOrderNum(final String orderNum, Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
-        OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
+        OrderPurchase orderCustomer = (OrderPurchase) criteria.uniqueResult();
         if(orderCustomer != null){
             orderCustomer.setFetchPlan(fetchPlan);
         }
         return orderCustomer;
     }
 
-    public List<OrderCustomer> findOrders(Object... params) {
-        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
+    public List<OrderPurchase> findOrders(Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
         handleSpecificFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("dateCreate"));
 
         @SuppressWarnings("unchecked")
-        List<OrderCustomer> orderCustomers = criteria.list();
+        List<OrderPurchase> orderCustomers = criteria.list();
 
         return orderCustomers;
     }
 
-    public List<OrderCustomer> findOrdersByCustomerId(final Long customerId, Object... params) {
-        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
+    public List<OrderPurchase> findOrdersByCustomerId(final Long customerId, Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
         handleSpecificFetchMode(criteria, params);
 
@@ -82,12 +82,12 @@ public class OrderCustomerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
 
         @SuppressWarnings("unchecked")
-        List<OrderCustomer> orderCustomers = criteria.list();
+        List<OrderPurchase> orderCustomers = criteria.list();
 
         return orderCustomers;
     }
 
-    public OrderCustomer createNewOrder(OrderCustomer orderCustomer) {
+    public OrderPurchase createNewOrder(OrderPurchase orderCustomer) {
         if (orderCustomer.getDateCreate() == null) {
             orderCustomer.setDateCreate(new Date());
         }
@@ -98,8 +98,8 @@ public class OrderCustomerDao extends AbstractGenericDao {
         return orderCustomer;
     }
 
-    private OrderCustomer createNewOrderWithRightOrderNumber(final OrderCustomer orderCustomer) {
-        OrderCustomer mergedOrSavedOrderCustomer = null;
+    private OrderPurchase createNewOrderWithRightOrderNumber(final OrderPurchase orderCustomer) {
+        OrderPurchase mergedOrSavedOrderCustomer = null;
         try {
             Session session = (Session) em.getDelegate();
             String hql = "FROM OrderNumber";
@@ -143,7 +143,7 @@ public class OrderCustomerDao extends AbstractGenericDao {
         return mergedOrSavedOrderCustomer;
     }
 
-    public OrderCustomer saveOrUpdateOrder(OrderCustomer orderCustomer) {
+    public OrderPurchase saveOrUpdateOrder(OrderPurchase orderCustomer) {
         if (orderCustomer.getDateCreate() == null) {
             orderCustomer.setDateCreate(new Date());
         }
@@ -163,12 +163,12 @@ public class OrderCustomerDao extends AbstractGenericDao {
         if (em.contains(orderCustomer)) {
             em.refresh(orderCustomer);
         }
-        OrderCustomer mergedOrderCustomer = em.merge(orderCustomer);
+        OrderPurchase mergedOrderCustomer = em.merge(orderCustomer);
         em.flush();
         return mergedOrderCustomer;
     }
 
-    public void deleteOrder(OrderCustomer orderCustomer) {
+    public void deleteOrder(OrderPurchase orderCustomer) {
         em.remove(orderCustomer);
     }
 
@@ -177,7 +177,7 @@ public class OrderCustomerDao extends AbstractGenericDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultOrderCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultOrderPurchaseFetchPlan());
         }
     }
     

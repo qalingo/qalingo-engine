@@ -20,12 +20,12 @@ import javax.jms.TextMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.enumtype.OrderDocumentType;
 import org.hoteia.qalingo.core.jms.document.producer.GenerationDocumentMessageJms;
 import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.hoteia.qalingo.core.service.DocumentService;
-import org.hoteia.qalingo.core.service.OrderCustomerService;
+import org.hoteia.qalingo.core.service.OrderPurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +41,7 @@ public class DocumentQueueListener implements MessageListener, ExceptionListener
     protected DocumentService documentService;
     
     @Autowired
-    protected OrderCustomerService orderCustomerService;
+    protected OrderPurchaseService orderCustomerService;
     
     /**
      * Implementation of <code>MessageListener</code>.
@@ -55,7 +55,7 @@ public class DocumentQueueListener implements MessageListener, ExceptionListener
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
                     final GenerationDocumentMessageJms documentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, GenerationDocumentMessageJms.class);
                     
-                    final OrderCustomer order = orderCustomerService.getOrderById(documentMessageJms.getOrderId());
+                    final OrderPurchase order = orderCustomerService.getOrderById(documentMessageJms.getOrderId());
                     
                     if(documentMessageJms.getDocumentType().equals(OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey())){
                         documentService.generateOrderConfirmation(order);

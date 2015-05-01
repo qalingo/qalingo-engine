@@ -44,7 +44,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
@@ -1107,7 +1107,7 @@ public class RequestUtil {
     /**
      * 
      */
-    public OrderCustomer getLastOrder(final RequestData requestData) throws Exception {
+    public OrderPurchase getLastOrder(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         return engineEcoSession.getLastOrder();
@@ -1116,7 +1116,7 @@ public class RequestUtil {
     /**
      * 
      */
-    public void keepLastOrderInSession(final RequestData requestData, final OrderCustomer order) throws Exception {
+    public void keepLastOrderInSession(final RequestData requestData, final OrderPurchase order) throws Exception {
         if (order != null) {
             final HttpServletRequest request = requestData.getRequest();
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);

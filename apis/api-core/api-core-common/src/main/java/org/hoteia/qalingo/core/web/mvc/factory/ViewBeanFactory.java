@@ -57,7 +57,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderShipment;
 import org.hoteia.qalingo.core.domain.OrderTax;
@@ -2402,10 +2402,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<OrderViewBean> buildListViewBeanOrder(final RequestData requestData, final List<OrderCustomer> orders) throws Exception {
+    public List<OrderViewBean> buildListViewBeanOrder(final RequestData requestData, final List<OrderPurchase> orders) throws Exception {
         final List<OrderViewBean> orderViewBeans = new ArrayList<OrderViewBean>();
-        for (Iterator<OrderCustomer> iterator = orders.iterator(); iterator.hasNext();) {
-            OrderCustomer order = (OrderCustomer) iterator.next();
+        for (Iterator<OrderPurchase> iterator = orders.iterator(); iterator.hasNext();) {
+            OrderPurchase order = (OrderPurchase) iterator.next();
             orderViewBeans.add(buildViewBeanOrder(requestData, order));
         }
         return orderViewBeans;
@@ -2414,7 +2414,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public OrderViewBean buildViewBeanOrder(final RequestData requestData, final OrderCustomer order) throws Exception {
+    public OrderViewBean buildViewBeanOrder(final RequestData requestData, final OrderPurchase order) throws Exception {
         final Locale locale = requestData.getLocale();
         final OrderViewBean orderViewBean = new OrderViewBean();
         orderViewBean.setOrderNum(order.getOrderNum());

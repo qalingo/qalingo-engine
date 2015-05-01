@@ -27,7 +27,7 @@ import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -355,7 +355,7 @@ public class BackofficeFormFactory {
         return customerForm;
     }
     
-    public OrderForm buildOrderForm(final RequestData requestData, final OrderCustomer order) throws Exception {
+    public OrderForm buildOrderForm(final RequestData requestData, final OrderPurchase order) throws Exception {
         final OrderForm orderForm = new OrderForm();
         if(order != null){
             orderForm.setId(order.getId().toString());

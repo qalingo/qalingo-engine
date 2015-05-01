@@ -19,7 +19,7 @@ import org.hoteia.qalingo.core.domain.CartItemTax;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.OrderAddress;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderShipment;
 import org.hoteia.qalingo.core.domain.OrderTax;
@@ -34,10 +34,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class CheckoutService {
 
     @Autowired
-    protected OrderCustomerService orderCustomerService;
+    protected OrderPurchaseService orderCustomerService;
     
-    public OrderCustomer checkout(final Customer customer, final Cart cart) throws Exception {
-        OrderCustomer orderCustomer = new OrderCustomer();
+    public OrderPurchase checkout(final Customer customer, final Cart cart) throws Exception {
+        OrderPurchase orderCustomer = new OrderPurchase();
         // ORDER NUMBER IS CREATE BY DAO
         
         orderCustomer.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());

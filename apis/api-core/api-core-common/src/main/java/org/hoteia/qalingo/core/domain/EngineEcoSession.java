@@ -94,7 +94,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     private User currentUser;
 
     @Transient
-    private Set<OrderCustomer> lastOrders = new HashSet<OrderCustomer>();
+    private Set<OrderPurchase> lastOrders = new HashSet<OrderPurchase>();
 
     @Transient
     private GeolocData geolocData;
@@ -303,15 +303,15 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
         this.currentUser = user;
     }
 
-    public Set<OrderCustomer> getLastOrders() {
+    public Set<OrderPurchase> getLastOrders() {
         return lastOrders;
     }
 
-    public OrderCustomer getLastOrder() {
+    public OrderPurchase getLastOrder() {
         if (lastOrders != null
                 && Hibernate.isInitialized(lastOrders)) {
-            for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
-                OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
+            for (Iterator<OrderPurchase> iterator = lastOrders.iterator(); iterator.hasNext();) {
+                OrderPurchase orderCustomer = (OrderPurchase) iterator.next();
                 if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
                         && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
                         && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
@@ -321,13 +321,13 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
         return null;
     }
 
-    public void setLastOrder(OrderCustomer lastOrder) {
+    public void setLastOrder(OrderPurchase lastOrder) {
         if (lastOrders != null 
                 && Hibernate.isInitialized(lastOrders)
                 && lastOrder != null) {
 //            if (getLastOrder() != null) {
-                for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
-                    OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
+                for (Iterator<OrderPurchase> iterator = lastOrders.iterator(); iterator.hasNext();) {
+                    OrderPurchase orderCustomer = (OrderPurchase) iterator.next();
                     if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
                             && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
                             && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
@@ -338,7 +338,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
         }
     }
 
-    public void setLastOrders(Set<OrderCustomer> lastOrders) {
+    public void setLastOrders(Set<OrderPurchase> lastOrders) {
         this.lastOrders = lastOrders;
     }
     

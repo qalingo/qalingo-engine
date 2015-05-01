@@ -34,7 +34,7 @@ import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -91,7 +91,7 @@ public class WebManagementService {
     protected CartService cartService;
     
     @Autowired
-    protected OrderCustomerService orderCustomerService;
+    protected OrderPurchaseService orderCustomerService;
     
     @Autowired
     protected EngineSettingService engineSettingService;
@@ -773,12 +773,12 @@ public class WebManagementService {
         requestUtil.updateCurrentCustomer(request, customer);
     }
     
-    public OrderCustomer buildAndSaveNewOrder(final RequestData requestData) throws Exception {
+    public OrderPurchase buildAndSaveNewOrder(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Customer customer = requestData.getCustomer();
         final Cart cart = requestData.getCart();
         
-        OrderCustomer orderCustomer = checkoutService.checkout(customer, cart);
+        OrderPurchase orderCustomer = checkoutService.checkout(customer, cart);
         
         requestUtil.deleteCurrentCartAndSaveEngineSession(request);
 
@@ -924,7 +924,7 @@ public class WebManagementService {
     /**
      * 
      */
-    public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final OrderCustomer order) throws Exception {
+    public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final OrderPurchase order) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
         final String velocityPath = requestData.getVelocityEmailPrefix();

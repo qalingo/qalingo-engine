@@ -60,7 +60,7 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
 
-    public static FetchPlan defaultOrderCustomerFetchPlan() {
+    public static FetchPlan defaultOrderPurchaseFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("billingAddress"));
         fetchplans.add(new SpecificFetchMode("shippingAddress"));

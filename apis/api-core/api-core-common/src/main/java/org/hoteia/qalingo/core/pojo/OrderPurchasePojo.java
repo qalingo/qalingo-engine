@@ -18,7 +18,7 @@ import org.hoteia.qalingo.core.domain.OrderAddress;
 import org.hoteia.qalingo.core.domain.OrderPayment;
 import org.hoteia.qalingo.core.domain.OrderShipment;
 
-public class OrderCustomerPojo {
+public class OrderPurchasePojo {
 
     private Long id;
     private int version;

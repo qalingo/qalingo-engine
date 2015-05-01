@@ -34,8 +34,8 @@ import javax.persistence.Version;
 import org.hibernate.Hibernate;
 
 @Entity
-@Table(name="TECO_ORDER_CUSTOMER")
-public class OrderCustomer extends AbstractEntity<OrderCustomer> {
+@Table(name="TECO_ORDER_PURCHASE")
+public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 
 	/**
 	 * Generated UID
@@ -51,6 +51,9 @@ public class OrderCustomer extends AbstractEntity<OrderCustomer> {
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
 	
+    @Column(name = "TYPE")
+    private String type;
+	   
 	@Column(name="STATUS")
 	private String status;
 
@@ -100,7 +103,7 @@ public class OrderCustomer extends AbstractEntity<OrderCustomer> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	public OrderCustomer(){
+	public OrderPurchase(){
 	}
 	
 	public Long getId() {
@@ -119,6 +122,14 @@ public class OrderCustomer extends AbstractEntity<OrderCustomer> {
 		this.version = version;
 	}
 
+	public String getType() {
+        return type;
+    }
+	
+	public void setType(String type) {
+        this.type = type;
+    }
+	
 	public String getStatus() {
 		return status;
 	}
@@ -376,7 +387,7 @@ public class OrderCustomer extends AbstractEntity<OrderCustomer> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        OrderCustomer other = (OrderCustomer) obj;
+        OrderPurchase other = (OrderPurchase) obj;
         if (customerId == null) {
             if (other.customerId != null)
                 return false;

@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.enumtype.OrderDocumentType;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.DocumentService;
-import org.hoteia.qalingo.core.service.OrderCustomerService;
+import org.hoteia.qalingo.core.service.OrderPurchaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class CustomerDocumentController extends AbstractCustomerController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
-    protected OrderCustomerService orderCustomerService;
+    protected OrderPurchaseService orderCustomerService;
 
     @Autowired
     protected DocumentService documentService;
@@ -57,9 +57,9 @@ public class CustomerDocumentController extends AbstractCustomerController {
         final Customer customer = requestData.getCustomer();
 
         if (customer != null) {
-            final List<OrderCustomer> orders = orderCustomerService.findOrdersByCustomerId(customer.getId().toString());
-            for (Iterator<OrderCustomer> iterator = orders.iterator(); iterator.hasNext();) {
-                OrderCustomer order = (OrderCustomer) iterator.next();
+            final List<OrderPurchase> orders = orderCustomerService.findOrdersByCustomerId(customer.getId().toString());
+            for (Iterator<OrderPurchase> iterator = orders.iterator(); iterator.hasNext();) {
+                OrderPurchase order = (OrderPurchase) iterator.next();
                 if(requestURL.contains(order.getPrefixHashFolder())){
                     String filename = null;
                     String filePath = null;

@@ -10,8 +10,8 @@
 package org.hoteia.qalingo.core.service.pojo;
 
 import org.dozer.Mapper;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
-import org.hoteia.qalingo.core.pojo.OrderCustomerPojo;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
+import org.hoteia.qalingo.core.pojo.OrderPurchasePojo;
 import org.hoteia.qalingo.core.service.pojo.OrderPojoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +28,8 @@ public class OrderPojoService {
     @Autowired 
     private Mapper dozerBeanMapper;
     
-    public OrderCustomerPojo handleOrderMapping(final OrderCustomer order) {
-        return order == null ? null : dozerBeanMapper.map(order, OrderCustomerPojo.class);
+    public OrderPurchasePojo handleOrderMapping(final OrderPurchase order) {
+        return order == null ? null : dozerBeanMapper.map(order, OrderPurchasePojo.class);
     }
     
 }

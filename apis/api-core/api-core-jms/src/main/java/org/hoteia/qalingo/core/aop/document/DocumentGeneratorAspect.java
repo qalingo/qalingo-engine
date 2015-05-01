@@ -15,7 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
-import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.enumtype.OrderDocumentType;
 import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
 import org.hoteia.qalingo.core.jms.document.producer.DocumentMessageProducer;
@@ -52,7 +52,7 @@ public class DocumentGeneratorAspect {
             logger.debug("DocumentGeneratorAspect, afterReturning");
         }
         try {
-            final OrderCustomer order = (OrderCustomer) result;
+            final OrderPurchase order = (OrderPurchase) result;
             
             final GenerationDocumentMessageJms generationDocumentMessageJms = new GenerationDocumentMessageJms();
             generationDocumentMessageJms.setEnvironmentName(environmentName);
