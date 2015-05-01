@@ -48,7 +48,6 @@ public class FetchPlanGraphProduct {
         fetchplans.add(new SpecificFetchMode(ProductMarketing_.productAssociationLinks.getName()));
         fetchplans.add(new SpecificFetchMode(ProductMarketing_.customerRates.getName()));
         fetchplans.add(new SpecificFetchMode(ProductMarketing_.customerComments.getName()));
-        fetchplans.add(new SpecificFetchMode(ProductMarketing_.tags.getName()));
         return new FetchPlan(fetchplans);
     }
     
