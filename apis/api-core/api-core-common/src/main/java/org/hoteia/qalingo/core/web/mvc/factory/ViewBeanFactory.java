@@ -2061,8 +2061,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
         
-        final ProductMarketing productMarketing = productSku.getProductMarketing();
-        
         final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
         productSkuViewBean.setCode(productSku.getCode());
@@ -2075,11 +2073,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productSkuViewBean.setDefault(productSku.isDefault());
         productSkuViewBean.setSalable(productSku.isSalable(marketArea.getId()));
 
-        if (productMarketing.getDateCreate() != null) {
-            productSkuViewBean.setDateCreate(buildCommonFormatDate(requestData, productMarketing.getDateCreate()));
+        if (productSku.getDateCreate() != null) {
+            productSkuViewBean.setDateCreate(buildCommonFormatDate(requestData, productSku.getDateCreate()));
         }
-        if (productMarketing.getDateUpdate() != null) {
-            productSkuViewBean.setDateUpdate(buildCommonFormatDate(requestData, productMarketing.getDateUpdate()));
+        if (productSku.getDateUpdate() != null) {
+            productSkuViewBean.setDateUpdate(buildCommonFormatDate(requestData, productSku.getDateUpdate()));
         }
         
         final ProductSkuPrice productSkuBestPrice = productSku.getBestPrice(marketArea.getId());
