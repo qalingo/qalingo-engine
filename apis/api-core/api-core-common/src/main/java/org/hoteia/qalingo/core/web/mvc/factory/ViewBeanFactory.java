@@ -71,7 +71,6 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
-import org.hoteia.qalingo.core.domain.ProductMarketingTag;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
@@ -82,11 +81,9 @@ import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
-import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.StoreCustomerComment;
-import org.hoteia.qalingo.core.domain.StoreTag;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
@@ -822,19 +819,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         }
 
-        // TAGS
-        Set<RetailerTag> tags = retailer.getTags();
-        if (Hibernate.isInitialized(tags) &&
-                tags != null) {
-            for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
-                RetailerTag retailerTag = (RetailerTag) iterator.next();
-                RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
-                retailerTagViewBean.setCode(retailerTag.getCode());
-                retailerTagViewBean.setName(retailerTag.getName());
-                retailerTagViewBean.setDescription(retailerTag.getDescription());
-                retailerViewBean.getTags().add(retailerTagViewBean);
-            }
-        }
+//        // TAGS
+//        Set<RetailerTag> tags = retailer.getTags();
+//        if (Hibernate.isInitialized(tags) &&
+//                tags != null) {
+//            for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
+//                RetailerTag retailerTag = (RetailerTag) iterator.next();
+//                RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
+//                retailerTagViewBean.setCode(retailerTag.getCode());
+//                retailerTagViewBean.setName(retailerTag.getName());
+//                retailerTagViewBean.setDescription(retailerTag.getDescription());
+//                retailerViewBean.getTags().add(retailerTagViewBean);
+//            }
+//        }
 
         // STORES
         Set<Store> stores = retailer.getStores();
@@ -1016,19 +1013,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
         storeViewBean.getAssets().add(assetViewBean);
         
-        // TAGS
-        Set<StoreTag> tags = store.getTags();
-        if (Hibernate.isInitialized(tags) 
-                && tags != null) {
-            for (Iterator<StoreTag> iterator = tags.iterator(); iterator.hasNext();) {
-                StoreTag storeTag = (StoreTag) iterator.next();
-                StoreTagViewBean storeTagViewBean = new StoreTagViewBean();
-                storeTagViewBean.setCode(storeTag.getCode());
-                storeTagViewBean.setName(storeTag.getName());
-                storeTagViewBean.setDescription(storeTag.getDescription());
-                storeViewBean.getTags().add(storeTagViewBean);
-            }
-        }
+//        // TAGS
+//        Set<StoreTag> tags = store.getTags();
+//        if (Hibernate.isInitialized(tags) 
+//                && tags != null) {
+//            for (Iterator<StoreTag> iterator = tags.iterator(); iterator.hasNext();) {
+//                StoreTag storeTag = (StoreTag) iterator.next();
+//                StoreTagViewBean storeTagViewBean = new StoreTagViewBean();
+//                storeTagViewBean.setCode(storeTag.getCode());
+//                storeTagViewBean.setName(storeTag.getName());
+//                storeTagViewBean.setDescription(storeTag.getDescription());
+//                storeViewBean.getTags().add(storeTagViewBean);
+//            }
+//        }
         
         if (store.getDateCreate() != null) {
             storeViewBean.setDateCreate(buildCommonFormatDate(requestData, store.getDateCreate()));
@@ -1840,19 +1837,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
         productMarketingViewBean.getAssets().add(assetViewBean);
 
-        // TAGS
-        Set<ProductMarketingTag> tags = productMarketing.getTags();
-        if (Hibernate.isInitialized(tags) &&
-                tags != null) {
-            for (Iterator<ProductMarketingTag> iterator = tags.iterator(); iterator.hasNext();) {
-                ProductMarketingTag productMarketingTag = (ProductMarketingTag) iterator.next();
-                ProductMarketingTagViewBean productMarketingTagViewBean = new ProductMarketingTagViewBean();
-                productMarketingTagViewBean.setCode(productMarketingTag.getCode());
-                productMarketingTagViewBean.setName(productMarketingTag.getName());
-                productMarketingTagViewBean.setDescription(productMarketingTag.getDescription());
-                productMarketingViewBean.getTags().add(productMarketingTagViewBean);
-            }
-        }
+//        // TAGS
+//        Set<ProductMarketingTag> tags = productMarketing.getTags();
+//        if (Hibernate.isInitialized(tags) &&
+//                tags != null) {
+//            for (Iterator<ProductMarketingTag> iterator = tags.iterator(); iterator.hasNext();) {
+//                ProductMarketingTag productMarketingTag = (ProductMarketingTag) iterator.next();
+//                ProductMarketingTagViewBean productMarketingTagViewBean = new ProductMarketingTagViewBean();
+//                productMarketingTagViewBean.setCode(productMarketingTag.getCode());
+//                productMarketingTagViewBean.setName(productMarketingTag.getName());
+//                productMarketingTagViewBean.setDescription(productMarketingTag.getDescription());
+//                productMarketingViewBean.getTags().add(productMarketingTagViewBean);
+//            }
+//        }
         
         // SKUS
         if (Hibernate.isInitialized(productMarketing.getProductSkus()) && productMarketing.getProductSkus() != null) {

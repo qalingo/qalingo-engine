@@ -33,7 +33,6 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerAttribute;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
-import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.StoreCustomerComment;
 import org.hoteia.qalingo.core.domain.StoreCustomerRate;
@@ -246,13 +245,6 @@ public class RetailerDao extends AbstractGenericDao {
                     RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
                     retailerCustomerComment.setDateCreate(new Date());
                     retailerCustomerComment.setDateUpdate(new Date());
-                }
-            }
-            if (retailer.getTags() != null && retailer.getTags().size() > 0) {
-                for (Iterator<RetailerTag> iterator = retailer.getTags().iterator(); iterator.hasNext();) {
-                    RetailerTag retailerTag = (RetailerTag) iterator.next();
-                    retailerTag.setDateCreate(new Date());
-                    retailerTag.setDateUpdate(new Date());
                 }
             }
 		}

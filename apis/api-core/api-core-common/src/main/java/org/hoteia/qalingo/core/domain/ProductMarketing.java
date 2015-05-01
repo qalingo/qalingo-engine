@@ -305,7 +305,7 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
             for (Iterator<ProductMarketingTagRel> iterator = tagRels.iterator(); iterator.hasNext();) {
                 ProductMarketingTagRel productMarketingTagRel = (ProductMarketingTagRel) iterator.next();
                 if(Hibernate.isInitialized(productMarketingTagRel.getPk().getTag()) && productMarketingTagRel.getPk().getTag() != null){
-                    tags.add(productMarketingTagRel.getProductSkuTag());
+                    tags.add(productMarketingTagRel.getProductMarketingTag());
                 }
             }
         }
