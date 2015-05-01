@@ -75,26 +75,30 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderAddress.class)
     @JoinColumn(name="BILLING_ORDER_ADDRESS_ID")
 	private OrderAddress billingAddress;
 	
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderAddress.class)
     @JoinColumn(name="SHIPPING_ORDER_ADDRESS_ID")
 	private OrderAddress shippingAddress;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
     
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderShipment.class)
     @JoinColumn(name="ORDER_ID")
 	private Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderPayment.class)
     @JoinColumn(name="ORDER_ID")
 	private Set<OrderPayment> orderPayments = new HashSet<OrderPayment>(); 
 	
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderDocument.class)
+    @JoinColumn(name = "ORDER_ID")
+    private Set<OrderDocument> orderDocuments = new HashSet<OrderDocument>();
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -210,6 +214,30 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         this.currency = currency;
     }
     
+    public Set<OrderShipment> getOrderShipments() {
+        return orderShipments;
+    }
+    
+    public void setOrderShipments(Set<OrderShipment> orderShipments) {
+        this.orderShipments = orderShipments;
+    }
+    
+    public Set<OrderPayment> getOrderPayments() {
+        return orderPayments;
+    }
+    
+    public void setOrderPayments(Set<OrderPayment> orderPayments) {
+        this.orderPayments = orderPayments;
+    }
+    
+    public Set<OrderDocument> getOrderDocuments() {
+        return orderDocuments;
+    }
+    
+    public void setOrderDocuments(Set<OrderDocument> orderDocuments) {
+        this.orderDocuments = orderDocuments;
+    }
+    
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -225,14 +253,6 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-	
-	public Set<OrderShipment> getOrderShipments() {
-        return orderShipments;
-    }
-	
-	public void setOrderShipments(Set<OrderShipment> orderShipments) {
-        this.orderShipments = orderShipments;
-    }
 	
     public Date getExpectedDeliveryDate() {
         Date expectedDeliveryDate = null;
@@ -287,14 +307,6 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         return orderItems;
     }
     
-	public Set<OrderPayment> getOrderPayments() {
-		return orderPayments;
-	}
-	
-	public void setOrderPayments(Set<OrderPayment> orderPayments) {
-		this.orderPayments = orderPayments;
-	}
-	
     public BigDecimal getShippingMethodTotal() {
         BigDecimal shippingTotal = new BigDecimal("0");
         if (orderShipments != null
@@ -413,7 +425,7 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 
     @Override
     public String toString() {
-        return "OrderCustomer [id=" + id + ", version=" + version + ", status=" + status + ", orderNum=" + orderNum + ", prefixHashFolder=" + prefixHashFolder + ", marketAreaId=" + marketAreaId
+        return "OrderPurchase [id=" + id + ", version=" + version + ", status=" + status + ", orderNum=" + orderNum + ", prefixHashFolder=" + prefixHashFolder + ", marketAreaId=" + marketAreaId
                 + ", retailerId=" + retailerId + ", customerId=" + customerId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 	
