@@ -208,6 +208,20 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 	public Set<ProductSkuOptionRel> getOptionRels() {
         return optionRels;
     }
+
+    public List<ProductSkuOptionDefinition> getOptions() {
+        List<ProductSkuOptionDefinition> options = null;
+        if (Hibernate.isInitialized(optionRels) && !optionRels.isEmpty()) {
+            options = new ArrayList<ProductSkuOptionDefinition>();
+            for (Iterator<ProductSkuOptionRel> iterator = optionRels.iterator(); iterator.hasNext();) {
+                ProductSkuOptionRel productSkuOptionRel = (ProductSkuOptionRel) iterator.next();
+                if(Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition()) && productSkuOptionRel.getProductSkuOptionDefinition() != null){
+                    options.add(productSkuOptionRel.getProductSkuOptionDefinition());
+                }
+            }
+        }
+        return options;
+    }
 	
 	public void setOptionRels(Set<ProductSkuOptionRel> optionRels) {
         this.optionRels = optionRels;
@@ -340,6 +354,20 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return productSkuStoreRels;
     }
 	
+    public List<Store> getProductSkuStores() {
+        List<Store> stores = null;
+        if (Hibernate.isInitialized(productSkuStoreRels) && !productSkuStoreRels.isEmpty()) {
+            stores = new ArrayList<Store>();
+            for (Iterator<ProductSkuStoreRel> iterator = productSkuStoreRels.iterator(); iterator.hasNext();) {
+                ProductSkuStoreRel productSkuStoreRel = (ProductSkuStoreRel) iterator.next();
+                if(Hibernate.isInitialized(productSkuStoreRel.getPk().getStore()) && productSkuStoreRel.getPk().getStore() != null){
+                    stores.add(productSkuStoreRel.getStore());
+                }
+            }
+        }
+        return stores;
+    }
+    
 	public void setProductSkuStoreRels(Set<ProductSkuStoreRel> productSkuStoreRels) {
         this.productSkuStoreRels = productSkuStoreRels;
     }
@@ -401,6 +429,20 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     
     public Set<ProductSkuTagRel> getTagRels() {
         return tagRels;
+    }
+    
+    public List<ProductSkuTag> getTags() {
+        List<ProductSkuTag> tags = null;
+        if (Hibernate.isInitialized(tagRels) && !tagRels.isEmpty()) {
+            tags = new ArrayList<ProductSkuTag>();
+            for (Iterator<ProductSkuTagRel> iterator = tagRels.iterator(); iterator.hasNext();) {
+                ProductSkuTagRel productSkuTagRel = (ProductSkuTagRel) iterator.next();
+                if(Hibernate.isInitialized(productSkuTagRel.getPk().getProductSkuTag()) && productSkuTagRel.getPk().getProductSkuTag() != null){
+                    tags.add(productSkuTagRel.getProductSkuTag());
+                }
+            }
+        }
+        return tags;
     }
     
     public void setTagRels(Set<ProductSkuTagRel> tagRels) {

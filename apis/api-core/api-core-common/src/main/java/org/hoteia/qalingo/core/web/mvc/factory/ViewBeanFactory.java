@@ -2146,9 +2146,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productSkuViewBean.getAssets().add(assetViewBean);
         
         // TAGS
-        Set<ProductSkuTag> tags = productSku.getTags();
-        if (Hibernate.isInitialized(tags) 
-                && tags != null) {
+        List<ProductSkuTag> tags = productSku.getTags();
+        if (Hibernate.isInitialized(tags)  && tags != null) {
             for (Iterator<ProductSkuTag> iterator = tags.iterator(); iterator.hasNext();) {
                 ProductSkuTag productSkuTag = (ProductSkuTag) iterator.next();
                 ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
@@ -2161,8 +2160,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // SKU OPTIONS
         Set<ProductSkuOptionRel> optionRels = productSku.getOptionRels();
-        if (Hibernate.isInitialized(optionRels) 
-                && optionRels != null) {
+        if (Hibernate.isInitialized(optionRels) && optionRels != null) {
             for (Iterator<ProductSkuOptionRel> iterator = optionRels.iterator(); iterator.hasNext();) {
                 ProductSkuOptionRel productSkuOptionRel = (ProductSkuOptionRel) iterator.next();
                 if (Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition()) 
@@ -2187,8 +2185,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // CATALOG CATEGORIES
         Set<CatalogCategoryVirtualProductSkuRel> catalogCategories = productSku.getCatalogCategoryVirtualProductSkuRels();
-        if (Hibernate.isInitialized(catalogCategories) 
-                && catalogCategories != null) {
+        if (Hibernate.isInitialized(catalogCategories) && catalogCategories != null) {
             for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategories.iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
                 CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategoryVirtualProductSkuRel.getCatalogCategoryVirtual());
