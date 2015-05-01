@@ -19,11 +19,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "TECO_PRODUCT_SKU_TAG_REL")
+@Table(name = "TECO_STORE_TAG_REL")
 @AssociationOverrides({
-    @AssociationOverride(name = "pk.productSku", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID")),
+    @AssociationOverride(name = "pk.store", joinColumns = @JoinColumn(name = "STORE_ID")),
     @AssociationOverride(name = "pk.tag", joinColumns = @JoinColumn(name = "TAG_ID"))})
-public class ProductSkuTagRel extends AbstractEntity<ProductSkuTagRel> {
+public class StoreTagRel extends AbstractEntity<StoreTagRel> {
 
     /**
      * Generated UID
@@ -31,7 +31,7 @@ public class ProductSkuTagRel extends AbstractEntity<ProductSkuTagRel> {
     private static final long serialVersionUID = 2179540918678304872L;
 
     @EmbeddedId
-    private ProductSkuTagPk pk;
+    private StoreTagPk pk;
     
     @Column(name = "RANKING")
     private Integer ranking;
@@ -39,37 +39,37 @@ public class ProductSkuTagRel extends AbstractEntity<ProductSkuTagRel> {
     @Column(name = "IS_DEFAULT_TAG", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefaultTag;
 
-    public ProductSkuTagRel() {
-        this.pk = new ProductSkuTagPk();
+    public StoreTagRel() {
+        this.pk = new StoreTagPk();
     }
     
-    public ProductSkuTagRel(final ProductSku productSku, final Tag tag) {
-        this.pk = new ProductSkuTagPk(productSku, tag);
+    public StoreTagRel(final Store store, final Tag tag) {
+        this.pk = new StoreTagPk(store, tag);
     }
 
-    public ProductSkuTagPk getPk() {
+    public StoreTagPk getPk() {
         return pk;
     }
 
-    public void setPk(ProductSkuTagPk pk) {
+    public void setPk(StoreTagPk pk) {
         this.pk = pk;
     }
 
     @Transient
-    public ProductSku getProductSku() {
-        return getPk().getProductSku();
+    public Store getStore() {
+        return getPk().getStore();
     }
 
-    public void setProductSku(final ProductSku productSku) {
-        pk.setProductSku(productSku);
+    public void setStore(final Store store) {
+        pk.setStore(store);
     }
     
     @Transient
-    public Tag getProductSkuTag() {
+    public Tag getStoreTag() {
         return getPk().getTag();
     }
 
-    public void setProductSkuTagP(final Tag tag) {
+    public void setStoreTag(final Tag tag) {
         pk.setTag(tag);
     }
     
@@ -107,7 +107,7 @@ public class ProductSkuTagRel extends AbstractEntity<ProductSkuTagRel> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductSkuTagRel other = (ProductSkuTagRel) obj;
+        StoreTagRel other = (StoreTagRel) obj;
         if (pk == null) {
             if (other.pk != null)
                 return false;

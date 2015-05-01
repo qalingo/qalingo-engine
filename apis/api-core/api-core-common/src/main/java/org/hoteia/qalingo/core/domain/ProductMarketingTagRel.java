@@ -19,19 +19,19 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "TECO_PRODUCT_SKU_TAG_REL")
+@Table(name = "TECO_PRODUCT_MARKETING_TAG_REL")
 @AssociationOverrides({
-    @AssociationOverride(name = "pk.productSku", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID")),
+    @AssociationOverride(name = "pk.productMarketing", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID")),
     @AssociationOverride(name = "pk.tag", joinColumns = @JoinColumn(name = "TAG_ID"))})
-public class ProductSkuTagRel extends AbstractEntity<ProductSkuTagRel> {
+public class ProductMarketingTagRel extends AbstractEntity<ProductMarketingTagRel> {
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 2179540918678304872L;
+    private static final long serialVersionUID = 9179540918678304872L;
 
     @EmbeddedId
-    private ProductSkuTagPk pk;
+    private ProductMarketingTagPk pk;
     
     @Column(name = "RANKING")
     private Integer ranking;
@@ -39,37 +39,37 @@ public class ProductSkuTagRel extends AbstractEntity<ProductSkuTagRel> {
     @Column(name = "IS_DEFAULT_TAG", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefaultTag;
 
-    public ProductSkuTagRel() {
-        this.pk = new ProductSkuTagPk();
+    public ProductMarketingTagRel() {
+        this.pk = new ProductMarketingTagPk();
     }
     
-    public ProductSkuTagRel(final ProductSku productSku, final Tag tag) {
-        this.pk = new ProductSkuTagPk(productSku, tag);
+    public ProductMarketingTagRel(final ProductMarketing productMarketing, final Tag tag) {
+        this.pk = new ProductMarketingTagPk(productMarketing, tag);
     }
 
-    public ProductSkuTagPk getPk() {
+    public ProductMarketingTagPk getPk() {
         return pk;
     }
 
-    public void setPk(ProductSkuTagPk pk) {
+    public void setPk(ProductMarketingTagPk pk) {
         this.pk = pk;
     }
 
     @Transient
-    public ProductSku getProductSku() {
-        return getPk().getProductSku();
+    public ProductMarketing getProductMarketing() {
+        return getPk().getProductMarketing();
     }
 
-    public void setProductSku(final ProductSku productSku) {
-        pk.setProductSku(productSku);
+    public void setProductMarketing(final ProductMarketing productMarketing) {
+        pk.setProductMarketing(productMarketing);
     }
     
     @Transient
-    public Tag getProductSkuTag() {
+    public Tag getProductMarketingTag() {
         return getPk().getTag();
     }
 
-    public void setProductSkuTagP(final Tag tag) {
+    public void setProductMarketingTagP(final Tag tag) {
         pk.setTag(tag);
     }
     
@@ -107,7 +107,7 @@ public class ProductSkuTagRel extends AbstractEntity<ProductSkuTagRel> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductSkuTagRel other = (ProductSkuTagRel) obj;
+        ProductMarketingTagRel other = (ProductMarketingTagRel) obj;
         if (pk == null) {
             if (other.pk != null)
                 return false;

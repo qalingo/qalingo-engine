@@ -78,7 +78,7 @@ import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
-import org.hoteia.qalingo.core.domain.ProductSkuTag;
+import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
@@ -2145,10 +2145,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         // TAGS
-        List<ProductSkuTag> tags = productSku.getTags();
+        List<Tag> tags = productSku.getTags();
         if (Hibernate.isInitialized(tags)  && tags != null) {
-            for (Iterator<ProductSkuTag> iterator = tags.iterator(); iterator.hasNext();) {
-                ProductSkuTag productSkuTag = (ProductSkuTag) iterator.next();
+            for (Iterator<Tag> iterator = tags.iterator(); iterator.hasNext();) {
+                Tag productSkuTag = (Tag) iterator.next();
                 ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
                 productSkuTagViewBean.setCode(productSkuTag.getCode());
                 productSkuTagViewBean.setName(productSkuTag.getName());

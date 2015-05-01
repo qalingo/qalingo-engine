@@ -24,9 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -148,9 +146,9 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @JoinColumn(name = "STORE_ID")
     private Set<StoreCustomerComment> customerComments = new HashSet<StoreCustomerComment>();
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.StoreTag.class)
-    @JoinTable(name = "TECO_STORE_TAG_REL", joinColumns = @JoinColumn(name = "STORE_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_TAG_ID"))
-    private Set<StoreTag> tags = new HashSet<StoreTag>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreTagRel.class)
+    @JoinColumn(name = "STORE_ID")
+    private Set<StoreTagRel> tagRels = new HashSet<StoreTagRel>();
     
     @Column(name = "LONGITUDE")
     private String longitude;
@@ -434,12 +432,26 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
         this.customerComments = customerComments;
     }
     
-    public Set<StoreTag> getTags() {
+    public Set<StoreTagRel> getTagRels() {
+        return tagRels;
+    }
+    
+    public List<Tag> getTags() {
+        List<Tag> tags = null;
+        if (Hibernate.isInitialized(tagRels) && !tagRels.isEmpty()) {
+            tags = new ArrayList<Tag>();
+            for (Iterator<StoreTagRel> iterator = tagRels.iterator(); iterator.hasNext();) {
+                StoreTagRel storeTagRel = (StoreTagRel) iterator.next();
+                if(Hibernate.isInitialized(storeTagRel.getPk().getTag()) && storeTagRel.getPk().getTag() != null){
+                    tags.add(storeTagRel.getStoreTag());
+                }
+            }
+        }
         return tags;
     }
     
-    public void setTags(Set<StoreTag> tags) {
-        this.tags = tags;
+    public void setTagRels(Set<StoreTagRel> tagRels) {
+        this.tagRels = tagRels;
     }
     
     public String getLongitude() {

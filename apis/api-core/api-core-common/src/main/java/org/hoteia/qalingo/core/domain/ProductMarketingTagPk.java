@@ -6,35 +6,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class ProductSkuTagPk extends AbstractEntity<ProductSkuTagPk> {
+public class ProductMarketingTagPk extends AbstractEntity<ProductMarketingTagPk> {
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 8745892210682286668L;
+    private static final long serialVersionUID = 8745892210682286968L;
 
-    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
+    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    private ProductSku productSku;
+    private ProductMarketing productMarketing;
     
     @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.Tag.class)
     @JoinColumn(name = "TAG_ID")
     private Tag tag;
     
-    public ProductSkuTagPk() {
+    public ProductMarketingTagPk() {
     }
     
-    public ProductSkuTagPk(final ProductSku productSku, final Tag tag) {
-        this.productSku = productSku;
+    public ProductMarketingTagPk(final ProductMarketing productMarketing, final Tag tag) {
+        this.productMarketing = productMarketing;
         this.tag = tag;
     }
     
-    public ProductSku getProductSku() {
-        return productSku;
+    public ProductMarketing getProductMarketing() {
+        return productMarketing;
     }
 
-    public void setProductSku(ProductSku productSku) {
-        this.productSku = productSku;
+    public void setProductMarketing(ProductMarketing productMarketing) {
+        this.productMarketing = productMarketing;
     }
     
     public Tag getTag() {
@@ -49,7 +49,7 @@ public class ProductSkuTagPk extends AbstractEntity<ProductSkuTagPk> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((productSku == null) ? 0 : productSku.hashCode());
+        result = prime * result + ((productMarketing == null) ? 0 : productMarketing.hashCode());
         result = prime * result + ((tag == null) ? 0 : tag.hashCode());
         return result;
     }
@@ -63,16 +63,16 @@ public class ProductSkuTagPk extends AbstractEntity<ProductSkuTagPk> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductSkuTagPk other = (ProductSkuTagPk) obj;
+        ProductMarketingTagPk other = (ProductMarketingTagPk) obj;
         if (tag == null) {
             if (other.tag != null)
                 return false;
         } else if (!tag.equals(other.tag))
             return false;
-        if (productSku == null) {
-            if (other.productSku != null)
+        if (productMarketing == null) {
+            if (other.productMarketing != null)
                 return false;
-        } else if (!productSku.equals(other.productSku))
+        } else if (!productMarketing.equals(other.productMarketing))
             return false;
         return true;
     }

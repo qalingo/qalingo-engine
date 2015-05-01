@@ -431,13 +431,13 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return tagRels;
     }
     
-    public List<ProductSkuTag> getTags() {
-        List<ProductSkuTag> tags = null;
+    public List<Tag> getTags() {
+        List<Tag> tags = null;
         if (Hibernate.isInitialized(tagRels) && !tagRels.isEmpty()) {
-            tags = new ArrayList<ProductSkuTag>();
+            tags = new ArrayList<Tag>();
             for (Iterator<ProductSkuTagRel> iterator = tagRels.iterator(); iterator.hasNext();) {
                 ProductSkuTagRel productSkuTagRel = (ProductSkuTagRel) iterator.next();
-                if(Hibernate.isInitialized(productSkuTagRel.getPk().getProductSkuTag()) && productSkuTagRel.getPk().getProductSkuTag() != null){
+                if(Hibernate.isInitialized(productSkuTagRel.getPk().getTag()) && productSkuTagRel.getPk().getTag() != null){
                     tags.add(productSkuTagRel.getProductSkuTag());
                 }
             }

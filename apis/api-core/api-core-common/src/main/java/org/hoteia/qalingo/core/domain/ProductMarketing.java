@@ -24,9 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -103,9 +101,9 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
     @JoinColumn(name = "PRODUCT_MARKETING_ID")
     private Set<ProductMarketingCustomerComment> customerComments = new HashSet<ProductMarketingCustomerComment>();
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketingTag.class)
-    @JoinTable(name = "TECO_PRODUCT_MARKETING_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TAG_ID"))
-    private Set<ProductMarketingTag> tags = new HashSet<ProductMarketingTag>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketingTagRel.class)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID")
+    private Set<ProductMarketingTagRel> tagRels = new HashSet<ProductMarketingTagRel>();
     
     @Transient
     private int ranking;
@@ -296,12 +294,26 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
         this.customerComments = customerComments;
     }
     
-	public Set<ProductMarketingTag> getTags() {
+    public Set<ProductMarketingTagRel> getTagRels() {
+        return tagRels;
+    }
+    
+    public List<Tag> getTags() {
+        List<Tag> tags = null;
+        if (Hibernate.isInitialized(tagRels) && !tagRels.isEmpty()) {
+            tags = new ArrayList<Tag>();
+            for (Iterator<ProductMarketingTagRel> iterator = tagRels.iterator(); iterator.hasNext();) {
+                ProductMarketingTagRel productMarketingTagRel = (ProductMarketingTagRel) iterator.next();
+                if(Hibernate.isInitialized(productMarketingTagRel.getPk().getTag()) && productMarketingTagRel.getPk().getTag() != null){
+                    tags.add(productMarketingTagRel.getProductSkuTag());
+                }
+            }
+        }
         return tags;
     }
-	
-	public void setTags(Set<ProductMarketingTag> tags) {
-        this.tags = tags;
+    
+    public void setTagRels(Set<ProductMarketingTagRel> tagRels) {
+        this.tagRels = tagRels;
     }
 	
 	public int getRanking() {

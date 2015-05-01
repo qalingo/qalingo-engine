@@ -20,20 +20,25 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_RETAILER_TAG")
-public class RetailerTag extends AbstractEntity<RetailerTag> {
+@Table(name="TECO_TAG")
+public class Tag extends AbstractEntity<Tag> {
 
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = -8109691664198393596L;
+	private static final long serialVersionUID = 52973267776013413L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
+
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
@@ -45,6 +50,18 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
     @Lob
     private String description;
 
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
+
+    @Column(name = "IS_GLOBAL", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isGlobal;
+
+    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
+    private Integer ordering;
+
+    @Column(name = "MARKET_AREA_ID")
+    private Long marketAreaId;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -53,7 +70,7 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-	public RetailerTag(){
+	public Tag(){
 	}
 	
 	public Long getId() {
@@ -64,6 +81,14 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
 		this.id = id;
 	}
 	
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
     public String getCode() {
         return code;
     }
@@ -71,7 +96,7 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
     public void setCode(String code) {
         this.code = code;
     }
-    
+
 	public String getName() {
 		return name;
 	}
@@ -79,7 +104,7 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
@@ -87,7 +112,39 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public boolean isDefault() {
+		return isDefault;
+	}
 
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+	public boolean isGlobal() {
+		return isGlobal;
+	}
+
+	public void setGlobal(boolean isGlobal) {
+		this.isGlobal = isGlobal;
+	}
+	
+	public Integer getOrdering() {
+		return ordering;
+	}
+	
+	public void setOrdering(Integer ordering) {
+		this.ordering = ordering;
+	}
+	
+	public Long getMarketAreaId() {
+		return marketAreaId;
+	}
+
+	public void setMarketAreaId(Long marketAreaId) {
+		this.marketAreaId = marketAreaId;
+	}
+	
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -123,7 +180,7 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RetailerTag other = (RetailerTag) obj;
+        Tag other = (Tag) obj;
         if (code == null) {
             if (other.code != null)
                 return false;
@@ -144,7 +201,8 @@ public class RetailerTag extends AbstractEntity<RetailerTag> {
 
     @Override
     public String toString() {
-        return "RetailerTag [id=" + id + ", name=" + name + ", description=" + description + ", code=" + code + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "Tag [id=" + id + ", version=" + version + ", name=" + name + ", code=" + code + ", description=" + description + ", isDefault=" + isDefault + ", isGlobal=" + isGlobal
+                + ", ordering=" + ordering + ", marketAreaId=" + marketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

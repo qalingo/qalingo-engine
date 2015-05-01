@@ -134,9 +134,9 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class)
-    @JoinTable(name = "TECO_RETAILER_RETAILER_TAG_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_TAG_ID"))
-    private Set<RetailerTag> tags;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerTagRel.class)
+    @JoinColumn(name = "RETAILER_ID")
+    private Set<RetailerTagRel> tagRels = new HashSet<RetailerTagRel>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -432,12 +432,26 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
         this.customerComments = customerComments;
     }
 
-    public Set<RetailerTag> getTags() {
+    public Set<RetailerTagRel> getTagRels() {
+        return tagRels;
+    }
+    
+    public List<Tag> getTags() {
+        List<Tag> tags = null;
+        if (Hibernate.isInitialized(tagRels) && !tagRels.isEmpty()) {
+            tags = new ArrayList<Tag>();
+            for (Iterator<RetailerTagRel> iterator = tagRels.iterator(); iterator.hasNext();) {
+                RetailerTagRel retailerTag = (RetailerTagRel) iterator.next();
+                if(Hibernate.isInitialized(retailerTag.getPk().getTag()) && retailerTag.getPk().getTag() != null){
+                    tags.add(retailerTag.getRetailerTag());
+                }
+            }
+        }
         return tags;
     }
-
-    public void setTags(Set<RetailerTag> tags) {
-        this.tags = tags;
+    
+    public void setTagRels(Set<RetailerTagRel> tagRels) {
+        this.tagRels = tagRels;
     }
 
     public Date getDateCreate() {
