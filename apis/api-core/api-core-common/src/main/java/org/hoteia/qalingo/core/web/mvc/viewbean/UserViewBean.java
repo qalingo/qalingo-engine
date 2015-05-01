@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 public class UserViewBean extends AbstractViewBean {
 
 	/**
@@ -84,6 +86,18 @@ public class UserViewBean extends AbstractViewBean {
 		this.lastname = lastname;
 	}
 
+	public String getFullScreenName(){
+	    StringBuffer fullScreenName = new StringBuffer();
+	    if(StringUtils.isNotEmpty(firstname)){
+	        fullScreenName.append(StringUtils.capitalize(firstname));
+	        fullScreenName.append(" ");
+	    }
+        if(StringUtils.isNotEmpty(lastname)){
+            fullScreenName.append(StringUtils.capitalize(lastname));
+        }
+	    return fullScreenName.toString();
+	}
+	
 	public String getEmail() {
 		return email;
 	}
