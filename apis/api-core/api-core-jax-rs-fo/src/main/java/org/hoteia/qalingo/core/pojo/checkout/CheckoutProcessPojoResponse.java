@@ -5,14 +5,14 @@ import org.hoteia.qalingo.core.pojo.OrderPurchasePojo;
 
 public class CheckoutProcessPojoResponse extends AbstractPojoResponse {
 
-    private OrderPurchasePojo orderCustomer;
+    private OrderPurchasePojo orderPurchase;
     
-    public OrderPurchasePojo getOrderCustomer() {
-        return orderCustomer;
+    public OrderPurchasePojo getOrderPurchase() {
+        return orderPurchase;
     }
     
-    public void setOrderCustomer(OrderPurchasePojo orderCustomer) {
-        this.orderCustomer = orderCustomer;
+    public void setOrderPurchase(OrderPurchasePojo orderPurchase) {
+        this.orderPurchase = orderPurchase;
     }
     
 }

@@ -24,14 +24,14 @@ public class OrderPurchaseService {
     @Autowired
     private OrderPurchaseDao orderDao;
 
-    public OrderPurchase getOrderById(final Long orderCustomerId, Object... params) {
-        return orderDao.getOrderById(orderCustomerId, params);
+    public OrderPurchase getOrderById(final Long orderPurchaseId, Object... params) {
+        return orderDao.getOrderById(orderPurchaseId, params);
     }
     
-    public OrderPurchase getOrderById(final String rawOrderCustomerId, Object... params) {
+    public OrderPurchase getOrderById(final String rawOrderPurchaseId, Object... params) {
         long orderId = -1;
         try {
-            orderId = Long.parseLong(rawOrderCustomerId);
+            orderId = Long.parseLong(rawOrderPurchaseId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
@@ -50,16 +50,16 @@ public class OrderPurchaseService {
         return orderDao.findOrders(params);
     }
 
-    public OrderPurchase createNewOrder(final OrderPurchase orderCustomer) {
-        return orderDao.createNewOrder(orderCustomer);
+    public OrderPurchase createNewOrder(final OrderPurchase orderPurchase) {
+        return orderDao.createNewOrder(orderPurchase);
     }
 
-    public void saveOrUpdateOrder(final OrderPurchase orderCustomer) {
-        orderDao.saveOrUpdateOrder(orderCustomer);
+    public void saveOrUpdateOrder(final OrderPurchase orderPurchase) {
+        orderDao.saveOrUpdateOrder(orderPurchase);
     }
 
-    public void deleteOrder(final OrderPurchase orderCustomer) {
-        orderDao.deleteOrder(orderCustomer);
+    public void deleteOrder(final OrderPurchase orderPurchase) {
+        orderDao.deleteOrder(orderPurchase);
     }
 
 }

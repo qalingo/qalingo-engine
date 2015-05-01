@@ -99,7 +99,7 @@ public class DocumentService {
                 orderItem.getProductSku().setStores(null);
             }
             
-            final OrderPurchasePojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
+            final OrderPurchasePojo orderPurchasePojo = orderPojoService.handleOrderMapping(order);
             
             final String jrxml = getOrderConfirmationTemplateByMarketArea(marketArea);
             File fileJrxml = new File (jrxml);
@@ -109,18 +109,18 @@ public class DocumentService {
             Map <String, Object> parameters = new HashMap<String, Object>();
             parameters.put("RESOURCE_PATH", resourcePath);
             parameters.put("RECORD_DELIMITER", "\r\n");
-            parameters.put("order", orderCustomerPojo);
-            Object[] orderInformationsParams = { orderCustomerPojo.getOrderNum() };
+            parameters.put("order", orderPurchasePojo);
+            Object[] orderInformationsParams = { orderPurchasePojo.getOrderNum() };
             parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.ORDER_CONFIRMATION.getPropertyKey(), "header_order_informations", orderInformationsParams, locale));
-            parameters.put("date", orderCustomerPojo.getDateUpdate().toString());
-            parameters.put("billingAddress", orderCustomerPojo.getBillingAddress());
-            parameters.put("shippingAddress", orderCustomerPojo.getShippingAddress());
+            parameters.put("date", orderPurchasePojo.getDateUpdate().toString());
+            parameters.put("billingAddress", orderPurchasePojo.getBillingAddress());
+            parameters.put("shippingAddress", orderPurchasePojo.getShippingAddress());
             
             Map<String, String> wording = coreMessageSource.loadWording(I18nKeyValueUniverse.DOCUMENT.getPropertyKey(), locale);
             parameters.put("wording", wording);
             
             List<OrderItem> orderItems = new ArrayList<OrderItem>(); 
-            Set<OrderShipment> orderShipments = orderCustomerPojo.getOrderShipments();
+            Set<OrderShipment> orderShipments = orderPurchasePojo.getOrderShipments();
             for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
                 OrderShipment orderShipment = (OrderShipment) iterator.next();
                 orderItems.addAll(orderShipment.getOrderItems());
@@ -187,7 +187,7 @@ public class DocumentService {
                 orderItem.getProductSku().setStores(null);
             }
             
-            final OrderPurchasePojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
+            final OrderPurchasePojo orderPurchasePojo = orderPojoService.handleOrderMapping(order);
             
             final String jrxml = getShippingConfirmationTemplateByMarketArea(marketArea);
             File fileJrxml = new File (jrxml);
@@ -197,18 +197,18 @@ public class DocumentService {
             Map <String, Object> parameters = new HashMap<String, Object>();
             parameters.put("RESOURCE_PATH", resourcePath);
             parameters.put("RECORD_DELIMITER", "\r\n");
-            parameters.put("order", orderCustomerPojo);
-            Object[] orderInformationsParams = { orderCustomerPojo.getOrderNum() };
+            parameters.put("order", orderPurchasePojo);
+            Object[] orderInformationsParams = { orderPurchasePojo.getOrderNum() };
             parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.SHIPPING_CONFIRMATION.getPropertyKey(), "header_order_informations", orderInformationsParams, locale));
-            parameters.put("date", orderCustomerPojo.getDateUpdate().toString());
-            parameters.put("billingAddress", orderCustomerPojo.getBillingAddress());
-            parameters.put("shippingAddress", orderCustomerPojo.getShippingAddress());
+            parameters.put("date", orderPurchasePojo.getDateUpdate().toString());
+            parameters.put("billingAddress", orderPurchasePojo.getBillingAddress());
+            parameters.put("shippingAddress", orderPurchasePojo.getShippingAddress());
             
             Map<String, String> wording = coreMessageSource.loadWording(I18nKeyValueUniverse.DOCUMENT.getPropertyKey(), locale);
             parameters.put("wording", wording);
             
             List<OrderItem> orderItems = new ArrayList<OrderItem>(); 
-            Set<OrderShipment> orderShipments = orderCustomerPojo.getOrderShipments();
+            Set<OrderShipment> orderShipments = orderPurchasePojo.getOrderShipments();
             for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
                 OrderShipment orderShipment = (OrderShipment) iterator.next();
                 orderItems.addAll(orderShipment.getOrderItems());
@@ -275,7 +275,7 @@ public class DocumentService {
                 orderItem.getProductSku().setStores(null);
             }
             
-            final OrderPurchasePojo orderCustomerPojo = orderPojoService.handleOrderMapping(order);
+            final OrderPurchasePojo orderPurchasePojo = orderPojoService.handleOrderMapping(order);
             
             final String jrxml = getInvoiceTemplateByMarketArea(marketArea);
             File fileJrxml = new File (jrxml);
@@ -285,18 +285,18 @@ public class DocumentService {
             Map <String, Object> parameters = new HashMap<String, Object>();
             parameters.put("RESOURCE_PATH", resourcePath);
             parameters.put("RECORD_DELIMITER", "\r\n");
-            parameters.put("order", orderCustomerPojo);
-            Object[] orderInformationsParams = { orderCustomerPojo.getOrderNum() };
+            parameters.put("order", orderPurchasePojo);
+            Object[] orderInformationsParams = { orderPurchasePojo.getOrderNum() };
             parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.INVOICE.getPropertyKey(), "header_order_informations", orderInformationsParams, locale));
-            parameters.put("date", orderCustomerPojo.getDateUpdate().toString());
-            parameters.put("billingAddress", orderCustomerPojo.getBillingAddress());
-            parameters.put("shippingAddress", orderCustomerPojo.getShippingAddress());
+            parameters.put("date", orderPurchasePojo.getDateUpdate().toString());
+            parameters.put("billingAddress", orderPurchasePojo.getBillingAddress());
+            parameters.put("shippingAddress", orderPurchasePojo.getShippingAddress());
             
             Map<String, String> wording = coreMessageSource.loadWording(I18nKeyValueUniverse.DOCUMENT.getPropertyKey(), locale);
             parameters.put("wording", wording);
             
             List<OrderItem> orderItems = new ArrayList<OrderItem>(); 
-            Set<OrderShipment> orderShipments = orderCustomerPojo.getOrderShipments();
+            Set<OrderShipment> orderShipments = orderPurchasePojo.getOrderShipments();
             for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
                 OrderShipment orderShipment = (OrderShipment) iterator.next();
                 orderItems.addAll(orderShipment.getOrderItems());

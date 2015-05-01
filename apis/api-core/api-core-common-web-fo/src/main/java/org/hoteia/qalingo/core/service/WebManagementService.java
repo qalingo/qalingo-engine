@@ -91,7 +91,7 @@ public class WebManagementService {
     protected CartService cartService;
     
     @Autowired
-    protected OrderPurchaseService orderCustomerService;
+    protected OrderPurchaseService orderPurchaseService;
     
     @Autowired
     protected EngineSettingService engineSettingService;
@@ -778,17 +778,17 @@ public class WebManagementService {
         final Customer customer = requestData.getCustomer();
         final Cart cart = requestData.getCart();
         
-        OrderPurchase orderCustomer = checkoutService.checkout(customer, cart);
+        OrderPurchase orderPurchase = checkoutService.checkout(customer, cart);
         
         requestUtil.deleteCurrentCartAndSaveEngineSession(request);
 
         // RELOAD ORDER FOR THE SESSION
-        orderCustomer = orderCustomerService.getOrderByOrderNum(orderCustomer.getOrderNum());
-        requestUtil.keepLastOrderInSession(requestData, orderCustomer);
+        orderPurchase = orderPurchaseService.getOrderByOrderNum(orderPurchase.getOrderNum());
+        requestUtil.keepLastOrderInSession(requestData, orderPurchase);
         
-        buildAndSaveNewOrderConfirmationMail(requestData, customer, orderCustomer);
+        buildAndSaveNewOrderConfirmationMail(requestData, customer, orderPurchase);
         
-        return orderCustomer;
+        return orderPurchase;
     }
     
     public Customer saveNewsletterSubscription(final RequestData requestData, final String email) throws Exception {

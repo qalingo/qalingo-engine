@@ -42,7 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class OrderController extends AbstractBusinessBackofficeController {
 
 	@Autowired
-	private OrderPurchaseService orderCustomerService;
+	private OrderPurchaseService orderPurchaseService;
 
 	@RequestMapping(value = BoUrls.ORDER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView orderList(final HttpServletRequest request, final Model model) throws Exception {
@@ -62,10 +62,10 @@ public class OrderController extends AbstractBusinessBackofficeController {
         final RequestData requestData = requestUtil.getRequestData(request);
         
 		final String orderNum = request.getParameter(RequestConstants.REQUEST_PARAMETER_ORDER_NUM);
-		final OrderPurchase orderCustomer = orderCustomerService.getOrderByOrderNum(orderNum);
+		final OrderPurchase orderPurchase = orderPurchaseService.getOrderByOrderNum(orderNum);
 		
-		if(orderCustomer != null){
-	        modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), orderCustomer));
+		if(orderPurchase != null){
+	        modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), orderPurchase));
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -73,7 +73,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
         
-        Object[] params = {orderCustomer.getOrderNum()};
+        Object[] params = {orderPurchase.getOrderNum()};
         overrideDefaultMainContentTitle(request, modelAndView, BoUrls.ORDER_DETAILS.getKey(), params);
 		
         return modelAndView;
@@ -115,10 +115,10 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		
 		final List<OrderViewBean> orderViewBeans = new ArrayList<OrderViewBean>();
 
-		final List<OrderPurchase> orderCustomers = orderCustomerService.findOrders();
-		for (Iterator<OrderPurchase> iterator = orderCustomers.iterator(); iterator.hasNext();) {
-			OrderPurchase orderCustomer = (OrderPurchase) iterator.next();
-			orderViewBeans.add(backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), orderCustomer));
+		final List<OrderPurchase> orderPurchases = orderPurchaseService.findOrders();
+		for (Iterator<OrderPurchase> iterator = orderPurchases.iterator(); iterator.hasNext();) {
+			OrderPurchase orderPurchase = (OrderPurchase) iterator.next();
+			orderViewBeans.add(backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), orderPurchase));
 		}
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
 		orderViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);

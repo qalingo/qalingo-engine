@@ -34,27 +34,27 @@ import org.springframework.transaction.annotation.Transactional;
 public class CheckoutService {
 
     @Autowired
-    protected OrderPurchaseService orderCustomerService;
+    protected OrderPurchaseService orderPurchaseService;
     
     public OrderPurchase checkout(final Customer customer, final Cart cart) throws Exception {
-        OrderPurchase orderCustomer = new OrderPurchase();
+        OrderPurchase orderPurchase = new OrderPurchase();
         // ORDER NUMBER IS CREATE BY DAO
         
-        orderCustomer.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());
+        orderPurchase.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());
 
-        orderCustomer.setCurrency(cart.getCurrency());
-        orderCustomer.setMarketAreaId(cart.getMarketAreaId());
-        orderCustomer.setRetailerId(cart.getRetailerId());
-        orderCustomer.setLocalizationId(cart.getLocalizationId());
-        orderCustomer.setCustomerId(customer.getId());
+        orderPurchase.setCurrency(cart.getCurrency());
+        orderPurchase.setMarketAreaId(cart.getMarketAreaId());
+        orderPurchase.setRetailerId(cart.getRetailerId());
+        orderPurchase.setLocalizationId(cart.getLocalizationId());
+        orderPurchase.setCustomerId(customer.getId());
         
         OrderAddress billingAddress = new OrderAddress();
         BeanUtils.copyProperties(customer.getAddress(cart.getBillingAddressId()), billingAddress);
-        orderCustomer.setBillingAddress(billingAddress);
+        orderPurchase.setBillingAddress(billingAddress);
 
         OrderAddress shippingAddress = new OrderAddress();
         BeanUtils.copyProperties(customer.getAddress(cart.getShippingAddressId()), shippingAddress);
-        orderCustomer.setShippingAddress(shippingAddress);
+        orderPurchase.setShippingAddress(shippingAddress);
         
         // SHIPMENT
         Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
@@ -98,11 +98,11 @@ public class CheckoutService {
                 orderShipments.add(orderShipment);
             }
         }
-        orderCustomer.setOrderShipments(orderShipments);
+        orderPurchase.setOrderShipments(orderShipments);
         
-        orderCustomer = orderCustomerService.createNewOrder(orderCustomer);
+        orderPurchase = orderPurchaseService.createNewOrder(orderPurchase);
         
-        return orderCustomer;
+        return orderPurchase;
     }
 
 }

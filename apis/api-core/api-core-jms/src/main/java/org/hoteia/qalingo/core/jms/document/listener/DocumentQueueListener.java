@@ -41,7 +41,7 @@ public class DocumentQueueListener implements MessageListener, ExceptionListener
     protected DocumentService documentService;
     
     @Autowired
-    protected OrderPurchaseService orderCustomerService;
+    protected OrderPurchaseService orderPurchaseService;
     
     /**
      * Implementation of <code>MessageListener</code>.
@@ -55,7 +55,7 @@ public class DocumentQueueListener implements MessageListener, ExceptionListener
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
                     final GenerationDocumentMessageJms documentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, GenerationDocumentMessageJms.class);
                     
-                    final OrderPurchase order = orderCustomerService.getOrderById(documentMessageJms.getOrderId());
+                    final OrderPurchase order = orderPurchaseService.getOrderById(documentMessageJms.getOrderId());
                     
                     if(documentMessageJms.getDocumentType().equals(OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey())){
                         documentService.generateOrderConfirmation(order);

@@ -28,22 +28,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-@Repository("orderCustomerDao")
+@Repository("orderPurchaseDao")
 public class OrderPurchaseDao extends AbstractGenericDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public OrderPurchase getOrderById(final Long orderCustomerId, Object... params) {
+    public OrderPurchase getOrderById(final Long orderPurchaseId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
         FetchPlan fetchPlan =  handleSpecificFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("id", orderCustomerId));
-        OrderPurchase orderCustomer = (OrderPurchase) criteria.uniqueResult();
-        if(orderCustomer != null){
-            orderCustomer.setFetchPlan(fetchPlan);
+        criteria.add(Restrictions.eq("id", orderPurchaseId));
+        OrderPurchase orderPurchase = (OrderPurchase) criteria.uniqueResult();
+        if(orderPurchase != null){
+            orderPurchase.setFetchPlan(fetchPlan);
         }
-        return orderCustomer;
+        return orderPurchase;
     }
 
     public OrderPurchase getOrderByOrderNum(final String orderNum, Object... params) {
@@ -52,11 +52,11 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
-        OrderPurchase orderCustomer = (OrderPurchase) criteria.uniqueResult();
-        if(orderCustomer != null){
-            orderCustomer.setFetchPlan(fetchPlan);
+        OrderPurchase orderPurchase = (OrderPurchase) criteria.uniqueResult();
+        if(orderPurchase != null){
+            orderPurchase.setFetchPlan(fetchPlan);
         }
-        return orderCustomer;
+        return orderPurchase;
     }
 
     public List<OrderPurchase> findOrders(Object... params) {
@@ -67,9 +67,9 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
 
         @SuppressWarnings("unchecked")
-        List<OrderPurchase> orderCustomers = criteria.list();
+        List<OrderPurchase> orderPurchases = criteria.list();
 
-        return orderCustomers;
+        return orderPurchases;
     }
 
     public List<OrderPurchase> findOrdersByCustomerId(final Long customerId, Object... params) {
@@ -82,24 +82,24 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
 
         @SuppressWarnings("unchecked")
-        List<OrderPurchase> orderCustomers = criteria.list();
+        List<OrderPurchase> orderPurchases = criteria.list();
 
-        return orderCustomers;
+        return orderPurchases;
     }
 
-    public OrderPurchase createNewOrder(OrderPurchase orderCustomer) {
-        if (orderCustomer.getDateCreate() == null) {
-            orderCustomer.setDateCreate(new Date());
+    public OrderPurchase createNewOrder(OrderPurchase orderPurchase) {
+        if (orderPurchase.getDateCreate() == null) {
+            orderPurchase.setDateCreate(new Date());
         }
-        orderCustomer.setDateUpdate(new Date());
-        if (orderCustomer.getId() == null) {
-            orderCustomer = createNewOrderWithRightOrderNumber(orderCustomer);
+        orderPurchase.setDateUpdate(new Date());
+        if (orderPurchase.getId() == null) {
+            orderPurchase = createNewOrderWithRightOrderNumber(orderPurchase);
         }
-        return orderCustomer;
+        return orderPurchase;
     }
 
-    private OrderPurchase createNewOrderWithRightOrderNumber(final OrderPurchase orderCustomer) {
-        OrderPurchase mergedOrSavedOrderCustomer = null;
+    private OrderPurchase createNewOrderWithRightOrderNumber(final OrderPurchase orderPurchase) {
+        OrderPurchase mergedOrSavedOrderPurchase = null;
         try {
             Session session = (Session) em.getDelegate();
             String hql = "FROM OrderNumber";
@@ -108,21 +108,21 @@ public class OrderPurchaseDao extends AbstractGenericDao {
             Integer previousLastOrderNumber = orderNumber.getLastOrderNumber();
             Integer newLastOrderNumber = new Integer(previousLastOrderNumber.intValue() + 1);
 
-            orderCustomer.setPrefixHashFolder(CoreUtil.generateEntityCode());
-            orderCustomer.setOrderNum("" + newLastOrderNumber);
+            orderPurchase.setPrefixHashFolder(CoreUtil.generateEntityCode());
+            orderPurchase.setOrderNum("" + newLastOrderNumber);
 
-//            if (orderCustomer.getId() != null) {
-//                if (em.contains(orderCustomer)) {
-//                    em.refresh(orderCustomer);
+//            if (orderPurchase.getId() != null) {
+//                if (em.contains(orderPurchase)) {
+//                    em.refresh(orderPurchase);
 //                }
-//                mergedOrSavedOrderCustomer = em.merge(orderCustomer);
+//                mergedOrSavedOrderPurchase = em.merge(orderPurchase);
 //                em.flush();
-//                return orderCustomer;
+//                return orderPurchase;
 //            } else {
-//                em.persist(orderCustomer);
-//                mergedOrSavedOrderCustomer = orderCustomer;
+//                em.persist(orderPurchase);
+//                mergedOrSavedOrderPurchase = orderPurchase;
 //            }
-            mergedOrSavedOrderCustomer = em.merge(orderCustomer);
+            mergedOrSavedOrderPurchase = em.merge(orderPurchase);
 
             hql = "UPDATE OrderNumber SET lastOrderNumber = :newLastOrderNumber WHERE lastOrderNumber = :previousLastOrderNumber";
             query = session.createQuery(hql);
@@ -132,7 +132,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
 
             if (rowCount == 0) {
                 em.getTransaction().rollback();
-                mergedOrSavedOrderCustomer = createNewOrderWithRightOrderNumber(orderCustomer);
+                mergedOrSavedOrderPurchase = createNewOrderWithRightOrderNumber(orderPurchase);
             }
 
         } catch (RollbackException e) {
@@ -140,36 +140,36 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         } catch (Exception e) {
             logger.error("Failed to create a new Order with a specific OrderNumber increment", e);
         }
-        return mergedOrSavedOrderCustomer;
+        return mergedOrSavedOrderPurchase;
     }
 
-    public OrderPurchase saveOrUpdateOrder(OrderPurchase orderCustomer) {
-        if (orderCustomer.getDateCreate() == null) {
-            orderCustomer.setDateCreate(new Date());
+    public OrderPurchase saveOrUpdateOrder(OrderPurchase orderPurchase) {
+        if (orderPurchase.getDateCreate() == null) {
+            orderPurchase.setDateCreate(new Date());
         }
-        orderCustomer.setDateUpdate(new Date());
-//        if (orderCustomer.getId() != null) {
-//            if(em.contains(orderCustomer)){
-//                em.refresh(orderCustomer);
+        orderPurchase.setDateUpdate(new Date());
+//        if (orderPurchase.getId() != null) {
+//            if(em.contains(orderPurchase)){
+//                em.refresh(orderPurchase);
 //            }
-//            OrderCustomer mergedOrderCustomer = em.merge(orderCustomer);
+//            OrderPurchase mergedOrderPurchase = em.merge(orderPurchase);
 //            em.flush();
-//            return mergedOrderCustomer;
+//            return mergedOrderPurchase;
 //        } else {
-//            em.persist(orderCustomer);
-//            return orderCustomer;
+//            em.persist(orderPurchase);
+//            return orderPurchase;
 //        }
         
-        if (em.contains(orderCustomer)) {
-            em.refresh(orderCustomer);
+        if (em.contains(orderPurchase)) {
+            em.refresh(orderPurchase);
         }
-        OrderPurchase mergedOrderCustomer = em.merge(orderCustomer);
+        OrderPurchase mergedOrderPurchase = em.merge(orderPurchase);
         em.flush();
-        return mergedOrderCustomer;
+        return mergedOrderPurchase;
     }
 
-    public void deleteOrder(OrderPurchase orderCustomer) {
-        em.remove(orderCustomer);
+    public void deleteOrder(OrderPurchase orderPurchase) {
+        em.remove(orderPurchase);
     }
 
     @Override

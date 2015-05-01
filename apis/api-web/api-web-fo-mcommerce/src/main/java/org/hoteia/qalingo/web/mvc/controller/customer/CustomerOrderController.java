@@ -43,7 +43,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-    protected OrderPurchaseService orderCustomerService;
+    protected OrderPurchaseService orderPurchaseService;
 	
 	@RequestMapping(FoUrls.PERSONAL_ORDER_LIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
@@ -53,9 +53,9 @@ public class CustomerOrderController extends AbstractCustomerController {
 		
         final Customer reloadedCustomer = customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
 		
-		List<OrderPurchase> orderCustomers = orderCustomerService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
-		if(orderCustomers != null
-				&& orderCustomers.size() > 0){
+		List<OrderPurchase> orderPurchases = orderPurchaseService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
+		if(orderPurchases != null
+				&& orderPurchases.size() > 0){
 			String url = requestUtil.getCurrentRequestUrl(request);
 			
 			String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
@@ -63,11 +63,11 @@ public class CustomerOrderController extends AbstractCustomerController {
 			PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder;
 
 	        if(StringUtils.isEmpty(page)){
-	        	orderViewBeanPagedListHolder = initList(request, sessionKey, orderCustomers, new PagedListHolder<OrderViewBean>());
+	        	orderViewBeanPagedListHolder = initList(request, sessionKey, orderPurchases, new PagedListHolder<OrderViewBean>());
 	        } else {
 		        orderViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
 		        if (orderViewBeanPagedListHolder == null) { 
-		        	orderViewBeanPagedListHolder = initList(request, sessionKey, orderCustomers, orderViewBeanPagedListHolder);
+		        	orderViewBeanPagedListHolder = initList(request, sessionKey, orderPurchases, orderViewBeanPagedListHolder);
 		        }
 		        int pageTarget = new Integer(page).intValue() - 1;
 		        int pageCurrent = orderViewBeanPagedListHolder.getPage();
@@ -95,10 +95,10 @@ public class CustomerOrderController extends AbstractCustomerController {
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_DETAILS.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-		final String orderCustomerId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID);
-		if(StringUtils.isNotEmpty(orderCustomerId)){
-			final OrderPurchase orderCustomer = orderCustomerService.getOrderById(orderCustomerId);
-			if(orderCustomer != null){
+		final String orderPurchaseId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID);
+		if(StringUtils.isNotEmpty(orderPurchaseId)){
+			final OrderPurchase orderPurchase = orderPurchaseService.getOrderById(orderPurchaseId);
+			if(orderPurchase != null){
 				// SANITY CHECK
 
 		        final Customer currentCustomer = requestData.getCustomer();
@@ -107,11 +107,11 @@ public class CustomerOrderController extends AbstractCustomerController {
 				// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 				final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 				
-				List<OrderPurchase> orderCustomers = orderCustomerService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
-				if(orderCustomers.contains(orderCustomer)){
+				List<OrderPurchase> orderPurchases = orderPurchaseService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
+				if(orderPurchases.contains(orderPurchase)){
 			        return modelAndView;
 				} else {
-					logger.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderCustomerId + ", which does not belong");
+					logger.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderPurchaseId + ", which does not belong");
 				}
 			}
 		}

@@ -45,7 +45,7 @@ public class CustomerDocumentController extends AbstractCustomerController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
-    protected OrderPurchaseService orderCustomerService;
+    protected OrderPurchaseService orderPurchaseService;
 
     @Autowired
     protected DocumentService documentService;
@@ -57,7 +57,7 @@ public class CustomerDocumentController extends AbstractCustomerController {
         final Customer customer = requestData.getCustomer();
 
         if (customer != null) {
-            final List<OrderPurchase> orders = orderCustomerService.findOrdersByCustomerId(customer.getId().toString());
+            final List<OrderPurchase> orders = orderPurchaseService.findOrdersByCustomerId(customer.getId().toString());
             for (Iterator<OrderPurchase> iterator = orders.iterator(); iterator.hasNext();) {
                 OrderPurchase order = (OrderPurchase) iterator.next();
                 if(requestURL.contains(order.getPrefixHashFolder())){

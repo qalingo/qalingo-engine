@@ -311,11 +311,11 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
         if (lastOrders != null
                 && Hibernate.isInitialized(lastOrders)) {
             for (Iterator<OrderPurchase> iterator = lastOrders.iterator(); iterator.hasNext();) {
-                OrderPurchase orderCustomer = (OrderPurchase) iterator.next();
-                if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
-                        && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
-                        && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
-                    return orderCustomer;
+                OrderPurchase orderPurchase = (OrderPurchase) iterator.next();
+                if (orderPurchase != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
+                        && orderPurchase.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                        && orderPurchase.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
+                    return orderPurchase;
             }
         }
         return null;
@@ -327,11 +327,11 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
                 && lastOrder != null) {
 //            if (getLastOrder() != null) {
                 for (Iterator<OrderPurchase> iterator = lastOrders.iterator(); iterator.hasNext();) {
-                    OrderPurchase orderCustomer = (OrderPurchase) iterator.next();
-                    if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
-                            && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
-                            && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
-                        lastOrders.remove(orderCustomer);
+                    OrderPurchase orderPurchase = (OrderPurchase) iterator.next();
+                    if (orderPurchase != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
+                            && orderPurchase.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                            && orderPurchase.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
+                        lastOrders.remove(orderPurchase);
                 }
 //            }
             lastOrders.add(lastOrder);
