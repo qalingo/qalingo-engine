@@ -543,6 +543,14 @@ public class EngineSettingService {
     /**
      * 
      */
+    public String getProductMarketingImageFilePath(final ProductMarketing productMarketing, final String assetType, final String filePath) throws Exception {
+        String productMarketingImageFilePath = getProductMarketingImageFilePath(productMarketing, assetType) + filePath;
+        return handlePath(productMarketingImageFilePath);
+    }
+    
+    /**
+     * 
+     */
     public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
         String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + asset.getPath();
         return handlePath(productMarketingImageWebPath);
@@ -580,9 +588,6 @@ public class EngineSettingService {
             rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
         }
         String productSkuImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
-//        if (productSkuImageFilePath.endsWith(File.separator)) {
-//            productSkuImageFilePath = productSkuImageFilePath.substring(0, productSkuImageFilePath.length() - 1);
-//        }
         return handlePath(productSkuImageFilePath);
     }
     
@@ -591,6 +596,14 @@ public class EngineSettingService {
      */
     public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
         String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + productSku.getCode() + File.separator;
+        return handlePath(productMarketingImageFilePath);
+    }
+    
+    /**
+     * 
+     */
+    public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType, final String filePath) throws Exception {
+        String productMarketingImageFilePath = getProductSkuImageFilePath(productSku, assetType) + filePath;
         return handlePath(productMarketingImageFilePath);
     }
     
