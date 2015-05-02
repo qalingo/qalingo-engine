@@ -126,7 +126,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;

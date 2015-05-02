@@ -66,7 +66,7 @@ public class CartAjaxController extends AbstractMCommerceController {
     protected ProductService productService;
     
     @Autowired
-    private DeliveryMethodService deliveryMethodService;
+    protected DeliveryMethodService deliveryMethodService;
     
     @Autowired
     protected CheckoutPojoService checkoutPojoService;
@@ -168,7 +168,7 @@ public class CartAjaxController extends AbstractMCommerceController {
     }
     
     protected String buildAssetPath(final ProductSku productSku, final Asset defaultAsset) throws Exception{
-        return engineSettingService.getProductMarketingImageWebPath(defaultAsset);
+        return engineSettingService.getProductSkuImageWebPath(defaultAsset);
     }
     
     @RequestMapping(value = FoUrls.GET_CART_AJAX_URL, method = RequestMethod.GET)
