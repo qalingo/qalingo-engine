@@ -499,7 +499,7 @@ public class EngineSettingService {
         if (catalogImageFilePath.endsWith(File.separator)) {
             catalogImageFilePath = catalogImageFilePath.substring(0, catalogImageFilePath.length() - 1);
         }
-        return catalogImageFilePath;
+        return handlePath(catalogImageFilePath);
     }
     
     /**
@@ -511,8 +511,8 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        return catalogImageWebPath;
+        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType() + "/" + asset.getPath();
+        return handlePath(catalogImageWebPath);
     }
     
     /**
@@ -529,18 +529,15 @@ public class EngineSettingService {
             rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
         }
         String productMarketingImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
-//        if (productMarketingImageFilePath.endsWith(File.separator)) {
-//            productMarketingImageFilePath = productMarketingImageFilePath.substring(0, productMarketingImageFilePath.length() - 1);
-//        }
-        return productMarketingImageFilePath;
+        return handlePath(productMarketingImageFilePath);
     }
     
     /**
      * 
      */
     public String getProductMarketingImageFilePath(final ProductMarketing productMarketing, final String assetType) throws Exception {
-        String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType) + productMarketing.getCode().toLowerCase() + File.separator;
-        return productMarketingImageFilePath;
+        String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType) + productMarketing.getCode() + File.separator;
+        return handlePath(productMarketingImageFilePath);
     }
     
     /**
@@ -548,15 +545,15 @@ public class EngineSettingService {
      */
     public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
         String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + asset.getPath();
-        return productMarketingImageWebPath;
+        return handlePath(productMarketingImageWebPath);
     }
     
     /**
      * 
      */
     public String getProductMarketingImageWebPath(final ProductMarketing productMarketing, final Asset asset) throws Exception {
-        String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + productMarketing.getCode().toLowerCase() + "/" + asset.getPath();
-        return productMarketingImageWebPath;
+        String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + productMarketing.getCode() + "/" + asset.getPath();
+        return handlePath(productMarketingImageWebPath);
     }
     
     
@@ -566,7 +563,7 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        return getRootAssetWebPath() + prefixPath + "/"+ asset.getType().toLowerCase() + "/";
+        return getRootAssetWebPath() + prefixPath + "/"+ asset.getType() + "/";
     }
 
     /**
@@ -586,15 +583,15 @@ public class EngineSettingService {
 //        if (productSkuImageFilePath.endsWith(File.separator)) {
 //            productSkuImageFilePath = productSkuImageFilePath.substring(0, productSkuImageFilePath.length() - 1);
 //        }
-        return productSkuImageFilePath;
+        return handlePath(productSkuImageFilePath);
     }
     
     /**
      * 
      */
     public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
-        String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + productSku.getCode().toLowerCase() + File.separator;
-        return productMarketingImageFilePath;
+        String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + productSku.getCode() + File.separator;
+        return handlePath(productMarketingImageFilePath);
     }
     
     /**
@@ -602,15 +599,15 @@ public class EngineSettingService {
      */
     public String getProductSkuImageWebPath(final Asset asset) throws Exception {
         String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + asset.getPath();
-        return productSkuImageWebPath;
+        return handlePath(productSkuImageWebPath);
     }
 
     /**
      * 
      */
     public String getProductSkuImageWebPath(final ProductSku productSku, final Asset asset) throws Exception {
-        String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + productSku.getCode().toLowerCase() + "/" + asset.getPath();
-        return productSkuImageWebPath;
+        String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + productSku.getCode() + "/" + asset.getPath();
+        return handlePath(productSkuImageWebPath);
     }
     
     protected String getProductSkuPrefixImageWebPath(final Asset asset) throws Exception{
@@ -619,7 +616,7 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        return getRootAssetWebPath() + prefixPath + "/"+ asset.getType().toLowerCase() + "/";
+        return getRootAssetWebPath() + prefixPath + "/"+ asset.getType() + "/";
     }
     
     /**
@@ -639,7 +636,7 @@ public class EngineSettingService {
         if (productBrandImageFilePath.endsWith(File.separator)) {
             productBrandImageFilePath = productBrandImageFilePath.substring(0, productBrandImageFilePath.length() - 1);
         }
-        return productBrandImageFilePath;
+        return handlePath(productBrandImageFilePath);
     }
     
     /**
@@ -651,8 +648,8 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productBrandImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        return productBrandImageWebPath;
+        String productBrandImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType() + "/" + asset.getPath();
+        return handlePath(productBrandImageWebPath);
     }
     
     /**
@@ -672,7 +669,7 @@ public class EngineSettingService {
         if (retailerImageFilePath.endsWith(File.separator)) {
             retailerImageFilePath = retailerImageFilePath.substring(0, retailerImageFilePath.length() - 1);
         }
-        return retailerImageFilePath;
+        return handlePath(retailerImageFilePath);
     }
     
     /**
@@ -684,8 +681,12 @@ public class EngineSettingService {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String retailerImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScopePathValue() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
-        return retailerImageWebPath;
+        String retailerImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScopePathValue() + "/" + asset.getType() + "/" + asset.getPath();
+        return handlePath(retailerImageWebPath);
+    }
+    
+    protected String handlePath(String path){
+        return path.replace("_", "-").toLowerCase();
     }
     
 }
