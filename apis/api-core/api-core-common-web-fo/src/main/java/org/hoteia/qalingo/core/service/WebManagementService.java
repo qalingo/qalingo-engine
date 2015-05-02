@@ -312,6 +312,24 @@ public class WebManagementService {
         
         customer.setEmail(createAccountForm.getEmail());
 
+        customer = checkCustomerMarketArea(requestData, customer);
+        CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+        if(customerMarketArea != null){
+            customerMarketArea.setMobile(createAccountForm.getMobile());
+            customerMarketArea.setPhone(createAccountForm.getPhone());
+            customerMarketArea.setFax(createAccountForm.getFax());
+            
+            if(createAccountForm.isOptin()){
+                CustomerOptin customerOptin = new CustomerOptin();
+                customerOptin.setType("NEWSLETTER");
+                customerOptin.setOrigin("STANDARD");
+                customerOptin.setDateCreate(new Date());
+                customerOptin.setDateUpdate(new Date());
+                customerOptin.setCustomerMarketAreaId(customerMarketArea.getId());
+                customerMarketArea.getOptins().add(customerOptin);
+            }
+        }
+
         CustomerAddress defaultAddress = new CustomerAddress();
         if(StringUtils.isNotEmpty(createAccountForm.getAddressName())){
             defaultAddress.setAddressName(createAccountForm.getAddressName());
@@ -353,6 +371,16 @@ public class WebManagementService {
             customerMarketArea.setMobile(customerEditForm.getMobile());
             customerMarketArea.setPhone(customerEditForm.getPhone());
             customerMarketArea.setFax(customerEditForm.getFax());
+            
+            if(customerEditForm.isOptin()){
+                CustomerOptin customerOptin = new CustomerOptin();
+                customerOptin.setType("NEWSLETTER");
+                customerOptin.setOrigin("STANDARD");
+                customerOptin.setDateCreate(new Date());
+                customerOptin.setDateUpdate(new Date());
+                customerOptin.setCustomerMarketAreaId(customerMarketArea.getId());
+                customerMarketArea.getOptins().add(customerOptin);
+            }
         }
 
         return updateCurrentCustomer(requestData, customer);
