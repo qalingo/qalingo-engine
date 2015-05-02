@@ -84,7 +84,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 	}
 	
 	@RequestMapping(value = FoUrls.PERSONAL_ADD_ADDRESS_URL, method = RequestMethod.GET)
-	public ModelAndView displayCustomerAddAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
+	public ModelAndView displayCustomerAddAddress(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CUSTOMER_ADDRESS_FORM) CustomerAddressForm customerAddressForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADD_ADDRESS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Customer currentCustomer = requestData.getCustomer();
@@ -102,14 +102,14 @@ public class CustomerAddressController extends AbstractCustomerController {
         if(customerAddressForm == null 
                 || customerAddressForm.equals(new CustomerAddressForm())){
             customerAddressForm = formFactory.buildCustomerAddressForm(requestData, null);
-            model.addAttribute("customerAddressForm", customerAddressForm);
+            model.addAttribute(ModelConstants.CUSTOMER_ADDRESS_FORM, customerAddressForm);
         }
         
         return modelAndView;
 	}
 
 	@RequestMapping(value = FoUrls.PERSONAL_ADD_ADDRESS_URL, method = RequestMethod.POST)
-	public ModelAndView submitCustomerAddAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
+	public ModelAndView submitCustomerAddAddress(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.CUSTOMER_ADDRESS_FORM) CustomerAddressForm customerAddressForm,
 								BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Market currentMarket = requestData.getMarket();
@@ -127,7 +127,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 	}
 	
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_ADDRESS_URL, method = RequestMethod.GET)
-	public ModelAndView displayCustomerEditAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
+	public ModelAndView displayCustomerEditAddress(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CUSTOMER_ADDRESS_FORM) CustomerAddressForm customerAddressForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_EDIT_ADDRESS.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
         final Customer currentCustomer = requestData.getCustomer();
@@ -141,9 +141,10 @@ public class CustomerAddressController extends AbstractCustomerController {
 		
 		String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID);
 		if(StringUtils.isEmpty(customerAddressId)){
-			customerAddressId = customerAddressForm.getIdOrGuid();
+			customerAddressId = customerAddressForm.getId();
 		}
 		
+		// SANITY CHECK
 		CustomerAddress customerAddress = null;
 		try {
 			customerAddress = reloadedCustomer.getAddress(new Long(customerAddressId));
@@ -163,23 +164,43 @@ public class CustomerAddressController extends AbstractCustomerController {
 		if(customerAddressForm == null 
         		|| customerAddressForm.equals(new CustomerAddressForm())){
 			customerAddressForm = formFactory.buildCustomerAddressForm(requestData, customerAddress);
-			model.addAttribute("customerAddressForm", customerAddressForm);
+			model.addAttribute(ModelConstants.CUSTOMER_ADDRESS_FORM, customerAddressForm);
 		}
 
         return modelAndView;
 	}
 
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_ADDRESS_URL, method = RequestMethod.POST)
-	public ModelAndView submitCustomerEditAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
+	public ModelAndView submitCustomerEditAddress(final HttpServletRequest request, @Valid @ModelAttribute(ModelConstants.CUSTOMER_ADDRESS_FORM) CustomerAddressForm customerAddressForm,
 												  BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Market currentMarket = requestData.getMarket();
         final MarketArea currentMarketArea = requestData.getMarketArea();
-
+        final Customer currentCustomer = requestData.getCustomer();
+        
 		if (result.hasErrors()) {
 			return displayCustomerEditAddress(request, model, customerAddressForm);
 		}
 		
+		// SANITY CHECK
+        // WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+        // IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+        final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+        CustomerAddress customerAddress;
+        try {
+            customerAddress = reloadedCustomer.getAddress(new Long(customerAddressForm.getId()));
+        } catch (Exception e) {
+            logger.error("Error with the address to edit, customerAddressId:" + customerAddressForm.getId(), e);
+            final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+		
+        // SANITY CHECK : wrong address id for this customer
+        if(customerAddress == null){
+            final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+        
 		// Save the new address customer
 		webManagementService.updateOrSaveAddressCustomer(requestData, currentMarket, currentMarketArea, customerAddressForm);
 		

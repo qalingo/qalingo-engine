@@ -24,7 +24,8 @@ public class CustomerAddressForm implements Serializable {
      */
     private static final long serialVersionUID = 8718140220836343060L;
     
-	private String idOrGuid;
+	private String id;
+    private String guid;
     private String addressName;
     private String title;
     private String lastname;
@@ -39,14 +40,22 @@ public class CustomerAddressForm implements Serializable {
     private String areaCode;
     private String countryCode;
     
-    public String getIdOrGuid() {
-	    return idOrGuid;
+    public String getId() {
+        return id;
     }
-    
-    public void setIdOrGuid(String idOrGuid) {
-	    this.idOrGuid = idOrGuid;
+
+    public void setId(String id) {
+        this.id = id;
     }
-    
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
     public String getAddressName() {
 		return addressName;
 	}
@@ -152,96 +161,48 @@ public class CustomerAddressForm implements Serializable {
 
 	@Override
     public int hashCode() {
-	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + ((address1 == null) ? 0 : address1.hashCode());
-	    result = prime * result + ((address2 == null) ? 0 : address2.hashCode());
-	    result = prime * result + ((addressAdditionalInformation == null) ? 0 : addressAdditionalInformation.hashCode());
-	    result = prime * result + ((addressName == null) ? 0 : addressName.hashCode());
-	    result = prime * result + ((areaCode == null) ? 0 : areaCode.hashCode());
-	    result = prime * result + ((city == null) ? 0 : city.hashCode());
-	    result = prime * result + ((countryCode == null) ? 0 : countryCode.hashCode());
-	    result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-	    result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
-	    result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
-	    result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
-	    result = prime * result + ((title == null) ? 0 : title.hashCode());
-	    return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((addressName == null) ? 0 : addressName.hashCode());
+        result = prime * result + ((countryCode == null) ? 0 : countryCode.hashCode());
+        result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
-	@Override
+    @Override
     public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null)
-		    return false;
-	    if (getClass() != obj.getClass())
-		    return false;
-	    CustomerAddressForm other = (CustomerAddressForm) obj;
-	    if (address1 == null) {
-		    if (other.address1 != null)
-			    return false;
-	    } else if (!address1.equals(other.address1))
-		    return false;
-	    if (address2 == null) {
-		    if (other.address2 != null)
-			    return false;
-	    } else if (!address2.equals(other.address2))
-		    return false;
-	    if (addressAdditionalInformation == null) {
-		    if (other.addressAdditionalInformation != null)
-			    return false;
-	    } else if (!addressAdditionalInformation.equals(other.addressAdditionalInformation))
-		    return false;
-	    if (addressName == null) {
-		    if (other.addressName != null)
-			    return false;
-	    } else if (!addressName.equals(other.addressName))
-		    return false;
-	    if (areaCode == null) {
-		    if (other.areaCode != null)
-			    return false;
-	    } else if (!areaCode.equals(other.areaCode))
-		    return false;
-	    if (city == null) {
-		    if (other.city != null)
-			    return false;
-	    } else if (!city.equals(other.city))
-		    return false;
-	    if (countryCode == null) {
-		    if (other.countryCode != null)
-			    return false;
-	    } else if (!countryCode.equals(other.countryCode))
-		    return false;
-	    if (firstname == null) {
-		    if (other.firstname != null)
-			    return false;
-	    } else if (!firstname.equals(other.firstname))
-		    return false;
-	    if (lastname == null) {
-		    if (other.lastname != null)
-			    return false;
-	    } else if (!lastname.equals(other.lastname))
-		    return false;
-	    if (postalCode == null) {
-		    if (other.postalCode != null)
-			    return false;
-	    } else if (!postalCode.equals(other.postalCode))
-		    return false;
-	    if (stateCode == null) {
-		    if (other.stateCode != null)
-			    return false;
-	    } else if (!stateCode.equals(other.stateCode))
-		    return false;
-	    if (title == null) {
-		    if (other.title != null)
-			    return false;
-	    } else if (!title.equals(other.title))
-		    return false;
-	    return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerAddressForm other = (CustomerAddressForm) obj;
+        if (addressName == null) {
+            if (other.addressName != null)
+                return false;
+        } else if (!addressName.equals(other.addressName))
+            return false;
+        if (countryCode == null) {
+            if (other.countryCode != null)
+                return false;
+        } else if (!countryCode.equals(other.countryCode))
+            return false;
+        if (guid == null) {
+            if (other.guid != null)
+                return false;
+        } else if (!guid.equals(other.guid))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
     }
 
-	@Override
+    @Override
     public String toString() {
 	    return "CustomerAddressForm [addressName=" + addressName + ", title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", address1=" + address1 + ", address2=" + address2
 	            + ", addressAdditionalInformation=" + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode

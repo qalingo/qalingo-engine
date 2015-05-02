@@ -17,8 +17,6 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
@@ -27,12 +25,12 @@ import org.hoteia.qalingo.web.mvc.form.CartForm;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
+import org.hoteia.qalingo.web.mvc.form.CustomerCommentForm;
+import org.hoteia.qalingo.web.mvc.form.CustomerContactForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
-import org.hoteia.qalingo.web.mvc.form.CustomerCommentForm;
 import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
-import org.hoteia.qalingo.web.mvc.form.CustomerContactForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -153,6 +151,7 @@ public class FormFactory {
         } 
 		
 		if(customerAddress != null){
+            customerAddressForm.setId(customerAddress.getId().toString());
 			customerAddressForm.setAddressName(customerAddress.getAddressName());
 			customerAddressForm.setTitle(customerAddress.getTitle());
 			customerAddressForm.setLastname(customerAddress.getLastname());

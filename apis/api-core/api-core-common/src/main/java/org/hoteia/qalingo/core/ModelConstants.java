@@ -162,6 +162,7 @@ public class ModelConstants {
     public static final String ENGINE_SETTING_FORM                = "engineSettingForm";
     public static final String ENGINE_SETTING_VALUE_FORM          = "engineSettingValueForm";
     public static final String CUSTOMER_FORM                      = "customerForm";
+    public static final String CUSTOMER_ADDRESS_FORM              = "customerAddressForm";
     public static final String USER_FORM                          = "userForm";
     public static final String COMPANY_FORM                       = "companyForm";
     public static final String CART_FORM                          = "cartForm";

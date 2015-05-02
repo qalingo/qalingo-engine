@@ -370,7 +370,8 @@ public class WebManagementService {
         CustomerAddress customerAddress = new CustomerAddress();
         customerAddress.setDateCreate(new Date());
         customerAddress.setDateUpdate(new Date());
-        String addressId = customerAddressForm.getIdOrGuid();
+        
+        String addressId = customerAddressForm.getId();
         if(StringUtils.isNotEmpty(addressId)){
             customerAddress = customer.getAddress(new Long(addressId));
         }
