@@ -79,6 +79,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * <p>
@@ -196,11 +198,9 @@ public class RequestUtil {
                     // LOCALE
                     Localization localization = marketArea.getLocalization(localizationCode);
                     if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+                        localization = marketArea.getDefaultLocalization();
                     }
+                    updateCurrentLocalization(request, engineEcoSession, localization);
 
                     // RETAILER
                     Retailer retailer = marketArea.getRetailer(retailerCode);
@@ -244,11 +244,9 @@ public class RequestUtil {
                     // LOCALE
                     Localization localization = marketArea.getLocalization(localizationCode);
                     if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+                        localization = marketArea.getDefaultLocalization();
                     }
+                    updateCurrentLocalization(request, engineEcoSession, localization);
 
                     // RETAILER
                     Retailer retailer = marketArea.getRetailer(retailerCode);
@@ -282,13 +280,11 @@ public class RequestUtil {
                         updateCurrentTheme(request, newMarketArea.getTheme());
 
                         // LOCALE
-                        Localization localization = newMarketArea.getLocalization(localizationCode);
+                        Localization localization = marketArea.getLocalization(localizationCode);
                         if (localization == null) {
-                            Localization defaultLocalization = marketArea.getDefaultLocalization();
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                        } else {
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+                            localization = marketArea.getDefaultLocalization();
                         }
+                        updateCurrentLocalization(request, engineEcoSession, localization);
 
                         // RETAILER
                         Retailer retailer = marketArea.getRetailer(retailerCode);
@@ -316,11 +312,9 @@ public class RequestUtil {
                             // CHANGE THE LOCALE
                             Localization newLocalization = marketArea.getLocalization(localizationCode);
                             if (newLocalization == null) {
-                                Localization defaultLocalization = marketArea.getDefaultLocalization();
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                            } else {
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, newLocalization);
+                                newLocalization = marketArea.getDefaultLocalization();
                             }
+                            updateCurrentLocalization(request, engineEcoSession, newLocalization);
 
                         } else if (retailer != null && !retailer.getCode().toString().equalsIgnoreCase(localizationCode)) {
                             // CHANGE THE RETAILER
@@ -406,11 +400,9 @@ public class RequestUtil {
                     // LOCALE
                     Localization localization = marketArea.getLocalization(localizationCode);
                     if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                    } else {
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
+                        localization = marketArea.getDefaultLocalization();
                     }
+                    updateCurrentLocalization(request, engineBoSession, localization);
 
                     // RETAILER
                     Retailer retailer = marketArea.getRetailer(localizationCode);
@@ -454,11 +446,9 @@ public class RequestUtil {
                     // LOCALE
                     Localization localization = marketArea.getLocalization(localizationCode);
                     if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                    } else {
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
+                        localization = marketArea.getDefaultLocalization();
                     }
+                    updateCurrentLocalization(request, engineBoSession, localization);
 
                     // RETAILER
                     Retailer retailer = marketArea.getRetailer(retailerCode);
@@ -491,13 +481,11 @@ public class RequestUtil {
                         updateCurrentTheme(request, newMarketArea.getTheme());
 
                         // LOCALE
-                        Localization localization = newMarketArea.getLocalization(localizationCode);
+                        Localization localization = marketArea.getLocalization(localizationCode);
                         if (localization == null) {
-                            Localization defaultLocalization = marketArea.getDefaultLocalization();
-                            engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                        } else {
-                            engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
+                            localization = marketArea.getDefaultLocalization();
                         }
+                        updateCurrentLocalization(request, engineBoSession, localization);
 
                         // RETAILER
                         Retailer retailer = marketArea.getRetailer(retailerCode);
@@ -525,11 +513,9 @@ public class RequestUtil {
                             // CHANGE THE LOCALE
                             Localization newLocalization = marketArea.getLocalization(localizationCode);
                             if (newLocalization == null) {
-                                Localization defaultLocalization = marketArea.getDefaultLocalization();
-                                engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                            } else {
-                                engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, newLocalization);
+                                newLocalization = marketArea.getDefaultLocalization();
                             }
+                            updateCurrentLocalization(request, engineBoSession, newLocalization);
 
                         } else if (retailer != null && !retailer.getCode().toString().equalsIgnoreCase(localizationCode)) {
                             // CHANGE THE RETAILER
@@ -967,7 +953,6 @@ public class RequestUtil {
      * 
      */
     public String getCurrentThemeResourcePrefixPath(final RequestData requestData) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
         EngineSetting engineSetting = engineSettingService.getSettingThemeResourcePrefixPath();
         try {
             String contextValue = getCurrentContextNameValue();
@@ -1213,9 +1198,16 @@ public class RequestUtil {
         return localization;
     }
 
+    public void updateCurrentLocalization(HttpServletRequest request, AbstractEngineSession session, Localization localization) throws Exception {
+        final Locale locale = localization.getLocale();
+        setLocaleSpringContext(request, locale.toString());
+        setSessionMarketAreaLocalization(session, localization);
+    }
+    
     /**
      * 
      */
+    @Deprecated
     public void updateCurrentLocalization(final RequestData requestData, final Localization localization) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         if (localization != null) {
@@ -1235,6 +1227,21 @@ public class RequestUtil {
         }
     }
 
+    protected void setLocaleSpringContext(final HttpServletRequest request, String newLocale){
+        if (newLocale != null) {
+            try {
+                LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+                if (localeResolver == null) {
+                    throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
+                }
+                localeResolver.setLocale(request, null, org.springframework.util.StringUtils.parseLocaleString(newLocale));
+                
+            } catch (Exception e) {
+                logger.error("No LocaleResolver found: not in a DispatcherServlet request?");
+            }
+        }   
+    }
+    
     /**
      * 
      */
@@ -1860,8 +1867,8 @@ public class RequestUtil {
                 }
             }
         }
-        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
-
+        updateCurrentLocalization(request, engineBoSession, localization);
+        
         Retailer retailer = marketArea.getDefaultRetailer();
         engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
 
@@ -2039,7 +2046,7 @@ public class RequestUtil {
                 }
             }
         }
-        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+        updateCurrentLocalization(request, engineEcoSession, localization);
 
         final Retailer retailer = marketArea.getDefaultRetailer();
         engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
