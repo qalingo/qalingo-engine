@@ -197,7 +197,7 @@ public class WebManagementService {
     /**
      * 
      */
-    public void updateCart(final RequestData requestData, final Customer customer) throws Exception {
+    public void linkAndUpdateCartWithCustomer(final RequestData requestData, final Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
         if(cart != null){

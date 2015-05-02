@@ -65,6 +65,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
             // CUSTOMER
             Customer customer = customerService.getCustomerByLoginOrEmail(authentication.getName());
 
+            // TODO : move the CustomerConnectionLog Save in an async process : save cost time
             // Persit the new CustomerConnectionLog
             CustomerConnectionLog customerConnectionLog = new CustomerConnectionLog();
             customerConnectionLog.setCustomerId(customer.getId());
@@ -81,7 +82,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
             requestUtil.updateCurrentCustomer(request, customer);
 
             // UPDATE CART WITH THE CUSTOMER INFORMATIONS
-            webManagementService.updateCart(requestData, customer);
+            webManagementService.linkAndUpdateCartWithCustomer(requestData, customer);
 
             setUseReferer(false);
             String targetUrl = null;

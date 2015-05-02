@@ -143,7 +143,7 @@ public class BrandController extends AbstractMCommerceController {
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, "brand_details", params, locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.BRAND_DETAILS.getKey(), params, locale));
 
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
@@ -152,12 +152,12 @@ public class BrandController extends AbstractMCommerceController {
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "all_brand", locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.BRAND_ALL.getKey(), locale));
         menu.setUrl(urlService.generateUrl(FoUrls.BRAND_ALL, requestData));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "brand_details", params, locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.BRAND_DETAILS.getKey(), params, locale));
         menu.setUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
         menu.setActive(true);
         menuViewBeans.add(menu);
