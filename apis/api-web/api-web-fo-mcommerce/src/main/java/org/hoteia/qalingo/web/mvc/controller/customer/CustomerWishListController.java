@@ -96,7 +96,8 @@ public class CustomerWishListController extends AbstractCustomerController {
                     CatalogCategoryVirtual catalogCategory = null;
                     if(StringUtils.isNotEmpty(customerWishlist.getCatalogCategoryCode())){
                         catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(customerWishlist.getCatalogCategoryCode(), marketArea.getCatalog().getCode());
-                    } else {
+                    } 
+                    if(catalogCategory == null){
                         catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
                     }
                     productSkuViewBeans.add(frontofficeViewBeanFactory.buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku));
