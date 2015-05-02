@@ -362,7 +362,6 @@ public class WebManagementService {
         customer.setFirstname(customerEditForm.getFirstname());
         customer.setLastname(customerEditForm.getLastname());
 
-        customer.setLogin(customerEditForm.getEmail());
         customer.setEmail(customerEditForm.getEmail());
 
         customer = checkCustomerMarketArea(requestData, customer);
