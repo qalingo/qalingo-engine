@@ -488,10 +488,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count value = (Count) iterator.next();
-                String skuOptionDefinitionCode = value.getName();
-                final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode);
-                if(productSkuOptionDefinition != null){
-                    SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), value.getCount());                
+                String productBrandCode = value.getName();
+                final ProductBrand productBrand = productService.getProductBrandByCode(productBrandCode);
+                if(productBrand != null){
+                    SearchFacetValueBean valueBean = new SearchFacetValueBean(productBrand.getCode(), productBrand.getI18nName(localizationCode), value.getCount());                
                     searchFacetViewBean.addValue(valueBean);
                 }
             }
