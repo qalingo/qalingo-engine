@@ -83,7 +83,13 @@ public class CartAjaxController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
-        final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        
+        // SANITY CHECK
+        if("undefined".equalsIgnoreCase(catalogCategoryCode)){
+            catalogCategoryCode = null;
+        }
+        
         final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
         
         final FoAddToWishlistPojo addToWishlist = new FoAddToWishlistPojo();
