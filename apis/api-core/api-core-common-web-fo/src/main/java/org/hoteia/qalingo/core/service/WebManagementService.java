@@ -305,6 +305,7 @@ public class WebManagementService {
         Customer customer = new Customer();
         
         customer.setLogin(createAccountForm.getEmail());
+        customer.setTitle(createAccountForm.getTitle());
         customer.setFirstname(createAccountForm.getFirstname());
         customer.setLastname(createAccountForm.getLastname());
         customer.setPassword(securityUtil.encodePassword(createAccountForm.getPassword()));
