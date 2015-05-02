@@ -92,6 +92,41 @@ public class CartAjaxController extends AbstractMCommerceController {
         final ProductSku productSku = productService.getProductSkuByCode(productSkuCode, FetchPlanGraphProduct.productSkuDisplayFetchPlan());
         addToWishlist.setProductSku(catalogPojoService.buildProductSku(productSku));
 
+        addToWishlist.getProductSku().setDefaultPackshotImage(buildDefaultAsset(requestData, productSku));
+        
+        addToWishlist.setWishListDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
+        try {
+            webManagementService.addProductSkuToWishlist(requestData, catalogCategoryCode, productSkuCode);
+            
+            FoMessagePojo successMessage = new FoMessagePojo();
+            successMessage.setId("success-add-to-wishlist-product-sku");
+            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
+            successMessage.setMessage(getSpecificMessage(ScopeWebMessage.WISHLIST, "add_to_wishlist_success_message", messageParams, locale));
+            addToWishlist.getSuccessMessages().add(successMessage);
+            return addToWishlist;
+            
+        } catch (ProductAlreadyExistInWishlistException e) {
+            logger.error("", e);
+            FoMessagePojo errorMessage = new FoMessagePojo();
+            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
+            errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.ERROR, ProductAlreadyExistInWishlistException.MESSAGE_KEY, messageParams, locale));
+            addToWishlist.getErrorMessages().add(errorMessage);
+            addToWishlist.setStatuts(false);
+            return addToWishlist;
+            
+        } catch (Exception e) {
+            logger.error("", e);
+            FoMessagePojo errorMessage = new FoMessagePojo();
+            errorMessage.setId("error-add-to-wishlist-product-sku");
+            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
+            errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.WISHLIST, "add_to_wishlist_error_message", messageParams, locale));
+            addToWishlist.getErrorMessages().add(errorMessage);
+            addToWishlist.setStatuts(false);
+            return addToWishlist;
+        }
+    }
+    
+    protected String buildDefaultAsset(final RequestData requestData, final ProductSku productSku) throws Exception{
         // TEMPORARY FIX : ASSET
         Set<Asset> assets = productSku.getAssets();
         Asset defaultAsset = null;
@@ -129,39 +164,11 @@ public class CartAjaxController extends AbstractMCommerceController {
             defaultAsset.setType("default");
             defaultAsset.setPath("default-product.png");
         }
-        final String path = engineSettingService.getProductMarketingImageWebPath(defaultAsset);
-        addToWishlist.getProductSku().setDefaultPackshotImage(urlService.buildAbsoluteUrl(requestData, path));
-        
-        addToWishlist.setWishListDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
-        try {
-            webManagementService.addProductSkuToWishlist(requestData, catalogCategoryCode, productSkuCode);
-            
-            FoMessagePojo successMessage = new FoMessagePojo();
-            successMessage.setId("success-add-to-wishlist-product-sku");
-            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
-            successMessage.setMessage(getSpecificMessage(ScopeWebMessage.WISHLIST, "add_to_wishlist_success_message", messageParams, locale));
-            addToWishlist.getSuccessMessages().add(successMessage);
-            return addToWishlist;
-            
-        } catch (ProductAlreadyExistInWishlistException e) {
-            logger.error("", e);
-            FoMessagePojo errorMessage = new FoMessagePojo();
-            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
-            errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.ERROR, ProductAlreadyExistInWishlistException.MESSAGE_KEY, messageParams, locale));
-            addToWishlist.getErrorMessages().add(errorMessage);
-            addToWishlist.setStatuts(false);
-            return addToWishlist;
-            
-        } catch (Exception e) {
-            logger.error("", e);
-            FoMessagePojo errorMessage = new FoMessagePojo();
-            errorMessage.setId("error-add-to-wishlist-product-sku");
-            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
-            errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.WISHLIST, "add_to_wishlist_error_message", messageParams, locale));
-            addToWishlist.getErrorMessages().add(errorMessage);
-            addToWishlist.setStatuts(false);
-            return addToWishlist;
-        }
+        return urlService.buildAbsoluteUrl(requestData, buildAssetPath(productSku, defaultAsset));
+    }
+    
+    protected String buildAssetPath(final ProductSku productSku, final Asset defaultAsset) throws Exception{
+        return engineSettingService.getProductMarketingImageWebPath(defaultAsset);
     }
     
     @RequestMapping(value = FoUrls.GET_CART_AJAX_URL, method = RequestMethod.GET)

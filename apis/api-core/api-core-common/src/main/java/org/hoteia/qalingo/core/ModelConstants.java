@@ -108,7 +108,7 @@ public class ModelConstants {
     public static final String PRODUCT_BRAND_COMMENTS_VIEW_BEAN     = "productBrandComments";
     public static final String PRODUCT_BRAND_RATES_VIEW_BEAN        = "productBrandRates";
     public static final String RECENT_PPRODUCT_MARKETING_VIEW_BEAN  = "recentProducts";
-    public static final String RELATED_PRODUCT_MARKETING_VIEW_BEAN = "relatedProductMarketings";
+    public static final String RELATED_PRODUCT_MARKETING_VIEW_BEAN  = "relatedProductMarketings";
     
     public static final String PRODUCT_COMMENT_SUBMIT_URL           = "productCommentUrl";
 
@@ -141,7 +141,6 @@ public class ModelConstants {
     public static final String CUSTOMER_VIEW_BEAN               = "customer";
     public static final String CUSTOMER_DETAILS_LINKS_VIEW_BEAN = "customerLinks";
     public static final String CUSTOMER_DETAILS_VIEW_BEAN       = "customerDetails";
-    public static final String CUSTOMER_WISHLIST_VIEW_BEAN      = "customerWishlist";
     public static final String CUSTOMER_ADDRESSES_VIEW_BEAN     = "customerAddresses";
 
     public static final String GEOLOC_DATA_VIEW_BEAN            = "geolocData";

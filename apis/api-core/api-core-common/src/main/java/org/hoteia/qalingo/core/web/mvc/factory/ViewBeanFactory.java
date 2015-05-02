@@ -1288,32 +1288,32 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return customerViewBean;
     }
 
-    /**
-     * 
-     */
-    public CustomerWishlistViewBean buildViewBeanCustomerWishlist(final RequestData requestData, final Customer customer) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final CustomerWishlistViewBean customerWishlistViewBean = new CustomerWishlistViewBean();
-        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
-        if (customerMarketArea != null) {
-            final Set<CustomerWishlist> customerWishlists = customerMarketArea.getWishlistProducts();
-            if (Hibernate.isInitialized(customerWishlists) && customerWishlists != null) {
-                for (Iterator<CustomerWishlist> iterator = customerWishlists.iterator(); iterator.hasNext();) {
-                    final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
-                    final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode(), FetchPlanGraphProduct.productSkuDisplayFetchPlan());
-                    final ProductMarketing productMarketing =  productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-                    CatalogCategoryVirtual catalogCategory = null;
-                    if(StringUtils.isNotEmpty(customerWishlist.getCatalogCategoryCode())){
-                        catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(customerWishlist.getCatalogCategoryCode(), marketArea.getCatalog().getCode());
-                    } else {
-                        catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
-                    }
-                    customerWishlistViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku));
-                }
-            }
-        }
-        return customerWishlistViewBean;
-    }
+//    /**
+//     * 
+//     */
+//    public CustomerWishlistViewBean buildViewBeanCustomerWishlist(final RequestData requestData, final Customer customer) throws Exception {
+//        final MarketArea marketArea = requestData.getMarketArea();
+//        final CustomerWishlistViewBean customerWishlistViewBean = new CustomerWishlistViewBean();
+//        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+//        if (customerMarketArea != null) {
+//            final Set<CustomerWishlist> customerWishlists = customerMarketArea.getWishlistProducts();
+//            if (Hibernate.isInitialized(customerWishlists) && customerWishlists != null) {
+//                for (Iterator<CustomerWishlist> iterator = customerWishlists.iterator(); iterator.hasNext();) {
+//                    final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
+//                    final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode(), FetchPlanGraphProduct.productSkuDisplayFetchPlan());
+//                    final ProductMarketing productMarketing =  productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+//                    CatalogCategoryVirtual catalogCategory = null;
+//                    if(StringUtils.isNotEmpty(customerWishlist.getCatalogCategoryCode())){
+//                        catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(customerWishlist.getCatalogCategoryCode(), marketArea.getCatalog().getCode());
+//                    } else {
+//                        catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
+//                    }
+//                    customerWishlistViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku));
+//                }
+//            }
+//        }
+//        return customerWishlistViewBean;
+//    }
 
     /**
      * 
