@@ -101,6 +101,11 @@ public class ProductService {
         return productMarketings;
     }
 
+    public List<Long> findProductMarketingIdsByBrandId(final Long brandId, Object... params) {
+        List<Long> productMarketings = productDao.findProductMarketingIdssByBrandId(brandId, params);
+        return productMarketings;
+    }
+    
     public List<ProductMarketing> findProductMarketingsByBrandId(final Long brandId, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketingsByBrandId(brandId, params);
         return productMarketings;

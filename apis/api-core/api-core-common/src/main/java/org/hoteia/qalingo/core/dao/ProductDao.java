@@ -110,6 +110,20 @@ public class ProductDao extends AbstractGenericDao {
 		return productMarketings;
 	}
 
+    public List<Long> findProductMarketingIdssByBrandId(final Long brandId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
+
+        criteria.setFetchMode("productBrand", FetchMode.JOIN);
+        criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productBrand.id", brandId));
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> productMarketings = criteria.list();
+        return productMarketings;
+    }
+    
     public List<ProductMarketing> findProductMarketingsByBrandId(final Long brandId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
