@@ -94,7 +94,7 @@ public class CustomerWishListController extends AbstractCustomerController {
                     final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode(), new FetchPlan(productSkuFetchPlans));
                     final ProductMarketing productMarketing =  productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
                     CatalogCategoryVirtual catalogCategory = null;
-                    if(StringUtils.isNotEmpty(customerWishlist.getCatalogCategoryCode())){
+                    if(StringUtils.isNotEmpty(customerWishlist.getCatalogCategoryCode()) && "undefined".equalsIgnoreCase(customerWishlist.getCatalogCategoryCode())){
                         catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(customerWishlist.getCatalogCategoryCode(), marketArea.getCatalog().getCode());
                     } 
                     if(catalogCategory == null){
