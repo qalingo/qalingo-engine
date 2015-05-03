@@ -102,7 +102,7 @@ public class ProductService {
     }
 
     public List<Long> findProductMarketingIdsByBrandId(final Long brandId, Object... params) {
-        List<Long> productMarketings = productDao.findProductMarketingIdssByBrandId(brandId, params);
+        List<Long> productMarketings = productDao.findProductMarketingIdsByBrandId(brandId, params);
         return productMarketings;
     }
     

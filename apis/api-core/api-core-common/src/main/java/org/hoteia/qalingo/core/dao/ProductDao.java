@@ -110,7 +110,7 @@ public class ProductDao extends AbstractGenericDao {
 		return productMarketings;
 	}
 
-    public List<Long> findProductMarketingIdssByBrandId(final Long brandId, Object... params) {
+    public List<Long> findProductMarketingIdsByBrandId(final Long brandId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
 
         criteria.setFetchMode("productBrand", FetchMode.JOIN);
