@@ -166,6 +166,9 @@ public class ProductSkuViewBean extends AbstractViewBean {
     }
     
     public ProductBrandViewBean getBrand() {
+        if(brand == null && productMarketing != null){
+            return productMarketing.getBrand();
+        }
         return brand;
     }
     

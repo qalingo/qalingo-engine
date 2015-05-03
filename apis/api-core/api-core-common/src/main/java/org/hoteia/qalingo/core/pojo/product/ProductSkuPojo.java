@@ -42,6 +42,7 @@ public class ProductSkuPojo {
     private Date dateCreate;
     private Date dateUpdate;
     
+    private ProductBrandPojo productBrand;
     private ProductMarketingPojo productMarketing;
 
     private List<ProductSkuAttributePojo> attributes = new ArrayList<ProductSkuAttributePojo>();
@@ -207,6 +208,17 @@ public class ProductSkuPojo {
         this.dateUpdate = dateUpdate;
     }
 
+    public ProductBrandPojo getProductBrand(){
+        if(productBrand == null && productMarketing != null){
+            return productMarketing.getProductBrand();
+        }
+        return productBrand;
+    }
+    
+    public void setProductBrand(ProductBrandPojo productBrand) {
+        this.productBrand = productBrand;
+    }
+    
     @JsonBackReference
     public ProductMarketingPojo getProductMarketing() {
         return productMarketing;
