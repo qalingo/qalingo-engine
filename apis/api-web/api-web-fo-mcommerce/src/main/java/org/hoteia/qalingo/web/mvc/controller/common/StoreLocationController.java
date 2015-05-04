@@ -67,31 +67,33 @@ public class StoreLocationController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
         final GeolocData geolocData = requestData.getGeolocData();
         
-        final List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), "50", 100);
-        List<Store> stores = new ArrayList<Store>();
-        if(geolocatedStores != null){
-            for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
-                GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
-                Store store = retailerService.getStoreById(geolocatedStore.getId(), new FetchPlan(storeFetchPlans));
-                stores.add(store);
+        if(geolocData != null){
+            final List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), "50", 100);
+            List<Store> stores = new ArrayList<Store>();
+            if(geolocatedStores != null){
+                for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
+                    GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
+                    Store store = retailerService.getStoreById(geolocatedStore.getId(), new FetchPlan(storeFetchPlans));
+                    stores.add(store);
+                }
             }
-        }
-		final List<StoreViewBean> storeViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
-        modelAndView.addObject("stores", storeViewBeans);
+            final List<StoreViewBean> storeViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
+            modelAndView.addObject("stores", storeViewBeans);
 
-        final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter.getCountries()));
-        } catch (JsonProcessingException e) {
-            logger.warn(e.getMessage(), e);
-        }
-		
-        modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
-		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_LOCATION.getKey());
+            final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter.getCountries()));
+            } catch (JsonProcessingException e) {
+                logger.warn(e.getMessage(), e);
+            }
+            
+            modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
+            
+            overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_LOCATION.getKey());
 
-        modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+            modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        }
         
         return modelAndView;
 	}

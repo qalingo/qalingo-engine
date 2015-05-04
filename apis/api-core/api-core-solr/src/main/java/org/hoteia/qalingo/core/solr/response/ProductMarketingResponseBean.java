@@ -20,7 +20,7 @@ public class ProductMarketingResponseBean {
     public static final String PRODUCT_MARKETING_SEARCH_FIELD_CODE                   = "code";
     public static final String PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE        = "catalogCategories";
     public static final String PRODUCT_MARKETING_SEARCH_FIELD_CATALOG_CODE           = "catalogCode";
-    public static final String PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODE               = "tagCode";
+    public static final String PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODE               = "tags";
     public static final String PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE = "optionDefinitions";
     public static final String PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE     = "productBrandCode";
     public static final String PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD                = "text";

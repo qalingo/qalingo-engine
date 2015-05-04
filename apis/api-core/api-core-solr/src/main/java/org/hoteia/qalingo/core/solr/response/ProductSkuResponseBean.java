@@ -17,7 +17,7 @@ import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 
 public class ProductSkuResponseBean {
 
-    public static final String PRODUCT_SKU_SEARCH_FIELD_TAG_CODE        = "tagCode";
+    public static final String PRODUCT_SKU_SEARCH_FIELD_TAG_CODE        = "tags";
     
     private List<ProductSkuSolr> productSkuSolrList = new ArrayList<ProductSkuSolr>();
 
