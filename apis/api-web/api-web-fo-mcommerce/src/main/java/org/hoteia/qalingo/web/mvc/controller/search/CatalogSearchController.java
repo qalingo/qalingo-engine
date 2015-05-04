@@ -125,9 +125,10 @@ public class CatalogSearchController extends AbstractMCommerceController {
         
         final List<String> facetFields = new ArrayList<String>();
         facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
-        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
         facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE);
-        
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODE);
+
 		try {
             PagedListHolder<ProductMarketingViewBean> pagedListHolder;
 		    if(page == 0){
