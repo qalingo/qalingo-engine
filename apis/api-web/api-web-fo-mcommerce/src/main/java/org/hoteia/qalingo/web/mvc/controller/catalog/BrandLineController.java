@@ -44,7 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("brandeLineController")
+@Controller("brandLineController")
 public class BrandLineController extends AbstractMCommerceController {
 
 	@Autowired
