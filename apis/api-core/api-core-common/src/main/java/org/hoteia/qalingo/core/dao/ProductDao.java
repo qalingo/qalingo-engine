@@ -849,6 +849,11 @@ public class ProductDao extends AbstractGenericDao {
             return productBrand;
         }
     }
+    
+    public ProductBrand updateProductBrand(final ProductBrand productBrand) {
+        productBrand.setDateUpdate(new Date());
+        return em.merge(productBrand);
+    }
 
     public void deleteProductBrand(final ProductBrand productBrand) {
         em.remove(productBrand);

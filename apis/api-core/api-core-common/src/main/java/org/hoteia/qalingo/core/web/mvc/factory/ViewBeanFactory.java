@@ -1453,6 +1453,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         productBrandViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
+        productBrandViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
         return productBrandViewBean;
     }
 

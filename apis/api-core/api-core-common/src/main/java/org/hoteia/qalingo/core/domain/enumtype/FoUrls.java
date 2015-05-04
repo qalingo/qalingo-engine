@@ -302,7 +302,7 @@ public enum FoUrls {
 	public static final String CATEGORY_AS_LINE_VELOCITY_PAGE		= "catalog/product-line";
 
     public static final String TAG_AS_LINE_KEY                      = "tag-line";
-    public static final String TAG_AS_LINE_URL                      = "/**/tag-line-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String TAG_AS_LINE_URL                      = "/**/line-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String TAG_AS_LINE_VELOCITY_PAGE            = "catalog/tag-line";
 
 	public static final String PRODUCT_DETAILS_KEY					= "product-details";

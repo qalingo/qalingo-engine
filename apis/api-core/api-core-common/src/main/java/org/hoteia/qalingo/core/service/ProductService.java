@@ -446,6 +446,10 @@ public class ProductService {
     public ProductBrand saveOrUpdateProductBrand(final ProductBrand productBrand) {
         return productDao.saveOrUpdateProductBrand(productBrand);
     }
+    
+    public ProductBrand updateProductBrand(final ProductBrand productBrand) {
+        return productDao.updateProductBrand(productBrand);
+    }
 
     public void deleteProductBrand(final ProductBrand productBrand) {
         productDao.deleteProductBrand(productBrand);
