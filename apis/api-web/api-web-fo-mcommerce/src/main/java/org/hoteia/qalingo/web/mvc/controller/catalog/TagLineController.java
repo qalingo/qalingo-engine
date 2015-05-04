@@ -99,7 +99,7 @@ public class TagLineController extends AbstractMCommerceController {
     }
     
     @RequestMapping(FoUrls.TAG_AS_LINE_URL)
-    public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_TAG_CODE) final String tagCode) throws Exception {
+    public ModelAndView tagLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_TAG_CODE) final String tagCode) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.TAG_AS_LINE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
