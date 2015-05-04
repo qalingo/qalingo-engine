@@ -138,7 +138,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
     }
     
     public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final BigDecimal priceStart, final BigDecimal priceEnd,
-            final List<String> filterQueries) throws SolrServerException, IOException {
+                                                               final List<String> filterQueries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
 
@@ -152,9 +152,11 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             }
         }
 
-        for (Iterator<String> iterator = filterQueries.iterator(); iterator.hasNext();) {
-            String filterQuery = (String) iterator.next();
-            solrQuery.addFilterQuery(filterQuery);
+        if (filterQueries != null && filterQueries.size() > 0) {
+            for (Iterator<String> iterator = filterQueries.iterator(); iterator.hasNext();) {
+                String filterQuery = (String) iterator.next();
+                solrQuery.addFilterQuery(filterQuery);
+            }
         }
 
         logger.debug("QueryRequest solrQuery: " + solrQuery);
