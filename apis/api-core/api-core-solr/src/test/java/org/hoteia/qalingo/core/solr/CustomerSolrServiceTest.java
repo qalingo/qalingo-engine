@@ -10,6 +10,8 @@
 package org.hoteia.qalingo.core.solr;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -43,6 +45,8 @@ public class CustomerSolrServiceTest {
 
     private MarketArea marketArea;
     
+    private List<String> facetFields = new ArrayList<String>();
+    
     @Before
     public void setUp() throws Exception {
         marketArea = new MarketArea();
@@ -54,6 +58,9 @@ public class CustomerSolrServiceTest {
         customer.setEmail("vivek@gmail.com");
         customer.setGender("mail");
         customer.setTitle("customer details");
+        
+        facetFields.add(CustomerResponseBean.CUSTOMER_SEARCH_FIELD_FIRSTNAME);
+        facetFields.add(CustomerResponseBean.CUSTOMER_SEARCH_FIELD_LASTNAME);
     }
     
     /**
@@ -81,7 +88,7 @@ public class CustomerSolrServiceTest {
     @Test
     public void testSearchId() throws SolrServerException, IOException {
         logger.debug("--------------->Search: Id");
-        responseBean = customerSolrService.searchCustomer("id", "", "");
+        responseBean = customerSolrService.searchCustomer("id", "", facetFields);
         printData();
     }
 
@@ -91,7 +98,7 @@ public class CustomerSolrServiceTest {
     @Test
     public void testSearchEmail() throws SolrServerException, IOException {
         logger.debug("--------------->search: Email");
-        responseBean = customerSolrService.searchCustomer("email", "", "");
+        responseBean = customerSolrService.searchCustomer("email", "", facetFields);
         printData();
     }
 
@@ -101,7 +108,7 @@ public class CustomerSolrServiceTest {
     @Test
     public void testSearchEmailWithTest() throws SolrServerException, IOException {
         logger.debug("--------------->search: Email with text");
-        responseBean = customerSolrService.searchCustomer("email", "vi", "");
+        responseBean = customerSolrService.searchCustomer("email", "vi", facetFields);
         printData();
     }
 
@@ -111,7 +118,7 @@ public class CustomerSolrServiceTest {
     @Test
     public void testSearchEmailWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->search: Email with facet");
-        responseBean = customerSolrService.searchCustomer("email", "", "email");
+        responseBean = customerSolrService.searchCustomer("email", "", facetFields);
         printData();
     }
 
@@ -122,7 +129,7 @@ public class CustomerSolrServiceTest {
     @Test(expected = org.apache.solr.common.SolrException.class)
     public void testSearch() throws SolrServerException, IOException {
         logger.debug("--------------->Search unknown field");
-        responseBean = customerSolrService.searchCustomer("xyz", "123", "abc");
+        responseBean = customerSolrService.searchCustomer("xyz", "123", facetFields);
         printData();
     }
 
@@ -132,7 +139,7 @@ public class CustomerSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySearch() throws SolrServerException, IOException {
         logger.debug("--------------->Empty Search ");
-        responseBean = customerSolrService.searchCustomer("", "", "");
+        responseBean = customerSolrService.searchCustomer("", "", facetFields);
         printData();
     }
 

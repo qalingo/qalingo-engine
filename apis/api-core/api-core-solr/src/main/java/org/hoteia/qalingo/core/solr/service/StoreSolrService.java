@@ -68,11 +68,74 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolrServer.deleteById(storeSolr.getId().toString());
         storeSolrServer.commit();
     }
+
+    public StoreResponseBean searchStore(String searchQuery, List<String> facetFields, List<String> cities, List<String> countries) throws SolrServerException, IOException {
+        SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+
+        if (StringUtils.isEmpty(searchQuery)) {
+            throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
+        }
+        solrQuery.setQuery(searchQuery);
+
+        if (facetFields != null && facetFields.size() > 0) {
+            solrQuery.setFacet(true);
+            solrQuery.setFacetMinCount(1);
+            for (String facetField : facetFields) {
+                solrQuery.addFacetField(facetField);
+            }
+        }
+
+        if (cities != null && cities.size() > 0) {
+            StringBuilder fq = new StringBuilder("city:(");
+            for (int i = 0; i < cities.size(); i++) {
+                String city = cities.get(i);
+                fq.append('"' + city + '"');
+                if (i < cities.size() - 1) {
+                    fq.append(" OR ");
+                }
+            }
+            fq.append(")");
+            solrQuery.addFilterQuery(fq.toString());
+        }
+        if (countries != null && countries.size() > 0) {
+            StringBuilder fq = new StringBuilder("countrycode:(");
+            for (int i = 0; i < countries.size(); i++) {
+                String country = countries.get(i);
+                fq.append('"' + country + '"');
+                if (i < countries.size() - 1) {
+                    fq.append(" OR ");
+                }
+            }
+            fq.append(")");
+            solrQuery.addFilterQuery(fq.toString());
+        }
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
+        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
+
+        QueryResponse response = new QueryResponse(storeSolrServer.request(request), storeSolrServer);
+
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<StoreSolr> solrList = response.getBeans(StoreSolr.class);
+        StoreResponseBean storeResponseBean = new StoreResponseBean();
+        storeResponseBean.setStoreSolrList(solrList);
+
+        if (facetFields != null && facetFields.size() > 0) {
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            storeResponseBean.setStoreSolrFacetFieldList(solrFacetFieldList);
+        }
+        return storeResponseBean;
+    }
     
+    @Deprecated
     public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields) throws SolrServerException, IOException {
     	return searchStore(searchBy, searchText, facetFields, null, null);
     }
 
+    @Deprecated
     public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields,
                                          List<String> cities, List<String> countries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();

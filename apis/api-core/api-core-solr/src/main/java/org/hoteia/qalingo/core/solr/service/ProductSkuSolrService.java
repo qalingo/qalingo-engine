@@ -117,24 +117,21 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolrServer.commit();
     }
     
-    public ProductSkuResponseBean searchProductSku(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
+    public ProductSkuResponseBean searchProductSku(String searchQuery, List<String> facetFields) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         
-        if (StringUtils.isEmpty(searchBy)) {
-            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
+        if (StringUtils.isEmpty(searchQuery)) {
+            throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
         }
+        solrQuery.setQuery(searchQuery);
 
-        if (StringUtils.isEmpty(searchText)) {
-            solrQuery.setQuery(searchBy + ":*");
-        } else {
-            solrQuery.setQuery(searchBy + ":" + searchText + "*");
-        }
-
-        if (StringUtils.isNotEmpty(facetField)) {
+        if(facetFields != null && !facetFields.isEmpty()){
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
-            solrQuery.addFacetField(facetField);
+            for(String facetField : facetFields){
+                solrQuery.addFacetField(facetField);
+            }
         }
 
         logger.debug("QueryRequest solrQuery: " + solrQuery);
@@ -149,7 +146,49 @@ public class ProductSkuSolrService extends AbstractSolrService {
         ProductSkuResponseBean productResponseBean = new ProductSkuResponseBean();
         productResponseBean.setProductSkuSolrList(solrList);
         
-        if (StringUtils.isNotEmpty(facetField)) {
+        if(facetFields != null && !facetFields.isEmpty()){
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            productResponseBean.setProductSkuSolrFacetFieldList(solrFacetFieldList);
+        }
+        return productResponseBean;
+    }
+    
+    @Deprecated
+    public ProductSkuResponseBean searchProductSku(String searchBy, String searchText, List<String> facetFields) throws SolrServerException, IOException {
+        SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        
+        if (StringUtils.isEmpty(searchBy)) {
+            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
+        }
+
+        if (StringUtils.isEmpty(searchText)) {
+            solrQuery.setQuery(searchBy + ":*");
+        } else {
+            solrQuery.setQuery(searchBy + ":" + searchText + "*");
+        }
+
+        if(facetFields != null && !facetFields.isEmpty()){
+            solrQuery.setFacet(true);
+            solrQuery.setFacetMinCount(1);
+            for(String facetField : facetFields){
+                solrQuery.addFacetField(facetField);
+            }
+        }
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
+        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
+
+        QueryResponse response = new QueryResponse(productSkuSolrServer.request(request), productSkuSolrServer);
+        
+        logger.debug("QueryResponse Obj: " + response.toString());
+        
+        List<ProductSkuSolr> solrList = response.getBeans(ProductSkuSolr.class);
+        ProductSkuResponseBean productResponseBean = new ProductSkuResponseBean();
+        productResponseBean.setProductSkuSolrList(solrList);
+        
+        if(facetFields != null && !facetFields.isEmpty()){
             List<FacetField> solrFacetFieldList = response.getFacetFields();
             productResponseBean.setProductSkuSolrFacetFieldList(solrFacetFieldList);
         }

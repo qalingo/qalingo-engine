@@ -10,12 +10,15 @@
 package org.hoteia.qalingo.core.solr;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
+import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.CatalogCategorySolrService;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +47,8 @@ public class CatalogCategorySolrServiceTest {
 
     private MarketArea marketArea;
     
+    private List<String> facetFields = new ArrayList<String>();
+    
     @Before
     public void setUp() throws Exception {
         marketArea = new MarketArea();
@@ -55,6 +60,9 @@ public class CatalogCategorySolrServiceTest {
         catalogCategoryMaster.setName("Development");
         catalogCategoryMaster.setDateCreate(new Date());
         catalogCategoryMaster.setDateUpdate(new Date());
+        
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
     }
     
 	/**
@@ -82,7 +90,7 @@ public class CatalogCategorySolrServiceTest {
     @Test
     public void testSearchId() throws SolrServerException, IOException {
         logger.debug("--------------->SearchId");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("id", "", "");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("id", "", facetFields);
         printData();
     }
 
@@ -92,7 +100,7 @@ public class CatalogCategorySolrServiceTest {
     @Test
     public void testSearchName() throws SolrServerException, IOException {
         logger.debug("--------------->SearchName");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "", "");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "", facetFields);
         printData();
     }
 	
@@ -102,7 +110,7 @@ public class CatalogCategorySolrServiceTest {
     @Test
     public void testSearchNameWithText() throws SolrServerException, IOException {
         logger.debug("--------------->SearchNamewith some text");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "Dev", "");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "Dev", facetFields);
         printData();
     }
 	
@@ -112,7 +120,7 @@ public class CatalogCategorySolrServiceTest {
     @Test
     public void testSearchNameWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->SearchName with facet ");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "", "name");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "", facetFields);
         printData();
     }
 
@@ -122,7 +130,7 @@ public class CatalogCategorySolrServiceTest {
     @Test(expected = org.apache.solr.common.SolrException.class)
     public void testSearch() throws SolrServerException, IOException {
         logger.debug("--------------->Search unknown field");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("xyz", "123", "abc");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("xyz", "123", facetFields);
         printData();
     }
 
@@ -132,7 +140,7 @@ public class CatalogCategorySolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySearch() throws SolrServerException, IOException {
         logger.debug("--------------->Empty Search ");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("", "", "");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("", "", facetFields);
         printData();
     }
 	

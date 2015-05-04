@@ -10,7 +10,9 @@
 package org.hoteia.qalingo.core.solr;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -43,6 +45,8 @@ public class StoreSolrServiceTest {
     protected StoreResponseBean responseBean;
 
     private MarketArea marketArea;
+
+    private List<String> facetFields = new ArrayList<String>();
     
     @Before
     public void setUp() throws Exception {
@@ -57,6 +61,10 @@ public class StoreSolrServiceTest {
         store.setCountryCode("IND");
         store.setPostalCode("411014");
         store.setType("retailer");
+        
+        facetFields.add(StoreResponseBean.STORE_DEFAULT_FACET_FIELD);
+        facetFields.add(StoreResponseBean.STORE_SECOND_FACET_FIELD);
+        facetFields.add(StoreResponseBean.STORE_SEARCH_FIELD_TAG_CODE);
     }
     
 	/**
@@ -84,7 +92,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchId() throws SolrServerException, IOException {
         logger.debug("--------------->Search: Id");
-        responseBean = storeSolrService.searchStore("id", "", null);
+        responseBean = storeSolrService.searchStore("id", "", facetFields);
         printData();
     }
 
@@ -94,7 +102,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCity() throws SolrServerException, IOException {
         logger.debug("--------------->search: City");
-        responseBean = storeSolrService.searchStore("city", "", null);
+        responseBean = storeSolrService.searchStore("city", "", facetFields);
         printData();
     }
 
@@ -104,7 +112,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCountry() throws SolrServerException, IOException {
         logger.debug("--------------->search: Country");
-        responseBean = storeSolrService.searchStore("countrycode", "", null);
+        responseBean = storeSolrService.searchStore("countrycode", "", facetFields);
         printData();
     }
 
@@ -114,7 +122,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCountryWithText() throws SolrServerException, IOException {
         logger.debug("--------------->search: Country with text");
-        responseBean = storeSolrService.searchStore("countrycode", "IN", null);
+        responseBean = storeSolrService.searchStore("countrycode", "IN", facetFields);
         printData();
     }
 
@@ -134,7 +142,7 @@ public class StoreSolrServiceTest {
     @Test(expected = org.apache.solr.common.SolrException.class)
     public void testSearch() throws SolrServerException, IOException {
         logger.debug("--------------->Search unknown field");
-        responseBean = storeSolrService.searchStore("xyz", "123", Arrays.asList(new String[]{"abc"}), null, null);
+        responseBean = storeSolrService.searchStore("xyz", "123", Arrays.asList(new String[]{"abc"}), null, facetFields);
         printData();
     }
 
@@ -144,7 +152,7 @@ public class StoreSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySearch() throws SolrServerException, IOException {
         logger.debug("--------------->Empty Search ");
-        responseBean = storeSolrService.searchStore("", "", null);
+        responseBean = storeSolrService.searchStore("", "", facetFields);
         printData();
     }
     

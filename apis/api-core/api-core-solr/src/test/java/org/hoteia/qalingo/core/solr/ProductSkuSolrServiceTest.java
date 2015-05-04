@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductSkuSolrService;
 import org.junit.Before;
@@ -55,6 +56,8 @@ public class ProductSkuSolrServiceTest {
     private MarketArea marketArea;
     private Retailer retailer;
     
+    private List<String> facetFields = new ArrayList<String>();
+    
     @Before
     public void setUp() throws Exception {
         virtualCatalog = new CatalogVirtual();
@@ -87,6 +90,9 @@ public class ProductSkuSolrServiceTest {
         productSkuPrice.setMarketAreaId(new Long("1"));
         productSkuPrice.setSalePrice(new BigDecimal("2"));
         productSku.getPrices().add(productSkuPrice);
+        
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
     }
     
     /**
@@ -119,7 +125,7 @@ public class ProductSkuSolrServiceTest {
     @Test
     public void testSearchId() throws SolrServerException, IOException {
         logger.debug("--------------->Search: Id");
-        responseBean = productSkuSolrService.searchProductSku("id", "", "");
+        responseBean = productSkuSolrService.searchProductSku("id", "", facetFields);
         printData();
     }
     
@@ -129,7 +135,7 @@ public class ProductSkuSolrServiceTest {
     @Test
     public void testSearchIdWithText() throws SolrServerException, IOException {
         logger.debug("--------------->search: code with some text");
-        responseBean = productSkuSolrService.searchProductSku("code", "N", "");
+        responseBean = productSkuSolrService.searchProductSku("code", "N", facetFields);
         printData();
     }
     
@@ -139,7 +145,7 @@ public class ProductSkuSolrServiceTest {
     @Test
     public void testSearchIdWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->search: code with facet");
-        responseBean = productSkuSolrService.searchProductSku("code", "", "code");
+        responseBean = productSkuSolrService.searchProductSku("code", "", facetFields);
         printData();
     }
     
@@ -149,7 +155,7 @@ public class ProductSkuSolrServiceTest {
     @Test(expected = org.apache.solr.common.SolrException.class)
     public void testSearch() throws SolrServerException, IOException {
         logger.debug("--------------->Search unknown field");
-        responseBean = productSkuSolrService.searchProductSku("abc", "91", "xyz");
+        responseBean = productSkuSolrService.searchProductSku("abc", "91", facetFields);
         printData();
     }
     
@@ -159,7 +165,7 @@ public class ProductSkuSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySearch() throws SolrServerException, IOException {
         logger.debug("--------------->Empty Search ");
-        responseBean = productSkuSolrService.searchProductSku("", "", "");
+        responseBean = productSkuSolrService.searchProductSku("", "", facetFields);
         printData();
     }
     

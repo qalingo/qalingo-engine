@@ -88,6 +88,16 @@ public class BrandController extends AbstractMCommerceController {
         model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
         
         // BREADCRUMB
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbAllBrandViewBean(requestData));
+        
+        return modelAndView;
+    }
+    
+    protected BreadcrumbViewBean buildBreadcrumbAllBrandViewBean(final RequestData requestData) {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final Locale locale = requestData.getLocale();
+        
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
         breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.BRAND_ALL.getKey(), locale));
         
@@ -105,11 +115,9 @@ public class BrandController extends AbstractMCommerceController {
         menu.setActive(true);
         menuViewBeans.add(menu);
         
-        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, breadcrumbViewBean);
-        
-        return modelAndView;
+        return breadcrumbViewBean;
     }
-    
+        
 	@RequestMapping(FoUrls.BRAND_DETAILS_URL)
 	public ModelAndView brandDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_DETAILS.getVelocityPage());
@@ -127,7 +135,7 @@ public class BrandController extends AbstractMCommerceController {
 
 	        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
 
-	        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, productBrand));
+	        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbBrandDetailsViewBean(requestData, productBrand));
 
 	        return modelAndView;
 		}
@@ -135,7 +143,7 @@ public class BrandController extends AbstractMCommerceController {
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, ProductBrand productBrand) {
+    protected BreadcrumbViewBean buildBreadcrumbBrandDetailsViewBean(final RequestData requestData, ProductBrand productBrand) {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         final Locale locale = requestData.getLocale();

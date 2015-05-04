@@ -17,6 +17,10 @@ import org.hoteia.qalingo.core.solr.bean.CustomerSolr;
 
 public class CustomerResponseBean {
 
+    public static final String CUSTOMER_SEARCH_FIELD_CODE                   = "code";
+    public static final String CUSTOMER_SEARCH_FIELD_FIRSTNAME              = "code";
+    public static final String CUSTOMER_SEARCH_FIELD_LASTNAME               = "code";
+
     private List<CustomerSolr> customerSolrList = new ArrayList<CustomerSolr>();
 
     private List<FacetField> customerSolrFacetFieldList = new ArrayList<FacetField>();

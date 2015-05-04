@@ -132,15 +132,60 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         productMarketingSolrServer.deleteById(productSolr.getId().toString());
         productMarketingSolrServer.commit();
     }
+
+    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields) throws SolrServerException, IOException {
+        return searchProductMarketing(searchQuery, facetFields, null, null, null);
+    }
     
+    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final BigDecimal priceStart, final BigDecimal priceEnd,
+            final List<String> filterQueries) throws SolrServerException, IOException {
+        SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+
+        solrQuery.setQuery(searchQuery);
+
+        if (facetFields != null && !facetFields.isEmpty()) {
+            solrQuery.setFacet(true);
+            solrQuery.setFacetMinCount(1);
+            for (String facetField : facetFields) {
+                solrQuery.addFacetField(facetField);
+            }
+        }
+
+        for (Iterator<String> iterator = filterQueries.iterator(); iterator.hasNext();) {
+            String filterQuery = (String) iterator.next();
+            solrQuery.addFilterQuery(filterQuery);
+        }
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
+        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
+        QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);
+
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<ProductMarketingSolr> solrList = response.getBeans(ProductMarketingSolr.class);
+        ProductMarketingResponseBean productMarketingResponseBean = new ProductMarketingResponseBean();
+        productMarketingResponseBean.setProductMarketingSolrList(solrList);
+
+        if (facetFields != null && !facetFields.isEmpty()) {
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            productMarketingResponseBean.setProductMarketingSolrFacetFieldList(solrFacetFieldList);
+        }
+        return productMarketingResponseBean;
+    }
+
+    @Deprecated
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, List<String> facetFields) throws SolrServerException, IOException {
         return searchProductMarketing(searchBy, searchText, facetFields, null, null);
     }
 
+    @Deprecated
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, List<String> facetFields, BigDecimal priceStart, BigDecimal priceEnd) throws SolrServerException, IOException {
     	return searchProductMarketing(searchBy, searchText, facetFields, priceStart, priceEnd, null);
     }
 
+    @Deprecated
     public ProductMarketingResponseBean searchProductMarketing(final String searchBy, final String searchText, final List<String> facetFields, 
                                                                final BigDecimal priceStart, final BigDecimal priceEnd, final List<String> catalogCategories) throws SolrServerException, IOException {
         String searchQuery = null;
@@ -174,45 +219,6 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         }
         
         return searchProductMarketing(searchQuery, facetFields, priceStart, priceEnd, filterQueries);
-    }
-
-    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, 
-                                                               final BigDecimal priceStart, final BigDecimal priceEnd, 
-                                                               final List<String> filterQueries) throws SolrServerException, IOException {
-    	SolrQuery solrQuery = new SolrQuery();
-    	solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
-
-        solrQuery.setQuery(searchQuery);
-
-        if(facetFields != null && !facetFields.isEmpty()){
-            solrQuery.setFacet(true);
-            solrQuery.setFacetMinCount(1);
-            for(String facetField : facetFields){
-                solrQuery.addFacetField(facetField);
-            }
-        }
-        
-        for (Iterator<String> iterator = filterQueries.iterator(); iterator.hasNext();) {
-            String filterQuery = (String) iterator.next();
-            solrQuery.addFilterQuery(filterQuery);
-        }
-
-        logger.debug("QueryRequest solrQuery: " + solrQuery);
-
-        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
-        QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);
-
-        logger.debug("QueryResponse Obj: " + response.toString());
-
-        List<ProductMarketingSolr> solrList = response.getBeans(ProductMarketingSolr.class);
-        ProductMarketingResponseBean productMarketingResponseBean = new ProductMarketingResponseBean();
-        productMarketingResponseBean.setProductMarketingSolrList(solrList);
-
-        if(facetFields != null && !facetFields.isEmpty()){
-            List<FacetField> solrFacetFieldList = response.getFacetFields();
-            productMarketingResponseBean.setProductMarketingSolrFacetFieldList(solrFacetFieldList);
-        }
-        return productMarketingResponseBean;
     }
 
     public ProductMarketingResponseBean searchProductMarketing() throws SolrServerException, IOException {

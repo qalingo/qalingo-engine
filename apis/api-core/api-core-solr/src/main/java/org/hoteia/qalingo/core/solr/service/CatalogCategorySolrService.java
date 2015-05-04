@@ -24,7 +24,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.bean.CatalogCategorySolr;
-import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,24 +72,21 @@ public class CatalogCategorySolrService extends AbstractSolrService {
         catalogCategorySolrServer.commit();
     }
     
-	public CatalogCategoryResponseBean searchCatalogCategory(String searchBy,String searchText, String facetField) throws SolrServerException, IOException {
+    public CatalogCategoryResponseBean searchCatalogCategory(String searchQuery, List<String> facetFields) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         
-        if (StringUtils.isEmpty(searchBy)) {
-            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
+        if (StringUtils.isEmpty(searchQuery)) {
+            throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
         }
+        solrQuery.setQuery(searchQuery);
 
-        if (StringUtils.isEmpty(searchText)) {
-            solrQuery.setQuery(searchBy + ":*");
-        } else {
-            solrQuery.setQuery(searchBy + ":" + searchText + "*");
-        }
-
-        if (StringUtils.isNotEmpty(facetField)) {
+        if(facetFields != null && !facetFields.isEmpty()){
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
-            solrQuery.addFacetField(facetField);
+            for(String facetField : facetFields){
+                solrQuery.addFacetField(facetField);
+            }
         }
 
         logger.debug("QueryRequest solrQuery: " + solrQuery);
@@ -105,7 +101,49 @@ public class CatalogCategorySolrService extends AbstractSolrService {
         CatalogCategoryResponseBean catalogCategoryResponseBean = new CatalogCategoryResponseBean();
         catalogCategoryResponseBean.setCatalogCategorySolrList(solrList);
         
-        if (StringUtils.isNotEmpty(facetField)) {
+        if(facetFields != null && !facetFields.isEmpty()){
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            catalogCategoryResponseBean.setCatalogCategorySolrFacetFieldList(solrFacetFieldList);
+        }
+        
+        return catalogCategoryResponseBean;
+    }
+    
+	public CatalogCategoryResponseBean searchCatalogCategory(String searchBy,String searchText, List<String> facetFields) throws SolrServerException, IOException {
+        SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        
+        if (StringUtils.isEmpty(searchBy)) {
+            throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
+        }
+
+        if (StringUtils.isEmpty(searchText)) {
+            solrQuery.setQuery(searchBy + ":*");
+        } else {
+            solrQuery.setQuery(searchBy + ":" + searchText + "*");
+        }
+
+        if(facetFields != null && !facetFields.isEmpty()){
+            solrQuery.setFacet(true);
+            solrQuery.setFacetMinCount(1);
+            for(String facetField : facetFields){
+                solrQuery.addFacetField(facetField);
+            }
+        }
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
+        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
+
+        QueryResponse response = new QueryResponse(catalogCategorySolrServer.request(request), catalogCategorySolrServer);
+        
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<CatalogCategorySolr> solrList = response.getBeans(CatalogCategorySolr.class);
+        CatalogCategoryResponseBean catalogCategoryResponseBean = new CatalogCategoryResponseBean();
+        catalogCategoryResponseBean.setCatalogCategorySolrList(solrList);
+        
+        if(facetFields != null && !facetFields.isEmpty()){
             List<FacetField> solrFacetFieldList = response.getFacetFields();
             catalogCategoryResponseBean.setCatalogCategorySolrFacetFieldList(solrFacetFieldList);
         }
