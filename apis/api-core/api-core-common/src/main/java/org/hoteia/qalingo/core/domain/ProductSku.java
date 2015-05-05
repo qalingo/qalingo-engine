@@ -246,6 +246,13 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 		this.productMarketing = productMarketing;
 	}
 	
+    public ProductBrand getProductBrand() {
+        if (Hibernate.isInitialized(productMarketing) && productMarketing != null) {
+            return productMarketing.getProductBrand();
+        }
+        return null;
+    }
+	
 	public Set<Asset> getAssets() {
         return assets;
     }

@@ -536,7 +536,11 @@ public class EngineSettingService {
      * 
      */
     public String getProductMarketingImageFilePath(final ProductMarketing productMarketing, final String assetType) throws Exception {
-        String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType) + productMarketing.getCode() + File.separator;
+        String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType) + File.separator;
+        if(productMarketing.getProductBrand() != null){
+            productMarketingImageFilePath += productMarketing.getProductBrand().getCode() + File.separator;
+        }
+        productMarketingImageFilePath += productMarketing.getCode() + File.separator;
         return handlePath(productMarketingImageFilePath);
     }
     
@@ -595,7 +599,11 @@ public class EngineSettingService {
      * 
      */
     public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
-        String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + productSku.getCode() + File.separator;
+        String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + File.separator;
+        if(productSku.getProductBrand() != null){
+            productMarketingImageFilePath += productSku.getProductBrand().getCode() + File.separator;
+        }
+        productMarketingImageFilePath += productSku.getCode() + File.separator;
         return handlePath(productMarketingImageFilePath);
     }
     
