@@ -564,7 +564,11 @@ public class EngineSettingService {
      * 
      */
     public String getProductMarketingImageWebPath(final ProductMarketing productMarketing, final Asset asset) throws Exception {
-        String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + productMarketing.getCode() + "/" + asset.getPath();
+        String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + "/";
+        if(productMarketing.getProductBrand() != null){
+            productMarketingImageWebPath += productMarketing.getProductBrand().getCode() + "/";
+        }
+        productMarketingImageWebPath += productMarketing.getCode() + "/" + asset.getPath();
         return handlePath(productMarketingImageWebPath);
     }
     
@@ -627,7 +631,11 @@ public class EngineSettingService {
      * 
      */
     public String getProductSkuImageWebPath(final ProductSku productSku, final Asset asset) throws Exception {
-        String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + productSku.getCode() + "/" + asset.getPath();
+        String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + "/";
+        if(productSku.getProductBrand() != null){
+            productSkuImageWebPath += productSku.getProductBrand().getCode() + "/";
+        }
+        productSkuImageWebPath += productSku.getCode() + "/" + asset.getPath();
         return handlePath(productSkuImageWebPath);
     }
     
