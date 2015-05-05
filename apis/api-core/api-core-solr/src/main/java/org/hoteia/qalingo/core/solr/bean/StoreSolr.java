@@ -27,7 +27,7 @@ public class StoreSolr {
 	private String name;
 
     @Field
-    private Boolean active;
+    private boolean active;
     
     @Field
     private boolean b2c;

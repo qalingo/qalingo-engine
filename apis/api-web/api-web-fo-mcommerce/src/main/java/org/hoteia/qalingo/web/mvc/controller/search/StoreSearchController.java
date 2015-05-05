@@ -141,14 +141,21 @@ public class StoreSearchController extends AbstractMCommerceController {
 		try {
             PagedListHolder<StoreViewBean> pagedListHolder;
             if(page == 0){
-	            StoreResponseBean storeResponseBean = null;
-	            List<String> facetFields = Arrays.asList(StoreResponseBean.STORE_DEFAULT_FACET_FIELD,StoreResponseBean.STORE_SECOND_FACET_FIELD);
-	            storeResponseBean = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), facetFields, cityList,countryList);
-	            StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), facetFields);
+                StoreResponseBean storeResponseBean = null;
+
+                List<String> facetFields = new ArrayList<String>();
+                facetFields.add(StoreResponseBean.STORE_DEFAULT_FACET_FIELD);
+                facetFields.add(StoreResponseBean.STORE_SECOND_FACET_FIELD);
+
+                String query = StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD + ":" + searchForm.getText() + " AND active = true";
+
+	            storeResponseBean = storeSolrService.searchStore(query, facetFields, cityList,countryList);
+//	            StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(, , facetFields);
 	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, storeResponseBean, pageSize, sortBy, order);
 	            
 	            // FACETS
-                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponBeanNonFilter);
+//                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponBeanNonFilter);
+                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponseBean);
 	            modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, facets);
 	            request.getSession().setAttribute(sessionKeyFacet, facets);
 			    
