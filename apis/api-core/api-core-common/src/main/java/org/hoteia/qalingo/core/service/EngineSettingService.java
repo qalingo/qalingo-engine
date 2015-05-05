@@ -525,7 +525,7 @@ public class EngineSettingService {
             prefixPath = engineSetting.getDefaultValue();
         }
         String rootAssetFilePath = getRootAssetFilePath();
-        if (rootAssetFilePath.endsWith("/") && prefixPath.startsWith("/")) {
+        if (rootAssetFilePath.endsWith(File.separator) && prefixPath.startsWith(File.separator)) {
             rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
         }
         String productMarketingImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
@@ -536,7 +536,7 @@ public class EngineSettingService {
      * 
      */
     public String getProductMarketingImageFilePath(final ProductMarketing productMarketing, final String assetType) throws Exception {
-        String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType) + File.separator;
+        String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType);
         if(productMarketing.getProductBrand() != null){
             productMarketingImageFilePath += productMarketing.getProductBrand().getCode() + File.separator;
         }
@@ -592,7 +592,7 @@ public class EngineSettingService {
             prefixPath = engineSetting.getDefaultValue();
         }
         String rootAssetFilePath = getRootAssetFilePath();
-        if (rootAssetFilePath.endsWith("/") && prefixPath.startsWith("/")) {
+        if (rootAssetFilePath.endsWith(File.separator) && prefixPath.startsWith(File.separator)) {
             rootAssetFilePath = rootAssetFilePath.substring(0, rootAssetFilePath.length() - 1);
         }
         String productSkuImageFilePath = rootAssetFilePath + prefixPath + File.separator + assetType + File.separator;
@@ -603,7 +603,7 @@ public class EngineSettingService {
      * 
      */
     public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
-        String productMarketingImageFilePath = getProductSkuImageFilePath(assetType) + File.separator;
+        String productMarketingImageFilePath = getProductSkuImageFilePath(assetType);
         if(productSku.getProductBrand() != null){
             productMarketingImageFilePath += productSku.getProductBrand().getCode() + File.separator;
         }
