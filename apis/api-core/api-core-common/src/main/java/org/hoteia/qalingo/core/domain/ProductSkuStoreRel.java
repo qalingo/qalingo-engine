@@ -48,6 +48,15 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     @Column(name = "IS_DEFAULT_STORE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefaultStore;
 
+    @Column(name = "IS_SALABLE_ONLINE_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableOnlineB2B;
+    
+    @Column(name = "IS_SALABLE_ONLINE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableOnlineB2C;
+
+    @Column(name = "IS_SALABLE_STORE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableStoreB2C;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreAttribute.class)
     @JoinColumns({
         @JoinColumn(name = "PRODUCT_SKU_ID"),
@@ -117,6 +126,30 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
 
     public void setDefaultStore(boolean isDefaultStore) {
         this.isDefaultStore = isDefaultStore;
+    }
+
+    public boolean isSalableOnlineB2B() {
+        return salableOnlineB2B;
+    }
+
+    public void setSalableOnlineB2B(boolean salableOnlineB2B) {
+        this.salableOnlineB2B = salableOnlineB2B;
+    }
+
+    public boolean isSalableOnlineB2C() {
+        return salableOnlineB2C;
+    }
+
+    public void setSalableOnlineB2C(boolean salableOnlineB2C) {
+        this.salableOnlineB2C = salableOnlineB2C;
+    }
+
+    public boolean isSalableStoreB2C() {
+        return salableStoreB2C;
+    }
+
+    public void setSalableStoreB2C(boolean salableStoreB2C) {
+        this.salableStoreB2C = salableStoreB2C;
     }
 
     public Set<ProductSkuStoreAttribute> getAttributes() {

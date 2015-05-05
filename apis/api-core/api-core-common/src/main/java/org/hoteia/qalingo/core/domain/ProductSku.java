@@ -74,6 +74,9 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
+    @Column(name = "IS_ENABLED_TO_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledToB2C;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuAttribute.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuAttribute> attributes = new HashSet<ProductSkuAttribute>();
@@ -197,6 +200,14 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         this.isDefault = isDefault;
     }
     
+    public boolean isEnabledToB2C() {
+        return enabledToB2C;
+    }
+
+    public void setEnabledToB2C(boolean enabledToB2C) {
+        this.enabledToB2C = enabledToB2C;
+    }
+
     public Set<ProductSkuAttribute> getAttributes() {
         return attributes;
     }

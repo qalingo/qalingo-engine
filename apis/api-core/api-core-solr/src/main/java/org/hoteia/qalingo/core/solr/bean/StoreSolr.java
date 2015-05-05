@@ -27,6 +27,15 @@ public class StoreSolr {
 	private String name;
 
     @Field
+    private Boolean active;
+    
+    @Field
+    private boolean b2c;
+    
+    @Field
+    private boolean b2b;
+    
+    @Field
    	private String city;
     
     @Field("countrycode")
@@ -47,62 +56,86 @@ public class StoreSolr {
     @Field("dateupdate")
     private Date dateUpdate;
 
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getCode() {
+    public String getCode() {
         return code;
     }
-	
-	public void setCode(String code) {
+
+    public void setCode(String code) {
         this.code = code;
     }
-	
-	public String getName() {
+
+    public String getName() {
         return name;
     }
-	
-	public void setName(String name) {
+
+    public void setName(String name) {
         this.name = name;
     }
-	
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public boolean isB2c() {
+        return b2c;
+    }
+
+    public void setB2c(boolean b2c) {
+        this.b2c = b2c;
+    }
+
+    public boolean isB2b() {
+        return b2b;
+    }
+
+    public void setB2b(boolean b2b) {
+        this.b2b = b2b;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public List<String> getTags() {
         return tags;
     }

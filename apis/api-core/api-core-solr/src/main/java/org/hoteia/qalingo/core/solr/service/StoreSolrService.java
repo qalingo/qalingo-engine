@@ -50,6 +50,10 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolr.setId(store.getId());
         storeSolr.setCode(store.getCode());
         storeSolr.setName(store.getName());
+        storeSolr.setActive(store.isActive());
+        storeSolr.setB2b(store.isB2b());
+        storeSolr.setB2c(store.isB2c());
+        storeSolr.setActive(store.isActive());
         storeSolr.setCity(store.getCity());
         storeSolr.setCountryCode(store.getCountryCode());
         storeSolr.setPostalCode(store.getPostalCode());

@@ -65,6 +65,8 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolr.setName(productSku.getName());
         productSkuSolr.setDescription(productSku.getDescription());
 
+        productSkuSolr.setEnabledToB2C(productSku.isEnabledToB2C());
+
         if(productMarketing.getProductBrand() != null
                 && Hibernate.isInitialized(productMarketing.getProductBrand())){
             productSkuSolr.setProductBrandCode(productMarketing.getProductBrand().getCode());

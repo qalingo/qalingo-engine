@@ -69,6 +69,9 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
+    @Column(name = "IS_ENABLED_TO_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledToB2C;
+
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinColumn(name = "PRODUCT_BRAND_ID", insertable = true, updatable = true)
     private ProductBrand productBrand;
@@ -167,7 +170,15 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
         this.isDefault = isDefault;
     }
 
-	public ProductBrand getProductBrand() {
+    public boolean isEnabledToB2C() {
+        return enabledToB2C;
+    }
+
+    public void setEnabledToB2C(boolean enabledToB2C) {
+        this.enabledToB2C = enabledToB2C;
+    }
+
+    public ProductBrand getProductBrand() {
 		return productBrand;
 	}
 	
