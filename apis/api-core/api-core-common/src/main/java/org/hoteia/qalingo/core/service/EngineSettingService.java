@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -715,7 +716,7 @@ public class EngineSettingService {
     }
     
     protected String handlePath(String path){
-        return path.replace("_", "-").toLowerCase();
+        return CoreUtil.replaceCharactersNotLetterOrDigit(path).toLowerCase();
     }
     
 }

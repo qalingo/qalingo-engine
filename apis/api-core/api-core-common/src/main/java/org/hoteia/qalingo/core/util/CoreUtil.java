@@ -49,6 +49,15 @@ public class CoreUtil {
         }
         return stringToReturn;
     }
+        
+    public static String replaceCharactersNotLetterOrDigit(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            stringToReturn = stringToReturn.replaceAll("[^\\p{L}\\p{Nd}]+", "-");
+            stringToReturn = cleanDash(stringToReturn);
+        }
+        return stringToReturn;
+    }
     
     public static String replaceSpaceAndUnderscore(String string) {
         String stringToReturn = string;
