@@ -75,7 +75,7 @@ public class StoreSolrService extends AbstractSolrService {
 
     public StoreResponseBean searchStore(String searchQuery, List<String> facetFields, List<String> cities, List<String> countries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
 
         if (StringUtils.isEmpty(searchQuery)) {
             throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
@@ -143,7 +143,7 @@ public class StoreSolrService extends AbstractSolrService {
     public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields,
                                          List<String> cities, List<String> countries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
@@ -209,7 +209,7 @@ public class StoreSolrService extends AbstractSolrService {
 	
     public StoreResponseBean searchStore() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);

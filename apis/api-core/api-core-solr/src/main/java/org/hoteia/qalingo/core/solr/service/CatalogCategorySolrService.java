@@ -74,7 +74,7 @@ public class CatalogCategorySolrService extends AbstractSolrService {
     
     public CatalogCategoryResponseBean searchCatalogCategory(String searchQuery, List<String> facetFields) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         if (StringUtils.isEmpty(searchQuery)) {
             throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
@@ -111,7 +111,7 @@ public class CatalogCategorySolrService extends AbstractSolrService {
     
 	public CatalogCategoryResponseBean searchCatalogCategory(String searchBy,String searchText, List<String> facetFields) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
@@ -153,7 +153,7 @@ public class CatalogCategorySolrService extends AbstractSolrService {
 
     public CatalogCategoryResponseBean searchCatalogCategory() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);

@@ -16,4 +16,8 @@ public abstract class AbstractSolrService {
     public static final String SEARCH_TEXT = "searchText";
     public static final String ROWS_DEFAULT_VALUE = "10000000";
 
+    protected String getMaxResult(){
+        return ROWS_DEFAULT_VALUE;
+    }
+    
 }

@@ -91,8 +91,8 @@ public class ProductSkuSolrServiceTest {
         productSkuPrice.setSalePrice(new BigDecimal("2"));
         productSku.getPrices().add(productSkuPrice);
         
-        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
-        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES);
     }
     
     /**

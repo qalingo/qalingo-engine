@@ -89,10 +89,10 @@ public class CatalogSearchController extends AbstractMCommerceController {
     
 	@RequestMapping(value = FoUrls.CATALOG_SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView search(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
-		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATALOG_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-
+        final MarketArea marketArea = requestData.getMarketArea();
+        
         // SANITY CHECK
         List<String> evictValues = new ArrayList<String>();
         evictValues.add("*");
@@ -124,28 +124,30 @@ public class CatalogSearchController extends AbstractMCommerceController {
         int pageSize = searchForm.getPageSize();
         
         final List<String> facetFields = new ArrayList<String>();
-        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES);
         facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE);
-        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE);
-        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODE);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES);
+        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES);
 
 		try {
             PagedListHolder<ProductMarketingViewBean> pagedListHolder;
 		    if(page == 0){
 	            ProductMarketingResponseBean productMarketingResponseBean = null;
+	            
+                String querySearch = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATALOG_CODES + ":" + marketArea.getCatalog().getCode() ;
+                querySearch += " AND " + ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD + ":" + searchForm.getText();
+
 	            if(searchForm.getPrice() != null){
-	                if(searchForm.getCatalogCategoryList() != null){
-	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-	                            searchForm.getText(), facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue(), 
-	                            searchForm.getCatalogCategoryList());
-	                } else {
-	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-	                            searchForm.getText(), facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
-	                }
+//	                if(searchForm.getCatalogCategoryList() != null){
+//	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue(), 
+//	                            searchForm.getCatalogCategoryList());
+//	                } else {
+//	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
+//	                }
+                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
 	                
 	            } else {
-	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-	                                                        searchForm.getText(), facetFields);
+	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields);
 	            }
 	            
 	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, productMarketingResponseBean, pageSize, sortBy, order);

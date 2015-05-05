@@ -44,7 +44,7 @@ public class ProductSkuSolr {
     private String price;
     
     @Field
-    private List<String> catalogCode = new ArrayList<String>();
+    private List<String> catalogCodes = new ArrayList<String>();
     
     @Field
     private List<String> catalogCategories = new ArrayList<String>();
@@ -133,20 +133,20 @@ public class ProductSkuSolr {
         this.price = price;
     }
     
-    public List<String> getCatalogCode() {
-        return catalogCode;
+    public List<String> getCatalogCodes() {
+        return catalogCodes;
     }
     
-    public void setCatalogCode(List<String> catalogCode) {
-        this.catalogCode = catalogCode;
+    public void setCatalogCodes(List<String> catalogCodes) {
+        this.catalogCodes = catalogCodes;
     }
     
     public void addCatalogCode(String catalogCode){
-        if(this.catalogCode == null){
-            this.catalogCode = new ArrayList<String>();
+        if(this.catalogCodes == null){
+            this.catalogCodes = new ArrayList<String>();
         }
-        if(!this.catalogCode.contains(catalogCode)){
-            this.catalogCode.add(catalogCode);
+        if(!this.catalogCodes.contains(catalogCode)){
+            this.catalogCodes.add(catalogCode);
         }
     }
     
@@ -251,7 +251,7 @@ public class ProductSkuSolr {
     @Override
     public String toString() {
         return "ProductSkuSolr [id=" + id + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", name=" + name + ", defaultCategoryCode=" + defaultCategoryCode
-                + ", catalogCode=" + catalogCode + ", price=" + price + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", catalogCodes=" + catalogCodes + ", price=" + price + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
     
 }

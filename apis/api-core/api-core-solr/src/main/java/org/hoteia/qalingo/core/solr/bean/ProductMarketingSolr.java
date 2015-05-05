@@ -47,7 +47,7 @@ public class ProductMarketingSolr {
 	private Float price;
 
     @Field
-    private List<String> catalogCode = new ArrayList<String>();
+    private List<String> catalogCodes = new ArrayList<String>();
     
     @Field
     private List<String> catalogCategories = new ArrayList<String>();
@@ -144,20 +144,20 @@ public class ProductMarketingSolr {
         this.price = price;
     }
     
-	public List<String> getCatalogCode() {
-        return catalogCode;
+	public List<String> getCatalogCodes() {
+        return catalogCodes;
     }
 	
-	public void setCatalogCode(List<String> catalogCode) {
-        this.catalogCode = catalogCode;
+	public void setCatalogCodes(List<String> catalogCodes) {
+        this.catalogCodes = catalogCodes;
     }
     
     public void addCatalogCode(String catalogCode){
-        if(this.catalogCode == null){
-            this.catalogCode = new ArrayList<String>();
+        if(this.catalogCodes == null){
+            this.catalogCodes = new ArrayList<String>();
         }
-        if(!this.catalogCode.contains(catalogCode)){
-            this.catalogCode.add(catalogCode);
+        if(!this.catalogCodes.contains(catalogCode)){
+            this.catalogCodes.add(catalogCode);
         }
     }
     
@@ -262,7 +262,7 @@ public class ProductMarketingSolr {
     @Override
     public String toString() {
         return "ProductMarketingSolr [id=" + id + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", name=" + name + ", defaultCategoryCode=" + defaultCategoryCode
-                + ", defaultProductSkuCode=" + defaultProductSkuCode + ", catalogCode=" + catalogCode + ", price=" + price + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+                + ", defaultProductSkuCode=" + defaultProductSkuCode + ", catalogCodes=" + catalogCodes + ", price=" + price + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
                 + ", catalogCategories=" + catalogCategories + "]";
     }
 	

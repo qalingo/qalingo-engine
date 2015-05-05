@@ -393,13 +393,13 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final List<FacetField> facetFields = productMarketingResponseBean.getProductMarketingSolrFacetFieldList();
         for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
-            if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE.equalsIgnoreCase(facetField.getName())) {
+            if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
                 if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
                 
-            } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE.equalsIgnoreCase(facetField.getName())) {
+            } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES.equalsIgnoreCase(facetField.getName())) {
                 
                 // GROUP SKU OPTIONS BY TYPE
                 Map<String, List<SearchFacetValueBean>> skuOptionsByType = new HashMap<String, List<SearchFacetValueBean>>();
@@ -454,7 +454,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final String localizationCode = localization.getCode();
         final CatalogVirtual catalog = requestData.getMarketArea().getCatalog();
         
-        if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE.equalsIgnoreCase(facetField.getName())){
+        if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES.equalsIgnoreCase(facetField.getName())){
             List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
             categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
             categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
@@ -479,7 +479,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 }
             }
             
-        } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODE.equalsIgnoreCase(facetField.getName())){
+        } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES.equalsIgnoreCase(facetField.getName())){
 
             // PARENT METHODE
             

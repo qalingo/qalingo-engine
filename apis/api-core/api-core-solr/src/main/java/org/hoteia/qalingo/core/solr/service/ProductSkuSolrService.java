@@ -82,7 +82,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
             for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
                 String catalogCode = catalogCategoryVirtual.getCatalog().getCode(); 
                 productSkuSolr.addCatalogCode(catalogCode);
-                String catalogCategoryCode = catalogCategoryVirtual.getCatalog().getCode() + "_" + catalogCategoryVirtual.getCode(); 
+                String catalogCategoryCode = catalogCode + "_" + catalogCategoryVirtual.getCode(); 
                 productSkuSolr.addCatalogCategories(catalogCategoryCode);
             }
         }
@@ -121,7 +121,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
     
     public ProductSkuResponseBean searchProductSku(String searchQuery, List<String> facetFields) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         if (StringUtils.isEmpty(searchQuery)) {
             throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
@@ -158,7 +158,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
     @Deprecated
     public ProductSkuResponseBean searchProductSku(String searchBy, String searchText, List<String> facetFields) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("SearchBy field can not be Empty or Blank!");
@@ -199,7 +199,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
 
     public ProductSkuResponseBean searchProductSku() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);

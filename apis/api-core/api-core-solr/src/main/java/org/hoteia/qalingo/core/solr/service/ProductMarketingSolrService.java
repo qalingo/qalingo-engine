@@ -87,7 +87,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
                 String catalogCode = catalogCategoryVirtual.getCatalog().getCode(); 
                 productMarketingSolr.addCatalogCode(catalogCode);
-                String catalogCategoryCode = catalogCategoryVirtual.getCatalog().getCode() + "_" + catalogCategoryVirtual.getCode(); 
+                String catalogCategoryCode = catalogCode + "_" + catalogCategoryVirtual.getCode(); 
                 productMarketingSolr.addCatalogCategories(catalogCategoryCode);
             }
         }
@@ -139,10 +139,14 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         return searchProductMarketing(searchQuery, facetFields, null, null, null);
     }
     
+    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final BigDecimal priceStart, final BigDecimal priceEnd) throws SolrServerException, IOException {
+        return searchProductMarketing(searchQuery, facetFields, null, null, null);
+    }
+    
     public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final BigDecimal priceStart, final BigDecimal priceEnd,
                                                                final List<String> filterQueries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
 
         solrQuery.setQuery(searchQuery);
 
@@ -227,11 +231,11 @@ public class ProductMarketingSolrService extends AbstractSolrService {
 
     public ProductMarketingResponseBean searchProductMarketing() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        solrQuery.setParam("rows", getMaxResult());
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
-        solrQuery.addFacetField(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIES_CODE);
+        solrQuery.addFacetField(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES);
         
         logger.debug("QueryRequest solrQuery: " + solrQuery);
 
