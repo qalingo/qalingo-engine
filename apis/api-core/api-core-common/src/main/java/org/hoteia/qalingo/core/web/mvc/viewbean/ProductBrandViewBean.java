@@ -235,6 +235,20 @@ public class ProductBrandViewBean extends AbstractViewBean {
         return null;
     }
 
+    public String getAbsoluteWebPathLogo() {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals("LOGO")){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getAbsoluteWebPath();
+        }
+        return null;
+    }
+    
     public AssetViewBean getDefaultAsset() {
         for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
