@@ -75,6 +75,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 
     public ProductDetailsController() {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productBrand.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
