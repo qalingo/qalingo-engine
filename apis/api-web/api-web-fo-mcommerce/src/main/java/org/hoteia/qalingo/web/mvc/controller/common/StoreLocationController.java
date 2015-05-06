@@ -68,7 +68,8 @@ public class StoreLocationController extends AbstractMCommerceController {
         final GeolocData geolocData = requestData.getGeolocData();
         
         if(geolocData != null){
-            final List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), "50", 100);
+            String distance = getDistance();
+            final List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), distance, 100);
             List<Store> stores = new ArrayList<Store>();
             if(geolocatedStores != null){
                 for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
@@ -100,7 +101,11 @@ public class StoreLocationController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-	protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData){
+	protected String getDistance() {
+        return "50";
+    }
+
+    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData){
         final Locale locale = requestData.getLocale();
         
         // BREADCRUMB
