@@ -134,8 +134,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 		    if(page == 0){
 	            ProductMarketingResponseBean productMarketingResponseBean = null;
 	            
-                String querySearch = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATALOG_CODES + ":" + marketArea.getCatalog().getCode() ;
-                querySearch += " AND " + ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD + ":" + searchForm.getText();
+                String querySearch = getSearchQuery(marketArea, searchForm.getText());
 
 	            if(searchForm.getPrice() != null){
 //	                if(searchForm.getCatalogCategoryList() != null){
@@ -202,6 +201,12 @@ public class CatalogSearchController extends AbstractMCommerceController {
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         
         return modelAndView;
+	}
+	
+	protected String getSearchQuery(MarketArea marketArea, String text){
+        String querySearch = "enabledToB2C:true AND " + ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATALOG_CODES + ":" + marketArea.getCatalog().getCode() ;
+        querySearch += " AND " + ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD + ":" + text;
+        return querySearch;
 	}
 	
     protected ModelAndView displaySearch(final HttpServletRequest request, final Model model) throws Exception {

@@ -88,7 +88,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
                 String catalogCode = catalogCategoryVirtual.getCatalog().getCode(); 
                 productMarketingSolr.addCatalogCode(catalogCode);
                 String catalogCategoryCode = catalogCode + "_" + catalogCategoryVirtual.getCode(); 
-                productMarketingSolr.addCatalogCategories(catalogCategoryCode);
+                productMarketingSolr.addCatalogCategory(catalogCategoryCode);
             }
         }
         

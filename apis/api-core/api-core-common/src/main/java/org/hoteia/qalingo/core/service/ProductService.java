@@ -87,7 +87,16 @@ public class ProductService {
     }
     
     public List<ProductMarketing> findProductMarketings(Object... params) {
-        List<ProductMarketing> productMarketings = productDao.findProductMarketings(params);
+        return findAllProductMarketings(params);
+    }
+    
+    public List<ProductMarketing> findAllProductMarketings(Object... params) {
+        List<ProductMarketing> productMarketings = productDao.findAllProductMarketings(params);
+        return productMarketings;
+    }
+    
+    public List<Long> findAllProductMarketingIds() {
+        List<Long> productMarketings = productDao.findAllProductMarketingIds();
         return productMarketings;
     }
     
@@ -144,6 +153,10 @@ public class ProductService {
 
     public ProductMarketing saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
         return productDao.saveOrUpdateProductMarketing(productMarketing);
+    }
+
+    public ProductMarketing updateProductMarketing(final ProductMarketing productMarketing) {
+        return productDao.updateProductMarketing(productMarketing);
     }
 
     public void deleteProductMarketing(final ProductMarketing productMarketing) {
@@ -429,6 +442,10 @@ public class ProductService {
 
     public List<ProductBrand> findAllProductBrands(Object... params) {
         return productDao.findAllProductBrands(params);
+    }
+
+    public List<Long> findAllProductBrandIds() {
+        return productDao.findAllProductBrandIds();
     }
     
     public List<ProductBrand> findAllProductBrandsEnabled(Object... params) {

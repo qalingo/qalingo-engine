@@ -147,7 +147,7 @@ public class StoreSearchController extends AbstractMCommerceController {
                 facetFields.add(StoreResponseBean.STORE_DEFAULT_FACET_FIELD);
                 facetFields.add(StoreResponseBean.STORE_SECOND_FACET_FIELD);
 
-                String query = StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD + ":" + searchForm.getText() + " AND active = true";
+                String query = getSearchQuery(searchForm.getText());
 
 	            storeResponseBean = storeSolrService.searchStore(query, facetFields, cityList,countryList);
 //	            StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(, , facetFields);
@@ -207,6 +207,10 @@ public class StoreSearchController extends AbstractMCommerceController {
 
         return modelAndView;
 	}
+
+	protected String getSearchQuery(String text) {
+        return StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD + ":" + text + " AND active = true";
+    }
 
     protected ModelAndView displaySearch(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());

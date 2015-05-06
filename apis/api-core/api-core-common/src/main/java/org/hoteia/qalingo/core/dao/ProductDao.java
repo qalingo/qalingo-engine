@@ -73,7 +73,7 @@ public class ProductDao extends AbstractGenericDao {
 		return productMarketing;
 	}
 	
-	public List<ProductMarketing> findProductMarketings(Object... params) {
+	public List<ProductMarketing> findAllProductMarketings(Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.addOrder(Order.asc("id"));
@@ -81,6 +81,16 @@ public class ProductDao extends AbstractGenericDao {
         @SuppressWarnings("unchecked")
         List<ProductMarketing> productMarketings = criteria.list();
 		return productMarketings;
+	}
+	
+	public List<Long> findAllProductMarketingIds() {
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> productMarketingIds = criteria.list();
+		return productMarketingIds;
 	}
 
     public List<ProductMarketing> findProductMarketingByRandom(int maxResults, Object... params) {
@@ -231,6 +241,11 @@ public class ProductDao extends AbstractGenericDao {
             return productMarketing;
         }
 	}
+	
+    public ProductMarketing updateProductMarketing(final ProductMarketing productMarketing) {
+        productMarketing.setDateUpdate(new Date());
+        return em.merge(productMarketing);
+    }
 
 	public void deleteProductMarketing(final ProductMarketing productMarketing) {
 		em.remove(productMarketing);
@@ -792,6 +807,16 @@ public class ProductDao extends AbstractGenericDao {
         @SuppressWarnings("unchecked")
         List<ProductBrand> productBrands = criteria.list();
         return productBrands;
+    }
+    
+    public List<Long> findAllProductBrandIds() {
+        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.asc("name"));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> productBrandIds = criteria.list();
+        return productBrandIds;
     }
     
     public List<ProductBrand> findAllProductBrandsEnabled(Object... params) {

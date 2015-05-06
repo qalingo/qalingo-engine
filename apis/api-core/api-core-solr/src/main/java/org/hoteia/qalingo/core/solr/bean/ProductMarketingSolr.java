@@ -169,7 +169,7 @@ public class ProductMarketingSolr {
         this.catalogCategories = catalogCategories;
     }
     
-    public void addCatalogCategories(String catalogCategoryCode){
+    public void addCatalogCategory(String catalogCategoryCode){
         if(this.catalogCategories == null){
             this.catalogCategories = new ArrayList<String>();
         }
