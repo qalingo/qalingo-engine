@@ -77,15 +77,17 @@ public class StoreLocationController extends AbstractMCommerceController {
                     stores.add(store);
                 }
             }
-            final List<StoreViewBean> storeViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
-            modelAndView.addObject("stores", storeViewBeans);
+            if(stores != null){
+                final List<StoreViewBean> storeViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
+                modelAndView.addObject("stores", storeViewBeans);
 
-            final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter.getCountries()));
-            } catch (JsonProcessingException e) {
-                logger.warn(e.getMessage(), e);
+                final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter.getCountries()));
+                } catch (JsonProcessingException e) {
+                    logger.warn(e.getMessage(), e);
+                }
             }
             
             modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
