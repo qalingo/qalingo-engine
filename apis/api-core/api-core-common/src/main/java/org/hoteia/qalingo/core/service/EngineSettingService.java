@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.EngineSettingDao;
 import org.hoteia.qalingo.core.domain.Asset;
@@ -720,7 +721,16 @@ public class EngineSettingService {
     }
     
     protected String handleFilePath(String path){
-        return CoreUtil.replaceCharactersNotLetterOrDigit(path).toLowerCase();
+        String newFilePath = path;
+        if(StringUtils.isNotEmpty(newFilePath)){
+            newFilePath = newFilePath.replace("_", "-").toLowerCase();
+            newFilePath = newFilePath.replace("&", "-").toLowerCase();
+            newFilePath = newFilePath.replace("$", "-").toLowerCase();
+            newFilePath = newFilePath.replace("%", "-").toLowerCase();
+            newFilePath = CoreUtil.cleanDash(newFilePath);
+            return newFilePath.toLowerCase();
+        }
+        return newFilePath;
     }
     
 }

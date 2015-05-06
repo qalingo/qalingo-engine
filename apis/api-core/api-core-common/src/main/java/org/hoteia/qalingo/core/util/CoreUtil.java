@@ -13,6 +13,16 @@ public class CoreUtil {
         return UUID.randomUUID().toString().replace("-", "_");
     }
     
+    public static String handleFileName(String fileName){
+        if(StringUtils.isNotEmpty(fileName)){
+            String name = CoreUtil.replaceCharactersNotLetterOrDigit(fileName.substring(0, fileName.lastIndexOf(".")));
+            String type = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+            String newFileName = name + "." + type;
+            return newFileName.toLowerCase();
+        }
+        return fileName;
+    }
+    
     public static String handleTruncatedDescription(String string) {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
