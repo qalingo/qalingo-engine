@@ -1989,6 +1989,13 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final AssetViewBean assetViewBean = new AssetViewBean();
         assetViewBean.setName(asset.getName());
         assetViewBean.setDescription(asset.getDescription());
+        if(StringUtils.isNotEmpty(asset.getSeo())){
+            assetViewBean.setAlt(asset.getSeo());
+            assetViewBean.setTitle(asset.getSeo());
+        } else {
+            assetViewBean.setAlt(asset.getDescription());
+            assetViewBean.setTitle(asset.getDescription());
+        }
         assetViewBean.setScope(asset.getScope());
         assetViewBean.setType(asset.getType());
         assetViewBean.setPath(asset.getPath());
@@ -1996,7 +2003,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if(asset.getFileSize() != null){
             assetViewBean.setFileSize(asset.getFileSize().toString());
         }
-        assetViewBean.setIsDefault(asset.isDefault());
+        assetViewBean.setDefault(asset.isDefault());
 
         return assetViewBean;
     }

@@ -49,6 +49,9 @@ public class Asset extends AbstractEntity<Asset> {
     @Lob
     private String description;
 
+    @Column(name = "SEO")
+    private String seo;
+    
     @Column(name = "ORIGIN")
     private String origin;
     
@@ -121,6 +124,14 @@ public class Asset extends AbstractEntity<Asset> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getSeo() {
+        return seo;
+    }
+	
+	public void setSeo(String seo) {
+        this.seo = seo;
+    }
 	
 	public String getOrigin() {
         return origin;

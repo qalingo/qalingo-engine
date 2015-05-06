@@ -20,6 +20,8 @@ public class AssetViewBean extends AbstractViewBean {
 	protected String scope;
 	protected String type;
 	protected String description;
+    protected String title;
+    protected String alt;
 	protected String path;
 	protected String size;
 	protected String fileSize;
@@ -64,7 +66,23 @@ public class AssetViewBean extends AbstractViewBean {
 		this.description = description;
 	}
 
-	public String getPath() {
+	public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAlt() {
+        return alt;
+    }
+
+    public void setAlt(String alt) {
+        this.alt = alt;
+    }
+
+    public String getPath() {
 		return path;
 	}
 
@@ -92,9 +110,9 @@ public class AssetViewBean extends AbstractViewBean {
 		return isDefault;
 	}
 
-	public void setIsDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 
 	public String getRelativeWebPath() {
         return relativeWebPath;
