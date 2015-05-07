@@ -209,7 +209,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 	}
 
 	protected String getSearchQuery(String text) {
-        return StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD + ":" + text + " AND active = true";
+        return StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD + ":" + text + " AND active:true";
     }
 
     protected ModelAndView displaySearch(final HttpServletRequest request, final Model model) throws Exception {
