@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -67,6 +68,8 @@ public class StoreLocationController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
         final GeolocData geolocData = requestData.getGeolocData();
         
+        ObjectMapper mapper = new ObjectMapper();
+        List<StoreLocatorCountryFilterBean> countries = new ArrayList<StoreLocatorCountryFilterBean>();
         if(geolocData != null){
             String distance = getDistance();
             final List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), distance, 100);
@@ -83,12 +86,7 @@ public class StoreLocationController extends AbstractMCommerceController {
                 modelAndView.addObject("stores", storeViewBeans);
 
                 final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
-                ObjectMapper mapper = new ObjectMapper();
-                try {
-                    modelAndView.addObject("jsonStores", mapper.writeValueAsString(storeFilter.getCountries()));
-                } catch (JsonProcessingException e) {
-                    logger.warn(e.getMessage(), e);
-                }
+                countries = storeFilter.getCountries();
             }
             
             modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
@@ -96,6 +94,12 @@ public class StoreLocationController extends AbstractMCommerceController {
             overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_LOCATION.getKey());
 
             modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        }
+
+        try {
+            modelAndView.addObject("jsonStores", mapper.writeValueAsString(countries));
+        } catch (JsonProcessingException e) {
+            logger.warn(e.getMessage(), e);
         }
         
         return modelAndView;
