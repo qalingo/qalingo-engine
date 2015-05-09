@@ -164,6 +164,17 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         return prices;
     }
 
+    public ProductSkuStorePrice getPrice(final Long marketAreaId) {
+        if (prices != null && Hibernate.isInitialized(prices)) {
+            for (ProductSkuStorePrice productSkuPrice : prices) {
+                if (productSkuPrice.getMarketAreaId().equals(marketAreaId)) {
+                    return productSkuPrice;
+                }
+            }
+        }
+        return null;
+    }
+    
     public void setPrices(Set<ProductSkuStorePrice> prices) {
         this.prices = prices;
     }
