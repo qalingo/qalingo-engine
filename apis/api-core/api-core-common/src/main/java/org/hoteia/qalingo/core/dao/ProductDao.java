@@ -555,6 +555,12 @@ public class ProductDao extends AbstractGenericDao {
         }
     }
 
+    public ProductSku updateProductSku(final ProductSku productSku) {
+        productSku.setDateUpdate(new Date());
+        ProductSku mergedProductSku = em.merge(productSku);
+        return mergedProductSku;
+    }
+    
     public void deleteProductSku(final ProductSku productSku) {
         em.remove(productSku);
     }

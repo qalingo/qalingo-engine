@@ -307,6 +307,10 @@ public class ProductService {
     public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
         return productDao.saveOrUpdateProductSku(productSku);
     }
+    
+    public ProductSku updateProductSku(final ProductSku productSku) {
+        return productDao.updateProductSku(productSku);
+    }
 
     public void deleteProductSku(final ProductSku productSku) {
         productDao.deleteProductSku(productSku);
