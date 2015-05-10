@@ -73,7 +73,7 @@ public class StoreLocationController extends AbstractMCommerceController {
         if(geolocData != null){
             String distance = getDistance();
             List<Store> stores = new ArrayList<Store>();
-            final List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), distance, 100);
+            List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), distance, 100);
             if(geolocatedStores != null){
                 for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
                     GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
