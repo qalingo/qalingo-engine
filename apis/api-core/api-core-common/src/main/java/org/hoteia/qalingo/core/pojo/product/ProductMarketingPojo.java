@@ -25,6 +25,7 @@ public class ProductMarketingPojo {
     private String name;
     private String description;
     private boolean isDefault;
+    private boolean enabledToB2C;
     private int ranking;
 
     private Date dateCreate;
@@ -90,6 +91,14 @@ public class ProductMarketingPojo {
         isDefault = aDefault;
     }
 
+    public boolean isEnabledToB2C() {
+        return enabledToB2C;
+    }
+
+    public void setEnabledToB2C(boolean enabledToB2C) {
+        this.enabledToB2C = enabledToB2C;
+    }
+    
     public int getRanking() {
         return ranking;
     }
