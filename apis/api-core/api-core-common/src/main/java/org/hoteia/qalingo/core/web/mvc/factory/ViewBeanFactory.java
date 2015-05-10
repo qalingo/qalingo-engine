@@ -1744,10 +1744,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         final Set<ProductSku> skus = productMarketing.getProductSkus();
         if (Hibernate.isInitialized(skus) && skus != null) {
+            List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
                 final ProductSku productSkuIt = (ProductSku) iterator.next();
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuIt.getCode());
-                productMarketingViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
+                productSkus.add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
+            }
+            if(!productSkus.isEmpty()){
+                productMarketingViewBean.setProductSkus(productSkus);
             }
         }
 

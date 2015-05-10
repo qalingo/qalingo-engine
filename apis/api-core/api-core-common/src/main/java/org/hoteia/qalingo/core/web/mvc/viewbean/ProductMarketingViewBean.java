@@ -305,6 +305,13 @@ public class ProductMarketingViewBean extends AbstractViewBean {
         return null;
     }
     
+    public boolean hasAssets(){
+        if(assets != null && !assets.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+    
     public void setAssets(List<AssetViewBean> assets) {
         this.assets = assets;
     }
