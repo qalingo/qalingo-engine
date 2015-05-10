@@ -2008,7 +2008,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             assetViewBean.setFileSize(asset.getFileSize().toString());
         }
         assetViewBean.setDefault(asset.isDefault());
-
+        assetViewBean.setOrdering(asset.getOrdering());
+        
         return assetViewBean;
     }
     

@@ -26,7 +26,8 @@ public class AssetViewBean extends AbstractViewBean {
 	protected String size;
 	protected String fileSize;
 	protected boolean isDefault;
-
+    private int ordering;
+    
     protected String relativeWebPath;
 	protected String absoluteWebPath;
 
@@ -114,7 +115,15 @@ public class AssetViewBean extends AbstractViewBean {
         this.isDefault = isDefault;
     }
 
-	public String getRelativeWebPath() {
+	public int getOrdering() {
+        return ordering;
+    }
+
+    public void setOrdering(int ordering) {
+        this.ordering = ordering;
+    }
+
+    public String getRelativeWebPath() {
         return relativeWebPath;
     }
 	
