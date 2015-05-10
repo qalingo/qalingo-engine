@@ -70,6 +70,9 @@ public class Asset extends AbstractEntity<Asset> {
     @Column(name = "FILE_SIZE")
     private Long fileSize;
 
+    @Column(name = "CHECKSUM")
+    private String checksum;
+    
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
@@ -187,6 +190,14 @@ public class Asset extends AbstractEntity<Asset> {
 	public void setFileSize(Long fileSize) {
 		this.fileSize = fileSize;
 	}
+	
+	public String getChecksum() {
+        return checksum;
+    }
+	
+	public void setChecksum(String checksum) {
+        this.checksum = checksum;
+    }
 	
 	public boolean isDefault() {
 		return isDefault;
