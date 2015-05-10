@@ -42,23 +42,25 @@ public class StoreLocatorFilterBean extends AbstractViewBean {
 	}	
 
     public void sortCountries() {
-        List<StoreLocatorCountryFilterBean> sortedObjects = new LinkedList<StoreLocatorCountryFilterBean>(countries);
-        Collections.sort(sortedObjects, new Comparator<StoreLocatorCountryFilterBean>() {
-            @Override
-            public int compare(StoreLocatorCountryFilterBean o1, StoreLocatorCountryFilterBean o2) {
-                if (o1 != null && o1.getName() != null
-                        && o2 != null) {
-                    int compare = o1.getName().compareTo(o2.getName());
-                    return compare;
+        if(countries != null){
+            List<StoreLocatorCountryFilterBean> sortedObjects = new LinkedList<StoreLocatorCountryFilterBean>(countries);
+            Collections.sort(sortedObjects, new Comparator<StoreLocatorCountryFilterBean>() {
+                @Override
+                public int compare(StoreLocatorCountryFilterBean o1, StoreLocatorCountryFilterBean o2) {
+                    if (o1 != null && o1.getName() != null
+                            && o2 != null) {
+                        int compare = o1.getName().compareTo(o2.getName());
+                        return compare;
+                    }
+                    return 0;
                 }
-                return 0;
-            }
-        });
-        for (Iterator<StoreLocatorCountryFilterBean> iterator = sortedObjects.iterator(); iterator.hasNext();) {
-            StoreLocatorCountryFilterBean bean = (StoreLocatorCountryFilterBean) iterator.next();
-            bean.sortCities();
+            });
+            for (Iterator<StoreLocatorCountryFilterBean> iterator = sortedObjects.iterator(); iterator.hasNext();) {
+                StoreLocatorCountryFilterBean bean = (StoreLocatorCountryFilterBean) iterator.next();
+                bean.sortCities();
+            }            
+            this.countries = sortedObjects;
         }
-        this.countries = sortedObjects;
     }
     
 }

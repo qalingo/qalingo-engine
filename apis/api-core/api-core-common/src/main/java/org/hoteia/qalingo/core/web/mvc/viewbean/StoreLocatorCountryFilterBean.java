@@ -55,25 +55,27 @@ public class StoreLocatorCountryFilterBean extends AbstractViewBean {
 	}
 	
     public void sortCities() {
-        List<StoreLocatorCityFilterBean> sortedObjects = new LinkedList<StoreLocatorCityFilterBean>(cities);
-        Collections.sort(sortedObjects, new Comparator<StoreLocatorCityFilterBean>() {
-            @Override
-            public int compare(StoreLocatorCityFilterBean o1, StoreLocatorCityFilterBean o2) {
-                if (o1 != null && o2 != null) {
-                    int compare = o1.getName().compareTo(o2.getName());
-                    if (compare != 0) {
-                        return compare;
+        if(cities != null){
+            List<StoreLocatorCityFilterBean> sortedObjects = new LinkedList<StoreLocatorCityFilterBean>(cities);
+            Collections.sort(sortedObjects, new Comparator<StoreLocatorCityFilterBean>() {
+                @Override
+                public int compare(StoreLocatorCityFilterBean o1, StoreLocatorCityFilterBean o2) {
+                    if (o1 != null && o2 != null) {
+                        int compare = o1.getName().compareTo(o2.getName());
+                        if (compare != 0) {
+                            return compare;
+                        }
+                        return o1.getName().compareTo(o2.getName());
                     }
-                    return o1.getName().compareTo(o2.getName());
+                    return 0;
                 }
-                return 0;
+            });
+            for (Iterator<StoreLocatorCityFilterBean> iterator = sortedObjects.iterator(); iterator.hasNext();) {
+                StoreLocatorCityFilterBean bean = (StoreLocatorCityFilterBean) iterator.next();
+                bean.sortStores();
             }
-        });
-        for (Iterator<StoreLocatorCityFilterBean> iterator = sortedObjects.iterator(); iterator.hasNext();) {
-            StoreLocatorCityFilterBean bean = (StoreLocatorCityFilterBean) iterator.next();
-            bean.sortStores();
+            this.cities = sortedObjects;
         }
-        this.cities = sortedObjects;
     }
     
 }
