@@ -397,7 +397,7 @@ public class RetailerDao extends AbstractGenericDao {
         return (maxId == null) ? new Long(0) : maxId;
     }
     
-	public List<Store> findStores(int maxResults, Object... params) {
+	public List<Store> findAllStores(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         
         handleSpecificStoreFetchMode(criteria, params);

@@ -103,20 +103,20 @@ public class StoreController extends AbstractBusinessBackofficeController{
             return new ModelAndView(new RedirectView(urlRedirect));
         }
 
-        final Store retailer = retailerService.getStoreByCode(storeCode);
+        final Store store = retailerService.getStoreByCode(storeCode);
 
         // SANITY CHECK
-        if (retailer != null) {
-            modelAndView.addObject(ModelConstants.STORE_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanStore(requestData, retailer));
+        if (store != null) {
+            modelAndView.addObject(ModelConstants.STORE_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanStore(requestData, store));
         } else {
             final String url = requestUtil.getLastRequestUrl(request);
             return new ModelAndView(new RedirectView(url));
         }
 
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.STORE_LIST, requestData));
-        model.addAttribute(ModelConstants.URL_RETAILER_VIEW, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
+        model.addAttribute(ModelConstants.URL_RETAILER_VIEW, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, store));
 
-        Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
+        Object[] params = { store.getName() + " (" + store.getCode() + ")" };
         overrideDefaultMainContentTitle(request, modelAndView, BoUrls.STORE_DETAILS.getKey(), params);
 
         return modelAndView;

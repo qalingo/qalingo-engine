@@ -39,7 +39,7 @@ public class StorePojoService {
     private RetailerService retailerService;
 
     public List<StorePojo> getAllStores() {
-        List<Store> stores = retailerService.findStores();
+        List<Store> stores = retailerService.findAllStores();
         logger.debug("Found {} stores", stores.size());
         return mapAll(dozerBeanMapper, stores, StorePojo.class);
     }

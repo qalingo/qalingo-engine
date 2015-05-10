@@ -88,7 +88,7 @@ public class StoreController extends AbstractMCommerceController {
             StoreBusinessHourViewBean storeBusinessHourViewBean = frontofficeViewBeanFactory.buildViewBeanStoreBusinessHour(store);
             model.addAttribute("businessHours", storeBusinessHourViewBean);
 
-            final List<Store> stores = retailerService.findStores();
+            final List<Store> stores = retailerService.findAllStoresWithMax(15);
             final List<StoreViewBean> otherStoreViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
             otherStoreViewBeans.remove(storeViewBean);
             model.addAttribute("otherStores", otherStoreViewBeans);

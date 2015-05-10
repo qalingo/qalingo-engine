@@ -219,12 +219,12 @@ public class RetailerService {
         return retailerDao.getMaxStoreId();
     }
     
-    public List<Store> findStores(Object... params) {
-        return retailerDao.findStores(0, params);
+    public List<Store> findAllStores(Object... params) {
+        return retailerDao.findAllStores(0, params);
     }
     
-    public List<Store> findStoresWithMax(int maxResults, Object... params) {
-        return retailerDao.findStores(maxResults, params);
+    public List<Store> findAllStoresWithMax(int maxResults, Object... params) {
+        return retailerDao.findAllStores(maxResults, params);
     }
     
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
