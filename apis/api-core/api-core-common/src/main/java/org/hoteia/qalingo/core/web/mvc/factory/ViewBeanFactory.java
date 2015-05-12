@@ -1820,26 +1820,26 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         // ASSETS
-        if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
+        if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null && !productMarketing.getAssets().isEmpty()) {
             for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-                final String path = engineSettingService.getProductMarketingImageWebPath(asset);
+                final String path = engineSettingService.getProductMarketingImageWebPath(productMarketing, asset);
                 assetViewBean.setRelativeWebPath(path);
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 productMarketingViewBean.getAssets().add(assetViewBean);
             }
-        } 
-        
-        // FALLBACK ASSET
-        Asset asset = new Asset();
-        asset.setType(Asset.ASSET_TYPE_DEFAULT);
-        asset.setPath("default-product.png");
-        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-        final String path = engineSettingService.getProductMarketingImageWebPath(asset);
-        assetViewBean.setRelativeWebPath(path);
-        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-        productMarketingViewBean.getAssets().add(assetViewBean);
+        } else {
+            // FALLBACK ASSET
+            Asset asset = new Asset();
+            asset.setType(Asset.ASSET_TYPE_DEFAULT);
+            asset.setPath("default-product.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getProductMarketingImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            productMarketingViewBean.getAssets().add(assetViewBean);
+        }
 
 //        // TAGS
 //        Set<ProductMarketingTag> tags = productMarketing.getTags();
