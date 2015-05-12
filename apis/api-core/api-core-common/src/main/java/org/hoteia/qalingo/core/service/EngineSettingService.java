@@ -717,7 +717,10 @@ public class EngineSettingService {
     }
     
     protected String handleWebPath(String path){
-        return path.replace("_", "-").toLowerCase();
+        if(StringUtils.isNotEmpty(path)){
+            return path.replace("_", "-").toLowerCase();
+        }
+        return path;
     }
     
     protected String handleFilePath(String path){
