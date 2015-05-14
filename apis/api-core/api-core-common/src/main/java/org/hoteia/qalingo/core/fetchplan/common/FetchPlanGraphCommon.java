@@ -100,6 +100,12 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan defaultTagFetchPlan() {
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode("attributes"));
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan defaultWarehouseFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         return new FetchPlan(fetchplans);

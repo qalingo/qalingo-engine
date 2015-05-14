@@ -10,21 +10,29 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
+
 @Entity
 @Table(name="TECO_TAG")
-public class Tag extends AbstractEntity<Tag> {
+public class Tag extends AbstractExtendEntity<Tag, TagAttribute> {
 
 	/**
 	 * Generated UID
@@ -61,6 +69,10 @@ public class Tag extends AbstractEntity<Tag> {
 
     @Column(name = "MARKET_AREA_ID")
     private Long marketAreaId;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.TagAttribute.class)
+    @JoinColumn(name = "TAG_ID")
+    private Set<TagAttribute> attributes = new HashSet<TagAttribute>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -145,6 +157,14 @@ public class Tag extends AbstractEntity<Tag> {
 		this.marketAreaId = marketAreaId;
 	}
 	
+    public Set<TagAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Set<TagAttribute> attributes) {
+        this.attributes = attributes;
+    }
+    
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -161,6 +181,24 @@ public class Tag extends AbstractEntity<Tag> {
 		this.dateUpdate = dateUpdate;
 	}
 
+    // Attributes
+
+    public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
+        AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if (attribute != null) {
+            return attribute.getValue();
+        }
+        return null;
+    }
+
+    public String getI18nName(String localizationCode) {
+        String i18Name = (String) getValue(StoreAttribute.TAG_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Name)){
+            return i18Name;
+        }
+        return name;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

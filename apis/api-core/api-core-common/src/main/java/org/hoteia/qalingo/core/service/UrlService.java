@@ -30,6 +30,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.slf4j.Logger;
@@ -176,10 +177,15 @@ public class UrlService extends AbstractUrlService {
                         CartItem cartItem = (CartItem) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CART_ITEM_CODE, handleParamValue(cartItem.getId().toString()));
                         
-                    }  else if (param instanceof Store) {
+                    } else if (param instanceof Store) {
                         Store store = (Store) param;
                         urlParams.put(RequestConstants.URL_PATTERN_STORE_CODE, handleParamValue(store.getCode().toString()));
                         urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded) + handleSeoSegmentMain(store.getI18nName(localizationCode), isEncoded) + "/";
+                        
+                    } else if (param instanceof Tag) {
+                        Tag tag = (Tag) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_TAG_CODE, handleParamValue(tag.getCode().toString()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded) + handleSeoSegmentMain(tag.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;

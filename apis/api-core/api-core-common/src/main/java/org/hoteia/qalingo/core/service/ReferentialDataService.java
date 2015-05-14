@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -18,6 +19,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.dao.ReferentialDataDao;
+import org.hoteia.qalingo.core.domain.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ReferentialDataService {
 
+    @Autowired
+    private ReferentialDataDao referentialDataDao;
+    
 	Map<Locale, Map<String, String>> titlesByLocale = new HashMap<Locale, Map<String, String>>();
 
     Map<Locale, Map<String, String>> countriesByLocale = new HashMap<Locale, Map<String, String>>();
@@ -150,5 +157,37 @@ public class ReferentialDataService {
 		}
 		return mapByLocale;
 	}
+	
+	// TAG
+	
+    public Tag getTagById(final Long productBrandId, Object... params) {
+        return referentialDataDao.getTagById(productBrandId, params);
+    }
+
+    public Tag getTagById(final String rawTagId, Object... params) {
+        long productBrandId = -1;
+        try {
+            productBrandId = Long.parseLong(rawTagId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getTagById(productBrandId, params);
+    }
+
+    public Tag getTagByCode(final String productBrandCode, Object... params) {
+        return referentialDataDao.getTagByCode(productBrandCode, params);
+    }
+
+    public List<Tag> findAllTags(Object... params) {
+        return referentialDataDao.findAllTags(params);
+    }
+
+    public Tag saveOrUpdateTag(final Tag tag) {
+        return referentialDataDao.saveOrUpdateTag(tag);
+    }
+    
+    public void deleteTag(final Tag tag) {
+        referentialDataDao.deleteTag(tag);
+    }
 
 }

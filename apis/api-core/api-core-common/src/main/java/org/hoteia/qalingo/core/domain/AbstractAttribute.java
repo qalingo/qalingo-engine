@@ -66,6 +66,8 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
 
     public final static String PAYMENT_GATEWAY_ATTRIBUTE_CLIENT_TOKEN = "PAYMENT_GATEWAY_CLIENT_TOKEN";
 
+    public final static String TAG_ATTRIBUTE_I18N_NAME        = "TAG_I18N_NAME";
+
     public abstract AttributeDefinition getAttributeDefinition();
 
     public abstract String getShortStringValue();
