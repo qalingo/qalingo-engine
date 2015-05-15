@@ -553,12 +553,12 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     /**
      * 
      */
-    public List<SearchFacetViewBean> buildListViewBeanStoreSearchFacet(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
+    public List<SearchFacetViewBean> buildListViewBeanStoreSearchFacet(final RequestData requestData, final StoreResponseBean storeResponseBean, final List<String> filterQueryList) throws Exception {
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
         List<FacetField> facetFields = storeResponseBean.getStoreSolrFacetFieldList();
         for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
-            searchFacetViewBeans.add(buildViewBeanStoreSearchFacet(requestData, facetField));
+            searchFacetViewBeans.add(buildViewBeanStoreSearchFacet(requestData, facetField, filterQueryList));
         }
         return searchFacetViewBeans;
     }
@@ -566,7 +566,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     /**
      * 
      */
-    public SearchFacetViewBean buildViewBeanStoreSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
+    public SearchFacetViewBean buildViewBeanStoreSearchFacet(final RequestData requestData, final FacetField facetField, final List<String> filterQueryList) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
 
         // TODO : Denis : facet like country ? city ? online/corner etc
@@ -576,15 +576,14 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
                 SearchFacetValueBean valueBean = new SearchFacetValueBean(count.getName(), count.getName(), count.getCount());
+                valueBean.setSelected(isSelectedSearchFacetValue(count.getName(), filterQueryList));
                 values.add(valueBean);
             }
             Collections.sort(values, new Comparator<SearchFacetValueBean>() {
-
 				@Override
 				public int compare(SearchFacetValueBean o1, SearchFacetValueBean o2) {
 					return o1.getLabel().compareTo(o2.getLabel());
 				}
-            	
 			});
             
             searchFacetViewBean.setValues(values);
@@ -596,6 +595,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
                 SearchFacetValueBean valueBean = new SearchFacetValueBean(count.getName(), count.getName(), count.getCount());
+                valueBean.setSelected(isSelectedSearchFacetValue(count.getName(), filterQueryList));
                 values.add(valueBean);
             }
             Collections.sort(values, new Comparator<SearchFacetValueBean>() {

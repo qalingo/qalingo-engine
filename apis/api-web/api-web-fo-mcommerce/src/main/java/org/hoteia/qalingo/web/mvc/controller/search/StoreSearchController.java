@@ -155,7 +155,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 	            
 	            // FACETS
 //                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponBeanNonFilter);
-                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponseBean);
+                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponseBean, searchForm.getFilterQueryList());
 	            modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, facets);
 	            request.getSession().setAttribute(sessionKeyFacet, facets);
 			    

@@ -152,7 +152,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, productMarketingResponseBean, pageSize, sortBy, order);
 	            
 	            // FACETS
-                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean);
+                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean, searchForm.getFilterQueryList());
                 modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, facets);
                 request.getSession().setAttribute(sessionKeyFacet, facets);
 
