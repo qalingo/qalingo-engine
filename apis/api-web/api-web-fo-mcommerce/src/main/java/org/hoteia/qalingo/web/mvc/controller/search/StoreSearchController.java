@@ -140,7 +140,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 		
 		try {
             PagedListHolder<StoreViewBean> pagedListHolder;
-            if(page == 0){
+            if(page == 0 || request.getSession().getAttribute(sessionKeyPagedListHolder) == null){
                 StoreResponseBean storeResponseBean = null;
 
                 List<String> facetFields = new ArrayList<String>();

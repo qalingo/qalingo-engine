@@ -131,7 +131,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 
 		try {
             PagedListHolder<ProductMarketingViewBean> pagedListHolder;
-		    if(page == 0){
+		    if(page == 0 || request.getSession().getAttribute(sessionKeyPagedListHolder) == null){
 	            ProductMarketingResponseBean productMarketingResponseBean = null;
 	            
                 String querySearch = getSearchQuery(marketArea, searchForm.getText());
@@ -202,6 +202,18 @@ public class CatalogSearchController extends AbstractMCommerceController {
         
         return modelAndView;
 	}
+	
+    @RequestMapping(value = FoUrls.CATALOG_SEARCH_URL, method = RequestMethod.POST)
+    public ModelAndView submitSearch(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATALOG_SEARCH.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final MarketArea marketArea = requestData.getMarketArea();
+
+        String sessionKeyPagedListHolder = "Search_ProductMarketing_PagedListHolder_" + request.getSession().getId();
+        request.getSession().removeAttribute(sessionKeyPagedListHolder);
+
+        return search(request, model, searchForm);
+    }
 	
 	protected String getSearchQuery(MarketArea marketArea, String text){
         String querySearch = "enabledToB2C:true AND " + ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATALOG_CODES + ":" + marketArea.getCatalog().getCode() ;
