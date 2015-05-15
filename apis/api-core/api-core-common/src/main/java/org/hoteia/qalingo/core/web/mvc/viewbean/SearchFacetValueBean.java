@@ -20,7 +20,7 @@ public class SearchFacetValueBean implements Serializable {
     
     private String code;
     private String label;
-    private boolean selected = true;
+    private boolean selected = false;
     private long count;
 	
 	public SearchFacetValueBean(){

@@ -19,6 +19,7 @@ public class SearchFacetViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = 8803558268157558971L;
 	
+    private String code;
 	private String name;
     private String type = "CHECKBOX";
     
@@ -27,6 +28,14 @@ public class SearchFacetViewBean extends AbstractViewBean {
 	public SearchFacetViewBean() {
 	}
 
+	public String getCode() {
+        return code;
+    }
+	
+	public void setCode(String code) {
+        this.code = code;
+    }
+	
 	public String getName() {
 		return name;
 	}

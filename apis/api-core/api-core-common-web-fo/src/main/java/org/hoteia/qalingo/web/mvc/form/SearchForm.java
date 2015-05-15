@@ -11,7 +11,6 @@ package org.hoteia.qalingo.web.mvc.form;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.hoteia.qalingo.core.Constants;
@@ -31,10 +30,12 @@ public class SearchForm implements Serializable {
 	private String sortBy;
 	private String order;
 	private PriceRange price;
-    private String[] brandsFilter;
-	private String[] categoriesFilter;
-    private String[] optionsFilter;
-    private String[] tagsFilter;
+	
+    private String[] productBrandCode;
+	private String[] catalogCategories;
+    private String[] optionDefinitions;
+    private String[] tags;
+    
 	private String[] cities;
     private String[] countries;
     
@@ -93,36 +94,36 @@ public class SearchForm implements Serializable {
 		this.price = price;
 	}
 
-	public String[] getBrandsFilter() {
-        return brandsFilter;
-    }
-	
-	public void setBrandsFilter(String[] brandsFilter) {
-        this.brandsFilter = brandsFilter;
-    }
-	
-	public String[] getCategoriesFilter() {
-		return categoriesFilter;
-	}
-
-	public void setCategoriesFilter(String[] categoriesFilter) {
-		this.categoriesFilter = categoriesFilter;
-	}
-	
-	public String[] getOptionsFilter() {
-        return optionsFilter;
+    public String[] getProductBrandCode() {
+        return productBrandCode;
     }
 
-    public void setOptionsFilter(String[] optionsFilter) {
-        this.optionsFilter = optionsFilter;
+    public void setProductBrandCode(String[] productBrandCode) {
+        this.productBrandCode = productBrandCode;
     }
 
-    public String[] getTagsFilter() {
-        return tagsFilter;
+    public String[] getCatalogCategories() {
+        return catalogCategories;
     }
 
-    public void setTagsFilter(String[] tagsFilter) {
-        this.tagsFilter = tagsFilter;
+    public void setCatalogCategories(String[] catalogCategories) {
+        this.catalogCategories = catalogCategories;
+    }
+
+    public String[] getOptionDefinitions() {
+        return optionDefinitions;
+    }
+
+    public void setOptionDefinitions(String[] optionDefinitions) {
+        this.optionDefinitions = optionDefinitions;
+    }
+
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
     }
 
     public String[] getCities() {
@@ -143,27 +144,27 @@ public class SearchForm implements Serializable {
 
 	public List<String> getFilterQueryList() {
         List<String> filters = new ArrayList<String>();
-        if (brandsFilter != null && brandsFilter.length > 0) {
-            for (int i = 0; i < brandsFilter.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE + ":" + brandsFilter[i];
+        if (productBrandCode != null && productBrandCode.length > 0) {
+            for (int i = 0; i < productBrandCode.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE + ":" + productBrandCode[i];
                 filters.add(queryFilter);
             }
         }
-        if (categoriesFilter != null && categoriesFilter.length > 0) {
-            for (int i = 0; i < categoriesFilter.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES + ":" + categoriesFilter[i];
+        if (catalogCategories != null && catalogCategories.length > 0) {
+            for (int i = 0; i < catalogCategories.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES + ":" + catalogCategories[i];
                 filters.add(queryFilter);
             }
         }
-        if (optionsFilter != null && optionsFilter.length > 0) {
-            for (int i = 0; i < optionsFilter.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES + ":" + optionsFilter[i];
+        if (optionDefinitions != null && optionDefinitions.length > 0) {
+            for (int i = 0; i < optionDefinitions.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES + ":" + optionDefinitions[i];
                 filters.add(queryFilter);
             }
         }
-        if (brandsFilter != null && brandsFilter.length > 0) {
-            for (int i = 0; i < brandsFilter.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES + ":" + brandsFilter[i];
+        if (tags != null && tags.length > 0) {
+            for (int i = 0; i < tags.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES + ":" + tags[i];
                 filters.add(queryFilter);
             }
         }
@@ -171,11 +172,11 @@ public class SearchForm implements Serializable {
     }
 	
 //	public List<String> getCatalogCategoryList() {
-//		if (StringUtils.isEmpty(categoriesFilter)) {
+//		if (StringUtils.isEmpty(catalogCategories)) {
 //			return null;
 //		}
 //
-//		String[] arr = categoriesFilter.split(",");
+//		String[] arr = catalogCategories.split(",");
 //		return Arrays.asList(arr);
 //	}
 //	
@@ -193,7 +194,7 @@ public class SearchForm implements Serializable {
 		return "SearchForm [text=" + text + ", pageSize=" + pageSize
 				+ ", page=" + page + ", sortBy=" + sortBy + ", order=" + order
 				+ ", price=" + price + ", catalogCategories="
-				+ categoriesFilter + "]";
+				+ catalogCategories + "]";
 	}
 
 	@Override
@@ -202,7 +203,7 @@ public class SearchForm implements Serializable {
 		int result = 1;
 		result = prime
 				* result
-				+ ((categoriesFilter == null) ? 0 : categoriesFilter.hashCode());
+				+ ((catalogCategories == null) ? 0 : catalogCategories.hashCode());
 		result = prime * result + ((order == null) ? 0 : order.hashCode());
 		result = prime * result + page;
 		result = prime * result + pageSize;
@@ -221,10 +222,10 @@ public class SearchForm implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SearchForm other = (SearchForm) obj;
-		if (categoriesFilter == null) {
-			if (other.categoriesFilter != null)
+		if (catalogCategories == null) {
+			if (other.catalogCategories != null)
 				return false;
-		} else if (!categoriesFilter.equals(other.categoriesFilter))
+		} else if (!catalogCategories.equals(other.catalogCategories))
 			return false;
 		if (order == null) {
 			if (other.order != null)

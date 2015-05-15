@@ -32,6 +32,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
@@ -423,6 +424,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     String key = (String) iteratorSkuOption.next();
 
                     final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
+                    searchFacetViewBean.setCode(facetField.getName());
                     searchFacetViewBean.setName(key);
 
                     List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
@@ -434,12 +436,17 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     }
                 }
                 
-            } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
+            } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
                 if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
 
+            }else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
+                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    searchFacetViewBeans.add(searchFacetViewBean);
+                }
             }
         }
         return searchFacetViewBeans;
@@ -450,6 +457,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
      */
     public SearchFacetViewBean buildViewBeanCatalogSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
+        searchFacetViewBean.setCode(facetField.getName());
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         final CatalogVirtual catalog = requestData.getMarketArea().getCatalog();
@@ -483,6 +491,18 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 
             // PARENT METHODE
             
+        } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())){
+            searchFacetViewBean.setName(facetField.getName());
+            List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
+            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
+                Count value = (Count) iterator.next();
+                String tagCode = value.getName();
+                final Tag tag = referentialDataService.getTagByCode(tagCode);
+                if(tagCode != null){
+                    SearchFacetValueBean valueBean = new SearchFacetValueBean(tag.getCode(), tag.getI18nName(localizationCode), value.getCount());                
+                    searchFacetViewBean.addValue(valueBean);
+                }
+            }
         } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())){
             searchFacetViewBean.setName(facetField.getName());
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
@@ -566,12 +586,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 values.add(valueBean);
             }
             Collections.sort(values, new Comparator<SearchFacetValueBean>() {
-
 				@Override
 				public int compare(SearchFacetValueBean o1, SearchFacetValueBean o2) {
 					return o1.getLabel().compareTo(o2.getLabel());
 				}
-            	
 			});
             
             searchFacetViewBean.setValues(values);

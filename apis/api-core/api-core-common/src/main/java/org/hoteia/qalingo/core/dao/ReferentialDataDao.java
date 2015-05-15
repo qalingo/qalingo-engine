@@ -21,12 +21,12 @@ public class ReferentialDataDao extends AbstractGenericDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Tag getTagById(final Long retailerId, Object... params) {
+    public Tag getTagById(final Long tagId, Object... params) {
         Criteria criteria = createDefaultCriteria(Tag.class);
 
         FetchPlan fetchPlan = handleSpecificTagFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("id", retailerId));
+        criteria.add(Restrictions.eq("id", tagId));
 
         Tag tag = (Tag) criteria.uniqueResult();
         if (tag != null) {
@@ -35,12 +35,12 @@ public class ReferentialDataDao extends AbstractGenericDao {
         return tag;
     }
 
-    public Tag getTagByCode(final String retailerCode, Object... params) {
+    public Tag getTagByCode(final String tagCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Tag.class);
 
         FetchPlan fetchPlan = handleSpecificTagFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("code", handleCodeValue(retailerCode)));
+        criteria.add(Restrictions.eq("code", handleCodeValue(tagCode)));
 
         Tag tag = (Tag) criteria.uniqueResult();
         if (tag != null) {
@@ -64,8 +64,8 @@ public class ReferentialDataDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("code"));
 
         @SuppressWarnings("unchecked")
-        List<Tag> retailers = criteria.list();
-        return retailers;
+        List<Tag> tags = criteria.list();
+        return tags;
     }
 
     public Tag saveOrUpdateTag(final Tag tag) {

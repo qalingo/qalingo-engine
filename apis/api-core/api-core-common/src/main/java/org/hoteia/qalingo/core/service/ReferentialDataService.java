@@ -160,22 +160,22 @@ public class ReferentialDataService {
 	
 	// TAG
 	
-    public Tag getTagById(final Long productBrandId, Object... params) {
-        return referentialDataDao.getTagById(productBrandId, params);
+    public Tag getTagById(final Long tagId, Object... params) {
+        return referentialDataDao.getTagById(tagId, params);
     }
 
     public Tag getTagById(final String rawTagId, Object... params) {
-        long productBrandId = -1;
+        long tagId = -1;
         try {
-            productBrandId = Long.parseLong(rawTagId);
+            tagId = Long.parseLong(rawTagId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getTagById(productBrandId, params);
+        return getTagById(tagId, params);
     }
 
-    public Tag getTagByCode(final String productBrandCode, Object... params) {
-        return referentialDataDao.getTagByCode(productBrandCode, params);
+    public Tag getTagByCode(final String tagCode, Object... params) {
+        return referentialDataDao.getTagByCode(tagCode, params);
     }
 
     public List<Tag> findAllTags(Object... params) {
