@@ -146,7 +146,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
                     productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getFilterQueryList());
 	                
 	            } else {
-	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields);
+	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getFilterQueryList());
 	            }
 	            
 	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, productMarketingResponseBean, pageSize, sortBy, order);
