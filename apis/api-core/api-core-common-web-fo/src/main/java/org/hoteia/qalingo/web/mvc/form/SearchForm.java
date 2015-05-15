@@ -10,11 +10,12 @@
 package org.hoteia.qalingo.web.mvc.form;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 
 /**
  * 
@@ -30,9 +31,12 @@ public class SearchForm implements Serializable {
 	private String sortBy;
 	private String order;
 	private PriceRange price;
-	private String categoriesFilter;
-	private String cities;
-    private String countries;
+    private String[] brandsFilter;
+	private String[] categoriesFilter;
+    private String[] optionsFilter;
+    private String[] tagsFilter;
+	private String[] cities;
+    private String[] countries;
     
 	public SearchForm() {
 		page = 0;
@@ -89,47 +93,100 @@ public class SearchForm implements Serializable {
 		this.price = price;
 	}
 
-	public String getCategoriesFilter() {
+	public String[] getBrandsFilter() {
+        return brandsFilter;
+    }
+	
+	public void setBrandsFilter(String[] brandsFilter) {
+        this.brandsFilter = brandsFilter;
+    }
+	
+	public String[] getCategoriesFilter() {
 		return categoriesFilter;
 	}
 
-	public void setCategoriesFilter(String categoriesFilter) {
+	public void setCategoriesFilter(String[] categoriesFilter) {
 		this.categoriesFilter = categoriesFilter;
 	}
 	
-	public String getCities() {
+	public String[] getOptionsFilter() {
+        return optionsFilter;
+    }
+
+    public void setOptionsFilter(String[] optionsFilter) {
+        this.optionsFilter = optionsFilter;
+    }
+
+    public String[] getTagsFilter() {
+        return tagsFilter;
+    }
+
+    public void setTagsFilter(String[] tagsFilter) {
+        this.tagsFilter = tagsFilter;
+    }
+
+    public String[] getCities() {
 		return cities;
 	}
 
-	public void setCities(String cities) {
+	public void setCities(String[] cities) {
 		this.cities = cities;
 	}
 	
-	public String getCountries() {
+	public String[] getCountries() {
         return countries;
     }
 	
-	public void setCountries(String countries) {
+	public void setCountries(String[] countries) {
         this.countries = countries;
     }
 
-	public List<String> getCatalogCategoryList() {
-		if (StringUtils.isEmpty(categoriesFilter)) {
-			return null;
-		}
-
-		String[] arr = categoriesFilter.split(",");
-		return Arrays.asList(arr);
-	}
+	public List<String> getFilterQueryList() {
+        List<String> filters = new ArrayList<String>();
+        if (brandsFilter != null && brandsFilter.length > 0) {
+            for (int i = 0; i < brandsFilter.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE + ":" + brandsFilter[i];
+                filters.add(queryFilter);
+            }
+        }
+        if (categoriesFilter != null && categoriesFilter.length > 0) {
+            for (int i = 0; i < categoriesFilter.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES + ":" + categoriesFilter[i];
+                filters.add(queryFilter);
+            }
+        }
+        if (optionsFilter != null && optionsFilter.length > 0) {
+            for (int i = 0; i < optionsFilter.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES + ":" + optionsFilter[i];
+                filters.add(queryFilter);
+            }
+        }
+        if (brandsFilter != null && brandsFilter.length > 0) {
+            for (int i = 0; i < brandsFilter.length; i++) {
+                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES + ":" + brandsFilter[i];
+                filters.add(queryFilter);
+            }
+        }
+        return filters;
+    }
 	
-	public List<String> getCityList() {
-		if (StringUtils.isEmpty(cities)) {
-			return null;
-		}
-
-		String[] arr = cities.split(",");
-		return Arrays.asList(arr);
-	}
+//	public List<String> getCatalogCategoryList() {
+//		if (StringUtils.isEmpty(categoriesFilter)) {
+//			return null;
+//		}
+//
+//		String[] arr = categoriesFilter.split(",");
+//		return Arrays.asList(arr);
+//	}
+//	
+//	public List<String> getCityList() {
+//		if (StringUtils.isEmpty(cities)) {
+//			return null;
+//		}
+//
+//		String[] arr = cities.split(",");
+//		return Arrays.asList(arr);
+//	}
 
 	@Override
 	public String toString() {

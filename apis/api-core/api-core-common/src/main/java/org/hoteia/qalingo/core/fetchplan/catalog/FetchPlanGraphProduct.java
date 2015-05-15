@@ -37,6 +37,13 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan productMarketingDisplayFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan fullProductMarketingFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));

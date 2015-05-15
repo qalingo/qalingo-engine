@@ -139,6 +139,10 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         return searchProductMarketing(searchQuery, facetFields, null, null, null);
     }
     
+    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final List<String> filterQueries) throws SolrServerException, IOException {
+        return searchProductMarketing(searchQuery, facetFields, null, null, filterQueries);
+    }
+    
     public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final BigDecimal priceStart, final BigDecimal priceEnd) throws SolrServerException, IOException {
         return searchProductMarketing(searchQuery, facetFields, null, null, null);
     }

@@ -143,7 +143,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 //	                } else {
 //	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
 //	                }
-                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
+                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getFilterQueryList());
 	                
 	            } else {
 	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields);
