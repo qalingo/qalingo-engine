@@ -183,7 +183,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 			modelAndView.addObject(Constants.PAGINATION_SORT_BY, sortBy);
 			modelAndView.addObject(Constants.PAGINATION_ORDER, order);
 			modelAndView.addObject(Constants.PRICE_RANGE_PARAMETER, searchForm.getPrice());
-			modelAndView.addObject(Constants.CATALOG_CATEGORIES_PARAMETER, searchForm.getCategoriesFilter());
+//			modelAndView.addObject(Constants.CATALOG_CATEGORIES_PARAMETER, searchForm.getCategoriesFilter());
 			
 		} catch (Exception e) {
 			logger.error("SOLR Error", e);
