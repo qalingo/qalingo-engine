@@ -166,7 +166,13 @@ public class SearchForm implements Serializable {
         }
         if (optionDefinitions != null && optionDefinitions.length > 0) {
             for (int i = 0; i < optionDefinitions.length; i++) {
-                filters.add(optionDefinitions[i]);
+                String value = optionDefinitions[i];
+                if(value.contains("-")){
+                    String[] split = value.split("-");
+                    filters.add(split[1]);
+                } else {
+                    filters.add(optionDefinitions[i]);
+                }
             }
         }
         if (tags != null && tags.length > 0) {
