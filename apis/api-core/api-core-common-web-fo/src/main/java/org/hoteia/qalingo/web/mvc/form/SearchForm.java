@@ -156,26 +156,22 @@ public class SearchForm implements Serializable {
         List<String> filters = new ArrayList<String>();
         if (productBrandCode != null && productBrandCode.length > 0) {
             for (int i = 0; i < productBrandCode.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE + ":" + productBrandCode[i];
-                filters.add(queryFilter);
+                filters.add(productBrandCode[i]);
             }
         }
         if (catalogCategories != null && catalogCategories.length > 0) {
             for (int i = 0; i < catalogCategories.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES + ":" + catalogCategories[i];
-                filters.add(queryFilter);
+                filters.add(catalogCategories[i]);
             }
         }
         if (optionDefinitions != null && optionDefinitions.length > 0) {
             for (int i = 0; i < optionDefinitions.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES + ":" + optionDefinitions[i];
-                filters.add(queryFilter);
+                filters.add(optionDefinitions[i]);
             }
         }
         if (tags != null && tags.length > 0) {
             for (int i = 0; i < tags.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES + ":" + tags[i];
-                filters.add(queryFilter);
+                filters.add(tags[i]);
             }
         }
         return filters;
