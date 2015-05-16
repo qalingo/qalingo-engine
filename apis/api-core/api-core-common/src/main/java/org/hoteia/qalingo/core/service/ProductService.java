@@ -104,11 +104,6 @@ public class ProductService {
         return productMarketings;
     }
     
-    public List<Long> findProductMarketingIdsByDateUpdatetDesc(int maxResults) {
-        List<Long> productMarketings = productDao.findProductMarketingIdsByDateUpdateDesc(maxResults);
-        return productMarketings;
-    }
-    
     public List<ProductMarketing> findProductMarketingByRandom(int maxResults, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketingByRandom(maxResults, params);
         return productMarketings;
