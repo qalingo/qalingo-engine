@@ -85,11 +85,15 @@ public class ProductDao extends AbstractGenericDao {
 		return productMarketings;
 	}
 	
-	public List<Long> findAllProductMarketingIds() {
+	public List<Long> findAllProductMarketingIds(int maxResults) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         criteria.setProjection(Projections.property("id"));
         criteria.addOrder(Order.asc("id"));
-
+        
+        if(maxResults != 0){
+            criteria.setMaxResults(maxResults);
+        }
+        
         @SuppressWarnings("unchecked")
         List<Long> productMarketingIds = criteria.list();
 		return productMarketingIds;
@@ -426,7 +430,21 @@ public class ProductDao extends AbstractGenericDao {
         }
         return productSku;
     }
+
+    public List<Long> findProductSkuIdsByDateUpdateDesc(int maxResults) {
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.desc("dateUpdate"));
         
+        if(maxResults != 0){
+            criteria.setMaxResults(maxResults);
+        }
+        
+        @SuppressWarnings("unchecked")
+        List<Long> productSkuIds = criteria.list();
+        return productSkuIds;
+    }
+
     public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         handleSpecificProductSkuFetchMode(criteria, params);

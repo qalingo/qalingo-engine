@@ -96,7 +96,16 @@ public class ProductService {
     }
     
     public List<Long> findAllProductMarketingIds() {
-        List<Long> productMarketings = productDao.findAllProductMarketingIds();
+        return findAllProductMarketingIds(0);
+    }
+    
+    public List<Long> findAllProductMarketingIds(int maxResults) {
+        List<Long> productMarketings = productDao.findAllProductMarketingIds(maxResults);
+        return productMarketings;
+    }
+    
+    public List<Long> findProductMarketingIdsByDateUpdatetDesc(int maxResults) {
+        List<Long> productMarketings = productDao.findProductMarketingIdsByDateUpdateDesc(maxResults);
         return productMarketings;
     }
     
@@ -252,6 +261,10 @@ public class ProductService {
 
     public ProductSku getProductSkuByEAN(final String skuEAN, Object... params) {
         return productDao.getProductSkuByEAN(skuEAN, params);
+    }
+    
+    public List<Long> findProductSkuIdsByDateUpdateDesc(int maxResults){
+        return productDao.findProductSkuIdsByDateUpdateDesc(maxResults);
     }
     
     public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketingId, Object... params) {

@@ -353,12 +353,34 @@ public class ProductSkuViewBean extends AbstractViewBean {
         return tags;
     }
 
+    public List<String> getTagCodes() {
+        List<String> tagCodes = null;
+        if(tags != null){
+            tagCodes = new ArrayList<String>();
+            for(ProductSkuTagViewBean tag : tags){
+                tagCodes.add(tag.getCode());
+            }
+        }
+        return tagCodes;
+    }
+    
     public void setTags(List<ProductSkuTagViewBean> tags) {
         this.tags = tags;
     }
     
     public List<ProductSkuOptionDefinitionViewBean> getSkuOptionDefinitions() {
         return skuOptionDefinitions;
+    }
+    
+    public List<String> getSkuOptionDefinitionCodes() {
+        List<String> skuOptionDefinitionCodes = null;
+        if(skuOptionDefinitions != null){
+            skuOptionDefinitionCodes = new ArrayList<String>();
+            for(ProductSkuOptionDefinitionViewBean skuOptionDefinition : skuOptionDefinitions){
+                skuOptionDefinitionCodes.add(skuOptionDefinition.getCode());
+            }
+        }
+        return skuOptionDefinitionCodes;
     }
     
     public void setSkuOptionDefinitions(List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitions) {
