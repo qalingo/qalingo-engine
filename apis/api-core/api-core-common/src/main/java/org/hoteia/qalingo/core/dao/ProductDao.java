@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.NonUniqueResultException;
+
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
@@ -574,6 +576,30 @@ public class ProductDao extends AbstractGenericDao {
     }
     
     // PRODUCT SKU STORE
+    
+    public ProductSkuStoreRel findProductSkuStoreRelByStoreIdAndSpecificCode(final Long storeId, final String specificCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
+
+        criteria.createAlias("pk.store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.store.id", storeId));
+        criteria.add(Restrictions.eq("specificCode", specificCode));
+
+        handleSpecificProductSkuStoreRelFetchMode(criteria, params);
+
+        ProductSkuStoreRel productSkuStoreRel = null;
+        try {
+            productSkuStoreRel = (ProductSkuStoreRel) criteria.uniqueResult();
+        } catch (NonUniqueResultException e) {
+            logger.error("NonUniqueResultException: storeId='" + storeId + "', specificCode: '" + specificCode + "'");
+            @SuppressWarnings("unchecked")
+            List<ProductSkuStoreRel> productSkuStoreRels = (List<ProductSkuStoreRel>) criteria.list();
+            for (Iterator<ProductSkuStoreRel> iterator = productSkuStoreRels.iterator(); iterator.hasNext();) {
+                ProductSkuStoreRel productSkuStoreRelLog = (ProductSkuStoreRel) iterator.next();
+                logger.error("productSkuStoreRel: " + productSkuStoreRelLog.toString());
+            }
+        }
+        return productSkuStoreRel;
+    }
     
     public List<ProductSkuStoreRel> findProductSkuStoreRelByProductSkuId(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);

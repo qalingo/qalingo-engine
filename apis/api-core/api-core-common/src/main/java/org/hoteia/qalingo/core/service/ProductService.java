@@ -318,6 +318,10 @@ public class ProductService {
     
     // PRODUCT SKU STORE
 
+    public ProductSkuStoreRel findProductSkuStoreRelByStoreIdAndSpecificCode(final Long storeId, final String specificCode, Object... params) {
+        return productDao.findProductSkuStoreRelByStoreIdAndSpecificCode(storeId, specificCode, params);
+    }
+    
     public List<ProductSkuStoreRel> findProductSkuStoreRelByProductSkuId(final Long productSkuId, Object... params) {
         return productDao.findProductSkuStoreRelByProductSkuId(productSkuId, params);
     }

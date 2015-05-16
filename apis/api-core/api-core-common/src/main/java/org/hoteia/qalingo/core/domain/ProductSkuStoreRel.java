@@ -45,6 +45,9 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     @Column(name = "RANKING")
     private Integer ranking;
 
+    @Column(name = "SPECIFIC_CODE")
+    private String specificCode;
+
     @Column(name = "IS_DEFAULT_STORE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefaultStore;
 
@@ -120,6 +123,14 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         this.ranking = ranking;
     }
 
+    public String getSpecificCode() {
+        return specificCode;
+    }
+    
+    public void setSpecificCode(String specificCode) {
+        this.specificCode = specificCode;
+    }
+    
     public boolean isDefaultStore() {
         return isDefaultStore;
     }
