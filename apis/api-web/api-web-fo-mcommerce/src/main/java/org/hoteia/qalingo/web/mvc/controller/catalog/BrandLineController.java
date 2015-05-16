@@ -34,6 +34,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,7 +59,7 @@ public class BrandLineController extends AbstractMCommerceController {
     }
     
 	@RequestMapping(FoUrls.BRAND_LINE_URL)
-	public ModelAndView brandLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
+	public ModelAndView brandLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode, final SearchForm searchForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_LINE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();

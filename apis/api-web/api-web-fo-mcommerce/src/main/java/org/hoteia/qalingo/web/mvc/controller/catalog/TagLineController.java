@@ -43,6 +43,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,7 @@ public class TagLineController extends AbstractMCommerceController {
     }
     
     @RequestMapping(FoUrls.TAG_AS_LINE_URL)
-    public ModelAndView tagLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_TAG_CODE) final String tagCode) throws Exception {
+    public ModelAndView tagLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_TAG_CODE) final String tagCode, final SearchForm searchForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.TAG_AS_LINE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
