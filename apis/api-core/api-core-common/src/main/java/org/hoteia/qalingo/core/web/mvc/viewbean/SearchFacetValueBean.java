@@ -19,6 +19,7 @@ public class SearchFacetValueBean implements Serializable {
     private static final long serialVersionUID = 3100619595421675045L;
     
     private String code;
+    private String type;
     private String label;
     private boolean selected = false;
     private long count;
@@ -38,6 +39,14 @@ public class SearchFacetValueBean implements Serializable {
     
     public void setCode(String code) {
         this.code = code;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
     }
     
 	public String getLabel() {

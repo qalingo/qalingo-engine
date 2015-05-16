@@ -386,7 +386,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     /**
      * 
      */
-    public List<SearchFacetViewBean> buildListViewBeanCatalogSearchFacet(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean, final List<String> filterQueryList) throws Exception {
+    public List<SearchFacetViewBean> buildListViewBeanCatalogSearchFacet(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         
@@ -395,7 +395,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
             if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES.equalsIgnoreCase(facetField.getName())) {
-                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField, filterQueryList);
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
                 if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
@@ -415,7 +415,6 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                             skuOptions = new ArrayList<SearchFacetValueBean>();
                         }
                         SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), value.getCount());                
-                        valueBean.setSelected(isSelectedSearchFacetValue(productSkuOptionDefinition.getCode(), filterQueryList));
                         skuOptions.add(valueBean);
                         skuOptionsByType.put(key, skuOptions);
                     }
@@ -438,13 +437,13 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 }
                 
             } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())) {
-                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField, filterQueryList);
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
                 if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
 
             }else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
-                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField, filterQueryList);
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
                 if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
@@ -452,11 +451,21 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         }
         return searchFacetViewBeans;
     }
+    
+    public void handleSelectedFacet(List<SearchFacetViewBean> facets, List<String> selectedFilterFacets) {
+		for(SearchFacetViewBean searchFacet : facets){
+			for(SearchFacetValueBean searchFacetValue : searchFacet.getValues()){
+				if(selectedFilterFacets.contains(searchFacetValue.getCode())){
+					searchFacetValue.setSelected(true);
+				}
+			}
+		}
+	}
 
     /**
      * 
      */
-    public SearchFacetViewBean buildViewBeanCatalogSearchFacet(final RequestData requestData, final FacetField facetField, final List<String> filterQueryList) throws Exception {
+    public SearchFacetViewBean buildViewBeanCatalogSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
         searchFacetViewBean.setCode(facetField.getName());
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -483,7 +492,6 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                     final CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalog.getCode(), new FetchPlan(categoryVirtualFetchPlans));
                     if(catalogCategoryVirtual != null){
                         SearchFacetValueBean valueBean = new SearchFacetValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode), value.getCount());                
-                        valueBean.setSelected(isSelectedSearchFacetValue(catalogCategoryVirtual.getCode(), filterQueryList));
                         searchFacetViewBean.addValue(valueBean);
                     }
                 }
@@ -502,7 +510,6 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 final Tag tag = referentialDataService.getTagByCode(tagCode);
                 if(tagCode != null){
                     SearchFacetValueBean valueBean = new SearchFacetValueBean(tag.getCode(), tag.getI18nName(localizationCode), value.getCount());
-                    valueBean.setSelected(isSelectedSearchFacetValue(tag.getCode(), filterQueryList));
                     searchFacetViewBean.addValue(valueBean);
                 }
             }
@@ -515,7 +522,6 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 final ProductBrand productBrand = productService.getProductBrandByCode(productBrandCode);
                 if(productBrand != null){
                     SearchFacetValueBean valueBean = new SearchFacetValueBean(productBrand.getCode(), productBrand.getI18nName(localizationCode), value.getCount());
-                    valueBean.setSelected(isSelectedSearchFacetValue(productBrand.getCode(), filterQueryList));
                     searchFacetViewBean.addValue(valueBean);
                 }
             }

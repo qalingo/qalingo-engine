@@ -20,8 +20,9 @@ public class SearchFacetViewBean extends AbstractViewBean {
 	private static final long serialVersionUID = 8803558268157558971L;
 	
     private String code;
-	private String name;
-    private String type = "CHECKBOX";
+    private String type;
+    private String name;
+    private String inputType = "CHECKBOX";
     
 	private List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
 	
@@ -52,6 +53,14 @@ public class SearchFacetViewBean extends AbstractViewBean {
         this.type = type;
     }
 
+	public String getInputType() {
+        return inputType;
+    }
+	
+	public void setInputType(String inputType) {
+        this.inputType = inputType;
+    }
+	
 	public List<SearchFacetValueBean> getValues() {
 		return values;
 	}
