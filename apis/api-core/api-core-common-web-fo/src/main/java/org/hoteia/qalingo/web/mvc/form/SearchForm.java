@@ -142,34 +142,44 @@ public class SearchForm implements Serializable {
         this.countries = countries;
     }
 
-	public List<String> getFilterQueryList() {
-        List<String> filters = new ArrayList<String>();
-        if (productBrandCode != null && productBrandCode.length > 0) {
-            for (int i = 0; i < productBrandCode.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE + ":" + productBrandCode[i];
-                filters.add(queryFilter);
-            }
+	public boolean someSlectedFacetFilter(){
+        if ((productBrandCode != null && productBrandCode.length > 0) 
+                || (catalogCategories != null && catalogCategories.length > 0)
+                || (optionDefinitions != null && optionDefinitions.length > 0)
+                || (tags != null && tags.length > 0)) {
+            return true;
         }
-        if (catalogCategories != null && catalogCategories.length > 0) {
-            for (int i = 0; i < catalogCategories.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES + ":" + catalogCategories[i];
-                filters.add(queryFilter);
-            }
-        }
-        if (optionDefinitions != null && optionDefinitions.length > 0) {
-            for (int i = 0; i < optionDefinitions.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES + ":" + optionDefinitions[i];
-                filters.add(queryFilter);
-            }
-        }
-        if (tags != null && tags.length > 0) {
-            for (int i = 0; i < tags.length; i++) {
-                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES + ":" + tags[i];
-                filters.add(queryFilter);
-            }
-        }
-        return filters;
+        return false;
     }
+	
+//	public List<String> getFilterQueryList() {
+//        List<String> filters = new ArrayList<String>();
+//        if (productBrandCode != null && productBrandCode.length > 0) {
+//            for (int i = 0; i < productBrandCode.length; i++) {
+//                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE + ":" + productBrandCode[i];
+//                filters.add(queryFilter);
+//            }
+//        }
+//        if (catalogCategories != null && catalogCategories.length > 0) {
+//            for (int i = 0; i < catalogCategories.length; i++) {
+//                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES + ":" + catalogCategories[i];
+//                filters.add(queryFilter);
+//            }
+//        }
+//        if (optionDefinitions != null && optionDefinitions.length > 0) {
+//            for (int i = 0; i < optionDefinitions.length; i++) {
+//                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES + ":" + optionDefinitions[i];
+//                filters.add(queryFilter);
+//            }
+//        }
+//        if (tags != null && tags.length > 0) {
+//            for (int i = 0; i < tags.length; i++) {
+//                String queryFilter = ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES + ":" + tags[i];
+//                filters.add(queryFilter);
+//            }
+//        }
+//        return filters;
+//    }
 	
 //	public List<String> getCatalogCategoryList() {
 //		if (StringUtils.isEmpty(catalogCategories)) {

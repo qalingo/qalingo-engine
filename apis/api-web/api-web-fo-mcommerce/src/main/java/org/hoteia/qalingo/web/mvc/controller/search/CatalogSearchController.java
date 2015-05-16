@@ -143,16 +143,16 @@ public class CatalogSearchController extends AbstractMCommerceController {
 //	                } else {
 //	                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
 //	                }
-                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getFilterQueryList());
+                    productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, null);
 	                
 	            } else {
-	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, searchForm.getFilterQueryList());
+	                productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(querySearch, facetFields, null);
 	            }
 	            
 	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, productMarketingResponseBean, pageSize, sortBy, order);
 	            
 	            // FACETS
-                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean, searchForm.getFilterQueryList());
+                List<SearchFacetViewBean> facets = frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean, null);
                 modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, facets);
                 request.getSession().setAttribute(sessionKeyFacet, facets);
 
