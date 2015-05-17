@@ -33,6 +33,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.ProductSkuTagRel;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
@@ -93,6 +94,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         }
         
         if(productSkus != null){
+            // REGROUP SKU OPTION
             Map<String, String> skuOptionDefinitionsCodes = new HashMap<String, String>();
             for (ProductSku productSku : productSkus) {
                 if(productSku.getOptionRels() != null
@@ -106,8 +108,26 @@ public class ProductMarketingSolrService extends AbstractSolrService {
                 }
             }
             for (Iterator<String> iterator = skuOptionDefinitionsCodes.keySet().iterator(); iterator.hasNext();) {
-                String skuOptionDefinitionsCode = (String) iterator.next();
-                productMarketingSolr.addOptionDefinition(skuOptionDefinitionsCode);
+                String skuOptionDefinitionCode = (String) iterator.next();
+                productMarketingSolr.addTag(skuOptionDefinitionCode);
+            }
+            
+            // REGROUP TAGS
+            Map<String, String> tagCodes = new HashMap<String, String>();
+            for (ProductSku productSku : productSkus) {
+                if(productSku.getTagRels() != null
+                        && Hibernate.isInitialized(productSku.getTagRels())){
+                    for (ProductSkuTagRel tagRel : productSku.getTagRels()) {
+                        if(tagRel.getProductSkuTag() != null
+                                && Hibernate.isInitialized(tagRel.getProductSkuTag())){
+                            tagCodes.put(tagRel.getProductSkuTag().getCode(), tagRel.getProductSkuTag().getCode());
+                        }
+                    }
+                }
+            }
+            for (Iterator<String> iterator = tagCodes.keySet().iterator(); iterator.hasNext();) {
+                String tagCode = (String) iterator.next();
+                productMarketingSolr.addTag(tagCode);
             }
         }
         

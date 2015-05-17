@@ -171,6 +171,15 @@ public class ProductSkuSolr {
         return tags;
     }
     
+    public void addTag(String tag){
+        if(this.tags == null){
+            this.tags = new ArrayList<String>();
+        }
+        if(!this.tags.contains(tag)){
+            this.tags.add(tag);
+        }
+    }
+    
     public void setTags(List<String> tags) {
         this.tags = tags;
     }

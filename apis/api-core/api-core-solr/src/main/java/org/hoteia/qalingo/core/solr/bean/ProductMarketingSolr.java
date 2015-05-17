@@ -186,7 +186,7 @@ public class ProductMarketingSolr {
         this.tags = tags;
     }
     
-    public void addTags(String tag){
+    public void addTag(String tag){
         if(this.tags == null){
             this.tags = new ArrayList<String>();
         }

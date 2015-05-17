@@ -30,7 +30,9 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.ProductSkuTagRel;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
@@ -93,6 +95,15 @@ public class ProductSkuSolrService extends AbstractSolrService {
             for (ProductSkuOptionRel productSkuOptionRel : productSku.getOptionRels()) {
                 ProductSkuOptionDefinition productSkuOptionDefinition = productSkuOptionRel.getProductSkuOptionDefinition(); 
                 productSkuSolr.addOptionDefinition(productSkuOptionDefinition.getCode());
+            }
+        }
+        
+        if(productSku.getTagRels() != null
+                && Hibernate.isInitialized(productSku.getTagRels())
+                && !productSku.getTagRels().isEmpty()){
+            for (ProductSkuTagRel productSkuTagRel : productSku.getTagRels()) {
+                Tag productSkuTag = productSkuTagRel.getProductSkuTag(); 
+                productSkuSolr.addTag(productSkuTag.getCode());
             }
         }
         
