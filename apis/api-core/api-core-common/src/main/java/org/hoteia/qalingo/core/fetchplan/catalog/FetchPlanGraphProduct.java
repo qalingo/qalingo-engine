@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.domain.ProductSkuOptionRel_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionPk_;
 import org.hoteia.qalingo.core.domain.ProductSkuTagRel_;
 import org.hoteia.qalingo.core.domain.ProductSkuTagPk_;
+import org.hoteia.qalingo.core.domain.Tag_;
 import org.hoteia.qalingo.core.domain.ProductSkuStoreRel_;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePk_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
