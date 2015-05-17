@@ -444,6 +444,21 @@ public class ProductDao extends AbstractGenericDao {
         List<Long> productSkuIds = criteria.list();
         return productSkuIds;
     }
+    
+    public List<Long> findProductSkuIdsByDateUpdateDescAndExcludeValue(final Long excludeId, int maxResults) {
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
+        criteria.setProjection(Projections.property("id"));
+        criteria.add(Restrictions.ne("id", excludeId));
+        criteria.addOrder(Order.desc("dateUpdate"));
+        
+        if(maxResults != 0){
+            criteria.setMaxResults(maxResults);
+        }
+        
+        @SuppressWarnings("unchecked")
+        List<Long> productSkuIds = criteria.list();
+        return productSkuIds;
+    }
 
     public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);

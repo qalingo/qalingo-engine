@@ -262,6 +262,10 @@ public class ProductService {
         return productDao.findProductSkuIdsByDateUpdateDesc(maxResults);
     }
     
+    public List<Long> findProductSkuIdsByDateUpdateDescAndExcludeValue(final Long excludeId, int maxResults){
+        return productDao.findProductSkuIdsByDateUpdateDescAndExcludeValue(excludeId, maxResults);
+    }
+    
     public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketingId, Object... params) {
         List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketingId, params);
         return skus;
