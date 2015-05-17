@@ -109,7 +109,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             }
             for (Iterator<String> iterator = skuOptionDefinitionsCodes.keySet().iterator(); iterator.hasNext();) {
                 String skuOptionDefinitionCode = (String) iterator.next();
-                productMarketingSolr.addTag(skuOptionDefinitionCode);
+                productMarketingSolr.addOptionDefinition(skuOptionDefinitionCode);
             }
             
             // REGROUP TAGS

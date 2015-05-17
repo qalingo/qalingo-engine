@@ -18,6 +18,8 @@ import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionRel_;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionPk_;
+import org.hoteia.qalingo.core.domain.ProductSkuTagRel_;
+import org.hoteia.qalingo.core.domain.ProductSkuTagPk_;
 import org.hoteia.qalingo.core.domain.ProductSkuStoreRel_;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePk_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
@@ -87,15 +89,23 @@ public class FetchPlanGraphProduct {
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+
         fetchplans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
+        
         fetchplans.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() + "." + CatalogCategoryVirtualProductSkuPk_.catalogCategoryVirtual.getName()));
+        
         fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName() + "." + ProductSkuOptionRel_.pk.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName() + "." + ProductSkuOptionRel_.pk.getName() + "." + ProductSkuOptionPk_.productSkuOptionDefinition.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.optionRels.getName() + "." + ProductSkuOptionRel_.pk.getName() + "." + ProductSkuOptionPk_.productSkuOptionDefinition.getName()+ "." + ProductSkuOptionDefinition_.attributes.getName()));
+
+        fetchplans.add(new SpecificFetchMode(ProductSku_.tagRels.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.tagRels.getName() + "." + ProductSkuTagRel_.pk.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.tagRels.getName() + "." + ProductSkuTagRel_.pk.getName() + "." + ProductSkuTagPk_.tag.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.tagRels.getName() + "." + ProductSkuTagRel_.pk.getName() + "." + ProductSkuTagPk_.tag.getName() + "." + Tag_.attributes.getName()));
 
         return new FetchPlan(fetchplans);
     }
