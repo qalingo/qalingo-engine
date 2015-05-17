@@ -1778,6 +1778,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final String localizationCode = localization.getCode();
         final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
 
+        productMarketingViewBean.setId(productMarketing.getId());
         productMarketingViewBean.setCode(productMarketing.getCode());
         productMarketingViewBean.setName(productMarketing.getName());
         productMarketingViewBean.setDescription(productMarketing.getDescription());
@@ -2074,6 +2075,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
+        productSkuViewBean.setId(productSku.getId());
         productSkuViewBean.setCode(productSku.getCode());
         productSkuViewBean.setName(productSku.getName());
         productSkuViewBean.setDescription(productSku.getDescription());
