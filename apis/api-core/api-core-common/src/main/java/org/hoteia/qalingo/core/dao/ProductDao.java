@@ -431,10 +431,10 @@ public class ProductDao extends AbstractGenericDao {
         return productSku;
     }
 
-    public List<Long> findProductSkuIdsByDateUpdateDesc(int maxResults) {
+    public List<Long> findProductSkuIdsByDateUpdate(int maxResults) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         criteria.setProjection(Projections.property("id"));
-        criteria.addOrder(Order.desc("dateUpdate"));
+        criteria.addOrder(Order.asc("dateUpdate"));
         
         if(maxResults != 0){
             criteria.setMaxResults(maxResults);
@@ -445,11 +445,11 @@ public class ProductDao extends AbstractGenericDao {
         return productSkuIds;
     }
     
-    public List<Long> findProductSkuIdsByDateUpdateDescAndExcludeValue(final Long excludeId, int maxResults) {
+    public List<Long> findProductSkuIdsByDateUpdateAndExcludeValue(final Long excludeId, int maxResults) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         criteria.setProjection(Projections.property("id"));
         criteria.add(Restrictions.ne("id", excludeId));
-        criteria.addOrder(Order.desc("dateUpdate"));
+        criteria.addOrder(Order.asc("dateUpdate"));
         
         if(maxResults != 0){
             criteria.setMaxResults(maxResults);
