@@ -263,12 +263,12 @@ public class ProductService {
         return productDao.getProductSkuByEAN(skuEAN, params);
     }
     
-    public List<Long> findProductSkuIdsByDateUpdate(int maxResults){
-        return productDao.findProductSkuIdsByDateUpdate(maxResults);
+    public List<Long> findAllProductSkuIds() {
+        return findProductSkuIds(0);
     }
     
-    public List<Long> findProductSkuIdsByDateUpdateAndExcludeValue(final Long excludeId, int maxResults){
-        return productDao.findProductSkuIdsByDateUpdateAndExcludeValue(excludeId, maxResults);
+    public List<Long> findProductSkuIds(int maxResults){
+        return productDao.findProductSkuIds(maxResults);
     }
     
     public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketingId, Object... params) {
