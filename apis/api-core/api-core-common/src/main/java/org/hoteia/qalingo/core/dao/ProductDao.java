@@ -112,6 +112,21 @@ public class ProductDao extends AbstractGenericDao {
         List<ProductMarketing> productMarketings = criteria.list();
         return productMarketings;
     }
+    
+    public List<ProductMarketing> findProductMarketingEnableB2CByRandom(int maxResults, Object... params) {
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(1000);
+        
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
+        handleSpecificProductMarketingFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("enabledToB2C", true));
+        criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RAND(" + randomInt + ")"));
+        criteria.setMaxResults(maxResults);
+
+        @SuppressWarnings("unchecked")
+        List<ProductMarketing> productMarketings = criteria.list();
+        return productMarketings;
+    }
 	
 	public List<ProductMarketing> findProductMarketings(final String text, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);

@@ -108,6 +108,11 @@ public class ProductService {
         List<ProductMarketing> productMarketings = productDao.findProductMarketingByRandom(maxResults, params);
         return productMarketings;
     }
+    
+    public List<ProductMarketing> findProductMarketingEnableB2CByRandom(int maxResults, Object... params) {
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingEnableB2CByRandom(maxResults, params);
+        return productMarketings;
+    }
 
     public List<ProductMarketing> findProductMarketings(final String text, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketings(text, params);
