@@ -473,12 +473,13 @@ public class RetailerDao extends AbstractGenericDao {
                 && StringUtils.isNotEmpty(longitude)){
             Float latitudeFloat = new Float(latitude);
             Float longitudeFloat = new Float(longitude);
-            String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store WHERE country_code = :countryCode HAVING distance <= :distanceValue ORDER BY distance ASC";
+            String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store WHERE country_code = :countryCode AND active = :active HAVING distance <= :distanceValue ORDER BY distance ASC";
             Query query = createNativeQuery(queryString);
             query.setParameter("latitude", latitudeFloat.floatValue());
             query.setParameter("longitude", longitudeFloat.floatValue());
             query.setParameter("countryCode", countryCode);
             query.setParameter("distanceValue", distance);
+            query.setParameter("active", true);
             query.setMaxResults(maxResults);
             query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
             
