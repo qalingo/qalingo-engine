@@ -87,9 +87,11 @@ public class FetchPlanGraphProduct {
     
     public static FetchPlan fullProductSkuFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+
+        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productBrand.getName()));
 
         fetchplans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
