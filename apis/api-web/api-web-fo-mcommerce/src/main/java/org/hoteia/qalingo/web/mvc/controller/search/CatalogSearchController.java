@@ -39,6 +39,7 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.AbstractSolrService;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
+import org.hoteia.qalingo.core.web.mvc.form.SearchForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
@@ -47,7 +48,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -205,9 +205,6 @@ public class CatalogSearchController extends AbstractMCommerceController {
 	
     @RequestMapping(value = FoUrls.CATALOG_SEARCH_URL, method = RequestMethod.POST)
     public ModelAndView submitSearch(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
-        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATALOG_SEARCH.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea marketArea = requestData.getMarketArea();
 
         String sessionKeyPagedListHolder = "Search_ProductMarketing_PagedListHolder_" + request.getSession().getId();
         request.getSession().removeAttribute(sessionKeyPagedListHolder);

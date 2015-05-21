@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.factory;
+package org.hoteia.qalingo.core.web.mvc.factory;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -20,18 +20,18 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
+import org.hoteia.qalingo.core.web.mvc.form.CartForm;
+import org.hoteia.qalingo.core.web.mvc.form.ContactForm;
+import org.hoteia.qalingo.core.web.mvc.form.CreateAccountForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerAddressForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerCommentForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerContactForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerEditForm;
+import org.hoteia.qalingo.core.web.mvc.form.FollowUsForm;
+import org.hoteia.qalingo.core.web.mvc.form.PaymentForm;
+import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
+import org.hoteia.qalingo.core.web.mvc.form.SearchForm;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
-import org.hoteia.qalingo.web.mvc.form.CartForm;
-import org.hoteia.qalingo.web.mvc.form.ContactForm;
-import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
-import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
-import org.hoteia.qalingo.web.mvc.form.CustomerCommentForm;
-import org.hoteia.qalingo.web.mvc.form.CustomerContactForm;
-import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
-import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
-import org.hoteia.qalingo.web.mvc.form.PaymentForm;
-import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
-import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

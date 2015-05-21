@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Store_;
@@ -37,6 +38,7 @@ import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.solr.service.AbstractSolrService;
 import org.hoteia.qalingo.core.solr.service.StoreSolrService;
+import org.hoteia.qalingo.core.web.mvc.form.SearchForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
@@ -45,7 +47,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        // SANITY CHECK
+        // SANITY CHECK : evict values
         List<String> evictValues = new ArrayList<String>();
         evictValues.add("*");
         if (StringUtils.isNotEmpty(searchForm.getText())
@@ -95,6 +96,14 @@ public class StoreSearchController extends AbstractMCommerceController {
             return displaySearch(request, model);
         }
 
+        // SANITY CHECK : if empty search : use geolocated city as default value
+        if (StringUtils.isEmpty(searchForm.getText())
+                && requestData.getGeolocData() != null
+                && requestData.getGeolocData().getCity() != null) {
+            searchForm.setText(requestData.getGeolocData().getCity().getName());
+        }
+                
+        // SANITY CHECK : empty search
         if (StringUtils.isEmpty(searchForm.getText())
 		        && searchForm.getPage() == 0) {
 			return displaySearch(request, model);
@@ -208,6 +217,15 @@ public class StoreSearchController extends AbstractMCommerceController {
         return modelAndView;
 	}
 
+    @RequestMapping(value = FoUrls.STORE_SEARCH_URL, method = RequestMethod.POST)
+    public ModelAndView submitSearch(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
+
+        String sessionKeyPagedListHolder = "Search_Store_PagedListHolder_" + request.getSession().getId();
+        request.getSession().removeAttribute(sessionKeyPagedListHolder);
+
+        return search(request, model, searchForm);
+    }
+    
 	protected String getSearchQuery(String text) {
         return StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD + ":" + text + " AND active:true";
     }

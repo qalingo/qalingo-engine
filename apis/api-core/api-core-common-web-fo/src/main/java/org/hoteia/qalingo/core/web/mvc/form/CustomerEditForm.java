@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.form;
+package org.hoteia.qalingo.core.web.mvc.form;
 
 import java.io.Serializable;
 
@@ -18,24 +18,36 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class ContactForm implements Serializable {
+public class CustomerEditForm implements Serializable {
 	
     /**
      * 
      */
-    private static final long serialVersionUID = -3169760453881902024L;
+    private static final long serialVersionUID = 533390528530898417L;
     
-	private String lastname;
+	private String title;
+    private String lastname;
     private String firstname;
-    private String country;
+    
     private String email;
+    private String emailConfirm;
+
     private String phone;
     private String fax;
     private String mobile;
-    private String website;
-    private String subject;
-    private String message;
+
+    private boolean optin;
+
+	@NotEmpty(message = "error.form.customer.create.account.title.empty")
+    public String getTitle() {
+		return title;
+	}
     
+    public void setTitle(String title) {
+		this.title = title;
+	}
+    
+	@NotEmpty(message = "error.form.customer.create.account.lastname.empty")
 	public String getLastname() {
 		return lastname;
 	}
@@ -44,6 +56,7 @@ public class ContactForm implements Serializable {
 		this.lastname = lastname;
 	}
 
+	@NotEmpty(message = "error.form.customer.create.account.firstname.empty")
 	public String getFirstname() {
 		return firstname;
 	}
@@ -52,16 +65,8 @@ public class ContactForm implements Serializable {
 		this.firstname = firstname;
 	}
 
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	@NotEmpty(message = "fo.contact.error_form_email_empty")
-	@Email(message = "fo.contact.error_form_email_is_not_valid")
+	@NotEmpty(message = "error.form.customer.create.account.email.empty")
+	@Email(message = "error.form.customer.create.account.email.is.not.valid")
 	public String getEmail() {
 		return email;
 	}
@@ -70,6 +75,14 @@ public class ContactForm implements Serializable {
 		this.email = email;
 	}
 
+	public String getEmailConfirm() {
+		return emailConfirm;
+	}
+	
+	public void setEmailConfirm(String emailConfirm) {
+		this.emailConfirm = emailConfirm;
+	}
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -94,46 +107,27 @@ public class ContactForm implements Serializable {
 		this.mobile = mobile;
 	}
 
-	public String getWebsite() {
-		return website;
+	public boolean isOptin() {
+		return optin;
 	}
 
-	public void setWebsite(String website) {
-		this.website = website;
+	public void setOptin(boolean optin) {
+		this.optin = optin;
 	}
-
-	@NotEmpty(message = "fo.contact.error_form_subject_empty")
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-	@NotEmpty(message = "fo.contact.error_form_message_empty")
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
 	@Override
     public int hashCode() {
 	    final int prime = 31;
 	    int result = 1;
-	    result = prime * result + ((country == null) ? 0 : country.hashCode());
 	    result = prime * result + ((email == null) ? 0 : email.hashCode());
+	    result = prime * result + ((emailConfirm == null) ? 0 : emailConfirm.hashCode());
 	    result = prime * result + ((fax == null) ? 0 : fax.hashCode());
 	    result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
 	    result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
-	    result = prime * result + ((message == null) ? 0 : message.hashCode());
 	    result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
+	    result = prime * result + (optin ? 1231 : 1237);
 	    result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-	    result = prime * result + ((subject == null) ? 0 : subject.hashCode());
-	    result = prime * result + ((website == null) ? 0 : website.hashCode());
+	    result = prime * result + ((title == null) ? 0 : title.hashCode());
 	    return result;
     }
 
@@ -145,16 +139,16 @@ public class ContactForm implements Serializable {
 		    return false;
 	    if (getClass() != obj.getClass())
 		    return false;
-	    ContactForm other = (ContactForm) obj;
-	    if (country == null) {
-		    if (other.country != null)
-			    return false;
-	    } else if (!country.equals(other.country))
-		    return false;
+	    CustomerEditForm other = (CustomerEditForm) obj;
 	    if (email == null) {
 		    if (other.email != null)
 			    return false;
 	    } else if (!email.equals(other.email))
+		    return false;
+	    if (emailConfirm == null) {
+		    if (other.emailConfirm != null)
+			    return false;
+	    } else if (!emailConfirm.equals(other.emailConfirm))
 		    return false;
 	    if (fax == null) {
 		    if (other.fax != null)
@@ -171,38 +165,30 @@ public class ContactForm implements Serializable {
 			    return false;
 	    } else if (!lastname.equals(other.lastname))
 		    return false;
-	    if (message == null) {
-		    if (other.message != null)
-			    return false;
-	    } else if (!message.equals(other.message))
-		    return false;
 	    if (mobile == null) {
 		    if (other.mobile != null)
 			    return false;
 	    } else if (!mobile.equals(other.mobile))
+		    return false;
+	    if (optin != other.optin)
 		    return false;
 	    if (phone == null) {
 		    if (other.phone != null)
 			    return false;
 	    } else if (!phone.equals(other.phone))
 		    return false;
-	    if (subject == null) {
-		    if (other.subject != null)
+	    if (title == null) {
+		    if (other.title != null)
 			    return false;
-	    } else if (!subject.equals(other.subject))
-		    return false;
-	    if (website == null) {
-		    if (other.website != null)
-			    return false;
-	    } else if (!website.equals(other.website))
+	    } else if (!title.equals(other.title))
 		    return false;
 	    return true;
     }
 
 	@Override
     public String toString() {
-	    return "ContactUsForm [lastname=" + lastname + ", firstname=" + firstname + ", country=" + country + ", email=" + email + ", phone=" + phone + ", fax=" + fax + ", mobile=" + mobile
-	            + ", website=" + website + ", subject=" + subject + ", message=" + message + "]";
+	    return "CustomerEditForm [title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", email=" + email + ", emailConfirm=" + emailConfirm + ", phone=" + phone + ", fax=" + fax
+	            + ", mobile=" + mobile + ", optin=" + optin + "]";
     }
 
 }

@@ -7,41 +7,36 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.form;
+package org.hoteia.qalingo.core.web.mvc.form;
 
 import java.io.Serializable;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 
  * 
  */
-public class FollowUsForm implements Serializable {
+public class QuickSearchForm implements Serializable {
 	
     /**
      * 
      */
-    private static final long serialVersionUID = 2073179334908506744L;
+    private static final long serialVersionUID = -4079230207549008682L;
     
-	private String email;
+	private String text;
     
-	@NotEmpty(message = "fo.follow_us.error_form_email_empty")
-	@Email(message = "fo.follow_us.error_form_email_is_not_valid")
-	public String getEmail() {
-		return email;
+	public String getText() {
+		return text;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	@Override
     public int hashCode() {
 	    final int prime = 31;
 	    int result = 1;
-	    result = prime * result + ((email == null) ? 0 : email.hashCode());
+	    result = prime * result + ((text == null) ? 0 : text.hashCode());
 	    return result;
     }
 
@@ -53,18 +48,18 @@ public class FollowUsForm implements Serializable {
 		    return false;
 	    if (getClass() != obj.getClass())
 		    return false;
-	    FollowUsForm other = (FollowUsForm) obj;
-	    if (email == null) {
-		    if (other.email != null)
+	    QuickSearchForm other = (QuickSearchForm) obj;
+	    if (text == null) {
+		    if (other.text != null)
 			    return false;
-	    } else if (!email.equals(other.email))
+	    } else if (!text.equals(other.text))
 		    return false;
 	    return true;
     }
 
 	@Override
     public String toString() {
-	    return "FollowUsForm [email=" + email + "]";
+	    return "QuickSearchForm [text=" + text + "]";
     }
-
+	
 }

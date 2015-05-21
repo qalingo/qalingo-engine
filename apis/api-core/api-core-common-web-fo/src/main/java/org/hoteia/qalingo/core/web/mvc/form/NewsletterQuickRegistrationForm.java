@@ -7,7 +7,9 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.form;
+package org.hoteia.qalingo.core.web.mvc.form;
+
+import java.io.Serializable;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,25 +18,30 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class ForgottenPasswordForm {
-
-	@NotEmpty(message = "fo.auth.error_form_forgotten_password_email_empty")
-	@Email(message = "fo.auth.error_form_forgotten_password_email_is_not_valid")
-	private String emailOrLogin;
-
-	public String getEmailOrLogin() {
-		return emailOrLogin;
+public class NewsletterQuickRegistrationForm implements Serializable {
+	
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5141197211982561210L;
+    
+	private String email;
+    
+	@NotEmpty(message = "fo.follow_us.error_form_email_empty")
+	@Email(message = "fo.follow_us.error_form_email_is_not_valid")
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailOrLogin(String emailOrLogin) {
-		this.emailOrLogin = emailOrLogin;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
     public int hashCode() {
 	    final int prime = 31;
 	    int result = 1;
-	    result = prime * result + ((emailOrLogin == null) ? 0 : emailOrLogin.hashCode());
+	    result = prime * result + ((email == null) ? 0 : email.hashCode());
 	    return result;
     }
 
@@ -46,18 +53,18 @@ public class ForgottenPasswordForm {
 		    return false;
 	    if (getClass() != obj.getClass())
 		    return false;
-	    ForgottenPasswordForm other = (ForgottenPasswordForm) obj;
-	    if (emailOrLogin == null) {
-		    if (other.emailOrLogin != null)
+	    NewsletterQuickRegistrationForm other = (NewsletterQuickRegistrationForm) obj;
+	    if (email == null) {
+		    if (other.email != null)
 			    return false;
-	    } else if (!emailOrLogin.equals(other.emailOrLogin))
+	    } else if (!email.equals(other.email))
 		    return false;
 	    return true;
     }
 
 	@Override
     public String toString() {
-	    return "ForgottenPasswordForm [emailOrLogin=" + emailOrLogin + "]";
+	    return "NewsletterQuickRegistrationForm [email=" + email + "]";
     }
 
 }
