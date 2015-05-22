@@ -11,25 +11,30 @@ package org.hoteia.qalingo.core.web.mvc.form;
 
 /**
  * 
- * @author Tri Nguyen
  * 
  */
 public class StoreForm {
 
-	private String id;
-	private String code;
-	private String name;
+    private String id;
+    private String code;
+    private String name;
 
-	private String address1;
-	private String address2;
-	private String addressAdditionalInformation;
-	private String postalCode;
-	private String city;
-	private String stateCode;
-	private String areaCode;
-	private String countryCode;
-	private String longitude;
-	private String latitude;
+    private String address1;
+    private String address2;
+    private String addressAdditionalInformation;
+    private String postalCode;
+    private String city;
+    private String stateCode;
+    private String areaCode;
+    private String countryCode;
+
+    private String email;
+    private String phone;
+    private String fax;
+    private String website;
+
+    private String longitude;
+    private String latitude;
 
 	private String retailerId;
 
@@ -77,8 +82,7 @@ public class StoreForm {
 		return addressAdditionalInformation;
 	}
 
-	public void setAddressAdditionalInformation(
-			String addressAdditionalInformation) {
+	public void setAddressAdditionalInformation(String addressAdditionalInformation) {
 		this.addressAdditionalInformation = addressAdditionalInformation;
 	}
 
@@ -122,7 +126,39 @@ public class StoreForm {
 		this.countryCode = countryCode;
 	}
 
-	public String getLongitude() {
+	public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getLongitude() {
 		return longitude;
 	}
 
