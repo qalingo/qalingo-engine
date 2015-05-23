@@ -117,7 +117,7 @@ public class EngineSettingService {
     public static SimpleDateFormat timestampPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     
     @Autowired
-    private EngineSettingDao engineSettingDao;
+    protected EngineSettingDao engineSettingDao;
 
     // Engine Setting
 

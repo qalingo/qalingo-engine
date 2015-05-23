@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserConnectionLogService {
 
 	@Autowired
-	private UserConnectionLogDao userConnectionLogDao;
+	protected UserConnectionLogDao userConnectionLogDao;
 	
 	@Autowired
 	protected EngineSettingService engineSettingService;

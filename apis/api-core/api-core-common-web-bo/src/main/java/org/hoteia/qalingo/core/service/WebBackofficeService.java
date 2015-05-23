@@ -240,7 +240,9 @@ public class WebBackofficeService {
         } else {
             if (StringUtils.isEmpty(user.getPassword())) {
                 // SET A DEFAULT PASSWORD
-                user.setPassword(securityUtil.generatePassword());
+                String password = securityUtil.generatePassword();
+                user.setPassword(securityUtil.encodePassword(password));
+                userForm.setPassword(password);
             }
         }
 

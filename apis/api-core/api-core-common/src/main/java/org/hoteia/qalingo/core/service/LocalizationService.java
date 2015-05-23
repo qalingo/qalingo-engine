@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LocalizationService {
 
     @Autowired
-    private LocalizationDao localizationDao;
+    protected LocalizationDao localizationDao;
 
     public Localization getLocalizationById(final Long localizationId, Object... params) {
         return localizationDao.getLocalizationById(localizationId);

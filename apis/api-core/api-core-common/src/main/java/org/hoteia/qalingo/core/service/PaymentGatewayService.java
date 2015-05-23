@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentGatewayService {
 
     @Autowired
-    private PaymentGatewayDao paymentGatewayDao;
+    protected PaymentGatewayDao paymentGatewayDao;
 
     public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId, Object... params) {
         return paymentGatewayDao.getPaymentGatewayById(paymentGatewayId, params);

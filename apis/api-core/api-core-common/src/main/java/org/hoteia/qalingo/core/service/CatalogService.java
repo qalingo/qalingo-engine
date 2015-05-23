@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CatalogService {
 
     @Autowired
-    private CatalogDao catalogDao;
+    protected CatalogDao catalogDao;
 
     // MASTER CATALOG
     

@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MarketService {
 
     @Autowired
-    private MarketDao marketDao;
+    protected MarketDao marketDao;
 
     // MARKET PLACE
 

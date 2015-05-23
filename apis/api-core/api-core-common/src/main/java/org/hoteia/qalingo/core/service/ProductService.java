@@ -37,10 +37,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     @Autowired
-    private ProductDao productDao;
+    protected ProductDao productDao;
 
     @Autowired
-    private CatalogCategoryService catalogCategoryService;
+    protected CatalogCategoryService catalogCategoryService;
     
     // PRODUCT MARKETING
 

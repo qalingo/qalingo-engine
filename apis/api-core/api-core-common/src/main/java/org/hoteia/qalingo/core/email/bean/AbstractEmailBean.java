@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 public abstract class AbstractEmailBean implements Serializable {
 
@@ -17,12 +18,13 @@ public abstract class AbstractEmailBean implements Serializable {
      * 
      */
     private static final long serialVersionUID = 5417215634608783739L;
-    
-	private String fromAddress;
+
+    private String fromAddress;
     private String fromName;
-	private String replyToEmail;
-	private String toEmail;
-	
+    private String replyToEmail;
+    private String toEmail;
+    private Locale locale;
+
 	public String getFromAddress() {
 	    return fromAddress;
     }
@@ -53,6 +55,14 @@ public abstract class AbstractEmailBean implements Serializable {
 	
 	public void setToEmail(String toEmail) {
 	    this.toEmail = toEmail;
+    }
+	
+	public Locale getLocale() {
+        return locale;
+    }
+	
+	public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 	
 }

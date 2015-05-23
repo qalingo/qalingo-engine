@@ -22,14 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerConnectionLogService {
 
 	@Autowired
-	private CustomerConnectionLogDao customerConnectionLogDao;
+	protected CustomerConnectionLogDao customerConnectionLogDao;
 
 	@Autowired
 	protected EngineSettingService engineSettingService;
 
-	   public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId, Object... params) {
-	        return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId, params);
-	   }
+    public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId, Object... params) {
+        return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId, params);
+    }
 
 	public CustomerConnectionLog getCustomerConnectionLogById(final String rawCustomerConnectionLogId, Object... params) {
 		long customerConnectionLogId = -1;

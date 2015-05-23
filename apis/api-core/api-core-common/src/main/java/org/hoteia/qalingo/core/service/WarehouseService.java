@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class WarehouseService {
 
 	@Autowired
-	private WarehouseDao warehouseDao;
+	protected WarehouseDao warehouseDao;
 	
     public Warehouse getWarehouseById(final Long warehouseId, Object... params) {
         return warehouseDao.getWarehouseById(warehouseId, params);

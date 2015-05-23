@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CatalogCategoryService {
 
     @Autowired
-    private CatalogCategoryDao catalogCategoryDao;
+    protected CatalogCategoryDao catalogCategoryDao;
 
     // MASTER
 

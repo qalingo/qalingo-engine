@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractUrlService {
 
     @Autowired
-    public CoreMessageSource coreMessageSource;
+    protected CoreMessageSource coreMessageSource;
 
     @Autowired
-    public EngineSettingService engineSettingService;
+    protected EngineSettingService engineSettingService;
 
     protected String handleUrlParameters(String url, Map<String, String> urlParams, Map<String, String> getParams) {
         if (StringUtils.isNotEmpty(url)) {

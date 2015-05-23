@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TaxService {
 
     @Autowired
-    private TaxDao taxDao;
+    protected TaxDao taxDao;
 
     public Tax getTaxById(Long taxId, Object... params) {
         return taxDao.getTaxById(taxId, params);

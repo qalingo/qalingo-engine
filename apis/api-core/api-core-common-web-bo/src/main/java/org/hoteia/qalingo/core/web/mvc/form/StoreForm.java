@@ -18,6 +18,7 @@ public class StoreForm {
     private String id;
     private String code;
     private String name;
+    private String description;
 
     private String address1;
     private String address2;
@@ -62,6 +63,14 @@ public class StoreForm {
 		this.name = name;
 	}
 
+	public String getDescription() {
+        return description;
+    }
+	
+	public void setDescription(String description) {
+        this.description = description;
+    }
+	
 	public String getAddress1() {
 		return address1;
 	}

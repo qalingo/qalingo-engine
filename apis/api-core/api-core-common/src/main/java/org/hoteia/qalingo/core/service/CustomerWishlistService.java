@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerWishlistService {
 
     @Autowired
-    private CustomerWishlistDao customerWishlistDao;
+    protected CustomerWishlistDao customerWishlistDao;
 
     public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId, Object... params) {
         return customerWishlistDao.getCustomerWishlistById(customerWishlistId, params);

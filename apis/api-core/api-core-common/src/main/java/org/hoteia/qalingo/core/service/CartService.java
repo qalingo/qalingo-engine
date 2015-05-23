@@ -33,16 +33,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartService {
 
     @Autowired
-    private CartDao cartDao;
+    protected CartDao cartDao;
 
     @Autowired
-    private CatalogCategoryService catalogCategoryService;
+    protected CatalogCategoryService catalogCategoryService;
 
     @Autowired
-    private ProductService productService;
+    protected ProductService productService;
 
     @Autowired
-    private DeliveryMethodService deliveryMethodService;
+    protected DeliveryMethodService deliveryMethodService;
     
     public void addProductSkuToCart(Cart cart, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         addProductSkuToCart(cart, null, catalogCategoryCode, productSkuCode, quantity);

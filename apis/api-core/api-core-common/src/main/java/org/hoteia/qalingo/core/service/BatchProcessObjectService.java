@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BatchProcessObjectService {
 
     @Autowired
-    private BatchProcessObjectDao batchProcessObjectDao;
+    protected BatchProcessObjectDao batchProcessObjectDao;
 
     public BatchProcessObject getBatchProcessObjectById(final Long batchProcessObjectId, Object... params) {
         return batchProcessObjectDao.getBatchProcessObjectById(batchProcessObjectId, params);

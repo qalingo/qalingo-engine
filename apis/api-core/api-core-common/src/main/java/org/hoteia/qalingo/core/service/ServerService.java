@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ServerService {
 
     @Autowired
-    private ServerDao serverStatusDao;
+    protected ServerDao serverStatusDao;
 
     public ServerStatus getServerStatusById(Long serverStatusId, Object... params) {
         return serverStatusDao.getServerStatusById(serverStatusId, params);

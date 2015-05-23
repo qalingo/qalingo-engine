@@ -27,10 +27,10 @@ public class EngineSessionService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
-    private EngineSessionDao engineSessionDao;
+    protected EngineSessionDao engineSessionDao;
 
     @Autowired 
-    private Mapper dozerBeanMapper;
+    protected Mapper dozerBeanMapper;
 
     // ECO SESSION
     

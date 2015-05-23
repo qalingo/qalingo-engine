@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AttributeService {
 
     @Autowired
-    private AttributeDao attributeDao;
+    protected AttributeDao attributeDao;
 
     public AttributeDefinition getAttributeDefinitionById(final Long attributeId) {
         return attributeDao.getAttributeDefinitionById(attributeId);

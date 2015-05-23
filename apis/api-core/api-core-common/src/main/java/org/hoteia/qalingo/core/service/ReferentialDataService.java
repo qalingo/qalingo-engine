@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReferentialDataService {
 
     @Autowired
-    private ReferentialDataDao referentialDataDao;
+    protected ReferentialDataDao referentialDataDao;
     
 	Map<Locale, Map<String, String>> titlesByLocale = new HashMap<Locale, Map<String, String>>();
 

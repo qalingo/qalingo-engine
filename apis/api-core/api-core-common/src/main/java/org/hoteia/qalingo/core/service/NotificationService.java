@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class NotificationService {
 
     @Autowired
-    private NotificationDao notificationDao;
+    protected NotificationDao notificationDao;
 
     public Notification getNotificationById(final Long notificationId, Object... params) {
         return notificationDao.getNotificationById(notificationId, params);

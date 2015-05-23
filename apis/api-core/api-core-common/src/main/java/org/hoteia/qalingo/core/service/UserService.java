@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
 	@Autowired
-	private UserDao userDao;
+	protected UserDao userDao;
 
 	// USER
 	

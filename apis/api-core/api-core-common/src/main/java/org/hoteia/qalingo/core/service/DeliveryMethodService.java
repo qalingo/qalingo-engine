@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeliveryMethodService {
 
     @Autowired
-    private DeliveryMethodDao deliveryMethodDao;
+    protected DeliveryMethodDao deliveryMethodDao;
 
     public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId, Object... params) {
         return deliveryMethodDao.getDeliveryMethodById(deliveryMethodId, params);

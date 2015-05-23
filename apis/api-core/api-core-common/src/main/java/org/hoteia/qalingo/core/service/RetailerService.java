@@ -31,10 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class RetailerService {
 
     @Autowired
-    private RetailerDao retailerDao;
+    protected RetailerDao retailerDao;
 
     @Autowired
-    private EngineSettingService engineSettingService;
+    protected EngineSettingService engineSettingService;
     
     // RETAILER
 

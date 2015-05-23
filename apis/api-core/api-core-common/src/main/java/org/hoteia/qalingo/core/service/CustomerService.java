@@ -30,7 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("customerService")
 public class CustomerService {
 
-    @Autowired private CustomerDao customerDao;
+    @Autowired
+    protected CustomerDao customerDao;
 
     public Customer getCustomerById(final Long customerId, Object... params) {
         return customerDao.getCustomerById(customerId, params);

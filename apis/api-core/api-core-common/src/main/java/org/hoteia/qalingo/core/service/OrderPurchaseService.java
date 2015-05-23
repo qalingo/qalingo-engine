@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderPurchaseService {
 
     @Autowired
-    private OrderPurchaseDao orderDao;
+    protected OrderPurchaseDao orderDao;
 
     public OrderPurchase getOrderById(final Long orderPurchaseId, Object... params) {
         return orderDao.getOrderById(orderPurchaseId, params);

@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CurrencyReferentialService {
 
     @Autowired
-    private CurrencyReferentialDao currencyReferentialDao;
+    protected CurrencyReferentialDao currencyReferentialDao;
 
     public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId, Object... params) {
         return currencyReferentialDao.getCurrencyReferentialById(currencyReferentialId, params);
