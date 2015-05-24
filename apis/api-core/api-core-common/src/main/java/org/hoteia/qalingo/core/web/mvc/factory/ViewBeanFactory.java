@@ -1383,6 +1383,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
+    public List<ProductBrandViewBean> buildListViewBeanProductBrand(final RequestData requestData, final List<ProductBrand> productBrands) throws Exception {
+        final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
+        for (Iterator<ProductBrand> iterator = productBrands.iterator(); iterator.hasNext();) {
+            ProductBrand productBrand = (ProductBrand) iterator.next();
+            productBrandViewBeans.add(buildViewBeanProductBrand(requestData, productBrand));
+        }
+        return productBrandViewBeans;
+    }
+    
+    /**
+     * 
+     */
     public ProductBrandViewBean buildViewBeanProductBrand(final RequestData requestData, final ProductBrand productBrand) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
