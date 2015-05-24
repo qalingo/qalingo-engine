@@ -413,6 +413,31 @@ public class RetailerDao extends AbstractGenericDao {
 		return stores;
 	}
 	
+    public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("retailer.company", "company", JoinType.LEFT_OUTER_JOIN);
+        criteria.add( Restrictions.eq("company.id", companyId));
+        criteria.setProjection(Projections.property("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
+    
+    public List<Long> findStoreIdsByRetailerId(final Long retailerId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add( Restrictions.eq("retailer.id", retailerId));
+        criteria.setProjection(Projections.property("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
+    
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 

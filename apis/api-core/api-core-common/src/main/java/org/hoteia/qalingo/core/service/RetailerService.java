@@ -227,6 +227,14 @@ public class RetailerService {
         return retailerDao.findAllStores(maxResults, params);
     }
     
+    public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
+        return retailerDao.findStoreIdsByCompanyId(companyId, params);
+    }
+
+    public List<Long> findStoreIdsByRetailerId(final Long retailerId, Object... params) {
+        return retailerDao.findStoreIdsByRetailerId(retailerId, params);
+    }
+    
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
         return retailerDao.findStoresByRetailerId(retailerId, params);
     }
