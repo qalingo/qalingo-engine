@@ -413,6 +413,16 @@ public class RetailerDao extends AbstractGenericDao {
 		return stores;
 	}
 	
+    public List<Long> findAllStoreIds(Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        criteria.setProjection(Projections.property("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
+	
     public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 

@@ -358,7 +358,6 @@ public class Company extends AbstractEntity<Company> {
     }
     
     public Retailer getRetailer(String code) {
-        Set<Retailer> localizations = getRetailers();
         if (retailers != null 
                 && Hibernate.isInitialized(retailers)) {
             for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
