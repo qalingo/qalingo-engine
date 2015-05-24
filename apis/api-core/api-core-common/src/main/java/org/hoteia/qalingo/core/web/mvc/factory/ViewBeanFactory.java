@@ -1401,7 +1401,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final String localizationCode = localization.getCode();
         
         final ProductBrandViewBean productBrandViewBean = new ProductBrandViewBean();
-        productBrandViewBean.setId(productBrand.getId());
+        productBrandViewBean.setId(productBrand.getId().toString());
         productBrandViewBean.setCode(productBrand.getCode());
         productBrandViewBean.setName(productBrand.getName());
         productBrandViewBean.setDescription(productBrand.getDescription());
