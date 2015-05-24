@@ -113,7 +113,7 @@ public class Company extends AbstractEntity<Company> {
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinColumn(name = "COMPANY_ID")
-    private Set<ProductBrand> productBrand = new HashSet<ProductBrand>();
+    private Set<ProductBrand> productBrands = new HashSet<ProductBrand>();
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -322,7 +322,7 @@ public class Company extends AbstractEntity<Company> {
     }
 
     public Set<ProductBrand> getProductBrands() {
-        return productBrand;
+        return productBrands;
     }
 
     public ProductBrand getProductBrand(String code) {
@@ -340,17 +340,17 @@ public class Company extends AbstractEntity<Company> {
     }
     
     public void addProductBrand(ProductBrand productBrand) {
-        if(this.productBrand != null){
-            this.productBrand.add(productBrand);
+        if(this.productBrands != null){
+            this.productBrands.add(productBrand);
         } else {
             Set<ProductBrand> brands = new HashSet<ProductBrand>();
             brands.add(productBrand);
-            this.productBrand = brands;
+            this.productBrands = brands;
         }
     }
     
     public void setProductBrands(Set<ProductBrand> brands) {
-        this.productBrand = brands;
+        this.productBrands = brands;
     }
 
     public Set<Retailer> getRetailers() {
