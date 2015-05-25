@@ -477,21 +477,26 @@ public class BackofficeFormFactory {
     	final StoreForm storeForm = new StoreForm();
     	if(store != null){
 	    	storeForm.setId(store.getId().toString());
-	    	storeForm.setCode(store.getCode());
-	    	storeForm.setName(store.getName());
-	    	storeForm.setRetailerId(store.getRetailer().getId().toString());
-	    	
-	    	storeForm.setAddress1(store.getAddress1());
-	    	storeForm.setAddress2(store.getAddress2());
-	    	storeForm.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
-	    	
-	    	storeForm.setAreaCode(store.getAreaCode());
-	    	storeForm.setCity(store.getCity());
-	    	storeForm.setCountryCode(store.getCountryCode());
-	    	storeForm.setLatitude(store.getLatitude());
-	    	storeForm.setLongitude(store.getLongitude());
-	    	storeForm.setPostalCode(store.getPostalCode());
-	    	storeForm.setStateCode(store.getStateCode());    	
+            storeForm.setCode(store.getCode());
+            storeForm.setName(store.getName());
+            storeForm.setRetailerId(store.getRetailer().getId().toString());
+
+            storeForm.setAddress1(store.getAddress1());
+            storeForm.setAddress2(store.getAddress2());
+            storeForm.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
+
+            storeForm.setAreaCode(store.getAreaCode());
+            storeForm.setCity(store.getCity());
+            storeForm.setCountryCode(store.getCountryCode());
+            storeForm.setLatitude(store.getLatitude());
+            storeForm.setLongitude(store.getLongitude());
+            storeForm.setPostalCode(store.getPostalCode());
+            storeForm.setStateCode(store.getStateCode());
+
+            storeForm.setPhone(store.getPhone());
+            storeForm.setFax(store.getFax());
+            storeForm.setEmail(store.getEmail());
+            storeForm.setWebsite(store.getWebsite());
     	}
     	
     	return storeForm;

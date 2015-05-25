@@ -223,11 +223,11 @@ public class WebBackofficeService {
         if (StringUtils.isNotEmpty(userForm.getLogin())) {
             user.setLogin(userForm.getLogin());
         } else {
-            String login = userForm.getFirstname().substring(0, 1) + userForm.getLastname();
+            String login = StringUtils.lowerCase(userForm.getFirstname().substring(0, 1) + userForm.getLastname());
             User checkUserLogin = userService.getUserByLoginOrEmail(login);
             int i = 1;
             while (checkUserLogin != null) {
-                login = userForm.getFirstname().substring(0, 1) + userForm.getLastname() + i;
+                login = StringUtils.lowerCase(userForm.getFirstname().substring(0, 1) + userForm.getLastname() + i);
                 checkUserLogin = userService.getUserByLoginOrEmail(login);
                 i++;
             }
