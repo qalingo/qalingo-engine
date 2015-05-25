@@ -29,6 +29,9 @@ public class UserToken extends AbstractEntity<UserToken> {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = 2501221341338490523L;
+	
+    public final static String AUTO_LOGIN_TOKEN             = "AUTO_LOGIN_TOKEN";
+    public final static String VALIDATION_TOKEN             = "VALIDATION_TOKEN";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
