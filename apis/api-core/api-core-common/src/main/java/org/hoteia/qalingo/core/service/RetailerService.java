@@ -215,6 +215,10 @@ public class RetailerService {
         return retailerDao.getStoreByCode(storeCode, params);
     }
 
+    public Long countStore() {
+        return retailerDao.countStore();
+    }
+    
     public Long getMaxStoreId() {
         return retailerDao.getMaxStoreId();
     }

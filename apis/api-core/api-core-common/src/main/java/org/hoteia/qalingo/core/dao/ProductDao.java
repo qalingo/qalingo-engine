@@ -75,6 +75,12 @@ public class ProductDao extends AbstractGenericDao {
 		return productMarketing;
 	}
 	
+    public Long countProductMarketing() {
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+    
 	public List<ProductMarketing> findAllProductMarketings(Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
@@ -446,6 +452,12 @@ public class ProductDao extends AbstractGenericDao {
         return productSku;
     }
 
+    public Long countProductSku() {
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+    
     public List<Long> findProductSkuIds(int maxResults) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         criteria.setProjection(Projections.property("id"));
@@ -862,6 +874,12 @@ public class ProductDao extends AbstractGenericDao {
             productBrand.setFetchPlan(fetchPlan);
         }
         return productBrand;
+    }
+    
+    public Long countProductBrand() {
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
     
     public List<ProductBrand> findAllProductBrands(Object... params) {

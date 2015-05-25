@@ -397,6 +397,12 @@ public class RetailerDao extends AbstractGenericDao {
         return (maxId == null) ? new Long(0) : maxId;
     }
     
+    public Long countStore() {
+        Criteria criteria = createDefaultCriteria(Store.class);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+            
 	public List<Store> findAllStores(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         

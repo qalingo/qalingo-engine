@@ -86,6 +86,10 @@ public class ProductService {
         return null;
     }
     
+    public Long countProductMarketing() {
+        return productDao.countProductMarketing();
+    }
+    
     public List<ProductMarketing> findProductMarketings(Object... params) {
         return findAllProductMarketings(params);
     }
@@ -261,6 +265,10 @@ public class ProductService {
 
     public ProductSku getProductSkuByEAN(final String skuEAN, Object... params) {
         return productDao.getProductSkuByEAN(skuEAN, params);
+    }
+    
+    public Long countProductSku() {
+        return productDao.countProductSku();
     }
     
     public List<Long> findAllProductSkuIds() {
@@ -463,6 +471,10 @@ public class ProductService {
 
     public ProductBrand getProductBrandByCode(final String productBrandCode, Object... params) {
         return productDao.getProductBrandByCode(productBrandCode, params);
+    }
+    
+    public Long countProductBrand() {
+        return productDao.countProductBrand();
     }
 
     public List<ProductBrand> findAllProductBrands(Object... params) {
