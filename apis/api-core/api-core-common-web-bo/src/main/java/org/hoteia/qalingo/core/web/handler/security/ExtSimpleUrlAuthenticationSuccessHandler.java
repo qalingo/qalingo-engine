@@ -57,7 +57,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
                                         Authentication authentication) throws IOException, ServletException {
 
     	// Find the current user
-    	final User user = userService.getUserByLoginOrEmail(authentication.getName());
+    	final User user = userService.getUserActivedByLoginOrEmail(authentication.getName());
 
     	// Persit only the new UserConnectionLog
     	UserConnectionLog userConnectionLog = new UserConnectionLog();

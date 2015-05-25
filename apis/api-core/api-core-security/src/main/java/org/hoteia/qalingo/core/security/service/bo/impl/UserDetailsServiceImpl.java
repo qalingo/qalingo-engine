@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
 	@Transactional(readOnly = true)
 	public org.springframework.security.core.userdetails.User loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException, DataAccessException {
 		User userDetails = null;
-		userDetails = userService.getUserByLoginOrEmail(usernameOrEmail);
+		userDetails = userService.getUserActivedByLoginOrEmail(usernameOrEmail);
 		if (userDetails == null) {
 			throw new UsernameNotFoundException("user not found");
 		}

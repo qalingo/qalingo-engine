@@ -48,8 +48,12 @@ public class UserService {
         return userDao.getUserByCode(userCode, params);
     }
     
-	public User getUserByLoginOrEmail(String usernameOrEmail, Object... params) {
-		return userDao.getUserByLoginOrEmail(usernameOrEmail, params);
+    public User getUserByLoginOrEmail(String usernameOrEmail, Object... params) {
+        return userDao.getUserByLoginOrEmail(usernameOrEmail, params);
+    }
+    
+	public User getUserActivedByLoginOrEmail(String usernameOrEmail, Object... params) {
+		return userDao.getUserActivedByLoginOrEmail(usernameOrEmail, params);
 	}
 
     public Long getMaxUserId() {

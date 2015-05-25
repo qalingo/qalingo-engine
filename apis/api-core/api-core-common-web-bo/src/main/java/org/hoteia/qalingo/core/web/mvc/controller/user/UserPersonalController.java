@@ -87,7 +87,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         
         final String newEmail = userForm.getEmail();
         final User currentUser = requestUtil.getCurrentUser(request);
-        final User checkUser = userService.getUserByLoginOrEmail(newEmail);
+        final User checkUser = userService.getUserActivedByLoginOrEmail(newEmail);
         if(checkUser != null
                 && !currentUser.getEmail().equalsIgnoreCase(newEmail)) {
             final String forgottenPasswordUrl = backofficeUrlService.generateUrl(BoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
@@ -97,7 +97,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
 
         // Update the user
         webBackofficeService.createOrUpdatePersonalUser(checkUser, userForm);
-        requestUtil.updateCurrentUser(request, userService.getUserByLoginOrEmail(newEmail));
+        requestUtil.updateCurrentUser(request, userService.getUserActivedByLoginOrEmail(newEmail));
         
         final String urlRedirect = backofficeUrlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -116,7 +116,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         }
         
         String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL);
-        final User user = userService.getUserByLoginOrEmail(email);
+        final User user = userService.getUserActivedByLoginOrEmail(email);
         if (user == null) {
             // ADD ERROR MESSAGE
             String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_email_or_login_are_wrong", locale);

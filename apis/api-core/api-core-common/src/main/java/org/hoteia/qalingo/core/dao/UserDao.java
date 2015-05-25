@@ -65,6 +65,17 @@ public class UserDao extends AbstractGenericDao {
         Criteria criteria = createDefaultCriteria(User.class);
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
+        User user = (User) criteria.uniqueResult();
+        if(user != null){
+            user.setFetchPlan(fetchPlan);
+        }
+        return user;
+    }
+    
+    public User getUserActivedByLoginOrEmail(final String usernameOrEmail, Object... params) {
+        Criteria criteria = createDefaultCriteria(User.class);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         criteria.add(Restrictions.eq("active", true));
         User user = (User) criteria.uniqueResult();
         if(user != null){

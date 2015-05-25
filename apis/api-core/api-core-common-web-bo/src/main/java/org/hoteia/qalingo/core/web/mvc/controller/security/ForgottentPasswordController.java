@@ -79,7 +79,7 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
             return displayForgottenPassword(request, model);
         }
         
-        final User user = userService.getUserByLoginOrEmail(forgottenPasswordForm.getEmailOrLogin());
+        final User user = userService.getUserActivedByLoginOrEmail(forgottenPasswordForm.getEmailOrLogin());
         if (user == null) {
             addMessageError(result, null, ModelConstants.FORGOTTEN_PASSWORD_FORM, "emailOrLogin", getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
             return displayForgottenPassword(request, model);
@@ -119,7 +119,7 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
         }
         
         String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL);
-        final User user = userService.getUserByLoginOrEmail(email);
+        final User user = userService.getUserActivedByLoginOrEmail(email);
         if (user == null) {
             // ADD ERROR MESSAGE
             model.addAttribute(ModelConstants.AUTH_HAS_FAIL, true);
@@ -158,7 +158,7 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
             return displayResetPassword(request, model);
         }
         
-        final User user = userService.getUserByLoginOrEmail(resetPasswordForm.getEmail());
+        final User user = userService.getUserActivedByLoginOrEmail(resetPasswordForm.getEmail());
         if (user == null) {
             // ADD ERROR
             addMessageError(result, null, ModelConstants.FORGOTTEN_PASSWORD_FORM, "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
@@ -203,7 +203,7 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
         }
         
         String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL);
-        final User user = userService.getUserByLoginOrEmail(email);
+        final User user = userService.getUserActivedByLoginOrEmail(email);
         if (user == null) {
             // ADD ERROR MESSAGE
             String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "reset_password_login_or_email_are_wrong", locale);
