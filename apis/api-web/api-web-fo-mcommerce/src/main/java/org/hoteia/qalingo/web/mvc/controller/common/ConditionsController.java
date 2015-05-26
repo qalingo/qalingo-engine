@@ -30,8 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("conditionsOfUseController")
-public class ConditionsOfUseController extends AbstractMCommerceController {
+@Controller("conditionsController")
+public class ConditionsController extends AbstractMCommerceController {
 
 	@RequestMapping(FoUrls.CONDITIONS_OF_USE_URL)
 	public ModelAndView conditionsOfUse(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -40,12 +40,12 @@ public class ConditionsOfUseController extends AbstractMCommerceController {
 		
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CONDITIONS_OF_USE.getKey());
 
-        modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBeanConditionsOfUse(requestData));
         
         return modelAndView;
 	}
 
-    protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData) {
+    protected BreadcrumbViewBean buildBreadcrumbViewBeanConditionsOfUse(final RequestData requestData) {
         final Locale locale = requestData.getLocale();
 
         // BREADCRUMB
@@ -69,4 +69,42 @@ public class ConditionsOfUseController extends AbstractMCommerceController {
 
         return breadcrumbViewBean;
     }
+    
+    @RequestMapping(FoUrls.CONDITIONS_OF_SALE_URL)
+    public ModelAndView conditionsOfSale(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONDITIONS_OF_SALE.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CONDITIONS_OF_SALE.getKey());
+
+        modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBeanConditionsOfSale(requestData));
+        
+        return modelAndView;
+    }
+
+    protected BreadcrumbViewBean buildBreadcrumbViewBeanConditionsOfSale(final RequestData requestData) {
+        final Locale locale = requestData.getLocale();
+
+        // BREADCRUMB
+        BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CONDITIONS_OF_SALE.getMessageKey(), locale));
+
+        List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
+
+        MenuViewBean menu = new MenuViewBean();
+        menu.setKey(FoUrls.HOME.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.HOME.getMessageKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        menuViewBeans.add(menu);
+
+        menu = new MenuViewBean();
+        menu.setKey(FoUrls.CONDITIONS_OF_SALE.getKey());
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CONDITIONS_OF_SALE.getMessageKey(), locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.CONDITIONS_OF_SALE, requestData));
+        menu.setActive(true);
+        menuViewBeans.add(menu);
+
+        return breadcrumbViewBean;
+    }
+    
 }

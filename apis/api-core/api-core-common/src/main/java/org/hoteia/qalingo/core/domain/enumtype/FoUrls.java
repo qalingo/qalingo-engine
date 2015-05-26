@@ -19,6 +19,7 @@ public enum FoUrls {
     INDEX(FoUrls.INDEX_URL, FoUrls.HOME_KEY, FoUrls.HOME_VELOCITY_PAGE, true),
     OUR_COMPANY(FoUrls.OUR_COMPANY_URL, FoUrls.OUR_COMPANY_KEY, FoUrls.OUR_COMPANY_VELOCITY_PAGE, true),
     CONDITIONS_OF_USE(FoUrls.CONDITIONS_OF_USE_URL, FoUrls.CONDITIONS_OF_USE_KEY, FoUrls.CONDITIONS_OF_USE_VELOCITY_PAGE, true),
+    CONDITIONS_OF_SALE(FoUrls.CONDITIONS_OF_SALE_URL, FoUrls.CONDITIONS_OF_SALE_KEY, FoUrls.CONDITIONS_OF_SALE_VELOCITY_PAGE, true),
     FAQ(FoUrls.FAQ_URL, FoUrls.FAQ_KEY, FoUrls.FAQ_VELOCITY_PAGE, true),
     CLP(FoUrls.CLP_URL, FoUrls.CLP_KEY, FoUrls.CLP_VELOCITY_PAGE, true),
     LEGAL_TERMS(FoUrls.LEGAL_TERMS_URL, FoUrls.LEGAL_TERMS_KEY, FoUrls.LEGAL_TERMS_VELOCITY_PAGE, true),
@@ -124,17 +125,21 @@ public enum FoUrls {
 	public static final String HOME_VELOCITY_PAGE	= "home";
 	public static final String INDEX_URL			= "/**/index.html";
     
-	public static final String OUR_COMPANY_KEY				= "our-company";
-	public static final String OUR_COMPANY_URL				= "/**/our-company.html";
-	public static final String OUR_COMPANY_VELOCITY_PAGE	= "our-company/our-company";
-	
-	public static final String CONDITIONS_OF_USE_KEY = "conditionsofuse";
-	public static final String CONDITIONS_OF_USE_URL = "/**/conditions-of-use.html";
-	public static final String CONDITIONS_OF_USE_VELOCITY_PAGE = "conditions-of-use/conditions-of-use";
-	
-	public static final String FAQ_KEY				= "faq";
-	public static final String FAQ_URL				= "/**/faq.html";
-	public static final String FAQ_VELOCITY_PAGE	= "faq/faq";
+    public static final String OUR_COMPANY_KEY                = "our-company";
+    public static final String OUR_COMPANY_URL                = "/**/our-company.html";
+    public static final String OUR_COMPANY_VELOCITY_PAGE      = "our-company/our-company";
+
+    public static final String CONDITIONS_OF_USE_KEY           = "conditionsofuse";
+    public static final String CONDITIONS_OF_USE_URL           = "/**/conditions-of-use.html";
+    public static final String CONDITIONS_OF_USE_VELOCITY_PAGE = "conditions/conditions-of-use";
+
+    public static final String CONDITIONS_OF_SALE_KEY           = "conditionsofsale";
+    public static final String CONDITIONS_OF_SALE_URL           = "/**/conditions-of-sale.html";
+    public static final String CONDITIONS_OF_SALE_VELOCITY_PAGE = "conditions/conditions-of-sale";
+
+    public static final String FAQ_KEY = "faq";
+    public static final String FAQ_URL = "/**/faq.html";
+    public static final String FAQ_VELOCITY_PAGE = "faq/faq";
 
 	public static final String CLP_KEY				= "clp";
 	public static final String CLP_URL				= "/**/clp.html";
