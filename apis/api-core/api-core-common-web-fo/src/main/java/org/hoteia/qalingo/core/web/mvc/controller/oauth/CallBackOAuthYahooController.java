@@ -115,7 +115,7 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
                         String responseBody = oauthResponse.getBody();
 
                         if (responseCode == 200) {
-                             handleAuthenticationData(request, response, requestData, OAuthType.FACEBOOK, responseBody);
+                             handleAuthenticationData(request, response, requestData, OAuthType.YAHOO, responseBody);
                         } else {
                             logger.error("Callback With " + OAuthType.YAHOO.name() + " failed!");
                         }

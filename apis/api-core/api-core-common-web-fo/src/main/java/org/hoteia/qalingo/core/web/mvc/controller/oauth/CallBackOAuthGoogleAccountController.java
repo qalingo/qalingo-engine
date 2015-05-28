@@ -115,7 +115,7 @@ public class CallBackOAuthGoogleAccountController extends AbstractOAuthFrontoffi
                         String responseBody = oauthResponse.getBody();
 
                         if (responseCode == 200) {
-                             handleAuthenticationData(request, response, requestData, OAuthType.FACEBOOK, responseBody);
+                             handleAuthenticationData(request, response, requestData, OAuthType.GOOGLE_ACCOUNT, responseBody);
                         } else {
                             logger.error("Callback With " + OAuthType.GOOGLE_ACCOUNT.name() + " failed!");
                         }
