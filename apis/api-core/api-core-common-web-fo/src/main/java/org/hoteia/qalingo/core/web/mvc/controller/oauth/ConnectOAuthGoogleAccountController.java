@@ -18,7 +18,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.YahooApi;
+import org.scribe.builder.api.Google2Api;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("connectYahooController")
-public class ConnectYahooController extends AbstractOAuthFrontofficeController {
+@Controller("connectOAuthGoogleAccountController")
+public class ConnectOAuthGoogleAccountController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/connect-oauth-yahoo.html*")
-	public ModelAndView connectYahoo(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	@RequestMapping("/connect-oauth-google-account.html*")
+	public ModelAndView connectGoogleAccount(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
@@ -43,15 +43,15 @@ public class ConnectYahooController extends AbstractOAuthFrontofficeController {
 			try {
 			    // CLIENT ID
 			    EngineSetting clientIdEngineSetting = engineSettingService.getSettingOAuthAppKeyOrId();
-			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.GOOGLE_ACCOUNT.name());
 			    
 			    // CLIENT SECRET
 			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
-			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.GOOGLE_ACCOUNT.name());
 			    
 			    // CLIENT PERMISSIONS
 			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
-			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.GOOGLE_ACCOUNT.name());
 			    
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
@@ -60,10 +60,10 @@ public class ConnectYahooController extends AbstractOAuthFrontofficeController {
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
-				    final String googleAccountCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.YAHOO.getPropertyKey().toLowerCase()));
+				    final String googleAccountCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.GOOGLE_ACCOUNT.getPropertyKey().toLowerCase()));
 
 			        OAuthService service = new ServiceBuilder()
-			        .provider(YahooApi.class)
+			        .provider(Google2Api.class)
 			        .apiKey(clientId)
 			        .apiSecret(clientSecret)
 			        .scope(permissions)
@@ -77,7 +77,7 @@ public class ConnectYahooController extends AbstractOAuthFrontofficeController {
 			    }
 
 			} catch (Exception e) {
-				logger.error("Connect With " + OAuthType.YAHOO.name() + " failed!");
+				logger.error("Connect With " + OAuthType.GOOGLE_ACCOUNT.name() + " failed!");
 			}
 		}
 

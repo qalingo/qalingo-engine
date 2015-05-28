@@ -18,7 +18,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.LiveApi;
+import org.scribe.builder.api.YahooApi;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("connectWindowsLiveController")
-public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeController {
+@Controller("connectOAuthYahooController")
+public class ConnectOAuthYahooController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/connect-oauth-windows-live.html*")
-	public ModelAndView connectWindowsLive(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	@RequestMapping("/connect-oauth-yahoo.html*")
+	public ModelAndView connectYahoo(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
@@ -43,42 +43,41 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 			try {
 			    // CLIENT ID
 			    EngineSetting clientIdEngineSetting = engineSettingService.getSettingOAuthAppKeyOrId();
-			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
 			    
 			    // CLIENT SECRET
 			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
-			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
 			    
 			    // CLIENT PERMISSIONS
 			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
-			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
 			    
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-			    	final String contextValue = requestUtil.getCurrentContextNameValue();
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
-					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
+				    final String googleAccountCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.YAHOO.getPropertyKey().toLowerCase()));
 
-				    OAuthService service = new ServiceBuilder()
-                    .provider(LiveApi.class)
-                    .apiKey(clientId)
-                    .apiSecret(clientSecret)
-                    .scope(permissions)
-                    .callback(windowsLiveCallBackURL)
-                    .build();
-					
-					// Obtain the Authorization URL
-					String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+			        OAuthService service = new ServiceBuilder()
+			        .provider(YahooApi.class)
+			        .apiKey(clientId)
+			        .apiSecret(clientSecret)
+			        .scope(permissions)
+		            .callback(googleAccountCallBackURL)
+		            .build();
 
-					response.sendRedirect(authorizationUrl);
+                    // Obtain the Authorization URL
+                    String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+
+                    response.sendRedirect(authorizationUrl);
 			    }
 
 			} catch (Exception e) {
-				logger.error("Connect With " + OAuthType.WINDOWS_LIVE.name() + " failed!");
+				logger.error("Connect With " + OAuthType.YAHOO.name() + " failed!");
 			}
 		}
 

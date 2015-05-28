@@ -18,7 +18,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.FacebookApi;
+import org.scribe.builder.api.LiveApi;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("connectFacebookController")
-public class ConnectFacebookController extends AbstractOAuthFrontofficeController {
+@Controller("connectOAuthWindowsLiveController")
+public class ConnectOAuthWindowsLiveController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/connect-oauth-facebook.html*")
-	public ModelAndView connectFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	@RequestMapping("/connect-oauth-windows-live.html*")
+	public ModelAndView connectWindowsLive(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
@@ -43,31 +43,32 @@ public class ConnectFacebookController extends AbstractOAuthFrontofficeControlle
 			try {
 			    // CLIENT ID
 			    EngineSetting clientIdEngineSetting = engineSettingService.getSettingOAuthAppKeyOrId();
-			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    // CLIENT SECRET
 			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
-			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    // CLIENT PERMISSIONS
 			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
-			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
+			    	final String contextValue = requestUtil.getCurrentContextNameValue();
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
-					final String facebookCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
+					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
-                    .provider(FacebookApi.class)
+                    .provider(LiveApi.class)
                     .apiKey(clientId)
                     .apiSecret(clientSecret)
                     .scope(permissions)
-                    .callback(facebookCallBackURL)
+                    .callback(windowsLiveCallBackURL)
                     .build();
 					
 					// Obtain the Authorization URL
@@ -77,7 +78,7 @@ public class ConnectFacebookController extends AbstractOAuthFrontofficeControlle
 			    }
 
 			} catch (Exception e) {
-				logger.error("Connect With " + OAuthType.FACEBOOK.name() + " failed!");
+				logger.error("Connect With " + OAuthType.WINDOWS_LIVE.name() + " failed!");
 			}
 		}
 

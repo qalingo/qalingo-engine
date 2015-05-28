@@ -50,8 +50,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 /**
  * 
  */
-@Controller("callBackYahooController")
-public class CallBackYahooController extends AbstractOAuthFrontofficeController {
+@Controller("callBackOAuthYahooController")
+public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	

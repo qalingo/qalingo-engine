@@ -27,8 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("connectYahooController")
-public class ConnectYahooController extends AbstractOpenIdFrontofficeController {
+@Controller("connectOpenIdYahooController")
+public class ConnectOpenIdYahooController extends AbstractOpenIdFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 

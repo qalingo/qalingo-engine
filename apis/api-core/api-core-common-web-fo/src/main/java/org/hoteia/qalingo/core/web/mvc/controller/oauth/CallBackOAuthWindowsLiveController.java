@@ -50,8 +50,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 /**
  * 
  */
-@Controller("callBackWindowsLiveController")
-public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeController {
+@Controller("callBackOAuthWindowsLiveController")
+public class CallBackOAuthWindowsLiveController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	

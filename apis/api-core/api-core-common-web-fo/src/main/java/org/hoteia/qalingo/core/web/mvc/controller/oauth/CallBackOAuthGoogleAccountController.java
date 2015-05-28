@@ -50,8 +50,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 /**
  * 
  */
-@Controller("callBackGoogleAccountController")
-public class CallBackGoogleAccountController extends AbstractOAuthFrontofficeController {
+@Controller("callBackOAuthGoogleAccountController")
+public class CallBackOAuthGoogleAccountController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	

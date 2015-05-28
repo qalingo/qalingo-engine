@@ -18,7 +18,8 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.Google2Api;
+import org.scribe.builder.api.TwitterApi;
+import org.scribe.model.Token;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +30,13 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("connectGoogleAccountController")
-public class ConnectGoogleAccountController extends AbstractOAuthFrontofficeController {
+@Controller("connectOAuthTwitterController")
+public class ConnectOAuthTwitterController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/connect-oauth-google-account.html*")
-	public ModelAndView connectGoogleAccount(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	@RequestMapping("/connect-oauth-twitter.html*")
+	public ModelAndView connectTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
@@ -43,41 +44,42 @@ public class ConnectGoogleAccountController extends AbstractOAuthFrontofficeCont
 			try {
 			    // CLIENT ID
 			    EngineSetting clientIdEngineSetting = engineSettingService.getSettingOAuthAppKeyOrId();
-			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.GOOGLE_ACCOUNT.name());
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    // CLIENT SECRET
 			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
-			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.GOOGLE_ACCOUNT.name());
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    // CLIENT PERMISSIONS
 			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
-			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.GOOGLE_ACCOUNT.name());
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
-					final String permissions = permissionsEngineSettingValue.getValue();
 					
-				    final String googleAccountCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.GOOGLE_ACCOUNT.getPropertyKey().toLowerCase()));
+					final String twitterCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.TWITTER.getPropertyKey().toLowerCase()));
 
-			        OAuthService service = new ServiceBuilder()
-			        .provider(Google2Api.class)
-			        .apiKey(clientId)
-			        .apiSecret(clientSecret)
-			        .scope(permissions)
-		            .callback(googleAccountCallBackURL)
-		            .build();
+				    OAuthService service = new ServiceBuilder()
+                    .provider(TwitterApi.class)
+                    .apiKey(clientId)
+                    .apiSecret(clientSecret)
+                    .callback(twitterCallBackURL)
+                    .build();
+					
+				    Token requestToken = service.getRequestToken();
+				    request.getSession().setAttribute(TWITTER_OAUTH_REQUEST_TOKEN, requestToken);
+				    
+					// Obtain the Authorization URL
+					String authorizationUrl = service.getAuthorizationUrl(requestToken);
 
-                    // Obtain the Authorization URL
-                    String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-
-                    response.sendRedirect(authorizationUrl);
+					response.sendRedirect(authorizationUrl);
 			    }
 
 			} catch (Exception e) {
-				logger.error("Connect With " + OAuthType.GOOGLE_ACCOUNT.name() + " failed!");
+				logger.error("Connect With " + OAuthType.TWITTER.name() + " failed!");
 			}
 		}
 

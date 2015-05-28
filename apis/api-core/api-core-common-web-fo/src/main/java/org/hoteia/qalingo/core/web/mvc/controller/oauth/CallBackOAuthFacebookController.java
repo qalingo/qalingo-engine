@@ -28,9 +28,9 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.tools.scribe.mapping.oauth.twitter.json.pojo.UserPojo;
+import org.hoteia.tools.scribe.mapping.oauth.facebook.json.pojo.UserPojo;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.TwitterApi;
+import org.scribe.builder.api.FacebookApi;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -50,8 +50,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 /**
  * 
  */
-@Controller("callBackTwitterController")
-public class CallBackTwitterController extends AbstractOAuthFrontofficeController {
+@Controller("callBackOAuthFacebookController")
+public class CallBackOAuthFacebookController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -66,9 +66,9 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 
     @Autowired
     protected JsonMapper jsonMapper;
-    
-	@RequestMapping("/callback-oauth-twitter.html*")
-	public ModelAndView callBackTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	
+	@RequestMapping("/callback-oauth-facebook.html*")
+	public ModelAndView callBackFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
@@ -77,56 +77,56 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 
 			    // CLIENT ID
 			    EngineSetting clientIdEngineSetting = engineSettingService.getSettingOAuthAppKeyOrId();
-			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 			    
 			    // CLIENT SECRET
 			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
-			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 			    
 			    // CLIENT PERMISSIONS
 			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
-			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 			    
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
+					final String permissions = permissionsEngineSettingValue.getValue();
 
-					final String twitterCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.TWITTER.getPropertyKey().toLowerCase()));
+					final String facebookCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
-                    .provider(TwitterApi.class)
+                    .provider(FacebookApi.class)
                     .apiKey(clientId)
                     .apiSecret(clientSecret)
-                    .callback(twitterCallBackURL)
+                    .scope(permissions)
+                    .callback(facebookCallBackURL)
                     .build();
 				    
-					final String code = request.getParameter(REQUEST_PARAM_OAUTH_VERIFIER);
-					if(StringUtils.isNotEmpty(code)) {
+					final String code = request.getParameter("code");
+					if(StringUtils.isNotEmpty(code)){
 						Verifier verifier = new Verifier(code);
-						Token requestToken = (Token) request.getSession().getAttribute(TWITTER_OAUTH_REQUEST_TOKEN);
-						
-						Token accessToken = service.getAccessToken(requestToken, verifier);
-						OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, TWITTER_URL);
+						Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+						OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, FACEBOOK_ME_URL);
 					    service.signRequest(accessToken, oauthRequest);
 					    Response oauthResponse = oauthRequest.send();
 					    int responseCode = oauthResponse.getCode();
 					    String responseBody = oauthResponse.getBody();
 					    
 					    if(responseCode == 200){
-					    	handleAuthenticationData(request, response, requestData, OAuthType.TWITTER, responseBody);
+					    	handleAuthenticationData(request, response, requestData, OAuthType.FACEBOOK, responseBody);
 					    } else {
-							logger.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
+							logger.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 					    }
 					} else {
-						logger.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
+						logger.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 					}
 					
 			    }
 					
 			} catch (Exception e) {
-				logger.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
+				logger.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 			}
 		}
 		
@@ -148,13 +148,12 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 			logger.error(e.getMessage());
 		}
 		if(userPojo != null){
-			// TWITTER DOESN'T WANT TO SHARE EMAIL -> WE DON'T EXPOSE THIS CONNECT OPTION - WITHOUT EMAIL WE WILL SAVE DUPLICATES WITH CORE CREATE ACCOUNT PROCESS 
-			// AND WE DON'T WANT ASK TO THE NEW CUSTOMER TO CONFIRM HIS EMAIL BY A FORM
-			final String email = ""; 
-
-			final String firstName = userPojo.getName();
-			final String lastName = userPojo.getName();
-			final String locale = userPojo.getLang();
+			final String email = userPojo.getEmail();
+			final String firstName = userPojo.getFirstName();
+			final String lastName = userPojo.getLastName();
+			final String gender = userPojo.getGender();
+			final String locale = userPojo.getLocale();
+			final String username = userPojo.getUsername();
 			Customer customer = customerService.getCustomerByLoginOrEmail(email);
 			
             if(customer == null){
@@ -164,31 +163,36 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 				// CREATE A NEW CUSTOMER
 				customer = new Customer();
 //				customer = setCommonCustomerInformation(request, customer);
-
+				
 				customer.setLogin(email);
 				customer.setPassword(securityUtil.generatePassword());
 				customer.setEmail(email);
 				customer.setFirstname(firstName);
 				customer.setLastname(lastName);
+				if(StringUtils.isNotEmpty(gender)){
+					customer.setGender(gender);
+				}
 				
-				customer.setNetworkOrigin(CustomerNetworkOrigin.TWITTER.getPropertyKey());
-
+				customer.setNetworkOrigin(CustomerNetworkOrigin.FACEBOOK.getPropertyKey());
+				
 				CustomerAttribute attribute = new CustomerAttribute();
 				AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
 				attribute.setAttributeDefinition(attributeDefinition);
-				String screenName = "";
-				if(StringUtils.isNotEmpty(lastName)){
+				String screenName = username;
+				if(StringUtils.isEmpty(screenName)){
 					if(StringUtils.isNotEmpty(lastName)){
-						screenName = lastName;
-						if(screenName.length() > 1){
-							screenName = screenName.substring(0, 1);
-						}
-						if(!screenName.endsWith(".")){
-							screenName = screenName + ". ";
+						if(StringUtils.isNotEmpty(lastName)){
+							screenName = lastName;
+							if(screenName.length() > 1){
+								screenName = screenName.substring(0, 1);
+							}
+							if(!screenName.endsWith(".")){
+								screenName = screenName + ". ";
+							}
 						}
 					}
+					screenName = screenName + firstName;
 				}
-				screenName = screenName + firstName;
 				attribute.setShortStringValue(screenName);
 				customer.getAttributes().add(attribute);
 				
@@ -217,5 +221,5 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 			
 		}
 	}
-	
+
 }
