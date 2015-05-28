@@ -75,6 +75,7 @@ public class Constants {
 
 	public static final String HOST = "Host";
 	public static final String HTTP = "Http";
+    public static final String HTTPS = "Https";
 	public static final String HTTP_COLON_SLASH_SLASH = "http://";
 	public static final String SPRING_URL_PATH = "";
 
