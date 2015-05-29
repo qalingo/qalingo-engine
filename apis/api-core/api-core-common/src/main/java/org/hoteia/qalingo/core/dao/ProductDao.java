@@ -269,6 +269,13 @@ public class ProductDao extends AbstractGenericDao {
         }
 	}
 	
+    public ProductMarketing createProductMarketing(final ProductMarketing productMarketing) {
+    	productMarketing.setDateCreate(new Date());
+		productMarketing.setDateUpdate(new Date());
+        em.persist(productMarketing);
+        return productMarketing;
+    }
+    
     public ProductMarketing updateProductMarketing(final ProductMarketing productMarketing) {
         productMarketing.setDateUpdate(new Date());
         return em.merge(productMarketing);
@@ -602,6 +609,13 @@ public class ProductDao extends AbstractGenericDao {
         }
     }
 
+	public ProductSku createProductSku(final ProductSku productSku) {
+		productSku.setDateCreate(new Date());
+		productSku.setDateUpdate(new Date());
+		em.persist(productSku);
+		return productSku;
+	}
+    
     public ProductSku updateProductSku(final ProductSku productSku) {
         productSku.setDateUpdate(new Date());
         ProductSku mergedProductSku = em.merge(productSku);

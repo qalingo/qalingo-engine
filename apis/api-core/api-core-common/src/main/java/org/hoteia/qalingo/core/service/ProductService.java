@@ -168,6 +168,10 @@ public class ProductService {
         return productDao.saveOrUpdateProductMarketing(productMarketing);
     }
 
+    public ProductMarketing createProductMarketing(final ProductMarketing productMarketing) {
+        return productDao.createProductMarketing(productMarketing);
+    }
+    
     public ProductMarketing updateProductMarketing(final ProductMarketing productMarketing) {
         return productDao.updateProductMarketing(productMarketing);
     }
@@ -331,6 +335,10 @@ public class ProductService {
 
     public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
         return productDao.saveOrUpdateProductSku(productSku);
+    }
+    
+    public ProductSku createProductSku(final ProductSku productSku) {
+        return productDao.createProductSku(productSku);
     }
     
     public ProductSku updateProductSku(final ProductSku productSku) {
