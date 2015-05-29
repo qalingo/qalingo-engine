@@ -161,7 +161,7 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
         }
         if (socialPojo != null) {
             final ProfilePojo profile = socialPojo.getProfile();
-            final String email = null;
+            String email = null;
             List<EmailPojo> emails = profile.getEmails();
             for(EmailPojo emailPojo : emails){
                if(emailPojo.isPrimary()){
