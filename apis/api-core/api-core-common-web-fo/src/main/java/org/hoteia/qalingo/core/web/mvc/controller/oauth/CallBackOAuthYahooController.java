@@ -30,7 +30,7 @@ import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.tools.scribe.mapping.oauth.googleplus.json.pojo.UserPojo;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.Google2Api;
+import org.scribe.builder.api.YahooApi;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -94,28 +94,30 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 
-                    final String googleAccountCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.YAHOO.getPropertyKey().toLowerCase()));
+                    final String yahooCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.YAHOO.getPropertyKey().toLowerCase()));
 
                     OAuthService service = new ServiceBuilder()
-                    .provider(Google2Api.class)
+                    .provider(YahooApi.class)
                     .apiKey(clientId)
                     .apiSecret(clientSecret)
                     .scope(permissions)
-                    .callback(googleAccountCallBackURL)
+                    .callback(yahooCallBackURL)
                     .build();
 
-                    final String code = request.getParameter("code");
-                    if (StringUtils.isNotEmpty(code)) {
+                    final String code = request.getParameter(REQUEST_PARAM_OAUTH_VERIFIER);
+                    if(StringUtils.isNotEmpty(code)) {
                         Verifier verifier = new Verifier(code);
-                        Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
-                        OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, GOOGLE_ME_URL);
+                        Token requestToken = (Token) request.getSession().getAttribute(YAHOO_OAUTH_REQUEST_TOKEN);
+                        
+                        Token accessToken = service.getAccessToken(requestToken, verifier);
+                        OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, YAHOO_URL);
                         service.signRequest(accessToken, oauthRequest);
                         Response oauthResponse = oauthRequest.send();
                         int responseCode = oauthResponse.getCode();
                         String responseBody = oauthResponse.getBody();
-
-                        if (responseCode == 200) {
-                             handleAuthenticationData(request, response, requestData, OAuthType.YAHOO, responseBody);
+                        
+                        if(responseCode == 200){
+                            handleAuthenticationData(request, response, requestData, OAuthType.YAHOO, responseBody);
                         } else {
                             logger.error("Callback With " + OAuthType.YAHOO.name() + " failed!");
                         }

@@ -91,26 +91,13 @@ public class ConnectOAuthYahooController extends AbstractOAuthFrontofficeControl
 		            .callback(yahooCallBackURL)
 		            .build();
 
-                    final String code = request.getParameter(REQUEST_PARAM_OAUTH_VERIFIER);
-                    if(StringUtils.isNotEmpty(code)) {
-                        Verifier verifier = new Verifier(code);
-                        Token requestToken = (Token) request.getSession().getAttribute(YAHOO_OAUTH_REQUEST_TOKEN);
-                        
-                        Token accessToken = service.getAccessToken(requestToken, verifier);
-                        OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, YAHOO_URL);
-                        service.signRequest(accessToken, oauthRequest);
-                        Response oauthResponse = oauthRequest.send();
-                        int responseCode = oauthResponse.getCode();
-                        String responseBody = oauthResponse.getBody();
-                        
-                        if(responseCode == 200){
-                            handleAuthenticationData(request, response, requestData, OAuthType.YAHOO, responseBody);
-                        } else {
-                            logger.error("Callback With " + OAuthType.YAHOO.name() + " failed!");
-                        }
-                    } else {
-                        logger.error("Callback With " + OAuthType.YAHOO.name() + " failed!");
-                    }
+			        Token requestToken = service.getRequestToken();
+                    request.getSession().setAttribute(YAHOO_OAUTH_REQUEST_TOKEN, requestToken);
+                    
+                    // Obtain the Authorization URL
+                    String authorizationUrl = service.getAuthorizationUrl(requestToken);
+
+                    response.sendRedirect(authorizationUrl);
 			    }
 
 			} catch (Exception e) {
