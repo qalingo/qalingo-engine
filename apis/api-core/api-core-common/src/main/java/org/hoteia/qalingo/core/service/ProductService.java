@@ -359,6 +359,10 @@ public class ProductService {
         return productDao.findProductSkuStoreRelByProductSkuId(productSkuId, params);
     }
     
+    public ProductSkuStoreRel findProductSkuStoreRelByStoreIdAndProductId(final Long storeId, final Long productSkuId, Object... params) {
+        return productDao.findProductSkuStoreRelByStoreIdAndProductId(storeId, productSkuId, params);
+    }
+    
     public List<ProductSkuStoreRel> findProductSkuStoreRelByStoreId(final Long storeId, Object... params) {
         return productDao.findProductSkuStoreRelByStoreId(storeId, params);
     }

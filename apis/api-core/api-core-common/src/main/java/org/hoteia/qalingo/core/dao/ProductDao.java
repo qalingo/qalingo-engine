@@ -673,6 +673,31 @@ public class ProductDao extends AbstractGenericDao {
         return productSkuStoreRels;
     }
     
+    public ProductSkuStoreRel findProductSkuStoreRelByStoreIdAndProductId(final Long storeId, final Long productSkuId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
+
+        criteria.createAlias("pk.store", "store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.store.id", storeId));
+
+        criteria.createAlias("pk.productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.productSku.id", productSkuId));
+
+        handleSpecificProductSkuStoreRelFetchMode(criteria, params);
+
+        ProductSkuStoreRel productSkuStoreRel = null;
+        try {
+            productSkuStoreRel = (ProductSkuStoreRel) criteria.uniqueResult();
+        } catch (NonUniqueResultException e) {
+            logger.error("NonUniqueResultException: storeId='" + storeId + "', productSkuId: '" + productSkuId + "'");
+            List<ProductSkuStoreRel> productSkuStoreRels = (List<ProductSkuStoreRel>) criteria.list();
+            for (Iterator<ProductSkuStoreRel> iterator = productSkuStoreRels.iterator(); iterator.hasNext();) {
+                ProductSkuStoreRel productSkuStoreRelExp = (ProductSkuStoreRel) iterator.next();
+                logger.error("productSkuStoreRel: " + productSkuStoreRelExp.toString());
+            }
+        }
+        return productSkuStoreRel;
+    }
+    
     public List<ProductSkuStoreRel> findProductSkuStoreRelByStoreId(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
 
