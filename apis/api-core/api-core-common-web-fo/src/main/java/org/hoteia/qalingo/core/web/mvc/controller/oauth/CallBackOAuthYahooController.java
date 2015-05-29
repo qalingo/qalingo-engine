@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.web.mvc.controller.oauth;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +30,6 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.tools.scribe.mapping.oauth.googleplus.json.pojo.UserPojo;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.YahooApi;
 import org.scribe.model.OAuthRequest;
@@ -46,6 +47,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+
+import org.hoteia.tools.scribe.mapping.oauth.yahoo.json.pojo.EmailPojo;
+import org.hoteia.tools.scribe.mapping.oauth.yahoo.json.pojo.SocialPojo;
+import org.hoteia.tools.scribe.mapping.oauth.yahoo.json.pojo.ProfilePojo;
 
 /**
  * 
@@ -83,16 +88,10 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
 			    EngineSetting clientSecretEngineSetting = engineSettingService.getSettingOAuthAppSecret();
 			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
 			    
-			    // CLIENT PERMISSIONS
-			    EngineSetting permissionsEngineSetting = engineSettingService.getSettingOAuthAppPermissions();
-			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.YAHOO.name());
-			    
 			    if(clientIdEngineSettingValue != null
-			    		&& clientSecretEngineSetting != null
-			    		&& permissionsEngineSettingValue != null){
+			    		&& clientSecretEngineSetting != null){
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
-					final String permissions = permissionsEngineSettingValue.getValue();
 
                     final String yahooCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.YAHOO.getPropertyKey().toLowerCase()));
 
@@ -100,7 +99,6 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
                     .provider(YahooApi.class)
                     .apiKey(clientId)
                     .apiSecret(clientSecret)
-                    .scope(permissions)
                     .callback(yahooCallBackURL)
                     .build();
 
@@ -110,17 +108,30 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
                         Token requestToken = (Token) request.getSession().getAttribute(YAHOO_OAUTH_REQUEST_TOKEN);
                         
                         Token accessToken = service.getAccessToken(requestToken, verifier);
-                        OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, YAHOO_URL);
-                        service.signRequest(accessToken, oauthRequest);
-                        Response oauthResponse = oauthRequest.send();
-                        int responseCode = oauthResponse.getCode();
-                        String responseBody = oauthResponse.getBody();
-                        
-                        if(responseCode == 200){
-                            handleAuthenticationData(request, response, requestData, OAuthType.YAHOO, responseBody);
-                        } else {
-                            logger.error("Callback With " + OAuthType.YAHOO.name() + " failed!");
+                        String rowResponse = accessToken.getRawResponse();
+                        String[] split = rowResponse.split("&");
+                        String userGuid = null;
+                        if(split.length > 0){
+                            for(String value : split){
+                            	if(value.contains("xoauth_yahoo_guid") && value.contains("=")){
+                            		userGuid = value.split("=")[1];
+                            	}
+                            }
                         }
+                        if(StringUtils.isNotEmpty(userGuid)){
+                            OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, "https://social.yahooapis.com/v1/user/" + userGuid + "/profile?format=json");
+                            service.signRequest(accessToken, oauthRequest);
+                            Response oauthResponse = oauthRequest.send();
+                            int responseCode = oauthResponse.getCode();
+                            String responseBody = oauthResponse.getBody();
+                            
+                            if(responseCode == 200){
+                                handleAuthenticationData(request, response, requestData, OAuthType.YAHOO, responseBody);
+                            } else {
+                                logger.error("Callback With " + OAuthType.YAHOO.name() + " failed!");
+                            }
+                        }
+                        
                     } else {
                         logger.error("Callback With " + OAuthType.YAHOO.name() + " failed!");
                     }
@@ -140,20 +151,27 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
 	}
 	
     protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, RequestData requestData, OAuthType type, String jsonData) throws Exception {
-        UserPojo userPojo = null;
+        SocialPojo socialPojo = null;
         try {
-            userPojo = jsonMapper.getJsonMapper().readValue(jsonData, UserPojo.class);
+            socialPojo = jsonMapper.getJsonMapper().readValue(jsonData, SocialPojo.class);
         } catch (JsonGenerationException e) {
             logger.error(e.getMessage());
         } catch (JsonMappingException e) {
             logger.error(e.getMessage());
         }
-        if (userPojo != null) {
-            final String email = userPojo.getEmailAccount();
-            final String firstName = userPojo.getFirstName();
-            final String lastName = userPojo.getLastName();
-            final String gender = userPojo.getGender();
-            final String username = userPojo.getNickname();
+        if (socialPojo != null) {
+            final ProfilePojo profile = socialPojo.getProfile();
+            final String email = null;
+            List<EmailPojo> emails = profile.getEmails();
+            for(EmailPojo emailPojo : emails){
+               if(emailPojo.isPrimary()){
+                   email = emailPojo.getHandle();
+               }
+            }
+            final String firstName = profile.getGivenName();
+            final String lastName = profile.getFamilyName();
+            final String gender = profile.getGender();
+            final String username = profile.getNickname();
             Customer customer = customerService.getCustomerByLoginOrEmail(email);
 
             if(customer == null){
@@ -171,6 +189,11 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
                 customer.setLastname(lastName);
                 if (StringUtils.isNotEmpty(gender)) {
                     customer.setGender(gender);
+                    if ("M".equals(gender)) {
+                        customer.setTitle("MR");
+                    } else if ("F".equals(gender)) {
+                        customer.setTitle("MME");
+                    }
                 }
 
                 customer.setNetworkOrigin(CustomerNetworkOrigin.YAHOO.getPropertyKey());
