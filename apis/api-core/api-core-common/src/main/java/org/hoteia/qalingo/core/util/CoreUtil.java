@@ -13,6 +13,15 @@ public class CoreUtil {
         return UUID.randomUUID().toString().replace("-", "_");
     }
     
+    public static String cleanEntityCode(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            stringToReturn = replaceCharactersNotLetterOrDigit(stringToReturn);
+            stringToReturn = stringToReturn.replaceAll("-", "_").toLowerCase();
+        }
+        return stringToReturn;
+    }
+    
     public static String handleFileName(String fileName){
         if(StringUtils.isNotEmpty(fileName)){
             String name = CoreUtil.replaceCharactersNotLetterOrDigit(fileName.substring(0, fileName.lastIndexOf(".")));
