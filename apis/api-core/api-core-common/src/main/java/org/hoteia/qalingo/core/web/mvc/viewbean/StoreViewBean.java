@@ -45,13 +45,14 @@ public class StoreViewBean extends AbstractAddressViewBean {
     protected List<StoreCustomerCommentViewBean> comments = new ArrayList<StoreCustomerCommentViewBean>();
     protected List<StoreTagViewBean> tags = new ArrayList<StoreTagViewBean>();
 
-	protected String detailsUrl;
-	protected String editUrl;
-
     protected List<String> sliders;
 
-	protected StoreBusinessHourViewBean businessHour;
-	
+    protected StoreBusinessHourViewBean businessHour;
+
+	protected String detailsUrl;
+    protected String productLineUrl;
+	protected String editUrl;
+
 	public String getCode() {
 		return code;
 	}
@@ -277,6 +278,22 @@ public class StoreViewBean extends AbstractAddressViewBean {
         this.tags = tags;
     }
 
+    public List<String> getSliders() {
+        return sliders;
+    }
+
+    public void setSliders(List<String> sliders) {
+        this.sliders = sliders;
+    }
+
+    public StoreBusinessHourViewBean getBusinessHour() {
+        return businessHour;
+    }
+
+    public void setBusinessHour(StoreBusinessHourViewBean businessHour) {
+        this.businessHour = businessHour;
+    }
+
 	public String getDetailsUrl() {
 		return detailsUrl;
 	}
@@ -285,13 +302,13 @@ public class StoreViewBean extends AbstractAddressViewBean {
 		this.detailsUrl = detailsUrl;
 	}
 
-	public List<String> getSliders() {
-		return sliders;
-	}
-
-	public void setSliders(List<String> sliders) {
-		this.sliders = sliders;
-	}
+	public String getProductLineUrl() {
+        return productLineUrl;
+    }
+	
+	public void setProductLineUrl(String productLineUrl) {
+        this.productLineUrl = productLineUrl;
+    }
 
 	public String getEditUrl() {
 		return editUrl;
@@ -300,14 +317,6 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	public void setEditUrl(String editUrl) {
 		this.editUrl = editUrl;
 	}
-
-	public StoreBusinessHourViewBean getBusinessHour() {
-        return businessHour;
-    }
-	
-	public void setBusinessHour(StoreBusinessHourViewBean businessHour) {
-        this.businessHour = businessHour;
-    }
 
     @Override
     public int hashCode() {
