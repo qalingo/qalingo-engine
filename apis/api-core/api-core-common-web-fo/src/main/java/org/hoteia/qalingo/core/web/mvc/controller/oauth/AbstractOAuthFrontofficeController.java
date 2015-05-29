@@ -51,6 +51,8 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	protected static final String LIVE_ME_URL = "https://apis.live.net/v5.0/me";
 	protected static final String FACEBOOK_ME_URL = "https://graph.facebook.com/me";
 	protected static final String TWITTER_URL = "http://api.twitter.com/1.1/account/verify_credentials.json";
+    protected static final String YAHOO_URL = "http://social.yahooapis.com/v1/user/A6ROU63MXWDCW3Y5MGCYWVHDJI/profile/status?format=json";
+
     protected static final String GOOGLE_ME_URL = "https://www.googleapis.com/plus/v1/people/me";
 
 	protected static final String TWITTER_OAUTH_REQUEST_TOKEN = "TWITTER_OAUTH_REQUEST_TOKEN";
