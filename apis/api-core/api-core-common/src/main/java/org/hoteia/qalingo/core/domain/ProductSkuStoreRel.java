@@ -186,10 +186,33 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         return prices;
     }
 
+    @Deprecated
     public ProductSkuStorePrice getPrice(final Long marketAreaId) {
         if (prices != null && Hibernate.isInitialized(prices)) {
             for (ProductSkuStorePrice productSkuPrice : prices) {
                 if (productSkuPrice.getMarketAreaId().equals(marketAreaId)) {
+                    return productSkuPrice;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public ProductSkuStorePrice getCatalogPrice(final Long marketAreaId) {
+        if (prices != null && Hibernate.isInitialized(prices)) {
+            for (ProductSkuStorePrice productSkuPrice : prices) {
+                if (productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.isCatalogPrice()) {
+                    return productSkuPrice;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public ProductSkuStorePrice getDiscountPrice(final Long marketAreaId) {
+        if (prices != null && Hibernate.isInitialized(prices)) {
+            for (ProductSkuStorePrice productSkuPrice : prices) {
+                if (productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.isDiscount()) {
                     return productSkuPrice;
                 }
             }
