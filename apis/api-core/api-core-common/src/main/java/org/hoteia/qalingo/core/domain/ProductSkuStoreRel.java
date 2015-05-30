@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.Hibernate;
@@ -80,6 +83,14 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         @JoinColumn(name = "STORE_ID") 
     })
     private Set<ProductSkuStoreStock> stocks = new HashSet<ProductSkuStoreStock>();
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
     
     public ProductSkuStoreRel() {
         this.pk = new ProductSkuStorePk();
@@ -203,6 +214,22 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     
     public void setStocks(Set<ProductSkuStoreStock> stocks) {
         this.stocks = stocks;
+    }
+    
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
     
     // Attributes
