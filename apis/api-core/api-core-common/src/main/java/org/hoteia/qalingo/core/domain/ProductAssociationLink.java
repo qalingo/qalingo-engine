@@ -74,6 +74,8 @@ public class ProductAssociationLink extends AbstractEntity<ProductAssociationLin
 	private Date dateUpdate;
 
 	public ProductAssociationLink(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

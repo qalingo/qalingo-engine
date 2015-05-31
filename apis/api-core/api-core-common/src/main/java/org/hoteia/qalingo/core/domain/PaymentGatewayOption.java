@@ -62,6 +62,8 @@ public class PaymentGatewayOption extends AbstractEntity<PaymentGatewayOption> {
     private Date dateUpdate;
 	
 	public PaymentGatewayOption() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

@@ -98,6 +98,8 @@ public class UserAttribute extends AbstractAttribute<UserAttribute> {
 	private Date dateUpdate;
 
 	public UserAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

@@ -95,6 +95,8 @@ public class Cart extends AbstractEntity<Cart> {
     private Date dateUpdate;
 
     public Cart() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

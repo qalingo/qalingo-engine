@@ -98,6 +98,8 @@ public class StoreAttribute extends AbstractAttribute<StoreAttribute> {
 	private Date dateUpdate;
 
 	public StoreAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

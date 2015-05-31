@@ -76,6 +76,8 @@ public class DeliveryMethodPrice extends AbstractPrice<DeliveryMethodPrice> {
     private Date dateUpdate;
     
 	public DeliveryMethodPrice() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

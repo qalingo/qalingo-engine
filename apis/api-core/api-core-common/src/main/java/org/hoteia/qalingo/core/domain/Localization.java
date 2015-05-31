@@ -75,6 +75,8 @@ public class Localization extends AbstractEntity<Localization> {
     private Date dateUpdate;
 	
     public Localization() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

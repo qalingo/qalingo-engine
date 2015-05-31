@@ -71,6 +71,8 @@ public class BatchProcessObject extends AbstractEntity<BatchProcessObject> {
 	private Date dateUpdate;
 
 	public BatchProcessObject(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

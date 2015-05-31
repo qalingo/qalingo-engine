@@ -67,6 +67,11 @@ public class GeolocCity extends AbstractEntity<GeolocCity> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
+	public GeolocCity() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+	
 	public Long getId() {
 		return id;
 	}

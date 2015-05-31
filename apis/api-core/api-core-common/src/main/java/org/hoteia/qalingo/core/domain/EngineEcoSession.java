@@ -114,6 +114,8 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     private Date dateUpdate;
 
     public EngineEcoSession() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

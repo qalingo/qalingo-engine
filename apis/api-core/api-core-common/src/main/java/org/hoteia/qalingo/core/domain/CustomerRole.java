@@ -69,6 +69,8 @@ public class CustomerRole extends AbstractEntity<CustomerRole> {
 	private Set<CustomerPermission> permissions;
 	
 	public CustomerRole(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

@@ -69,6 +69,8 @@ public class UserRole extends AbstractEntity<UserTokenAuth> {
 	private Set<UserPermission> permissions;
 	
 	public UserRole(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

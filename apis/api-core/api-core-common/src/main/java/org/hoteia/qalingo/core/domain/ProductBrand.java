@@ -100,6 +100,8 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
     private Date dateUpdate;
 
 	public ProductBrand(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

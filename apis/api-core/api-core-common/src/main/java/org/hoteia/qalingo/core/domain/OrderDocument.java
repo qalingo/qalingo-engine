@@ -67,110 +67,90 @@ public class OrderDocument extends AbstractEntity<OrderDocument> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-
     public OrderDocument() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
-
 
     public Long getId() {
         return id;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public int getVersion() {
         return version;
     }
 
-
     public void setVersion(int version) {
         this.version = version;
     }
-
 
     public String getName() {
         return name;
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getDescription() {
         return description;
     }
 
-
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getPath() {
         return path;
     }
 
-
     public void setPath(String path) {
         this.path = path;
     }
-
 
     public String getType() {
         return type;
     }
 
-
     public void setType(String type) {
         this.type = type;
     }
-
 
     public String getSize() {
         return size;
     }
 
-
     public void setSize(String size) {
         this.size = size;
     }
-
 
     public Long getFileSize() {
         return fileSize;
     }
 
-
     public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
-
 
     public Date getDateCreate() {
         return dateCreate;
     }
 
-
     public void setDateCreate(Date dateCreate) {
         this.dateCreate = dateCreate;
     }
-
 
     public Date getDateUpdate() {
         return dateUpdate;
     }
 
-
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
-
 
     @Override
     public int hashCode() {
@@ -181,7 +161,6 @@ public class OrderDocument extends AbstractEntity<OrderDocument> {
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -209,7 +188,6 @@ public class OrderDocument extends AbstractEntity<OrderDocument> {
             return false;
         return true;
     }
-
 
     @Override
     public String toString() {

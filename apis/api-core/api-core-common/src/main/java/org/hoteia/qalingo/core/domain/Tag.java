@@ -83,6 +83,8 @@ public class Tag extends AbstractExtendEntity<Tag, TagAttribute> {
     private Date dateUpdate;
 
 	public Tag(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

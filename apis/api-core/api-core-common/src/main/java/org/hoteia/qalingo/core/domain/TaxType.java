@@ -59,6 +59,8 @@ public class TaxType extends AbstractEntity<TaxType> {
 	private Date dateUpdate;
 
 	public TaxType(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

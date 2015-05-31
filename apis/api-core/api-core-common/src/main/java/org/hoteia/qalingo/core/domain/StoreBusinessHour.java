@@ -84,6 +84,8 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
     private Date dateUpdate;
 
     public StoreBusinessHour() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

@@ -120,6 +120,8 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
     private Date dateUpdate;
 
 	public ProductMarketing(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

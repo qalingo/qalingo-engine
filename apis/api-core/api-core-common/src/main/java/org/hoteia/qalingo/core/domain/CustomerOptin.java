@@ -54,6 +54,8 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
 	private Date dateUpdate;
 	
 	public CustomerOptin() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

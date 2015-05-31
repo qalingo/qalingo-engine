@@ -124,6 +124,8 @@ public class Company extends AbstractEntity<Company> {
     private Date dateUpdate;
 
     public Company() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

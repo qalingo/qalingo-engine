@@ -103,6 +103,8 @@ public class RetailerAddress extends AbstractAddress<RetailerAddress> {
     private Date dateUpdate;
     
 	public RetailerAddress() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 
 	public Long getId() {

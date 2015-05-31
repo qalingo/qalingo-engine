@@ -98,6 +98,8 @@ public class CustomerAttribute extends AbstractAttribute<CustomerAttribute> {
 	private Date dateUpdate;
 
 	public CustomerAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

@@ -64,6 +64,8 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
     private Date dateUpdate;
 
     public CustomerPaymentInformation() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

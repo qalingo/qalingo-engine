@@ -161,6 +161,8 @@ public class Customer extends AbstractEntity<Customer> {
     private Date dateUpdate;
 	
 	public Customer() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

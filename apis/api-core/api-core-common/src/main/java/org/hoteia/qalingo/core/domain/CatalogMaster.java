@@ -84,6 +84,8 @@ public class CatalogMaster extends AbstractCatalog<CatalogMaster, CatalogCategor
     private Date dateUpdate;
 
 	public CatalogMaster(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

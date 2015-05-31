@@ -98,6 +98,8 @@ public class TaxAttribute extends AbstractAttribute<TaxCountry> {
 	private Date dateUpdate;
 
 	public TaxAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

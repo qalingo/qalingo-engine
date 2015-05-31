@@ -98,6 +98,8 @@ public class TagAttribute extends AbstractAttribute<TagAttribute> {
 	private Date dateUpdate;
 
 	public TagAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

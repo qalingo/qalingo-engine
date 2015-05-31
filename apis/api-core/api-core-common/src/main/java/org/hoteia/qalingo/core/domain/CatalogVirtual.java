@@ -93,6 +93,8 @@ public class CatalogVirtual extends AbstractCatalog<CatalogVirtual, CatalogCateg
     private Date dateUpdate;
 
     public CatalogVirtual() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

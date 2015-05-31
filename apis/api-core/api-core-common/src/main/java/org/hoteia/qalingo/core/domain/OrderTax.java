@@ -56,6 +56,8 @@ public class OrderTax extends AbstractEntity<OrderTax> {
     private Date dateUpdate;
 
     public OrderTax() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

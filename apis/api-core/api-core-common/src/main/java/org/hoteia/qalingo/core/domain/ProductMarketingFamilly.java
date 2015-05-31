@@ -74,6 +74,8 @@ public class ProductMarketingFamilly extends AbstractEntity<ProductMarketingFami
     private Date dateUpdate;
 
     public ProductMarketingFamilly() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

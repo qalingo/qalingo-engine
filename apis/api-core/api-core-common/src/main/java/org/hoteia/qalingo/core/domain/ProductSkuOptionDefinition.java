@@ -76,6 +76,8 @@ public class ProductSkuOptionDefinition extends AbstractExtendEntity<ProductSkuO
     private Date dateUpdate;
 
     public ProductSkuOptionDefinition() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

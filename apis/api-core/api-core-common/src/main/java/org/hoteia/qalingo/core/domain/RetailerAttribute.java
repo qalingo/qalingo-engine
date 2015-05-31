@@ -104,6 +104,8 @@ public class RetailerAttribute extends AbstractAttribute<RetailerAttribute> {
 	private Date dateUpdate;
 
 	public RetailerAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

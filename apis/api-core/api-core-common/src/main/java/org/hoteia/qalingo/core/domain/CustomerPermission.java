@@ -59,6 +59,8 @@ public class CustomerPermission extends AbstractEntity<CustomerPermission> {
     private Date dateUpdate;
 
     public CustomerPermission() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

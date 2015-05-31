@@ -75,9 +75,14 @@ public class GeolocAddress extends AbstractEntity<GeolocAddress> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 	
-	public Long getId() {
-		return id;
-	}
+    public GeolocAddress() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+
+    public Long getId() {
+        return id;
+    }
 
 	public void setId(Long id) {
 		this.id = id;

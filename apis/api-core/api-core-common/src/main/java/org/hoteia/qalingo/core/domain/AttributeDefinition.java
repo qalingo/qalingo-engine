@@ -116,6 +116,8 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     private Date dateUpdate;
 
 	public AttributeDefinition() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

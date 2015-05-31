@@ -89,6 +89,8 @@ public class RuleRepository extends AbstractEntity<RuleRepository> {
     private Date dateUpdate;
 
     public RuleRepository() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

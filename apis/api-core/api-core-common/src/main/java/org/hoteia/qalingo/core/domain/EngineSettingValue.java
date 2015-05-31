@@ -58,6 +58,8 @@ public class EngineSettingValue extends AbstractEntity<EngineSettingValue> {
 	private Date dateUpdate;
 	
 	public EngineSettingValue() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 
 	public Long getId() {

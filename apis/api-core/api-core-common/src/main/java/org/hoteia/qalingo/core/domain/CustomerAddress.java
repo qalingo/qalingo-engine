@@ -102,6 +102,8 @@ public class CustomerAddress extends AbstractAddress<CustomerAddress> {
     private Date dateUpdate;
 
     public CustomerAddress() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

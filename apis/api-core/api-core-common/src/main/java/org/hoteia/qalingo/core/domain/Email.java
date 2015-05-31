@@ -86,6 +86,8 @@ public class Email extends AbstractEntity<Email> {
 	
 	public Email(){
 		this.status = EMAIl_STATUS_PENDING;
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

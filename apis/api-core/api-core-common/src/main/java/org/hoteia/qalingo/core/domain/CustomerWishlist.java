@@ -59,8 +59,10 @@ public class CustomerWishlist extends AbstractEntity<CustomerWishlist> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public CustomerWishlist() {
-	}
+    public CustomerWishlist() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
 	
 	public Long getId() {
 		return id;

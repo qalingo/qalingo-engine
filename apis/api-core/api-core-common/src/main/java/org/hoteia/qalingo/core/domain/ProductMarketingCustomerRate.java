@@ -61,6 +61,8 @@ public class ProductMarketingCustomerRate extends AbstractEntity<ProductMarketin
     private Date dateUpdate;
     
 	public ProductMarketingCustomerRate() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 
 	public Long getId() {

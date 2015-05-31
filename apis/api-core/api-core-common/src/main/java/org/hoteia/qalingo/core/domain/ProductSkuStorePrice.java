@@ -83,6 +83,8 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
     private Date dateUpdate;
     
 	public ProductSkuStorePrice() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {
@@ -237,8 +239,7 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 
     @Override
     public String toString() {
-        return "ProductSkuPrice [id=" + id + ", version=" + version + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", storeId=" + storeId
-                + ", productSku=" + productSku + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductSkuPrice [id=" + id + ", version=" + version + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", storeId=" + storeId + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

@@ -49,6 +49,8 @@ public class UserTokenAuth extends AbstractEntity<UserTokenAuth> {
     private Date dateUpdate;
     
 	public UserTokenAuth() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

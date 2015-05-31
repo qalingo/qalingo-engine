@@ -85,6 +85,8 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
     private Date dateUpdate;
 
     public DeliveryMethod() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

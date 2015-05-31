@@ -87,6 +87,8 @@ public class OrderAddress extends AbstractAddress<OrderAddress> {
     private Date dateUpdate;
 
     public OrderAddress() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

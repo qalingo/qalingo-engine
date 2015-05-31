@@ -67,6 +67,8 @@ public class OrderShipment extends AbstractEntity<OrderShipment> {
     private Date dateUpdate;
 
     public OrderShipment() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

@@ -168,6 +168,8 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     private Date dateUpdate;
 
     public Store() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

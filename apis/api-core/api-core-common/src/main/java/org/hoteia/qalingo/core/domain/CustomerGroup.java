@@ -72,6 +72,8 @@ public class CustomerGroup extends AbstractEntity<CustomerGroup> {
     private Date dateUpdate;
 
 	public CustomerGroup(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

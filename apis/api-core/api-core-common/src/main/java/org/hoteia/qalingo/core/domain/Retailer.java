@@ -147,6 +147,8 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
     private Date dateUpdate;
 
     public Retailer() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

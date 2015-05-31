@@ -84,6 +84,8 @@ public class CustomerOrderAudit extends AbstractEntity<CustomerOrderAudit> {
 	private Date dateUpdate;
 
 	public CustomerOrderAudit(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

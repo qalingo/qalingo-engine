@@ -114,6 +114,8 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     private Date dateUpdate;
 
     public CatalogCategoryVirtual() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

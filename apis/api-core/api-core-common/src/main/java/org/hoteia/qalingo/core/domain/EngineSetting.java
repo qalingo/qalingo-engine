@@ -77,6 +77,8 @@ public class EngineSetting extends AbstractEntity<EngineSetting> {
     private Date dateUpdate;
 	
     public EngineSetting() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

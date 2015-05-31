@@ -58,6 +58,8 @@ public class RetailerCustomerRate extends AbstractEntity<RetailerCustomerRate> {
     private Date dateUpdate;
 
     public RetailerCustomerRate() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

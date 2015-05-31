@@ -92,6 +92,8 @@ public class MarketPlace extends AbstractEntity<MarketPlace> {
     private Date dateUpdate;
 
     public MarketPlace() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

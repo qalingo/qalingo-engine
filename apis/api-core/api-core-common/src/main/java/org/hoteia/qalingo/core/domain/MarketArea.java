@@ -151,6 +151,8 @@ public class MarketArea extends AbstractEntity<MarketArea> {
     private Date dateUpdate;
 
     public MarketArea() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

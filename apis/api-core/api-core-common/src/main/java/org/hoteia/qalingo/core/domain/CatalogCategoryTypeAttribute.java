@@ -101,6 +101,8 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute<CatalogCateg
 	private Date dateUpdate;
 
 	public CatalogCategoryTypeAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

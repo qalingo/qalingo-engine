@@ -112,6 +112,8 @@ public class Warehouse extends AbstractEntity<WarehouseMarketAreaRel> {
     private Date dateUpdate;
     
     public Warehouse() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

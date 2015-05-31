@@ -59,6 +59,8 @@ public class UserPermission extends AbstractEntity<UserPermission> {
 	private Date dateUpdate;
 
 	public UserPermission(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

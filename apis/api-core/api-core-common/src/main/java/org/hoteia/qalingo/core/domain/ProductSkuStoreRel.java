@@ -94,10 +94,14 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     
     public ProductSkuStoreRel() {
         this.pk = new ProductSkuStorePk();
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
     
     public ProductSkuStoreRel(final ProductSku productSku, final Store store) {
         this.pk = new ProductSkuStorePk(productSku, store);
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public ProductSkuStorePk getPk() {

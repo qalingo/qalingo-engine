@@ -98,6 +98,8 @@ public class ProductSkuOptionDefinitionTypeAttribute extends AbstractAttribute<P
     private Date dateUpdate;
 
     public ProductSkuOptionDefinitionTypeAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
     
     public Long getId() {

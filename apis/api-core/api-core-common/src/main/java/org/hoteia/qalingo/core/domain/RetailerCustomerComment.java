@@ -74,6 +74,8 @@ public class RetailerCustomerComment extends AbstractEntity<RetailerCustomerComm
 	private Date dateUpdate;
 	
 	public RetailerCustomerComment() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 
 	public Long getId() {

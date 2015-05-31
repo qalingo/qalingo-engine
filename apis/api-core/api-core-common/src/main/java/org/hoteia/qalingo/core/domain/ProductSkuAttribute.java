@@ -104,6 +104,8 @@ public class ProductSkuAttribute extends AbstractAttribute<ProductSkuAttribute> 
 	private Date dateUpdate;
 
 	public ProductSkuAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

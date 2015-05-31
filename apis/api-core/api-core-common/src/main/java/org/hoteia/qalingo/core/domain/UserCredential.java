@@ -56,6 +56,8 @@ public class UserCredential extends AbstractEntity<UserGroup> {
 	private Date dateUpdate;
 	
 	public UserCredential() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

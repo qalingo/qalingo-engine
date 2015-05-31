@@ -94,6 +94,8 @@ public class Asset extends AbstractEntity<Asset> {
     private Date dateUpdate;
 
 	public Asset(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

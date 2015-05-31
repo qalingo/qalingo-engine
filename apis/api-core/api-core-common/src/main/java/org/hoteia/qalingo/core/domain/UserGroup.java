@@ -70,6 +70,8 @@ public class UserGroup extends AbstractEntity<UserGroup> {
 	private Set<UserRole> roles = new HashSet<UserRole>(); 
 	
 	public UserGroup(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

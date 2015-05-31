@@ -64,6 +64,8 @@ public class Notification extends AbstractEntity<Notification> {
 	private Date dateUpdate;
 	
 	public Notification() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 
 	public Long getId() {

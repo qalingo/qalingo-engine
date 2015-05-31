@@ -80,6 +80,8 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
     private Date dateUpdate;
     
 	public ProductSkuPrice() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

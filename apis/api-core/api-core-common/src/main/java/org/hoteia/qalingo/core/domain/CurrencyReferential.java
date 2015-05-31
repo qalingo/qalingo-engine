@@ -75,6 +75,8 @@ public class CurrencyReferential extends AbstractEntity<CurrencyReferential> {
     private Date dateUpdate;
 
     public CurrencyReferential() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

@@ -104,6 +104,8 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute<CatalogCat
 	private Date dateUpdate;
 
 	public CatalogCategoryMasterAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

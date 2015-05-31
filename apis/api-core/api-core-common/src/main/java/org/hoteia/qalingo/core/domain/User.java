@@ -147,6 +147,8 @@ public class User extends AbstractEntity<User> {
     private Date dateUpdate;
 
     public User() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

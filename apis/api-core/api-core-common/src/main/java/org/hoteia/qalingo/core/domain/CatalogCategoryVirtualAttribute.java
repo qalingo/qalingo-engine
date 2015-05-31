@@ -104,6 +104,8 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute<CatalogCa
 	private Date dateUpdate;
 
 	public CatalogCategoryVirtualAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

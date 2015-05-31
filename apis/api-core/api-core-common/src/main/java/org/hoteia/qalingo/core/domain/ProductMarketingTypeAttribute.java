@@ -98,6 +98,8 @@ public class ProductMarketingTypeAttribute extends AbstractAttribute<ProductMark
 	private Date dateUpdate;
 
 	public ProductMarketingTypeAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

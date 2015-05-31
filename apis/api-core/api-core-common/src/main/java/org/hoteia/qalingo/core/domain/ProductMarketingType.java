@@ -66,6 +66,8 @@ public class ProductMarketingType extends AbstractEntity<ProductMarketingType> {
     private Date dateUpdate;
 
 	public ProductMarketingType(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

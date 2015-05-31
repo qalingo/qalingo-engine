@@ -74,6 +74,8 @@ public class ProductSkuCustomerComment extends AbstractEntity<ProductSkuCustomer
 	private Date dateUpdate;
 	
 	public ProductSkuCustomerComment() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 
 	public Long getId() {

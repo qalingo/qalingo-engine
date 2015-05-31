@@ -80,6 +80,8 @@ public class ProductSkuStoreStock extends AbstractEntity<ProductSkuStoreStock> {
     private Date dateUpdate;
     
 	public ProductSkuStoreStock() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 
 	public Long getId() {

@@ -71,6 +71,8 @@ public class ProductBrandTag extends AbstractEntity<ProductBrandTag> {
     private Date dateUpdate;
 
 	public ProductBrandTag(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

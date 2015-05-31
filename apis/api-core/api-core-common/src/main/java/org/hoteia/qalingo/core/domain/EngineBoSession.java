@@ -96,6 +96,8 @@ public class EngineBoSession extends AbstractEngineSession<EngineBoSession> {
 	private Date dateUpdate;
 
 	public EngineBoSession(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

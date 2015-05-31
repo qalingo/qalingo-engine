@@ -82,6 +82,8 @@ public class RuleReferentialAttribute extends AbstractAttribute<RuleReferentialA
     private Long marketAreaId;
     
 	public RuleReferentialAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

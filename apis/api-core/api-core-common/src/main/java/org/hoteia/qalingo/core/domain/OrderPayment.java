@@ -83,6 +83,8 @@ public class OrderPayment extends AbstractEntity<OrderPayment> {
 	private Date dateUpdate;
 	
 	public OrderPayment(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

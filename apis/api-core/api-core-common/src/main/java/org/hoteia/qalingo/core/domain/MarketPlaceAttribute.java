@@ -107,6 +107,8 @@ public class MarketPlaceAttribute extends AbstractAttribute<MarketPlaceAttribute
 	private Date dateUpdate;
 
 	public MarketPlaceAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

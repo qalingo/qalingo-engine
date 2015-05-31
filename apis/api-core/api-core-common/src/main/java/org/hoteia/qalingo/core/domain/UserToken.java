@@ -63,6 +63,8 @@ public class UserToken extends AbstractEntity<UserToken> {
 	private Date dateUpdate;
 	
 	public UserToken() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

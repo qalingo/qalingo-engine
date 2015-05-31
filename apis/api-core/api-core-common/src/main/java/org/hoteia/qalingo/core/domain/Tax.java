@@ -88,6 +88,8 @@ public class Tax extends AbstractEntity<Tax> {
     private Date dateUpdate;
 	
     public Tax() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
     }
 
     public Long getId() {

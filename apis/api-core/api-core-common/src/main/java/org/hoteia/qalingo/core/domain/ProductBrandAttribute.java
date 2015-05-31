@@ -98,6 +98,8 @@ public class ProductBrandAttribute extends AbstractAttribute<ProductBrandAttribu
 	private Date dateUpdate;
 
 	public ProductBrandAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

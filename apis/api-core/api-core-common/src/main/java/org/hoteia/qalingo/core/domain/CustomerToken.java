@@ -60,6 +60,8 @@ public class CustomerToken extends AbstractEntity<CustomerToken> {
 	private Date dateUpdate;
 	
 	public CustomerToken() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

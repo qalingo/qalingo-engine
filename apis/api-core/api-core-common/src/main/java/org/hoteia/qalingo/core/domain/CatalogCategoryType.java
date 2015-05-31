@@ -69,6 +69,8 @@ public class CatalogCategoryType extends AbstractEntity<CatalogCategoryType> {
     private Date dateUpdate;
 
 	public CatalogCategoryType(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

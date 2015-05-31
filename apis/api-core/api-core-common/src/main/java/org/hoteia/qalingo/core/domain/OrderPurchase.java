@@ -108,6 +108,8 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 	private Date dateUpdate;
 
 	public OrderPurchase(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

@@ -56,6 +56,8 @@ public class CustomerCredential extends AbstractEntity<CustomerCredential> {
 	private Date dateUpdate;
 	
 	public CustomerCredential() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

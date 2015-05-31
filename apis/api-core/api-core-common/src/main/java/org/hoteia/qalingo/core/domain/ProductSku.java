@@ -142,6 +142,8 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     private Date dateUpdate;
 
 	public ProductSku(){
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {

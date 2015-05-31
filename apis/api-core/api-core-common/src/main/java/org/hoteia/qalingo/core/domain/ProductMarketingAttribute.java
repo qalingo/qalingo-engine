@@ -104,6 +104,8 @@ public class ProductMarketingAttribute extends AbstractAttribute<ProductMarketin
 	private Date dateUpdate;
 
 	public ProductMarketingAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
 	}
 	
 	public Long getId() {
