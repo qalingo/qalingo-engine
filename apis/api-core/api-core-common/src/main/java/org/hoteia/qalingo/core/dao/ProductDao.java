@@ -591,6 +591,20 @@ public class ProductDao extends AbstractGenericDao {
         return productSkus;
     }
     
+    public List<Long> findProductSkuIdsActiveByStoreId(final Long storeId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
+        criteria.setProjection(Projections.property("id"));
+
+        criteria.createAlias("stores", "stores", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("stores.id", storeId));
+
+        criteria.add(Restrictions.eq("enabledToB2C", true));
+
+        @SuppressWarnings("unchecked")
+        List<Long> productSkuIds = criteria.list();
+        return productSkuIds;
+    }
+    
     public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
         if(productSku.getDateCreate() == null){
             productSku.setDateCreate(new Date());
