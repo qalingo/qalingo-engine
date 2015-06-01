@@ -63,6 +63,14 @@ public class RetailerAddressViewBean extends AbstractAddressViewBean {
     public void setWebsite(String website) {
         this.website = website;
     }
+    
+    public String getWebsiteWithoutHttp() {
+        if (StringUtils.isNotEmpty(website)
+                && website.contains("http")) {
+            return website.replace("http://", "");
+        }
+        return website;
+    }
 
     public String getWebsiteHttpUrl() {
         if (StringUtils.isNotEmpty(website)
