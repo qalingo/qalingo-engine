@@ -129,11 +129,11 @@ public enum FoUrls {
     public static final String OUR_COMPANY_URL                = "/**/our-company.html";
     public static final String OUR_COMPANY_VELOCITY_PAGE      = "our-company/our-company";
 
-    public static final String CONDITIONS_OF_USE_KEY           = "conditionsofuse";
+    public static final String CONDITIONS_OF_USE_KEY           = "conditions-of-use";
     public static final String CONDITIONS_OF_USE_URL           = "/**/conditions-of-use.html";
     public static final String CONDITIONS_OF_USE_VELOCITY_PAGE = "conditions/conditions-of-use";
 
-    public static final String CONDITIONS_OF_SALE_KEY           = "conditionsofsale";
+    public static final String CONDITIONS_OF_SALE_KEY           = "conditions-of-sale";
     public static final String CONDITIONS_OF_SALE_URL           = "/**/conditions-of-sale.html";
     public static final String CONDITIONS_OF_SALE_VELOCITY_PAGE = "conditions/conditions-of-sale";
 
