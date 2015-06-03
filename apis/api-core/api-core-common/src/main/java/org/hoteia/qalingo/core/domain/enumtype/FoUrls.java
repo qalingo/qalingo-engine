@@ -74,7 +74,8 @@ public enum FoUrls {
     CATEGORY_AS_AXE(FoUrls.CATEGORY_AS_AXE_URL, FoUrls.CATEGORY_AS_AXE_KEY, FoUrls.CATEGORY_AS_AXE_VELOCITY_PAGE, true),
     CATEGORY_AS_LINE(FoUrls.CATEGORY_AS_LINE_URL, FoUrls.CATEGORY_AS_LINE_KEY, FoUrls.CATEGORY_AS_LINE_VELOCITY_PAGE, true),
     TAG_AS_LINE(FoUrls.TAG_AS_LINE_URL, FoUrls.TAG_AS_LINE_KEY, FoUrls.TAG_AS_LINE_VELOCITY_PAGE, true),
-    COLLECTION(FoUrls.COLLECTION_URL, FoUrls.COLLECTION_KEY, FoUrls.COLLECTION_VELOCITY_PAGE, true),
+    TAG_COLLECTION(FoUrls.TAG_COLLECTION_URL, FoUrls.TAG_COLLECTION_KEY, FoUrls.TAG_COLLECTION_VELOCITY_PAGE, true),
+    CAT_TAG_COLLECTION(FoUrls.CAT_TAG_COLLECTION_URL, FoUrls.CAT_TAG_COLLECTION_KEY, FoUrls.CAT_TAG_COLLECTION_VELOCITY_PAGE, true),
     PRODUCT_DETAILS(FoUrls.PRODUCT_DETAILS_URL, FoUrls.PRODUCT_DETAILS_KEY, FoUrls.PRODUCT_DETAILS_VELOCITY_PAGE, true),
     PRODUCT_COMMENT(FoUrls.PRODUCT_COMMENT_URL, FoUrls.PRODUCT_COMMENT_KEY, FoUrls.PRODUCT_COMMENT_VELOCITY_PAGE, true),
     WISHLIST_ADD_PRODUCT(FoUrls.WISHLIST_ADD_PRODUCT_URL, FoUrls.WISHLIST_ADD_PRODUCT_KEY, FoUrls.WISHLIST_ADD_PRODUCT_VELOCITY_PAGE, true),
@@ -311,9 +312,13 @@ public enum FoUrls {
     public static final String TAG_AS_LINE_URL                      = "/**/tag-{" + RequestConstants.URL_PATTERN_TAG_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String TAG_AS_LINE_VELOCITY_PAGE            = "catalog/tag-line";
 
-    public static final String COLLECTION_KEY                      = "collection";
-    public static final String COLLECTION_URL                      = "/**/collection-{" + RequestConstants.URL_PATTERN_COLLECTION_CODE + ":[a-zA-Z0-9-]+}.html";
-    public static final String COLLECTION_VELOCITY_PAGE            = "catalog/collection";
+    public static final String TAG_COLLECTION_KEY                   = "collection";
+    public static final String TAG_COLLECTION_URL                   = "/**/collection-t-{" + RequestConstants.URL_PATTERN_COLLECTION_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String TAG_COLLECTION_VELOCITY_PAGE         = "catalog/collection";
+
+    public static final String CAT_TAG_COLLECTION_KEY               = "collection";
+    public static final String CAT_TAG_COLLECTION_URL               = "/**/collection-c-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}-t-{" + RequestConstants.URL_PATTERN_COLLECTION_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String CAT_TAG_COLLECTION_VELOCITY_PAGE     = "catalog/collection";
 
 	public static final String PRODUCT_DETAILS_KEY					= "product-details";
 	public static final String PRODUCT_DETAILS_URL					= "/**/product-details-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}-pm-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9-]+}-sku-{" + RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE + ":[a-zA-Z0-9-]+}.html";

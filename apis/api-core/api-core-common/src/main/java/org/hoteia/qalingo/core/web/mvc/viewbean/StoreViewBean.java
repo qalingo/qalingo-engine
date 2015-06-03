@@ -159,6 +159,9 @@ public class StoreViewBean extends AbstractAddressViewBean {
     public String getWebsiteWithoutHttp() {
         if (StringUtils.isNotEmpty(website)
                 && website.contains("http")) {
+            if(website.endsWith("/")){
+                website = website.substring(0, website.length() - 1);
+            }
             return website.replace("http://", "");
         }
         return website;
