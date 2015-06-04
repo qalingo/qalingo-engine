@@ -16,8 +16,11 @@ public enum BoUrls {
     HOME(BoUrls.HOME_URL, BoUrls.HOME_KEY, BoUrls.HOME_VELOCITY_PAGE, true),
     INDEX(BoUrls.INDEX_URL, BoUrls.HOME_KEY, BoUrls.HOME_VELOCITY_PAGE, true),
     FAQ(BoUrls.FAQ_URL, BoUrls.FAQ_KEY, BoUrls.FAQ_VELOCITY_PAGE, false),
-    LEGAL_TERMS(BoUrls.LEGAL_TERMS_URL, BoUrls.LEGAL_TERMS_KEY, BoUrls.LEGAL_TERMS_VELOCITY_PAGE, false),
     
+    LEGAL_TERMS(BoUrls.LEGAL_TERMS_URL, BoUrls.LEGAL_TERMS_KEY, BoUrls.LEGAL_TERMS_VELOCITY_PAGE, false),
+    CONDITIONS_OF_USE(BoUrls.CONDITIONS_OF_USE_URL, BoUrls.CONDITIONS_OF_USE_KEY, BoUrls.CONDITIONS_OF_USE_VELOCITY_PAGE, true),
+    CONDITIONS_OF_SALE(BoUrls.CONDITIONS_OF_SALE_URL, BoUrls.CONDITIONS_OF_SALE_KEY, BoUrls.CONDITIONS_OF_SALE_VELOCITY_PAGE, true),
+
     PERSONAL_DETAILS(BoUrls.PERSONAL_DETAILS_URL, BoUrls.PERSONAL_DETAILS_KEY, BoUrls.PERSONAL_DETAILS_VELOCITY_PAGE, false),
     PERSONAL_EDIT(BoUrls.PERSONAL_EDIT_URL, BoUrls.PERSONAL_EDIT_KEY, BoUrls.PERSONAL_EDIT_VELOCITY_PAGE, false),
 
@@ -158,6 +161,14 @@ public enum BoUrls {
 	public static final String LEGAL_TERMS_URL				= "/**/legal-terms.html";
 	public static final String LEGAL_TERMS_VELOCITY_PAGE	= "legal-terms/legal-terms";
 
+    public static final String CONDITIONS_OF_USE_KEY           = "conditions-of-use";
+    public static final String CONDITIONS_OF_USE_URL           = "/**/conditions-of-use.html";
+    public static final String CONDITIONS_OF_USE_VELOCITY_PAGE = "conditions/conditions-of-use";
+
+    public static final String CONDITIONS_OF_SALE_KEY           = "conditions-of-sale";
+    public static final String CONDITIONS_OF_SALE_URL           = "/**/conditions-of-sale.html";
+    public static final String CONDITIONS_OF_SALE_VELOCITY_PAGE = "conditions/conditions-of-sale";
+    
     public static final String PERSONAL_DETAILS_KEY                 = "personal-details";
     public static final String PERSONAL_DETAILS_URL                 = "/**/personal-details.html";
     public static final String PERSONAL_DETAILS_VELOCITY_PAGE       = "user/personal-details";

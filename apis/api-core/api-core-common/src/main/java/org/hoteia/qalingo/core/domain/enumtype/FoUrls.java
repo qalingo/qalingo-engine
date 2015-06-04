@@ -18,15 +18,16 @@ public enum FoUrls {
     HOME(FoUrls.HOME_URL, FoUrls.HOME_KEY, FoUrls.HOME_VELOCITY_PAGE, true),
     INDEX(FoUrls.INDEX_URL, FoUrls.HOME_KEY, FoUrls.HOME_VELOCITY_PAGE, true),
     OUR_COMPANY(FoUrls.OUR_COMPANY_URL, FoUrls.OUR_COMPANY_KEY, FoUrls.OUR_COMPANY_VELOCITY_PAGE, true),
-    CONDITIONS_OF_USE(FoUrls.CONDITIONS_OF_USE_URL, FoUrls.CONDITIONS_OF_USE_KEY, FoUrls.CONDITIONS_OF_USE_VELOCITY_PAGE, true),
-    CONDITIONS_OF_SALE(FoUrls.CONDITIONS_OF_SALE_URL, FoUrls.CONDITIONS_OF_SALE_KEY, FoUrls.CONDITIONS_OF_SALE_VELOCITY_PAGE, true),
     FAQ(FoUrls.FAQ_URL, FoUrls.FAQ_KEY, FoUrls.FAQ_VELOCITY_PAGE, true),
     CLP(FoUrls.CLP_URL, FoUrls.CLP_KEY, FoUrls.CLP_VELOCITY_PAGE, true),
-    LEGAL_TERMS(FoUrls.LEGAL_TERMS_URL, FoUrls.LEGAL_TERMS_KEY, FoUrls.LEGAL_TERMS_VELOCITY_PAGE, true),
     FOLLOW_US(FoUrls.FOLLOW_US_URL, FoUrls.FOLLOW_US_KEY, FoUrls.FOLLOW_US_VELOCITY_PAGE, true),
     CONTACT(FoUrls.CONTACT_URL, FoUrls.CONTACT_KEY, FoUrls.CONTACT_VELOCITY_PAGE, true),
     NEWSLETTER_REGISTER(FoUrls.NEWSLETTER_REGISTER_URL, FoUrls.NEWSLETTER_REGISTER_KEY, FoUrls.NEWSLETTER_REGISTER_VELOCITY_PAGE, true),
     NEWSLETTER_UNREGISTER(FoUrls.NEWSLETTER_UNREGISTER_URL, FoUrls.NEWSLETTER_UNREGISTER_KEY, FoUrls.NEWSLETTER_UNREGISTER_VELOCITY_PAGE, true),
+
+    LEGAL_TERMS(FoUrls.LEGAL_TERMS_URL, FoUrls.LEGAL_TERMS_KEY, FoUrls.LEGAL_TERMS_VELOCITY_PAGE, true),
+    CONDITIONS_OF_USE(FoUrls.CONDITIONS_OF_USE_URL, FoUrls.CONDITIONS_OF_USE_KEY, FoUrls.CONDITIONS_OF_USE_VELOCITY_PAGE, true),
+    CONDITIONS_OF_SALE(FoUrls.CONDITIONS_OF_SALE_URL, FoUrls.CONDITIONS_OF_SALE_KEY, FoUrls.CONDITIONS_OF_SALE_VELOCITY_PAGE, true),
 
     STORE_LOCATION(FoUrls.STORE_LOCATION_URL, FoUrls.STORE_LOCATION_KEY, FoUrls.STORE_LOCATION_VELOCITY_PAGE, true),
     STORE_DETAILS(FoUrls.STORE_DETAILS_URL, FoUrls.STORE_DETAILS_KEY, FoUrls.STORE_DETAILS_VELOCITY_PAGE, true),
@@ -130,14 +131,6 @@ public enum FoUrls {
     public static final String OUR_COMPANY_URL                = "/**/our-company.html";
     public static final String OUR_COMPANY_VELOCITY_PAGE      = "our-company/our-company";
 
-    public static final String CONDITIONS_OF_USE_KEY           = "conditions-of-use";
-    public static final String CONDITIONS_OF_USE_URL           = "/**/conditions-of-use.html";
-    public static final String CONDITIONS_OF_USE_VELOCITY_PAGE = "conditions/conditions-of-use";
-
-    public static final String CONDITIONS_OF_SALE_KEY           = "conditions-of-sale";
-    public static final String CONDITIONS_OF_SALE_URL           = "/**/conditions-of-sale.html";
-    public static final String CONDITIONS_OF_SALE_VELOCITY_PAGE = "conditions/conditions-of-sale";
-
     public static final String FAQ_KEY = "faq";
     public static final String FAQ_URL = "/**/faq.html";
     public static final String FAQ_VELOCITY_PAGE = "faq/faq";
@@ -150,6 +143,14 @@ public enum FoUrls {
 	public static final String LEGAL_TERMS_URL				= "/**/legal-terms.html";
 	public static final String LEGAL_TERMS_VELOCITY_PAGE	= "legal-terms/legal-terms";
 
+    public static final String CONDITIONS_OF_USE_KEY           = "conditions-of-use";
+    public static final String CONDITIONS_OF_USE_URL           = "/**/conditions-of-use.html";
+    public static final String CONDITIONS_OF_USE_VELOCITY_PAGE = "conditions/conditions-of-use";
+
+    public static final String CONDITIONS_OF_SALE_KEY           = "conditions-of-sale";
+    public static final String CONDITIONS_OF_SALE_URL           = "/**/conditions-of-sale.html";
+    public static final String CONDITIONS_OF_SALE_VELOCITY_PAGE = "conditions/conditions-of-sale";
+    
 	public static final String FOLLOW_US_KEY					= "follow-us";
 	public static final String FOLLOW_US_URL					= "/**/follow-us.html";
 	public static final String FOLLOW_US_VELOCITY_PAGE			= "follow-us/follow-us";
