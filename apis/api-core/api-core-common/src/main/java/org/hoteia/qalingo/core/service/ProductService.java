@@ -283,6 +283,10 @@ public class ProductService {
         return productDao.findProductSkuIds(maxResults);
     }
     
+    public List<Long> findProductSkuIdsEnableB2CAndOrderByDateUpdate(int maxResults){
+        return productDao.findProductSkuIdsEnableB2CAndOrderByDateUpdate(maxResults);
+    }
+    
     public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketingId, Object... params) {
         List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketingId, params);
         return skus;
