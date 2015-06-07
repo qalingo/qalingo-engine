@@ -106,8 +106,6 @@ public class CatalogSearchController extends AbstractMCommerceController {
             return displaySearch(request, model);
         }
         
-		String url = requestUtil.getCurrentRequestUrl(request);
-		
 		String sessionKeyPagedListHolder = "Search_ProductMarketing_PagedListHolder_" + request.getSession().getId();
         String sessionKeyFacet = "Search_ProductMarketing_Facet_" + request.getSession().getId();
         
@@ -176,7 +174,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
                 }
             }
 	        
-			modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+			modelAndView.addObject(Constants.PAGINATION_PAGE_URL, requestUtil.getCurrentRequestUrl(request));
 			modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, pagedListHolder);
 			modelAndView.addObject(Constants.SEARCH_TEXT, searchForm.getText());
 			modelAndView.addObject(Constants.PAGINATION_PAGE_SIZE, pagedListHolder.getPageSize());
