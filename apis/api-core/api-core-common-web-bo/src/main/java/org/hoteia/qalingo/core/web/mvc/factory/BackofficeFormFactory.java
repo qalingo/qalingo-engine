@@ -486,17 +486,21 @@ public class BackofficeFormFactory {
             storeForm.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
 
             storeForm.setAreaCode(store.getAreaCode());
+            storeForm.setPostalCode(store.getPostalCode());
             storeForm.setCity(store.getCity());
+            storeForm.setStateCode(store.getStateCode());
             storeForm.setCountryCode(store.getCountryCode());
+
             storeForm.setLatitude(store.getLatitude());
             storeForm.setLongitude(store.getLongitude());
-            storeForm.setPostalCode(store.getPostalCode());
-            storeForm.setStateCode(store.getStateCode());
 
             storeForm.setPhone(store.getPhone());
             storeForm.setFax(store.getFax());
             storeForm.setEmail(store.getEmail());
             storeForm.setWebsite(store.getWebsite());
+    	} else {
+    	    MarketArea marketArea = requestData.getMarketArea();
+            storeForm.setCountryCode(marketArea.getGeolocCountryCode());
     	}
     	
     	return storeForm;
