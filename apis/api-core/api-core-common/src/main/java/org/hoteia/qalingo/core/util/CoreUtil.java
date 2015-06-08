@@ -17,7 +17,7 @@ public class CoreUtil {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
             stringToReturn = replaceCharactersNotLetterOrDigit(stringToReturn);
-            stringToReturn = stringToReturn.replaceAll("-", "_").toLowerCase();
+            stringToReturn = stringToReturn.replaceAll("-", "_").toUpperCase();
         }
         return stringToReturn;
     }
