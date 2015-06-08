@@ -52,12 +52,8 @@ public class CoreUtil {
 //            stringToReturn = stringToReturn.replaceAll("[ùúûü]", "u");
 //            stringToReturn = stringToReturn.replaceAll("[ýÿ]", "y");
 
-            // REPLACE WITH NOTHING
-            stringToReturn = stringToReturn.replaceAll("[°'\"?]", "");
-            
             // REPLACE WITH DASH
-            stringToReturn = stringToReturn.replaceAll("[(){}<>'\";.,/#]", "-");
-            stringToReturn = stringToReturn.replaceAll("-&-", "-");
+            stringToReturn = stringToReturn.replaceAll("[&°?(){}<>'\";.,/#]", "-");
 
             stringToReturn = cleanDash(stringToReturn);
 
