@@ -16,6 +16,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
@@ -201,9 +203,16 @@ public class ProductDetailsController extends AbstractMCommerceController {
         final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), productMarketing);
 
         Object[] params = { productMarketingViewBean.getI18nName() };
-        String prefixSeoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        String prefixSeoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         String title = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.PRODUCT_DETAILS.getKey(), params, locale);
-        String seoPageTitle = prefixSeoPageTitle + " " + title;
+        String seoPageTitle = prefixSeoPageTitle;
+        if(seoPageTitle != null && seoPageTitle.trim().endsWith("-")){
+            seoPageTitle += " - ";
+        }
+        if(Hibernate.isInitialized(productMarketing.getProductBrand()) && productMarketing.getProductBrand() != null){
+            seoPageTitle += productMarketing.getProductBrand().getI18nName(localization.getCode()) + " ";
+        }
+        seoPageTitle += title;
         
         // SEO
         seoDataViewBean.setPageTitle(seoDataViewBean.getPageTitle());

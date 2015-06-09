@@ -40,6 +40,10 @@ public class CoreUtil {
         return stringToReturn;
     }
     
+    public static String handleSeoSpecificEscape(String string) throws UnsupportedEncodingException {
+        return handleSeoSpecificEscape(string, false);
+    }
+    
     public static String handleSeoSpecificEscape(String string, boolean isEncoded) throws UnsupportedEncodingException {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
