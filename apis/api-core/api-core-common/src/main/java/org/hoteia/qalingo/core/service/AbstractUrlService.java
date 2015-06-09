@@ -117,8 +117,11 @@ public abstract class AbstractUrlService {
             domainePathUrl = urlBlock[0];
         }
         if (request != null && !domainePathUrl.startsWith(request.getScheme())) {
-            String scheme = request.getScheme();
-            domainePathUrl = scheme + "://" + domainePathUrl;
+            domainePathUrl = request.getScheme() + "://" + domainePathUrl;
+        }
+        if (!domainePathUrl.contains("http")) {
+            // Default value
+            domainePathUrl = "http://" + domainePathUrl;
         }
         return domainePathUrl;
     }
