@@ -206,7 +206,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         String prefixSeoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         String title = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.PRODUCT_DETAILS.getKey(), params, locale);
         String seoPageTitle = prefixSeoPageTitle;
-        if(seoPageTitle != null && seoPageTitle.trim().endsWith("-")){
+        if(seoPageTitle != null && !seoPageTitle.trim().endsWith("-")){
             seoPageTitle += " - ";
         }
         if(Hibernate.isInitialized(productMarketing.getProductBrand()) && productMarketing.getProductBrand() != null){
