@@ -81,7 +81,7 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuAttribute> attributes = new HashSet<ProductSkuAttribute>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionRel.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionRel.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuOptionRel> optionRels = new HashSet<ProductSkuOptionRel>();
     
@@ -126,7 +126,7 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuCustomerComment> customerComments = new HashSet<ProductSkuCustomerComment>();
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuTagRel.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuTagRel.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuTagRel> tagRels = new HashSet<ProductSkuTagRel>();
     
