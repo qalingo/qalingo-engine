@@ -494,16 +494,29 @@ public class ProductDao extends AbstractGenericDao {
         return productSkuIds;
     }
     
-    public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing, Object... params) {
+    public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketingId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         handleSpecificProductSkuFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("productMarketing", productMarketing));
+        criteria.add(Restrictions.eq("productMarketing.id", productMarketingId));
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
         List<ProductSku> productSkus = criteria.list();
         return productSkus;
+    }
+    
+    public List<Long> findProductSkuIdsByBrandId(final Long brandId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
+
+        criteria.createAlias("productMarketing.productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productBrand.id", brandId));
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> productMarketings = criteria.list();
+        return productMarketings;
     }
     
     public List<ProductSku> findProductSkus(final String text, Object... params) {
