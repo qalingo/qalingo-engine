@@ -284,7 +284,7 @@ public class RequestData implements Serializable {
     public boolean isBot() throws Exception {
         if (device != null
                 && device.getVirtualCapabilities() != null) {
-            return BooleanUtils.toBoolean(device.getVirtualCapability("is_robot"));
+            return BooleanUtils.toBoolean(device.getVirtualCapability("is_bot"));
         }
         return true;
     }

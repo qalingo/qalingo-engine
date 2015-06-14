@@ -151,6 +151,7 @@ public class RequestUtil {
     @Autowired
     protected GeolocService geolocService;
     
+    // Only used with Front-end, but autowired for many cases
     @Autowired(required = false)
     protected WURFLHolder wurflHolder;
     
