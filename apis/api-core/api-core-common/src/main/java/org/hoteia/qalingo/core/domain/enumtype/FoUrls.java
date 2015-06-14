@@ -1,5 +1,5 @@
 /**
- * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+CAT_TAG_COLLECTION_URL * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
  * under the Apache License Version 2.0 (release version 0.8.0)
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -317,7 +317,7 @@ public enum FoUrls {
     public static final String TAG_COLLECTION_URL                   = "/**/collection-t-{" + RequestConstants.URL_PATTERN_COLLECTION_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String TAG_COLLECTION_VELOCITY_PAGE         = "catalog/collection";
 
-    public static final String CAT_TAG_COLLECTION_KEY               = "collection";
+    public static final String CAT_TAG_COLLECTION_KEY               = "collection-tag";
     public static final String CAT_TAG_COLLECTION_URL               = "/**/collection-c-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}-t-{" + RequestConstants.URL_PATTERN_COLLECTION_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String CAT_TAG_COLLECTION_VELOCITY_PAGE     = "catalog/collection";
 

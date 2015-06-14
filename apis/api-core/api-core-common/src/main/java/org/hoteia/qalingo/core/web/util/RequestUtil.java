@@ -25,6 +25,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sourceforge.wurfl.core.Device;
+import net.sourceforge.wurfl.core.WURFLHolder;
+import net.sourceforge.wurfl.core.WURFLManager;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
@@ -146,6 +150,9 @@ public class RequestUtil {
     
     @Autowired
     protected GeolocService geolocService;
+    
+    @Autowired
+    protected WURFLHolder wurflHolder;
     
     @Autowired
     protected CoreMessageSource coreMessageSource;
@@ -1553,6 +1560,10 @@ public class RequestUtil {
         requestData.setContextPath(contextPath);
         requestData.setContextNameValue(getCurrentContextNameValue());
 
+        final WURFLManager manager = wurflHolder.getWURFLManager();
+        final Device device = manager.getDeviceForRequest(request);
+        requestData.setDevice(device);
+        
         // SPECIFIC BACKOFFICE
         if (requestData.isBackoffice()) {
             checkEngineBoSession(request);
@@ -1730,7 +1741,15 @@ public class RequestUtil {
         
         engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
         
-        engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+        final WURFLManager manager = wurflHolder.getWURFLManager();
+        final Device device = manager.getDeviceForRequest(request);
+        if (device != null
+                && device.getVirtualCapabilities() != null) {
+            boolean isBot = BooleanUtils.toBoolean(device.getVirtualCapability("is_robot"));
+            if(!isBot){
+                engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+            }
+        }
         
         return engineEcoSession;
     }

@@ -13,10 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.wurfl.core.Device;
-import net.sourceforge.wurfl.core.WURFLHolder;
-import net.sourceforge.wurfl.core.WURFLManager;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +30,6 @@ public class RequestPlatformDeviceHandlerInterceptor implements HandlerIntercept
     @Autowired
     protected RequestUtil requestUtil;
 
-    @Autowired
-    protected WURFLHolder wurflHolder;
-    
     @Override
     public boolean preHandle(HttpServletRequest request, 
                              HttpServletResponse response, Object handler) throws Exception {
@@ -49,8 +45,8 @@ public class RequestPlatformDeviceHandlerInterceptor implements HandlerIntercept
     public void postHandle(HttpServletRequest request, HttpServletResponse response, 
                            Object handler, ModelAndView modelAndView) throws Exception {
         try {
-            final WURFLManager manager = wurflHolder.getWURFLManager();
-            Device device = manager.getDeviceForRequest(request);
+            RequestData requestData = requestUtil.getRequestData(request);
+            Device device = requestData.getDevice();
             String deviceFolder = "default";
             if (device != null) {
                 boolean isSmartPhone = BooleanUtils.toBoolean(device.getVirtualCapability("is_smartphone"));
@@ -60,7 +56,7 @@ public class RequestPlatformDeviceHandlerInterceptor implements HandlerIntercept
                     deviceFolder = "mobile";
                 }
             }
-            requestUtil.updateCurrentDevice(requestUtil.getRequestData(request), deviceFolder);
+            requestUtil.updateCurrentDevice(requestData, deviceFolder);
 
         } catch (Exception e) {
             logger.error("inject common datas failed", e);

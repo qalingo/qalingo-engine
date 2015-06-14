@@ -16,6 +16,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sourceforge.wurfl.core.Device;
+
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
@@ -58,7 +61,9 @@ public class RequestData implements Serializable {
     private Company company;
     
     private GeolocData geolocData;
-	
+
+    private Device device;
+    
     private Map<String, Object> additionalAttributes = new HashMap<String, Object>();
     
 	public RequestData() {
@@ -266,6 +271,22 @@ public class RequestData implements Serializable {
             return true;
         }
         return false;
+    }
+    
+    public Device getDevice() {
+        return device;
+    }
+    
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+    
+    public boolean isBot() throws Exception {
+        if (device != null
+                && device.getVirtualCapabilities() != null) {
+            return BooleanUtils.toBoolean(device.getVirtualCapability("is_robot"));
+        }
+        return true;
     }
     
     public Map<String, Object> getAdditionalAttributes() {
