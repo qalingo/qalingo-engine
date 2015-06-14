@@ -507,10 +507,9 @@ public class ProductDao extends AbstractGenericDao {
     }
     
     public List<Long> findProductSkuIdsByBrandId(final Long brandId, Object... params) {
-        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
 
-        criteria.createAlias("productMarketing.productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("productBrand.id", brandId));
+        criteria.createCriteria("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN).add(Restrictions.eq("productBrand.id", brandId));
         criteria.setProjection(Projections.property("id"));
         criteria.addOrder(Order.asc("id"));
 

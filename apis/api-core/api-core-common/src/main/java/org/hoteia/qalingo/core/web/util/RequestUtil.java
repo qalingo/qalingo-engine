@@ -151,7 +151,7 @@ public class RequestUtil {
     @Autowired
     protected GeolocService geolocService;
     
-    @Autowired
+    @Autowired(required = false)
     protected WURFLHolder wurflHolder;
     
     @Autowired
@@ -1560,9 +1560,11 @@ public class RequestUtil {
         requestData.setContextPath(contextPath);
         requestData.setContextNameValue(getCurrentContextNameValue());
 
-        final WURFLManager manager = wurflHolder.getWURFLManager();
-        final Device device = manager.getDeviceForRequest(request);
-        requestData.setDevice(device);
+        if(wurflHolder != null){
+            final WURFLManager manager = wurflHolder.getWURFLManager();
+            final Device device = manager.getDeviceForRequest(request);
+            requestData.setDevice(device);
+        }
         
         // SPECIFIC BACKOFFICE
         if (requestData.isBackoffice()) {
@@ -1741,13 +1743,15 @@ public class RequestUtil {
         
         engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
         
-        final WURFLManager manager = wurflHolder.getWURFLManager();
-        final Device device = manager.getDeviceForRequest(request);
-        if (device != null
-                && device.getVirtualCapabilities() != null) {
-            boolean isBot = BooleanUtils.toBoolean(device.getVirtualCapability("is_robot"));
-            if(!isBot){
-                engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+        if(wurflHolder != null){
+            final WURFLManager manager = wurflHolder.getWURFLManager();
+            final Device device = manager.getDeviceForRequest(request);
+            if (device != null
+                    && device.getVirtualCapabilities() != null) {
+                boolean isBot = BooleanUtils.toBoolean(device.getVirtualCapability("is_robot"));
+                if(!isBot){
+                    engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+                }
             }
         }
         
