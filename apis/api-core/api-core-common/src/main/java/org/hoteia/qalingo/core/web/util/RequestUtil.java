@@ -1749,7 +1749,7 @@ public class RequestUtil {
             final Device device = manager.getDeviceForRequest(request);
             if (device != null
                     && device.getVirtualCapabilities() != null) {
-                boolean isBot = BooleanUtils.toBoolean(device.getVirtualCapability("is_robot"));
+                boolean isBot = BooleanUtils.toBoolean(device.getVirtualCapability("is_bot"));
                 if(!isBot){
                     engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
                 }
