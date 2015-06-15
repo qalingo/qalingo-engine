@@ -282,11 +282,15 @@ public class RequestData implements Serializable {
     }
     
     public boolean isBot() throws Exception {
-        if (device != null
-                && device.getVirtualCapabilities() != null) {
-            return BooleanUtils.toBoolean(device.getVirtualCapability("is_bot"));
+        try {
+            if (device != null
+                    && device.getVirtualCapabilities() != null) {
+                return BooleanUtils.toBoolean(device.getCapability("is_bot"));
+            }
+        } catch (Exception e) {
+            // NOTHING
         }
-        return true;
+        return false;
     }
     
     public Map<String, Object> getAdditionalAttributes() {

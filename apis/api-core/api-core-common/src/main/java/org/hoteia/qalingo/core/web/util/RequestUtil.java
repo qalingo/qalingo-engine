@@ -1745,14 +1745,18 @@ public class RequestUtil {
         engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
         
         if(wurflHolder != null){
-            final WURFLManager manager = wurflHolder.getWURFLManager();
-            final Device device = manager.getDeviceForRequest(request);
-            if (device != null
-                    && device.getVirtualCapabilities() != null) {
-                boolean isBot = BooleanUtils.toBoolean(device.getVirtualCapability("is_bot"));
-                if(!isBot){
-                    engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+            try {
+                final WURFLManager manager = wurflHolder.getWURFLManager();
+                final Device device = manager.getDeviceForRequest(request);
+                if (device != null
+                        && device.getVirtualCapabilities() != null) {
+                    boolean isBot = BooleanUtils.toBoolean(device.getCapability("is_bot"));
+                    if(!isBot){
+                        engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+                    }
                 }
+            } catch (Exception e) {
+                // NOTHING
             }
         }
         

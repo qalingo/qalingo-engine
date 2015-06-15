@@ -514,7 +514,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 marketViewBeans.add(buildViewBeanMarket(requestDataForThisMarket, marketNavigationReloaded));
                 
             } else {
-                logger.warn("This market, " + marketNavigation.getCode() + ", doesn't have a default MarketArea! This a mandatory value!");
                 marketViewBeans.add(buildViewBeanMarket(requestData, marketNavigationReloaded));
             }
             
