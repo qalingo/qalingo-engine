@@ -165,8 +165,10 @@ VALUES
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(11000, 'Product Sku Option Definition attribute name', 'Product Sku Option Definition attribute name', 'PRODUCT_SKU_OPTION_I18N_NAME', 1, 11, 1, 1, 0, 1, 1),
-(11010, 'Product Sku Option Definition attribute description', 'Product Sku Option Definition attribute description', 'PRODUCT_SKU_OPTION_I18N_DESCRIPTION', 2, 11, 1, 1, 0, 1, 1);
+(11000, 'Product Sku Option Definition attribute name', 'Product Sku Option Definition attribute name', 'PRODUCT_SKU_OPTION_DEFINITION_I18N_NAME', 1, 11, 1, 1, 0, 1, 1),
+(11010, 'Product Sku Option Definition attribute description', 'Product Sku Option Definition attribute description', 'PRODUCT_SKU_OPTION_DEFINITION_I18N_DESCRIPTION', 2, 11, 1, 1, 0, 1, 1),
+(11020, 'Product Sku Option Definition Type attribute name', 'Product Sku Option Definition Type attribute name', 'PRODUCT_SKU_OPTION_DEFINITION_TYPE_I18N_NAME', 1, 11, 1, 1, 0, 1, 1),
+(11030, 'Product Sku Option Definition Type attribute description', 'Product Sku Option Definition Type attribute description', 'PRODUCT_SKU_OPTION_DEFINITION_TYPE_I18N_DESCRIPTION', 2, 11, 1, 1, 0, 1, 1);
 
 
 -- CORE ENGINE SETTINGS

@@ -134,6 +134,7 @@ public class FetchPlanGraphProduct {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.optionDefinitionType.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.optionDefinitionType.getName() + "." + ProductSkuOptionDefinitionType_.attributes.getName()));
         return new FetchPlan(fetchplans);
     }
     
