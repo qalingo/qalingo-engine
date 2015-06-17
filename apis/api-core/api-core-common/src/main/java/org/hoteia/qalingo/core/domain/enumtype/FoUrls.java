@@ -314,11 +314,11 @@ public enum FoUrls {
     public static final String TAG_AS_LINE_VELOCITY_PAGE            = "catalog/tag-line";
 
     public static final String TAG_COLLECTION_KEY                   = "collection";
-    public static final String TAG_COLLECTION_URL                   = "/**/collection-t-{" + RequestConstants.URL_PATTERN_COLLECTION_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String TAG_COLLECTION_URL                   = "/**/collection-t-{" + RequestConstants.URL_PATTERN_TAG_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String TAG_COLLECTION_VELOCITY_PAGE         = "catalog/collection";
 
     public static final String CAT_TAG_COLLECTION_KEY               = "collection-tag";
-    public static final String CAT_TAG_COLLECTION_URL               = "/**/collection-c-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}-t-{" + RequestConstants.URL_PATTERN_COLLECTION_CODE + ":[a-zA-Z0-9-]+}.html";
+    public static final String CAT_TAG_COLLECTION_URL               = "/**/collection-c-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9-]+}-t-{" + RequestConstants.URL_PATTERN_TAG_CODE + ":[a-zA-Z0-9-]+}.html";
     public static final String CAT_TAG_COLLECTION_VELOCITY_PAGE     = "catalog/collection";
 
 	public static final String PRODUCT_DETAILS_KEY					= "product-details";
