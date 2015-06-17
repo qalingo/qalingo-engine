@@ -65,6 +65,7 @@ import org.hoteia.qalingo.core.email.bean.UserResetPasswordConfirmationEmailBean
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CompanyForm;
@@ -292,7 +293,7 @@ public class WebBackofficeService {
         if (company == null) {
             company = new Company();
         }
-        company.setCode(companyForm.getCode());
+        company.setCode(CoreUtil.cleanEntityCode(companyForm.getCode()));
         company.setName(companyForm.getName());
         company.setDescription(companyForm.getDescription());
         company.setActive(companyForm.isActive());
@@ -330,7 +331,7 @@ public class WebBackofficeService {
         }
         
         if(StringUtils.isNotEmpty(brandForm.getCode())){
-            brand.setCode(brandForm.getCode());
+            brand.setCode(CoreUtil.cleanEntityCode(brandForm.getCode()));
         }
         if(StringUtils.isNotEmpty(brandForm.getName())){
             brand.setName(brandForm.getName());
@@ -369,7 +370,7 @@ public class WebBackofficeService {
 		String catalogCategoryCode = catalogCategoryForm.getCode();
 		
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
-            catalogCategory.setCode(catalogCategoryForm.getCode());
+            catalogCategory.setCode(CoreUtil.cleanEntityCode(catalogCategoryForm.getCode()));
         }
         if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
             catalogCategory.setName(catalogCategoryForm.getName());
@@ -439,7 +440,7 @@ public class WebBackofficeService {
 	public CatalogCategoryMaster updateCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Retailer retailer, final Localization localization, 
 	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws ParseException {
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
-            catalogCategory.setCode(catalogCategoryForm.getCode());
+            catalogCategory.setCode(CoreUtil.cleanEntityCode(catalogCategoryForm.getCode()));
         }
         if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
             catalogCategory.setName(catalogCategoryForm.getName());
@@ -511,7 +512,7 @@ public class WebBackofficeService {
 	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException, ParseException {
         String catalogCategoryCode = catalogCategoryForm.getCode();
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
-            catalogCategory.setCode(catalogCategoryForm.getCode());
+            catalogCategory.setCode(CoreUtil.cleanEntityCode(catalogCategoryForm.getCode()));
         }
         if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
             catalogCategory.setName(catalogCategoryForm.getName());
@@ -579,7 +580,7 @@ public class WebBackofficeService {
 	public CatalogCategoryVirtual updateCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Retailer retailer, final Localization localization, 
 	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws ParseException {
         if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
-            catalogCategory.setCode(catalogCategoryForm.getCode());
+            catalogCategory.setCode(CoreUtil.cleanEntityCode(catalogCategoryForm.getCode()));
         }
         if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
             catalogCategory.setName(catalogCategoryForm.getName());
@@ -723,7 +724,7 @@ public class WebBackofficeService {
            productMarketing = new ProductMarketing();
         }
         if (StringUtils.isNotEmpty(productMarketingForm.getCode())) {
-            productMarketing.setCode(productMarketingForm.getCode());
+            productMarketing.setCode(CoreUtil.cleanEntityCode(productMarketingForm.getCode()));
         }
         if (StringUtils.isNotEmpty(productMarketingForm.getName())) {
             productMarketing.setName(productMarketingForm.getName());
@@ -739,7 +740,7 @@ public class WebBackofficeService {
 	        productSku = new ProductSku();
 	    }
         if (StringUtils.isNotEmpty(productSkuForm.getCode())) {
-            productSku.setCode(productSkuForm.getCode());
+            productSku.setCode(CoreUtil.cleanEntityCode(productSkuForm.getCode()));
         }
         if (StringUtils.isNotEmpty(productSkuForm.getName())) {
             productSku.setName(productSkuForm.getName());
@@ -775,7 +776,7 @@ public class WebBackofficeService {
 	        retailer = new Retailer();
 	    }
         if (StringUtils.isNotEmpty(retailerForm.getCode())) {
-            retailer.setCode(retailerForm.getCode());
+            retailer.setCode(CoreUtil.cleanEntityCode(retailerForm.getCode()));
         }
         if (StringUtils.isNotEmpty(retailerForm.getName())) {
             retailer.setName(retailerForm.getName());
@@ -862,7 +863,7 @@ public class WebBackofficeService {
             warehouse.setWarehouseMarketAreaRels(warehouseMarketAreas);
         }
         if (StringUtils.isNotEmpty(warehouseForm.getCode())) {
-            warehouse.setCode(warehouseForm.getCode());
+            warehouse.setCode(CoreUtil.cleanEntityCode(warehouseForm.getCode()));
         }
         if (StringUtils.isNotEmpty(warehouseForm.getName())) {
             warehouse.setName(warehouseForm.getName());
@@ -889,7 +890,7 @@ public class WebBackofficeService {
             deliveryMethod = new DeliveryMethod();
         }
         if (StringUtils.isNotEmpty(deliveryMethodForm.getCode())) {
-            deliveryMethod.setCode(deliveryMethodForm.getCode());
+            deliveryMethod.setCode(CoreUtil.cleanEntityCode(deliveryMethodForm.getCode()));
         }
         if (StringUtils.isNotEmpty(deliveryMethodForm.getName())) {
             deliveryMethod.setName(deliveryMethodForm.getName());
@@ -904,7 +905,7 @@ public class WebBackofficeService {
             tax = new Tax();
         }
         if (StringUtils.isNotEmpty(taxForm.getCode())) {
-            tax.setCode(taxForm.getCode());
+            tax.setCode(CoreUtil.cleanEntityCode(taxForm.getCode()));
         }
         if (StringUtils.isNotEmpty(taxForm.getName())) {
             tax.setName(taxForm.getName());
@@ -925,7 +926,7 @@ public class WebBackofficeService {
 
     public AbstractPaymentGateway createOrUpdatePaymentGateway(final MarketArea marketArea, AbstractPaymentGateway paymentGateway, final PaymentGatewayForm paymentGatewayForm) throws ParseException {
         if (StringUtils.isNotEmpty(paymentGatewayForm.getCode())) {
-            paymentGateway.setCode(paymentGatewayForm.getCode());
+            paymentGateway.setCode(CoreUtil.cleanEntityCode(paymentGatewayForm.getCode()));
         }
         if (StringUtils.isNotEmpty(paymentGatewayForm.getName())) {
             paymentGateway.setName(paymentGatewayForm.getName());
@@ -1000,7 +1001,7 @@ public class WebBackofficeService {
     		store = new Store();
 	    }
         if (StringUtils.isNotEmpty(storeForm.getCode())) {
-            store.setCode(storeForm.getCode());
+            store.setCode(CoreUtil.cleanEntityCode(storeForm.getCode()));
         }
         if (StringUtils.isNotEmpty(storeForm.getName())) {
             store.setName(storeForm.getName());
