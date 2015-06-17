@@ -2189,8 +2189,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 ProductSkuOptionRel productSkuOptionRel = (ProductSkuOptionRel) iterator.next();
                 if (Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition()) 
                         && productSkuOptionRel.getProductSkuOptionDefinition() != null) {
-                    ProductSkuOptionDefinition productSkuOptionDefinition = productSkuOptionRel.getProductSkuOptionDefinition();
-                    
+                    final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(productSkuOptionRel.getProductSkuOptionDefinition().getCode());
                     ProductSkuOptionDefinitionViewBean productSkuOptionDefinitionViewBean = new ProductSkuOptionDefinitionViewBean();
                     productSkuOptionDefinitionViewBean.setCode(productSkuOptionDefinition.getCode());
                     productSkuOptionDefinitionViewBean.setName(productSkuOptionDefinition.getI18nName(localizationCode));
