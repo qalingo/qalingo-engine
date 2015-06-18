@@ -34,6 +34,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.solr.service.AbstractSolrService;
@@ -157,8 +158,11 @@ public class StoreSearchController extends AbstractMCommerceController {
                 facetFields.add(StoreResponseBean.STORE_SECOND_FACET_FIELD);
 
                 String query = getSearchQuery(searchForm.getText());
-
-	            storeResponseBean = storeSolrService.searchStore(query, facetFields, cityList,countryList);
+                
+                SolrParam solrParam = new SolrParam();
+                solrParam.put("rows", 150);
+                
+	            storeResponseBean = storeSolrService.searchStore(query, facetFields, cityList,countryList, solrParam);
 //	            StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(, , facetFields);
 	            pagedListHolder = initList(requestData, sessionKeyPagedListHolder, storeResponseBean, pageSize, sortBy, order);
 	            

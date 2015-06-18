@@ -43,13 +43,14 @@
 
 	<fields>
 		<!-- general -->
-		<field name="id"			type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
-		<field name="code"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="name"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="text"			type="text_general" indexed="true"  stored="false" multiValued="true" />
-		<field name="_version_" 	type="long" 		indexed="true" 	stored="true"/>
-		<field name="datecreate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
-		<field name="dateupdate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
+		<field name="id"				type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
+		<field name="code"				type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="name"				type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="catalogCategories"	type="string"		indexed="true"  stored="true"  multiValued="true" />
+		<field name="text"				type="text_general" indexed="true"  stored="false" multiValued="true" />
+		<field name="_version_" 		type="long" 		indexed="true" 	stored="true"/>
+		<field name="datecreate"		type="date"			indexed="true"  stored="true"  multiValued="false" />
+		<field name="dateupdate"		type="date"			indexed="true"  stored="true"  multiValued="false" />
    </fields>
 
 	<!-- field to use to determine and enforce document uniqueness. -->

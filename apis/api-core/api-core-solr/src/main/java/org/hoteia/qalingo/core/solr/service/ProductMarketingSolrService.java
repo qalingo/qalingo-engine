@@ -134,10 +134,12 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         
         if(marketArea != null 
                 && retailer != null){
-            ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getBestPrice(marketArea.getId());
-            if(productSkuPrice != null){
-                BigDecimal salePrice = productSkuPrice.getSalePrice();
-                productMarketingSolr.setPrice(salePrice.floatValue());
+            if(productMarketing.getDefaultProductSku() != null){
+                ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getBestPrice(marketArea.getId());
+                if(productSkuPrice != null){
+                    BigDecimal salePrice = productSkuPrice.getSalePrice();
+                    productMarketingSolr.setPrice(salePrice.floatValue());
+                }
             }
         }
         
