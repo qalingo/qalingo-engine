@@ -466,6 +466,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     public SearchFacetViewBean buildViewBeanCatalogSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
+        final Locale locale = requestData.getLocale();
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
         searchFacetViewBean.setCode(facetField.getName());
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -482,7 +483,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.catalogCategoryType.getName()));
             categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.attributes.getName()));
 
-        	searchFacetViewBean.setName(facetField.getName());
+        	searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count value = (Count) iterator.next();
@@ -502,7 +503,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             // PARENT METHODE
             
         } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())){
-            searchFacetViewBean.setName(facetField.getName());
+            searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count value = (Count) iterator.next();
@@ -514,7 +515,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 }
             }
         } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())){
-            searchFacetViewBean.setName(facetField.getName());
+            searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count value = (Count) iterator.next();
@@ -564,11 +565,12 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     public SearchFacetViewBean buildViewBeanStoreSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
+        final Locale locale = requestData.getLocale();
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
 
         // TODO : Denis : facet like country ? city ? online/corner etc
         if(StoreResponseBean.STORE_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
-        	searchFacetViewBean.setName(facetField.getName());
+        	searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
@@ -581,12 +583,11 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 					return o1.getLabel().compareTo(o2.getLabel());
 				}
 			});
-            
             searchFacetViewBean.setValues(values);
         }
         
         if(StoreResponseBean.STORE_SECOND_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
-        	searchFacetViewBean.setName(facetField.getName());
+        	searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
@@ -599,7 +600,6 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 					return o1.getLabel().compareTo(o2.getLabel());
 				}
 			});
-            
             searchFacetViewBean.setValues(values);
         }
         return searchFacetViewBean;

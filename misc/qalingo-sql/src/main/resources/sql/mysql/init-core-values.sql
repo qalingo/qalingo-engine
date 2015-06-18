@@ -103,13 +103,14 @@ VALUES
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(3000, 'Product Sku: attribute name', 'Product Sku: attribute name', 'PRODUCT_SKU_I18N_NAME',                      1, 3, 1, 1, 0, 1, 1),
-(3010, 'Product Sku: attribute description', 'Product Sku: attribute description', 'PRODUCT_SKU_I18N_DESCRIPTION', 2, 3, 1, 1, 0, 1, 2),
-(3020, 'Product Sku: attribute width', 'Product Sku: attribute width', 'PRODUCT_SKU_WIDTH',                        5, 3, 0, 1, 0, 1, 3),
-(3030, 'Product Sku: attribute height', 'Product Sku: attribute height', 'PRODUCT_SKU_HEIGHT',                     5, 3, 0, 1, 0, 1, 4),
-(3040, 'Product Sku: attribute length', 'Product Sku: attribute length', 'PRODUCT_SKU_LENGTH',                     5, 3, 0, 1, 0, 1, 5),
-(3050, 'Product Sku: attribute weight', 'Product Sku: attribute weight', 'PRODUCT_SKU_WEIGHT',                     5, 3, 0, 1, 0, 1, 6),
-(3060, 'Product Sku: attribute salable', 'Product Sku: attribute salable', 'PRODUCT_SKU_IS_SALABLE',               7, 3, 0, 0, 0, 1, 7);
+(3000, 'Product Sku: attribute name', 'Product Sku: attribute name', 'PRODUCT_SKU_I18N_NAME',                         			1, 3, 1, 1, 0, 1, 1),
+(3010, 'Product Sku: attribute description', 'Product Sku: attribute description', 'PRODUCT_SKU_I18N_DESCRIPTION',				2, 3, 1, 1, 0, 1, 2),
+(3015, 'Product Sku: attribute details info', 'Product Sku: attribute details info', 'PRODUCT_SKU_I18N_DETAILS_INFORMATION',	2, 3, 1, 1, 0, 1, 2),
+(3020, 'Product Sku: attribute width', 'Product Sku: attribute width', 'PRODUCT_SKU_WIDTH',                           			5, 3, 0, 1, 0, 1, 3),
+(3030, 'Product Sku: attribute height', 'Product Sku: attribute height', 'PRODUCT_SKU_HEIGHT',                        			5, 3, 0, 1, 0, 1, 4),
+(3040, 'Product Sku: attribute length', 'Product Sku: attribute length', 'PRODUCT_SKU_LENGTH',                        			5, 3, 0, 1, 0, 1, 5),
+(3050, 'Product Sku: attribute weight', 'Product Sku: attribute weight', 'PRODUCT_SKU_WEIGHT',                        			5, 3, 0, 1, 0, 1, 6),
+(3060, 'Product Sku: attribute salable', 'Product Sku: attribute salable', 'PRODUCT_SKU_IS_SALABLE',                  			7, 3, 0, 0, 0, 1, 7);
 
 -- ATTRIBUTES : CUSTOMER
 INSERT INTO teco_attribute_definition 

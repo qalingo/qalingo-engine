@@ -29,7 +29,7 @@ public enum ScopeWebMessage {
 	 */
 	HEADER_TITLE("header_title"),
 
-	   /**
+    /**
      * 
      */
     HEADER_MENU("header_menu"),
@@ -208,6 +208,11 @@ public enum ScopeWebMessage {
 	 * 
 	 */
 	SEARCH("search"),
+	
+    /**
+     * 
+     */
+    FACET_FIELD("facet_field"),
 	
 	/**
 	 * 
