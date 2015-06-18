@@ -62,7 +62,6 @@ public class CatalogCategorySolrServiceTest {
         catalogCategoryMaster.setDateUpdate(new Date());
         
         facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES);
-        facetFields.add(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES);
     }
     
 	/**
