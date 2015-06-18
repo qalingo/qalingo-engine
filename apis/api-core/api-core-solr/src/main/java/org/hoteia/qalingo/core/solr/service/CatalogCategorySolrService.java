@@ -24,6 +24,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.bean.CatalogCategorySolr;
+import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,9 +73,16 @@ public class CatalogCategorySolrService extends AbstractSolrService {
         catalogCategorySolrServer.commit();
     }
     
-    public CatalogCategoryResponseBean searchCatalogCategory(String searchQuery, List<String> facetFields) throws SolrServerException, IOException {
+    public CatalogCategoryResponseBean searchCatalogCategory(final String searchQuery, final List<String> facetFields, final SolrParam solrParam) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", getMaxResult());
+
+        if(solrParam != null){
+            if(solrParam.get("rows") != null){
+                solrQuery.setParam("rows", (String)solrParam.get("rows"));
+            } else {
+                solrQuery.setParam("rows", getMaxResult());
+            }
+        }
         
         if (StringUtils.isEmpty(searchQuery)) {
             throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
@@ -109,6 +117,7 @@ public class CatalogCategorySolrService extends AbstractSolrService {
         return catalogCategoryResponseBean;
     }
     
+    @Deprecated
 	public CatalogCategoryResponseBean searchCatalogCategory(String searchBy,String searchText, List<String> facetFields) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", getMaxResult());

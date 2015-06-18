@@ -22,6 +22,7 @@ import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.slf4j.Logger;
@@ -73,9 +74,16 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolrServer.commit();
     }
 
-    public StoreResponseBean searchStore(String searchQuery, List<String> facetFields, List<String> cities, List<String> countries) throws SolrServerException, IOException {
+    public StoreResponseBean searchStore(final String searchQuery, final List<String> facetFields, final List<String> cities, final List<String> countries, final SolrParam solrParam) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", getMaxResult());
+        
+        if(solrParam != null){
+            if(solrParam.get("rows") != null){
+                solrQuery.setParam("rows", (String)solrParam.get("rows"));
+            } else {
+                solrQuery.setParam("rows", getMaxResult());
+            }
+        }
 
         if (StringUtils.isEmpty(searchQuery)) {
             throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
@@ -207,6 +215,7 @@ public class StoreSolrService extends AbstractSolrService {
         return storeResponseBean;
     }
 	
+    @Deprecated
     public StoreResponseBean searchStore() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", getMaxResult());

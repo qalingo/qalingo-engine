@@ -46,6 +46,11 @@
 		<field name="id"			type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
 		<field name="code"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="name"			type="string"       indexed="true"  stored="true"  multiValued="false" />
+		
+        <field name="active"        type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+        <field name="b2b"           type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+        <field name="b2c"           type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+		
 		<field name="city"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="countrycode"	type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="postalcode"	type="string"       indexed="true"  stored="true"  multiValued="false" />

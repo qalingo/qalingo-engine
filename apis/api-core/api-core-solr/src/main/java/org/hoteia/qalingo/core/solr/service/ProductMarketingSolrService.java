@@ -37,6 +37,7 @@ import org.hoteia.qalingo.core.domain.ProductSkuTagRel;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
+import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,18 +156,62 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         productMarketingSolrServer.commit();
     }
 
-    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields) throws SolrServerException, IOException {
-        return searchProductMarketing(searchQuery, facetFields, null, null, null);
+    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, SolrParam solrParam) throws SolrServerException, IOException {
+        return searchProductMarketing(searchQuery, facetFields, null, solrParam);
     }
     
-    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final List<String> filterQueries) throws SolrServerException, IOException {
-        return searchProductMarketing(searchQuery, facetFields, null, null, filterQueries);
+    public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final List<String> filterQueries, SolrParam solrParam) throws SolrServerException, IOException {
+        SolrQuery solrQuery = new SolrQuery();
+
+        if(solrParam != null){
+            if(solrParam.get("rows") != null){
+                solrQuery.setParam("rows", (String)solrParam.get("rows"));
+            } else {
+                solrQuery.setParam("rows", getMaxResult());
+            }
+        }
+
+        solrQuery.setQuery(searchQuery);
+
+        if (facetFields != null && !facetFields.isEmpty()) {
+            solrQuery.setFacet(true);
+            solrQuery.setFacetMinCount(1);
+            for (String facetField : facetFields) {
+                solrQuery.addFacetField(facetField);
+            }
+        }
+
+        if (filterQueries != null && filterQueries.size() > 0) {
+            for (Iterator<String> iterator = filterQueries.iterator(); iterator.hasNext();) {
+                String filterQuery = (String) iterator.next();
+                solrQuery.addFilterQuery(filterQuery);
+            }
+        }
+
+        logger.debug("QueryRequest solrQuery: " + solrQuery);
+
+        SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
+        QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);
+
+        logger.debug("QueryResponse Obj: " + response.toString());
+
+        List<ProductMarketingSolr> solrList = response.getBeans(ProductMarketingSolr.class);
+        ProductMarketingResponseBean productMarketingResponseBean = new ProductMarketingResponseBean();
+        productMarketingResponseBean.setProductMarketingSolrList(solrList);
+
+        if (facetFields != null && !facetFields.isEmpty()) {
+            List<FacetField> solrFacetFieldList = response.getFacetFields();
+            productMarketingResponseBean.setProductMarketingSolrFacetFieldList(solrFacetFieldList);
+        }
+        return productMarketingResponseBean;
     }
     
+    @Deprecated
     public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final BigDecimal priceStart, final BigDecimal priceEnd) throws SolrServerException, IOException {
         return searchProductMarketing(searchQuery, facetFields, null, null, null);
     }
     
+    @Deprecated
     public ProductMarketingResponseBean searchProductMarketing(final String searchQuery, final List<String> facetFields, final BigDecimal priceStart, final BigDecimal priceEnd,
                                                                final List<String> filterQueries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();

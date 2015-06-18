@@ -46,8 +46,8 @@ public class ProductMarketingSolrServiceTest {
 	protected ProductMarketingSolrService productMarketingSolrService; 
 
 	protected ProductMarketing productMarketing;
-    private List<ProductSku> productSkus;
-    private List<CatalogCategoryVirtual> catalogCategories;
+    private List<ProductSku> productSkus = new ArrayList<ProductSku>();
+    private List<CatalogCategoryVirtual> catalogCategories = new ArrayList<CatalogCategoryVirtual>();
 
 	protected ProductMarketingResponseBean responseBean;
 

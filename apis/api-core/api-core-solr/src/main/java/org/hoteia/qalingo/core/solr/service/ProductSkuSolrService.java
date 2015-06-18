@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
+import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,9 +131,16 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolrServer.commit();
     }
     
-    public ProductSkuResponseBean searchProductSku(String searchQuery, List<String> facetFields) throws SolrServerException, IOException {
+    public ProductSkuResponseBean searchProductSku(final String searchQuery, final List<String> facetFields, final SolrParam solrParam) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
-        solrQuery.setParam("rows", getMaxResult());
+
+        if(solrParam != null){
+            if(solrParam.get("rows") != null){
+                solrQuery.setParam("rows", (String)solrParam.get("rows"));
+            } else {
+                solrQuery.setParam("rows", getMaxResult());
+            }
+        }
         
         if (StringUtils.isEmpty(searchQuery)) {
             throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
