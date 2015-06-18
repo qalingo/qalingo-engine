@@ -160,7 +160,7 @@ public class StoreSearchController extends AbstractMCommerceController {
                 String query = getSearchQuery(searchForm.getText());
                 
                 SolrParam solrParam = new SolrParam();
-                solrParam.put("rows", 150);
+                solrParam.put("rows", "150");
                 
 	            storeResponseBean = storeSolrService.searchStore(query, facetFields, cityList,countryList, solrParam);
 //	            StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(, , facetFields);
