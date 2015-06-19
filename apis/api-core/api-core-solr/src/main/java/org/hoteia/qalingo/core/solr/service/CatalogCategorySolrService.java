@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.solr.service;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +25,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.bean.CatalogCategorySolr;
+import org.hoteia.qalingo.core.solr.bean.SolrFields;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
 import org.slf4j.Logger;
@@ -81,6 +83,14 @@ public class CatalogCategorySolrService extends AbstractSolrService {
                 solrQuery.setParam("rows", (String)solrParam.get("rows"));
             } else {
                 solrQuery.setParam("rows", getMaxResult());
+            }
+            
+            if(solrParam.get("solrFields") != null){
+                SolrFields solrFields = (SolrFields) solrParam.get("solrFields");
+                for (Iterator<String> iterator = solrFields.keySet().iterator(); iterator.hasNext();) {
+                    String field = (String) iterator.next();
+                    solrQuery.addSortField(field, solrFields.get(field));
+                }
             }
         }
         

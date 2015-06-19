@@ -10,10 +10,12 @@
 package org.hoteia.qalingo.core.solr.service;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.SolrServer;
@@ -22,6 +24,7 @@ import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.solr.bean.SolrFields;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
@@ -82,6 +85,14 @@ public class StoreSolrService extends AbstractSolrService {
                 solrQuery.setParam("rows", (String)solrParam.get("rows"));
             } else {
                 solrQuery.setParam("rows", getMaxResult());
+            }
+            
+            if(solrParam.get("solrFields") != null){
+                SolrFields solrFields = (SolrFields) solrParam.get("solrFields");
+                for (Iterator<String> iterator = solrFields.keySet().iterator(); iterator.hasNext();) {
+                    String field = (String) iterator.next();
+                    solrQuery.addSortField(field, solrFields.get(field));
+                }
             }
         }
 

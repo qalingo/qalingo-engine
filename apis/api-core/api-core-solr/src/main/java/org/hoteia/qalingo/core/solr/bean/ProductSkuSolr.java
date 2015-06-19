@@ -55,6 +55,9 @@ public class ProductSkuSolr {
     @Field
     private List<String> optionDefinitions = new ArrayList<String>();
     
+    @Field
+    private String random;
+    
     @Field("datecreate")
     private Date dateCreate;
 
@@ -208,6 +211,14 @@ public class ProductSkuSolr {
         if(!this.tags.contains(tag)){
             this.tags.add(tag);
         }
+    }
+    
+    public String getRandom() {
+        return random;
+    }
+    
+    public void setRandom(String random) {
+        this.random = random;
     }
     
     public Date getDateCreate() {

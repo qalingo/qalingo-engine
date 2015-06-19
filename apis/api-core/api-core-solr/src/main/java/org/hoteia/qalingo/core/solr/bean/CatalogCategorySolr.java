@@ -40,7 +40,10 @@ public class CatalogCategorySolr {
     
     @Field
     private Set<ProductSkuSolr> productMarketings = new HashSet<ProductSkuSolr>();
-    
+
+    @Field
+    private String random;
+
     @Field("datecreate")
     private Date dateCreate;
 
@@ -111,6 +114,14 @@ public class CatalogCategorySolr {
 		this.productMarketings = productMarketings;
 	}
 
+	public String getRandom() {
+        return random;
+    }
+	
+	public void setRandom(String random) {
+        this.random = random;
+    }
+	
 	public Date getDateCreate() {
 		return dateCreate;
 	}

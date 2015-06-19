@@ -50,6 +50,9 @@ public class StoreSolr {
     @Field
     private List<String> tags = new ArrayList<String>();
     
+    @Field
+    private String random;
+    
     @Field("datecreate")
     private Date dateCreate;
 
@@ -153,9 +156,17 @@ public class StoreSolr {
         }
     }
     
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public String getRandom() {
+        return random;
+    }
+    
+    public void setRandom(String random) {
+        this.random = random;
+    }
+    
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
 	public void setDateCreate(Date dateCreate) {
 		this.dateCreate = dateCreate;

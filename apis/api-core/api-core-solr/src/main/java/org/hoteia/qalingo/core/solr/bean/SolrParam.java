@@ -2,7 +2,7 @@ package org.hoteia.qalingo.core.solr.bean;
 
 import java.util.HashMap;
 
-public class SolrParam<String, Object> extends HashMap<String, Object> {
+public class SolrParam extends HashMap<String, Object> {
 
     /**
      * 

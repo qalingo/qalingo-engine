@@ -33,6 +33,9 @@ public class CustomerSolr {
     @Field
     private String title;
     
+    @Field
+    private String random;
+    
     @Field("datecreate")
     private Date dateCreate;
 
@@ -87,9 +90,17 @@ public class CustomerSolr {
         this.firstname = firstname;
     }
 
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public String getRandom() {
+        return random;
+    }
+    
+    public void setRandom(String random) {
+        this.random = random;
+    }
+    
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
 	public void setDateCreate(Date dateCreate) {
 		this.dateCreate = dateCreate;

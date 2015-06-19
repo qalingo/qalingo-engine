@@ -24,7 +24,8 @@
 		<fieldType name="float"			class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
 		<fieldType name="long"			class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
 		<fieldType name="double"		class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="date"			class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="random" class="solr.RandomSortField" />
 		<fieldType name="text_general"	class="solr.TextField" positionIncrementGap="100">
 			<analyzer type="index">
 				<tokenizer class="solr.StandardTokenizerFactory" />
@@ -74,6 +75,7 @@
 		
 		<field name="text"					type="text_general" indexed="true" 	stored="false" multiValued="true" />
 		<field name="_version_" 			type="long" 		indexed="true" 	stored="true"/>
+		<dynamicField name="random_*"   type="random" />
    </fields>
 
 	<!-- field to use to determine and enforce document uniqueness. -->
