@@ -7,20 +7,16 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.security.helper;
+package org.hoteia.qalingo.core.solr.util;
 
 import java.util.Random;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service("securityUtil")
-public class SecurityUtil {
+public class SolrUtil {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -32,44 +28,12 @@ public class SecurityUtil {
 	@Autowired
 	protected PasswordEncoder encoder;
 	
-	public boolean isAuthenticated(){
-	    if(SecurityContextHolder.getContext().getAuthentication() != null
-	            && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-	            && !StringUtils.equals("anonymousUser", SecurityContextHolder.getContext().getAuthentication().getName())){
-	        return true;
-	    }
-	    return false;
-	}
-	
-	public String generatePermalink() {
-
-		// TODO : setting in database
-		
-		return new String(generatePswd(10, 10, 1, 1, 0));
-	}
-	
-   public String generateToken() {
-       String token = new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1)) + new String(generatePswd(8, 8, 1, 1, 1));
-       return token;
+   public static String randomSeed() {
+       String seed = new String(generateSeed(8, 8, 1, 1, 1));
+       return seed;
     }
 	
-	public String encodePassword(String clearPassword) {
-		String result = encoder.encode(clearPassword);
-		return result;
-	}
-	
-	public String generateAndEncodePassword() {
-		return encodePassword(generatePassword());
-	}
-		
-	public String generatePassword() {
-
-		// TODO : setting in database
-		
-		return new String(generatePswd(8, 8, 1, 1, 1));
-	}
-	
-	protected static char[] generatePswd(int minLen, int maxLen, int noOfCAPSAlpha, int noOfDigits, int noOfSplChars) {
+	protected static char[] generateSeed(int minLen, int maxLen, int noOfCAPSAlpha, int noOfDigits, int noOfSplChars) {
         if(minLen > maxLen)
             throw new IllegalArgumentException("Min. Length > Max. Length!");
         if( (noOfCAPSAlpha + noOfDigits + noOfSplChars) > minLen )
