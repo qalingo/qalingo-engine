@@ -121,4 +121,9 @@ public class ProductSkuOptionRel extends AbstractEntity<ProductSkuOptionRel> {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "ProductSkuOptionRel [pk=" + pk.toString() + ", ranking=" + ranking + ", isDefaultSkuOption=" + isDefaultSkuOption + "]";
+    }
+
 }

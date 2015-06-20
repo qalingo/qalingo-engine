@@ -134,7 +134,6 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
                 productMarketingViewBeans.add(productMarketingViewBean);
             } else {
                 // PRODUCT DOESN'T EXIST ANYMORE : CLEAN INDEX
-                productMarketingSolrService.removeProductMarketing(productMarketingSolr);
             }
         }
         

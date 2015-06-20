@@ -77,4 +77,9 @@ public class ProductSkuOptionPk extends AbstractEntity<ProductSkuOptionPk> {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "ProductSkuOptionPk [productSku=" + productSku.getCode() + ", productSkuOptionDefinition=" + productSkuOptionDefinition.getCode() + "]";
+    }
+
 }
