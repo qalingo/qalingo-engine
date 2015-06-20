@@ -383,6 +383,25 @@ public class ProductSkuViewBean extends AbstractViewBean {
         return skuOptionDefinitionCodes;
     }
     
+    public List<ProductSkuOptionDefinitionViewBean> getMergedSkuOptionDefinitions() {
+        List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitionCodes = null;
+        if(skuOptionDefinitions != null){
+            skuOptionDefinitionCodes = new ArrayList<ProductSkuOptionDefinitionViewBean>();
+            Map<String, ProductSkuOptionDefinitionViewBean> map = new HashMap<String, ProductSkuOptionDefinitionViewBean>();
+            for(ProductSkuOptionDefinitionViewBean skuOptionDefinition : skuOptionDefinitions){
+                if(map.get(skuOptionDefinition.getCode()) == null){
+                    map.put(skuOptionDefinition.getCode(), skuOptionDefinition);
+                } else {
+                    // merge skuOptionDefinition values
+                    ProductSkuOptionDefinitionViewBean skuOptionDefinitionPrevious = map.get(skuOptionDefinition.getCode());
+                    String newValue = skuOptionDefinition.getName() + ", " + skuOptionDefinitionPrevious.getName();
+                    skuOptionDefinitionPrevious.setName(newValue);
+                }
+            }
+        }
+        return skuOptionDefinitionCodes;
+    }
+    
     public void setSkuOptionDefinitions(List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitions) {
         this.skuOptionDefinitions = skuOptionDefinitions;
     }
