@@ -33,6 +33,13 @@ public class SearchFacetValueBean implements Serializable {
         this.count = count;
     }
     
+    public SearchFacetValueBean(String code, String label, String type, long count){
+        this.code = code;
+        this.label = label;
+        this.type = type;
+        this.count = count;
+    }
+    
     public String getCode() {
         return code;
     }

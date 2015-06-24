@@ -414,7 +414,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                         if(skuOptions == null){
                             skuOptions = new ArrayList<SearchFacetValueBean>();
                         }
-                        SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), value.getCount());                
+                        SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), productSkuOptionDefinition.getOptionDefinitionType().getCode(), value.getCount());                
                         skuOptions.add(valueBean);
                         skuOptionsByType.put(key, skuOptions);
                     }
