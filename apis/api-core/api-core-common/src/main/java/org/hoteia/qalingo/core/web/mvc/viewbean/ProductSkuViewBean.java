@@ -384,9 +384,8 @@ public class ProductSkuViewBean extends AbstractViewBean {
     }
     
     public List<ProductSkuOptionDefinitionViewBean> getMergedSkuOptionDefinitions() {
-        List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitionCodes = null;
+        List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitionViewBeans = null;
         if(skuOptionDefinitions != null){
-            skuOptionDefinitionCodes = new ArrayList<ProductSkuOptionDefinitionViewBean>();
             Map<String, ProductSkuOptionDefinitionViewBean> map = new HashMap<String, ProductSkuOptionDefinitionViewBean>();
             for(ProductSkuOptionDefinitionViewBean skuOptionDefinition : skuOptionDefinitions){
                 if(map.get(skuOptionDefinition.getCode()) == null){
@@ -398,8 +397,13 @@ public class ProductSkuViewBean extends AbstractViewBean {
                     skuOptionDefinitionPrevious.setName(newValue);
                 }
             }
+            skuOptionDefinitionViewBeans = new ArrayList<ProductSkuOptionDefinitionViewBean>();
+            for (Iterator<ProductSkuOptionDefinitionViewBean> iterator = map.values().iterator(); iterator.hasNext();) {
+                ProductSkuOptionDefinitionViewBean productSkuOptionDefinitionViewBean = (ProductSkuOptionDefinitionViewBean) iterator.next();
+                skuOptionDefinitionViewBeans.add(productSkuOptionDefinitionViewBean);
+            }
         }
-        return skuOptionDefinitionCodes;
+        return skuOptionDefinitionViewBeans;
     }
     
     public void setSkuOptionDefinitions(List<ProductSkuOptionDefinitionViewBean> skuOptionDefinitions) {
