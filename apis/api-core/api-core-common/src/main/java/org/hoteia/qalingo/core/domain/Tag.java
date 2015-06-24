@@ -194,7 +194,7 @@ public class Tag extends AbstractExtendEntity<Tag, TagAttribute> {
     }
 
     public String getI18nName(String localizationCode) {
-        String i18Name = (String) getValue(StoreAttribute.TAG_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        String i18Name = (String) getValue(TagAttribute.TAG_ATTRIBUTE_I18N_NAME, null, localizationCode);
         if(StringUtils.isNotEmpty(i18Name)){
             return i18Name;
         }
