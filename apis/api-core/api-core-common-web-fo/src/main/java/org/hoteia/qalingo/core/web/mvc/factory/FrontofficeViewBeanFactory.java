@@ -457,6 +457,8 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 			for(SearchFacetValueBean searchFacetValue : searchFacet.getValues()){
 				if(selectedFilterFacets.contains(searchFacetValue.getCode())){
 					searchFacetValue.setSelected(true);
+				} else {
+				    searchFacetValue.setSelected(false);
 				}
 			}
 		}
