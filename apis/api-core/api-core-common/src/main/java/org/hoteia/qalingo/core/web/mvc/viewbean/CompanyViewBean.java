@@ -33,6 +33,8 @@ public class CompanyViewBean extends AbstractViewBean {
     private String countryCode;
     private String countryName;
     
+    private String legalGuid;
+    
 	private String detailsUrl;
 	private String editUrl;
 	
@@ -154,6 +156,14 @@ public class CompanyViewBean extends AbstractViewBean {
 
     public void setCountryName(String countryName) {
         this.countryName = countryName;
+    }
+    
+    public String getLegalGuid() {
+        return legalGuid;
+    }
+    
+    public void setLegalGuid(String legalGuid) {
+        this.legalGuid = legalGuid;
     }
 
     public String getDetailsUrl() {

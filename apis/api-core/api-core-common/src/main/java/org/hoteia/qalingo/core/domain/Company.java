@@ -92,6 +92,9 @@ public class Company extends AbstractEntity<Company> {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
     
+    @Column(name = "LEGAL_GUID")
+    private String legalGuid;
+    
     @Column(name = "CREATED_BY_USER_ID")
     private Long createdByUserId;
     
@@ -246,6 +249,14 @@ public class Company extends AbstractEntity<Company> {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+    
+    public String getLegalGuid() {
+        return legalGuid;
+    }
+    
+    public void setLegalGuid(String legalGuid) {
+        this.legalGuid = legalGuid;
     }
     
     public Long getCreatedByUserId() {

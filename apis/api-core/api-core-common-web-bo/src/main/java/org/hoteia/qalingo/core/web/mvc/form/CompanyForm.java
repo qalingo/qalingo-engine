@@ -32,6 +32,8 @@ public class CompanyForm {
     private String areaCode;
     private String countryCode;
     
+    private String legalGuid;
+
 	private boolean active;
 	private Date dateCreate;
 	private Date dateUpdate;
@@ -140,6 +142,14 @@ public class CompanyForm {
         this.countryCode = countryCode;
     }
 
+    public String getLegalGuid() {
+        return legalGuid;
+    }
+    
+    public void setLegalGuid(String legalGuid) {
+        this.legalGuid = legalGuid;
+    }
+    
     public boolean isActive() {
 		return active;
 	}
