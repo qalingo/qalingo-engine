@@ -1343,18 +1343,20 @@ public class RequestUtil {
             if (StringUtils.isNotEmpty(customer.getAvatarImg())) {
                 customerAvatar = customer.getAvatarImg();
             } else {
-                String email = customer.getEmail().toLowerCase().trim();
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                byte[] array = md.digest(email.getBytes("CP1252"));
-                StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < array.length; ++i) {
-                    sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
-                }
-                String gravatarId = sb.toString();
-                if ("https".equals(request.getScheme())) {
-                    customerAvatar = "https://secure.gravatar.com/avatar/" + gravatarId;
-                } else {
-                    customerAvatar = "http://www.gravatar.com/avatar/" + gravatarId;
+                if(StringUtils.isNotEmpty(customer.getEmail())){
+                    String email = customer.getEmail().toLowerCase().trim();
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    byte[] array = md.digest(email.getBytes("CP1252"));
+                    StringBuffer sb = new StringBuffer();
+                    for (int i = 0; i < array.length; ++i) {
+                        sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+                    }
+                    String gravatarId = sb.toString();
+                    if ("https".equals(request.getScheme())) {
+                        customerAvatar = "https://secure.gravatar.com/avatar/" + gravatarId;
+                    } else {
+                        customerAvatar = "http://www.gravatar.com/avatar/" + gravatarId;
+                    }
                 }
             }
         }
