@@ -234,6 +234,14 @@ public class RetailerService {
     public List<Store> findStoresWithMax(int maxResults, Object... params) {
         return retailerDao.findAllStores(maxResults, params);
     }
+
+    public List<Store> findB2CStores(int maxResults, Object... params) {
+        return retailerDao.findB2CStores(maxResults, params);
+    }
+    
+    public List<Store> findB2BStores(int maxResults, Object... params) {
+        return retailerDao.findB2BStores(maxResults, params);
+    }
     
     public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
         return retailerDao.findStoreIdsByCompanyId(companyId, params);

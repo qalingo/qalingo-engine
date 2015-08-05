@@ -390,6 +390,42 @@ public class RetailerDao extends AbstractGenericDao {
         List<Store> stores = criteria.list();
 		return stores;
 	}
+
+    public List<Store> findB2CStores(int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("b2c", true));
+
+        criteria.addOrder(Order.asc("code"));
+
+        if (maxResults != 0) {
+            criteria.setMaxResults(maxResults);
+        }
+
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
+
+    public List<Store> findB2BStores(int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("b2b", true));
+
+        criteria.addOrder(Order.asc("code"));
+
+        if (maxResults != 0) {
+            criteria.setMaxResults(maxResults);
+        }
+
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
 	
     public List<Long> findAllStoreIds(Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
