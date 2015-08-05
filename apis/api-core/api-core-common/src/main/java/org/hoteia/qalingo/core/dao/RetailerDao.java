@@ -495,7 +495,12 @@ public class RetailerDao extends AbstractGenericDao {
     public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         Float latitudeFloat = new Float(latitude);
         Float longitudeFloat = new Float(longitude);
-        String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store HAVING distance <= :distanceValue ORDER BY distance ASC";
+        String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance " +
+        		"FROM teco_store store " +
+        		"WHERE is_b2c = :b2c " +
+                "AND is_active = :active " +
+        		"HAVING distance <= :distanceValue " +
+        		"ORDER BY distance ASC";
         Query query = createNativeQuery(queryString);
         query.setParameter("latitude", latitudeFloat.floatValue());
         query.setParameter("longitude", longitudeFloat.floatValue());
@@ -522,7 +527,12 @@ public class RetailerDao extends AbstractGenericDao {
     public List<GeolocatedStore> findB2BStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         Float latitudeFloat = new Float(latitude);
         Float longitudeFloat = new Float(longitude);
-        String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store HAVING distance <= :distanceValue ORDER BY distance ASC";
+        String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance " +
+        		"FROM teco_store store " +
+        		"WHERE is_b2b = :b2b " +
+        		"AND is_active = :active " +
+        		"HAVING distance <= :distanceValue " +
+        		"ORDER BY distance ASC";
         Query query = createNativeQuery(queryString);
         query.setParameter("latitude", latitudeFloat.floatValue());
         query.setParameter("longitude", longitudeFloat.floatValue());
@@ -551,7 +561,13 @@ public class RetailerDao extends AbstractGenericDao {
                 && StringUtils.isNotEmpty(longitude)){
             Float latitudeFloat = new Float(latitude);
             Float longitudeFloat = new Float(longitude);
-            String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store WHERE country_code = :countryCode AND is_active = :active HAVING distance <= :distanceValue ORDER BY distance ASC";
+            String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance " +
+            		"FROM teco_store store " +
+            		"WHERE country_code = :countryCode " +
+            		"AND is_b2c = :b2c " +
+            		"AND is_active = :active " +
+            		"HAVING distance <= :distanceValue " +
+            		"ORDER BY distance ASC";
             Query query = createNativeQuery(queryString);
             query.setParameter("latitude", latitudeFloat.floatValue());
             query.setParameter("longitude", longitudeFloat.floatValue());
@@ -583,7 +599,13 @@ public class RetailerDao extends AbstractGenericDao {
                 && StringUtils.isNotEmpty(longitude)){
             Float latitudeFloat = new Float(latitude);
             Float longitudeFloat = new Float(longitude);
-            String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM teco_store store WHERE country_code = :countryCode AND is_active = :active HAVING distance <= :distanceValue ORDER BY distance ASC";
+            String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance " +
+            		"FROM teco_store store " +
+            		"WHERE country_code = :countryCode " +
+            		"AND is_b2b = :b2b " +
+            		"AND is_active = :active " +
+            		"HAVING distance <= :distanceValue " +
+            		"ORDER BY distance ASC";
             Query query = createNativeQuery(queryString);
             query.setParameter("latitude", latitudeFloat.floatValue());
             query.setParameter("longitude", longitudeFloat.floatValue());
