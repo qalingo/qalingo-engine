@@ -153,70 +153,72 @@ public class CallBackOAuthWindowsLiveController extends AbstractOAuthFrontoffice
 			final String lastName = userPojo.getLastName();
 			final String gender = userPojo.getGender();
 			final String locale = userPojo.getLocale();
-			Customer customer = customerService.getCustomerByLoginOrEmail(email);
 			
-			if(customer == null){
-		        final Market currentMarket = requestData.getMarket();
-		        final MarketArea currentMarketArea = requestData.getMarketArea();
-		        
-				// CREATE A NEW CUSTOMER
-				customer = new Customer();
-//				customer = setCommonCustomerInformation(request, customer);
+			if(StringUtils.isNotEmpty(email)){
+	            Customer customer = customerService.getCustomerByLoginOrEmail(email);
+	            
+	            if(customer == null){
+	                final Market currentMarket = requestData.getMarket();
+	                final MarketArea currentMarketArea = requestData.getMarketArea();
+	                
+	                // CREATE A NEW CUSTOMER
+	                customer = new Customer();
+//	              customer = setCommonCustomerInformation(request, customer);
 
-				customer.setLogin(email);
-				customer.setPassword(securityUtil.generatePassword());
-				customer.setEmail(email);
-				customer.setFirstname(firstName);
-				customer.setLastname(lastName);
-				if(StringUtils.isNotEmpty(gender)){
-					customer.setGender(gender);
-				}
-				
-				customer.setNetworkOrigin(CustomerNetworkOrigin.WINDOWS_LIVE.getPropertyKey());
-				
-				CustomerAttribute attribute = new CustomerAttribute();
-				AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
-				attribute.setAttributeDefinition(attributeDefinition);
-				String screenName = "";
-				if(StringUtils.isNotEmpty(lastName)){
-					if(StringUtils.isNotEmpty(lastName)){
-						screenName = lastName;
-						if(screenName.length() > 1){
-							screenName = screenName.substring(0, 1);
-						}
-						if(!screenName.endsWith(".")){
-							screenName = screenName + ". ";
-						}
-					}
-				}
-				screenName = screenName + firstName;
-				attribute.setShortStringValue(screenName);
-				customer.getAttributes().add(attribute);
-				
-				if(StringUtils.isNotEmpty(locale)){
-					customer.setDefaultLocale(locale);
-				}
-				
-				// Save the new customer
-				customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
-				
-		        // Save the email confirmation
-		        webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
+	                customer.setLogin(email);
+	                customer.setPassword(securityUtil.generatePassword());
+	                customer.setEmail(email);
+	                customer.setFirstname(firstName);
+	                customer.setLastname(lastName);
+	                if(StringUtils.isNotEmpty(gender)){
+	                    customer.setGender(gender);
+	                }
+	                
+	                customer.setNetworkOrigin(CustomerNetworkOrigin.WINDOWS_LIVE.getPropertyKey());
+	                
+	                CustomerAttribute attribute = new CustomerAttribute();
+	                AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
+	                attribute.setAttributeDefinition(attributeDefinition);
+	                String screenName = "";
+	                if(StringUtils.isNotEmpty(lastName)){
+	                    if(StringUtils.isNotEmpty(lastName)){
+	                        screenName = lastName;
+	                        if(screenName.length() > 1){
+	                            screenName = screenName.substring(0, 1);
+	                        }
+	                        if(!screenName.endsWith(".")){
+	                            screenName = screenName + ". ";
+	                        }
+	                    }
+	                }
+	                screenName = screenName + firstName;
+	                attribute.setShortStringValue(screenName);
+	                customer.getAttributes().add(attribute);
+	                
+	                if(StringUtils.isNotEmpty(locale)){
+	                    customer.setDefaultLocale(locale);
+	                }
+	                
+	                // Save the new customer
+	                customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
+	                
+	                // Save the email confirmation
+	                webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
 
+	            }
+
+	            // Redirect to the edit page
+	            if(StringUtils.isNotEmpty(customer.getEmail())){
+	                
+	                // Login the new customer
+	                securityRequestUtil.authenticationCustomer(request, customer);
+	                
+	                // Update the customer session
+	                requestUtil.updateCurrentCustomer(request, customer);
+
+	                response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
+	            }
 			}
-
-			// Redirect to the edit page
-			if(StringUtils.isNotEmpty(customer.getEmail())){
-				
-				// Login the new customer
-				securityRequestUtil.authenticationCustomer(request, customer);
-				
-				// Update the customer session
-				requestUtil.updateCurrentCustomer(request, customer);
-
-				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
-			}
-			
 		}
 	}
 

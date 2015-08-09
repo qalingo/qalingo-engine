@@ -172,72 +172,74 @@ public class CallBackOAuthYahooController extends AbstractOAuthFrontofficeContro
             final String lastName = profile.getFamilyName();
             final String gender = profile.getGender();
             final String username = profile.getNickname();
-            Customer customer = customerService.getCustomerByLoginOrEmail(email);
+            
+            if(StringUtils.isNotEmpty(email)){
+                Customer customer = customerService.getCustomerByLoginOrEmail(email);
 
-            if(customer == null){
-                final Market currentMarket = requestData.getMarket();
-                final MarketArea currentMarketArea = requestData.getMarketArea();
-                
-                // CREATE A NEW CUSTOMER
-                customer = new Customer();
-//                customer = setCommonCustomerInformation(request, customer);
+                if(customer == null){
+                    final Market currentMarket = requestData.getMarket();
+                    final MarketArea currentMarketArea = requestData.getMarketArea();
+                    
+                    // CREATE A NEW CUSTOMER
+                    customer = new Customer();
+//                    customer = setCommonCustomerInformation(request, customer);
 
-                customer.setLogin(email);
-                customer.setPassword(securityUtil.generatePassword());
-                customer.setEmail(email);
-                customer.setFirstname(firstName);
-                customer.setLastname(lastName);
-                if (StringUtils.isNotEmpty(gender)) {
-                    customer.setGender(gender);
-                    if ("M".equals(gender)) {
-                        customer.setTitle("MR");
-                    } else if ("F".equals(gender)) {
-                        customer.setTitle("MME");
-                    }
-                }
-
-                customer.setNetworkOrigin(CustomerNetworkOrigin.YAHOO.getPropertyKey());
-
-                CustomerAttribute attribute = new CustomerAttribute();
-                AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
-                attribute.setAttributeDefinition(attributeDefinition);
-                String screenName = username;
-                if (StringUtils.isEmpty(screenName)) {
-                    if (StringUtils.isNotEmpty(lastName)) {
-                        if (StringUtils.isNotEmpty(lastName)) {
-                            screenName = lastName;
-                            if (screenName.length() > 1) {
-                                screenName = screenName.substring(0, 1);
-                            }
-                            if (!screenName.endsWith(".")) {
-                                screenName = screenName + ". ";
-                            }
+                    customer.setLogin(email);
+                    customer.setPassword(securityUtil.generatePassword());
+                    customer.setEmail(email);
+                    customer.setFirstname(firstName);
+                    customer.setLastname(lastName);
+                    if (StringUtils.isNotEmpty(gender)) {
+                        customer.setGender(gender);
+                        if ("M".equals(gender)) {
+                            customer.setTitle("MR");
+                        } else if ("F".equals(gender)) {
+                            customer.setTitle("MME");
                         }
                     }
-                    screenName = screenName + firstName;
+
+                    customer.setNetworkOrigin(CustomerNetworkOrigin.YAHOO.getPropertyKey());
+
+                    CustomerAttribute attribute = new CustomerAttribute();
+                    AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
+                    attribute.setAttributeDefinition(attributeDefinition);
+                    String screenName = username;
+                    if (StringUtils.isEmpty(screenName)) {
+                        if (StringUtils.isNotEmpty(lastName)) {
+                            if (StringUtils.isNotEmpty(lastName)) {
+                                screenName = lastName;
+                                if (screenName.length() > 1) {
+                                    screenName = screenName.substring(0, 1);
+                                }
+                                if (!screenName.endsWith(".")) {
+                                    screenName = screenName + ". ";
+                                }
+                            }
+                        }
+                        screenName = screenName + firstName;
+                    }
+                    attribute.setShortStringValue(screenName);
+                    customer.getAttributes().add(attribute);
+
+                    // Save the new customer
+                    customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
+                    
+                    // Save the email confirmation
+                    webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
                 }
-                attribute.setShortStringValue(screenName);
-                customer.getAttributes().add(attribute);
 
-                // Save the new customer
-                customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
-                
-                // Save the email confirmation
-                webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
+                // Redirect to the edit page
+                if (StringUtils.isNotEmpty(customer.getEmail())) {
+
+                    // Login the new customer
+                    securityRequestUtil.authenticationCustomer(request, customer);
+
+                    // Update the customer session
+                    requestUtil.updateCurrentCustomer(request, customer);
+
+                    response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
+                }
             }
-
-            // Redirect to the edit page
-            if (StringUtils.isNotEmpty(customer.getEmail())) {
-
-                // Login the new customer
-                securityRequestUtil.authenticationCustomer(request, customer);
-
-                // Update the customer session
-                requestUtil.updateCurrentCustomer(request, customer);
-
-                response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
-            }
-
         }
     }
 
