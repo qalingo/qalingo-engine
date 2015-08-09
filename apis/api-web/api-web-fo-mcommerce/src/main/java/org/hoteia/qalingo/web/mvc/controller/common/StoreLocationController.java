@@ -73,7 +73,7 @@ public class StoreLocationController extends AbstractMCommerceController {
         if(geolocData != null){
             String distance = getDistance();
             List<Store> stores = new ArrayList<Store>();
-            List<GeolocatedStore> geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), distance, 100);
+            List<GeolocatedStore> geolocatedStores = retailerService.findB2CStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), distance, 100);
             if(geolocatedStores != null){
                 for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
                     GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
@@ -83,7 +83,7 @@ public class StoreLocationController extends AbstractMCommerceController {
             } else {
                 // TRY FIRST LONG DISTANCE
                 Integer newDistance = Integer.parseInt(distance) * 2;
-                geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), newDistance.toString(), 100);
+                geolocatedStores = retailerService.findB2CStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), newDistance.toString(), 100);
                 if(geolocatedStores != null){
                     for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
                         GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
@@ -93,7 +93,7 @@ public class StoreLocationController extends AbstractMCommerceController {
                 } else {
                     // TRY SECOND LONG DISTANCE
                     newDistance = newDistance * 2;
-                    geolocatedStores = retailerService.findStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), newDistance.toString(), 100);
+                    geolocatedStores = retailerService.findB2CStoresByGeolocAndCountry(marketArea.getGeolocCountryCode(), geolocData.getLatitude(), geolocData.getLongitude(), newDistance.toString(), 100);
                     if(geolocatedStores != null){
                         for (Iterator<GeolocatedStore> iterator = geolocatedStores.iterator(); iterator.hasNext();) {
                             GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
