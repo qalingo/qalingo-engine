@@ -241,6 +241,17 @@ public class UserDao extends AbstractGenericDao {
         return company;
     }
     
+    public Company findCompanyByAddress(final String address, Object... params) {
+        Criteria criteria = createDefaultCriteria(Company.class);
+        FetchPlan fetchPlan = handleCompanySpecificFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("address1", address));
+        Company company = (Company) criteria.uniqueResult();
+        if(company != null){
+            company.setFetchPlan(fetchPlan);
+        }
+        return company;
+    }
+    
     public Long getMaxCompanyId() {
         Criteria criteria = createDefaultCriteria(Company.class);
         criteria.setProjection(Projections.max("id"));
