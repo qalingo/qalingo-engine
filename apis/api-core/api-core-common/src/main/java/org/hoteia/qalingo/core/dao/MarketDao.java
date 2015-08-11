@@ -247,6 +247,18 @@ public class MarketDao extends AbstractGenericDao {
 		return marketArea;
 	}
 
+    public List<MarketArea> getMarketAreaByGeolocCountryCode(final String countryCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
+
+        handleSpecificFetchModeMarketArea(criteria, params);
+
+        criteria.add(Restrictions.eq("geolocCountryCode", countryCode));
+        
+        @SuppressWarnings("unchecked")
+        List<MarketArea> marketAreas = criteria.list();
+        return marketAreas;
+    }
+    
     public List<MarketArea> getMarketAreaOpenedByGeolocCountryCode(final String countryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
 
