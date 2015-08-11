@@ -30,7 +30,7 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 	@RequestMapping(BoUrls.CHANGE_LANGUAGE_URL)
 	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, false, requestData);
+        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, true, requestData);
         RedirectView redirectView = new RedirectView(redirectUrl);
         redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
@@ -39,7 +39,7 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 	@RequestMapping(BoUrls.CHANGE_CONTEXT_URL)
 	public ModelAndView changeContext(final HttpServletRequest request) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, false, requestData);
+        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, true, requestData);
         RedirectView redirectView = new RedirectView(redirectUrl);
         redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
