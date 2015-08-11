@@ -280,6 +280,13 @@ public class Company extends AbstractEntity<Company> {
         return users;
     }
 
+    public User getDefaultUser() {
+        if(users != null && Hibernate.isInitialized(users)){
+            return users.iterator().next();
+        }
+        return null;
+    }
+    
     public void addUser(User user) {
         if(this.users != null){
             this.users.add(user);
