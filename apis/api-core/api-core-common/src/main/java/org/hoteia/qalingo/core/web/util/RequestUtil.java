@@ -283,6 +283,8 @@ public class RequestUtil {
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
                         }
+                        newMarketArea = marketService.getMarketAreaByCode(newMarketArea.getCode());
+                        
                         engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, newMarketArea);
                         marketArea = engineEcoSession.getCurrentMarketArea();
                         updateCurrentTheme(request, newMarketArea.getTheme());
@@ -485,6 +487,8 @@ public class RequestUtil {
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
                         }
+                        newMarketArea = marketService.getMarketAreaByCode(newMarketArea.getCode());
+
                         engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, newMarketArea);
                         updateCurrentTheme(request, newMarketArea.getTheme());
 

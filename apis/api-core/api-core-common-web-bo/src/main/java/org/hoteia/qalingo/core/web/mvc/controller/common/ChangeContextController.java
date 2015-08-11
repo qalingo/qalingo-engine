@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.controller.common;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,16 +30,16 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 	@RequestMapping(BoUrls.CHANGE_LANGUAGE_URL)
 	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, true, requestData);
+        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, false, requestData);
         RedirectView redirectView = new RedirectView(redirectUrl);
         redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
 	}
 	
 	@RequestMapping(BoUrls.CHANGE_CONTEXT_URL)
-	public ModelAndView changeContext(final HttpServletRequest request, final Model model) throws Exception {
+	public ModelAndView changeContext(final HttpServletRequest request) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, true, requestData);
+        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, false, requestData);
         RedirectView redirectView = new RedirectView(redirectUrl);
         redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
@@ -49,7 +47,6 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 
     protected String getTargetUrl(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        final Locale locale = requestData.getLocale();
         String fallbackUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestData);
         final String currentRequestUrl = requestUtil.getRequestUrlAfterChangeContext(request, fallbackUrl);
         String currentRequestUri = currentRequestUrl.replace(request.getContextPath(), "");
@@ -58,18 +55,25 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
         }
         String[] uriSegments = currentRequestUri.toString().split("/");
         String url = "";
-        int uriSegmentCount = 4;
-        String seoSegmentMain = urlService.getSeoSegmentMain(locale, true);
-        if (StringUtils.isNotEmpty(seoSegmentMain)) {
-            // ALSO REMOVE DEFAULT SEO SEGMENT
-            uriSegmentCount++;
+        int uriSegmentCount = 0;
+        String seoSegmentMain = backofficeUrlService.getFullPrefixUrl(requestData, true);
+        if (seoSegmentMain.startsWith("/")) {
+            seoSegmentMain = seoSegmentMain.substring(1, seoSegmentMain.length());
         }
-        if (uriSegments.length > uriSegmentCount) {
-            // SEO URL : Keep the last part
-            int uriSegmentIt = uriSegmentCount + 1;
-            for (int i = uriSegmentIt; i < uriSegments.length; i++) {
-                url = url + "/" + uriSegments[i];
+        if (StringUtils.isNotEmpty(seoSegmentMain)) {
+            String[] seoSegmentSegments = seoSegmentMain.split("/");
+            // ALSO REMOVE DEFAULT SEO SEGMENT
+            for (int i = 0; i < seoSegmentSegments.length; i++) {
+                uriSegmentCount++;
             }
+        }
+        // SEO URL : Keep the last part
+        int uriSegmentIt = uriSegmentCount + 1;
+        for (int i = uriSegmentIt; i < uriSegments.length; i++) {
+            url = url + "/" + uriSegments[i];
+        }
+        if (StringUtils.isEmpty(url)) {
+            url = currentRequestUrl;
         }
         return url;
     }
