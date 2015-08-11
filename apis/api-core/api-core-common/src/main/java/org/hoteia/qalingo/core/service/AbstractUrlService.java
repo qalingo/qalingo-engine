@@ -134,7 +134,7 @@ public abstract class AbstractUrlService {
         return CoreUtil.handleSeoSpecificEscape(seoSegment, isEncoded);
     }
     
-    protected String getFullPrefixUrl(final RequestData requestData, boolean isEncoded) throws Exception {
+    public String getFullPrefixUrl(final RequestData requestData, boolean isEncoded) throws Exception {
         String fullPrefixUrl = getSeoPrefixUrl(requestData, isEncoded) + "/";
         return fullPrefixUrl;
     }

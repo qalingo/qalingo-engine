@@ -485,29 +485,29 @@ public class RequestUtil {
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
                         }
-                        engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, marketArea);
+                        engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, newMarketArea);
                         updateCurrentTheme(request, newMarketArea.getTheme());
 
                         // LOCALE
-                        Localization localization = marketArea.getLocalization(localizationCode);
+                        Localization localization = newMarketArea.getLocalization(localizationCode);
                         if (localization == null) {
-                            localization = marketArea.getDefaultLocalization();
+                            localization = newMarketArea.getDefaultLocalization();
                         }
                         updateCurrentLocalization(request, engineBoSession, localization);
 
                         // RETAILER
-                        Retailer retailer = marketArea.getRetailer(retailerCode);
+                        Retailer retailer = newMarketArea.getRetailer(retailerCode);
                         if (retailer == null) {
-                            Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                            Retailer defaultRetailer = newMarketArea.getDefaultRetailer();
                             engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
                         } else {
                             engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
                         }
                         
                         // CURRENCY
-                        CurrencyReferential currency = marketArea.getCurrency(currencyCode);
+                        CurrencyReferential currency = newMarketArea.getCurrency(currencyCode);
                         if (currency == null) {
-                            CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                            CurrencyReferential defaultCurrency = newMarketArea.getDefaultCurrency();
                             engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, defaultCurrency);
                         } else {
                             engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, currency);
