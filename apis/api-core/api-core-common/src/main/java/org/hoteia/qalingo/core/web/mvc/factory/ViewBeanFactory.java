@@ -591,8 +591,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         marketAreaViewBean.setLatitude(marketArea.getLatitude());
         marketAreaViewBean.setLongitude(marketArea.getLongitude());
 
-        marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestData));
-        marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        RequestData requestDataChangecontext = new RequestData();
+        BeanUtils.copyProperties(requestData, requestDataChangecontext);
+        requestDataChangecontext.setMarketArea(marketArea);
+        marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+        marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
         return marketAreaViewBean;
     }
@@ -658,7 +661,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
         requestDataChangecontext.setMarketAreaLocalization(localization);
-        localizationViewBean.setChangeContextUrl(urlService.buildChangeLanguageUrl(requestDataChangecontext));
+        localizationViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
         localizationViewBean.setChangeBackofficeLanguageUrl(urlService.buildChangeBackofficeLanguageUrl(requestDataChangecontext, localization));
         localizationViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 

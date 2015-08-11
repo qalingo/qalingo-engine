@@ -152,67 +152,69 @@ public class CallBackOAuthGoogleAccountController extends AbstractOAuthFrontoffi
             final String lastName = userPojo.getLastName();
             final String gender = userPojo.getGender();
             final String username = userPojo.getNickname();
-            Customer customer = customerService.getCustomerByLoginOrEmail(email);
+            
+            if(StringUtils.isNotEmpty(email)){
+                Customer customer = customerService.getCustomerByLoginOrEmail(email);
 
-            if(customer == null){
-                final Market currentMarket = requestData.getMarket();
-                final MarketArea currentMarketArea = requestData.getMarketArea();
-                
-                // CREATE A NEW CUSTOMER
-                customer = new Customer();
-//                customer = setCommonCustomerInformation(request, customer);
+                if(customer == null){
+                    final Market currentMarket = requestData.getMarket();
+                    final MarketArea currentMarketArea = requestData.getMarketArea();
+                    
+                    // CREATE A NEW CUSTOMER
+                    customer = new Customer();
+//                    customer = setCommonCustomerInformation(request, customer);
 
-                customer.setLogin(email);
-                customer.setPassword(securityUtil.generatePassword());
-                customer.setEmail(email);
-                customer.setFirstname(firstName);
-                customer.setLastname(lastName);
-                if (StringUtils.isNotEmpty(gender)) {
-                    customer.setGender(gender);
-                }
+                    customer.setLogin(email);
+                    customer.setPassword(securityUtil.generatePassword());
+                    customer.setEmail(email);
+                    customer.setFirstname(firstName);
+                    customer.setLastname(lastName);
+                    if (StringUtils.isNotEmpty(gender)) {
+                        customer.setGender(gender);
+                    }
 
-                customer.setNetworkOrigin(CustomerNetworkOrigin.GOOGLE_ACCOUNT.getPropertyKey());
+                    customer.setNetworkOrigin(CustomerNetworkOrigin.GOOGLE_ACCOUNT.getPropertyKey());
 
-                CustomerAttribute attribute = new CustomerAttribute();
-                AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
-                attribute.setAttributeDefinition(attributeDefinition);
-                String screenName = username;
-                if (StringUtils.isEmpty(screenName)) {
-                    if (StringUtils.isNotEmpty(lastName)) {
+                    CustomerAttribute attribute = new CustomerAttribute();
+                    AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
+                    attribute.setAttributeDefinition(attributeDefinition);
+                    String screenName = username;
+                    if (StringUtils.isEmpty(screenName)) {
                         if (StringUtils.isNotEmpty(lastName)) {
-                            screenName = lastName;
-                            if (screenName.length() > 1) {
-                                screenName = screenName.substring(0, 1);
-                            }
-                            if (!screenName.endsWith(".")) {
-                                screenName = screenName + ". ";
+                            if (StringUtils.isNotEmpty(lastName)) {
+                                screenName = lastName;
+                                if (screenName.length() > 1) {
+                                    screenName = screenName.substring(0, 1);
+                                }
+                                if (!screenName.endsWith(".")) {
+                                    screenName = screenName + ". ";
+                                }
                             }
                         }
+                        screenName = screenName + firstName;
                     }
-                    screenName = screenName + firstName;
+                    attribute.setShortStringValue(screenName);
+                    customer.getAttributes().add(attribute);
+
+                    // Save the new customer
+                    customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
+                    
+                    // Save the email confirmation
+                    webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
                 }
-                attribute.setShortStringValue(screenName);
-                customer.getAttributes().add(attribute);
 
-                // Save the new customer
-                customer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, customer);
-                
-                // Save the email confirmation
-                webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);
+                // Redirect to the edit page
+                if (StringUtils.isNotEmpty(customer.getEmail())) {
+
+                    // Login the new customer
+                    securityRequestUtil.authenticationCustomer(request, customer);
+
+                    // Update the customer session
+                    requestUtil.updateCurrentCustomer(request, customer);
+
+                    response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
+                }
             }
-
-            // Redirect to the edit page
-            if (StringUtils.isNotEmpty(customer.getEmail())) {
-
-                // Login the new customer
-                securityRequestUtil.authenticationCustomer(request, customer);
-
-                // Update the customer session
-                requestUtil.updateCurrentCustomer(request, customer);
-
-                response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
-            }
-
         }
     }
 
