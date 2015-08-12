@@ -128,7 +128,7 @@ public class UserService {
         return userDao.getCompanyByName(companyName, params);
     }
     
-    public Company findCompanyByAddress(final String address, Object... params) {
+    public List<Company> findCompanyByAddress(final String address, Object... params) {
         return userDao.findCompanyByAddress(address, params);
     }
     
