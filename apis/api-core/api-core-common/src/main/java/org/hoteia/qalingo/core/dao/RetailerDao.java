@@ -29,8 +29,6 @@ import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.RetailerAddress;
-import org.hoteia.qalingo.core.domain.RetailerAttribute;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
@@ -492,56 +490,21 @@ public class RetailerDao extends AbstractGenericDao {
         return stores;
     }
     
-    public List<GeolocatedStore> findB2CStoresByCountry(final String countryCode, int maxResults, Object... params) {
-        String queryString = "SELECT store.id, store.code " +
-                "FROM teco_store store " +
-                "WHERE country_code = :countryCode " +
-                "AND is_b2c = :b2c " +
-                "AND is_active = :active ";
-        Query query = createNativeQuery(queryString);
-        query.setParameter("countryCode", countryCode);
-        query.setParameter("b2c", true);
-        query.setParameter("active", true);
-        query.setMaxResults(maxResults);
-        query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE);
+    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.add( Restrictions.eq("countryCode", countryCode));
+        criteria.add( Restrictions.like("type", "%SHOP%"));
         
+        criteria.addOrder(Order.asc("name"));
+
+        criteria.setProjection(Projections.property("id"));
+
         @SuppressWarnings("unchecked")
-        List<Object[]> objects = query.getResultList();
-        List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
-        for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
-            Object[] object = iterator.next();
-            GeolocatedStore geolocatedStore = new GeolocatedStore();
-            geolocatedStore.setId((Long)object[0]);
-            geolocatedStore.setCode((String)object[1]);
-            stores.add(geolocatedStore);
-        }
-        return stores;
-    }
-    
-    public List<GeolocatedStore> findB2BStoresByCountry(final String countryCode, int maxResults, Object... params) {
-        String queryString = "SELECT store.id, store.code " +
-                "FROM teco_store store " +
-                "WHERE country_code = :countryCode " +
-                "AND is_b2c = :b2c " +
-                "AND is_active = :active ";
-        Query query = createNativeQuery(queryString);
-        query.setParameter("countryCode", countryCode);
-        query.setParameter("b2b", true);
-        query.setParameter("active", true);
-        query.setMaxResults(maxResults);
-        query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE);
-        
-        @SuppressWarnings("unchecked")
-        List<Object[]> objects = query.getResultList();
-        List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
-        for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
-            Object[] object = iterator.next();
-            GeolocatedStore geolocatedStore = new GeolocatedStore();
-            geolocatedStore.setId((Long)object[0]);
-            geolocatedStore.setCode((String)object[1]);
-            stores.add(geolocatedStore);
-        }
-        return stores;
+        List<Long> storeIds = criteria.list();
+        return storeIds;
     }
     
     public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {

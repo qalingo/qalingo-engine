@@ -259,14 +259,8 @@ public class RetailerService {
         return retailerDao.findStoresByRetailerCode(retailerCode, params);
     }
     
-    public List<GeolocatedStore> findB2CStoresByCountry(final String countryCode, int maxResults, Object... params) {
-        List<GeolocatedStore> geolocatedStores = retailerDao.findB2CStoresByCountry(countryCode, maxResults, params);
-        return geolocatedStores;
-    }
-    
-    public List<GeolocatedStore> findB2BStoresByCountry(final String countryCode, int maxResults, Object... params) {
-        List<GeolocatedStore> geolocatedStores = retailerDao.findB2BStoresByCountry(countryCode, maxResults, params);
-        return geolocatedStores;
+    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
+        return retailerDao.findShopStoresByCountryCode(countryCode, params);
     }
     
     public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
