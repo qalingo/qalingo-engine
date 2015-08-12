@@ -254,22 +254,30 @@ public class GeolocService {
     public String encodeGoogleAddress(final String address, final String postalCode, final String city, final String country) {
         StringBuffer encode  = new StringBuffer();
         if(StringUtils.isNotEmpty(address)){
-            encode.append(address.replace(" ", "+"));
+            encode.append(cleanGoogleAddress(address));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(city)){
-            encode.append(city.replace(" ", "+"));
+            encode.append(cleanGoogleAddress(city));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(postalCode)){
-            encode.append(postalCode.replace(" ", "+"));
+            encode.append(cleanGoogleAddress(postalCode));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(country)){
-            encode.append(country.replace(" ", "+"));
+            encode.append(cleanGoogleAddress(country));
             encode.append(",");
         }
         return encode.toString();
+    }
+    
+    protected String cleanGoogleAddress(String value){
+        if(StringUtils.isNotEmpty(value)){
+            value = value.replace(" ", "+");
+            value = value.replace("\"", "");
+        }
+        return value;
     }
     
     // GEOLOC CITY
