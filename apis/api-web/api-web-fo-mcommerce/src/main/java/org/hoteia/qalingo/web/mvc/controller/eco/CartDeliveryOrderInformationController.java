@@ -89,7 +89,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         }
 
         if (currentCart.getDeliveryMethods() == null) {
-            addErrorMessage(request, "DELIVERY");
+            addSessionErrorMessage(request, "DELIVERY");
             return displayOrderDelivery(request, response);
         }
 

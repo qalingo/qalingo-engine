@@ -217,7 +217,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		if (StringUtils.isEmpty(token)) {
 			// ADD ERROR MESSAGE
 			String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_token_is_wrong", locale);
-			addErrorMessage(request, errorMessage);
+			addSessionErrorMessage(request, errorMessage);
 		}
 		
 		String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL);
@@ -225,7 +225,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		if (customer == null) {
 			// ADD ERROR MESSAGE
 			String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_email_or_login_are_wrong", locale);
-			addErrorMessage(request, errorMessage);
+			addSessionErrorMessage(request, errorMessage);
 		}
 		
 		// Save customer as active
@@ -233,7 +233,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 
 		// ADD SUCCESS MESSAGE
 		String successMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "form_new_account_validation_success_message", locale);
-		addSuccessMessage(request, successMessage);
+		addSessionSuccessMessage(request, successMessage);
 
 		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));

@@ -184,10 +184,10 @@ public class RetailerController extends AbstractBusinessBackofficeController {
             Retailer savedRetailer = webBackofficeService.createOrUpdateRetailer(retailer, retailerForm);
             
             if(retailer == null){
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "create_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "create_success_message", locale));
                 
             } else {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "update_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "update_success_message", locale));
             }
             final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), savedRetailer);
             return new ModelAndView(new RedirectView(urlRedirect));

@@ -96,6 +96,12 @@ public abstract class AbstractQalingoController {
 			model.addAttribute(Constants.ERROR_MESSAGE, errorMessage);
 			request.getSession().removeAttribute(Constants.ERROR_MESSAGE);
 		}
+        // WHARNING MESSAGE
+        String warningMessage = (String) request.getSession().getAttribute(Constants.WARNING_MESSAGE);
+        if(StringUtils.isNotEmpty(warningMessage)){
+            model.addAttribute(Constants.WARNING_MESSAGE, warningMessage);
+            request.getSession().removeAttribute(Constants.WARNING_MESSAGE);
+        }
 		// INFO MESSAGE
 		String infoMessage = (String) request.getSession().getAttribute(Constants.INFO_MESSAGE);
 		if(StringUtils.isNotEmpty(infoMessage)){
@@ -224,7 +230,7 @@ public abstract class AbstractQalingoController {
 	 * @throws Exception 
 	 * 
 	 */
-	protected void addErrorMessage(HttpServletRequest request, String message) throws Exception {
+	protected void addSessionErrorMessage(HttpServletRequest request, String message) throws Exception {
 		request.getSession().setAttribute(Constants.ERROR_MESSAGE, message);
 	}
 	
@@ -232,7 +238,7 @@ public abstract class AbstractQalingoController {
      * @throws Exception 
      * 
      */
-    protected void addWarningMessage(HttpServletRequest request, String message) throws Exception {
+    protected void addSessionWarningMessage(HttpServletRequest request, String message) throws Exception {
         request.getSession().setAttribute(Constants.WARNING_MESSAGE, message);
     }
     
@@ -240,7 +246,7 @@ public abstract class AbstractQalingoController {
 	 * @throws Exception 
 	 * 
 	 */
-	protected void addInfoMessage(HttpServletRequest request, String message) throws Exception {
+	protected void addSessionInfoMessage(HttpServletRequest request, String message) throws Exception {
 		request.getSession().setAttribute(Constants.INFO_MESSAGE, message);
 	}
 	
@@ -248,10 +254,43 @@ public abstract class AbstractQalingoController {
 	 * @throws Exception 
 	 * 
 	 */
-	protected void addSuccessMessage(HttpServletRequest request, String message) throws Exception {
+	protected void addSessionSuccessMessage(HttpServletRequest request, String message) throws Exception {
 		request.getSession().setAttribute(Constants.SUCCESS_MESSAGE, message);
 	}
 
+	   
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected void addRequestErrorMessage(HttpServletRequest request, String message) throws Exception {
+        request.setAttribute(Constants.ERROR_MESSAGE, message);
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected void addRequestWarningMessage(HttpServletRequest request, String message) throws Exception {
+        request.setAttribute(Constants.WARNING_MESSAGE, message);
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected void addRequestInfoMessage(HttpServletRequest request, String message) throws Exception {
+        request.setAttribute(Constants.INFO_MESSAGE, message);
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected void addRequestSuccessMessage(HttpServletRequest request, String message) throws Exception {
+        request.setAttribute(Constants.SUCCESS_MESSAGE, message);
+    }
+    
     protected String getCommonMessage(ScopeCommonMessage scope, String key, Locale locale) {
         return getCommonMessage(scope.getPropertyKey(), key, locale);
     }

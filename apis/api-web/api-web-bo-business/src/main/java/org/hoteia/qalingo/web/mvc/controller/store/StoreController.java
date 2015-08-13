@@ -182,10 +182,10 @@ public class StoreController extends AbstractBusinessBackofficeController{
             Store savedStore = webBackofficeService.createOrUpdateStore(retailer, store, storeForm);
             
             if(store == null){
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "create_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "create_success_message", locale));
                 
             } else {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "update_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "update_success_message", locale));
             }
             final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.STORE_DETAILS, requestUtil.getRequestData(request), savedStore);
             return new ModelAndView(new RedirectView(urlRedirect));

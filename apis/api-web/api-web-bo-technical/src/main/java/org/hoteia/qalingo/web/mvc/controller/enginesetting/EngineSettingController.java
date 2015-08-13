@@ -143,11 +143,11 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
             webBackofficeService.createOrUpdateEngineSetting(engineSetting, engineSettingForm);
             
             if (engineSetting == null) {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "create_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "create_success_message", locale));
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData);
                 return new ModelAndView(new RedirectView(urlRedirect));
             } else {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "update_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "update_success_message", locale));
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting);
                 return new ModelAndView(new RedirectView(urlRedirect));
             }

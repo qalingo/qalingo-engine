@@ -191,13 +191,13 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
             try {
 //              CatalogCategoryVirtual catalogCategoryVirtual = new CatalogCategoryVirtual();
                 CatalogCategoryVirtual catalogCategoryVirtual = webBackofficeService.updateCatalogCategory(requestData, currentMarketArea, currentRetailer, currentLocalization, catalogCategory, catalogCategoryForm);
-                addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.success.message", locale));
+                addSessionSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.success.message", locale));
                 
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, catalogCategoryVirtual);
                 return new ModelAndView(new RedirectView(urlRedirect));
                 
             } catch (UniqueConstraintCodeCategoryException e) {
-                addErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.error.message",  locale));
+                addSessionErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.error.message",  locale));
 
                 if(StringUtils.isNotEmpty(parentCatalogCategoryId)){
                     // CHIELD CATEGORY
@@ -237,13 +237,13 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
             try {
                 CatalogCategoryVirtual catalogCategoryVirtual = new CatalogCategoryVirtual();
                 CatalogCategoryVirtual savedCatalogCategory = webBackofficeService.createCatalogCategory(requestData, currentMarketArea, currentLocalization, parentCatalogCategory, catalogCategoryVirtual, catalogCategoryForm);
-                addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.add.success.message", locale));
+                addSessionSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.add.success.message", locale));
                 
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, savedCatalogCategory);
                 return new ModelAndView(new RedirectView(urlRedirect));
                 
             } catch (UniqueConstraintCodeCategoryException e) {
-                addErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.add.error.message", locale));
+                addSessionErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.add.error.message", locale));
                 
                 if(StringUtils.isNotEmpty(parentCatalogCategoryId)){
                     // CHIELD CATEGORY

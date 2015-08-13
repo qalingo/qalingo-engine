@@ -151,12 +151,12 @@ public class BrandCommentController extends AbstractMCommerceController {
                     
                 } else {
                     // WARNING
-                    addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged", locale));
+                    addSessionErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged", locale));
                     return displayProductCommentForm(request, brandCode, model, customerCommentForm);
                 }
             } else {
                 // WARNING
-                addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged", locale));
+                addSessionErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "customer_must_be_logged", locale));
                 return displayProductCommentForm(request, brandCode, model, customerCommentForm);
             }
         }
@@ -167,7 +167,7 @@ public class BrandCommentController extends AbstractMCommerceController {
 
         if (StringUtils.isEmpty(customerCommentForm.getComment()) && qualityOfService == 0 && ratioQualityPrice == 0 && priceScore == 0) {
             // WARNING
-            addErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "message_cant_be_empty", locale));
+            addSessionErrorMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "message_cant_be_empty", locale));
             return displayProductCommentForm(request, brandCode, model, customerCommentForm);
         }
 
@@ -210,7 +210,7 @@ public class BrandCommentController extends AbstractMCommerceController {
             productService.saveOrUpdateProductBrandCustomerComment(productCustomerComment);
         }
 
-        addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "comment_success_message", locale));
+        addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.COMMENT_VOTE, "comment_success_message", locale));
 
         final String urlRedirect = requestUtil.getLastProductDetailsRequestUrl(request);
         return new ModelAndView(new RedirectView(urlRedirect));

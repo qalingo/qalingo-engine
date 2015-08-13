@@ -112,7 +112,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         if (StringUtils.isEmpty(token)) {
             // ADD ERROR MESSAGE
             String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_token_is_wrong", locale);
-            addErrorMessage(request, errorMessage);
+            addSessionErrorMessage(request, errorMessage);
         }
         
         String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL);
@@ -120,7 +120,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         if (user == null) {
             // ADD ERROR MESSAGE
             String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_email_or_login_are_wrong", locale);
-            addErrorMessage(request, errorMessage);
+            addSessionErrorMessage(request, errorMessage);
         }
         
         // Save user as active
@@ -128,7 +128,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
 
         // ADD SUCCESS MESSAGE
         String successMessage = getSpecificMessage(ScopeWebMessage.USER, "form_new_account_validation_success_message", locale);
-        addSuccessMessage(request, successMessage);
+        addSessionSuccessMessage(request, successMessage);
 
         final String urlRedirect = backofficeUrlService.generateRedirectUrl(BoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));

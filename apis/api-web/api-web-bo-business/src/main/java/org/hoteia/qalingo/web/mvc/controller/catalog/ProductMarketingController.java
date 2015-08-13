@@ -158,11 +158,11 @@ public class ProductMarketingController extends AbstractBusinessBackofficeContro
             productMarketing = webBackofficeService.createOrUpdateProductMarketing(productMarketing, productMarketingForm);
             
             if (productMarketing == null) {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "create_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "create_success_message", locale));
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData);
                 return new ModelAndView(new RedirectView(urlRedirect));
             } else {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "update_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "update_success_message", locale));
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing);
                 return new ModelAndView(new RedirectView(urlRedirect));
             }

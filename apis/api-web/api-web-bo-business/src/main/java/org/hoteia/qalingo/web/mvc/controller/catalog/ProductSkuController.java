@@ -158,9 +158,9 @@ public class ProductSkuController extends AbstractBusinessBackofficeController {
             ProductSku savedProductSku = webBackofficeService.createOrUpdateProductSku(productSku, productSkuForm);
             
             if (productSku == null) {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_SKU, "create_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_SKU, "create_success_message", locale));
             } else {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_SKU, "update_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_SKU, "update_success_message", locale));
             }
             final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, savedProductSku);
             return new ModelAndView(new RedirectView(urlRedirect));

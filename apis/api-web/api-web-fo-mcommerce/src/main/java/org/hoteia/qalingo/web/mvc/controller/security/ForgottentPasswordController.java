@@ -109,7 +109,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		if (StringUtils.isEmpty(token)) {
 			// ADD ERROR MESSAGE
 			String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_token_is_wrong", locale);
-			addErrorMessage(request, errorMessage);
+			addSessionErrorMessage(request, errorMessage);
 		}
 		
 		String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL);
@@ -118,14 +118,14 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 			// ADD ERROR MESSAGE
 		    model.addAttribute(ModelConstants.AUTH_HAS_FAIL, true);
 		    String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_or_login_are_wrong", locale);
-			addErrorMessage(request, errorMessage);
+			addSessionErrorMessage(request, errorMessage);
 		}
 		
 		if (!customer.getCurrentCredential().getResetToken().equals(token)) {
 			// ADD ERROR MESSAGE
 		    model.addAttribute(ModelConstants.AUTH_HAS_FAIL, true);
 			String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_token_is_wrong", locale);
-			addErrorMessage(request, errorMessage);
+			addSessionErrorMessage(request, errorMessage);
 		}
 		
         overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RESET_PASSWORD.getKey());
@@ -181,7 +181,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		if (StringUtils.isEmpty(token)) {
 			// ADD ERROR MESSAGE
 			String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "reset_password_token_is_wrong", locale);
-			addErrorMessage(request, errorMessage);
+			addSessionErrorMessage(request, errorMessage);
 		}
 		
 		String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL);
@@ -189,7 +189,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		if (customer == null) {
 			// ADD ERROR MESSAGE
 			String errorMessage = getSpecificMessage(ScopeWebMessage.AUTH, "reset_password_login_or_email_are_wrong", locale);
-			addErrorMessage(request, errorMessage);
+			addSessionErrorMessage(request, errorMessage);
 		}
 		
 		// CANCEL TOKEN

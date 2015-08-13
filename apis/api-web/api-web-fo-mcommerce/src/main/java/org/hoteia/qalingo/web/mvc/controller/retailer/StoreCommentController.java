@@ -150,7 +150,7 @@ public class StoreCommentController extends AbstractMCommerceController {
 				&& ratioQualityPrice == 0 
 				&& priceScore == 0) {
 			// WARNING
-			addInfoMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_empty_warning_message",  locale));
+			addSessionInfoMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_empty_warning_message",  locale));
 			return displayCustomerCommentForm(request, storeCode, model, customerCommentForm);
 		}
 		
@@ -192,7 +192,7 @@ public class StoreCommentController extends AbstractMCommerceController {
 			retailerService.saveOrUpdateStoreCustomerComment(retailerCustomerComment);
 		}
 		
-		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_success_message",  locale));
+		addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "comment_form_success_message",  locale));
 		
 		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.STORE_DETAILS, requestUtil.getRequestData(request), store);
         return new ModelAndView(new RedirectView(urlRedirect));

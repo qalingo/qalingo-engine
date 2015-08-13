@@ -183,13 +183,13 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
 			try {
 //				CatalogCategoryMaster catalogCategoryMaster = new CatalogCategoryMaster();
 				webBackofficeService.updateCatalogCategory(requestData, currentMarketArea, currentRetailer, currentLocalization, catalogCategory, catalogCategoryForm);
-				addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.success.message", locale));
+				addSessionSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.success.message", locale));
 				
 				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory);;
 				return new ModelAndView(new RedirectView(urlRedirect));
 				
 			} catch (UniqueConstraintCodeCategoryException e) {
-				addErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.error.message",  locale));
+				addSessionErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.error.message",  locale));
 				
 				if(StringUtils.isNotEmpty(parentCatalogCategoryId)){
 					// CHIELD CATEGORY
@@ -229,13 +229,13 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
 			try {
 				CatalogCategoryMaster catalogCategoryMaster = new CatalogCategoryMaster();
 				CatalogCategoryMaster savedCatalogCategory = webBackofficeService.createCatalogCategory(requestData, currentMarketArea, currentLocalization, parentCatalogCategory, catalogCategoryMaster, catalogCategoryForm);
-				addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.add.success.message", locale));
+				addSessionSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.add.success.message", locale));
 				
 				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, savedCatalogCategory);
 				return new ModelAndView(new RedirectView(urlRedirect));
 				
 			} catch (UniqueConstraintCodeCategoryException e) {
-				addErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.add.error.message", locale));
+				addSessionErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.add.error.message", locale));
 				if(StringUtils.isNotEmpty(parentCatalogCategoryId)){
 					// CHIELD CATEGORY
 					initProductMasterCategoryModelAndView(request, modelAndView, null);

@@ -154,12 +154,12 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
             webBackofficeService.createOrUpdatePaymentGateway(requestData.getMarketArea(), paymentGateway, paymentGatewayForm);
             
             if (paymentGateway == null) {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PAYMENT_GATEWAY, "create_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PAYMENT_GATEWAY, "create_success_message", locale));
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_LIST, requestUtil.getRequestData(request));
                 return new ModelAndView(new RedirectView(urlRedirect));
                 
             } else {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PAYMENT_GATEWAY, "update_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PAYMENT_GATEWAY, "update_success_message", locale));
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_DETAILS, requestUtil.getRequestData(request), paymentGateway);
                 return new ModelAndView(new RedirectView(urlRedirect));
             }

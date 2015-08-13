@@ -139,9 +139,9 @@ public class TaxController extends AbstractBusinessBackofficeController {
             Tax savedTax = webBackofficeService.createOrUpdateTax(tax, taxForm);
             
             if (tax == null) {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.TAX, "create_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.TAX, "create_success_message", locale));
             } else {
-                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.TAX, "update_success_message", locale));
+                addSessionSuccessMessage(request, getSpecificMessage(ScopeWebMessage.TAX, "update_success_message", locale));
             }
             final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.TAX_DETAILS, requestData, savedTax);
             return new ModelAndView(new RedirectView(urlRedirect));

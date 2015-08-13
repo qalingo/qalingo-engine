@@ -82,7 +82,7 @@ public class ContactController extends AbstractMCommerceController {
         	return displayContactForm(request, model, contactForm);
         }
 
-        addSuccessMessage(request, getCommonMessage(ScopeCommonMessage.CONTACT, "form_success_message", locale));
+        addSessionSuccessMessage(request, getCommonMessage(ScopeCommonMessage.CONTACT, "form_success_message", locale));
 
         return modelAndView;
 	}
