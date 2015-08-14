@@ -96,7 +96,7 @@ public abstract class AbstractQalingoController {
 			model.addAttribute(Constants.ERROR_MESSAGE, errorMessage);
 			request.getSession().removeAttribute(Constants.ERROR_MESSAGE);
 		}
-        // WHARNING MESSAGE
+        // WARNING MESSAGE
         String warningMessage = (String) request.getSession().getAttribute(Constants.WARNING_MESSAGE);
         if(StringUtils.isNotEmpty(warningMessage)){
             model.addAttribute(Constants.WARNING_MESSAGE, warningMessage);

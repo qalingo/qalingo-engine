@@ -105,10 +105,13 @@ public class CallBackOAuthFacebookController extends AbstractOAuthFrontofficeCon
                     .build();
 				    
 					final String code = request.getParameter("code");
+					
+					final String informationUrl = FACEBOOK_ME_URL + "?fields=id,name,first_name,last_name,link,website,gender,locale,about,email,hometown,location";
+					
 					if(StringUtils.isNotEmpty(code)){
 						Verifier verifier = new Verifier(code);
 						Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
-						OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, FACEBOOK_ME_URL);
+						OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, informationUrl);
 					    service.signRequest(accessToken, oauthRequest);
 					    Response oauthResponse = oauthRequest.send();
 					    int responseCode = oauthResponse.getCode();
