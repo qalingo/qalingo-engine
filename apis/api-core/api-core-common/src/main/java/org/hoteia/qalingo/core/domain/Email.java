@@ -33,6 +33,7 @@ public class Email extends AbstractEntity<Email> {
 	private static final long serialVersionUID = 4668053374460238571L;
 
 	public static final String EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION					= "NEW_ACCOUNT_CONFIRMATION";
+    public static final String EMAIl_TYPE_NEW_ACCOUNT_NOTIFICATION                  = "NEW_ACCOUNT_NOTIFICATION";
 	public static final String EMAIl_TYPE_FORGOTTEN_PASSWORD						= "FORGOTTEN_PASSWORD";
 	public static final String EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION				= "RESET_PASSWORD_CONFIRMATION";
 	public static final String EMAIl_TYPE_CONTACT									= "CONTACT";
