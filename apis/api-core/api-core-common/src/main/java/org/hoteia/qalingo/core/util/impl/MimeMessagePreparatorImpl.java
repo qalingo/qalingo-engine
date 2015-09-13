@@ -23,8 +23,6 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import com.google.api.client.util.Base64;
-
 public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Serializable {
 
 	/**
@@ -145,6 +143,8 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 
 	public void prepare(MimeMessage message) throws Exception {
 
+	    message.addHeader("List-Unsubscribe", "<" + getUnsubscribeUrlOrEmail() + ">");
+
 		// AUTO unsubscribe for Gmail/Hotmail etc : RFC2369
         if (StringUtils.isNotEmpty(getUnsubscribeUrlOrEmail())) {
             message.addHeader("List-Unsubscribe", "<" + getUnsubscribeUrlOrEmail() + ">");
@@ -175,7 +175,7 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
             BodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setHeader("Content-Type", "text/plain; charset=\"UTF-8\"");
             textBodyPart.setHeader("Content-Transfer-Encoding", "base64");
-            textBodyPart.setContent(getPlainTextContent(), "text/plain");
+            textBodyPart.setContent(getPlainTextContent(), "text/plain; charset=\"UTF-8\"");
             mimeMultipart.addBodyPart(textBodyPart);
         }
 
@@ -183,7 +183,7 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
             BodyPart htmlBodyPart = new MimeBodyPart();
             htmlBodyPart.setHeader("Content-Type", "text/html; charset=\"UTF-8\"");
             htmlBodyPart.setHeader("Content-Transfer-Encoding", "base64");
-            htmlBodyPart.setContent(getHtmlContent(), "text/html");
+            htmlBodyPart.setContent(getHtmlContent(), "text/html; charset=\"UTF-8\"");
             mimeMultipart.addBodyPart(htmlBodyPart);
         }
 

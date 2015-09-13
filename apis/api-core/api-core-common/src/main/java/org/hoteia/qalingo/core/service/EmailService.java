@@ -157,8 +157,6 @@ public class EmailService {
             mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-html-content.vm", model));
             mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-text-content.vm", model));
             
-            mimeMessagePreparator.getHtmlContent();
-            
             email = new Email();
             email.setType(Email.EMAIl_TYPE_ADMIN_NOTIFICATION);
             email.setStatus(Email.EMAIl_STATUS_PENDING);
@@ -212,8 +210,6 @@ public class EmailService {
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.contact.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-text-content.vm", model));
-        	
-        	mimeMessagePreparator.getHtmlContent();
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_CONTACT);
