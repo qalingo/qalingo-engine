@@ -71,6 +71,10 @@ public class UserService {
 	public User saveOrUpdateUser(User user) {
 	    return userDao.saveOrUpdateUser(user);
 	}
+	
+    public User updateUser(User user) {
+        return userDao.updateUser(user);
+    }
 
 	public void deleteUser(User user) {
 		userDao.deleteUser(user);
@@ -146,6 +150,10 @@ public class UserService {
 
     public Company saveOrUpdateCompany(Company company) {
         return userDao.saveOrUpdateCompany(company);
+    }
+    
+    public Company updateCompany(Company company) {
+        return userDao.updateCompany(company);
     }
 
     public void deleteCompany(Company company) {

@@ -112,6 +112,10 @@ public class RetailerService {
         return retailerDao.saveOrUpdateRetailer(retailer);
     }
 
+    public Retailer updateRetailer(final Retailer retailer) {
+        return retailerDao.updateRetailer(retailer);
+    }
+    
     public void deleteRetailer(final Retailer retailer) {
         retailerDao.deleteRetailer(retailer);
     }
@@ -214,6 +218,10 @@ public class RetailerService {
     public Store getStoreByCode(final String storeCode, Object... params) {
         return retailerDao.getStoreByCode(storeCode, params);
     }
+    
+    public Store findStoreByEmail(final String email, Object... params) {
+        return retailerDao.findStoreByEmail(email, params);
+    }
 
     public Long countStore() {
         return retailerDao.countStore();
@@ -285,6 +293,10 @@ public class RetailerService {
 
     public Store saveOrUpdateStore(final Store store) {
         return retailerDao.saveOrUpdateStore(store);
+    }
+
+    public Store updateStore(final Store store) {
+        return retailerDao.updateStore(store);
     }
 
     public void deleteStore(final Store store) {

@@ -18,6 +18,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -234,6 +235,12 @@ public class RetailerDao extends AbstractGenericDao {
             return retailer;
         }
 	}
+	
+    public Retailer updateRetailer(final Retailer retailer) {
+        retailer.setDateUpdate(new Date());
+        Retailer mergedRetailer = em.merge(retailer);
+        return mergedRetailer;
+    }
 
 	public void deleteRetailer(final Retailer retailer) {
 		em.remove(retailer);
@@ -358,6 +365,34 @@ public class RetailerDao extends AbstractGenericDao {
             store.setFetchPlan(fetchPlan);
         }
 		return store;
+	}
+	
+	public Store findStoreByEmail(final String email, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+        FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("email", email));
+
+        criteria.addOrder(Order.asc("code"));
+
+        try {
+	        Store store = (Store) criteria.uniqueResult();
+	        if(store != null){
+	            store.setFetchPlan(fetchPlan);
+	        }
+			return store;
+			
+		} catch (NonUniqueResultException e) {
+			logger.error("NonUniqueResultException: store email='" + email + "'");
+
+			@SuppressWarnings("unchecked")
+	        List<Store> stores = criteria.list();
+			return stores.get(0);
+			
+        } catch (Exception e) {
+            logger.error("Can't find Store by email: '" + email + "'", e);
+        }
+        return null;
 	}
 	
     public Long getMaxStoreId() {
@@ -666,6 +701,15 @@ public class RetailerDao extends AbstractGenericDao {
             em.persist(store);
             return store;
         }
+	}
+
+	public Store updateStore(final Store store) {
+		store.setDateUpdate(new Date());
+        if (StringUtils.isEmpty(store.getCode())) {
+            store.setCode(CoreUtil.generateEntityCode());
+        }
+        Store mergedStore = em.merge(store);
+        return mergedStore;
 	}
 
 	public void deleteStore(final Store store) {

@@ -134,6 +134,12 @@ public class UserDao extends AbstractGenericDao {
             return user;
         }
     }
+    
+    public User updateUser(final User user) {
+        user.setDateUpdate(new Date());
+        User mergedUser = em.merge(user);
+        return mergedUser;
+    }
 
     public void deleteUser(final User user) {
         em.remove(user);
@@ -298,6 +304,12 @@ public class UserDao extends AbstractGenericDao {
             em.persist(company);
             return company;
         }
+    }
+    
+    public Company updateCompany(Company company) {
+        company.setDateUpdate(new Date());
+        Company mergedCompany = em.merge(company);
+        return mergedCompany;
     }
 
     public void deleteCompany(Company company) {
