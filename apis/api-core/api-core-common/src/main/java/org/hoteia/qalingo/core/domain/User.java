@@ -118,6 +118,10 @@ public class User extends AbstractEntity<User> {
     @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
     private Company company;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @JoinTable(name = "TBO_USER_STORE_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_ID"))
+    private Set<Store> stores = new HashSet<Store>();
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.UserAttribute.class)
     @JoinColumn(name = "USER_ID")
     private Set<UserAttribute> attributes = new HashSet<UserAttribute>(); 
@@ -130,7 +134,7 @@ public class User extends AbstractEntity<User> {
     @JoinColumn(name = "USER_ID")
     private Set<UserToken> tokens = new HashSet<UserToken>();
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class)
     @JoinTable(name = "TBO_USER_GROUP_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
     private Set<UserGroup> groups = new HashSet<UserGroup>();
 
@@ -327,6 +331,23 @@ public class User extends AbstractEntity<User> {
         this.company = company;
     }
 
+    public Set<Store> getStores() {
+        return stores;
+    }
+    
+    public Store getDefaultStore() {
+        if(stores != null
+                && Hibernate.isInitialized(stores)
+                && stores.size() > 0){
+            return stores.iterator().next();
+        }
+        return null;
+    }
+    
+    public void setStores(Set<Store> stores) {
+        this.stores = stores;
+    }
+    
     public Set<UserAttribute> getAttributes() {
         return attributes;
     }
