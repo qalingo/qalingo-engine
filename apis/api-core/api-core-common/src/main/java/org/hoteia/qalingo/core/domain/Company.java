@@ -95,6 +95,15 @@ public class Company extends AbstractEntity<Company> {
     @Column(name = "LEGAL_GUID")
     private String legalGuid;
     
+    @Column(name = "email")
+    private String email;
+    
+    @Column(name = "phone")
+    private String phone;
+    
+    @Column(name = "fax")
+    private String fax;
+    
     @Column(name = "CREATED_BY_USER_ID")
     private Long createdByUserId;
     
@@ -259,6 +268,30 @@ public class Company extends AbstractEntity<Company> {
         this.legalGuid = legalGuid;
     }
     
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
     public Long getCreatedByUserId() {
         return createdByUserId;
     }
@@ -460,8 +493,10 @@ public class Company extends AbstractEntity<Company> {
 
     @Override
     public String toString() {
-        return "Company [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", theme=" + theme + ", dateCreate=" + dateCreate
-                + ", dateUpdate=" + dateUpdate + "]";
+        return "Company [id=" + id + ", version=" + version + ", code=" + code + ", name=" + name + ", description=" + description + ", theme=" + theme + ", active=" + active + ", address1="
+                + address1 + ", address2=" + address2 + ", addressAdditionalInformation=" + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode
+                + ", areaCode=" + areaCode + ", countryCode=" + countryCode + ", legalGuid=" + legalGuid + ", email=" + email + ", phone=" + phone + ", fax=" + fax + ", createdByUserId="
+                + createdByUserId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }
