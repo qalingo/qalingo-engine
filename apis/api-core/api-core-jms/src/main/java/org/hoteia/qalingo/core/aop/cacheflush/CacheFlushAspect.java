@@ -10,6 +10,13 @@
 package org.hoteia.qalingo.core.aop.cacheflush;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
@@ -19,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
 
 @Component(value = "cacheFlushAspect")
@@ -28,6 +36,9 @@ public class CacheFlushAspect {
 
     @Autowired
     protected CacheFlushMessageProducer cacheFlushMessageProducer;
+    
+    @Autowired
+    protected EhCacheCacheManager ehCacheCacheManager;
     
     @Value("${env.name}")  
     protected String environmentName;
@@ -49,6 +60,11 @@ public class CacheFlushAspect {
             logger.debug("CacheFlushAspect, afterReturning");
         }
         try {
+            List<Cache> caches = getCaches();
+            for (Cache cache : caches) {
+                flushCache(cache);
+            } 
+            
             final CacheFlushMessageJms cacheFlushMessageJms = new CacheFlushMessageJms();
             cacheFlushMessageJms.setEnvironmentName(environmentName);
             cacheFlushMessageJms.setEnvironmentId(environmentId);
@@ -60,6 +76,36 @@ public class CacheFlushAspect {
         } catch (Exception e) {
             logger.error("CacheFlushAspect Target Object error: " + e);
         }
+    }
+    
+    private List<Cache> getCaches() {
+        List<Cache> caches = new ArrayList<Cache>();
+        for (String cacheName : getCacheManager().getCacheNames()) {
+            caches.add(getCacheManager().getCache(cacheName));
+        }
+        Collections.sort(caches, new Comparator<Cache>() {
+            @Override
+            public int compare(Cache o1, Cache o2) {
+                if (o1 != null && o2 != null) {
+                    String order1 = o1.getName();
+                    String order2 = o2.getName();
+                    return order1.compareTo(order2);
+                }
+                return 0;
+            }
+        });
+        return caches;
+    }
+    
+    private void flushCache(Cache cache) {
+        if(cache != null){
+            cache.removeAll();
+            cache.clearStatistics();
+        }
+    }
+    
+    public CacheManager getCacheManager() {
+        return ehCacheCacheManager.getCacheManager();
     }
     
 }
