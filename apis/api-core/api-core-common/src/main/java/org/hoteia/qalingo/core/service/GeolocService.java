@@ -361,23 +361,28 @@ public class GeolocService {
      * 
      */
     public Country geolocAndGetCountry(final String customerRemoteAddr) throws Exception {
-        if(StringUtils.isNotEmpty(customerRemoteAddr)
-                && !unknownValueList.contains(customerRemoteAddr)){
-            try {
-                final InetAddress address = InetAddress.getByName(customerRemoteAddr);
-                
-                final DatabaseReader databaseReader = new DatabaseReader.Builder(getCountryDataBase()).build();
-                final CountryResponse countryResponse = databaseReader.country(address);
-                if(countryResponse != null){
-                    return countryResponse.getCountry();
+        if(StringUtils.isNotEmpty(customerRemoteAddr)){
+            if(!unknownValueList.contains(customerRemoteAddr)){
+                try {
+                    final InetAddress address = InetAddress.getByName(customerRemoteAddr);
+                    
+                    final DatabaseReader databaseReader = new DatabaseReader.Builder(getCountryDataBase()).build();
+                    final CountryResponse countryResponse = databaseReader.country(address);
+                    if(countryResponse != null){
+                        return countryResponse.getCountry();
+                    }
+                } catch (AddressNotFoundException e) {
+                    logger.warn("Geoloc country, can't find this address: '" + customerRemoteAddr + "'");
+                } catch (FileNotFoundException e) {
+                    logger.error("Geoloc country, can't find database MaxMind", e);
+                } catch (Exception e) {
+                    logger.error("Geoloc country, exception to find country with this address: '" + customerRemoteAddr + "'", e);
                 }
-            } catch (AddressNotFoundException e) {
-                logger.warn("Geoloc country, can't find this address:" + customerRemoteAddr);
-            } catch (FileNotFoundException e) {
-                logger.error("Geoloc country, can't find database MaxMind", e);
-            } catch (Exception e) {
-                logger.error("Geoloc country, exception to find country with this address:" + customerRemoteAddr, e);
+            } else {
+                logger.debug("Geoloc country, can't find address (private navigation): '" + customerRemoteAddr + "'");
             }
+        } else {
+            logger.debug("Geoloc country, can't find address, value is empty.");
         }
         return null;
     }
