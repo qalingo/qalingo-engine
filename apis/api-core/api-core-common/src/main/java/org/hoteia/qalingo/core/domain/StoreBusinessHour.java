@@ -60,6 +60,9 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
     @Column(name = "SUNDAY")
     private boolean sunday;
 
+    @Column(name = "IS_CLOSED")
+    private boolean closed;
+    
     @Column(name = "START_HOUR")
     private String startHour;
 
@@ -158,6 +161,14 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
 
     public void setSunday(boolean sunday) {
         this.sunday = sunday;
+    }
+    
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
     public String getStartHour() {
