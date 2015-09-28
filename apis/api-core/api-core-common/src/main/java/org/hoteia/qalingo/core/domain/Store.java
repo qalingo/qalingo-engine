@@ -134,6 +134,10 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @JoinColumn(name = "STORE_ID")
     private Set<StoreBusinessHour> businessHours = new HashSet<StoreBusinessHour>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreService.class)
+    @JoinColumn(name = "STORE_ID")
+    private Set<StoreService> services = new HashSet<StoreService>();
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Asset.class)
     @JoinColumn(name = "STORE_ID")
     private Set<Asset> assets = new HashSet<Asset>();
@@ -378,6 +382,30 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     
     public void setBusinessHours(Set<StoreBusinessHour> businessHours) {
         this.businessHours = businessHours;
+    }
+    
+    public Set<StoreService> getServices() {
+        return services;
+    }
+    
+    public List<StoreService> getServices(String type) {
+        List<StoreService> storeServices = null;
+        if (services != null 
+                && Hibernate.isInitialized(services)) {
+            storeServices = new ArrayList<StoreService>();
+            for (Iterator<StoreService> iterator = services.iterator(); iterator.hasNext();) {
+                StoreService storeService = (StoreService) iterator.next();
+                if (storeService != null && storeService.getType() != null
+                        && storeService.getType().equals(type)) {
+                    storeServices.add(storeService);
+                }
+            }
+        }
+        return storeServices;
+    }
+    
+    public void setServices(Set<StoreService> services) {
+        this.services = services;
     }
     
     public Set<Asset> getAssets() {
