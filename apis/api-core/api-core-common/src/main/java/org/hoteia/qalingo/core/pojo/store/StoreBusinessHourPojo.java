@@ -7,14 +7,14 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.web.mvc.viewbean;
+package org.hoteia.qalingo.core.pojo.store;
 
-public class StoreBusinessHourViewBean extends AbstractViewBean {
+import java.util.Date;
 
-    /**
-	 * 
-	 */
-    private static final long serialVersionUID = -4198236235307654160L;
+public class StoreBusinessHourPojo {
+
+    private Long id;
+    private int version;
 
     private String closingDateStart;
     private String closingDateEnd;
@@ -29,6 +29,25 @@ public class StoreBusinessHourViewBean extends AbstractViewBean {
 
     private boolean closed;
     private boolean off;
+    
+    private Date dateCreate;
+    private Date dateUpdate;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
     public String getClosingDateStart() {
         return closingDateStart;
@@ -102,4 +121,19 @@ public class StoreBusinessHourViewBean extends AbstractViewBean {
         this.off = off;
     }
 
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 }

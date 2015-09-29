@@ -21,6 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
+
 @Entity
 @Table(name = "TECO_STORE_BUSINESS_HOUR")
 public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
@@ -75,6 +77,9 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
     @Column(name = "CLOSING_DATE_END")
     private String closingDateEnd;
 
+    @Column(name = "COMMENT")
+    private String comment;
+    
     @Column(name = "STORE_ID")
     private Long storeId;
 
@@ -202,6 +207,14 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
     public void setClosingDateEnd(String closingDateEnd) {
         this.closingDateEnd = closingDateEnd;
     }
+    
+    public String getComment() {
+        return comment;
+    }
+    
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public Long getStoreId() {
         return storeId;
@@ -225,6 +238,41 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
 
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
+    }
+    
+    public String getDayKey() {
+        if(isDay()){
+            if(monday){
+                return "monday";
+            } else if(tuesday){
+                return "tuesday";
+            } else if(wednesday){
+                return "wednesday";
+            } else if(thursday){
+                return "thursday";
+            } else if(friday){
+                return "friday";
+            } else if(saturday){
+                return "saturday";
+            } else if(sunday){
+                return "sunday";
+            }
+        }
+        return null;
+    }
+    
+    public boolean isDay() {
+        if(monday || tuesday || wednesday || thursday || friday || saturday || sunday){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isOff() {
+        if(StringUtils.isNotEmpty(closingDateStart) || StringUtils.isNotEmpty(closingDateEnd)){
+            return true;
+        }
+        return false;
     }
 
     @Override

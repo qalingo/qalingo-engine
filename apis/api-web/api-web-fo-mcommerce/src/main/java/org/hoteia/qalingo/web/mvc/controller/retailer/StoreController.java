@@ -78,18 +78,15 @@ public class StoreController extends AbstractMCommerceController {
 	      
 		if(StringUtils.isNotEmpty(storeCode)){
             Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
-            StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
+            StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestData, store);
             model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
 
             Retailer retailer = retailerService.getRetailerById(store.getRetailer().getId(), new FetchPlan(retailerFetchPlans));
-            RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
+            RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailer);
             model.addAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
             
-            StoreBusinessHourViewBean storeBusinessHourViewBean = frontofficeViewBeanFactory.buildViewBeanStoreBusinessHour(store);
-            model.addAttribute("businessHours", storeBusinessHourViewBean);
-
             final List<Store> stores = retailerService.findStoresWithMax(15);
-            final List<StoreViewBean> otherStoreViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
+            final List<StoreViewBean> otherStoreViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestData, stores);
             otherStoreViewBeans.remove(storeViewBean);
             model.addAttribute("otherStores", otherStoreViewBeans);
 	        
@@ -148,7 +145,7 @@ public class StoreController extends AbstractMCommerceController {
         
         Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
         if(store != null){
-            StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
+            StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestData, store);
 
             // SEO
             String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);

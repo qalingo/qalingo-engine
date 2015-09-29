@@ -33,7 +33,9 @@ public class StorePojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private List<StoreAttributePojo> storeAttributes = new ArrayList<StoreAttributePojo>();
+    private List<StoreAttributePojo> attributes = new ArrayList<StoreAttributePojo>();
+    private List<StoreBusinessHourPojo> businessHours = new ArrayList<StoreBusinessHourPojo>();
+    private List<StoreServicePojo> services = new ArrayList<StoreServicePojo>();
 
     public Long getId() {
         return id;
@@ -171,12 +173,28 @@ public class StorePojo {
         this.dateUpdate = dateUpdate;
     }
 
-    public List<StoreAttributePojo> getStoreAttributes() {
-        return storeAttributes;
+    public List<StoreAttributePojo> getAttributes() {
+        return attributes;
     }
-
-    public void setStoreAttributes(List<StoreAttributePojo> storeAttributes) {
-        this.storeAttributes = storeAttributes;
+    
+    public void setAttributes(List<StoreAttributePojo> attributes) {
+        this.attributes = attributes;
+    }
+    
+    public List<StoreBusinessHourPojo> getBusinessHours() {
+        return businessHours;
+    }
+    
+    public void setBusinessHours(List<StoreBusinessHourPojo> businessHours) {
+        this.businessHours = businessHours;
+    }
+    
+    public List<StoreServicePojo> getServices() {
+        return services;
+    }
+    
+    public void setServices(List<StoreServicePojo> services) {
+        this.services = services;
     }
     
 }

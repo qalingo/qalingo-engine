@@ -136,7 +136,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OperationHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
@@ -1035,7 +1034,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             storeViewBean.setDateUpdate(buildCommonFormatDate(requestData, store.getDateUpdate()));
         }
         
-        storeViewBean.setBusinessHour(buildViewBeanStoreBusinessHour(store));
+        // BUSINESS HOUR
+        Set<StoreBusinessHour> storeBusinessHours = store.getBusinessHours();
+        if (Hibernate.isInitialized(storeBusinessHours) 
+                && storeBusinessHours != null) {
+            for (Iterator<StoreBusinessHour> iterator = storeBusinessHours.iterator(); iterator.hasNext();) {
+                StoreBusinessHour storeBusinessHour = (StoreBusinessHour) iterator.next();
+                StoreBusinessHourViewBean storeBusinessHourViewBean = buildViewBeanStoreBusinessHour(requestData, storeBusinessHour);
+                storeViewBean.getBusinessHours().add(storeBusinessHourViewBean);
+            }
+        }
         
         // ASSETS
         Set<Asset> assets = store.getAssets();
@@ -1060,42 +1068,25 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store) {
-        StoreBusinessHourViewBean storeBusinessHourViewBean = null;
-        if (Hibernate.isInitialized(store.getStoreBusinessHours()) &&
-                store.getStoreBusinessHours() != null) {
-            List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
-            if (storeBusinessHours != null 
-                    && storeBusinessHours.size() > 0) {
-                storeBusinessHourViewBean = new StoreBusinessHourViewBean();
-                for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
-                    OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
-                    operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
-                    operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
-                    if (storeBusinessHour.isMonday()) {
-                        storeBusinessHourViewBean.setMonday(operationHourViewBean);
-                    }
-                    if (storeBusinessHour.isTuesday()) {
-                        storeBusinessHourViewBean.setTuesday(operationHourViewBean);
-                    }
-                    if (storeBusinessHour.isWednesday()) {
-                        storeBusinessHourViewBean.setWednesday(operationHourViewBean);
-                    }
-                    if (storeBusinessHour.isThursday()) {
-                        storeBusinessHourViewBean.setThursday(operationHourViewBean);
-                    }
-                    if (storeBusinessHour.isFriday()) {
-                        storeBusinessHourViewBean.setFriday(operationHourViewBean);
-                    }
-                    if (storeBusinessHour.isSaturday()) {
-                        storeBusinessHourViewBean.setSaturday(operationHourViewBean);
-                    }
-                    if (storeBusinessHour.isSunday()) {
-                        storeBusinessHourViewBean.setSunday(operationHourViewBean);
-                    }
-                }
-            }
+    public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final RequestData requestData, final StoreBusinessHour storeBusinessHour) {
+        StoreBusinessHourViewBean storeBusinessHourViewBean = new StoreBusinessHourViewBean();
+        
+        storeBusinessHourViewBean.setClosingDateStart(storeBusinessHour.getClosingDateStart());
+        storeBusinessHourViewBean.setClosingDateEnd(storeBusinessHour.getClosingDateEnd());
+
+        storeBusinessHourViewBean.setStartHour(storeBusinessHour.getStartHour());
+        storeBusinessHourViewBean.setEndHour(storeBusinessHour.getEndHour());
+
+        if (storeBusinessHour.isDay()) {
+            storeBusinessHourViewBean.setDayKey(storeBusinessHour.getDayKey());
+            storeBusinessHourViewBean.setDayLabel(storeBusinessHour.getDayKey());
         }
+
+        storeBusinessHourViewBean.setComment(storeBusinessHour.getComment());
+
+        storeBusinessHourViewBean.setClosed(storeBusinessHour.isClosed());
+        storeBusinessHourViewBean.setOff(storeBusinessHour.isOff());
+
         return storeBusinessHourViewBean;
     }
     

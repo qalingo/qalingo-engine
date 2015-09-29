@@ -44,10 +44,10 @@ public class StoreViewBean extends AbstractAddressViewBean {
     
     protected List<StoreCustomerCommentViewBean> comments = new ArrayList<StoreCustomerCommentViewBean>();
     protected List<StoreTagViewBean> tags = new ArrayList<StoreTagViewBean>();
+    protected List<StoreBusinessHourViewBean> businessHours = new ArrayList<StoreBusinessHourViewBean>();
+    protected List<StoreServiceViewBean> services = new ArrayList<StoreServiceViewBean>();
 
     protected List<String> sliders;
-
-    protected StoreBusinessHourViewBean businessHour;
 
 	protected String detailsUrl;
     protected String productLineUrl;
@@ -289,20 +289,28 @@ public class StoreViewBean extends AbstractAddressViewBean {
         this.tags = tags;
     }
 
+    public List<StoreBusinessHourViewBean> getBusinessHours() {
+        return businessHours;
+    }
+    
+    public void setBusinessHours(List<StoreBusinessHourViewBean> businessHours) {
+        this.businessHours = businessHours;
+    }
+    
+    public List<StoreServiceViewBean> getServices() {
+        return services;
+    }
+    
+    public void setServices(List<StoreServiceViewBean> services) {
+        this.services = services;
+    }
+    
     public List<String> getSliders() {
         return sliders;
     }
 
     public void setSliders(List<String> sliders) {
         this.sliders = sliders;
-    }
-
-    public StoreBusinessHourViewBean getBusinessHour() {
-        return businessHour;
-    }
-
-    public void setBusinessHour(StoreBusinessHourViewBean businessHour) {
-        this.businessHour = businessHour;
     }
 
 	public String getDetailsUrl() {
