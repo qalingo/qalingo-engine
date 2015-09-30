@@ -14,9 +14,12 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1038,11 +1041,24 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         Set<StoreBusinessHour> storeBusinessHours = store.getBusinessHours();
         if (Hibernate.isInitialized(storeBusinessHours) 
                 && storeBusinessHours != null) {
+            List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = new ArrayList<StoreBusinessHourViewBean>();
             for (Iterator<StoreBusinessHour> iterator = storeBusinessHours.iterator(); iterator.hasNext();) {
                 StoreBusinessHour storeBusinessHour = (StoreBusinessHour) iterator.next();
                 StoreBusinessHourViewBean storeBusinessHourViewBean = buildViewBeanStoreBusinessHour(requestData, storeBusinessHour);
-                storeViewBean.getBusinessHours().add(storeBusinessHourViewBean);
+                storeBusinessHourViewBeans.add(storeBusinessHourViewBean);
             }
+            
+            List<StoreBusinessHourViewBean> sortedStoreBusinessHourViewBeans = new LinkedList<StoreBusinessHourViewBean>(storeBusinessHourViewBeans);
+            Collections.sort(sortedStoreBusinessHourViewBeans, new Comparator<StoreBusinessHourViewBean>() {
+                @Override
+                public int compare(StoreBusinessHourViewBean o1, StoreBusinessHourViewBean o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
+                    }
+                    return 0;
+                }
+            });
+            storeViewBean.setBusinessHours(sortedStoreBusinessHourViewBeans);
         }
         
         // ASSETS
@@ -1069,6 +1085,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final RequestData requestData, final StoreBusinessHour storeBusinessHour) {
+        final Locale locale = requestData.getLocale();
+        
         StoreBusinessHourViewBean storeBusinessHourViewBean = new StoreBusinessHourViewBean();
         
         storeBusinessHourViewBean.setClosingDateStart(storeBusinessHour.getClosingDateStart());
@@ -1079,7 +1097,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         if (storeBusinessHour.isDay()) {
             storeBusinessHourViewBean.setDayKey(storeBusinessHour.getDayKey());
-            storeBusinessHourViewBean.setDayLabel(storeBusinessHour.getDayKey());
+            storeBusinessHourViewBean.setDayLabel(getSpecificMessage("week", "fo.week." + storeBusinessHour.getDayKey(), locale));
         }
 
         storeBusinessHourViewBean.setComment(storeBusinessHour.getComment());
@@ -1087,6 +1105,24 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         storeBusinessHourViewBean.setClosed(storeBusinessHour.isClosed());
         storeBusinessHourViewBean.setOff(storeBusinessHour.isOff());
 
+        if(storeBusinessHour.isDay()){
+            if(storeBusinessHour.isMonday()){
+                storeBusinessHourViewBean.setRanking(1);
+            } else if(storeBusinessHour.isTuesday()){
+                storeBusinessHourViewBean.setRanking(2);
+            } else if(storeBusinessHour.isWednesday()){
+                storeBusinessHourViewBean.setRanking(3);
+            } else if(storeBusinessHour.isThursday()){
+                storeBusinessHourViewBean.setRanking(4);
+            } else if(storeBusinessHour.isFriday()){
+                storeBusinessHourViewBean.setRanking(5);
+            } else if(storeBusinessHour.isSaturday()){
+                storeBusinessHourViewBean.setRanking(6);
+            } else if(storeBusinessHour.isSunday()){
+                storeBusinessHourViewBean.setRanking(7);
+            }
+        }
+        
         return storeBusinessHourViewBean;
     }
     

@@ -30,6 +30,8 @@ public class StoreBusinessHourViewBean extends AbstractViewBean {
     private boolean closed;
     private boolean off;
 
+    private Integer ranking;
+    
     public String getClosingDateStart() {
         return closingDateStart;
     }
@@ -100,6 +102,14 @@ public class StoreBusinessHourViewBean extends AbstractViewBean {
 
     public void setOff(boolean off) {
         this.off = off;
+    }
+    
+    public Integer getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
     }
 
 }
