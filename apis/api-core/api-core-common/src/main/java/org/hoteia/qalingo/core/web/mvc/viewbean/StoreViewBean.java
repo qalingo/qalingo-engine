@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.util.CoreUtil;
 
 public class StoreViewBean extends AbstractAddressViewBean {
@@ -299,6 +300,22 @@ public class StoreViewBean extends AbstractAddressViewBean {
     
     public List<StoreServiceViewBean> getServices() {
         return services;
+    }
+    
+    public List<StoreServiceViewBean> getServices(String type) {
+        List<StoreServiceViewBean> storeServices = null;
+        if (services != null 
+                && Hibernate.isInitialized(services)) {
+            storeServices = new ArrayList<StoreServiceViewBean>();
+            for (Iterator<StoreServiceViewBean> iterator = services.iterator(); iterator.hasNext();) {
+                StoreServiceViewBean storeService = (StoreServiceViewBean) iterator.next();
+                if (storeService != null && storeService.getType() != null
+                        && storeService.getType().equals(type)) {
+                    storeServices.add(storeService);
+                }
+            }
+        }
+        return storeServices;
     }
     
     public void setServices(List<StoreServiceViewBean> services) {

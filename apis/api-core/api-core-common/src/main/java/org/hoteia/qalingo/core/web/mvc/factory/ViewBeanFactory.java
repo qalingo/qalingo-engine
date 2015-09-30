@@ -1097,7 +1097,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         if (storeBusinessHour.isDay()) {
             storeBusinessHourViewBean.setDayKey(storeBusinessHour.getDayKey());
-            storeBusinessHourViewBean.setDayLabel(getSpecificMessage("week", "fo.week." + storeBusinessHour.getDayKey(), locale));
+            storeBusinessHourViewBean.setDayLabel(getSpecificMessage("week", storeBusinessHour.getDayKey(), locale));
         }
 
         storeBusinessHourViewBean.setComment(storeBusinessHour.getComment());
