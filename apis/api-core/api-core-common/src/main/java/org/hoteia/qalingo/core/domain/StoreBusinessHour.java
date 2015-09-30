@@ -41,28 +41,28 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "MONDAY")
+    @Column(name = "MONDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean monday;
 
-    @Column(name = "TUESDAY")
+    @Column(name = "TUESDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean tuesday;
 
-    @Column(name = "WEDNESDAY")
+    @Column(name = "WEDNESDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean wednesday;
 
-    @Column(name = "THURSDAY")
+    @Column(name = "THURSDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean thursday;
 
-    @Column(name = "FRIDAY")
+    @Column(name = "FRIDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean friday;
 
-    @Column(name = "SATURDAY")
+    @Column(name = "SATURDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean saturday;
 
-    @Column(name = "SUNDAY")
+    @Column(name = "SUNDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean sunday;
 
-    @Column(name = "IS_CLOSED")
+    @Column(name = "IS_CLOSED", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean closed;
     
     @Column(name = "START_HOUR")
