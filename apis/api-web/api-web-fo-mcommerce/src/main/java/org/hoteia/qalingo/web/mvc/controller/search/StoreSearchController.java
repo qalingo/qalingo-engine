@@ -99,6 +99,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 
         // SANITY CHECK : if empty search : use geolocated city as default value
         if (StringUtils.isEmpty(searchForm.getText())
+                && searchForm.getPage() == 0
                 && requestData.getGeolocData() != null
                 && requestData.getGeolocData().getCity() != null) {
             searchForm.setText(requestData.getGeolocData().getCity().getName());
