@@ -38,7 +38,7 @@ public class OrderTax extends AbstractEntity<OrderTax> {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "tax_ID")
+    @Column(name = "TAX_ID")
     private Long taxId;
 
     @Column(name = "PERCENT")
