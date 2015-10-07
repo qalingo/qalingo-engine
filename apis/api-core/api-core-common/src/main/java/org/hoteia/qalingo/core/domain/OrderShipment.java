@@ -54,7 +54,7 @@ public class OrderShipment extends AbstractEntity<OrderShipment> {
     @Column(name = "EXPECTED_DELIVERY_DATE")
     private Date expectedDeliveryDate;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.OrderItem.class)
     @JoinColumn(name="ORDER_SHIPMENT_ID")
     private Set<OrderItem> orderItems = new HashSet<OrderItem>();
     
