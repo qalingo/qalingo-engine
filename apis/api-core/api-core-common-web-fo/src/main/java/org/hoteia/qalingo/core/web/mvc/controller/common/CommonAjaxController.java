@@ -1,4 +1,4 @@
-package org.hoteia.qalingo.core.web.mvc.controller.geoloc;
+package org.hoteia.qalingo.core.web.mvc.controller.common;
 
 import java.util.Locale;
 
