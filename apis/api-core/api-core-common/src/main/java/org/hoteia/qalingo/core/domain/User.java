@@ -107,6 +107,9 @@ public class User extends AbstractEntity<User> {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
     
+    @Column(name = "phone")
+    private String phone;
+    
     @Column(name = "MOBILE")
     private String mobile;
     
@@ -307,6 +310,14 @@ public class User extends AbstractEntity<User> {
         this.countryCode = countryCode;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+    
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
     public String getMobile() {
         return mobile;
     }

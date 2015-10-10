@@ -104,6 +104,9 @@ public class Company extends AbstractEntity<Company> {
     @Column(name = "fax")
     private String fax;
     
+    @Column(name = "website")
+    private String website;
+    
     @Column(name = "CREATED_BY_USER_ID")
     private Long createdByUserId;
     
@@ -290,6 +293,14 @@ public class Company extends AbstractEntity<Company> {
 
     public void setFax(String fax) {
         this.fax = fax;
+    }
+    
+    public String getWebsite() {
+        return website;
+    }
+    
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public Long getCreatedByUserId() {
