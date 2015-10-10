@@ -566,9 +566,7 @@ public class RequestUtil {
             }
         } else {
             String requestLocale = request.getLocale().toString();
-            if(backofficeLocalization == null 
-            		|| (backofficeLocalization != null && "en".equalsIgnoreCase(backofficeLocalization.getCode()))
-                    && StringUtils.isNotEmpty(requestLocale)){
+            if(backofficeLocalization == null && StringUtils.isNotEmpty(requestLocale)){ //    || (backofficeLocalization != null && "en".equalsIgnoreCase(backofficeLocalization.getCode()))
                 if (requestLocale.length() > 2) {
                     String localeLanguage = request.getLocale().getLanguage();
                     backofficeLocalization = localizationService.getLocalizationByCode(localeLanguage);
