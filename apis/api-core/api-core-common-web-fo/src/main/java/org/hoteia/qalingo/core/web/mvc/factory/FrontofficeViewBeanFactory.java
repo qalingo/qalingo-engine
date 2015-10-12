@@ -556,8 +556,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     public List<SearchFacetViewBean> buildListViewBeanStoreSearchFacet(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
         List<FacetField> facetFields = storeResponseBean.getStoreSolrFacetFieldList();
-        for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
-            FacetField facetField = (FacetField) iterator.next();
+        for (FacetField facetField : facetFields) {
             searchFacetViewBeans.add(buildViewBeanStoreSearchFacet(requestData, facetField));
         }
         return searchFacetViewBeans;
@@ -571,28 +570,27 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
 
         // TODO : Denis : facet like country ? city ? online/corner etc
-        if(StoreResponseBean.STORE_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
+        if(StoreResponseBean.STORE_CITY_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
         	searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
-            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
-                Count count = (Count) iterator.next();
+            for (Count count : facetField.getValues()) {
                 SearchFacetValueBean valueBean = new SearchFacetValueBean(count.getName(), count.getName(), count.getCount());
                 values.add(valueBean);
             }
             Collections.sort(values, new Comparator<SearchFacetValueBean>() {
-				@Override
-				public int compare(SearchFacetValueBean o1, SearchFacetValueBean o2) {
-					return o1.getLabel().compareTo(o2.getLabel());
-				}
-			});
+                @Override
+                public int compare(SearchFacetValueBean o1, SearchFacetValueBean o2) {
+                    return o1.getLabel().compareTo(o2.getLabel());
+                }
+            });
             searchFacetViewBean.setValues(values);
+            searchFacetViewBean.setCode(StoreResponseBean.STORE_CITY_FACET_FIELD_CODE);
         }
         
-        if(StoreResponseBean.STORE_SECOND_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
+        if(StoreResponseBean.STORE_COUNTRY_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
         	searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
-            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
-                Count count = (Count) iterator.next();
+            for (Count count : facetField.getValues()) {
                 SearchFacetValueBean valueBean = new SearchFacetValueBean(count.getName(), count.getName(), count.getCount());
                 values.add(valueBean);
             }
@@ -603,6 +601,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 				}
 			});
             searchFacetViewBean.setValues(values);
+            searchFacetViewBean.setCode(StoreResponseBean.STORE_COUNTRY_FACET_FIELD_CODE);
         }
         return searchFacetViewBean;
     }

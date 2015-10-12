@@ -155,8 +155,8 @@ public class StoreSearchController extends AbstractMCommerceController {
                 StoreResponseBean storeResponseBean = null;
 
                 List<String> facetFields = new ArrayList<String>();
-                facetFields.add(StoreResponseBean.STORE_DEFAULT_FACET_FIELD);
-                facetFields.add(StoreResponseBean.STORE_SECOND_FACET_FIELD);
+                facetFields.add(StoreResponseBean.STORE_CITY_FACET_FIELD);
+                facetFields.add(StoreResponseBean.STORE_COUNTRY_FACET_FIELD);
 
                 String query = getSearchQuery(searchForm.getText());
                 

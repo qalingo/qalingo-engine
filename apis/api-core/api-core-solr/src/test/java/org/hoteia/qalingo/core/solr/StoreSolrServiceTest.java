@@ -62,8 +62,8 @@ public class StoreSolrServiceTest {
         store.setPostalCode("411014");
         store.setType("retailer");
         
-        facetFields.add(StoreResponseBean.STORE_DEFAULT_FACET_FIELD);
-        facetFields.add(StoreResponseBean.STORE_SECOND_FACET_FIELD);
+        facetFields.add(StoreResponseBean.STORE_CITY_FACET_FIELD);
+        facetFields.add(StoreResponseBean.STORE_COUNTRY_FACET_FIELD);
         facetFields.add(StoreResponseBean.STORE_SEARCH_FIELD_TAG_CODE);
     }
     
