@@ -16,31 +16,31 @@ import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
+import org.hoteia.qalingo.core.domain.Cart_;
+import org.hoteia.qalingo.core.domain.CartItem_;
+import org.hoteia.qalingo.core.domain.ProductMarketing_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
+
 public class FetchPlanGraphCommon {
 
     public static FetchPlan defaultCartFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("currency"));
-        fetchplans.add(new SpecificFetchMode("cartItems"));
+        fetchplans.add(new SpecificFetchMode(Cart_.currency.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName()));
 
-        fetchplans.add(new SpecificFetchMode("attributes", new SpecificAlias("cartItems.productSku.attributes")));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.catalogCategory.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.catalogCategory.getName() + "." + CatalogCategoryVirtual_.attributes.getName()));
 
-        fetchplans.add(new SpecificFetchMode("productSkuAssets", new SpecificAlias("cartItems.productSku.assets")));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productMarketing.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productMarketing.getName() + "." + ProductMarketing_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productMarketing.getName() + "." + ProductMarketing_.assets.getName()));
 
-        fetchplans.add(new SpecificFetchMode("productSkuPrices", new SpecificAlias("cartItems.productSku.prices")));
-
-        fetchplans.add(new SpecificFetchMode("productSkuStocks", new SpecificAlias("cartItems.productSku.stocks")));
-
-        fetchplans.add(new SpecificFetchMode("productMarketing", new SpecificAlias("cartItems.productMarketing")));
-
-        fetchplans.add(new SpecificFetchMode("productMarketingAttributes", new SpecificAlias("cartItems.productMarketing.attributes")));
-
-        fetchplans.add(new SpecificFetchMode("productMarketingAssets", new SpecificAlias("cartItems.productMarketing.assets")));
-
-        fetchplans.add(new SpecificFetchMode("catalogCategoryAttributes", new SpecificAlias("cartItems.catalogCategory.attributes")));
-
-        fetchplans.add(new SpecificFetchMode("catalogCategoryAssets", new SpecificAlias("cartItems.catalogCategory.assets")));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productSku.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productSku.getName() + "." + ProductSku_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productSku.getName() + "." + ProductSku_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productSku.getName() + "." + ProductSku_.prices.getName()));
 
         return new FetchPlan(fetchplans);
     }

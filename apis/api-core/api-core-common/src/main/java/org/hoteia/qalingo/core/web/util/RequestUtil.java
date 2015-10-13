@@ -1314,7 +1314,8 @@ public class RequestUtil {
      */
     protected Cart getCurrentCart(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        return engineEcoSession.getCart();
+        Cart cart = cartService.getCartById(engineEcoSession.getCart().getId());
+        return cart;
     }
     
     /**
@@ -1610,6 +1611,7 @@ public class RequestUtil {
                 requestData.setCustomer(customer);
             }
             
+            // TODO : IMPROVE TOO MANY CALL
             requestData.setCart(getCurrentCart(request));
         }
 

@@ -83,7 +83,6 @@ public class CartService {
             if (productSku != null) {
                 CartItem cartItem = new CartItem();
                 cartItem.setProductSku(productSku);
-                cartItem.setProductSku(productSku);
 
                 final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
                 cartItem.setProductMarketing(reloadedProductMarketing);
