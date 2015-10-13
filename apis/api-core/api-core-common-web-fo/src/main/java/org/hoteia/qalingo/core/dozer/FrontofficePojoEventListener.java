@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.dozer;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -100,6 +101,8 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                             assetPojo.setRelativeWebPath(path);
                             assetPojo.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                             cartItemPojo.getAssets().add(assetPojo);
+                            
+                            cartItemPojo.setSummaryImage(buildDefaultAsset(requestData, productSku));
                         }
                     }
                     
@@ -179,6 +182,51 @@ public class FrontofficePojoEventListener implements DozerEventListener {
         }
     }
 
+    protected String buildDefaultAsset(final RequestData requestData, final ProductSku productSku) throws Exception{
+        // TEMPORARY FIX : ASSET
+        Set<Asset> assets = productSku.getAssets();
+        Asset defaultAsset = null;
+        if(assets != null){
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if("PACKSHOT".equalsIgnoreCase(asset.getType())
+                        && asset.isDefault()){
+                    defaultAsset = asset;
+                }
+            }
+            if(defaultAsset == null
+                    && assets.iterator().hasNext()){
+                defaultAsset = assets.iterator().next();
+            }
+        }
+        if(defaultAsset == null && productSku.getProductMarketing() != null && Hibernate.isInitialized(productSku.getProductMarketing())){
+            if(productSku.getProductMarketing().getAssets() != null && Hibernate.isInitialized(productSku.getProductMarketing().getAssets())){
+                assets = productSku.getProductMarketing().getAssets();
+                for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                    Asset asset = (Asset) iterator.next();
+                    if("PACKSHOT".equalsIgnoreCase(asset.getType())
+                            && asset.isDefault()){
+                        defaultAsset = asset;
+                    }
+                }
+                if(defaultAsset == null
+                        && assets.iterator().hasNext()){
+                    defaultAsset = assets.iterator().next();
+                }
+            }
+        }
+        if(defaultAsset == null){
+            defaultAsset = new Asset();
+            defaultAsset.setType("default");
+            defaultAsset.setPath("default-product.png");
+        }
+        return urlService.buildAbsoluteUrl(requestData, buildAssetPath(productSku, defaultAsset));
+    }
+    
+    protected String buildAssetPath(final ProductSku productSku, final Asset defaultAsset) throws Exception{
+        return engineSettingService.getProductSkuImageWebPath(defaultAsset);
+    }
+    
     @Override
     public void mappingFinished(DozerEvent event) {
         logger.debug("mapping finished, SourceObject: " + event.getSourceObject());
