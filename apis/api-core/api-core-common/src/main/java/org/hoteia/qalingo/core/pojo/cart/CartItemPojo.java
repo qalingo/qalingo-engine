@@ -33,13 +33,8 @@ public class CartItemPojo {
     
     private Set<CartItemTaxPojo> taxes = new HashSet<CartItemTaxPojo>();
 
-    private String productSkuCode;
     private ProductSkuPojo productSku;
-
-    private String productMarketingCode;
     private ProductMarketingPojo productMarketing;
-
-    private String catalogCategoryCode;
     private CatalogCategoryPojo catalogCategory;
     
     private ProductSkuPricePojo price;
@@ -102,14 +97,6 @@ public class CartItemPojo {
         this.assets = assets;
     }
 
-    public String getProductSkuCode() {
-        return productSkuCode;
-    }
-	
-	public void setProductSkuCode(String productSkuCode) {
-		this.productSkuCode = productSkuCode;
-	}
-	
 	public CartItemPricePojo getCartItemPrice() {
         return cartItemPrice;
     }
@@ -133,14 +120,6 @@ public class CartItemPojo {
 	public void setProductSku(ProductSkuPojo productSku) {
 		this.productSku = productSku;
 	}
-	
-	public String getProductMarketingCode() {
-        return productMarketingCode;
-    }
-
-    public void setProductMarketingCode(String productMarketingCode) {
-        this.productMarketingCode = productMarketingCode;
-    }
 
     public ProductMarketingPojo getProductMarketing() {
         return productMarketing;
@@ -148,14 +127,6 @@ public class CartItemPojo {
 
     public void setProductMarketing(ProductMarketingPojo productMarketing) {
         this.productMarketing = productMarketing;
-    }
-
-    public String getCatalogCategoryCode() {
-        return catalogCategoryCode;
-    }
-
-    public void setCatalogCategoryCode(String catalogCategoryCode) {
-        this.catalogCategoryCode = catalogCategoryCode;
     }
 
     public CatalogCategoryPojo getCatalogCategory() {
@@ -180,6 +151,12 @@ public class CartItemPojo {
 
     public void setTotalAmountCartItem(BigDecimal totalAmountCartItem) {
         this.totalAmountCartItem = totalAmountCartItem;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItemPojo [id=" + id + ", quantity=" + quantity + ", assets=" + assets + ", cartItemPrice=" + cartItemPrice + ", taxes=" + taxes + ", productSku=" + productSku
+                + ", productMarketing=" + productMarketing + ", catalogCategory=" + catalogCategory + ", price=" + price + ", totalAmountCartItem=" + totalAmountCartItem + "]";
     }
     
 }
