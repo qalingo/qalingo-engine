@@ -343,7 +343,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         return checkout;
     }
     
-    private void injectCart(final RequestData requestData, final FoCheckoutPojo checkout){
+    protected void injectCart(final RequestData requestData, final FoCheckoutPojo checkout){
         try {
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
             checkout.setCart(cart);
