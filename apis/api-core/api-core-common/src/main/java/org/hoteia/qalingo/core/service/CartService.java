@@ -48,7 +48,7 @@ public class CartService {
         addProductSkuToCart(cart, null, catalogCategoryCode, productSkuCode, quantity);
     }
     
-    public void addProductSkuToCart(Cart cart, Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public Cart addProductSkuToCart(Cart cart, Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         int finalQuantity = quantity;
         if (cart != null) {
             Set<CartItem> cartItems = cart.getCartItems();
@@ -60,7 +60,8 @@ public class CartService {
                 }
             }
         }
-        updateCartItem(cart, retailer, catalogCategoryCode, productSkuCode, finalQuantity);
+        cart = updateCartItem(cart, retailer, catalogCategoryCode, productSkuCode, finalQuantity);
+        return cart;
     }
     
     public Cart updateCartItem(Cart cart, final String productSkuCode, final int quantity) throws Exception {

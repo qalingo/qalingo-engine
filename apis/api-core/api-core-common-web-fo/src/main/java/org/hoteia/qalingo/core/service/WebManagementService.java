@@ -149,7 +149,8 @@ public class WebManagementService {
 //            }
 //        }
         
-        cartService.addProductSkuToCart(cart, retailer, catalogCategoryCode, productSkuCode, quantity);
+        cart = cartService.addProductSkuToCart(cart, retailer, catalogCategoryCode, productSkuCode, quantity);
+        requestUtil.updateCurrentCart(request, cart)
     }
     
     /**
