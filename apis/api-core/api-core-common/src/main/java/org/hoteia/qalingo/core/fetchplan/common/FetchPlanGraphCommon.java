@@ -21,7 +21,7 @@ public class FetchPlanGraphCommon {
     public static FetchPlan defaultCartFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("session"));
+        fetchplans.add(new SpecificFetchMode("currency"));
         fetchplans.add(new SpecificFetchMode("cartItems"));
 
         fetchplans.add(new SpecificFetchMode("attributes", new SpecificAlias("cartItems.productSku.attributes")));
@@ -41,8 +41,6 @@ public class FetchPlanGraphCommon {
         fetchplans.add(new SpecificFetchMode("catalogCategoryAttributes", new SpecificAlias("cartItems.catalogCategory.attributes")));
 
         fetchplans.add(new SpecificFetchMode("catalogCategoryAssets", new SpecificAlias("cartItems.catalogCategory.assets")));
-
-        fetchplans.add(new SpecificFetchMode("shippings"));
 
         return new FetchPlan(fetchplans);
     }

@@ -150,6 +150,10 @@ public class WebManagementService {
 //        }
         final HttpServletRequest request = requestData.getRequest();
         cart = cartService.addProductSkuToCart(cart, retailer, catalogCategoryCode, productSkuCode, quantity);
+        
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
         requestUtil.updateCurrentCart(request, cart);
     }
     

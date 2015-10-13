@@ -214,11 +214,20 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
         }
     }
 
-    public Cart updateCart(Cart cart) {
-//        Cart cartToUpdate = getCart();
-//        cartToUpdate = cart;
-        this.carts.add(cart);
-        return cart;
+    public void updateCart(Cart cart) {
+        if(this.carts != null){
+        	Set<Cart> updatedCarts = new HashSet<Cart>();
+            for (Iterator<Cart> iterator = carts.iterator(); iterator.hasNext();) {
+				Cart cartIt = (Cart) iterator.next();
+				if(cartIt.getId().equals(cart.getId())){
+					updatedCarts.add(cart);
+                } else {
+                	updatedCarts.add(cartIt);
+                }
+			}
+            this.carts.clear();
+            this.carts = updatedCarts;
+        }
     }
 
     public void setCarts(Set<Cart> carts) {
