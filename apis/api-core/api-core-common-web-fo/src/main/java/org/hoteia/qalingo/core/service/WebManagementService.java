@@ -136,7 +136,7 @@ public class WebManagementService {
             throw new Exception("");
         }
 
-        final Cart cart = requestData.getCart();
+        Cart cart = requestData.getCart();
 //        int finalQuantity = quantity;
 //        if(cart != null){
 //            Set<CartItem> cartItems = cart.getCartItems();
