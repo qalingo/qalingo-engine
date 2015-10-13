@@ -173,7 +173,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             }
             webManagementService.addToCart(requestData, catalogCategoryCode, productSkuCode, quantityValue);
             
-            CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
+            CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
             for (Iterator<CartItemPojo> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
                 CartItemPojo cartItem = (CartItemPojo) iterator.next();
                 if(cartItem.getProductSku().getCode().equals(productSkuCode)){
@@ -345,7 +345,7 @@ public class CartAjaxController extends AbstractMCommerceController {
     
     private void injectCart(final RequestData requestData, final FoCheckoutPojo checkout){
         try {
-            CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
+            CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
             checkout.setCart(cart);
 
             MarketArea marketArea = marketService.getMarketAreaByCode(requestData.getMarketArea().getCode(), FetchPlanGraphMarket.specificMarketAreaFetchPlanWithCheckoutData());

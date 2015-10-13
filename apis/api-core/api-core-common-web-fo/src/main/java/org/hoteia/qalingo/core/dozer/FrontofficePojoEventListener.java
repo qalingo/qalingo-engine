@@ -91,7 +91,6 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                         for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
                             Asset asset = (Asset) iterator.next();
                             AssetPojo assetPojo = new AssetPojo();
-                            
                             assetPojo.setName(asset.getName());
                             assetPojo.setDescription(asset.getDescription());
                             assetPojo.setType(asset.getType());
@@ -105,7 +104,6 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                             cartItemPojo.setSummaryImage(buildDefaultAsset(requestData, productSku));
                         }
                     }
-                    
                     cartItemPojo.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
                     
                     cartItemPojo.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), cartItem.getProductSku()));
@@ -125,7 +123,6 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                 try {
                     final RequestData requestData = requestUtil.getRequestData(httpServletRequest);
                     final MarketArea marketArea = requestData.getMarketArea();
-                    final Retailer retailer = requestData.getMarketAreaRetailer();
                     final Localization localization = requestData.getMarketAreaLocalization();
                     final String localizationCode = localization.getCode();
                     
@@ -134,7 +131,6 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                         for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
                             Asset asset = (Asset) iterator.next();
                             AssetPojo assetPojo = new AssetPojo();
-                            
                             assetPojo.setName(asset.getName());
                             assetPojo.setDescription(asset.getDescription());
                             assetPojo.setType(asset.getType());
