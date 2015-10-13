@@ -238,6 +238,14 @@ public class MarketArea extends AbstractEntity<MarketArea> {
     public CatalogVirtual getCatalog() {
         return catalog;
     }
+    
+    public String getCatalogCode() {
+        if (catalog != null 
+                && Hibernate.isInitialized(catalog)) {
+            return catalog.getCode();
+        }
+        return null;
+    }
 
     public void setCatalog(CatalogVirtual catalog) {
         this.catalog = catalog;

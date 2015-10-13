@@ -100,41 +100,40 @@ public class CartRestService {
         AddToCartPojoResponse addToCartPojoResponse = new AddToCartPojoResponse();
         
         Cart cart;
-        if(StringUtils.isNotEmpty(addToCartPojoRequest.getCartId())){
-            cart = cartService.getCartById(addToCartPojoRequest.getCartId());
-            String catalogCategoryCode = addToCartPojoRequest.getCatalogCategoryCode();
-            String productSkuCode = addToCartPojoRequest.getProductSkuCode();
-            int quantity = addToCartPojoRequest.getQuantity();
-
-            checkoutPojoService.addProductSkuToCart(cart, catalogCategoryCode, productSkuCode, quantity);
-            
-        } else if(StringUtils.isNotEmpty(addToCartPojoRequest.getMarketAreaCode())){
+        if(StringUtils.isNotEmpty(addToCartPojoRequest.getMarketAreaCode())){
             MarketArea marketArea = marketService.getMarketAreaByCode(addToCartPojoRequest.getMarketAreaCode());
             
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (!(authentication instanceof AnonymousAuthenticationToken)) {
-                String currentCustomerName = authentication.getName();
+            if(StringUtils.isNotEmpty(addToCartPojoRequest.getCartId())){
+                cart = cartService.getCartById(addToCartPojoRequest.getCartId());
+                String catalogCategoryCode = addToCartPojoRequest.getCatalogCategoryCode();
+                String productSkuCode = addToCartPojoRequest.getProductSkuCode();
+                int quantity = addToCartPojoRequest.getQuantity();
+
+                checkoutPojoService.addProductSkuToCart(cart, marketArea.getCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
                 
-                if(StringUtils.isNotEmpty(currentCustomerName)){
-                    Customer customer = customerService.getCustomerByLoginOrEmail(currentCustomerName);
-                    cart = cartService.newCustomerCart(marketArea, customer);
+            } else {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                    String currentCustomerName = authentication.getName();
+                    
+                    if(StringUtils.isNotEmpty(currentCustomerName)){
+                        Customer customer = customerService.getCustomerByLoginOrEmail(currentCustomerName);
+                        cart = cartService.newCustomerCart(marketArea, customer);
+                    } else {
+                        cart = cartService.newGuestCart(marketArea);
+                    }
                 } else {
                     cart = cartService.newGuestCart(marketArea);
                 }
-            } else {
-                cart = cartService.newGuestCart(marketArea);
+                
+                String catalogCategoryCode = addToCartPojoRequest.getCatalogCategoryCode();
+                String productSkuCode = addToCartPojoRequest.getProductSkuCode();
+                int quantity = addToCartPojoRequest.getQuantity();
+
+                checkoutPojoService.addProductSkuToCart(cart, marketArea.getCatalog().getCode(), catalogCategoryCode, productSkuCode, quantity);
             }
             
-            String catalogCategoryCode = addToCartPojoRequest.getCatalogCategoryCode();
-            String productSkuCode = addToCartPojoRequest.getProductSkuCode();
-            int quantity = addToCartPojoRequest.getQuantity();
-
-            checkoutPojoService.addProductSkuToCart(cart, catalogCategoryCode, productSkuCode, quantity);
-            
-        } else {
-            // TODO SEND ERREUR
         }
-                
         return addToCartPojoResponse;
     }
     

@@ -62,8 +62,8 @@ public class CheckoutPojoService {
         return cartPojo;
     }
     
-    public void addProductSkuToCart(Cart cart, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
-        cartService.addProductSkuToCart(cart, catalogCategoryCode, productSkuCode, quantity);
+    public void addProductSkuToCart(Cart cart, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+        cartService.addProductSkuToCart(cart, virtualCatalogCode, catalogCategoryCode, productSkuCode, quantity);
     }
     
     public void updateCartItem(Cart cart, String productSkuCode, int quantity) throws Exception {
@@ -94,15 +94,15 @@ public class CheckoutPojoService {
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
                 if(cartItem.getProductSku() == null){
-                    final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode(), FetchPlanGraphProduct.productSkuDisplayFetchPlan());
+                    final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSku().getCode(), FetchPlanGraphProduct.productSkuDisplayFetchPlan());
                     cartItem.setProductSku(productSku);
                 }
                 if(cartItem.getProductMarketing() == null){
-                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
+                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketing().getCode());
                     cartItem.setProductMarketing(productMarketing);
                 }
                 if(cartItem.getCatalogCategory() == null){
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode(), catalogVirtualCode, catalogMasterCode);
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategory().getCode(), catalogVirtualCode, catalogMasterCode);
                     cartItem.setCatalogCategory(catalogCategory);
                 }
             }

@@ -44,36 +44,36 @@ public class CartService {
     @Autowired
     protected DeliveryMethodService deliveryMethodService;
     
-    public void addProductSkuToCart(Cart cart, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
-        addProductSkuToCart(cart, null, catalogCategoryCode, productSkuCode, quantity);
+    public void addProductSkuToCart(Cart cart, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+        addProductSkuToCart(cart, null, virtualCatalogCode, catalogCategoryCode, productSkuCode, quantity);
     }
     
-    public Cart addProductSkuToCart(Cart cart, Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public Cart addProductSkuToCart(Cart cart, Retailer retailer, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         int finalQuantity = quantity;
         if (cart != null) {
             Set<CartItem> cartItems = cart.getCartItems();
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)
+                if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)
                         && cartItem.getRetailerId().equals(retailer)) {
                     finalQuantity = finalQuantity + cartItem.getQuantity();
                 }
             }
         }
-        cart = updateCartItem(cart, retailer, catalogCategoryCode, productSkuCode, finalQuantity);
+        cart = updateCartItem(cart, retailer, virtualCatalogCode, catalogCategoryCode, productSkuCode, finalQuantity);
         return cart;
     }
     
     public Cart updateCartItem(Cart cart, final String productSkuCode, final int quantity) throws Exception {
-        return updateCartItem(cart, null, null, productSkuCode, quantity);
+        return updateCartItem(cart, null, null, null, productSkuCode, quantity);
     }
     
-    public Cart updateCartItem(Cart cart, Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public Cart updateCartItem(Cart cart, Retailer retailer, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         Set<CartItem> cartItems = cart.getCartItems();
         boolean productSkuIsNew = true;
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
             CartItem cartItem = (CartItem) iterator.next();
-            if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
+            if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)) {
                 cartItem.setQuantity(quantity);
                 productSkuIsNew = false;
             }
@@ -82,22 +82,23 @@ public class CartService {
             final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
             if (productSku != null) {
                 CartItem cartItem = new CartItem();
-                cartItem.setProductSkuCode(productSkuCode);
+                cartItem.setProductSku(productSku);
                 cartItem.setProductSku(productSku);
 
-                cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
+                final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+                cartItem.setProductMarketing(reloadedProductMarketing);
                 cartItem.setQuantity(quantity);
                 if(retailer != null){
                     cartItem.setRetailerId(retailer.getId());
                 }
 
                 if (StringUtils.isNotEmpty(catalogCategoryCode)) {
-                    cartItem.setCatalogCategoryCode(catalogCategoryCode);
+                    final CatalogCategoryVirtual defaultVirtualCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode, virtualCatalogCode);
+                    cartItem.setCatalogCategory(defaultVirtualCatalogCategory);
                 } else {
-                    final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
                     final List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId());
                     final CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(reloadedProductMarketing, catalogCategories, true);
-                    cartItem.setCatalogCategoryCode(defaultVirtualCatalogCategory.getCode());
+                    cartItem.setCatalogCategory(defaultVirtualCatalogCategory);
                 }
                 cart.getCartItems().add(cartItem);
             } else {
@@ -116,7 +117,7 @@ public class CartService {
             Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
             for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)
+                if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)
                         && cartItem.getRetailerId().equals(retailer)) {
                     cartItems.remove(cartItem);
                 }

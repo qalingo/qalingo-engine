@@ -3,7 +3,7 @@ package org.hoteia.qalingo.core.pojo.cart;
 public class AddToCartPojoRequest {
 
     private String marketAreaCode;
-    private String cartId;   
+    private String cartId;
     private String productSkuCode;
     private String catalogCategoryCode;
     private int quantity;

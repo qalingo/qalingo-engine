@@ -74,7 +74,7 @@ public class CheckoutService {
                     CartItem cartItem = (CartItem) iteratorCartItem.next();
                     OrderItem orderItem = new OrderItem();
                     orderItem.setCurrency(cart.getCurrency());
-                    orderItem.setProductSkuCode(cartItem.getProductSkuCode());
+                    orderItem.setProductSkuCode(cartItem.getProductSku().getCode());
                     orderItem.setProductSku(cartItem.getProductSku());
                     orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId(), cart.getRetailerId()).getSalePrice());
                     orderItem.setQuantity(cartItem.getQuantity());

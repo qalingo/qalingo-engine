@@ -63,7 +63,7 @@ public class Cart extends AbstractEntity<Cart> {
     @Column(name = "RETAILER_ID")
     private Long retailerId;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
 
@@ -76,7 +76,7 @@ public class Cart extends AbstractEntity<Cart> {
     @Column(name = "SHIPPING_ADDRESS_ID")
     private Long shippingAddressId;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL}, targetEntity = org.hoteia.qalingo.core.domain.CartItem.class)
     @JoinColumn(name="CART_ID", referencedColumnName="ID")
     private Set<CartItem> cartItems = new HashSet<CartItem>();
 
@@ -199,7 +199,7 @@ public class Cart extends AbstractEntity<Cart> {
             Set<CartItem> checkedCartItems = new HashSet<CartItem>(cartItems);
             for (Iterator<CartItem> iterator = checkedCartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem != null && cartItem.getProductSkuCode().equals(cartItemToDelete.getProductSkuCode())) {
+                if (cartItem != null && cartItem.getProductSku().equals(cartItemToDelete.getProductSku())) {
                     cartItems.remove(cartItem);
                 }
             }

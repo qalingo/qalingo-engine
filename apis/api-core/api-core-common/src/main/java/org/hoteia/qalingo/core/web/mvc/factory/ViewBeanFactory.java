@@ -2397,8 +2397,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         final CartItemViewBean cartItemViewBean = new CartItemViewBean();
 
-        cartItemViewBean.setSkuCode(cartItem.getProductSkuCode());
-        final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode(), productSkuFetchPlan);
+        cartItemViewBean.setSkuCode(cartItem.getProductSku().getCode());
+        final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSku().getCode(), productSkuFetchPlan);
         cartItem.setProductSku(productSku);
         
         cartItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
@@ -2438,11 +2438,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
 
         Map<String, String> getParams = new HashMap<String, String>();
-        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSkuCode());
+        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSku().getCode());
         cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
 
-        final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
+        final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketing().getCode());
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategory().getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
         
         cartItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, cartItem.getProductSku()));
 

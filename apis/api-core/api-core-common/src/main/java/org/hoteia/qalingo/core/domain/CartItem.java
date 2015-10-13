@@ -54,23 +54,35 @@ public class CartItem extends AbstractEntity<CartItem> {
     @Transient
     private CartItemPrice cartItemPrice;
     
-    @Column(name = "PRODUCT_SKU_CODE")
-    private String productSkuCode;
-
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = true, updatable = true)
     private ProductSku productSku;
     
-    @Column(name = "PRODUCT_MARKETING_CODE")
-    private String productMarketingCode;
-
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
     private ProductMarketing productMarketing;
     
-    @Column(name = "VIRTUAL_CATEGORY_CODE")
-    private String catalogCategoryCode;
-
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class)
+    @JoinColumn(name = "VIRTUAL_CATEGORY_ID", insertable = true, updatable = true)
     private CatalogCategoryVirtual catalogCategory;
+    
+//    @Column(name = "PRODUCT_SKU_CODE")
+//    private String productSkuCode;
+//
+//    @Transient
+//    private ProductSku productSku;
+//    
+//    @Column(name = "PRODUCT_MARKETING_CODE")
+//    private String productMarketingCode;
+//
+//    @Transient
+//    private ProductMarketing productMarketing;
+//    
+//    @Column(name = "VIRTUAL_CATEGORY_CODE")
+//    private String catalogCategoryCode;
+//
+//    @Transient
+//    private CatalogCategoryVirtual catalogCategory;
     
     @Transient
     private DeliveryMethod deliveryMethod;
@@ -126,14 +138,6 @@ public class CartItem extends AbstractEntity<CartItem> {
         this.cartItemPrice = cartItemPrice;
     }
 
-    public String getProductSkuCode() {
-        return productSkuCode;
-    }
-
-    public void setProductSkuCode(String productSkuCode) {
-        this.productSkuCode = productSkuCode;
-    }
-    
     public ProductSku getProductSku() {
         return productSku;
     }
@@ -142,28 +146,12 @@ public class CartItem extends AbstractEntity<CartItem> {
         this.productSku = productSku;
     }
 
-    public String getProductMarketingCode() {
-        return productMarketingCode;
-    }
-
-    public void setProductMarketingCode(String productMarketingCode) {
-        this.productMarketingCode = productMarketingCode;
-    }
-    
     public ProductMarketing getProductMarketing() {
         return productMarketing;
     }
     
     public void setProductMarketing(ProductMarketing productMarketing) {
         this.productMarketing = productMarketing;
-    }
-
-    public String getCatalogCategoryCode() {
-        return catalogCategoryCode;
-    }
-
-    public void setCatalogCategoryCode(String catalogCategoryCode) {
-        this.catalogCategoryCode = catalogCategoryCode;
     }
 
     public CatalogCategoryVirtual getCatalogCategory() {
@@ -237,10 +225,7 @@ public class CartItem extends AbstractEntity<CartItem> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((catalogCategoryCode == null) ? 0 : catalogCategoryCode.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((productMarketingCode == null) ? 0 : productMarketingCode.hashCode());
-        result = prime * result + ((productSkuCode == null) ? 0 : productSkuCode.hashCode());
         return result;
     }
 
@@ -254,33 +239,17 @@ public class CartItem extends AbstractEntity<CartItem> {
         if (getClass() != obj.getClass())
             return false;
         CartItem other = (CartItem) obj;
-        if (catalogCategoryCode == null) {
-            if (other.catalogCategoryCode != null)
-                return false;
-        } else if (!catalogCategoryCode.equals(other.catalogCategoryCode))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (productMarketingCode == null) {
-            if (other.productMarketingCode != null)
-                return false;
-        } else if (!productMarketingCode.equals(other.productMarketingCode))
-            return false;
-        if (productSkuCode == null) {
-            if (other.productSkuCode != null)
-                return false;
-        } else if (!productSkuCode.equals(other.productSkuCode))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "CartItem [id=" + id + ", quantity=" + quantity + ", productSkuCode=" + productSkuCode + ", productMarketingCode=" + productMarketingCode + ", catalogCategoryCode="
-                + catalogCategoryCode + "]";
+        return "CartItem [id=" + id + ", quantity=" + quantity + "]";
     }
 
 }

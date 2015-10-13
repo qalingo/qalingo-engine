@@ -149,7 +149,7 @@ public class WebManagementService {
 //            }
 //        }
         final HttpServletRequest request = requestData.getRequest();
-        cart = cartService.addProductSkuToCart(cart, retailer, catalogCategoryCode, productSkuCode, quantity);
+        cart = cartService.addProductSkuToCart(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
         cart = cartService.getCartById(cart.getId());
@@ -187,7 +187,7 @@ public class WebManagementService {
             cart = engineEcoSession.addNewCart();
         }
         
-        cartService.updateCartItem(cart, retailer, catalogCategoryCode, productSkuCode, quantity);
+        cartService.updateCartItem(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
         requestUtil.updateCurrentCart(request, cart);
     }
