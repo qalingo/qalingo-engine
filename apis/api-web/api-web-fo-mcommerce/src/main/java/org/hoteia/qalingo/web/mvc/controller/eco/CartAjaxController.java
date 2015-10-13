@@ -132,51 +132,6 @@ public class CartAjaxController extends AbstractMCommerceController {
         }
     }
     
-    protected String buildDefaultAsset(final RequestData requestData, final ProductSku productSku) throws Exception{
-        // TEMPORARY FIX : ASSET
-        Set<Asset> assets = productSku.getAssets();
-        Asset defaultAsset = null;
-        if(assets != null){
-            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
-                if("PACKSHOT".equalsIgnoreCase(asset.getType())
-                        && asset.isDefault()){
-                    defaultAsset = asset;
-                }
-            }
-            if(defaultAsset == null
-                    && assets.iterator().hasNext()){
-                defaultAsset = assets.iterator().next();
-            }
-        }
-        if(defaultAsset == null && productSku.getProductMarketing() != null && Hibernate.isInitialized(productSku.getProductMarketing())){
-            if(productSku.getProductMarketing().getAssets() != null && Hibernate.isInitialized(productSku.getProductMarketing().getAssets())){
-                assets = productSku.getProductMarketing().getAssets();
-                for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                    Asset asset = (Asset) iterator.next();
-                    if("PACKSHOT".equalsIgnoreCase(asset.getType())
-                            && asset.isDefault()){
-                        defaultAsset = asset;
-                    }
-                }
-                if(defaultAsset == null
-                        && assets.iterator().hasNext()){
-                    defaultAsset = assets.iterator().next();
-                }
-            }
-        }
-        if(defaultAsset == null){
-            defaultAsset = new Asset();
-            defaultAsset.setType("default");
-            defaultAsset.setPath("default-product.png");
-        }
-        return urlService.buildAbsoluteUrl(requestData, buildAssetPath(productSku, defaultAsset));
-    }
-    
-    protected String buildAssetPath(final ProductSku productSku, final Asset defaultAsset) throws Exception{
-        return engineSettingService.getProductSkuImageWebPath(defaultAsset);
-    }
-    
     @RequestMapping(value = FoUrls.GET_CART_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
     public FoCheckoutPojo getCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -207,7 +162,10 @@ public class CartAjaxController extends AbstractMCommerceController {
         final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
         addToCart.setProductSku(catalogPojoService.buildProductSku(productSku));
 
+        addToCart.getProductSku().setDefaultPackshotImage(buildDefaultAsset(requestData, productSku));
+        
         addToCart.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
+        
         try {
             int quantityValue = 1;
             if(StringUtils.isNotEmpty(quantity)){
@@ -408,6 +366,51 @@ public class CartAjaxController extends AbstractMCommerceController {
             checkout.getErrorMessages().add(errorMessage);
             checkout.setStatuts(false);
         }
+    }
+    
+    protected String buildDefaultAsset(final RequestData requestData, final ProductSku productSku) throws Exception{
+        // TEMPORARY FIX : ASSET
+        Set<Asset> assets = productSku.getAssets();
+        Asset defaultAsset = null;
+        if(assets != null){
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if("PACKSHOT".equalsIgnoreCase(asset.getType())
+                        && asset.isDefault()){
+                    defaultAsset = asset;
+                }
+            }
+            if(defaultAsset == null
+                    && assets.iterator().hasNext()){
+                defaultAsset = assets.iterator().next();
+            }
+        }
+        if(defaultAsset == null && productSku.getProductMarketing() != null && Hibernate.isInitialized(productSku.getProductMarketing())){
+            if(productSku.getProductMarketing().getAssets() != null && Hibernate.isInitialized(productSku.getProductMarketing().getAssets())){
+                assets = productSku.getProductMarketing().getAssets();
+                for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                    Asset asset = (Asset) iterator.next();
+                    if("PACKSHOT".equalsIgnoreCase(asset.getType())
+                            && asset.isDefault()){
+                        defaultAsset = asset;
+                    }
+                }
+                if(defaultAsset == null
+                        && assets.iterator().hasNext()){
+                    defaultAsset = assets.iterator().next();
+                }
+            }
+        }
+        if(defaultAsset == null){
+            defaultAsset = new Asset();
+            defaultAsset.setType("default");
+            defaultAsset.setPath("default-product.png");
+        }
+        return urlService.buildAbsoluteUrl(requestData, buildAssetPath(productSku, defaultAsset));
+    }
+    
+    protected String buildAssetPath(final ProductSku productSku, final Asset defaultAsset) throws Exception{
+        return engineSettingService.getProductSkuImageWebPath(defaultAsset);
     }
 
 }
