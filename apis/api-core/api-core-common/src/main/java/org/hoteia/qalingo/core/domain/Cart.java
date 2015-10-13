@@ -326,19 +326,17 @@ public class Cart extends AbstractEntity<Cart> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((billingAddressId == null) ? 0 : billingAddressId.hashCode());
-        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((localizationId == null) ? 0 : localizationId.hashCode());
         result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
         result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
-        result = prime * result + ((shippingAddressId == null) ? 0 : shippingAddressId.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object sourceObj) {
-        Object obj = deproxy(sourceObj);
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -346,25 +344,25 @@ public class Cart extends AbstractEntity<Cart> {
         if (getClass() != obj.getClass())
             return false;
         Cart other = (Cart) obj;
-        if (billingAddressId == null) {
-            if (other.billingAddressId != null)
-                return false;
-        } else if (!billingAddressId.equals(other.billingAddressId))
-            return false;
-        if (customerId == null) {
-            if (other.customerId != null)
-                return false;
-        } else if (!customerId.equals(other.customerId))
-            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
+        if (dateUpdate == null) {
+            if (other.dateUpdate != null)
+                return false;
+        } else if (!dateUpdate.equals(other.dateUpdate))
+            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
+            return false;
+        if (localizationId == null) {
+            if (other.localizationId != null)
+                return false;
+        } else if (!localizationId.equals(other.localizationId))
             return false;
         if (marketAreaId == null) {
             if (other.marketAreaId != null)
@@ -375,11 +373,6 @@ public class Cart extends AbstractEntity<Cart> {
             if (other.retailerId != null)
                 return false;
         } else if (!retailerId.equals(other.retailerId))
-            return false;
-        if (shippingAddressId == null) {
-            if (other.shippingAddressId != null)
-                return false;
-        } else if (!shippingAddressId.equals(other.shippingAddressId))
             return false;
         return true;
     }
