@@ -93,18 +93,9 @@ public class CheckoutPojoService {
             Set<CartItem> cartItems = cart.getCartItems();
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
-                if(cartItem.getProductSku() == null){
-                    final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSku().getCode(), FetchPlanGraphProduct.productSkuDisplayFetchPlan());
-                    cartItem.setProductSku(productSku);
-                }
-                if(cartItem.getProductMarketing() == null){
-                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketing().getCode());
-                    cartItem.setProductMarketing(productMarketing);
-                }
-                if(cartItem.getCatalogCategory() == null){
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategory().getCode(), catalogVirtualCode, catalogMasterCode);
-                    cartItem.setCatalogCategory(catalogCategory);
-                }
+                cartItem.setProductSku(cartItem.getProductSku());
+                cartItem.setProductMarketing(cartItem.getProductMarketing());
+                cartItem.setCatalogCategory(cartItem.getCatalogCategory());
             }
         }
         return cart == null ? null : dozerBeanMapper.map(cart, CartPojo.class);
