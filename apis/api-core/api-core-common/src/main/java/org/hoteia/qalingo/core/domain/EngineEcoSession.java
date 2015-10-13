@@ -218,7 +218,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
 //        Cart cartToUpdate = getCart();
 //        cartToUpdate = cart;
         this.carts.add(cart);
-        return cartToUpdate;
+        return cart;
     }
 
     public void setCarts(Set<Cart> carts) {
