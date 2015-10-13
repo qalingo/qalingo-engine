@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
@@ -93,7 +94,7 @@ public class CheckoutPojoService {
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
                 if(cartItem.getProductSku() == null){
-                    final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode());
+                    final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode(), FetchPlanGraphProduct.productSkuDisplayFetchPlan());
                     cartItem.setProductSku(productSku);
                 }
                 if(cartItem.getProductMarketing() == null){
