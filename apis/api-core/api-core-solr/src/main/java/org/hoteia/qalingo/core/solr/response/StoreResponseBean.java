@@ -24,7 +24,7 @@ public class StoreResponseBean {
     public static final String STORE_COUNTRY_FACET_FIELD    = "countrycode";
 
     public static final String STORE_CITY_FACET_FIELD_CODE       = "cities";
-    public static final String STORE_COUNTRY_FACET_FIELD_CODE    = "countrycode";
+    public static final String STORE_COUNTRY_FACET_FIELD_CODE    = "countries";
 
     public static final String STORE_DEFAULT_SEARCH_FIELD   = STORE_SEARCH_FIELD_TEXT;
 //    public static final String STORE_DEFAULT_FACET_FIELD    = STORE_CITY_FACET_FIELD;
