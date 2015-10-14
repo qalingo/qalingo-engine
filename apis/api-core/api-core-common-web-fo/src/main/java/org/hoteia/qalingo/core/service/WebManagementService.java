@@ -189,6 +189,9 @@ public class WebManagementService {
         
         cartService.updateCartItem(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
         requestUtil.updateCurrentCart(request, cart);
     }
     
@@ -210,6 +213,12 @@ public class WebManagementService {
             cart.setBillingAddressId(customer.getDefaultBillingAddressId());
             cart.setShippingAddressId(customer.getDefaultShippingAddressId());
         }
+        
+        cart = cartService.saveOrUpdateCart(cart);
+        
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
         requestUtil.updateCurrentCart(request, cart);
     }
     
@@ -223,6 +232,12 @@ public class WebManagementService {
             cart.setBillingAddressId(billingAddressId);
             cart.setShippingAddressId(shippingAddressId);
         }
+        
+        cart = cartService.saveOrUpdateCart(cart);
+        
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
         requestUtil.updateCurrentCart(request, cart);
     }
 
@@ -240,8 +255,13 @@ public class WebManagementService {
     public void deleteCartItem(final RequestData requestData, final Retailer retailer, final String productSkuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        Cart savedCart = cartService.deleteCartItem(cart, retailer, productSkuCode);
-        requestUtil.updateCurrentCart(request, savedCart);
+        
+        cartService.deleteCartItem(cart, retailer, productSkuCode);
+        
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
+        requestUtil.updateCurrentCart(request, cart);
     }
     
     /**
@@ -253,6 +273,10 @@ public class WebManagementService {
         Cart cart = requestData.getCart();
         Long customerAddressId = Long.parseLong(customerShippingAddressId);
         cartService.setShippingAddress(cart, customer, customerAddressId);
+        
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
         requestUtil.updateCurrentCart(request, cart);
     }
     
@@ -265,6 +289,10 @@ public class WebManagementService {
         Cart cart = requestData.getCart();
         Long customerAddressId = Long.parseLong(customerBillingAddressId);
         cartService.setBillingAddress(cart, customer, customerAddressId);
+        
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
         requestUtil.updateCurrentCart(request, cart);
     }
     
@@ -275,6 +303,10 @@ public class WebManagementService {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
         cartService.setDeliveryMethod(cart, deliveryMethodCode);
+        
+        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        cart = cartService.getCartById(cart.getId());
+        
         requestUtil.updateCurrentCart(request, cart);
     }
     

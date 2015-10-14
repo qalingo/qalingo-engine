@@ -226,6 +226,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         try {
             int quantityValue = Integer.parseInt(quantity);
             webManagementService.updateCart(requestData, productSkuCode, quantityValue);
+            
         } catch (Exception e) {
             logger.error("", e);
             FoMessagePojo errorMessage = new FoMessagePojo();
