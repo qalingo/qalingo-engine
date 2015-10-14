@@ -10,20 +10,13 @@
 package org.hoteia.qalingo.core.service.pojo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.CartItem;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
@@ -56,9 +49,7 @@ public class CheckoutPojoService {
     
     public CartPojo getCart(MarketArea marketArea, Customer customer) throws Exception {
         Cart cart = cartService.getCartByMarketAreaIdAndCustomerId(marketArea.getId(), customer.getId());
-        String catalogVirtualCode = marketArea.getCatalog().getCode();
-        String catalogMasterCode = marketArea.getCatalog().getCatalogMaster().getCode();
-        CartPojo cartPojo = handleCartMapping(cart, catalogVirtualCode, catalogMasterCode);
+        CartPojo cartPojo = handleCartMapping(cart);
         return cartPojo;
     }
     
@@ -88,24 +79,15 @@ public class CheckoutPojoService {
         cartService.setDeliveryMethod(cart, deliveryMethodCode);
     }
     
-    public CartPojo handleCartMapping(final Cart cart, final String catalogVirtualCode, final String catalogMasterCode) {
+    public CartPojo handleCartMapping(final Cart cart) {
         if(cart != null){
-            Set<CartItem> cartItems = cart.getCartItems();
-            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-                CartItem cartItem = (CartItem) iterator.next();
-                if(cartItem.getProductSku() == null){
-                    final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSku().getCode(), FetchPlanGraphProduct.productSkuDisplayFetchPlan());
-                    cartItem.setProductSku(productSku);
-                }
-                if(cartItem.getProductMarketing() == null){
-                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketing().getCode());
-                    cartItem.setProductMarketing(productMarketing);
-                }
-                if(cartItem.getCatalogCategory() == null){
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategory().getCode(), catalogVirtualCode, catalogMasterCode);
-                    cartItem.setCatalogCategory(catalogCategory);
-                }
-            }
+//            Set<CartItem> cartItems = cart.getCartItems();
+//            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+//                CartItem cartItem = (CartItem) iterator.next();
+//                cartItem.setProductSku(cartItem.getProductSku());
+//                cartItem.setProductMarketing(cartItem.getProductMarketing());
+//                cartItem.setCatalogCategory(cartItem.getCatalogCategory());
+//            }
         }
         return cart == null ? null : dozerBeanMapper.map(cart, CartPojo.class);
     }

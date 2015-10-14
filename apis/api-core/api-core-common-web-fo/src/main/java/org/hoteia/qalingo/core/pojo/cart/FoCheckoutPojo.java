@@ -61,4 +61,10 @@ public class FoCheckoutPojo {
         this.errorMessages = errorMessages;
     }
 
+    @Override
+    public String toString() {
+        return "FoCheckoutPojo [statuts=" + statuts + ", cart=" + cart + ", deliveryMethodInformations=" + deliveryMethodInformations + ", successMessages=" + successMessages + ", errorMessages="
+                + errorMessages + "]";
+    }
+
 }

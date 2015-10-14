@@ -245,4 +245,14 @@ public class CartPojo {
         this.dateUpdate = dateUpdate;
     }
 
+    @Override
+    public String toString() {
+        return "CartPojo [id=" + id + ", version=" + version + ", status=" + status + ", marketAreaId=" + marketAreaId + ", retailerId=" + retailerId + ", currency=" + currency + ", customerId="
+                + customerId + ", billingAddressId=" + billingAddressId + ", shippingAddressId=" + shippingAddressId + ", cartItems=" + cartItems + ", cartItemTotal=" + cartItemTotal
+                + ", cartItemTotalWithStandardCurrencySign=" + cartItemTotalWithStandardCurrencySign + ", deliveryMethods=" + deliveryMethods + ", deliveryMethodTotal=" + deliveryMethodTotal
+                + ", deliveryMethodTotalWithStandardCurrencySign=" + deliveryMethodTotalWithStandardCurrencySign + ", taxes=" + taxes + ", taxTotal=" + taxTotal
+                + ", taxTotalWithStandardCurrencySign=" + taxTotalWithStandardCurrencySign + ", rules=" + rules + ", cartTotal=" + cartTotal + ", cartTotalWithStandardCurrencySign="
+                + cartTotalWithStandardCurrencySign + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }
