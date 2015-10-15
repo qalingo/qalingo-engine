@@ -174,9 +174,8 @@ public class CartAjaxController extends AbstractMCommerceController {
             webManagementService.addToCart(requestData, catalogCategoryCode, productSkuCode, quantityValue);
             
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
-            for (Iterator<CartItemPojo> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
-                CartItemPojo cartItem = (CartItemPojo) iterator.next();
-                if(cartItem.getProductSku().getCode().equals(productSkuCode)){
+            for (CartItemPojo cartItem : cart.getCartItems()) {
+                if (cartItem.getProductSku().getCode().equals(productSkuCode)) {
                     addToCart.setQuantity(cartItem.getQuantity());
                 }
             }
@@ -329,8 +328,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_DELIVERY_METHOD_CODE);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-            webManagementService.deleteCartItem(requestData, deliveryMethodCode);
-            
+            webManagementService.setDeliveryMethod(requestData, deliveryMethodCode);
         } catch (Exception e) {
             logger.error("", e);
             FoMessagePojo errorMessage = new FoMessagePojo();
@@ -374,10 +372,9 @@ public class CartAjaxController extends AbstractMCommerceController {
         Set<Asset> assets = productSku.getAssets();
         Asset defaultAsset = null;
         if(assets != null){
-            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
-                if("PACKSHOT".equalsIgnoreCase(asset.getType())
-                        && asset.isDefault()){
+            for (Asset asset : assets) {
+                if ("PACKSHOT".equalsIgnoreCase(asset.getType())
+                        && asset.isDefault()) {
                     defaultAsset = asset;
                 }
             }
@@ -389,10 +386,9 @@ public class CartAjaxController extends AbstractMCommerceController {
         if(defaultAsset == null && productSku.getProductMarketing() != null && Hibernate.isInitialized(productSku.getProductMarketing())){
             if(productSku.getProductMarketing().getAssets() != null && Hibernate.isInitialized(productSku.getProductMarketing().getAssets())){
                 assets = productSku.getProductMarketing().getAssets();
-                for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                    Asset asset = (Asset) iterator.next();
-                    if("PACKSHOT".equalsIgnoreCase(asset.getType())
-                            && asset.isDefault()){
+                for (Asset asset : assets) {
+                    if ("PACKSHOT".equalsIgnoreCase(asset.getType())
+                            && asset.isDefault()) {
                         defaultAsset = asset;
                     }
                 }
