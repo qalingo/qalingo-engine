@@ -74,6 +74,9 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
+    @Column(name = "IS_ENABLED_TO_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledToB2B;
+    
     @Column(name = "IS_ENABLED_TO_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean enabledToB2C;
     
@@ -200,6 +203,14 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
+    }
+    
+    public boolean isEnabledToB2B() {
+        return enabledToB2B;
+    }
+
+    public void setEnabledToB2B(boolean enabledToB2B) {
+        this.enabledToB2B = enabledToB2B;
     }
     
     public boolean isEnabledToB2C() {

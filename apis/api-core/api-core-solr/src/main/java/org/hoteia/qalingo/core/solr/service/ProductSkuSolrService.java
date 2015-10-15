@@ -70,6 +70,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolr.setName(productSku.getName());
         productSkuSolr.setDescription(productSku.getDescription());
 
+        productSkuSolr.setEnabledToB2B(productSku.isEnabledToB2B());
         productSkuSolr.setEnabledToB2C(productSku.isEnabledToB2C());
 
         if(productMarketing.getProductBrand() != null

@@ -23,6 +23,9 @@ public class ProductMarketingSolr {
 	private Boolean isDefault;
 
     @Field
+    private Boolean enabledToB2B;
+    
+    @Field
     private Boolean enabledToB2C;
 
 	@Field
@@ -83,6 +86,14 @@ public class ProductMarketingSolr {
         this.isDefault = isDefault;
     }
 
+    public Boolean getEnabledToB2B() {
+        return enabledToB2B;
+    }
+
+    public void setEnabledToB2B(Boolean enabledToB2B) {
+        this.enabledToB2B = enabledToB2B;
+    }
+    
     public Boolean getEnabledToB2C() {
         return enabledToB2C;
     }
