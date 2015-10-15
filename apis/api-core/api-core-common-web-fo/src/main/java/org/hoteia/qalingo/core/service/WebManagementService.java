@@ -152,7 +152,7 @@ public class WebManagementService {
         final HttpServletRequest request = requestData.getRequest();
         cart = cartService.addProductSkuToCart(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
@@ -191,7 +191,7 @@ public class WebManagementService {
         
         cartService.updateCartItem(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
@@ -219,7 +219,7 @@ public class WebManagementService {
         
         cart = cartService.saveOrUpdateCart(cart);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
@@ -239,7 +239,7 @@ public class WebManagementService {
         
         cart = cartService.saveOrUpdateCart(cart);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
@@ -263,7 +263,7 @@ public class WebManagementService {
         
         cartService.deleteCartItem(cart, retailer, productSkuCode);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
@@ -280,7 +280,7 @@ public class WebManagementService {
         Long customerAddressId = Long.parseLong(customerShippingAddressId);
         cartService.setShippingAddress(cart, customer, customerAddressId);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
@@ -297,7 +297,7 @@ public class WebManagementService {
         Long customerAddressId = Long.parseLong(customerBillingAddressId);
         cartService.setBillingAddress(cart, customer, customerAddressId);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
@@ -312,7 +312,7 @@ public class WebManagementService {
         Cart cart = requestData.getCart();
         cartService.setDeliveryMethod(cart, deliveryMethodCode);
         
-        // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
         
