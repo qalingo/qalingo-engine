@@ -25,7 +25,13 @@ public class ProductMarketingPojo {
     private String name;
     private String description;
     private boolean isDefault;
-    private boolean enabledToB2C;
+    
+    private boolean enabledB2B;
+    private boolean enabledB2C;
+    
+    private boolean salableB2B;
+    private boolean salableB2C;
+
     private int ranking;
 
     private Date dateCreate;
@@ -91,12 +97,36 @@ public class ProductMarketingPojo {
         isDefault = aDefault;
     }
 
+    public boolean isEnabledToB2B() {
+        return enabledB2B;
+    }
+
+    public void setEnabledToB2B(boolean enabledToB2B) {
+        this.enabledB2B = enabledToB2B;
+    }
+    
     public boolean isEnabledToB2C() {
-        return enabledToB2C;
+        return enabledB2C;
     }
 
     public void setEnabledToB2C(boolean enabledToB2C) {
-        this.enabledToB2C = enabledToB2C;
+        this.enabledB2C = enabledToB2C;
+    }
+    
+    public boolean isSalableB2B() {
+        return salableB2B;
+    }
+
+    public void setSalableB2B(boolean salableB2B) {
+        this.salableB2B = salableB2B;
+    }
+    
+    public boolean isSalableB2C() {
+        return salableB2C;
+    }
+
+    public void setSalableB2C(boolean salableB2C) {
+        this.salableB2C = salableB2C;
     }
     
     public int getRanking() {

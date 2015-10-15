@@ -23,11 +23,17 @@ public class ProductMarketingSolr {
 	private Boolean isDefault;
 
     @Field
-    private Boolean enabledToB2B;
+    private Boolean enabledB2B;
     
     @Field
-    private Boolean enabledToB2C;
+    private Boolean enabledB2C;
 
+    @Field
+    private Boolean salableB2B;
+    
+    @Field
+    private Boolean salableB2C;
+    
 	@Field
 	private String code;
 
@@ -87,21 +93,37 @@ public class ProductMarketingSolr {
     }
 
     public Boolean getEnabledToB2B() {
-        return enabledToB2B;
+        return enabledB2B;
     }
 
     public void setEnabledToB2B(Boolean enabledToB2B) {
-        this.enabledToB2B = enabledToB2B;
+        this.enabledB2B = enabledToB2B;
     }
     
     public Boolean getEnabledToB2C() {
-        return enabledToB2C;
+        return enabledB2C;
     }
 
     public void setEnabledToB2C(Boolean enabledToB2C) {
-        this.enabledToB2C = enabledToB2C;
+        this.enabledB2C = enabledToB2C;
     }
 
+    public boolean isSalableB2B() {
+        return salableB2B;
+    }
+
+    public void setSalableB2B(boolean salableB2B) {
+        this.salableB2B = salableB2B;
+    }
+    
+    public boolean isSalableB2C() {
+        return salableB2C;
+    }
+
+    public void setSalableB2C(boolean salableB2C) {
+        this.salableB2C = salableB2C;
+    }
+    
     public String getCode() {
         return code;
     }

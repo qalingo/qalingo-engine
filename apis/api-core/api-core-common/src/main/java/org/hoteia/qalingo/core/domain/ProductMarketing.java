@@ -69,11 +69,11 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
-    @Column(name = "IS_ENABLED_TO_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledToB2B;
+    @Column(name = "IS_ENABLED_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledB2B;
 
-    @Column(name = "IS_ENABLED_TO_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledToB2C;
+    @Column(name = "IS_ENABLED_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledB2C;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinColumn(name = "PRODUCT_BRAND_ID", insertable = true, updatable = true)
@@ -175,22 +175,50 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
         this.isDefault = isDefault;
     }
 
-    public boolean isEnabledToB2B() {
-        return enabledToB2B;
+    public boolean isEnabledB2B() {
+        return enabledB2B;
     }
 
-    public void setEnabledToB2B(boolean enabledToB2B) {
-        this.enabledToB2B = enabledToB2B;
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
     }
     
-    public boolean isEnabledToB2C() {
-        return enabledToB2C;
+    public boolean isEnabledB2C() {
+        return enabledB2C;
     }
 
-    public void setEnabledToB2C(boolean enabledToB2C) {
-        this.enabledToB2C = enabledToB2C;
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
     }
 
+    public boolean isSalableB2B() {
+        if(productSkus != null
+                && Hibernate.isInitialized(productSkus)
+                && !productSkus.isEmpty()){
+            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSku productSku = (ProductSku) iterator.next();
+                if(productSku.isSalableB2B()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean isSalableB2C() {
+        if(productSkus != null
+                && Hibernate.isInitialized(productSkus)
+                && !productSkus.isEmpty()){
+            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSku productSku = (ProductSku) iterator.next();
+                if(productSku.isSalableB2C()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public ProductBrand getProductBrand() {
 		return productBrand;
 	}

@@ -36,7 +36,15 @@ public class ProductSkuPojo {
     private String defaultIconImage;
     private String priceWithStandardCurrencySign;
     private String description;
+    
     private boolean isDefault;
+    
+    private boolean enabledB2B;
+    private boolean enabledB2C;
+
+    private boolean salableB2B;
+    private boolean salableB2C;
+
     private int ranking;
     
     private Date dateCreate;
@@ -175,14 +183,6 @@ public class ProductSkuPojo {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public int getRanking() {
-        return ranking;
-    }
-    
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
-    }
     
     public boolean isDefault() {
         return isDefault;
@@ -192,6 +192,46 @@ public class ProductSkuPojo {
         isDefault = aDefault;
     }
 
+    public boolean isEnabledB2B() {
+        return enabledB2B;
+    }
+
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
+    }
+    
+    public boolean isEnabledB2C() {
+        return enabledB2C;
+    }
+
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
+    }
+    
+    public boolean isSalableB2B() {
+        return salableB2B;
+    }
+
+    public void setSalableB2B(boolean salableB2B) {
+        this.salableB2B = salableB2B;
+    }
+    
+    public boolean isSalableB2C() {
+        return salableB2C;
+    }
+
+    public void setSalableB2C(boolean salableB2C) {
+        this.salableB2C = salableB2C;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }

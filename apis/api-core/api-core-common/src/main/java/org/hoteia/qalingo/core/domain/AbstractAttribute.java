@@ -47,7 +47,10 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
     public final static String PRODUCT_SKU_ATTRIBUTE_HEIGHT             = "PRODUCT_SKU_HEIGHT";
     public final static String PRODUCT_SKU_ATTRIBUTE_LENGTH             = "PRODUCT_SKU_LENGTH";
     public final static String PRODUCT_SKU_ATTRIBUTE_WEIGHT             = "PRODUCT_SKU_WEIGHT";
-    public final static String PRODUCT_SKU_ATTRIBUTE_IS_SALABLE         = "PRODUCT_SKU_IS_SALABLE";
+    public final static String PRODUCT_SKU_ATTRIBUTE_ENABLED_B2B        = "PRODUCT_SKU_ENABLED_B2B";
+    public final static String PRODUCT_SKU_ATTRIBUTE_ENABLED_B2C        = "PRODUCT_SKU_ENABLED_B2C";
+    public final static String PRODUCT_SKU_ATTRIBUTE_SALABLE_B2B        = "PRODUCT_SKU_SALABLE_B2B";
+    public final static String PRODUCT_SKU_ATTRIBUTE_SALABLE_B2C        = "PRODUCT_SKU_SALABLE_B2C";
 
     public final static String PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE_I18N_NAME             = "PRODUCT_SKU_OPTION_DEFINITION_I18N_NAME";
     public final static String PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE_I18N_DESCRIPTION      = "PRODUCT_SKU_OPTION_DEFINITION_I18N_DESCRIPTION";

@@ -40,6 +40,15 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 	protected String iconImage;
 
 	protected boolean isDefault;
+
+    private boolean enabledB2B;
+    private boolean enabledB2C;
+    
+    private boolean salableB2B;
+    private boolean salableB2C;
+
+    private int ranking;
+    
 	protected boolean featured;
 
 	protected ProductBrandViewBean brand;
@@ -143,26 +152,54 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 		this.positionItem = positionItem;
 	}
 
-	public boolean isDefault() {
-		return isDefault;
-	}
-
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
-
-	public boolean isSalable() {
-	    if(productSkus != null){
-	        for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
-	            ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
-	            if(productSkuViewBean.isSalable){
-	                return true;
-	            }
-	        }
-	    }
-        return false;
+    public boolean isDefault() {
+        return isDefault;
     }
 
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
+
+    public boolean isEnabledToB2B() {
+        return enabledB2B;
+    }
+
+    public void setEnabledToB2B(boolean enabledB2C) {
+        this.enabledB2B = enabledB2C;
+    }
+    
+    public boolean isEnabledToB2C() {
+        return enabledB2C;
+    }
+
+    public void setEnabledToB2C(boolean enabledToB2C) {
+        this.enabledB2C = enabledToB2C;
+    }
+    
+    public boolean isSalableB2B() {
+        return salableB2B;
+    }
+
+    public void setSalableB2B(boolean salableB2B) {
+        this.salableB2B = salableB2B;
+    }
+    
+    public boolean isSalableB2C() {
+        return salableB2C;
+    }
+
+    public void setSalableB2C(boolean salableB2C) {
+        this.salableB2C = salableB2C;
+    }
+    
+    public int getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+    
     public boolean isFeatured() {
 		return featured;
 	}

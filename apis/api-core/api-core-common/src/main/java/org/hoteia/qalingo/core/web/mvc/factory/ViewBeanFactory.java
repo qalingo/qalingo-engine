@@ -2126,7 +2126,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productSkuViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
 
         productSkuViewBean.setDefault(productSku.isDefault());
-        productSkuViewBean.setSalable(productSku.isSalable(marketArea.getId()));
+        productSkuViewBean.setSalableB2C(productSku.isSalableB2C(marketArea.getId()));
 
         if (productSku.getDateCreate() != null) {
             productSkuViewBean.setDateCreate(buildCommonFormatDate(requestData, productSku.getDateCreate()));

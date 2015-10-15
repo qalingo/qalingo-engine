@@ -73,8 +73,11 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         productMarketingSolr.setName(productMarketing.getName());
         productMarketingSolr.setDescription(productMarketing.getDescription());
 
-        productMarketingSolr.setEnabledToB2B(productMarketing.isEnabledToB2B());
-        productMarketingSolr.setEnabledToB2C(productMarketing.isEnabledToB2C());
+        productMarketingSolr.setEnabledToB2B(productMarketing.isEnabledB2B());
+        productMarketingSolr.setEnabledToB2C(productMarketing.isEnabledB2C());
+
+        productMarketingSolr.setSalableB2B(productMarketing.isSalableB2B());
+        productMarketingSolr.setSalableB2C(productMarketing.isSalableB2C());
 
         if(productMarketing.getProductBrand() != null
                 && Hibernate.isInitialized(productMarketing.getProductBrand())){

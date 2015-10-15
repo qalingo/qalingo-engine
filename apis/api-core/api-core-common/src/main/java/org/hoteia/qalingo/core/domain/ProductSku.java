@@ -74,11 +74,17 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
-    @Column(name = "IS_ENABLED_TO_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledToB2B;
+    @Column(name = "IS_ENABLED_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledB2B;
     
-    @Column(name = "IS_ENABLED_TO_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledToB2C;
+    @Column(name = "IS_ENABLED_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledB2C;
+    
+    @Column(name = "IS_SALABLE_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableB2B;
+    
+    @Column(name = "IS_SALABLE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableB2C;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuAttribute.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
@@ -205,22 +211,38 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         this.isDefault = isDefault;
     }
     
-    public boolean isEnabledToB2B() {
-        return enabledToB2B;
+    public boolean isEnabledB2B() {
+        return enabledB2B;
     }
 
-    public void setEnabledToB2B(boolean enabledToB2B) {
-        this.enabledToB2B = enabledToB2B;
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
     }
     
-    public boolean isEnabledToB2C() {
-        return enabledToB2C;
+    public boolean isEnabledB2C() {
+        return enabledB2C;
     }
 
-    public void setEnabledToB2C(boolean enabledToB2C) {
-        this.enabledToB2C = enabledToB2C;
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
     }
 
+    public boolean isSalableB2B() {
+        return salableB2B;
+    }
+
+    public void setSalableB2B(boolean salableB2B) {
+        this.salableB2B = salableB2B;
+    }
+    
+    public boolean isSalableB2C() {
+        return salableB2C;
+    }
+
+    public void setSalableB2C(boolean salableB2C) {
+        this.salableB2C = salableB2C;
+    }
+    
     public Set<ProductSkuAttribute> getAttributes() {
         return attributes;
     }
@@ -549,12 +571,21 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
         return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_WEIGHT, null, null);
     }
 
-    public Boolean isSalable(final Long marketAreaId){
-        Boolean isSalable = (Boolean) getValue(ProductMarketingAttribute.PRODUCT_SKU_ATTRIBUTE_IS_SALABLE, marketAreaId, null);
-         if (isSalable == null) {
+    public Boolean isSalableB2B(final Long marketAreaId){
+        Boolean isSalableB2B = (Boolean) getValue(ProductMarketingAttribute.PRODUCT_SKU_ATTRIBUTE_SALABLE_B2B, marketAreaId, null);
+         if (isSalableB2B == null) {
              return Boolean.FALSE;
          } else {
-             return isSalable;
+             return isSalableB2B;
+         }
+     }
+    
+    public Boolean isSalableB2C(final Long marketAreaId){
+        Boolean isSalableB2C = (Boolean) getValue(ProductMarketingAttribute.PRODUCT_SKU_ATTRIBUTE_SALABLE_B2C, marketAreaId, null);
+         if (isSalableB2C == null) {
+             return Boolean.FALSE;
+         } else {
+             return isSalableB2C;
          }
      }
     
