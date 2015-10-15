@@ -322,6 +322,11 @@ public class Cart extends AbstractEntity<Cart> {
         return getCurrency().formatPriceWithStandardCurrencySign(getCartTotal());
     }
 
+    public void copyTransient(Cart cart) {
+        this.deliveryMethods = cart.getDeliveryMethods();
+        this.taxes = cart.getTaxes();
+    }
+    
     @Override
 	public int hashCode() {
 		final int prime = 31;

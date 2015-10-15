@@ -36,6 +36,7 @@ import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Transient;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
@@ -152,9 +153,10 @@ public class WebManagementService {
         cart = cartService.addProductSkuToCart(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
     
     /**
@@ -190,9 +192,10 @@ public class WebManagementService {
         cartService.updateCartItem(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
     
     /**
@@ -217,9 +220,10 @@ public class WebManagementService {
         cart = cartService.saveOrUpdateCart(cart);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
     
     /**
@@ -236,9 +240,10 @@ public class WebManagementService {
         cart = cartService.saveOrUpdateCart(cart);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
 
     /**
@@ -259,9 +264,10 @@ public class WebManagementService {
         cartService.deleteCartItem(cart, retailer, productSkuCode);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
     
     /**
@@ -275,9 +281,10 @@ public class WebManagementService {
         cartService.setShippingAddress(cart, customer, customerAddressId);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
     
     /**
@@ -291,9 +298,10 @@ public class WebManagementService {
         cartService.setBillingAddress(cart, customer, customerAddressId);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
     
     /**
@@ -305,9 +313,10 @@ public class WebManagementService {
         cartService.setDeliveryMethod(cart, deliveryMethodCode);
         
         // RELOAD BECAUSE PREVIOUS PRESIS BREAK THE FETCHPLAN
-        cart = cartService.getCartById(cart.getId());
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, cart);
+        requestUtil.updateCurrentCart(request, newCart);
     }
     
     /**
