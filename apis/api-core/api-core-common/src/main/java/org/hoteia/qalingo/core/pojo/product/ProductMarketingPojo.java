@@ -97,20 +97,20 @@ public class ProductMarketingPojo {
         isDefault = aDefault;
     }
 
-    public boolean isEnabledToB2B() {
+    public boolean isEnabledB2B() {
         return enabledB2B;
     }
 
-    public void setEnabledToB2B(boolean enabledToB2B) {
-        this.enabledB2B = enabledToB2B;
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
     }
     
-    public boolean isEnabledToB2C() {
+    public boolean isEnabledB2C() {
         return enabledB2C;
     }
 
-    public void setEnabledToB2C(boolean enabledToB2C) {
-        this.enabledB2C = enabledToB2C;
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
     }
     
     public boolean isSalableB2B() {
