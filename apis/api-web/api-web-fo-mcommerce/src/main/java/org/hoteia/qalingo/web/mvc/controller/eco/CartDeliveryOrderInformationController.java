@@ -24,6 +24,7 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.form.CartForm;
@@ -74,10 +75,10 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
     }
 
     @RequestMapping(value = FoUrls.CART_DELIVERY_URL, method = RequestMethod.POST)
-    public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm, 
-                                            BindingResult result, Model model) throws Exception {
+    public ModelAndView submitOrderDelivery(HttpServletRequest request, HttpServletResponse response, CartForm cartForm, BindingResult result, Model model) throws Exception {
+
         final RequestData requestData = requestUtil.getRequestData(request);
-        
+
         // SANITY CHECK
         final Cart currentCart = requestData.getCart();
         if (currentCart.getTotalCartItems() == 0) {
@@ -88,12 +89,18 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             return displayOrderDelivery(request, response);
         }
 
-        if (currentCart.getDeliveryMethods() == null) {
+        Set<DeliveryMethod> deliveryMethods = currentCart.getDeliveryMethods();
+        if (deliveryMethods == null || deliveryMethods.size() == 0 || cartForm.getShippingAddressId() == null) {
             addSessionErrorMessage(request, "DELIVERY");
             return displayOrderDelivery(request, response);
         }
 
-        webManagementService.updateCart(requestData, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
+        String shippingAddressId = cartForm.getShippingAddressId();
+        String billingAddressId = cartForm.getBillingAddressId();
+        if (billingAddressId == null) {
+            billingAddressId = shippingAddressId;
+        }
+        webManagementService.updateCart(requestData, Long.parseLong(billingAddressId), Long.parseLong(shippingAddressId));
 
         final String urlRedirect = urlService.generateRedirectUrl(FoUrls.CART_ORDER_PAYMENT, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -106,8 +113,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             final RequestData requestData = requestUtil.getRequestData(request);
             final Customer customer = requestData.getCustomer();
             Set<CustomerAddress> addresses = customer.getAddresses();
-            for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
-                final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
+            for (final CustomerAddress customerAddress : addresses) {
                 addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomeAddress(requestData, customerAddress));
             }
 
@@ -130,8 +136,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             final RequestData requestData = requestUtil.getRequestData(request);
             final Customer customer = requestData.getCustomer();
             Set<CustomerAddress> addresses = customer.getAddresses();
-            for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
-                final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
+            for (final CustomerAddress customerAddress : addresses) {
                 addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomeAddress(requestData, customerAddress));
             }
 
