@@ -1829,6 +1829,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productMarketingViewBean.setI18nDescription(productMarketing.getI18nDescription(localizationCode));
 
         productMarketingViewBean.setDefault(productMarketing.isDefault());
+        productMarketingViewBean.setEnabledB2B(productMarketing.isEnabledB2B());
+        productMarketingViewBean.setEnabledB2C(productMarketing.isEnabledB2C());
+        productMarketingViewBean.setSalableB2B(productMarketing.isSalableB2B());
+        productMarketingViewBean.setSalableB2C(productMarketing.isSalableB2C());
 
         if (productMarketing.getDateCreate() != null) {
             productMarketingViewBean.setDateCreate(buildCommonFormatDate(requestData, productMarketing.getDateCreate()));
@@ -2126,8 +2130,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productSkuViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
 
         productSkuViewBean.setDefault(productSku.isDefault());
-        productSkuViewBean.setSalableB2C(productSku.isSalableB2C(marketArea.getId()));
-
+        productSkuViewBean.setEnabledB2B(productSku.isEnabledB2B());
+        productSkuViewBean.setEnabledB2C(productSku.isEnabledB2C());
+        productSkuViewBean.setSalableB2B(productSku.isSalableB2B());
+        productSkuViewBean.setSalableB2C(productSku.isSalableB2C());
+        
         if (productSku.getDateCreate() != null) {
             productSkuViewBean.setDateCreate(buildCommonFormatDate(requestData, productSku.getDateCreate()));
         }
