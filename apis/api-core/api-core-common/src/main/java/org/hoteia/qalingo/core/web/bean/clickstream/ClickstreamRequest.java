@@ -95,4 +95,8 @@ public class ClickstreamRequest implements Serializable {
         this.timestamp = timestamp;
     }
     
+    public String getUriWithQueryString() {
+        return requestURI + "?" + queryString;
+    }
+    
 }

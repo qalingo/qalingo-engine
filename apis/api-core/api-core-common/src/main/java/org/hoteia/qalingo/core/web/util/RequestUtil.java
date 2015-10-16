@@ -564,16 +564,6 @@ public class RequestUtil {
             } else {
                 backofficeLocalization = localizationService.getLocalizationByCode(backofficeLocalizationCode);
             }
-        } else {
-            String requestLocale = request.getLocale().toString();
-            if(backofficeLocalization == null && StringUtils.isNotEmpty(requestLocale)){ //    || (backofficeLocalization != null && "en".equalsIgnoreCase(backofficeLocalization.getCode()))
-                if (requestLocale.length() > 2) {
-                    String localeLanguage = request.getLocale().getLanguage();
-                    backofficeLocalization = localizationService.getLocalizationByCode(localeLanguage);
-                } else if (requestLocale.length() == 2) {
-                    backofficeLocalization = localizationService.getLocalizationByCode(requestLocale);
-                }
-            }
         }
         if (backofficeLocalization == null) {
             // FALLBACK LOCALE EN
@@ -885,7 +875,7 @@ public class RequestUtil {
                 if (uri.endsWith(".html")) {
                     // TEST IF THE URL MATCH
                     if (uri.contains(pattern)) {
-                        url = uri;
+                        url = clickstream.getUriWithQueryString();
                         break;
                     }
                 }
@@ -934,18 +924,16 @@ public class RequestUtil {
                 Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
                 while (itCleanClickstreams.hasNext()) {
                     ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
-                    String uri = clickstream.getRequestURI();
-                    url = uri;
+                	url = clickstream.getUriWithQueryString();
                 }
             } else {
                 Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
                 int countCleanClickstream = 1;
                 while (itCleanClickstreams.hasNext()) {
                     ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
-                    String uri = clickstream.getRequestURI();
                     // The last url is the current URI, so we need to get the url previous the last
                     if (countCleanClickstream == (cleanClickstreams.size() - position)) {
-                        url = uri;
+                       url = clickstream.getUriWithQueryString();
                     }
                     countCleanClickstream++;
                 }
@@ -1948,8 +1936,18 @@ public class RequestUtil {
             // USER IS LOGGED
             engineBoSession.setCurrentBackofficeLocalization(company.getDefaultLocalization());
         } else {
-            Localization defaultLocalization = localizationService.getLocalizationByCode("en");
-            engineBoSession.setCurrentBackofficeLocalization(defaultLocalization);
+            String requestLocale = request.getLocale().toString();
+            if(StringUtils.isNotEmpty(requestLocale)){
+                if (requestLocale.length() > 2) {
+                    String localeLanguage = request.getLocale().getLanguage();
+                    engineBoSession.setCurrentBackofficeLocalization(localizationService.getLocalizationByCode(localeLanguage));
+                } else if (requestLocale.length() == 2) {
+                	engineBoSession.setCurrentBackofficeLocalization(localizationService.getLocalizationByCode(requestLocale));
+                }
+            } else {
+                Localization defaultLocalization = localizationService.getLocalizationByCode("en");
+                engineBoSession.setCurrentBackofficeLocalization(defaultLocalization);
+            }
         }
 
         updateCurrentBoSession(request, engineBoSession);
