@@ -53,7 +53,9 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	protected String detailsUrl;
     protected String productLineUrl;
 	protected String editUrl;
-
+	
+    protected List<UrlBean> specificUrls = new ArrayList<UrlBean>();
+    
 	public String getCode() {
 		return code;
 	}
@@ -350,9 +352,28 @@ public class StoreViewBean extends AbstractAddressViewBean {
 		return editUrl;
 	}
 
-	public void setEditUrl(String editUrl) {
-		this.editUrl = editUrl;
-	}
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
+
+    public List<UrlBean> getSpecificUrls() {
+        return specificUrls;
+    }
+    
+    public void setSpecificUrls(List<UrlBean> specificUrls) {
+        this.specificUrls = specificUrls;
+    }
+    
+    public String getSpecificUrl(String key) {
+        if(specificUrls != null){
+            for(UrlBean specificUrl : specificUrls){
+                if(specificUrl.getKey().equals(key)){
+                    return specificUrl.value;
+                }
+            }
+        }
+        return null;
+    }
 
     @Override
     public int hashCode() {

@@ -76,6 +76,8 @@ public class ProductSkuViewBean extends AbstractViewBean {
 
     protected String detailsUrl;
     protected String editUrl;
+
+    protected List<UrlBean> specificUrls = new ArrayList<UrlBean>();
     
     public String getCode() {
         return code;
@@ -561,6 +563,25 @@ public class ProductSkuViewBean extends AbstractViewBean {
 
     public void setEditUrl(String editUrl) {
         this.editUrl = editUrl;
+    }
+
+    public List<UrlBean> getSpecificUrls() {
+        return specificUrls;
+    }
+    
+    public void setSpecificUrls(List<UrlBean> specificUrls) {
+        this.specificUrls = specificUrls;
+    }
+    
+    public String getSpecificUrl(String key) {
+        if(specificUrls != null){
+            for(UrlBean specificUrl : specificUrls){
+                if(specificUrl.getKey().equals(key)){
+                    return specificUrl.value;
+                }
+            }
+        }
+        return null;
     }
     
 }
