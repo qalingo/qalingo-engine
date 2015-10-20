@@ -9,30 +9,14 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION")
@@ -155,11 +139,9 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     }
 
     public Cart getCart() {
-        if (carts != null
-                && Hibernate.isInitialized(carts)) {
-            for (Iterator<Cart> iterator = carts.iterator(); iterator.hasNext();) {
-                Cart cart = (Cart) iterator.next();
-                if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId()) 
+        if (carts != null && Hibernate.isInitialized(carts)) {
+            for (Cart cart : carts) {
+                if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId())
                         && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                     return cart;
             }
@@ -204,9 +186,8 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     public void deleteCurrentCart() {
         if (carts != null) {
             Set<Cart> checkedCarts = new HashSet<Cart>(carts);
-            for (Iterator<Cart> iterator = checkedCarts.iterator(); iterator.hasNext();) {
-                Cart cart = (Cart) iterator.next();
-                if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId()) 
+            for (Cart cart : checkedCarts) {
+                if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId())
                         && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId())) {
                     this.carts.remove(cart);
                 }
@@ -217,14 +198,13 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     public void updateCart(Cart cart) {
         if(this.carts != null){
         	Set<Cart> updatedCarts = new HashSet<Cart>();
-            for (Iterator<Cart> iterator = carts.iterator(); iterator.hasNext();) {
-				Cart cartIt = (Cart) iterator.next();
-				if(cartIt.getId().equals(cart.getId())){
-					updatedCarts.add(cart);
+            for (Cart cartIt : carts) {
+                if (cartIt.getId().equals(cart.getId())) {
+                    updatedCarts.add(cart);
                 } else {
-                	updatedCarts.add(cartIt);
+                    updatedCarts.add(cartIt);
                 }
-			}
+            }
             this.carts.clear();
             this.carts = updatedCarts;
         }
@@ -319,11 +299,9 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     }
 
     public OrderPurchase getLastOrder() {
-        if (lastOrders != null
-                && Hibernate.isInitialized(lastOrders)) {
-            for (Iterator<OrderPurchase> iterator = lastOrders.iterator(); iterator.hasNext();) {
-                OrderPurchase orderPurchase = (OrderPurchase) iterator.next();
-                if (orderPurchase != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
+        if (lastOrders != null && Hibernate.isInitialized(lastOrders)) {
+            for (OrderPurchase orderPurchase : lastOrders) {
+                if (orderPurchase != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null
                         && orderPurchase.getMarketAreaId().equals(getCurrentMarketArea().getId())
                         && orderPurchase.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                     return orderPurchase;
@@ -333,18 +311,13 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     }
 
     public void setLastOrder(OrderPurchase lastOrder) {
-        if (lastOrders != null 
-                && Hibernate.isInitialized(lastOrders)
-                && lastOrder != null) {
-//            if (getLastOrder() != null) {
-                for (Iterator<OrderPurchase> iterator = lastOrders.iterator(); iterator.hasNext();) {
-                    OrderPurchase orderPurchase = (OrderPurchase) iterator.next();
-                    if (orderPurchase != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
-                            && orderPurchase.getMarketAreaId().equals(getCurrentMarketArea().getId())
-                            && orderPurchase.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
-                        lastOrders.remove(orderPurchase);
-                }
-//            }
+        if (lastOrders != null && Hibernate.isInitialized(lastOrders) && lastOrder != null) {
+            for (OrderPurchase orderPurchase : lastOrders) {
+                if (orderPurchase != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null
+                        && orderPurchase.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                        && orderPurchase.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
+                    lastOrders.remove(orderPurchase);
+            }
             lastOrders.add(lastOrder);
         }
     }

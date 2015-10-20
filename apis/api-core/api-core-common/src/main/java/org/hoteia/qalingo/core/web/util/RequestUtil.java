@@ -1302,8 +1302,13 @@ public class RequestUtil {
      */
     protected Cart getCurrentCart(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        Cart cart = cartService.getCartById(engineEcoSession.getCart().getId());
-        return cart;
+        Cart cart = engineEcoSession.getCart();
+        if(cart == null) {
+            return null;
+        }
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
+        return newCart;
     }
     
     /**
@@ -1817,10 +1822,9 @@ public class RequestUtil {
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 Cookie ecoEngineSessionGuid = null;
-                for (int i = 0; i < cookies.length; i++) {
-                    Cookie cookie = cookies[i];
+                for (Cookie cookie : cookies) {
                     if (getEngineSessionIdCookieName().equals(cookie.getName())) {
-                        ecoEngineSessionGuid = cookies[i];
+                        ecoEngineSessionGuid = cookie;
                         break;
                     }
                 }
@@ -1829,10 +1833,8 @@ public class RequestUtil {
                     engineSessionService.synchronizeEngineEcoSession(engineEcoSessionWithTransientValues, ecoEngineSessionGuid.getValue());
                 }
             }
-            if(engineEcoSession == null){
-                engineEcoSession = initEcoSession(request);
-            }
-            
+            engineEcoSession = initEcoSession(request);
+
         }
         // SANITY CHECK
         if (!engineEcoSession.getjSessionId().equals(jSessionId)) {

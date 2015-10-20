@@ -88,19 +88,18 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     // ASSETS
                     ProductSku productSku = cartItem.getProductSku();
                     if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
-                        for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
-                            Asset asset = (Asset) iterator.next();
+                        for (Asset asset : productSku.getAssets()) {
                             AssetPojo assetPojo = new AssetPojo();
                             assetPojo.setName(asset.getName());
                             assetPojo.setDescription(asset.getDescription());
                             assetPojo.setType(asset.getType());
                             assetPojo.setPath(asset.getPath());
-                            
+
                             final String path = engineSettingService.getProductSkuImageWebPath(asset);
                             assetPojo.setRelativeWebPath(path);
                             assetPojo.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                             cartItemPojo.getAssets().add(assetPojo);
-                            
+
                             cartItemPojo.setSummaryImage(buildDefaultAsset(requestData, productSku));
                         }
                     }
@@ -128,14 +127,13 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     // ASSETS
                     if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
-                        for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
-                            Asset asset = (Asset) iterator.next();
+                        for (Asset asset : productSku.getAssets()) {
                             AssetPojo assetPojo = new AssetPojo();
                             assetPojo.setName(asset.getName());
                             assetPojo.setDescription(asset.getDescription());
                             assetPojo.setType(asset.getType());
                             assetPojo.setPath(asset.getPath());
-                            
+
                             final String path = engineSettingService.getProductSkuImageWebPath(asset);
                             assetPojo.setRelativeWebPath(path);
                             assetPojo.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
@@ -162,14 +160,15 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                 try {
                     final RequestData requestData = requestUtil.getRequestData(httpServletRequest);
                     final Cart cart = requestData.getCart();
-                    
-                    deliveryMethodPojo.setArrivalTime("??");
-                    deliveryMethodPojo.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
-                    deliveryMethodPojo.setPriceWithStandardCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
 
-                    if(cart != null
-                            && cart.getDeliveryMethods().contains(deliveryMethod)){
-                        deliveryMethodPojo.setSelected(true);
+                    if(cart != null) {
+                        deliveryMethodPojo.setArrivalTime("??");
+                        deliveryMethodPojo.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
+                        deliveryMethodPojo.setPriceWithStandardCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
+
+                        if (cart.getDeliveryMethods().contains(deliveryMethod)) {
+                            deliveryMethodPojo.setSelected(true);
+                        }
                     }
                 } catch (Exception e) {
                     logger.error("postWritingDestinationValue error with FoDeliveryMethodPojo", e);
@@ -183,30 +182,24 @@ public class FrontofficePojoEventListener implements DozerEventListener {
         Set<Asset> assets = productSku.getAssets();
         Asset defaultAsset = null;
         if(assets != null){
-            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
-                if("PACKSHOT".equalsIgnoreCase(asset.getType())
-                        && asset.isDefault()){
+            for (Asset asset : assets) {
+                if ("PACKSHOT".equalsIgnoreCase(asset.getType()) && asset.isDefault()) {
                     defaultAsset = asset;
                 }
             }
-            if(defaultAsset == null
-                    && assets.iterator().hasNext()){
+            if(defaultAsset == null && assets.iterator().hasNext()){
                 defaultAsset = assets.iterator().next();
             }
         }
         if(defaultAsset == null && productSku.getProductMarketing() != null && Hibernate.isInitialized(productSku.getProductMarketing())){
             if(productSku.getProductMarketing().getAssets() != null && Hibernate.isInitialized(productSku.getProductMarketing().getAssets())){
                 assets = productSku.getProductMarketing().getAssets();
-                for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                    Asset asset = (Asset) iterator.next();
-                    if("PACKSHOT".equalsIgnoreCase(asset.getType())
-                            && asset.isDefault()){
+                for (Asset asset : assets) {
+                    if ("PACKSHOT".equalsIgnoreCase(asset.getType()) && asset.isDefault()) {
                         defaultAsset = asset;
                     }
                 }
-                if(defaultAsset == null
-                        && assets.iterator().hasNext()){
+                if(defaultAsset == null && assets.iterator().hasNext()){
                     defaultAsset = assets.iterator().next();
                 }
             }

@@ -101,14 +101,13 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 			return displayOrderPayment(request, response);
 		}
 		
-		if(marketArea.withSavedPaymentInformation()
-		        && paymentForm.isWantSavedPaymentInformations()){
+		if(marketArea.withSavedPaymentInformation() && paymentForm.isWantSavedPaymentInformations()){
 	        // Save payment information
 	        webManagementService.savePaymentInformation(requestUtil.getRequestData(request), paymentForm);
 		}
 		
 		// Create and Save a new order
-		webManagementService.buildAndSaveNewOrder(requestUtil.getRequestData(request));
+		webManagementService.buildAndSaveNewOrder(requestUtil.getRequestData(request), null);
 		
 		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

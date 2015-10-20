@@ -81,6 +81,10 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 
         // SANITY CHECK
         final Cart currentCart = requestData.getCart();
+        if(currentCart == null){
+            return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
+        }
+
         if (currentCart.getTotalCartItems() == 0) {
             return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }

@@ -13,16 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.CartItem;
-import org.hoteia.qalingo.core.domain.CartItemTax;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
-import org.hoteia.qalingo.core.domain.OrderAddress;
-import org.hoteia.qalingo.core.domain.OrderPurchase;
-import org.hoteia.qalingo.core.domain.OrderItem;
-import org.hoteia.qalingo.core.domain.OrderShipment;
-import org.hoteia.qalingo.core.domain.OrderTax;
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +27,7 @@ public class CheckoutService {
     @Autowired
     protected OrderPurchaseService orderPurchaseService;
     
-    public OrderPurchase checkout(final Customer customer, final Cart cart) throws Exception {
+    public OrderPurchase checkout(final Customer customer, final Cart cart, String transactionId) throws Exception {
         OrderPurchase orderPurchase = new OrderPurchase();
         // ORDER NUMBER IS CREATE BY DAO
         
@@ -60,30 +51,27 @@ public class CheckoutService {
         Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
         Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
         if(deliveryMethods != null){
-            for (Iterator<DeliveryMethod> iteratorDeliveryMethod = deliveryMethods.iterator(); iteratorDeliveryMethod.hasNext();) {
-                DeliveryMethod deliveryMethod = (DeliveryMethod) iteratorDeliveryMethod.next();
+            for (DeliveryMethod deliveryMethod : deliveryMethods) {
                 OrderShipment orderShipment = new OrderShipment();
                 orderShipment.setName(deliveryMethod.getName());
                 orderShipment.setExpectedDeliveryDate(null);
                 orderShipment.setDeliveryMethodId(deliveryMethod.getId());
                 orderShipment.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
-                
+
                 Set<CartItem> cartItems = cart.getCartItems();
                 Set<OrderItem> orderItems = new HashSet<OrderItem>();
-                for (Iterator<CartItem> iteratorCartItem = cartItems.iterator(); iteratorCartItem.hasNext();) {
-                    CartItem cartItem = (CartItem) iteratorCartItem.next();
+                for (CartItem cartItem : cartItems) {
                     OrderItem orderItem = new OrderItem();
                     orderItem.setCurrency(cart.getCurrency());
                     orderItem.setProductSkuCode(cartItem.getProductSku().getCode());
                     orderItem.setProductSku(cartItem.getProductSku());
                     orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId(), cart.getRetailerId()).getSalePrice());
                     orderItem.setQuantity(cartItem.getQuantity());
-                    
+
                     // TAXES
                     Set<CartItemTax> taxes = cartItem.getTaxes();
-                    if(taxes != null){
-                        for (Iterator<CartItemTax> iteratorCartItemTax = taxes.iterator(); iteratorCartItemTax.hasNext();) {
-                            CartItemTax cartItemTax = (CartItemTax) iteratorCartItemTax.next();
+                    if (taxes != null) {
+                        for (CartItemTax cartItemTax : taxes) {
                             OrderTax orderTax = new OrderTax();
                             orderTax.setName(cartItemTax.getTax().getName());
                             orderTax.setPercent(cartItemTax.getTax().getPercent());
@@ -91,7 +79,7 @@ public class CheckoutService {
                             orderItem.getOrderTaxes().add(orderTax);
                         }
                     }
-                    
+
                     orderItems.add(orderItem);
                 }
                 orderShipment.setOrderItems(orderItems);
@@ -99,7 +87,13 @@ public class CheckoutService {
             }
         }
         orderPurchase.setOrderShipments(orderShipments);
-        
+
+        if(transactionId != null) {
+            OrderPayment orderPayment = new OrderPayment();
+            orderPayment.setIpAddress(transactionId);
+            orderPurchase.getOrderPayments().add(orderPayment);
+        }
+
         orderPurchase = orderPurchaseService.createNewOrder(orderPurchase);
         
         return orderPurchase;

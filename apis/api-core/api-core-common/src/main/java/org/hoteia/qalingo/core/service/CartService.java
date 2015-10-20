@@ -52,8 +52,7 @@ public class CartService {
         int finalQuantity = quantity;
         if (cart != null) {
             Set<CartItem> cartItems = cart.getCartItems();
-            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-                CartItem cartItem = (CartItem) iterator.next();
+            for (CartItem cartItem : cartItems) {
                 if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)
                         && cartItem.getRetailerId().equals(retailer)) {
                     finalQuantity = finalQuantity + cartItem.getQuantity();
@@ -71,8 +70,7 @@ public class CartService {
     public Cart updateCartItem(Cart cart, Retailer retailer, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         Set<CartItem> cartItems = cart.getCartItems();
         boolean productSkuIsNew = true;
-        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-            CartItem cartItem = (CartItem) iterator.next();
+        for (CartItem cartItem : cartItems) {
             if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)) {
                 cartItem.setQuantity(quantity);
                 productSkuIsNew = false;
@@ -141,12 +139,10 @@ public class CartService {
     }
     
     public Cart setDeliveryMethod(Cart cart, String deliveryMethodCode) throws Exception {
-        if(cart.getDeliveryMethods().isEmpty()){
-            cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
-        } else {
+        if(!cart.getDeliveryMethods().isEmpty()){
             cart.getDeliveryMethods().clear();
-            cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
         }
+        cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
         return saveOrUpdateCart(cart);
     }
     

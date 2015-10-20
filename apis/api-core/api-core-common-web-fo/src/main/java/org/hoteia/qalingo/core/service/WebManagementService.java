@@ -102,18 +102,11 @@ public class WebManagementService {
         }
 
         Cart cart = requestData.getCart();
-//        int finalQuantity = quantity;
-//        if(cart != null){
-//            Set<CartItem> cartItems = cart.getCartItems();
-//            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-//                CartItem cartItem = (CartItem) iterator.next();
-//                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)
-//                        && cartItem.getRetailerId().equals(retailer)) {
-//                    finalQuantity = finalQuantity + cartItem.getQuantity();
-//                }
-//            }
-//        }
         final HttpServletRequest request = requestData.getRequest();
+        if(cart == null) {
+            EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
+            cart = engineEcoSession.addNewCart();
+        }
         cart = cartService.addProductSkuToCart(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
@@ -175,13 +168,10 @@ public class WebManagementService {
     public void linkAndUpdateCartWithCustomer(final RequestData requestData, final Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        if(cart != null){
-            cart.setCustomerId(customer.getId());
-            cart.setBillingAddressId(customer.getDefaultBillingAddressId());
-            cart.setShippingAddressId(customer.getDefaultShippingAddressId());
-        }
-        
-        cart = cartService.saveOrUpdateCart(cart);
+        cart.setCustomerId(customer.getId());
+        cart.setBillingAddressId(customer.getDefaultBillingAddressId());
+        cart.setShippingAddressId(customer.getDefaultShippingAddressId());
+        cartService.saveOrUpdateCart(cart);
         
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
@@ -196,12 +186,9 @@ public class WebManagementService {
     public void updateCart(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        if(cart != null){
-            cart.setBillingAddressId(billingAddressId);
-            cart.setShippingAddressId(shippingAddressId);
-        }
-        
-        cart = cartService.saveOrUpdateCart(cart);
+        cart.setBillingAddressId(billingAddressId);
+        cart.setShippingAddressId(shippingAddressId);
+        cartService.saveOrUpdateCart(cart);
         
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
@@ -812,12 +799,11 @@ public class WebManagementService {
         requestUtil.updateCurrentCustomer(request, customer);
     }
     
-    public OrderPurchase buildAndSaveNewOrder(final RequestData requestData) throws Exception {
+    public OrderPurchase buildAndSaveNewOrder(final RequestData requestData, String transactionId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Customer customer = requestData.getCustomer();
         final Cart cart = requestData.getCart();
-        
-        OrderPurchase orderPurchase = checkoutService.checkout(customer, cart);
+        OrderPurchase orderPurchase = checkoutService.checkout(customer, cart, transactionId);
         
         requestUtil.deleteCurrentCartAndSaveEngineSession(request);
 

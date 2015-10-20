@@ -174,13 +174,12 @@ public class CartAjaxController extends AbstractMCommerceController {
             webManagementService.addToCart(requestData, catalogCategoryCode, productSkuCode, quantityValue);
             
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
-            for (CartItemPojo cartItem : cart.getCartItems()) {
-                if (cartItem.getProductSku().getCode().equals(productSkuCode)) {
-                    addToCart.setQuantity(cartItem.getQuantity());
-                }
-            }
-            
             if(cart != null && cart.getCartItems() != null){
+                for (CartItemPojo cartItem : cart.getCartItems()) {
+                    if (cartItem.getProductSku().getCode().equals(productSkuCode)) {
+                        addToCart.setQuantity(cartItem.getQuantity());
+                    }
+                }
                 if (cart.getCartItems().size() == 1) {
                     addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
                 } else if (cart.getCartItems().size() > 1) {
@@ -249,8 +248,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             webManagementService.deleteCartItem(requestData, productSkuCode);
             
             final Cart cart = requestData.getCart();
-            if(cart != null
-                    && cart.getTotalCartItems() == 0){
+            if(cart != null && cart.getTotalCartItems() == 0){
                 FoMessagePojo errorMessage = new FoMessagePojo();
                 errorMessage.setId("warning-empty-cart");
                 errorMessage.setMessage("Your cart is empty");
@@ -341,7 +339,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         injectCart(requestData, checkout);
         return checkout;
     }
-    
+
     protected void injectCart(final RequestData requestData, final FoCheckoutPojo checkout){
         try {
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
