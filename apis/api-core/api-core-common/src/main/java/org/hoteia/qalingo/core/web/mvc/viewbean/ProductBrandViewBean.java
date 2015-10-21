@@ -46,6 +46,8 @@ public class ProductBrandViewBean extends AbstractViewBean {
     protected String detailsUrl;
     protected String productLineUrl;
     protected String editUrl;
+    
+    protected List<UrlBean> specificUrls = new ArrayList<UrlBean>();
 
 	public String getCode() {
         return code;
@@ -301,6 +303,57 @@ public class ProductBrandViewBean extends AbstractViewBean {
 
     public void setEditUrl(String editUrl) {
         this.editUrl = editUrl;
+    }
+    
+    public List<UrlBean> getSpecificUrls() {
+        return specificUrls;
+    }
+    
+    public void setSpecificUrls(List<UrlBean> specificUrls) {
+        this.specificUrls = specificUrls;
+    }
+    
+    public String getSpecificUrl(String key) {
+        if(specificUrls != null){
+            for(UrlBean specificUrl : specificUrls){
+                if(specificUrl.getKey().equals(key)){
+                    return specificUrl.value;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((code == null) ? 0 : code.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProductBrandViewBean other = (ProductBrandViewBean) obj;
+        if (code == null) {
+            if (other.code != null)
+                return false;
+        } else if (!code.equals(other.code))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductBrandViewBean [code=" + code + ", name=" + name + ", description=" + description + ", i18nName=" + i18nName + ", i18nLongDescription=" + i18nLongDescription
+                + ", i18nShortDescription=" + i18nShortDescription + ", originCountryCode=" + originCountryCode + ", detailsUrl=" + detailsUrl + ", productLineUrl=" + productLineUrl + ", editUrl="
+                + editUrl + ", specificUrls=" + specificUrls + "]";
     }
 	
 }
