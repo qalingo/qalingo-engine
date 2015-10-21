@@ -54,17 +54,17 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 
         // SANITY CHECK: EMPTY CART
 		final Cart currentCart = requestData.getCart();
-		if(currentCart != null && currentCart.getTotalCartItems() == 0){
+		if(currentCart == null || currentCart.getTotalCartItems() == 0){
 			return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 		}
 
         // SANITY CHECK: DELIVERY METHODS
-        if(currentCart != null && currentCart.getDeliveryMethods().isEmpty()){
+        if(currentCart.getDeliveryMethods().isEmpty()){
             return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
         }
 
         // SANITY CHECK: ADDRESSES
-        if(currentCart != null && (currentCart.getBillingAddressId() == null || currentCart.getShippingAddressId() == null)){
+        if((currentCart.getBillingAddressId() == null || currentCart.getShippingAddressId() == null)){
             return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
         }
 
