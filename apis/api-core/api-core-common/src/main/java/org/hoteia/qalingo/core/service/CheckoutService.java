@@ -27,7 +27,7 @@ public class CheckoutService {
     @Autowired
     protected OrderPurchaseService orderPurchaseService;
     
-    public OrderPurchase checkout(final Customer customer, final Cart cart, String transactionId) throws Exception {
+    public OrderPurchase checkout(final Customer customer, final Cart cart) throws Exception {
         OrderPurchase orderPurchase = new OrderPurchase();
         // ORDER NUMBER IS CREATE BY DAO
         
@@ -41,10 +41,12 @@ public class CheckoutService {
         
         OrderAddress billingAddress = new OrderAddress();
         BeanUtils.copyProperties(customer.getAddress(cart.getBillingAddressId()), billingAddress);
+        billingAddress.setId(null);
         orderPurchase.setBillingAddress(billingAddress);
 
         OrderAddress shippingAddress = new OrderAddress();
         BeanUtils.copyProperties(customer.getAddress(cart.getShippingAddressId()), shippingAddress);
+        shippingAddress.setId(null);
         orderPurchase.setShippingAddress(shippingAddress);
         
         // SHIPMENT
@@ -87,12 +89,6 @@ public class CheckoutService {
             }
         }
         orderPurchase.setOrderShipments(orderShipments);
-
-        if(transactionId != null) {
-            OrderPayment orderPayment = new OrderPayment();
-            orderPayment.setIpAddress(transactionId);
-            orderPurchase.getOrderPayments().add(orderPayment);
-        }
 
         orderPurchase = orderPurchaseService.createNewOrder(orderPurchase);
         

@@ -54,8 +54,8 @@ public class OrderPurchaseService {
         return orderDao.createNewOrder(orderPurchase);
     }
 
-    public void saveOrUpdateOrder(final OrderPurchase orderPurchase) {
-        orderDao.saveOrUpdateOrder(orderPurchase);
+    public OrderPurchase saveOrUpdateOrder(final OrderPurchase orderPurchase) {
+        return orderDao.saveOrUpdateOrder(orderPurchase);
     }
 
     public void deleteOrder(final OrderPurchase orderPurchase) {

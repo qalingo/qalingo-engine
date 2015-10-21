@@ -72,6 +72,8 @@ public class FetchPlanGraphCommon {
         fetchplans.add(new SpecificFetchMode("assets", new SpecificAlias("orderShipments.orderItems.productSku.assets")));
         fetchplans.add(new SpecificFetchMode("orderTaxes", new SpecificAlias("orderShipments.orderItems.orderTaxes")));
         fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("orderShipments.orderItems.currency")));
+
+        fetchplans.add(new SpecificFetchMode("attributes"));
         
         return new FetchPlan(fetchplans);
     }

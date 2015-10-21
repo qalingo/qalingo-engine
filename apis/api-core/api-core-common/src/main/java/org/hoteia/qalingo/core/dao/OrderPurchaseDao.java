@@ -106,7 +106,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
             Query query = session.createQuery(hql);
             OrderNumber orderNumber = (OrderNumber) query.uniqueResult();
             Integer previousLastOrderNumber = orderNumber.getLastOrderNumber();
-            Integer newLastOrderNumber = new Integer(previousLastOrderNumber.intValue() + 1);
+            Integer newLastOrderNumber = orderNumber.getLastOrderNumber() + 1;
 
             orderPurchase.setPrefixHashFolder(CoreUtil.generateEntityCode());
             orderPurchase.setOrderNum("" + newLastOrderNumber);

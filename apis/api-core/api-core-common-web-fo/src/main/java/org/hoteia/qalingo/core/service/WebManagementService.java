@@ -734,10 +734,9 @@ public class WebManagementService {
         if(customerAddresses.size() < 2){
             throw new Exception("");
         }
-        
-        for (Iterator<CustomerAddress> iterator = customerAddresses.iterator(); iterator.hasNext();) {
-            CustomerAddress customerAddressIterator = (CustomerAddress) iterator.next();
-            if(customerAddressIterator.getId().equals(new Long(customerAddressId))){
+
+        for (CustomerAddress customerAddressIterator : customerAddresses) {
+            if (customerAddressIterator.getId().equals(new Long(customerAddressId))) {
                 customerAddress = customerAddressIterator;
             }
         }
@@ -799,11 +798,11 @@ public class WebManagementService {
         requestUtil.updateCurrentCustomer(request, customer);
     }
     
-    public OrderPurchase buildAndSaveNewOrder(final RequestData requestData, String transactionId) throws Exception {
+    public OrderPurchase buildAndSaveNewOrder(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Customer customer = requestData.getCustomer();
         final Cart cart = requestData.getCart();
-        OrderPurchase orderPurchase = checkoutService.checkout(customer, cart, transactionId);
+        OrderPurchase orderPurchase = checkoutService.checkout(customer, cart);
         
         requestUtil.deleteCurrentCartAndSaveEngineSession(request);
 

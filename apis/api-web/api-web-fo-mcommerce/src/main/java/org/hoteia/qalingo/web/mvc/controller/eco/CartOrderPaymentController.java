@@ -107,7 +107,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		}
 		
 		// Create and Save a new order
-		webManagementService.buildAndSaveNewOrder(requestUtil.getRequestData(request), null);
+		webManagementService.buildAndSaveNewOrder(requestUtil.getRequestData(request));
 		
 		final String urlRedirect = urlService.generateRedirectUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
