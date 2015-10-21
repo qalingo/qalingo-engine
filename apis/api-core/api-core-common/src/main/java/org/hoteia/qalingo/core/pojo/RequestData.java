@@ -20,6 +20,7 @@ import net.sourceforge.wurfl.core.Device;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.Company;
@@ -156,10 +157,17 @@ public class RequestData implements Serializable {
         return marketArea;
     }
     
-    public String getVirtualCatalogCode() {
+    public CatalogVirtual getVirtualCatalog() {
         if(marketArea != null
                 && marketArea.getCatalog() != null){
-            return marketArea.getCatalog().getCode();
+            return marketArea.getCatalog();
+        }
+        return null;
+    }
+    
+    public String getVirtualCatalogCode() {
+        if(getVirtualCatalog() != null){
+            return getVirtualCatalog().getCode();
         }
         return null;
     }
