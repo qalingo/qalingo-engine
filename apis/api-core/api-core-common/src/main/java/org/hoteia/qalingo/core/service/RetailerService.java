@@ -272,22 +272,27 @@ public class RetailerService {
     }
     
     public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        List<GeolocatedStore> geolocatedStores = retailerDao.findB2CStoresByGeoloc(latitude, longitude, distance, maxResults, params);
+        List<GeolocatedStore> geolocatedStores = retailerDao.findB2CStoresByGeoloc(null, null, latitude, longitude, distance, maxResults, params);
         return geolocatedStores;
     }
     
     public List<GeolocatedStore> findB2BStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        List<GeolocatedStore> geolocatedStores = retailerDao.findB2BStoresByGeoloc(latitude, longitude, distance, maxResults, params);
+        List<GeolocatedStore> geolocatedStores = retailerDao.findB2BStoresByGeoloc(null, null, latitude, longitude, distance, maxResults, params);
         return geolocatedStores;
     }
     
     public List<GeolocatedStore> findB2CStoresByGeolocAndCountry(final String countryCode, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        List<GeolocatedStore> geolocatedStores = retailerDao.findB2CStoresByGeolocAndCountry(countryCode, latitude, longitude, distance, maxResults, params);
+        List<GeolocatedStore> geolocatedStores = retailerDao.findB2CStoresByGeoloc(countryCode, null, latitude, longitude, distance, maxResults, params);
         return geolocatedStores;
     }
     
-    public List<GeolocatedStore> findB2BStoresByGeolocAndCountry(final String countryCode, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        List<GeolocatedStore> geolocatedStores = retailerDao.findB2BStoresByGeolocAndCountry(countryCode, latitude, longitude, distance, maxResults, params);
+    public List<GeolocatedStore> findB2CStoresByGeolocAndCountryAndType(final String countryCode, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        List<GeolocatedStore> geolocatedStores = retailerDao.findB2CStoresByGeoloc(countryCode, types, latitude, longitude, distance, maxResults, params);
+        return geolocatedStores;
+    }
+    
+    public List<GeolocatedStore> findB2BStoresByGeolocAndCountryAndType(final String countryCode, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        List<GeolocatedStore> geolocatedStores = retailerDao.findB2BStoresByGeoloc(countryCode, types, latitude, longitude, distance, maxResults, params);
         return geolocatedStores;
     }
 

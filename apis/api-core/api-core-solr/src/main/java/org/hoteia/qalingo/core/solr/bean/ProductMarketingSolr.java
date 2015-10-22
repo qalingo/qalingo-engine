@@ -100,11 +100,11 @@ public class ProductMarketingSolr {
         this.enabledB2B = enabledB2B;
     }
     
-    public Boolean getEnabledToB2C() {
+    public Boolean getEnabledB2C() {
         return enabledB2C;
     }
 
-    public void setEnabledToB2C(Boolean enabledB2C) {
+    public void setEnabledB2C(Boolean enabledB2C) {
         this.enabledB2C = enabledB2C;
     }
 
