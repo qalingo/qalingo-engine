@@ -125,7 +125,7 @@ public class ProductDao extends AbstractGenericDao {
         
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("enabledToB2C", true));
+        criteria.add(Restrictions.eq("enabledB2C", true));
         criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RAND(" + randomInt + ")"));
         criteria.setMaxResults(maxResults);
 
@@ -482,7 +482,7 @@ public class ProductDao extends AbstractGenericDao {
     public List<Long> findProductSkuIdsEnableB2CAndOrderByDateUpdate(int maxResults) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         criteria.setProjection(Projections.property("id"));
-        criteria.add(Restrictions.eq("enabledToB2C", true));
+        criteria.add(Restrictions.eq("enabledB2C", true));
         criteria.addOrder(Order.asc("dateUpdate"));
         
         if(maxResults != 0){
@@ -625,7 +625,7 @@ public class ProductDao extends AbstractGenericDao {
         criteria.createAlias("stores", "stores", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("stores.id", storeId));
 
-        criteria.add(Restrictions.eq("enabledToB2C", true));
+        criteria.add(Restrictions.eq("enabledB2C", true));
 
         @SuppressWarnings("unchecked")
         List<Long> productSkuIds = criteria.list();

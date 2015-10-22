@@ -92,20 +92,20 @@ public class ProductMarketingSolr {
         this.isDefault = isDefault;
     }
 
-    public Boolean getEnabledToB2B() {
+    public Boolean getEnabledB2B() {
         return enabledB2B;
     }
 
-    public void setEnabledToB2B(Boolean enabledToB2B) {
-        this.enabledB2B = enabledToB2B;
+    public void setEnabledB2B(Boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
     }
     
     public Boolean getEnabledToB2C() {
         return enabledB2C;
     }
 
-    public void setEnabledToB2C(Boolean enabledToB2C) {
-        this.enabledB2C = enabledToB2C;
+    public void setEnabledToB2C(Boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
     }
 
     public boolean isSalableB2B() {

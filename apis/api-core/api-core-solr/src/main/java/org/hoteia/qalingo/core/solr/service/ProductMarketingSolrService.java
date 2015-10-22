@@ -73,7 +73,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
         productMarketingSolr.setName(productMarketing.getName());
         productMarketingSolr.setDescription(productMarketing.getDescription());
 
-        productMarketingSolr.setEnabledToB2B(productMarketing.isEnabledB2B());
+        productMarketingSolr.setEnabledB2B(productMarketing.isEnabledB2B());
         productMarketingSolr.setEnabledToB2C(productMarketing.isEnabledB2C());
 
         productMarketingSolr.setSalableB2B(productMarketing.isSalableB2B());
