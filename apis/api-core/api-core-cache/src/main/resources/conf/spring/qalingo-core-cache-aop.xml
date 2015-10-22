@@ -45,10 +45,6 @@
             <aop:pointcut id="catalogServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CatalogService.get*(..))" />
             <aop:around method="around" pointcut-ref="catalogServicePointcut" />
         </aop:aspect>
-        <aop:aspect id="triggerCacheCmsContentService" ref="cacheManagementAspect">
-            <aop:pointcut id="cmsContentServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CmsContentService.get*(..))" />
-            <aop:around method="around" pointcut-ref="cmsContentServicePointcut" />
-        </aop:aspect>
         <aop:aspect id="triggerCacheCurrencyReferentialService" ref="cacheManagementAspect">
             <aop:pointcut id="currencyReferentialServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CurrencyReferentialService.get*(..))" />
             <aop:around method="around" pointcut-ref="currencyReferentialServicePointcut" />
