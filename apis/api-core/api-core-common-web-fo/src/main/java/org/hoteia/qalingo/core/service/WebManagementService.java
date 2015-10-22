@@ -28,7 +28,7 @@ import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerOptin;
-import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
+import org.hoteia.qalingo.core.domain.CustomerPayment;
 import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Market;
@@ -818,7 +818,7 @@ public class WebManagementService {
         final MarketArea marketArea = requestData.getMarketArea();
         Customer customer = requestData.getCustomer();
         
-        final CustomerPaymentInformation customerPaymentInformation = new CustomerPaymentInformation();
+        final CustomerPayment customerPaymentInformation = new CustomerPayment();
         customerPaymentInformation.setPaymentType(paymentForm.getPaymentType());
         customerPaymentInformation.setCardHolderName(paymentForm.getCardHolderName());
         customerPaymentInformation.setCardNumber(paymentForm.getCardNumber());

@@ -135,9 +135,9 @@ public class Customer extends AbstractEntity<Customer> {
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerToken> tokens = new HashSet<CustomerToken>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerPaymentInformation.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerPayment.class)
     @JoinColumn(name = "CUSTOMER_ID")
-    private Set<CustomerPaymentInformation> paymentInformations = new HashSet<CustomerPaymentInformation>();
+    private Set<CustomerPayment> payments = new HashSet<CustomerPayment>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerOrderAudit.class)
     @JoinColumn(name = "CUSTOMER_ID")
@@ -479,12 +479,12 @@ public class Customer extends AbstractEntity<Customer> {
         this.tokens = tokens;
     }
 	
-	public Set<CustomerPaymentInformation> getPaymentInformations() {
-        return paymentInformations;
+	public Set<CustomerPayment> getPaymentInformations() {
+        return payments;
     }
 	
-	public void setPaymentInformations(Set<CustomerPaymentInformation> paymentInformations) {
-        this.paymentInformations = paymentInformations;
+	public void setPaymentInformations(Set<CustomerPayment> paymentInformations) {
+        this.payments = paymentInformations;
     }
 	
 	public CustomerOrderAudit getCustomerOrderAudit() {

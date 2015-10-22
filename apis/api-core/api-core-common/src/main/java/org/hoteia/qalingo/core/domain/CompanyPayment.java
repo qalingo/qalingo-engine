@@ -10,19 +10,25 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TECO_CUSTOMER_PAYMENT_INFORMATION")
-public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentInformation> {
+@Table(name = "TECO_COMPANY_PAYMENT")
+public class CompanyPayment extends AbstractExtendEntity<CompanyPayment, CompanyPaymentAttribute> {
 
     /**
      * Generated UID
@@ -52,8 +58,12 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
     @Column(name = "CARD_CVV")
     private String cardCVV;
 
-    @Column(name="CUSTOMER_MARKET_AREA_ID")
-    private Long customerMarketAreaId;
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyPaymentAttribute.class)
+    @JoinColumn(name = "COMPANY_PAYMENT_ID")
+    private Set<CompanyPaymentAttribute> attributes = new HashSet<CompanyPaymentAttribute>();
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -63,7 +73,7 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-    public CustomerPaymentInformation() {
+    public CompanyPayment() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
     }
@@ -124,14 +134,22 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
         this.cardCVV = cardCVV;
     }
     
-    public Long getCustomerMarketAreaId() {
-        return customerMarketAreaId;
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+    
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
     }
 
-    public void setCustomerMarketAreaId(Long customerMarketAreaId) {
-        this.customerMarketAreaId = customerMarketAreaId;
+    public Set<CompanyPaymentAttribute> getAttributes() {
+        return attributes;
     }
-
+    
+    public void setAttributes(Set<CompanyPaymentAttribute> attributes) {
+        this.attributes = attributes;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }
@@ -153,7 +171,7 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
         final int prime = 31;
         int result = 1;
         result = prime * result + ((cardNumber == null) ? 0 : cardNumber.hashCode());
-        result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
@@ -168,7 +186,7 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CustomerPaymentInformation other = (CustomerPaymentInformation) obj;
+        CompanyPayment other = (CompanyPayment) obj;
         if (cardCVV == null) {
             if (other.cardCVV != null)
                 return false;
@@ -194,10 +212,10 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
                 return false;
         } else if (!cardNumber.equals(other.cardNumber))
             return false;
-        if (customerMarketAreaId == null) {
-            if (other.customerMarketAreaId != null)
+        if (marketAreaId == null) {
+            if (other.marketAreaId != null)
                 return false;
-        } else if (!customerMarketAreaId.equals(other.customerMarketAreaId))
+        } else if (!marketAreaId.equals(other.marketAreaId))
             return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
@@ -215,7 +233,7 @@ public class CustomerPaymentInformation extends AbstractEntity<CustomerPaymentIn
     @Override
     public String toString() {
         return "CustomerPaymentInformation [id=" + id + ", paymentType=" + paymentType + ", cardHolderName=" + cardHolderName + ", cardNumber=" + cardNumber + ", cardExpMonth=" + cardExpMonth
-                + ", cardExpYear=" + cardExpYear + ", cardCVV=" + cardCVV + ", customerMarketAreaId=" + customerMarketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", cardExpYear=" + cardExpYear + ", cardCVV=" + cardCVV + ", marketAreaId=" + marketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
     
 }

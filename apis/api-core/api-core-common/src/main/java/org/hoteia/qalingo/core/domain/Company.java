@@ -122,13 +122,17 @@ public class Company extends AbstractEntity<Company> {
     @JoinTable(name = "TBO_COMPANY_LOCALIZATION_REL", joinColumns = @JoinColumn(name = "COMPANY_ID"), inverseJoinColumns = @JoinColumn(name = "LOCALIZATION_ID"))
     private Set<Localization> localizations = new HashSet<Localization>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
-    @JoinColumn(name = "COMPANY_ID")
-    private Set<Retailer> retailers = new HashSet<Retailer>();
-    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinColumn(name = "COMPANY_ID")
     private Set<ProductBrand> productBrands = new HashSet<ProductBrand>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
+    @JoinColumn(name = "COMPANY_ID")
+    private Set<Retailer> retailers = new HashSet<Retailer>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyPayment.class)
+    @JoinColumn(name = "COMPANY_ID")
+    private Set<CompanyPayment> payments = new HashSet<CompanyPayment>();
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -416,7 +420,7 @@ public class Company extends AbstractEntity<Company> {
     public void setProductBrands(Set<ProductBrand> brands) {
         this.productBrands = brands;
     }
-
+    
     public Set<Retailer> getRetailers() {
         return retailers;
     }
@@ -448,6 +452,14 @@ public class Company extends AbstractEntity<Company> {
         this.retailers = retailers;
     }
 
+    public Set<CompanyPayment> getPayments() {
+        return payments;
+    }
+    
+    public void setPayments(Set<CompanyPayment> payments) {
+        this.payments = payments;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }

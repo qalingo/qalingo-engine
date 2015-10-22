@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
+import org.hoteia.qalingo.core.domain.CustomerPayment;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.pojo.checkout.CheckoutProcessPojoRequest;
 import org.hoteia.qalingo.core.pojo.checkout.CheckoutProcessPojoResponse;
@@ -69,7 +69,7 @@ public class CheckoutRestService {
                 
                 if(checkoutProcessPojoRequest.getPaymentPojo().isWantSavedPaymentInformations()){
                     // Save payment information
-                    final CustomerPaymentInformation customerPaymentInformation = new CustomerPaymentInformation();
+                    final CustomerPayment customerPaymentInformation = new CustomerPayment();
                     customerPaymentInformation.setPaymentType(checkoutProcessPojoRequest.getPaymentPojo().getPaymentType());
                     customerPaymentInformation.setCardHolderName(checkoutProcessPojoRequest.getPaymentPojo().getCardHolderName());
                     customerPaymentInformation.setCardNumber(checkoutProcessPojoRequest.getPaymentPojo().getCardNumber());

@@ -17,7 +17,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
-import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
+import org.hoteia.qalingo.core.domain.CustomerPayment;
 import org.hoteia.qalingo.core.domain.CustomerToken;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -96,7 +96,7 @@ public class CustomerService {
         return customer;
     }
     
-    public Customer savePaymentInformation(final Customer customer, final CustomerPaymentInformation customerPaymentInformation) throws Exception {
+    public Customer savePaymentInformation(final Customer customer, final CustomerPayment customerPaymentInformation) throws Exception {
         customerPaymentInformation.setDateCreate(new Date());
         customerPaymentInformation.setDateUpdate(new Date());
         customer.getPaymentInformations().add(customerPaymentInformation);
