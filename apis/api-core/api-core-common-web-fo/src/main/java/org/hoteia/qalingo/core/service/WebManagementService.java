@@ -818,16 +818,16 @@ public class WebManagementService {
         final MarketArea marketArea = requestData.getMarketArea();
         Customer customer = requestData.getCustomer();
         
-        final CustomerPayment customerPaymentInformation = new CustomerPayment();
-        customerPaymentInformation.setPaymentType(paymentForm.getPaymentType());
-        customerPaymentInformation.setCardHolderName(paymentForm.getCardHolderName());
-        customerPaymentInformation.setCardNumber(paymentForm.getCardNumber());
-        customerPaymentInformation.setCardExpMonth(paymentForm.getCardExpMonth());
-        customerPaymentInformation.setCardExpYear(paymentForm.getCardExpYear());
-        customerPaymentInformation.setCardCVV(paymentForm.getCardCVV());
-        customerPaymentInformation.setCustomerMarketAreaId(marketArea.getId());
+        final CustomerPayment customerInformation = new CustomerPayment();
+        customerInformation.setPaymentType(paymentForm.getPaymentType());
+        customerInformation.setCardHolderName(paymentForm.getCardHolderName());
+        customerInformation.setCardNumber(paymentForm.getCardNumber());
+        customerInformation.setCardExpMonth(paymentForm.getCardExpMonth());
+        customerInformation.setCardExpYear(paymentForm.getCardExpYear());
+        customerInformation.setCardCVV(paymentForm.getCardCVV());
+        customerInformation.setMarketAreaId(marketArea.getId());
         
-        customerService.savePaymentInformation(customer, customerPaymentInformation);
+        customerService.savePaymentInformation(customer, customerInformation);
         
         requestUtil.updateCurrentCustomer(request, customer);
     }

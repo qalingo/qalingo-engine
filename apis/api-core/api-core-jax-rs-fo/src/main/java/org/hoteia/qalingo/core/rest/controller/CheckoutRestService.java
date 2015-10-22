@@ -69,17 +69,17 @@ public class CheckoutRestService {
                 
                 if(checkoutProcessPojoRequest.getPaymentPojo().isWantSavedPaymentInformations()){
                     // Save payment information
-                    final CustomerPayment customerPaymentInformation = new CustomerPayment();
-                    customerPaymentInformation.setPaymentType(checkoutProcessPojoRequest.getPaymentPojo().getPaymentType());
-                    customerPaymentInformation.setCardHolderName(checkoutProcessPojoRequest.getPaymentPojo().getCardHolderName());
-                    customerPaymentInformation.setCardNumber(checkoutProcessPojoRequest.getPaymentPojo().getCardNumber());
-                    customerPaymentInformation.setCardExpMonth(checkoutProcessPojoRequest.getPaymentPojo().getCardExpMonth());
-                    customerPaymentInformation.setCardExpYear(checkoutProcessPojoRequest.getPaymentPojo().getCardExpYear());
-                    customerPaymentInformation.setCardCVV(checkoutProcessPojoRequest.getPaymentPojo().getCardCVV());
+                    final CustomerPayment customerInformation = new CustomerPayment();
+                    customerInformation.setPaymentType(checkoutProcessPojoRequest.getPaymentPojo().getPaymentType());
+                    customerInformation.setCardHolderName(checkoutProcessPojoRequest.getPaymentPojo().getCardHolderName());
+                    customerInformation.setCardNumber(checkoutProcessPojoRequest.getPaymentPojo().getCardNumber());
+                    customerInformation.setCardExpMonth(checkoutProcessPojoRequest.getPaymentPojo().getCardExpMonth());
+                    customerInformation.setCardExpYear(checkoutProcessPojoRequest.getPaymentPojo().getCardExpYear());
+                    customerInformation.setCardCVV(checkoutProcessPojoRequest.getPaymentPojo().getCardCVV());
                     
-                    customerPaymentInformation.setCustomerMarketAreaId(marketArea.getId());
+                    customerInformation.setMarketAreaId(marketArea.getId());
                     
-                    customerService.savePaymentInformation(customer, customerPaymentInformation);
+                    customerService.savePaymentInformation(customer, customerInformation);
                 }
 
                 Cart cart = cartService.getCartByMarketAreaIdAndCustomerId(marketArea.getId(), customer.getId());
