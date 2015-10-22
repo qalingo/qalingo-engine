@@ -244,11 +244,19 @@ public class RetailerService {
     }
 
     public List<Store> findB2CStores(int maxResults, Object... params) {
-        return retailerDao.findB2CStores(maxResults, params);
+        return retailerDao.findB2CStores(null, maxResults, params);
+    }
+    
+    public List<Store> findStoresByType(List<String> types, int maxResults, Object... params) {
+        return retailerDao.findB2CStores(types, maxResults, params);
     }
     
     public List<Store> findB2BStores(int maxResults, Object... params) {
-        return retailerDao.findB2BStores(maxResults, params);
+        return retailerDao.findB2BStores(null, maxResults, params);
+    }
+    
+    public List<Store> findB2BStoresByType(List<String> types, int maxResults, Object... params) {
+        return retailerDao.findB2BStores(types, maxResults, params);
     }
     
     public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {

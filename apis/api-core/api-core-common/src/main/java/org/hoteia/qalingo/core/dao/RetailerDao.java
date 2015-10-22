@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -424,13 +425,21 @@ public class RetailerDao extends AbstractGenericDao {
 		return stores;
 	}
 
-    public List<Store> findB2CStores(int maxResults, Object... params) {
+    public List<Store> findB2CStores(List<String> types, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
         handleSpecificStoreFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("b2c", true));
 
+        if(types != null && !types.isEmpty()){
+            Disjunction disjunction = Restrictions.or();
+            for(String type: types){
+                disjunction.add( Restrictions.like("type", "%" + type + "%"));
+            }
+            criteria.add(disjunction);
+        }
+        
         criteria.addOrder(Order.asc("code"));
 
         if (maxResults != 0) {
@@ -441,14 +450,22 @@ public class RetailerDao extends AbstractGenericDao {
         List<Store> stores = criteria.list();
         return stores;
     }
-
-    public List<Store> findB2BStores(int maxResults, Object... params) {
+    
+    public List<Store> findB2BStores(List<String> types, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
         handleSpecificStoreFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("b2b", true));
 
+        if(types != null && !types.isEmpty()){
+            Disjunction disjunction = Restrictions.or();
+            for(String type: types){
+                disjunction.add( Restrictions.like("type", "%" + type + "%"));
+            }
+            criteria.add(disjunction);
+        }
+        
         criteria.addOrder(Order.asc("code"));
 
         if (maxResults != 0) {
