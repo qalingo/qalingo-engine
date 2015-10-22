@@ -96,6 +96,7 @@ public enum FoUrls {
     ADD_TO_WISHLIST_AJAX(FoUrls.ADD_TO_WISHLIST_AJAX_URL, FoUrls.ADD_TO_WISHLIST_AJAX_KEY, null, false),
     GET_CART_AJAX(FoUrls.GET_CART_AJAX_URL, FoUrls.GET_CART_AJAX_KEY, null, false),
     ADD_TO_CART_AJAX(FoUrls.ADD_TO_CART_AJAX_URL, FoUrls.ADD_TO_CART_AJAX_KEY, null, false),
+    ADD_TO_CART_FROM_STORE_AJAX(FoUrls.ADD_TO_CART_FROM_STORE_AJAX_URL, FoUrls.ADD_TO_CART_FROM_STORE_AJAX_KEY, null, false),
     UPDATE_CART_ITEM_AJAX(FoUrls.UPDATE_CART_ITEM_AJAX_URL, FoUrls.UPDATE_CART_ITEM_AJAX_KEY, null, false),
     DELETE_CART_ITEM_AJAX(FoUrls.DELETE_CART_ITEM_AJAX_URL, FoUrls.DELETE_CART_ITEM_AJAX_KEY, null, false),
     APPLY_PROMO_CODE_AJAX(FoUrls.APPLY_PROMO_CODE_AJAX_URL, FoUrls.APPLY_PROMO_CODE_AJAX_KEY, null, false),
@@ -380,6 +381,9 @@ public enum FoUrls {
 
     public static final String ADD_TO_CART_AJAX_KEY                     = "add-to-cart-ajax";
     public static final String ADD_TO_CART_AJAX_URL                     = "/**/add-to-cart.ajax";
+
+    public static final String ADD_TO_CART_FROM_STORE_AJAX_KEY          = "add-to-cart-from-store-ajax";
+    public static final String ADD_TO_CART_FROM_STORE_AJAX_URL          = "/**/add-to-cart-from-store.ajax";
 
     public static final String UPDATE_CART_ITEM_AJAX_KEY                = "update-item-quantity-ajax";
     public static final String UPDATE_CART_ITEM_AJAX_URL                = "/**/update-item-quantity.ajax";

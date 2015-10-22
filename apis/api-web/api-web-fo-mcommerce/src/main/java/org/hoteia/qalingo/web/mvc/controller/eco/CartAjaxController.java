@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.eco;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -26,6 +25,7 @@ import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
@@ -43,6 +43,7 @@ import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
 import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -77,6 +78,9 @@ public class CartAjaxController extends AbstractMCommerceController {
     @Autowired
     protected MarketService marketService;
     
+    @Autowired
+    protected RetailerService retailerService;
+
     @RequestMapping(value = FoUrls.ADD_TO_WISHLIST_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
     public FoAddToWishlistPojo addProductSkuToWishlist(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -172,6 +176,81 @@ public class CartAjaxController extends AbstractMCommerceController {
                 quantityValue = Integer.parseInt(quantity);
             }
             webManagementService.addToCart(requestData, catalogCategoryCode, productSkuCode, quantityValue);
+            
+            CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
+            if(cart != null && cart.getCartItems() != null){
+                for (CartItemPojo cartItem : cart.getCartItems()) {
+                    if (cartItem.getProductSku().getCode().equals(productSkuCode)) {
+                        addToCart.setQuantity(cartItem.getQuantity());
+                    }
+                }
+                if (cart.getCartItems().size() == 1) {
+                    addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
+                } else if (cart.getCartItems().size() > 1) {
+                    Object[] cartTotalSummaryLabelParams = { cart.getCartItems().size() };
+                    addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_many_items", cartTotalSummaryLabelParams, locale));
+                } else {
+                    addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
+                }
+                
+            } else {
+                addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
+            }
+            
+            addToCart.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
+            
+            FoMessagePojo successMessage = new FoMessagePojo();
+            successMessage.setId("success-add-to-cart-product-sku");
+            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
+            successMessage.setMessage(getSpecificMessage(ScopeWebMessage.CHECKOUT_SHOPPING_CART, "add_to_cart_success_message", messageParams, locale));
+            addToCart.getSuccessMessages().add(successMessage);
+            return addToCart;
+            
+        } catch (Exception e) {
+            logger.error("", e);
+            FoMessagePojo errorMessage = new FoMessagePojo();
+            errorMessage.setId("error-add-to-cart-product-sku");
+            Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
+            errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.CHECKOUT_SHOPPING_CART, "add_to_cart_error_message", messageParams, locale));
+            addToCart.getErrorMessages().add(errorMessage);
+            addToCart.setStatuts(false);
+            return addToCart;
+        }
+    }
+    
+    @RequestMapping(value = FoUrls.ADD_TO_CART_FROM_STORE_AJAX_URL, method = RequestMethod.GET)
+    @ResponseBody
+    public FoAddToCartPojo addProductSkuFromStoreToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Locale locale = requestData.getLocale();
+        String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
+        final String quantity = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITY);
+        final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_STORE_CODE);
+        
+        // SANITY CHECK
+        if("undefined".equalsIgnoreCase(catalogCategoryCode)){
+            catalogCategoryCode = null;
+        }
+        
+        final FoAddToCartPojo addToCart = new FoAddToCartPojo();
+        
+        // INJECT PRODUCT SKU
+        final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
+        addToCart.setProductSku(catalogPojoService.buildProductSku(productSku));
+
+        addToCart.getProductSku().setDefaultPackshotImage(buildDefaultAsset(requestData, productSku));
+        
+        addToCart.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
+        
+        try {
+            int quantityValue = 1;
+            if(StringUtils.isNotEmpty(quantity)){
+                quantityValue = Integer.parseInt(quantity);
+            }
+            Store store = retailerService.getStoreByCode(storeCode);
+            webManagementService.addToCart(requestData, store, catalogCategoryCode, productSkuCode, quantityValue);
             
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
             if(cart != null && cart.getCartItems() != null){
