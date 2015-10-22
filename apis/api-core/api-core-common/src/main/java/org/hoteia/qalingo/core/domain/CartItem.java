@@ -45,8 +45,8 @@ public class CartItem extends AbstractEntity<CartItem> {
     @JoinColumn(name = "CART_ID", insertable = true, updatable = true)
     private Cart cart;
     
-    @Column(name = "RETAILER_ID")
-    private Long retailerId;
+    @Column(name = "STORE_ID")
+    private Long storeId;
     
     @Column(name = "QUANTITY", nullable = false, columnDefinition = "int(11) default 0")
     private int quantity;
@@ -109,12 +109,12 @@ public class CartItem extends AbstractEntity<CartItem> {
         this.cart = cart;
     }
 
-    public Long getRetailerId() {
-        return retailerId;
+    public Long getStoreId() {
+        return storeId;
     }
     
-    public void setRetailerId(Long retailerId) {
-        this.retailerId = retailerId;
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
     }
     
     public int getQuantity() {
@@ -178,7 +178,7 @@ public class CartItem extends AbstractEntity<CartItem> {
         this.taxes = taxes;
     }
 
-    public ProductSkuPrice getPrice(final Long marketAreaId, final Long storeId) {
+    public ProductSkuPrice getPrice(final Long marketAreaId) {
         if (productSku != null 
                 && Hibernate.isInitialized(productSku)
                 && productSku.getPrices() != null 
@@ -193,17 +193,17 @@ public class CartItem extends AbstractEntity<CartItem> {
         return null;
     }
 
-    public String getPriceWithStandardCurrencySign(final Long marketAreaId, final Long retailerId) {
-        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
+    public String getPriceWithStandardCurrencySign(final Long marketAreaId) {
+        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
         if (productSkuPrice != null) {
             return productSkuPrice.getPriceWithStandardCurrencySign();
         }
         return null;
     }
 
-    public BigDecimal getTotalAmountCartItem(final Long marketAreaId, final Long retailerId) {
+    public BigDecimal getTotalAmountCartItem(final Long marketAreaId) {
         BigDecimal totalAmount = new BigDecimal("0");
-        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
+        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
         if (productSkuPrice != null) {
             totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
         }
@@ -211,9 +211,9 @@ public class CartItem extends AbstractEntity<CartItem> {
         return totalAmount;
     }
 
-    public String getTotalAmountWithStandardCurrencySign(final Long marketAreaId, final Long retailerId) {
+    public String getTotalAmountWithStandardCurrencySign(final Long marketAreaId) {
         BigDecimal totalAmount = new BigDecimal("0");
-        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
+        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
         if (productSkuPrice != null) {
             totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
         }

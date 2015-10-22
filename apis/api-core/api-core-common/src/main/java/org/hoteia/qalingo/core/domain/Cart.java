@@ -274,7 +274,7 @@ public class Cart extends AbstractEntity<Cart> {
                 && Hibernate.isInitialized(cartItems)) {
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 final CartItem cartItem = (CartItem) iterator.next();
-                cartItemsTotal = cartItemsTotal.add(cartItem.getTotalAmountCartItem(getMarketAreaId(), getRetailerId()));
+                cartItemsTotal = cartItemsTotal.add(cartItem.getTotalAmountCartItem(getMarketAreaId()));
             }
         }
         return cartItemsTotal;

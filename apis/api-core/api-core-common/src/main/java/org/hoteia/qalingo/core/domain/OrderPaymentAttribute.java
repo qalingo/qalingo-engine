@@ -14,9 +14,14 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Entity
-@Table(name="TECO_ORDER_ATTRIBUTE")
-public class OrderAttribute extends AbstractAttribute<OrderAttribute> {
+@Table(name="TECO_ORDER_PAYMENT_ATTRIBUTE")
+public class OrderPaymentAttribute extends AbstractAttribute<OrderPaymentAttribute> {
 
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 1602080325619993090L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ID", nullable=false)
@@ -79,7 +84,7 @@ public class OrderAttribute extends AbstractAttribute<OrderAttribute> {
     @Column(name="DATE_UPDATE")
     private Date dateUpdate;
 
-    public OrderAttribute() {
+    public OrderPaymentAttribute() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
     }
@@ -244,7 +249,7 @@ public class OrderAttribute extends AbstractAttribute<OrderAttribute> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        OrderAttribute other = (OrderAttribute) obj;
+        OrderPaymentAttribute other = (OrderPaymentAttribute) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;

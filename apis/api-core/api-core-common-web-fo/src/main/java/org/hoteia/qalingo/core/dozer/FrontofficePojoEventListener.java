@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.dozer;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,6 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -81,7 +79,6 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                 try {
                     final RequestData requestData = requestUtil.getRequestData(httpServletRequest);
                     final MarketArea marketArea = requestData.getMarketArea();
-                    final Retailer retailer = requestData.getMarketAreaRetailer();
                     final Localization localization = requestData.getMarketAreaLocalization();
                     final String localizationCode = localization.getCode();
                     
@@ -107,8 +104,8 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     cartItemPojo.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), cartItem.getProductSku()));
 
-                    cartItemPojo.setPriceWithStandardCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
-                    cartItemPojo.setTotalAmountWithStandardCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+                    cartItemPojo.setPriceWithStandardCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId()));
+                    cartItemPojo.setTotalAmountWithStandardCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId()));
 
                 } catch (Exception e) {
                     logger.error("postWritingDestinationValue error with FoCartItemPojo", e);

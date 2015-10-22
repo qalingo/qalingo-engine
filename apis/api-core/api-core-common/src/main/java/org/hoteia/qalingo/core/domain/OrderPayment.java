@@ -11,19 +11,25 @@ package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_ORDER_PAYMENT")
-public class OrderPayment extends AbstractEntity<OrderPayment> {
+public class OrderPayment extends AbstractExtendEntity<OrderPayment, OrderPaymentAttribute> {
 
 	/**
 	 * Generated UID
@@ -74,6 +80,10 @@ public class OrderPayment extends AbstractEntity<OrderPayment> {
 	@Column(name="NAME")
 	private String currencyCode;
 	
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.OrderPaymentAttribute.class)
+    @JoinColumn(name = "ORDER_PAYMENT_ID")
+    private Set<OrderPaymentAttribute> attributes = new HashSet<OrderPaymentAttribute>();
+    
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -199,6 +209,14 @@ public class OrderPayment extends AbstractEntity<OrderPayment> {
 		this.currencyCode = currencyCode;
 	}
 
+    public Set<OrderPaymentAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Set<OrderPaymentAttribute> attributes) {
+        this.attributes = attributes;
+    }
+    
 	public Date getDateCreate() {
 		return dateCreate;
 	}

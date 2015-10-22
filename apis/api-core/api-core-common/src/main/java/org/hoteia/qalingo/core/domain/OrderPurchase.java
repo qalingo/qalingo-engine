@@ -35,7 +35,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_ORDER_PURCHASE")
-public class OrderPurchase extends AbstractExtendEntity<OrderPurchase, OrderAttribute> {
+public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 
 	/**
 	 * Generated UID
@@ -98,10 +98,6 @@ public class OrderPurchase extends AbstractExtendEntity<OrderPurchase, OrderAttr
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderDocument.class)
     @JoinColumn(name = "ORDER_ID")
     private Set<OrderDocument> orderDocuments = new HashSet<OrderDocument>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.OrderAttribute.class)
-    @JoinColumn(name = "ORDER_ID")
-    private Set<OrderAttribute> attributes = new HashSet<OrderAttribute>();
 
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -383,14 +379,6 @@ public class OrderPurchase extends AbstractExtendEntity<OrderPurchase, OrderAttr
 
     public String getOrderTotalWithStandardCurrencySign() {
         return getCurrency().formatPriceWithStandardCurrencySign(getOrderTotal());
-    }
-
-    public Set<OrderAttribute> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Set<OrderAttribute> attributes) {
-        this.attributes = attributes;
     }
 
     @Override

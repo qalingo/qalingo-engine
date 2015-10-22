@@ -23,7 +23,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,18 +48,18 @@ public class CartService {
         addProductSkuToCart(cart, null, virtualCatalogCode, catalogCategoryCode, productSkuCode, quantity);
     }
     
-    public Cart addProductSkuToCart(Cart cart, Retailer retailer, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public Cart addProductSkuToCart(Cart cart, Store store, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         int finalQuantity = quantity;
         if (cart != null) {
             Set<CartItem> cartItems = cart.getCartItems();
             for (CartItem cartItem : cartItems) {
                 if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)
-                        && cartItem.getRetailerId().equals(retailer)) {
+                        && cartItem.getStoreId().equals(store.getId())) {
                     finalQuantity = finalQuantity + cartItem.getQuantity();
                 }
             }
         }
-        cart = updateCartItem(cart, retailer, virtualCatalogCode, catalogCategoryCode, productSkuCode, finalQuantity);
+        cart = updateCartItem(cart, store, virtualCatalogCode, catalogCategoryCode, productSkuCode, finalQuantity);
         return cart;
     }
     
@@ -67,7 +67,7 @@ public class CartService {
         return updateCartItem(cart, null, null, null, productSkuCode, quantity);
     }
     
-    public Cart updateCartItem(Cart cart, Retailer retailer, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public Cart updateCartItem(Cart cart, Store store, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         Set<CartItem> cartItems = cart.getCartItems();
         boolean productSkuIsNew = true;
         for (CartItem cartItem : cartItems) {
@@ -85,8 +85,8 @@ public class CartService {
                 final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
                 cartItem.setProductMarketing(reloadedProductMarketing);
                 cartItem.setQuantity(quantity);
-                if(retailer != null){
-                    cartItem.setRetailerId(retailer.getId());
+                if(store != null){
+                    cartItem.setStoreId(store.getId());
                 }
 
                 if (StringUtils.isNotEmpty(catalogCategoryCode)) {
@@ -109,13 +109,13 @@ public class CartService {
         return deleteCartItem(cart, null, productSkuCode);
     }
     
-    public Cart deleteCartItem(Cart cart, Retailer retailer, final String productSkuCode) throws Exception {
+    public Cart deleteCartItem(Cart cart, Store store, final String productSkuCode) throws Exception {
         if(cart != null){
             Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
             for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
                 if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)
-                        && cartItem.getRetailerId().equals(retailer)) {
+                        && cartItem.getStoreId().equals(store.getId())) {
                     cartItems.remove(cartItem);
                 }
             }

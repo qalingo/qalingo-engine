@@ -2398,7 +2398,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     protected CartItemViewBean buildViewBeanCartItem(final RequestData requestData, final CartItem cartItem, final FetchPlan productSkuFetchPlan) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         
@@ -2435,14 +2434,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         cartItemViewBean.getAssets().add(assetViewBean);
         
         // UNIT PRICE
-        cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+        cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId()));
 
         // FEES AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
         
         //...
         
         // TOTAL AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
-        cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+        cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId()));
 
         Map<String, String> getParams = new HashMap<String, String>();
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSku().getCode());

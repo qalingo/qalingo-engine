@@ -10,10 +10,18 @@
 package org.hoteia.qalingo.core.service;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CartItemTax;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.OrderAddress;
+import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
+import org.hoteia.qalingo.core.domain.OrderShipment;
+import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +75,7 @@ public class CheckoutService {
                     orderItem.setCurrency(cart.getCurrency());
                     orderItem.setProductSkuCode(cartItem.getProductSku().getCode());
                     orderItem.setProductSku(cartItem.getProductSku());
-                    orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId(), cart.getRetailerId()).getSalePrice());
+                    orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId()).getSalePrice());
                     orderItem.setQuantity(cartItem.getQuantity());
 
                     // TAXES

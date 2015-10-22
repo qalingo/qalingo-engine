@@ -9,11 +9,43 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerAddress;
+import org.hoteia.qalingo.core.domain.CustomerCredential;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerOptin;
+import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
+import org.hoteia.qalingo.core.domain.Email;
+import org.hoteia.qalingo.core.domain.EngineEcoSession;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
+import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.email.bean.*;
+import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
+import org.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
+import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
+import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -21,17 +53,19 @@ import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.util.CoreUtil;
-import org.hoteia.qalingo.core.web.mvc.form.*;
+import org.hoteia.qalingo.core.web.mvc.form.ContactForm;
+import org.hoteia.qalingo.core.web.mvc.form.CreateAccountForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerAddressForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerContactForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerEditForm;
+import org.hoteia.qalingo.core.web.mvc.form.ForgottenPasswordForm;
+import org.hoteia.qalingo.core.web.mvc.form.PaymentForm;
+import org.hoteia.qalingo.core.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.util.*;
 
 @Service("webManagementService")
 @Transactional
@@ -84,13 +118,13 @@ public class WebManagementService {
      */
     public void addToCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final Retailer retailer = requestData.getMarketAreaRetailer();
-        addToCart(requestData, retailer, catalogCategoryCode, productSkuCode, quantity);
+        addToCart(requestData, retailer.getPrimaryStore(), catalogCategoryCode, productSkuCode, quantity);
     }
     
     /**
      * 
      */
-    public void addToCart(final RequestData requestData, final Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public void addToCart(final RequestData requestData, final Store store, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         // SANITY CHECK : sku code is empty or null : no sense
         if (StringUtils.isEmpty(productSkuCode)) {
             throw new Exception("");
@@ -107,7 +141,7 @@ public class WebManagementService {
             EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
             cart = engineEcoSession.addNewCart();
         }
-        cart = cartService.addProductSkuToCart(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
+        cart = cartService.addProductSkuToCart(cart, store, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
@@ -128,13 +162,13 @@ public class WebManagementService {
      */
     public void updateCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final Retailer retailer = requestData.getMarketAreaRetailer();
-        updateCart(requestData, retailer, catalogCategoryCode, productSkuCode, quantity);
+        updateCart(requestData, retailer.getPrimaryStore(), catalogCategoryCode, productSkuCode, quantity);
     }
     
     /**
      * 
      */
-    public void updateCart(final RequestData requestData, final Retailer retailer, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public void updateCart(final RequestData requestData, final Store store, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         
         // SANITY CHECK : sku code is empty or null : no sense
@@ -153,7 +187,7 @@ public class WebManagementService {
             cart = engineEcoSession.addNewCart();
         }
 
-        cartService.updateCartItem(cart, retailer, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
+        cartService.updateCartItem(cart, store, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
@@ -202,17 +236,17 @@ public class WebManagementService {
      */
     public void deleteCartItem(final RequestData requestData, final String productSkuCode) throws Exception {
         final Retailer retailer = requestData.getMarketAreaRetailer();
-        deleteCartItem(requestData, retailer, productSkuCode);
+        deleteCartItem(requestData, retailer.getPrimaryStore(), productSkuCode);
     }
     
     /**
      * 
      */
-    public void deleteCartItem(final RequestData requestData, final Retailer retailer, final String productSkuCode) throws Exception {
+    public void deleteCartItem(final RequestData requestData, final Store store, final String productSkuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
         
-        cartService.deleteCartItem(cart, retailer, productSkuCode);
+        cartService.deleteCartItem(cart, store, productSkuCode);
         
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
@@ -981,7 +1015,6 @@ public class WebManagementService {
     protected String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String contextNameValue, final String emailType) throws Exception{
         String emailFromAddress = marketArea.getEmailFromAddress(contextNameValue, emailType);
         if(StringUtils.isEmpty(emailFromAddress)){
-            final HttpServletRequest request = requestData.getRequest();
             final String contextValue = requestUtil.getCurrentContextNameValue();
             emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
         }
