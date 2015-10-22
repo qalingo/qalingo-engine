@@ -51,6 +51,9 @@ public class Cart extends AbstractEntity<Cart> {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "TYPE")
+    private String type;
+    
     @Column(name = "STATUS")
     private String status;
 
@@ -115,6 +118,14 @@ public class Cart extends AbstractEntity<Cart> {
         this.version = version;
     }
 
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public String getStatus() {
         return status;
     }
