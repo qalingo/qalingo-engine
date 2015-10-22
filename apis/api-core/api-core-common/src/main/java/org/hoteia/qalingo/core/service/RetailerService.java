@@ -247,7 +247,7 @@ public class RetailerService {
         return retailerDao.findB2CStores(null, maxResults, params);
     }
     
-    public List<Store> findStoresByType(List<String> types, int maxResults, Object... params) {
+    public List<Store> findB2CStoresByType(List<String> types, int maxResults, Object... params) {
         return retailerDao.findB2CStores(types, maxResults, params);
     }
     

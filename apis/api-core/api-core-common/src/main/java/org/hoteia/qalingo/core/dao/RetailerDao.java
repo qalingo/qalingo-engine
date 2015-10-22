@@ -435,7 +435,7 @@ public class RetailerDao extends AbstractGenericDao {
         if(types != null && !types.isEmpty()){
             Disjunction disjunction = Restrictions.or();
             for(String type: types){
-                disjunction.add( Restrictions.like("type", "%" + type + "%"));
+                disjunction.add(Restrictions.like("type", type, MatchMode.ANYWHERE));
             }
             criteria.add(disjunction);
         }
