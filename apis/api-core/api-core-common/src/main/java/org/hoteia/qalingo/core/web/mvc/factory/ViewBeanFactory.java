@@ -2040,6 +2040,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public AssetViewBean buildViewBeanAsset(final RequestData requestData, final Asset asset) throws Exception {
         final AssetViewBean assetViewBean = new AssetViewBean();
+        assetViewBean.setId(asset.getId().toString());
         assetViewBean.setName(asset.getName());
         assetViewBean.setDescription(asset.getDescription());
         if(StringUtils.isNotEmpty(asset.getSeo())){
