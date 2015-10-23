@@ -640,7 +640,7 @@ public class RetailerDao extends AbstractGenericDao {
             }
             if(types != null && !types.isEmpty()){
                 queryString.append("AND (");
-                int count = 0;
+                int count = 1;
                 for(String type: types){
                     if(count == 1){
                         queryString.append("type like '%:type" + count +"%' ");
@@ -664,7 +664,7 @@ public class RetailerDao extends AbstractGenericDao {
                 query.setParameter("countryCode", countryCode);
             }
             if(types != null && !types.isEmpty()){
-                int count = 0;
+                int count = 1;
                 for(String type: types){
                     query.setParameter("type" + count, type);
                     count++;
@@ -703,7 +703,7 @@ public class RetailerDao extends AbstractGenericDao {
             }
             if(types != null && !types.isEmpty()){
                 queryString.append("AND (");
-                int count = 0;
+                int count = 1;
                 for(String type: types){
                     if(count == 1){
                         queryString.append("type like '%:type" + count +"%' ");
@@ -728,7 +728,7 @@ public class RetailerDao extends AbstractGenericDao {
                 query.setParameter("countryCode", countryCode);
             }
             if(types != null && !types.isEmpty()){
-                int count = 0;
+                int count = 1;
                 for(String type: types){
                     query.setParameter("type" + count, type);
                     count++;
