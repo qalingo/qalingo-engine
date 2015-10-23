@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.ReferentialDataDao;
 import org.hoteia.qalingo.core.domain.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ReferentialDataService {
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
     @Autowired
     protected ReferentialDataDao referentialDataDao;
     
@@ -153,7 +158,11 @@ public class ReferentialDataService {
 		Set<String> keyList = bundleByLocale.keySet();
 		for (Iterator<String> iterator = keyList.iterator(); iterator.hasNext();) {
 			final String key = (String) iterator.next();
-			mapByLocale.put(key, (String)bundleByLocale.getObject(key));
+			try {
+				mapByLocale.put(key, new String (bundleByLocale.getString(key).getBytes("ISO-8859-1"), "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				logger.error("", e);
+			}
 		}
 		return mapByLocale;
 	}
