@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Entity
-@Table(name="TECO_COMPANY_PAYMENT_ATTRIBUTE")
+@Table(name="TBO_COMPANY_PAYMENT_ATTRIBUTE")
 public class CompanyPaymentAttribute extends AbstractAttribute<CompanyPaymentAttribute> {
 
     /**
