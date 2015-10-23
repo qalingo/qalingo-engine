@@ -27,7 +27,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TECO_COMPANY_PAYMENT")
+@Table(name = "TBO_COMPANY_PAYMENT")
 public class CompanyPayment extends AbstractExtendEntity<CompanyPayment, CompanyPaymentAttribute> {
 
     /**
