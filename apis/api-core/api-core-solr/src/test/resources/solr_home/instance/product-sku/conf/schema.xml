@@ -58,11 +58,10 @@
 		<field name="name"					type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="description"			type="string"   	indexed="true"  stored="true"  multiValued="false" />
 
-        <field name="enabledB2B"            type="boolean"      indexed="true"  stored="true"  multiValued="false" />
-        <field name="enabledB2C"            type="boolean"      indexed="true"  stored="true"  multiValued="false" />
-
-		<field name="salableB2B"            type="boolean"      indexed="true"  stored="true"  multiValued="false" />
-        <field name="salableB2C"            type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+        <field name="enabledB2B"          type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+        <field name="enabledB2C"          type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+        <field name="salableB2B"          type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+        <field name="salableB2C"          type="boolean"      indexed="true"  stored="true"  multiValued="false" />
 
 		<field name="productBrandCode"      type="string"		indexed="true" 	stored="true"  multiValued="false" />
 		<field name="catalogCodes"			type="string"		indexed="true" 	stored="true"  multiValued="true" />
