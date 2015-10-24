@@ -34,6 +34,8 @@ public class ProductBrandViewBean extends AbstractViewBean {
     protected String i18nShortDescription;
     protected String originCountryCode;
     
+    protected boolean enabled;
+
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
 	
     private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
@@ -133,7 +135,15 @@ public class ProductBrandViewBean extends AbstractViewBean {
         this.originCountryCode = originCountryCode;
     }
     
-	public List<ProductMarketingViewBean> getProductMarketings() {
+	public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<ProductMarketingViewBean> getProductMarketings() {
 		return productMarketings;
 	}
 	

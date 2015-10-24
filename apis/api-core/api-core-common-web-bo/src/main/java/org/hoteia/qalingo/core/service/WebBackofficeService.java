@@ -337,7 +337,9 @@ public class WebBackofficeService {
             brand.setName(brandForm.getName());
         }
         brand.setDescription(brandForm.getDescription());
-        
+
+        brand.setEnabled(brandForm.isEnabled());
+
         if(brandForm != null
                 && brandForm.getMarketAreaAttributes() != null) {
             Map<String, String> attributes = brandForm.getMarketAreaAttributes();

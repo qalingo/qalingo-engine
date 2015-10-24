@@ -25,6 +25,8 @@ public class ProductBrandForm {
 	private String name;
 	private String description;
     
+    private boolean enabled;
+    
 	private Map<String, String> globalAttributes = new HashMap<String, String>();
 	private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
 	
@@ -74,6 +76,14 @@ public class ProductBrandForm {
 		this.description = description;
 	}
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
 	public Map<String, String> getGlobalAttributes() {
 		return globalAttributes;
 	}
