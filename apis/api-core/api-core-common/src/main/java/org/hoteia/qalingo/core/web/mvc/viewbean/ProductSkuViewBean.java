@@ -352,7 +352,7 @@ public class ProductSkuViewBean extends AbstractViewBean {
     public AssetViewBean getDefaultAsset() {
         for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
-            if("default".equals(assetViewBean.getType())){
+            if(assetViewBean.isDefault()){
                 return assetViewBean;
             }
         }

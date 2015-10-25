@@ -158,8 +158,8 @@ public class ProductMarketingViewBean extends AbstractViewBean {
         return isDefault;
     }
 
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setDefault(boolean isDefault) {
+        isDefault = isDefault;
     }
 
     public boolean isEnabledB2B() {
