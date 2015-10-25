@@ -2264,6 +2264,28 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
+    public ProductSkuOptionDefinitionViewBean buildViewBeanProductSkuOptionDefinition(final RequestData requestData, final ProductSkuOptionDefinition productSkuOptionDefinition) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
+        ProductSkuOptionDefinitionViewBean productSkuOptionDefinitionViewBean = new ProductSkuOptionDefinitionViewBean();
+        productSkuOptionDefinitionViewBean.setCode(productSkuOptionDefinition.getCode());
+        productSkuOptionDefinitionViewBean.setName(productSkuOptionDefinition.getName());
+        productSkuOptionDefinitionViewBean.setI18nName(productSkuOptionDefinition.getI18nName(localizationCode));
+        
+        if (Hibernate.isInitialized(productSkuOptionDefinition.getOptionDefinitionType()) 
+                && productSkuOptionDefinition.getOptionDefinitionType() != null) {
+            ProductSkuOptionDefinitionType productSkuOptionDefinitionType = productSkuOptionDefinition.getOptionDefinitionType();
+            productSkuOptionDefinitionViewBean.setTypeCode(productSkuOptionDefinitionType.getCode());
+            productSkuOptionDefinitionViewBean.setTypeName(productSkuOptionDefinitionType.getName());
+            productSkuOptionDefinitionViewBean.setTypeI18nName(productSkuOptionDefinitionType.getI18nName(localizationCode));
+        }
+        return productSkuOptionDefinitionViewBean;
+    }
+    
+    /**
+     * 
+     */
     public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final AbstractCatalogCategory catalogCategory, 
                                                                               final ProductMarketing productMarketing) throws Exception {
         final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildViewBeanProductAssociationLink(requestData, productMarketing);

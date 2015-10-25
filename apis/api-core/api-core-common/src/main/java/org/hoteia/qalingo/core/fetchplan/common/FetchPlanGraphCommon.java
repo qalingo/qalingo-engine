@@ -17,6 +17,8 @@ import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 import org.hoteia.qalingo.core.domain.Cart_;
+import org.hoteia.qalingo.core.domain.Tag_;
+import org.hoteia.qalingo.core.domain.Tax_;
 import org.hoteia.qalingo.core.domain.CartItem_;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
@@ -95,14 +97,14 @@ public class FetchPlanGraphCommon {
     
     public static FetchPlan defaultTaxFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("taxCountries"));
-        fetchplans.add(new SpecificFetchMode("attributes"));
+        fetchplans.add(new SpecificFetchMode(Tax_.taxCountries.getName()));
+        fetchplans.add(new SpecificFetchMode(Tax_.attributes.getName()));
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan defaultTagFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("attributes"));
+        fetchplans.add(new SpecificFetchMode(Tag_.attributes.getName()));
         return new FetchPlan(fetchplans);
     }
     
