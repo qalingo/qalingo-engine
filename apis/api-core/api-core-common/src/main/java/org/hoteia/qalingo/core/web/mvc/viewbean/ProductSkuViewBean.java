@@ -259,18 +259,28 @@ public class ProductSkuViewBean extends AbstractViewBean {
     
     public List<AssetViewBean> getAssets(String type) {
         List<AssetViewBean> assetsByType = new ArrayList<AssetViewBean>();
+        // DEFAULT FIRST
         for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
-            if(assetViewBean.getType().equals(type)){
+            if(assetViewBean.getType().equals(type) && assetViewBean.isDefault){
                 assetsByType.add(assetViewBean);
             }
         }
-        // DEFAULT PRODUCT MARKETING ASSET
-        if(productMarketing != null){
-            for (Iterator<AssetViewBean> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
-                AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
-                if(assetViewBean.getType().equals(type)){
-                    assetsByType.add(assetViewBean);
+        // THE REST
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type) && !assetViewBean.isDefault){
+                assetsByType.add(assetViewBean);
+            }
+        }
+        if(assetsByType.size() == 0){
+            // DEFAULT PRODUCT MARKETING ASSET
+            if(productMarketing != null){
+                for (Iterator<AssetViewBean> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
+                    AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+                    if(assetViewBean.getType().equals(type)){
+                        assetsByType.add(assetViewBean);
+                    }
                 }
             }
         }

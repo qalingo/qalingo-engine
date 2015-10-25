@@ -276,9 +276,17 @@ public class ProductMarketingViewBean extends AbstractViewBean {
     
     public List<AssetViewBean> getAssets(String type) {
         List<AssetViewBean> assetsByType = new ArrayList<AssetViewBean>();
+        // DEFAULT FIRST
         for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
-            if(assetViewBean.getType().equals(type)){
+            if(assetViewBean.getType().equals(type) && assetViewBean.isDefault){
+                assetsByType.add(assetViewBean);
+            }
+        }
+        // THE REST
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type) && !assetViewBean.isDefault){
                 assetsByType.add(assetViewBean);
             }
         }
