@@ -2214,14 +2214,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // TAGS
         List<Tag> tags = productSku.getTags();
         if (Hibernate.isInitialized(tags)  && tags != null) {
-            for (Iterator<Tag> iterator = tags.iterator(); iterator.hasNext();) {
-                Tag productSkuTag = (Tag) iterator.next();
-                ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
-                productSkuTagViewBean.setCode(productSkuTag.getCode());
-                productSkuTagViewBean.setName(productSkuTag.getName());
-                productSkuTagViewBean.setDescription(productSkuTag.getDescription());
-                productSkuViewBean.getTags().add(productSkuTagViewBean);
-            }
+            productSkuViewBean.setTags(buildListViewBeanProductSkuTags(requestData, tags));
         }
         
         // SKU OPTIONS
@@ -2261,6 +2254,29 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return productSkuViewBean;
     }
     
+    /**
+     * 
+     */
+    public List<ProductSkuTagViewBean> buildListViewBeanProductSkuTags(final RequestData requestData, final List<Tag> productSkuTags) throws Exception {
+        final List<ProductSkuTagViewBean> productSkuTagViewBeans = new ArrayList<ProductSkuTagViewBean>();
+        for (Tag tag : productSkuTags) {
+            productSkuTagViewBeans.add(buildViewBeanTag(requestData, tag));
+        }
+        return productSkuTagViewBeans;
+    }
+    
+    public ProductSkuTagViewBean buildViewBeanTag(final RequestData requestData, Tag productSkuTag) {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
+        ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
+        productSkuTagViewBean.setCode(productSkuTag.getCode());
+        productSkuTagViewBean.setName(productSkuTag.getName());
+        productSkuTagViewBean.setDescription(productSkuTag.getDescription());
+        productSkuTagViewBean.setI18nName(productSkuTag.getI18nName(localizationCode));
+        return productSkuTagViewBean;
+    }
+
     /**
      * 
      */
