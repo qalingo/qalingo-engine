@@ -19,7 +19,7 @@ import org.hoteia.qalingo.core.pojo.RulePojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.tax.TaxPojo;
 
-public class CartPojo {
+public class CartPojo implements ICartPojo {
 
     private Long id;
     private int version;

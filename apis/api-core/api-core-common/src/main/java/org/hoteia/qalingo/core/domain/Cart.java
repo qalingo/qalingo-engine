@@ -301,8 +301,7 @@ public class Cart extends AbstractEntity<Cart> {
     public BigDecimal getTaxTotal() {
         BigDecimal cartFeesTotal = new BigDecimal("0");
         final Set<Tax> taxes = getTaxes();
-        if (taxes != null
-                && Hibernate.isInitialized(taxes)) {
+        if (taxes != null && Hibernate.isInitialized(taxes)) {
             for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
                 final Tax tax = (Tax) iterator.next();
 

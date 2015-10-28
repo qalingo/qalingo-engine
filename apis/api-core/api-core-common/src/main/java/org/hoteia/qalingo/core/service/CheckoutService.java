@@ -1,11 +1,10 @@
 /**
  * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
  * under the Apache License Version 2.0 (release version 0.8.0)
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- *                   Copyright (c) Hoteia, 2012-2014
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Copyright (c) Hoteia, 2012-2014
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
- *
  */
 package org.hoteia.qalingo.core.service;
 
@@ -34,11 +33,11 @@ public class CheckoutService {
 
     @Autowired
     protected OrderPurchaseService orderPurchaseService;
-    
+
     public OrderPurchase checkout(final Customer customer, final Cart cart) throws Exception {
         OrderPurchase orderPurchase = new OrderPurchase();
         // ORDER NUMBER IS CREATE BY DAO
-        
+
         orderPurchase.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());
 
         orderPurchase.setCurrency(cart.getCurrency());
@@ -46,7 +45,7 @@ public class CheckoutService {
         orderPurchase.setRetailerId(cart.getRetailerId());
         orderPurchase.setLocalizationId(cart.getLocalizationId());
         orderPurchase.setCustomerId(customer.getId());
-        
+
         OrderAddress billingAddress = new OrderAddress();
         BeanUtils.copyProperties(customer.getAddress(cart.getBillingAddressId()), billingAddress);
         billingAddress.setId(null);
@@ -56,11 +55,11 @@ public class CheckoutService {
         BeanUtils.copyProperties(customer.getAddress(cart.getShippingAddressId()), shippingAddress);
         shippingAddress.setId(null);
         orderPurchase.setShippingAddress(shippingAddress);
-        
+
         // SHIPMENT
         Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
         Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
-        if(deliveryMethods != null){
+        if (deliveryMethods != null) {
             for (DeliveryMethod deliveryMethod : deliveryMethods) {
                 OrderShipment orderShipment = new OrderShipment();
                 orderShipment.setName(deliveryMethod.getName());
@@ -77,7 +76,7 @@ public class CheckoutService {
                     orderItem.setProductSku(cartItem.getProductSku());
                     orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId()).getSalePrice());
                     orderItem.setQuantity(cartItem.getQuantity());
-
+                    orderItem.setStoreId(cartItem.getStoreId());
                     // TAXES
                     Set<CartItemTax> taxes = cartItem.getTaxes();
                     if (taxes != null) {
@@ -99,7 +98,7 @@ public class CheckoutService {
         orderPurchase.setOrderShipments(orderShipments);
 
         orderPurchase = orderPurchaseService.createNewOrder(orderPurchase);
-        
+
         return orderPurchase;
     }
 

@@ -9,18 +9,17 @@
  */
 package org.hoteia.qalingo.core.pojo.cart;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogCategoryPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductSkuPricePojo;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CartItemPojo {
 
@@ -64,8 +63,7 @@ public class CartItemPojo {
     }
 
     public String getAssetPath(String type) {
-        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
-            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+        for (AssetPojo assetViewBean : assets) {
             if (assetViewBean.getType().equals(type)) {
                 return assetViewBean.getPath();
             }
@@ -74,8 +72,7 @@ public class CartItemPojo {
     }
 
     public String getAssetAbsoluteWebPath(String type) {
-        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
-            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+        for (AssetPojo assetViewBean : assets) {
             if (assetViewBean.getType().equals(type)) {
                 return assetViewBean.getAbsoluteWebPath();
             }
@@ -84,8 +81,7 @@ public class CartItemPojo {
     }
 
     public String getAssetRelativeWebPath(String type) {
-        for (Iterator<AssetPojo> iterator = assets.iterator(); iterator.hasNext();) {
-            AssetPojo assetViewBean = (AssetPojo) iterator.next();
+        for (AssetPojo assetViewBean : assets) {
             if (assetViewBean.getType().equals(type)) {
                 return assetViewBean.getRelativeWebPath();
             }
@@ -144,15 +140,6 @@ public class CartItemPojo {
     public void setPrice(ProductSkuPricePojo price) {
         this.price = price;
     }
-
-    public BigDecimal getTotalAmountCartItem() {
-        return totalAmountCartItem;
-    }
-
-    public void setTotalAmountCartItem(BigDecimal totalAmountCartItem) {
-        this.totalAmountCartItem = totalAmountCartItem;
-    }
-
     @Override
     public String toString() {
         return "CartItemPojo [id=" + id + ", quantity=" + quantity + ", assets=" + assets + ", cartItemPrice=" + cartItemPrice + ", taxes=" + taxes + ", productSku=" + productSku

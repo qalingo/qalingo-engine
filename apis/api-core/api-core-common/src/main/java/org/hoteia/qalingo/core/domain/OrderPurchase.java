@@ -260,12 +260,11 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         Date expectedDeliveryDate = null;
         if(orderShipments != null
                 && Hibernate.isInitialized(orderShipments)){
-            for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
-                final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
-                if(expectedDeliveryDate == null){
+            for (final OrderShipment orderShipment : orderShipments) {
+                if (expectedDeliveryDate == null) {
                     expectedDeliveryDate = orderShipment.getExpectedDeliveryDate();
                 } else {
-                    if(expectedDeliveryDate.getTime() > orderShipment.getExpectedDeliveryDate().getTime()){
+                    if (expectedDeliveryDate.getTime() > orderShipment.getExpectedDeliveryDate().getTime()) {
                         expectedDeliveryDate = orderShipment.getExpectedDeliveryDate();
                     }
                 }
@@ -279,12 +278,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         if(orderShipments != null
                 && Hibernate.isInitialized(orderShipments)){
             orderTaxes = new HashSet<OrderTax>();
-            for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
-                final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
-                for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {
-                    final OrderItem orderItem = (OrderItem) iteratorOrderItem.next();
-                    for (Iterator<OrderTax> iteratorOrderTax = orderItem.getOrderTaxes().iterator(); iteratorOrderTax.hasNext();) {
-                        OrderTax orderTax = (OrderTax) iteratorOrderTax.next();
+            for (final OrderShipment orderShipment : orderShipments) {
+                for (final OrderItem orderItem : orderShipment.getOrderItems()) {
+                    for (OrderTax orderTax : orderItem.getOrderTaxes()) {
                         orderTaxes.add(orderTax);
                     }
                 }
@@ -298,10 +294,8 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         if (orderShipments != null
                 && Hibernate.isInitialized(orderShipments)) {
             orderItems = new HashSet<OrderItem>();
-            for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
-                final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
-                for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {
-                    final OrderItem orderItem = (OrderItem) iteratorOrderItem.next();
+            for (final OrderShipment orderShipment : orderShipments) {
+                for (final OrderItem orderItem : orderShipment.getOrderItems()) {
                     orderItems.add(orderItem);
                 }
             }
@@ -313,10 +307,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         BigDecimal shippingTotal = new BigDecimal("0");
         if (orderShipments != null
                 && Hibernate.isInitialized(orderShipments)) {
-            for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
-                final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
+            for (final OrderShipment orderShipment : orderShipments) {
                 BigDecimal price = orderShipment.getPrice();
-                if(price != null){
+                if (price != null) {
                     shippingTotal = shippingTotal.add(price);
                 }
             }
@@ -332,10 +325,8 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         BigDecimal orderItemsTotal = new BigDecimal("0");
         if (orderShipments != null
                 && Hibernate.isInitialized(orderShipments)) {
-            for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
-                final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
-                for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {
-                    final OrderItem orderItem = (OrderItem) iteratorOrderItem.next();
+            for (final OrderShipment orderShipment : orderShipments) {
+                for (final OrderItem orderItem : orderShipment.getOrderItems()) {
                     orderItemsTotal = orderItemsTotal.add(orderItem.getTotalAmountOrderItem());
                 }
             }
@@ -351,12 +342,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         BigDecimal orderTaxesTotal = new BigDecimal("0");
         if (orderShipments != null
                 && Hibernate.isInitialized(orderShipments)) {
-            for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
-                final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
-                for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {
-                    final OrderItem orderItem = (OrderItem) iteratorOrderItem.next();
-                    for (Iterator<OrderTax> iteratorOrderTax = orderItem.getOrderTaxes().iterator(); iteratorOrderTax.hasNext();) {
-                        final OrderTax orderTax = (OrderTax) iteratorOrderTax.next();
+            for (final OrderShipment orderShipment : orderShipments) {
+                for (final OrderItem orderItem : orderShipment.getOrderItems()) {
+                    for (final OrderTax orderTax : orderItem.getOrderTaxes()) {
                         orderTaxesTotal = orderTaxesTotal.add(orderTax.getAmount());
                     }
                 }

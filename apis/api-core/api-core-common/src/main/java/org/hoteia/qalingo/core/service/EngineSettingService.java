@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.EngineSettingDao;
 import org.hoteia.qalingo.core.domain.Asset;
@@ -27,6 +28,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("engineSettingService")
@@ -118,6 +120,9 @@ public class EngineSettingService {
     
     @Autowired
     protected EngineSettingDao engineSettingDao;
+
+    @Autowired
+    protected ProductService productService;
 
     // Engine Setting
 
@@ -640,6 +645,7 @@ public class EngineSettingService {
         if (!productSkuImageWebPath.endsWith("/")) {
             productSkuImageWebPath += "/";
         }
+        Hibernate.initialize(productSku.getProductBrand());
         if(productSku.getProductBrand() != null){
             productSkuImageWebPath += productSku.getProductBrand().getCode() + "/";
         }

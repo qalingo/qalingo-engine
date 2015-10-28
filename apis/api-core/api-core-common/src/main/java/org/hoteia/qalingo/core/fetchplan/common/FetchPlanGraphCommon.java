@@ -65,6 +65,7 @@ public class FetchPlanGraphCommon {
         fetchplans.add(new SpecificFetchMode("billingAddress"));
         fetchplans.add(new SpecificFetchMode("shippingAddress"));
         fetchplans.add(new SpecificFetchMode("orderPayments"));
+        fetchplans.add(new SpecificFetchMode("orderPayments.attributes"));
         fetchplans.add(new SpecificFetchMode("orderShipments"));
         fetchplans.add(new SpecificFetchMode("orderItems", new SpecificAlias("orderShipments.orderItems")));
         
@@ -75,8 +76,6 @@ public class FetchPlanGraphCommon {
         fetchplans.add(new SpecificFetchMode("orderTaxes", new SpecificAlias("orderShipments.orderItems.orderTaxes")));
         fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("orderShipments.orderItems.currency")));
 
-        fetchplans.add(new SpecificFetchMode("attributes"));
-        
         return new FetchPlan(fetchplans);
     }
     

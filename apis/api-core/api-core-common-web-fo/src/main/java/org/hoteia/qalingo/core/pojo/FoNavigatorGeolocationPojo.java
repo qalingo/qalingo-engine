@@ -16,7 +16,7 @@ import org.hoteia.qalingo.core.pojo.cart.FoMessagePojo;
 
 public class FoNavigatorGeolocationPojo {
 
-    private boolean statuts = true;
+    private boolean status = true;
     
     private String latitude;
     private String longitude;
@@ -24,12 +24,12 @@ public class FoNavigatorGeolocationPojo {
     private List<FoMessagePojo> successMessages = new ArrayList<FoMessagePojo>();
     private List<FoMessagePojo> errorMessages = new ArrayList<FoMessagePojo>();
 
-    public boolean isStatuts() {
-        return statuts;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setStatuts(boolean statuts) {
-        this.statuts = statuts;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getLatitude() {

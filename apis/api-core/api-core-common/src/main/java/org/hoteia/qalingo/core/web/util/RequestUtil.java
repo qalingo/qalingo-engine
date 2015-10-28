@@ -1244,7 +1244,7 @@ public class RequestUtil {
      * 
      */
     protected Retailer getCurrentMarketAreaRetailer(final RequestData requestData) throws Exception {
-        Retailer retailer = null;
+        Retailer retailer;
         final HttpServletRequest request = requestData.getRequest();
         if (requestData.isBackoffice()) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);

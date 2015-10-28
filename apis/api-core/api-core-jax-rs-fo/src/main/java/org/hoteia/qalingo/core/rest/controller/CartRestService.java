@@ -166,7 +166,7 @@ public class CartRestService {
         if(StringUtils.isNotEmpty(updateItemQuantityCartPojoRequest.getCartId())){
             Cart cart = cartService.getCartById(updateItemQuantityCartPojoRequest.getCartId());
             String productSkuCode = updateItemQuantityCartPojoRequest.getProductSkuCode();
-            checkoutPojoService.deleteCartItem(cart, productSkuCode);
+            checkoutPojoService.deleteCartItem(cart, null, productSkuCode);
                     
         } else {
             // TODO SEND ERREUR

@@ -41,10 +41,14 @@ public class OrderItem extends AbstractEntity<OrderItem> {
 
     @Column(name = "ORDER_ID")
     private Long orderId;
-    
-    @Column(name = "RETAILER_ID")
-    private Long retailerId;
-    
+//
+//    @Column(name = "RETAILER_ID")
+//    private Long retailerId;
+//
+
+    @Column(name = "STORE_ID")
+    private Long storeId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
@@ -81,18 +85,27 @@ public class OrderItem extends AbstractEntity<OrderItem> {
         return orderId;
     }
     
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+//    public void setOrderId(Long orderId) {
+//        this.orderId = orderId;
+//    }
+//
+//    public Long getRetailerId() {
+//        return retailerId;
+//    }
+//
+//    public void setRetailerId(Long retailerId) {
+//        this.retailerId = retailerId;
+//    }
+
+
+    public Long getStoreId() {
+        return storeId;
     }
-    
-    public Long getRetailerId() {
-        return retailerId;
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
     }
-    
-    public void setRetailerId(Long retailerId) {
-        this.retailerId = retailerId;
-    }
-    
+
     public CurrencyReferential getCurrency() {
         return currency;
     }

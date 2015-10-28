@@ -90,7 +90,7 @@ public class ContextController extends AbstractFrontofficeQalingoController {
         
         url = new UrlPojo();
         url.setCode(FoUrls.ADD_TO_CART_FROM_STORE_AJAX.name());
-        url.setUrl(urlService.generateUrl(FoUrls.ADD_TO_CART_AJAX, requestData));
+        url.setUrl(urlService.generateUrl(FoUrls.ADD_TO_CART_FROM_STORE_AJAX, requestData));
         url.setMethod("GET");
         context.getUrls().add(url);
         

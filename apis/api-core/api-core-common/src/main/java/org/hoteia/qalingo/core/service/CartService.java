@@ -53,8 +53,7 @@ public class CartService {
         if (cart != null) {
             Set<CartItem> cartItems = cart.getCartItems();
             for (CartItem cartItem : cartItems) {
-                if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)
-                        && cartItem.getStoreId().equals(store.getId())) {
+                if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode) && cartItem.getStoreId().equals(store.getId())) {
                     finalQuantity = finalQuantity + cartItem.getQuantity();
                 }
             }
@@ -71,7 +70,7 @@ public class CartService {
         Set<CartItem> cartItems = cart.getCartItems();
         boolean productSkuIsNew = true;
         for (CartItem cartItem : cartItems) {
-            if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)) {
+            if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode) && Long.compare(store.getId(), cartItem.getStoreId()) == 0) {
                 cartItem.setQuantity(quantity);
                 productSkuIsNew = false;
             }
@@ -105,23 +104,18 @@ public class CartService {
         return saveOrUpdateCart(cart);
     }
     
-    public Cart deleteCartItem(Cart cart, final String productSkuCode) throws Exception {
-        return deleteCartItem(cart, null, productSkuCode);
-    }
-    
     public Cart deleteCartItem(Cart cart, Store store, final String productSkuCode) throws Exception {
-        if(cart != null){
+        if(cart != null && store != null && productSkuCode != null){
             Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
-            for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
-                CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode)
-                        && cartItem.getStoreId().equals(store.getId())) {
+            for (CartItem cartItem : cart.getCartItems()) {
+                if (cartItem.getProductSku().getCode().equalsIgnoreCase(productSkuCode) && cartItem.getStoreId().equals(store.getId())) {
                     cartItems.remove(cartItem);
                 }
             }
             cart.setCartItems(cartItems);
+            return saveOrUpdateCart(cart);
         }
-        return saveOrUpdateCart(cart);
+        return cart;
     }
       
     public Cart setShippingAddress(Cart cart, Customer customer, Long customerAddressId) throws Exception {

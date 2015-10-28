@@ -183,8 +183,7 @@ public class CartItem extends AbstractEntity<CartItem> {
                 && Hibernate.isInitialized(productSku)
                 && productSku.getPrices() != null 
                 && Hibernate.isInitialized(productSku.getPrices())) {
-            for (Iterator<ProductSkuPrice> iterator = productSku.getPrices().iterator(); iterator.hasNext();) {
-                final ProductSkuPrice productSkuPrice = (ProductSkuPrice) iterator.next();
+            for (final ProductSkuPrice productSkuPrice : productSku.getPrices()) {
                 if (productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId)) {
                     return productSkuPrice;
                 }

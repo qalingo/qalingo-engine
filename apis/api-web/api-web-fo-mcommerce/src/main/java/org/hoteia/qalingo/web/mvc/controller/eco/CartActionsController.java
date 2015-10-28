@@ -17,12 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,14 +38,19 @@ public class CartActionsController extends AbstractMCommerceController {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    protected RetailerService retailerService;
+
     @RequestMapping(FoUrls.CART_MULTIPLE_ADD_PRODUCT_URL)
     public ModelAndView multipleAddToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         
         final String skuCodes = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_SKU_CODES);
         final String quantities = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITIES);
+        final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_STORE_CODE);
         if(StringUtils.isNotEmpty(skuCodes)){
             try {
+                Store store = retailerService.getStoreByCode(storeCode);
                 String[] splitSkuCodes = skuCodes.split(";");
                 String[] splitQuantities = null;
                 if(StringUtils.isNotEmpty(quantities)){
@@ -55,7 +63,7 @@ public class CartActionsController extends AbstractMCommerceController {
                         if(splitQuantities != null){
                             quantity = Integer.parseInt(splitQuantities[i]);
                         }
-                        webManagementService.updateCart(requestData, skuCode, quantity);
+                        webManagementService.updateCart(requestData, store, skuCode, quantity);
                     } catch (Exception e) {
                         logger.error("Error to add product sku to cart, skuCode:" + skuCode, e);
                     }
@@ -81,13 +89,15 @@ public class CartActionsController extends AbstractMCommerceController {
         
         final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
         final String categoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_STORE_CODE);
         if(StringUtils.isNotEmpty(skuCode)){
             try {
+                Store store = retailerService.getStoreByCode(storeCode);
                 if(StringUtils.isNotEmpty(categoryCode)){
-                    webManagementService.updateCart(requestData, categoryCode, skuCode, 1);
+                    webManagementService.updateCart(requestData, store, categoryCode, skuCode, 1);
                     
                 } else {
-                    webManagementService.updateCart(requestData, skuCode, 1);
+                    webManagementService.updateCart(requestData, store, skuCode, 1);
                 }
                 
             } catch (Exception e) {
@@ -109,7 +119,10 @@ public class CartActionsController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         
         final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
-        webManagementService.deleteCartItem(requestData, productSkuCode);
+        final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_STORE_CODE);
+
+        Store store = retailerService.getStoreByCode(storeCode);
+        webManagementService.deleteCartItem(requestData, store, productSkuCode);
 
         return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
     }

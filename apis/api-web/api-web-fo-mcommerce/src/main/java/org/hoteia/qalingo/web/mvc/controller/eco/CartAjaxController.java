@@ -121,7 +121,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
             errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.ERROR, ProductAlreadyExistInWishlistException.MESSAGE_KEY, messageParams, locale));
             addToWishlist.getErrorMessages().add(errorMessage);
-            addToWishlist.setStatuts(false);
+            addToWishlist.setStatus(false);
             return addToWishlist;
             
         } catch (Exception e) {
@@ -131,7 +131,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
             errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.WISHLIST, "add_to_wishlist_error_message", messageParams, locale));
             addToWishlist.getErrorMessages().add(errorMessage);
-            addToWishlist.setStatuts(false);
+            addToWishlist.setStatus(false);
             return addToWishlist;
         }
     }
@@ -213,7 +213,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
             errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.CHECKOUT_SHOPPING_CART, "add_to_cart_error_message", messageParams, locale));
             addToCart.getErrorMessages().add(errorMessage);
-            addToCart.setStatuts(false);
+            addToCart.setStatus(false);
             return addToCart;
         }
     }
@@ -239,9 +239,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         // INJECT PRODUCT SKU
         final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
         addToCart.setProductSku(catalogPojoService.buildProductSku(productSku));
-
         addToCart.getProductSku().setDefaultPackshotImage(buildDefaultAsset(requestData, productSku));
-        
         addToCart.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
         
         try {
@@ -288,7 +286,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             Object[] messageParams = { productSku.getI18nName(localization.getCode()) };
             errorMessage.setMessage(getSpecificMessage(ScopeWebMessage.CHECKOUT_SHOPPING_CART, "add_to_cart_error_message", messageParams, locale));
             addToCart.getErrorMessages().add(errorMessage);
-            addToCart.setStatuts(false);
+            addToCart.setStatus(false);
             return addToCart;
         }
     }
@@ -299,10 +297,12 @@ public class CartAjaxController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_CODE);
         final String quantity = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_QUANTITY);
+        final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_STORE_CODE);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
+            Store store = retailerService.getStoreByCode(storeCode);
             int quantityValue = Integer.parseInt(quantity);
-            webManagementService.updateCart(requestData, productSkuCode, quantityValue);
+            webManagementService.updateCart(requestData, store, null, productSkuCode, quantityValue);
             
         } catch (Exception e) {
             logger.error("", e);
@@ -310,7 +310,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             errorMessage.setId("error-update-quantity");
             errorMessage.setMessage(e.getMessage());
             checkout.getErrorMessages().add(errorMessage);
-            checkout.setStatuts(false);
+            checkout.setStatus(false);
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -322,9 +322,11 @@ public class CartAjaxController extends AbstractMCommerceController {
     public FoCheckoutPojo deleteItem(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_CODE);
+        final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_STORE_CODE);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-            webManagementService.deleteCartItem(requestData, productSkuCode);
+            Store store = retailerService.getStoreByCode(storeCode);
+            webManagementService.deleteCartItem(requestData, store, productSkuCode);
             
             final Cart cart = requestData.getCart();
             if(cart != null && cart.getTotalCartItems() == 0){
@@ -340,7 +342,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             errorMessage.setId("error-delete-item");
             errorMessage.setMessage(e.getMessage());
             checkout.getErrorMessages().add(errorMessage);
-            checkout.setStatuts(false);
+            checkout.setStatus(false);
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -370,7 +372,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             errorMessage.setId("error-set-shipping-address");
             errorMessage.setMessage(e.getMessage());
             checkout.getErrorMessages().add(errorMessage);
-            checkout.setStatuts(false);
+            checkout.setStatus(false);
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -391,7 +393,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             errorMessage.setId("error-set-billing-address");
             errorMessage.setMessage(e.getMessage());
             checkout.getErrorMessages().add(errorMessage);
-            checkout.setStatuts(false);
+            checkout.setStatus(false);
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -412,7 +414,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             errorMessage.setId("error-set-delivery-method");
             errorMessage.setMessage(e.getMessage());
             checkout.getErrorMessages().add(errorMessage);
-            checkout.setStatuts(false);
+            checkout.setStatus(false);
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -440,7 +442,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             errorMessage.setId("error-cart");
             errorMessage.setMessage(e.getMessage());
             checkout.getErrorMessages().add(errorMessage);
-            checkout.setStatuts(false);
+            checkout.setStatus(false);
         }
     }
     

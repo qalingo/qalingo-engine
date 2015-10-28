@@ -14,26 +14,26 @@ import java.util.List;
 
 public class FoCheckoutPojo {
 
-    private boolean statuts = true;
-    private CartPojo cart;
+    private boolean status = true;
+    private ICartPojo cart;
     private List<FoDeliveryMethodInformationPojo> deliveryMethodInformations = new ArrayList<FoDeliveryMethodInformationPojo>();
 
     private List<FoMessagePojo> successMessages = new ArrayList<FoMessagePojo>();
     private List<FoMessagePojo> errorMessages = new ArrayList<FoMessagePojo>();
 
-    public boolean isStatuts() {
-        return statuts;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setStatuts(boolean statuts) {
-        this.statuts = statuts;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    public CartPojo getCart() {
+    public ICartPojo getCart() {
         return cart;
     }
 
-    public void setCart(CartPojo cart) {
+    public void setCart(ICartPojo cart) {
         this.cart = cart;
     }
 
@@ -63,7 +63,7 @@ public class FoCheckoutPojo {
 
     @Override
     public String toString() {
-        return "FoCheckoutPojo [statuts=" + statuts + ", cart=" + cart + ", deliveryMethodInformations=" + deliveryMethodInformations + ", successMessages=" + successMessages + ", errorMessages="
+        return "FoCheckoutPojo [status=" + status + ", cart=" + cart + ", deliveryMethodInformations=" + deliveryMethodInformations + ", successMessages=" + successMessages + ", errorMessages="
                 + errorMessages + "]";
     }
 

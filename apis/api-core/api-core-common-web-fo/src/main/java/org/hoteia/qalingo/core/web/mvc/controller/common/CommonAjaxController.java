@@ -59,7 +59,7 @@ public class CommonAjaxController extends AbstractFrontofficeQalingoController {
             Object[] messageParams = { latitude, longitude };
             errorMessage.setMessage(getSpecificMessage("GEOLOCATION", "navigator_geolocation_error_message", messageParams, locale));
             navigatorGeolocation.getErrorMessages().add(errorMessage);
-            navigatorGeolocation.setStatuts(false);
+            navigatorGeolocation.setStatus(false);
             return navigatorGeolocation;
         }
     }

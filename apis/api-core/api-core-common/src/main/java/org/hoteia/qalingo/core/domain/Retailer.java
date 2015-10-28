@@ -341,12 +341,9 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
     }
     
     public Store getPrimaryStore() {
-        if (stores != null
-                && Hibernate.isInitialized(stores)) {
-            for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
-                Store store = (Store) iterator.next();
-                if (store != null 
-                        && store.isPrimary()) {
+        if (stores != null && Hibernate.isInitialized(stores)) {
+            for (Store store : stores) {
+                if (store != null && store.isPrimary()) {
                     return store;
                 }
             }

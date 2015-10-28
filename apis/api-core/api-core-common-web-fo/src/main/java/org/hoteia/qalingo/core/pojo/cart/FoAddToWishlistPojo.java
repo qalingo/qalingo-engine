@@ -16,7 +16,7 @@ import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 
 public class FoAddToWishlistPojo {
 
-    private boolean statuts = true;
+    private boolean status = true;
     
     private ProductSkuPojo productSku;
 
@@ -25,12 +25,12 @@ public class FoAddToWishlistPojo {
     private List<FoMessagePojo> successMessages = new ArrayList<FoMessagePojo>();
     private List<FoMessagePojo> errorMessages = new ArrayList<FoMessagePojo>();
 
-    public boolean isStatuts() {
-        return statuts;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setStatuts(boolean statuts) {
-        this.statuts = statuts;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public ProductSkuPojo getProductSku() {

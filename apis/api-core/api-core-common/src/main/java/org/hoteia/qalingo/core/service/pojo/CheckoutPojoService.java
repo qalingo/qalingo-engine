@@ -13,10 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dozer.Mapper;
-import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
-import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
@@ -61,8 +58,8 @@ public class CheckoutPojoService {
         cartService.updateCartItem(cart, productSkuCode, quantity);
     }
     
-    public void deleteCartItem(Cart cart, String productSkuCode) throws Exception {
-        cartService.deleteCartItem(cart, productSkuCode);
+    public void deleteCartItem(Cart cart, Store store, String productSkuCode) throws Exception {
+        cartService.deleteCartItem(cart, store, productSkuCode);
     }
     
     public void setShippingAddress(final Cart cart, final Customer customer, final String customerBillingAddressId) throws Exception {
