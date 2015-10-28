@@ -142,6 +142,10 @@ public class Company extends AbstractEntity<Company> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyAttribute.class)
+    @JoinColumn(name = "COMPANY_ID")
+    private Set<CompanyAttribute> attributes = new HashSet<CompanyAttribute>();
+
     public Company() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
@@ -474,6 +478,14 @@ public class Company extends AbstractEntity<Company> {
 
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
+    }
+
+    public Set<CompanyAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Set<CompanyAttribute> attributes) {
+        this.attributes = attributes;
     }
 
     @Override
