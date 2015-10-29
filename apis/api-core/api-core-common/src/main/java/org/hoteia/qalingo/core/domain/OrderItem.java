@@ -25,6 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name = "TECO_ORDER_ITEM")
 public class OrderItem extends AbstractEntity<OrderItem> {
@@ -49,7 +51,7 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     @Column(name = "STORE_ID")
     private Long storeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
     
@@ -62,13 +64,17 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     @Column(name = "PRODUCT_SKU_CODE")
     private String productSkuCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
     @JoinColumn(name = "PRODUCT_SKU_ID", insertable = true, updatable = true)
     private ProductSku productSku;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.OrderShipment.class)
+    @JoinColumn(name = "ORDER_SHIPMENT_ID", insertable = true, updatable = true)
+    private OrderShipment shipment;
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.OrderTax.class)
     @JoinColumn(name = "ORDER_TAX_ID")
-    private Set<OrderTax> orderTaxes = new HashSet<OrderTax>();
+    private Set<OrderTax> taxes = new HashSet<OrderTax>();
 
     public OrderItem() {
     }
@@ -145,13 +151,31 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     public void setProductSku(ProductSku productSku) {
         this.productSku = productSku;
     }
-
-    public Set<OrderTax> getOrderTaxes() {
-        return orderTaxes;
+    
+    public OrderShipment getShipment() {
+        return shipment;
+    }
+    
+    public void setShipment(OrderShipment shipment) {
+        this.shipment = shipment;
+    }
+    
+    public OrderPurchase getOrderPurchase() {
+        if(shipment != null
+                && Hibernate.isInitialized(shipment)
+                && shipment.getOrderPurchase() != null
+                && Hibernate.isInitialized(shipment.getOrderPurchase())){
+                return shipment.getOrderPurchase();
+        }
+        return null;
     }
 
-    public void setOrderTaxes(Set<OrderTax> orderTaxes) {
-        this.orderTaxes = orderTaxes;
+    public Set<OrderTax> getTaxes() {
+        return taxes;
+    }
+    
+    public void setTaxes(Set<OrderTax> taxes) {
+        this.taxes = taxes;
     }
     
     public BigDecimal getTotalAmountOrderItem() {

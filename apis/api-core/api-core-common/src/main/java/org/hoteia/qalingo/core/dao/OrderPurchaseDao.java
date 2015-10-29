@@ -19,10 +19,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderNumber;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.order.FetchPlanGraphOrder;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
     public OrderPurchase getOrderById(final Long orderPurchaseId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
-        FetchPlan fetchPlan =  handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan =  handleSpecificOrderFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", orderPurchaseId));
         OrderPurchase orderPurchase = (OrderPurchase) criteria.uniqueResult();
@@ -49,7 +50,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
     public OrderPurchase getOrderByOrderNum(final String orderNum, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificOrderFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
         OrderPurchase orderPurchase = (OrderPurchase) criteria.uniqueResult();
@@ -62,7 +63,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
     public List<OrderPurchase> findOrders(Object... params) {
         Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificOrderFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("dateCreate"));
 
@@ -71,11 +72,26 @@ public class OrderPurchaseDao extends AbstractGenericDao {
 
         return orderPurchases;
     }
+    
+    public List<OrderItem> findOrderItemsByStoreId(final Long storeId, Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderItem.class);
+
+//        handleSpecificOrderFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("storeId", storeId));
+
+        criteria.addOrder(Order.asc("dateCreate"));
+
+        @SuppressWarnings("unchecked")
+        List<OrderItem> orderItems = criteria.list();
+
+        return orderItems;
+    }
 
     public List<OrderPurchase> findOrdersByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderPurchase.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificOrderFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("customerId", customerId));
 
@@ -172,12 +188,19 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         em.remove(orderPurchase);
     }
 
-    @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificOrderFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultOrderPurchaseFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphOrder.defaultOrderPurchaseFetchPlan());
+        }
+    }
+    
+    protected FetchPlan handleSpecificOrderItemFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphOrder.defaultOrderItemFetchPlan());
         }
     }
     

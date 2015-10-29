@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.service;
 import java.util.List;
 
 import org.hoteia.qalingo.core.dao.OrderPurchaseDao;
+import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,18 @@ public class OrderPurchaseService {
 
     public List<OrderPurchase> findOrders(Object... params) {
         return orderDao.findOrders(params);
+    }
+    
+    public List<OrderItem> findOrderItemsByStoreId(final Long storeId, Object... params) {
+        return orderDao.findOrderItemsByStoreId(storeId, params);
+    }
+    
+    public List<OrderItem> findOrderItemsByStoreId(final String storeId, Object... params) {
+        try {
+            return orderDao.findOrderItemsByStoreId(Long.parseLong(storeId), params);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public OrderPurchase createNewOrder(final OrderPurchase orderPurchase) {

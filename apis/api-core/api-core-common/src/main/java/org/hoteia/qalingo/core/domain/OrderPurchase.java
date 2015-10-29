@@ -280,7 +280,7 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
             orderTaxes = new HashSet<OrderTax>();
             for (final OrderShipment orderShipment : orderShipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
-                    for (OrderTax orderTax : orderItem.getOrderTaxes()) {
+                    for (OrderTax orderTax : orderItem.getTaxes()) {
                         orderTaxes.add(orderTax);
                     }
                 }
@@ -344,7 +344,7 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
                 && Hibernate.isInitialized(orderShipments)) {
             for (final OrderShipment orderShipment : orderShipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
-                    for (final OrderTax orderTax : orderItem.getOrderTaxes()) {
+                    for (final OrderTax orderTax : orderItem.getTaxes()) {
                         orderTaxesTotal = orderTaxesTotal.add(orderTax.getAmount());
                     }
                 }

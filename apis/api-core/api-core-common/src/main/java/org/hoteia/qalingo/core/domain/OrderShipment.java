@@ -23,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -57,6 +58,10 @@ public class OrderShipment extends AbstractEntity<OrderShipment> {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.OrderItem.class)
     @JoinColumn(name="ORDER_SHIPMENT_ID")
     private Set<OrderItem> orderItems = new HashSet<OrderItem>();
+    
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.OrderPurchase.class)
+    @JoinColumn(name = "ORDER_ID", insertable = true, updatable = true)
+    private OrderPurchase orderPurchase;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -117,6 +122,14 @@ public class OrderShipment extends AbstractEntity<OrderShipment> {
     
     public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+    
+    public OrderPurchase getOrderPurchase() {
+        return orderPurchase;
+    }
+    
+    public void setOrderPurchase(OrderPurchase orderPurchase) {
+        this.orderPurchase = orderPurchase;
     }
     
     public Date getDateCreate() {

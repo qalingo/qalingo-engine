@@ -85,7 +85,7 @@ public class CheckoutService {
                             orderTax.setName(cartItemTax.getTax().getName());
                             orderTax.setPercent(cartItemTax.getTax().getPercent());
                             orderTax.setAmount(cartItemTax.getTaxAmount());
-                            orderItem.getOrderTaxes().add(orderTax);
+                            orderItem.getTaxes().add(orderTax);
                         }
                     }
 
