@@ -58,6 +58,7 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     public static int OBJECT_TYPE_PRODUCT_SKU_STORE             = 14;
     public static int OBJECT_TYPE_TAG                           = 15;
     public static int OBJECT_TYPE_ORDER                         = 16;
+    public static int OBJECT_TYPE_ORDER_PAYMENT                 = 17;
 
     public static final String CACHE_NAME = "web_cache_settings";
 
@@ -218,6 +219,8 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
             return "PRODUCT_SKU_OPTION_DEFINITION";
         }else if (type == OBJECT_TYPE_ORDER) {
             return "ORDER";
+        }else if (type == OBJECT_TYPE_ORDER_PAYMENT) {
+            return "OBJECT_TYPE_ORDER_PAYMENT";
         }
         return null;
     }
