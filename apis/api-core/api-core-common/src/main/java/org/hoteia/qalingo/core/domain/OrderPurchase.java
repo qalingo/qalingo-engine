@@ -12,7 +12,6 @@ package org.hoteia.qalingo.core.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -89,15 +88,15 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderShipment.class)
     @JoinColumn(name="ORDER_ID")
-	private Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
+	private Set<OrderShipment> shipments = new HashSet<OrderShipment>();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderPayment.class)
     @JoinColumn(name="ORDER_ID")
-	private Set<OrderPayment> orderPayments = new HashSet<OrderPayment>(); 
+	private Set<OrderPayment> payments = new HashSet<OrderPayment>(); 
 	
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderDocument.class)
     @JoinColumn(name = "ORDER_ID")
-    private Set<OrderDocument> orderDocuments = new HashSet<OrderDocument>();
+    private Set<OrderDocument> documents = new HashSet<OrderDocument>();
 
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -216,28 +215,28 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         this.currency = currency;
     }
     
-    public Set<OrderShipment> getOrderShipments() {
-        return orderShipments;
+    public Set<OrderShipment> getShipments() {
+        return shipments;
     }
     
-    public void setOrderShipments(Set<OrderShipment> orderShipments) {
-        this.orderShipments = orderShipments;
+    public void setShipments(Set<OrderShipment> shipments) {
+        this.shipments = shipments;
     }
     
-    public Set<OrderPayment> getOrderPayments() {
-        return orderPayments;
+    public Set<OrderPayment> getPayments() {
+        return payments;
     }
     
-    public void setOrderPayments(Set<OrderPayment> orderPayments) {
-        this.orderPayments = orderPayments;
+    public void setPayments(Set<OrderPayment> payments) {
+        this.payments = payments;
     }
     
-    public Set<OrderDocument> getOrderDocuments() {
-        return orderDocuments;
+    public Set<OrderDocument> getDocuments() {
+        return documents;
     }
     
-    public void setOrderDocuments(Set<OrderDocument> orderDocuments) {
-        this.orderDocuments = orderDocuments;
+    public void setDocuments(Set<OrderDocument> documents) {
+        this.documents = documents;
     }
     
 	public Date getDateCreate() {
@@ -258,9 +257,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 	
     public Date getExpectedDeliveryDate() {
         Date expectedDeliveryDate = null;
-        if(orderShipments != null
-                && Hibernate.isInitialized(orderShipments)){
-            for (final OrderShipment orderShipment : orderShipments) {
+        if(shipments != null
+                && Hibernate.isInitialized(shipments)){
+            for (final OrderShipment orderShipment : shipments) {
                 if (expectedDeliveryDate == null) {
                     expectedDeliveryDate = orderShipment.getExpectedDeliveryDate();
                 } else {
@@ -275,10 +274,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     
     public Set<OrderTax> getOrderTaxes() {
         Set<OrderTax> orderTaxes = null;
-        if(orderShipments != null
-                && Hibernate.isInitialized(orderShipments)){
+        if(shipments != null
+                && Hibernate.isInitialized(shipments)){
             orderTaxes = new HashSet<OrderTax>();
-            for (final OrderShipment orderShipment : orderShipments) {
+            for (final OrderShipment orderShipment : shipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
                     for (OrderTax orderTax : orderItem.getTaxes()) {
                         orderTaxes.add(orderTax);
@@ -291,10 +290,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     
     public Set<OrderItem> getOrderItems() {
         Set<OrderItem> orderItems = null;
-        if (orderShipments != null
-                && Hibernate.isInitialized(orderShipments)) {
+        if (shipments != null
+                && Hibernate.isInitialized(shipments)) {
             orderItems = new HashSet<OrderItem>();
-            for (final OrderShipment orderShipment : orderShipments) {
+            for (final OrderShipment orderShipment : shipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
                     orderItems.add(orderItem);
                 }
@@ -305,9 +304,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     
     public BigDecimal getShippingMethodTotal() {
         BigDecimal shippingTotal = new BigDecimal("0");
-        if (orderShipments != null
-                && Hibernate.isInitialized(orderShipments)) {
-            for (final OrderShipment orderShipment : orderShipments) {
+        if (shipments != null
+                && Hibernate.isInitialized(shipments)) {
+            for (final OrderShipment orderShipment : shipments) {
                 BigDecimal price = orderShipment.getPrice();
                 if (price != null) {
                     shippingTotal = shippingTotal.add(price);
@@ -323,9 +322,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 
     public BigDecimal getOrderItemTotal() {
         BigDecimal orderItemsTotal = new BigDecimal("0");
-        if (orderShipments != null
-                && Hibernate.isInitialized(orderShipments)) {
-            for (final OrderShipment orderShipment : orderShipments) {
+        if (shipments != null
+                && Hibernate.isInitialized(shipments)) {
+            for (final OrderShipment orderShipment : shipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
                     orderItemsTotal = orderItemsTotal.add(orderItem.getTotalAmountOrderItem());
                 }
@@ -340,9 +339,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
 
     public BigDecimal getTaxTotal() {
         BigDecimal orderTaxesTotal = new BigDecimal("0");
-        if (orderShipments != null
-                && Hibernate.isInitialized(orderShipments)) {
-            for (final OrderShipment orderShipment : orderShipments) {
+        if (shipments != null
+                && Hibernate.isInitialized(shipments)) {
+            for (final OrderShipment orderShipment : shipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
                     for (final OrderTax orderTax : orderItem.getTaxes()) {
                         orderTaxesTotal = orderTaxesTotal.add(orderTax.getAmount());

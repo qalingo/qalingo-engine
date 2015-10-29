@@ -95,7 +95,7 @@ public class CheckoutService {
                 orderShipments.add(orderShipment);
             }
         }
-        orderPurchase.setOrderShipments(orderShipments);
+        orderPurchase.setShipments(orderShipments);
 
         orderPurchase = orderPurchaseService.createNewOrder(orderPurchase);
 

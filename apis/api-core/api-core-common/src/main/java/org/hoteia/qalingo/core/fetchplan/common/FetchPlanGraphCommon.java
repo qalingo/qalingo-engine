@@ -19,6 +19,7 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.domain.Cart_;
 import org.hoteia.qalingo.core.domain.Tag_;
 import org.hoteia.qalingo.core.domain.Tax_;
+import org.hoteia.qalingo.core.domain.AbstractPaymentGateway_;
 import org.hoteia.qalingo.core.domain.CartItem_;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
@@ -60,37 +61,18 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
 
-    public static FetchPlan defaultOrderPurchaseFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("billingAddress"));
-        fetchplans.add(new SpecificFetchMode("shippingAddress"));
-        fetchplans.add(new SpecificFetchMode("orderPayments"));
-        fetchplans.add(new SpecificFetchMode("orderPayments.attributes"));
-        fetchplans.add(new SpecificFetchMode("orderShipments"));
-        fetchplans.add(new SpecificFetchMode("orderItems", new SpecificAlias("orderShipments.orderItems")));
-        
-        fetchplans.add(new SpecificFetchMode("productSku", new SpecificAlias("orderShipments.orderItems.productSku")));
-        fetchplans.add(new SpecificFetchMode("productSkuAttributes", new SpecificAlias("orderShipments.orderItems.productSku.attributes")));
-
-        fetchplans.add(new SpecificFetchMode("assets", new SpecificAlias("orderShipments.orderItems.productSku.assets")));
-        fetchplans.add(new SpecificFetchMode("orderTaxes", new SpecificAlias("orderShipments.orderItems.orderTaxes")));
-        fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("orderShipments.orderItems.currency")));
-
-        return new FetchPlan(fetchplans);
-    }
-    
     public static FetchPlan defaultPaymentGatewayFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("attributes"));
-        fetchplans.add(new SpecificFetchMode("options"));
+        fetchplans.add(new SpecificFetchMode(AbstractPaymentGateway_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(AbstractPaymentGateway_.options.getName()));
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan fullPaymentGatewayFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("attributes"));
-        fetchplans.add(new SpecificFetchMode("options"));
-        fetchplans.add(new SpecificFetchMode("marketAreas"));
+        fetchplans.add(new SpecificFetchMode(AbstractPaymentGateway_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(AbstractPaymentGateway_.options.getName()));
+        fetchplans.add(new SpecificFetchMode(AbstractPaymentGateway_.marketAreas.getName()));
         return new FetchPlan(fetchplans);
     }
     

@@ -2268,7 +2268,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public ProductSkuTagViewBean buildViewBeanTag(final RequestData requestData, Tag productSkuTag) {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
-        
         ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
         productSkuTagViewBean.setCode(productSkuTag.getCode());
         productSkuTagViewBean.setName(productSkuTag.getName());
@@ -2543,7 +2542,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
             // SUB PART : Shippings
             final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
-            final Set<OrderShipment> orderShipments = order.getOrderShipments();
+            final Set<OrderShipment> orderShipments = order.getShipments();
             if (Hibernate.isInitialized(orderShipments) && orderShipments != null) {
                 for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
                     final OrderShipment orderShipment = (OrderShipment) iterator.next();

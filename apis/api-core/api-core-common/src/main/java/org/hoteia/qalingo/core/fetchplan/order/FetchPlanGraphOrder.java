@@ -16,39 +16,35 @@ import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
-import org.hoteia.qalingo.core.domain.Cart_;
-import org.hoteia.qalingo.core.domain.Tag_;
-import org.hoteia.qalingo.core.domain.Tax_;
-import org.hoteia.qalingo.core.domain.CartItem_;
-import org.hoteia.qalingo.core.domain.ProductMarketing_;
+import org.hoteia.qalingo.core.domain.OrderPurchase_;
+import org.hoteia.qalingo.core.domain.OrderItem_;
+import org.hoteia.qalingo.core.domain.OrderShipment_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 
 public class FetchPlanGraphOrder {
 
     public static FetchPlan defaultOrderPurchaseFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("billingAddress"));
-        fetchplans.add(new SpecificFetchMode("shippingAddress"));
-        fetchplans.add(new SpecificFetchMode("orderPayments"));
-        fetchplans.add(new SpecificFetchMode("orderShipments"));
-        fetchplans.add(new SpecificFetchMode("orderItems", new SpecificAlias("orderShipments.orderItems")));
-        
-        fetchplans.add(new SpecificFetchMode("productSku", new SpecificAlias("orderShipments.orderItems.productSku")));
-        fetchplans.add(new SpecificFetchMode("productSkuAttributes", new SpecificAlias("orderShipments.orderItems.productSku.attributes")));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.billingAddress.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shippingAddress.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.payments.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName()));
 
-        fetchplans.add(new SpecificFetchMode("assets", new SpecificAlias("orderShipments.orderItems.productSku.assets")));
-        fetchplans.add(new SpecificFetchMode("orderTaxes", new SpecificAlias("orderShipments.orderItems.orderTaxes")));
-        fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("orderShipments.orderItems.currency")));
-
-        fetchplans.add(new SpecificFetchMode("attributes"));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName()));
         
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName() + "." + OrderItem_.productSku.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName() + "." + OrderItem_.productSku.getName() + "." + ProductSku_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName() + "." + OrderItem_.productSku.getName() + "." + ProductSku_.assets.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName() + "." + OrderItem_.taxes.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName() + "." + OrderItem_.currency.getName()));
+
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan defaultOrderItemFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("taxes"));
+        fetchplans.add(new SpecificFetchMode(OrderItem_.taxes.getName()));
         return new FetchPlan(fetchplans);
     }
     
