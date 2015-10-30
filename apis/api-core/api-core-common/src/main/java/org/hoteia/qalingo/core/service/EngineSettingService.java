@@ -115,6 +115,8 @@ public class EngineSettingService {
     public static final String ENGINE_SETTING_GEOLOC_COUNTRY_DATABASE_PATH      = "COUNTRY_DATABASE_PATH";
     public static final String ENGINE_SETTING_GOOGLE_GEOLOC_API_KEY             = "GOOGLE_GEOLOC_API_KEY";
     public static final String ENGINE_SETTING_GOOGLE_GEOLOC_OVER_QUOTA_KEY      = "GOOGLE_GEOLOC_OVER_QUOTA_TIMESTAMP";
+    public static final String ENGINE_SETTING_GOOGLE_MAP_API_KEY                = "GOOGLE_MAP_API_KEY";
+    public static final String ENGINE_SETTING_GOOGLE_MAP_OVER_QUOTA_KEY         = "GOOGLE_MAP_OVER_QUOTA_TIMESTAMP";
 
     public static SimpleDateFormat timestampPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     
@@ -344,6 +346,59 @@ public class EngineSettingService {
     
     public void flagSettingGoogleGeolocationApiOverQuota() {
         EngineSetting engineSetting = getSettingGoogleGeolocationApiQuotaTimeStamp();
+        engineSetting.setDefaultValue(timestampPattern.format(new Date()));
+        saveOrUpdateEngineSetting(engineSetting);
+    }
+
+    // GOOGLE MAP SETTINGS
+
+    public EngineSetting getSettingGoogleMapApiKey() {
+        return getEngineSettingByCode(ENGINE_SETTING_GOOGLE_MAP_API_KEY);
+    }
+    
+    public EngineSetting getSettingGoogleMapApiQuotaTimeStamp() {
+        return getEngineSettingByCode(ENGINE_SETTING_GOOGLE_MAP_OVER_QUOTA_KEY);
+    }
+    
+    public String getGoogleMapApiKey() throws Exception {
+        EngineSetting engineSetting = getSettingGoogleMapApiKey();
+        String key = "";
+        if (engineSetting != null) {
+            key = engineSetting.getDefaultValue();
+        }
+        return key;
+    }
+    
+    public boolean isGoogleMapApiOverQuotas() throws Exception {
+        EngineSetting engineSetting = getSettingGoogleMapApiQuotaTimeStamp();
+        String timestamp = null;
+        if (engineSetting != null) {
+            timestamp = engineSetting.getDefaultValue();
+        }
+        if(timestamp != null){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isGoogleMapApiStillOverQuotas(final Date newDate) throws ParseException {
+        EngineSetting engineSetting = getSettingGoogleMapApiQuotaTimeStamp();
+        String timestamp = null;
+        if (engineSetting != null) {
+            timestamp = engineSetting.getDefaultValue();
+        }
+        if(timestamp != null){
+            Date dateOverQuota = timestampPattern.parse(timestamp);
+            if(newDate.getTime() > (dateOverQuota.getTime() + Constants.MILLISECONDS_IN_A_DAY.longValue())){
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    public void flagSettingGoogleMapApiOverQuota() {
+        EngineSetting engineSetting = getSettingGoogleMapApiQuotaTimeStamp();
         engineSetting.setDefaultValue(timestampPattern.format(new Date()));
         saveOrUpdateEngineSetting(engineSetting);
     }
