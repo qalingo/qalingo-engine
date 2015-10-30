@@ -67,6 +67,12 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
     @Column(name = "ENABLED", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean enabled;
     
+    @Column(name = "IS_ENABLED_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledB2B;
+
+    @Column(name = "IS_ENABLED_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabledB2C;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductBrandAttribute.class)
     @JoinColumn(name = "PRODUCT_BRAND_ID")
     private Set<ProductBrandAttribute> attributes = new HashSet<ProductBrandAttribute>();
@@ -150,6 +156,22 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    public boolean isEnabledB2B() {
+        return enabledB2B;
+    }
+
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
+    }
+    
+    public boolean isEnabledB2C() {
+        return enabledB2C;
+    }
+
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
     }
 
     public Set<ProductBrandAttribute> getAttributes() {

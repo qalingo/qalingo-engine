@@ -35,11 +35,13 @@ public class ProductBrandViewBean extends AbstractViewBean {
     protected String originCountryCode;
     
     protected boolean enabled;
-
+    protected boolean enabledB2B;
+    protected boolean enabledB2C;
+    
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
 	
-    private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
-    private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
+	protected Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
+    protected Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
     protected List<ProductBrandCustomerCommentViewBean> comments = new ArrayList<ProductBrandCustomerCommentViewBean>();
@@ -141,6 +143,22 @@ public class ProductBrandViewBean extends AbstractViewBean {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    public boolean isEnabledB2B() {
+        return enabledB2B;
+    }
+
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
+    }
+    
+    public boolean isEnabledB2C() {
+        return enabledB2C;
+    }
+
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
     }
 
     public List<ProductMarketingViewBean> getProductMarketings() {

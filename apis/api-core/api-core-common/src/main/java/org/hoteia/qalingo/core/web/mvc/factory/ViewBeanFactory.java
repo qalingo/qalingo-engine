@@ -1441,6 +1441,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productBrandViewBean.setOriginCountryCode(productBrand.getOriginCountryCode());
 
         productBrandViewBean.setEnabled(productBrand.isEnabled());
+        productBrandViewBean.setEnabledB2B(productBrand.isEnabledB2B());
+        productBrandViewBean.setEnabledB2C(productBrand.isEnabledB2C());
 
         // ATTRIBUTES
         if (Hibernate.isInitialized(productBrand.getAttributes()) && productBrand.getAttributes() != null) {
