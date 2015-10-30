@@ -5,6 +5,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.domain.EngineEcoSession;
+import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.FoNavigatorGeolocationPojo;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -43,8 +45,10 @@ public class CommonAjaxController extends AbstractFrontofficeQalingoController {
         navigatorGeolocation.setLongitude(longitude);
         
         try {
-            requestUtil.handleGeolocLatitudeLongitude(requestData, latitude, longitude);
-            
+            EngineEcoSession engineEcoSession = requestUtil.handleGeolocLatitudeLongitude(requestData, latitude, longitude);
+            GeolocData geolocData = engineEcoSession.getGeolocData();
+            navigatorGeolocation.setCity(geolocData.getCity().getName());
+            navigatorGeolocation.setCountry(geolocData.getCountry().getName());
             FoMessagePojo successMessage = new FoMessagePojo();
             successMessage.setId("success-navigator-geolocation");
             Object[] messageParams = { latitude, longitude };

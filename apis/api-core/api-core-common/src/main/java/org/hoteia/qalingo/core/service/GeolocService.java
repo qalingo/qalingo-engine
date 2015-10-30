@@ -220,7 +220,7 @@ public class GeolocService {
         try {
             googleGelocIsOverQuota = engineSettingService.isGoogleGeolocationApiStillOverQuotas(new Date());
             String paramLatLong = latitude.trim() + "," + longitude.trim();
-            if (googleGelocIsOverQuota == false) {
+            if (!googleGelocIsOverQuota) {
                 String key = null;
                 try {
                     key = engineSettingService.getGoogleGeolocationApiKey();
