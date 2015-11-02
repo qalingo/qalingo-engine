@@ -486,7 +486,22 @@ public class RetailerDao extends AbstractGenericDao {
         List<Long> storeIds = criteria.list();
         return storeIds;
     }
-	
+    
+    public List<Long> findStoreWithoutLatitudeLongitude(int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        criteria.add(Restrictions.or(Restrictions.isNull("latitude"), Restrictions.isNull("longitude")));
+        criteria.setProjection(Projections.property("id"));
+
+        if(maxResults != 0){
+            criteria.setMaxResults(maxResults);
+        }
+        
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
+    
     public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
@@ -505,6 +520,23 @@ public class RetailerDao extends AbstractGenericDao {
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.add( Restrictions.eq("retailer.id", retailerId));
+        criteria.setProjection(Projections.property("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
+    
+    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.add( Restrictions.eq("countryCode", countryCode));
+        criteria.add( Restrictions.like("type", "%SHOP%"));
+        
+        criteria.addOrder(Order.asc("name"));
+
         criteria.setProjection(Projections.property("id"));
 
         @SuppressWarnings("unchecked")
@@ -540,23 +572,6 @@ public class RetailerDao extends AbstractGenericDao {
         @SuppressWarnings("unchecked")
         List<Store> stores = criteria.list();
         return stores;
-    }
-    
-    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(Store.class);
-
-        handleSpecificStoreFetchMode(criteria, params);
-
-        criteria.add( Restrictions.eq("countryCode", countryCode));
-        criteria.add( Restrictions.like("type", "%SHOP%"));
-        
-        criteria.addOrder(Order.asc("name"));
-
-        criteria.setProjection(Projections.property("id"));
-
-        @SuppressWarnings("unchecked")
-        List<Long> storeIds = criteria.list();
-        return storeIds;
     }
     
 //    public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {

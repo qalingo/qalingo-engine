@@ -231,12 +231,28 @@ public class RetailerService {
         return retailerDao.getMaxStoreId();
     }
     
-    public List<Store> findAllStores(Object... params) {
-        return retailerDao.findAllStores(0, params);
-    }
-    
     public List<Long> findAllStoreIds(Object... params) {
         return retailerDao.findAllStoreIds(params);
+    }
+    
+    public List<Long> findStoreWithoutLatitudeLongitude(int maxResults, Object... params) {
+        return retailerDao.findStoreWithoutLatitudeLongitude(maxResults, params);
+    }
+    
+    public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
+        return retailerDao.findStoreIdsByCompanyId(companyId, params);
+    }
+
+    public List<Long> findStoreIdsByRetailerId(final Long retailerId, Object... params) {
+        return retailerDao.findStoreIdsByRetailerId(retailerId, params);
+    }
+    
+    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
+        return retailerDao.findShopStoresByCountryCode(countryCode, params);
+    }
+    
+    public List<Store> findAllStores(Object... params) {
+        return retailerDao.findAllStores(0, params);
     }
     
     public List<Store> findStoresWithMax(int maxResults, Object... params) {
@@ -259,24 +275,12 @@ public class RetailerService {
         return retailerDao.findB2BStores(types, maxResults, params);
     }
     
-    public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
-        return retailerDao.findStoreIdsByCompanyId(companyId, params);
-    }
-
-    public List<Long> findStoreIdsByRetailerId(final Long retailerId, Object... params) {
-        return retailerDao.findStoreIdsByRetailerId(retailerId, params);
-    }
-    
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
         return retailerDao.findStoresByRetailerId(retailerId, params);
     }
     
     public List<Store> findStoresByRetailerCode(final String retailerCode, Object... params) {
         return retailerDao.findStoresByRetailerCode(retailerCode, params);
-    }
-    
-    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
-        return retailerDao.findShopStoresByCountryCode(countryCode, params);
     }
     
     public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
