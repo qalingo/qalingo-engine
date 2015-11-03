@@ -989,13 +989,11 @@ public class ProductDao extends AbstractGenericDao {
         Criteria criteria = getSession().createCriteria(ProductBrand.class);
         criteria.setProjection(Projections.property("id"));
         
-        handleSpecificProductBrandFetchMode(criteria, params);
-        
         criteria.add(Restrictions.eq("enabled", true));
         criteria.addOrder(Order.asc("name"));
         
         @SuppressWarnings("unchecked")
-        List<ProductBrand> productBrands = criteria.list();
+        List<Long> productBrands = criteria.list();
         return productBrands;
     }
     
