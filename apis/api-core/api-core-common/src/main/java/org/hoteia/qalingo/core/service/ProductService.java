@@ -512,6 +512,10 @@ public class ProductService {
         return productDao.findAllProductBrandIds();
     }
     
+    public List<Long> findAllProductBrandIdsEnabled(Object... params) {
+        return productDao.findAllProductBrandIdsEnabled(params);
+    }
+    
     public List<ProductBrand> findAllProductBrandsEnabled(Object... params) {
         return productDao.findAllProductBrandsEnabled(params);
     }
