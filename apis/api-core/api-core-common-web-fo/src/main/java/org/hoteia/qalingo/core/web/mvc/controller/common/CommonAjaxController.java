@@ -47,8 +47,10 @@ public class CommonAjaxController extends AbstractFrontofficeQalingoController {
         try {
             EngineEcoSession engineEcoSession = requestUtil.handleGeolocLatitudeLongitude(requestData, latitude, longitude);
             GeolocData geolocData = engineEcoSession.getGeolocData();
-            navigatorGeolocation.setCity(geolocData.getCity().getName());
-            navigatorGeolocation.setCountry(geolocData.getCountry().getName());
+            if(geolocData != null) {
+                if(geolocData.getCity() != null)navigatorGeolocation.setCity(geolocData.getCity().getName());
+                if(geolocData.getCountry() != null)navigatorGeolocation.setCountry(geolocData.getCountry().getName());
+            }
             FoMessagePojo successMessage = new FoMessagePojo();
             successMessage.setId("success-navigator-geolocation");
             Object[] messageParams = { latitude, longitude };
