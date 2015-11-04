@@ -148,7 +148,7 @@ public class GeolocService {
         if(geoCode != null && geoCode.getResults().size() > 0) {
             GoogleGeoCodeResult googleGeoCodeResult = geoCode.getResults().get(0);
             String formatedAdress = googleGeoCodeResult.getFormattedAddress();
-            formatedAdress = formatedAdress.replace(" ", "+").replace("\"", "+");
+            formatedAdress = cleanGoogleAddress(formatedAdress);
             
             geolocAddress = new GeolocAddress();
             geolocAddress.setAddress(googleGeoCodeResult.getAddress());
@@ -262,19 +262,19 @@ public class GeolocService {
     public String encodeGoogleAddress(final String address, final String postalCode, final String city, final String country) {
         StringBuffer encode  = new StringBuffer();
         if(StringUtils.isNotEmpty(address)){
-            encode.append(cleanGoogleAddress(address));
+            encode.append(cleanGoogleAddress(address.trim()));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(city)){
-            encode.append(cleanGoogleAddress(city));
+            encode.append(cleanGoogleAddress(city.trim()));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(postalCode)){
-            encode.append(cleanGoogleAddress(postalCode));
+            encode.append(cleanGoogleAddress(postalCode.trim()));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(country)){
-            encode.append(cleanGoogleAddress(country));
+            encode.append(cleanGoogleAddress(country.trim()));
             encode.append(",");
         }
         return encode.toString();
@@ -282,8 +282,8 @@ public class GeolocService {
     
     protected String cleanGoogleAddress(String value){
         if(StringUtils.isNotEmpty(value)){
-            value = value.replace(" ", "+");
-            value = value.replace("\"", "");
+            value = value.replaceAll(" ", "+");
+            value = value.replaceAll("\"", "");
         }
         return value;
     }
