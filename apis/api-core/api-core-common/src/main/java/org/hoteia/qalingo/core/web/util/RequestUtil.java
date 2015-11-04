@@ -354,7 +354,7 @@ public class RequestUtil {
         // THEME
         final MarketArea marketArea = engineEcoSession.getCurrentMarketArea();
         String themeFolder = "default";
-        if (StringUtils.isNotEmpty(marketArea.getTheme())) {
+        if (marketArea != null && StringUtils.isNotEmpty(marketArea.getTheme())) {
             themeFolder = marketArea.getTheme();
         }
         updateCurrentTheme(request, themeFolder);
