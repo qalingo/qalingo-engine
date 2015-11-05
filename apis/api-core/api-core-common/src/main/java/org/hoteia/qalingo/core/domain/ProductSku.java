@@ -60,7 +60,7 @@ public class
     private int version;
 
     @Column(name = "SCORING", nullable = false, columnDefinition = "int(11) default 1")
-    private int scoring;
+    private long scoring;
     
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
@@ -175,11 +175,11 @@ public class
         this.version = version;
     }
 
-    public int getScoring() {
+    public long getScoring() {
         return scoring;
     }
 
-    public void setScoring(int scoring) {
+    public void setScoring(long scoring) {
         this.scoring = scoring;
     }
 

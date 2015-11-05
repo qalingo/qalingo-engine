@@ -21,7 +21,7 @@ public class ProductSkuSolr {
     private Long id;
 
     @Field
-    private Integer scoring;
+    private Long scoring;
     
     @Field
     private String description;
@@ -84,11 +84,11 @@ public class ProductSkuSolr {
         this.id = id;
     }
 
-    public Integer getScoring() {
+    public Long getScoring() {
         return scoring;
     }
 
-    public void setScoring(Integer scoring) {
+    public void setScoring(Long scoring) {
         this.scoring = scoring;
     }
 
