@@ -2947,7 +2947,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     }
     
     protected String buildCommonFormatDate(RequestData requestData, Date date) throws Exception {
+        return buildMediumFormatDate(requestData, date);
+    }
+    
+    protected String buildLongFormatDate(RequestData requestData, Date date) throws Exception {
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.LONG, DateFormat.LONG);
+        return dateFormat.format(date);
+    }
+    
+    protected String buildMediumFormatDate(RequestData requestData, Date date) throws Exception {
         DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        return dateFormat.format(date);
+    }
+    
+    protected String buildShortFormatDate(RequestData requestData, Date date) throws Exception {
+        DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.SHORT, DateFormat.SHORT);
         return dateFormat.format(date);
     }
     

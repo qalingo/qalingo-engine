@@ -1627,8 +1627,6 @@ public class RequestUtil {
                 geolocData.setLongitude(longitude);
             }
             
-            // TODO : ? requeter pour avoir la ville la plus proche à 5 km
-            
             GeolocAddress geolocAddress = geolocService.getGeolocAddressByLatitudeAndLongitude(latitude, longitude);
             if (geolocAddress != null) {
                 geolocData.setLatitude(geolocAddress.getLatitude());
