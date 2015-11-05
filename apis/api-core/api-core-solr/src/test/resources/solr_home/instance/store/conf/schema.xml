@@ -46,6 +46,7 @@
 		<!-- general -->
 		<field name="id"			type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
 		<field name="code"			type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="scoring" 	    type="long" 		indexed="true" 	stored="true"/>
 		<field name="name"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		
         <field name="active"        type="boolean"      indexed="true"  stored="true"  multiValued="false" />

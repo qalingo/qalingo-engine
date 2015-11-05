@@ -21,6 +21,9 @@ public class CatalogCategorySolr {
 	private Long id;
 	
     @Field
+    private Integer scoring;
+    
+    @Field
     private String name;
 
     @Field
@@ -54,9 +57,17 @@ public class CatalogCategorySolr {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getScoring() {
+        return scoring;
+    }
+
+    public void setScoring(Integer scoring) {
+        this.scoring = scoring;
+    }
 
 	public String getName() {
         return name;

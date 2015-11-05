@@ -45,6 +45,7 @@
 		<!-- general -->
 		<field name="id"				type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
 		<field name="code"				type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="scoring" 	        type="long" 		indexed="true" 	stored="true"/>
 		<field name="name"				type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="catalogCategories"	type="string"		indexed="true"  stored="true"  multiValued="true" />
 		<field name="text"				type="text_general" indexed="true"  stored="false" multiValued="true" />

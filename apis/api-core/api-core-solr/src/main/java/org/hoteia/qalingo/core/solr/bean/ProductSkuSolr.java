@@ -21,6 +21,9 @@ public class ProductSkuSolr {
     private Long id;
 
     @Field
+    private Integer scoring;
+    
+    @Field
     private String description;
 
     private Boolean isDefault;
@@ -81,6 +84,14 @@ public class ProductSkuSolr {
         this.id = id;
     }
 
+    public Integer getScoring() {
+        return scoring;
+    }
+
+    public void setScoring(Integer scoring) {
+        this.scoring = scoring;
+    }
+
     public Boolean getIsDefault() {
         return isDefault;
     }
@@ -105,7 +116,7 @@ public class ProductSkuSolr {
         this.enabledB2C = enabledB2C;
     }
     
-    public Boolean isSalableB2B() {
+    public Boolean getSalableB2B() {
         return salableB2B;
     }
 
@@ -113,7 +124,7 @@ public class ProductSkuSolr {
         this.salableB2B = salableB2B;
     }
     
-    public Boolean isSalableB2C() {
+    public Boolean getSalableB2C() {
         return salableB2C;
     }
 

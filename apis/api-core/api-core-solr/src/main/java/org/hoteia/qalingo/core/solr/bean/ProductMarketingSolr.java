@@ -20,6 +20,9 @@ public class ProductMarketingSolr {
 	@Field
 	private Long id;
 
+    @Field
+    private Integer scoring;
+    
 	private Boolean isDefault;
 
     @Field
@@ -84,6 +87,14 @@ public class ProductMarketingSolr {
 		this.id = id;
 	}
 
+    public Integer getScoring() {
+        return scoring;
+    }
+
+    public void setScoring(Integer scoring) {
+        this.scoring = scoring;
+    }
+
     public Boolean getIsDefault() {
         return isDefault;
     }
@@ -108,7 +119,7 @@ public class ProductMarketingSolr {
         this.enabledB2C = enabledB2C;
     }
 
-    public boolean isSalableB2B() {
+    public Boolean getSalableB2B() {
         return salableB2B;
     }
 
@@ -116,7 +127,7 @@ public class ProductMarketingSolr {
         this.salableB2B = salableB2B;
     }
     
-    public boolean isSalableB2C() {
+    public Boolean getSalableB2C() {
         return salableB2C;
     }
 

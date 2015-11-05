@@ -57,6 +57,9 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "SCORING", nullable = false, columnDefinition = "int(11) default 1")
+    private int scoring;
+    
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean active;
     
@@ -190,6 +193,14 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public int getScoring() {
+        return scoring;
+    }
+
+    public void setScoring(int scoring) {
+        this.scoring = scoring;
     }
 
     public boolean isActive() {

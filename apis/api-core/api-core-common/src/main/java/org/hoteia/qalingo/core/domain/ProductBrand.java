@@ -54,6 +54,9 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "SCORING", nullable = false, columnDefinition = "int(11) default 1")
+    private int scoring;
+    
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
@@ -122,9 +125,17 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
 		return version;
 	}
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public int getScoring() {
+        return scoring;
+    }
+
+    public void setScoring(int scoring) {
+        this.scoring = scoring;
+    }
 	
     public String getCode() {
         return code;
