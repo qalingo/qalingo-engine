@@ -284,13 +284,16 @@ public class ProductService {
         return productDao.findProductSkuIds(maxResults);
     }
     
-    public List<Long> findProductSkuIdsEnableB2CAndOrderByDateUpdate(int maxResults){
-        return productDao.findProductSkuIdsEnableB2CAndOrderByDateUpdate(maxResults);
+    public List<Long> findProductSkuIdsEnableB2COrderByDateUpdate(int maxResults){
+        return productDao.findProductSkuIdsEnableB2COrderByDateUpdate(maxResults);
     }
-    
+
     public List<Long> findProductSkuIdsByBrandId(final Long brandId, Object... params) {
-        List<Long> productMarketings = productDao.findProductSkuIdsByBrandId(brandId, params);
-        return productMarketings;
+        return productDao.findProductSkuIdsByBrandId(brandId, params);
+    }
+
+    public List<Long> findProductSkuIdsByBrandIdOrderByDateUpdate(final Long brandId, int maxResults, Object... params){
+        return productDao.findProductSkuIdsByBrandIdOrderByDateUpdate(brandId, maxResults, params);
     }
     
     public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketingId, Object... params) {
