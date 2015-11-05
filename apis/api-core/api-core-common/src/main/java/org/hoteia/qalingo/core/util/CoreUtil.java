@@ -70,9 +70,13 @@ public class CoreUtil {
     }
         
     public static String replaceCharactersNotLetterOrDigit(String string) {
+        return replaceCharactersNotLetterOrDigit(string, "-");
+    }
+    
+    public static String replaceCharactersNotLetterOrDigit(String string, String replacement) {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = stringToReturn.replaceAll("[^\\p{L}\\p{Nd}]+", "-");
+            stringToReturn = stringToReturn.replaceAll("[^\\p{L}\\p{Nd}]+", replacement);
             stringToReturn = cleanDash(stringToReturn);
         }
         return stringToReturn;

@@ -34,6 +34,7 @@ import org.hoteia.qalingo.core.domain.GeolocCity;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.bean.GeolocDataCity;
 import org.hoteia.qalingo.core.domain.bean.GeolocDataCountry;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCode;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCodeResult;
 import org.slf4j.Logger;
@@ -282,8 +283,7 @@ public class GeolocService {
     
     protected String cleanGoogleAddress(String value){
         if(StringUtils.isNotEmpty(value)){
-            value = value.replaceAll(" ", "+");
-            value = value.replaceAll("\"", "");
+            value = CoreUtil.replaceCharactersNotLetterOrDigit(value, ",");
         }
         return value;
     }
