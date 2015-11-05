@@ -21,12 +21,12 @@ public abstract class AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 5246629091678484667L;
 
-    private String id;
+	protected String id;
 
-    private boolean selected = false;
+    protected boolean selected = false;
     
-    private String dateCreate;
-    private String dateUpdate;
+    protected String dateCreate;
+    protected String dateUpdate;
 
     public String getId() {
         return id;
@@ -94,6 +94,5 @@ public abstract class AbstractViewBean implements Serializable {
 		}
 		return value;
 	}
-	
 	
 }
