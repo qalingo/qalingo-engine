@@ -274,5 +274,42 @@ public class CustomerViewBean extends AbstractViewBean {
     public void setEditUrl(String editUrl) {
         this.editUrl = editUrl;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((code == null) ? 0 : code.hashCode());
+        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerViewBean other = (CustomerViewBean) obj;
+        if (code == null) {
+            if (other.code != null)
+                return false;
+        } else if (!code.equals(other.code))
+            return false;
+        if (login == null) {
+            if (other.login != null)
+                return false;
+        } else if (!login.equals(other.login))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerViewBean [version=" + version + ", code=" + code + ", login=" + login + ", title=" + title + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+                + ", password=" + password + ", validated=" + validated + ", active=" + active + "]";
+    }
     
 }

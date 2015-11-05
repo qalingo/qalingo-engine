@@ -593,5 +593,36 @@ public class ProductSkuViewBean extends AbstractViewBean {
         }
         return null;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((code == null) ? 0 : code.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProductSkuViewBean other = (ProductSkuViewBean) obj;
+        if (code == null) {
+            if (other.code != null)
+                return false;
+        } else if (!code.equals(other.code))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductSkuViewBean [code=" + code + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", enabledB2B=" + enabledB2B + ", enabledB2C=" + enabledB2C
+                + ", salableB2B=" + salableB2B + ", salableB2C=" + salableB2C + ", ranking=" + ranking + "]";
+    }
     
 }
