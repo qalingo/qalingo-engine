@@ -1,11 +1,10 @@
 /**
  * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
  * under the Apache License Version 2.0 (release version 0.8.0)
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- *                   Copyright (c) Hoteia, 2012-2014
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Copyright (c) Hoteia, 2012-2014
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
- *
  */
 package org.hoteia.qalingo.core.dao;
 
@@ -47,23 +46,23 @@ import org.springframework.stereotype.Repository;
 @Repository("retailerDao")
 public class RetailerDao extends AbstractGenericDao {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	// RETAILER
+    // RETAILER
 
-	public Retailer getRetailerById(final Long retailerId, Object... params) {
+    public Retailer getRetailerById(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
-        
+
         criteria.add(Restrictions.eq("id", retailerId));
-        
+
         Retailer retailer = (Retailer) criteria.uniqueResult();
-        if(retailer != null){
+        if (retailer != null) {
             retailer.setFetchPlan(fetchPlan);
         }
         return retailer;
-	}
+    }
 
     public Retailer getRetailerByCode(final String retailerCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
@@ -71,14 +70,14 @@ public class RetailerDao extends AbstractGenericDao {
         FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", handleCodeValue(retailerCode)));
-        
+
         Retailer retailer = (Retailer) criteria.uniqueResult();
-        if(retailer != null){
+        if (retailer != null) {
             retailer.setFetchPlan(fetchPlan);
         }
         return retailer;
     }
-    
+
     public Retailer getRetailerByCompanyCode(final String companyCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
@@ -86,24 +85,24 @@ public class RetailerDao extends AbstractGenericDao {
 
         criteria.createAlias("company", "company", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("company.code", companyCode));
-        
+
         Retailer retailer = (Retailer) criteria.uniqueResult();
-        if(retailer != null){
+        if (retailer != null) {
             retailer.setFetchPlan(fetchPlan);
         }
         return retailer;
     }
-	
+
     public Long getMaxRetailerId() {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         criteria.setProjection(Projections.max("id"));
-        Long maxId = (Long)criteria.uniqueResult();
+        Long maxId = (Long) criteria.uniqueResult();
         return (maxId == null) ? new Long(0) : maxId;
     }
-    
+
     public List<Retailer> findAllRetailers(Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
@@ -112,10 +111,10 @@ public class RetailerDao extends AbstractGenericDao {
         List<Retailer> retailers = criteria.list();
         return retailers;
     }
-    
+
     public List<Retailer> findAllRetailersByCountry(String countryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         handleSpecificRetailerFetchMode(criteria, params);
         criteria.createAlias("addresses", "addresse", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("addresse.countryCode", countryCode));
@@ -126,7 +125,7 @@ public class RetailerDao extends AbstractGenericDao {
         List<Retailer> retailers = criteria.list();
         return retailers;
     }
-    
+
     @Deprecated
     public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
@@ -141,91 +140,91 @@ public class RetailerDao extends AbstractGenericDao {
     @Deprecated
     public List<Retailer> findRetailers(Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
         @SuppressWarnings("unchecked")
         List<Retailer> retailers = criteria.list();
-		return retailers;
-	}
-	
-	public List<Retailer> findRetailersByTags(final List<String> tags, Object... params) {
+        return retailers;
+    }
+
+    public List<Retailer> findRetailersByTags(final List<String> tags, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.createAlias("retailerTags", "tag", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.in("tag.code", tags));
-        
+
         criteria.addOrder(Order.asc("name"));
 
         @SuppressWarnings("unchecked")
         List<Retailer> retailers = criteria.list();
-		return retailers;
-	}
+        return retailers;
+    }
 
-	public List<Retailer> findLastRetailers(int maxResults, Object... params) {
+    public List<Retailer> findLastRetailers(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.desc("dateCreate"));
 
         @SuppressWarnings("unchecked")
         List<Retailer> retailers = criteria.list();
-		return retailers;
-	}
-	
-	public List<Retailer> findBestRetailersByQualityOfService(int maxResults, Object... params) {
+        return retailers;
+    }
+
+    public List<Retailer> findBestRetailersByQualityOfService(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.desc("qualityOfService"));
 
         @SuppressWarnings("unchecked")
         List<Retailer> retailers = criteria.list();
-		return retailers;
-	}
-	
-	public List<Retailer> findBestRetailersByQualityPrice(int maxResults, Object... params) {
+        return retailers;
+    }
+
+    public List<Retailer> findBestRetailersByQualityPrice(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.desc("ratioQualityPrice"));
 
         @SuppressWarnings("unchecked")
         List<Retailer> retailers = criteria.list();
-		return retailers;
-	}
-	
-	public List<Retailer> findRetailersByText(final String text, Object... params) {
+        return retailers;
+    }
+
+    public List<Retailer> findRetailersByText(final String text, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
-        
+
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.or(Restrictions.like("code", text, MatchMode.ANYWHERE), Restrictions.like("name", text, MatchMode.ANYWHERE), Restrictions.like("description", text, MatchMode.ANYWHERE)));
-        
+
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
         List<Retailer> retailers = criteria.list();
-		return retailers;
-	}
-	
-	public Retailer saveOrUpdateRetailer(final Retailer retailer) {
-		if(retailer.getDateCreate() == null){
+        return retailers;
+    }
+
+    public Retailer saveOrUpdateRetailer(final Retailer retailer) {
+        if (retailer.getDateCreate() == null) {
             retailer.setDateCreate(new Date());
-		}
+        }
         if (StringUtils.isEmpty(retailer.getCode())) {
             retailer.setCode(CoreUtil.generateEntityCode());
         }
-		retailer.setDateUpdate(new Date());
+        retailer.setDateUpdate(new Date());
         if (retailer.getId() != null) {
-            if(em.contains(retailer)){
+            if (em.contains(retailer)) {
                 em.refresh(retailer);
             }
             Retailer mergedRetailer = em.merge(retailer);
@@ -235,20 +234,20 @@ public class RetailerDao extends AbstractGenericDao {
             em.persist(retailer);
             return retailer;
         }
-	}
-	
+    }
+
     public Retailer updateRetailer(final Retailer retailer) {
         retailer.setDateUpdate(new Date());
         Retailer mergedRetailer = em.merge(retailer);
         return mergedRetailer;
     }
 
-	public void deleteRetailer(final Retailer retailer) {
-		em.remove(retailer);
-	}
-	
+    public void deleteRetailer(final Retailer retailer) {
+        em.remove(retailer);
+    }
+
     // RETAILER COMMENT/RATE
-	
+
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerId(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(RetailerCustomerComment.class);
@@ -258,7 +257,7 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByRetailerIdAndMarketAreaId(final Long retailerId, final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(RetailerCustomerComment.class);
@@ -269,7 +268,7 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerComment> findRetailerCustomerCommentsByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(RetailerCustomerComment.class);
@@ -279,7 +278,7 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<RetailerCustomerRate> findRetailerCustomerRatesByRetailerId(final Long retailerId, final String type, Object... params) {
         Criteria criteria = createDefaultCriteria(RetailerCustomerRate.class);
@@ -289,14 +288,14 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     public RetailerCustomerRate saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate productMarketingCustomerRate) {
-        if(productMarketingCustomerRate.getDateCreate() == null){
+        if (productMarketingCustomerRate.getDateCreate() == null) {
             productMarketingCustomerRate.setDateCreate(new Date());
         }
         productMarketingCustomerRate.setDateUpdate(new Date());
         if (productMarketingCustomerRate.getId() != null) {
-            if(em.contains(productMarketingCustomerRate)){
+            if (em.contains(productMarketingCustomerRate)) {
                 em.refresh(productMarketingCustomerRate);
             }
             RetailerCustomerRate mergedRetailerCustomerRate = em.merge(productMarketingCustomerRate);
@@ -311,14 +310,14 @@ public class RetailerDao extends AbstractGenericDao {
     public void deleteRetailerCustomerRate(final RetailerCustomerRate productMarketingCustomerRate) {
         em.remove(productMarketingCustomerRate);
     }
-    
+
     public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment customerComment) {
-        if(customerComment.getDateCreate() == null){
+        if (customerComment.getDateCreate() == null) {
             customerComment.setDateCreate(new Date());
         }
         customerComment.setDateUpdate(new Date());
         if (customerComment.getId() != null) {
-            if(em.contains(customerComment)){
+            if (em.contains(customerComment)) {
                 em.refresh(customerComment);
             }
             RetailerCustomerComment mergedRetailerCustomerComment = em.merge(customerComment);
@@ -333,42 +332,42 @@ public class RetailerDao extends AbstractGenericDao {
     public void deleteRetailerCustomerComment(final RetailerCustomerComment customerComment) {
         em.remove(customerComment);
     }
-	
-	// STORE
-	
-	public Store getStoreById(final Long storeId, Object... params) {
+
+    // STORE
+
+    public Store getStoreById(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
-        
+
         FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", storeId));
 
         criteria.addOrder(Order.asc("code"));
-        
+
         Store store = (Store) criteria.uniqueResult();
-        if(store != null){
+        if (store != null) {
             store.setFetchPlan(fetchPlan);
         }
         return store;
-	}
+    }
 
-	public Store getStoreByCode(final String storeCode, Object... params) {
+    public Store getStoreByCode(final String storeCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
-        
+
         FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", handleCodeValue(storeCode)));
 
         criteria.addOrder(Order.asc("code"));
-        
+
         Store store = (Store) criteria.uniqueResult();
-        if(store != null){
+        if (store != null) {
             store.setFetchPlan(fetchPlan);
         }
-		return store;
-	}
-	
-	public Store findStoreByEmail(final String email, Object... params) {
+        return store;
+    }
+
+    public Store findStoreByEmail(final String email, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
 
@@ -377,53 +376,53 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("code"));
 
         try {
-	        Store store = (Store) criteria.uniqueResult();
-	        if(store != null){
-	            store.setFetchPlan(fetchPlan);
-	        }
-			return store;
-			
-		} catch (NonUniqueResultException e) {
-			logger.error("NonUniqueResultException: store email='" + email + "'");
+            Store store = (Store) criteria.uniqueResult();
+            if (store != null) {
+                store.setFetchPlan(fetchPlan);
+            }
+            return store;
 
-			@SuppressWarnings("unchecked")
-	        List<Store> stores = criteria.list();
-			return stores.get(0);
-			
+        } catch (NonUniqueResultException e) {
+            logger.error("NonUniqueResultException: store email='" + email + "'");
+
+            @SuppressWarnings("unchecked")
+            List<Store> stores = criteria.list();
+            return stores.get(0);
+
         } catch (Exception e) {
             logger.error("Can't find Store by email: '" + email + "'", e);
         }
         return null;
-	}
-	
+    }
+
     public Long getMaxStoreId() {
         Criteria criteria = createDefaultCriteria(Store.class);
         criteria.setProjection(Projections.max("id"));
-        Long maxId = (Long)criteria.uniqueResult();
+        Long maxId = (Long) criteria.uniqueResult();
         return (maxId == null) ? new Long(0) : maxId;
     }
-    
+
     public Long countStore() {
         Criteria criteria = createDefaultCriteria(Store.class);
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
-            
-	public List<Store> findAllStores(int maxResults, Object... params) {
+
+    public List<Store> findAllStores(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
-        
+
         handleSpecificStoreFetchMode(criteria, params);
-        
+
         criteria.addOrder(Order.asc("code"));
 
-        if(maxResults != 0){
+        if (maxResults != 0) {
             criteria.setMaxResults(maxResults);
         }
-        
+
         @SuppressWarnings("unchecked")
         List<Store> stores = criteria.list();
-		return stores;
-	}
+        return stores;
+    }
 
     public List<Store> findB2CStores(List<String> types, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
@@ -432,14 +431,14 @@ public class RetailerDao extends AbstractGenericDao {
 
         criteria.add(Restrictions.eq("b2c", true));
 
-        if(types != null && !types.isEmpty()){
+        if (types != null && !types.isEmpty()) {
             Disjunction disjunction = Restrictions.or();
-            for(String type: types){
+            for (String type : types) {
                 disjunction.add(Restrictions.like("type", type, MatchMode.ANYWHERE));
             }
             criteria.add(disjunction);
         }
-        
+
         criteria.addOrder(Order.asc("code"));
 
         if (maxResults != 0) {
@@ -450,7 +449,7 @@ public class RetailerDao extends AbstractGenericDao {
         List<Store> stores = criteria.list();
         return stores;
     }
-    
+
     public List<Store> findB2BStores(List<String> types, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
@@ -458,14 +457,14 @@ public class RetailerDao extends AbstractGenericDao {
 
         criteria.add(Restrictions.eq("b2b", true));
 
-        if(types != null && !types.isEmpty()){
+        if (types != null && !types.isEmpty()) {
             Disjunction disjunction = Restrictions.or();
-            for(String type: types){
-                disjunction.add( Restrictions.like("type", "%" + type + "%"));
+            for (String type : types) {
+                disjunction.add(Restrictions.like("type", "%" + type + "%"));
             }
             criteria.add(disjunction);
         }
-        
+
         criteria.addOrder(Order.asc("code"));
 
         if (maxResults != 0) {
@@ -476,7 +475,7 @@ public class RetailerDao extends AbstractGenericDao {
         List<Store> stores = criteria.list();
         return stores;
     }
-	
+
     public List<Long> findAllStoreIds(Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
@@ -486,55 +485,55 @@ public class RetailerDao extends AbstractGenericDao {
         List<Long> storeIds = criteria.list();
         return storeIds;
     }
-    
+
     public List<Long> findStoreWithoutLatitudeLongitude(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
         criteria.add(Restrictions.or(Restrictions.isNull("latitude"), Restrictions.isNull("longitude")));
         criteria.setProjection(Projections.property("id"));
 
-        if(maxResults != 0){
+        if (maxResults != 0) {
             criteria.setMaxResults(maxResults);
         }
-        
+
         @SuppressWarnings("unchecked")
         List<Long> storeIds = criteria.list();
         return storeIds;
     }
-    
+
     public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("retailer.company", "company", JoinType.LEFT_OUTER_JOIN);
-        criteria.add( Restrictions.eq("company.id", companyId));
+        criteria.add(Restrictions.eq("company.id", companyId));
         criteria.setProjection(Projections.property("id"));
 
         @SuppressWarnings("unchecked")
         List<Long> storeIds = criteria.list();
         return storeIds;
     }
-    
+
     public List<Long> findStoreIdsByRetailerId(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add( Restrictions.eq("retailer.id", retailerId));
+        criteria.add(Restrictions.eq("retailer.id", retailerId));
         criteria.setProjection(Projections.property("id"));
 
         @SuppressWarnings("unchecked")
         List<Long> storeIds = criteria.list();
         return storeIds;
     }
-    
+
     public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
         handleSpecificStoreFetchMode(criteria, params);
 
-        criteria.add( Restrictions.eq("countryCode", countryCode));
-        criteria.add( Restrictions.like("type", "%SHOP%"));
-        
+        criteria.add(Restrictions.eq("countryCode", countryCode));
+        criteria.add(Restrictions.like("type", "%SHOP%"));
+
         criteria.addOrder(Order.asc("name"));
 
         criteria.setProjection(Projections.property("id"));
@@ -543,14 +542,14 @@ public class RetailerDao extends AbstractGenericDao {
         List<Long> storeIds = criteria.list();
         return storeIds;
     }
-    
+
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
         handleSpecificStoreFetchMode(criteria, params);
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add( Restrictions.eq("retailer.id", retailerId));
+        criteria.add(Restrictions.eq("retailer.id", retailerId));
 
         criteria.addOrder(Order.asc("name"));
 
@@ -565,15 +564,15 @@ public class RetailerDao extends AbstractGenericDao {
         handleSpecificStoreFetchMode(criteria, params);
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
-        criteria.add( Restrictions.eq("retailer.code", retailerCode));
-        
+        criteria.add(Restrictions.eq("retailer.code", retailerCode));
+
         criteria.addOrder(Order.asc("name"));
 
         @SuppressWarnings("unchecked")
         List<Store> stores = criteria.list();
         return stores;
     }
-    
+
 //    public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
 //        Float latitudeFloat = new Float(latitude);
 //        Float longitudeFloat = new Float(longitude);
@@ -605,7 +604,7 @@ public class RetailerDao extends AbstractGenericDao {
 //        }
 //        return stores;
 //    }
-    
+
 //    public List<GeolocatedStore> findB2BStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
 //        Float latitudeFloat = new Float(latitude);
 //        Float longitudeFloat = new Float(longitude);
@@ -643,44 +642,50 @@ public class RetailerDao extends AbstractGenericDao {
 //    }
 
     public List<GeolocatedStore> findB2CStoresByGeoloc(final String countryCode, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        if(StringUtils.isNotEmpty(latitude)
-                && StringUtils.isNotEmpty(longitude)){
+        if (StringUtils.isNotEmpty(latitude)
+                && StringUtils.isNotEmpty(longitude)) {
             Float latitudeFloat = new Float(latitude);
             Float longitudeFloat = new Float(longitude);
-            StringBuffer queryString = new StringBuffer("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
+            StringBuilder queryString = new StringBuilder("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
             queryString.append("FROM teco_store store ");
             queryString.append("WHERE is_b2c = :b2c ");
-            if(StringUtils.isNotEmpty(countryCode)){
+            if (StringUtils.isNotEmpty(countryCode)) {
                 queryString.append("AND country_code = :countryCode ");
             }
-            if(types != null && !types.isEmpty()){
+            if (types != null && !types.isEmpty()) {
                 queryString.append("AND (");
                 int count = 1;
-                for(String type: types){
-                    if(count == 1){
-                        queryString.append("type like :type" + count + " ");
+                for (String ignored : types) {
+                    if (count == 1) {
+                        queryString.append("type like :type").append(count).append(" ");
                     } else {
-                        queryString.append("OR type like :type" + count +" ");
+                        queryString.append("OR type like :type").append(count).append(" ");
                     }
                     count++;
                 }
                 queryString.append(")");
             }
             queryString.append("AND is_active = :active ");
-            queryString.append("HAVING distance <= :distanceValue ");
+            if (distance != null) {
+                queryString.append("HAVING distance <= :distanceValue ");
+            } else {
+                queryString.append("HAVING distance IS NOT null ");
+            }
             queryString.append("ORDER BY distance ASC");
-            
+
             Query query = createNativeQuery(queryString.toString());
-            query.setParameter("latitude", latitudeFloat.floatValue());
-            query.setParameter("longitude", longitudeFloat.floatValue());
-            query.setParameter("distanceValue", distance);
+            query.setParameter("latitude", latitudeFloat);
+            query.setParameter("longitude", longitudeFloat);
+            if (distance != null) {
+                query.setParameter("distanceValue", distance);
+            }
             query.setParameter("b2c", true);
-            if(StringUtils.isNotEmpty(countryCode)){
+            if (StringUtils.isNotEmpty(countryCode)) {
                 query.setParameter("countryCode", countryCode);
             }
-            if(types != null && !types.isEmpty()){
+            if (types != null && !types.isEmpty()) {
                 int count = 1;
-                for(String type: types){
+                for (String type : types) {
                     query.setParameter("type" + count, "%" + type + "%");
                     count++;
                 }
@@ -688,63 +693,68 @@ public class RetailerDao extends AbstractGenericDao {
             query.setParameter("active", true);
             query.setMaxResults(maxResults);
             query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
-            
+
             @SuppressWarnings("unchecked")
             List<Object[]> objects = query.getResultList();
             List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
-            for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
-                Object[] object = iterator.next();
+            for (Object[] object : objects) {
                 GeolocatedStore geolocatedStore = new GeolocatedStore();
-                geolocatedStore.setId((Long)object[0]);
-                geolocatedStore.setCode((String)object[1]);
-                geolocatedStore.setDistance((Double)object[2]);
+                geolocatedStore.setId((Long) object[0]);
+                geolocatedStore.setCode((String) object[1]);
+                geolocatedStore.setDistance((Double) object[2]);
                 stores.add(geolocatedStore);
             }
             return stores;
         }
         return null;
     }
-    
+
     public List<GeolocatedStore> findB2BStoresByGeoloc(final String countryCode, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-        if(StringUtils.isNotEmpty(latitude)
-                && StringUtils.isNotEmpty(longitude)){
+        if (StringUtils.isNotEmpty(latitude)
+                && StringUtils.isNotEmpty(longitude)) {
             Float latitudeFloat = new Float(latitude);
             Float longitudeFloat = new Float(longitude);
-            StringBuffer queryString = new StringBuffer("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
+            StringBuilder queryString = new StringBuilder("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
             queryString.append("FROM teco_store store ");
             queryString.append("WHERE is_b2b = :b2b ");
-            if(StringUtils.isNotEmpty(countryCode)){
+            if (StringUtils.isNotEmpty(countryCode)) {
                 queryString.append("AND country_code = :countryCode ");
             }
-            if(types != null && !types.isEmpty()){
+            if (types != null && !types.isEmpty()) {
                 queryString.append("AND (");
                 int count = 1;
-                for(String type: types){
-                    if(count == 1){
-                        queryString.append("type like :type" + count +" ");
+                for (String ignored : types) {
+                    if (count == 1) {
+                        queryString.append("type like :type").append(count).append(" ");
                     } else {
-                        queryString.append("OR type like :type" + count +" ");
+                        queryString.append("OR type like :type").append(count).append(" ");
                     }
                     count++;
                 }
                 queryString.append(")");
             }
             queryString.append("AND is_active = :active ");
-            queryString.append("HAVING distance <= :distanceValue ");
+            if (distance != null) {
+                queryString.append("HAVING distance <= :distanceValue ");
+            } else {
+                queryString.append("HAVING distance IS NOT null ");
+            }
             queryString.append("ORDER BY distance ASC");
-            
+
             Query query = createNativeQuery(queryString.toString());
-            query.setParameter("latitude", latitudeFloat.floatValue());
-            query.setParameter("longitude", longitudeFloat.floatValue());
+            query.setParameter("latitude", latitudeFloat);
+            query.setParameter("longitude", longitudeFloat);
             query.setParameter("countryCode", countryCode);
-            query.setParameter("distanceValue", distance);
+            if (distance != null) {
+                query.setParameter("distanceValue", distance);
+            }
             query.setParameter("b2b", true);
-            if(StringUtils.isNotEmpty(countryCode)){
+            if (StringUtils.isNotEmpty(countryCode)) {
                 query.setParameter("countryCode", countryCode);
             }
-            if(types != null && !types.isEmpty()){
+            if (types != null && !types.isEmpty()) {
                 int count = 1;
-                for(String type: types){
+                for (String type : types) {
                     query.setParameter("type" + count, "%" + type + "%");
                     count++;
                 }
@@ -752,33 +762,32 @@ public class RetailerDao extends AbstractGenericDao {
             query.setParameter("active", true);
             query.setMaxResults(maxResults);
             query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
-            
+
             @SuppressWarnings("unchecked")
             List<Object[]> objects = query.getResultList();
             List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
-            for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
-                Object[] object = iterator.next();
+            for (java.lang.Object[] object : objects) {
                 GeolocatedStore geolocatedStore = new GeolocatedStore();
-                geolocatedStore.setId((Long)object[0]);
-                geolocatedStore.setCode((String)object[1]);
-                geolocatedStore.setDistance((Double)object[2]);
+                geolocatedStore.setId((Long) object[0]);
+                geolocatedStore.setCode((String) object[1]);
+                geolocatedStore.setDistance((Double) object[2]);
                 stores.add(geolocatedStore);
             }
             return stores;
         }
         return null;
     }
-    
-	public Store saveOrUpdateStore(final Store store) {
-		if(store.getDateCreate() == null){
-			store.setDateCreate(new Date());
-		}
-		store.setDateUpdate(new Date());
+
+    public Store saveOrUpdateStore(final Store store) {
+        if (store.getDateCreate() == null) {
+            store.setDateCreate(new Date());
+        }
+        store.setDateUpdate(new Date());
         if (StringUtils.isEmpty(store.getCode())) {
             store.setCode(CoreUtil.generateEntityCode());
         }
         if (store.getId() != null) {
-            if(em.contains(store)){
+            if (em.contains(store)) {
                 em.refresh(store);
             }
             Store mergedStore = em.merge(store);
@@ -788,23 +797,22 @@ public class RetailerDao extends AbstractGenericDao {
             em.persist(store);
             return store;
         }
-	}
+    }
 
-	public Store updateStore(final Store store) {
-		store.setDateUpdate(new Date());
+    public Store updateStore(final Store store) {
+        store.setDateUpdate(new Date());
         if (StringUtils.isEmpty(store.getCode())) {
             store.setCode(CoreUtil.generateEntityCode());
         }
-        Store mergedStore = em.merge(store);
-        return mergedStore;
-	}
+        return em.merge(store);
+    }
 
-	public void deleteStore(final Store store) {
-		em.remove(store);
-	}
-	
+    public void deleteStore(final Store store) {
+        em.remove(store);
+    }
+
     // STORE COMMENT/RATE
-    
+
     @SuppressWarnings("unchecked")
     public List<StoreCustomerComment> findStoreCustomerCommentsByStoreId(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(StoreCustomerComment.class);
@@ -814,7 +822,7 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<StoreCustomerComment> findStoreCustomerCommentsByStoreIdAndMarketAreaId(final Long storeId, final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(StoreCustomerComment.class);
@@ -825,7 +833,7 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<StoreCustomerComment> findStoreCustomerCommentsByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(StoreCustomerComment.class);
@@ -835,7 +843,7 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<StoreCustomerRate> findStoreCustomerRatesByStoreId(final Long storeId, final String type, Object... params) {
         Criteria criteria = createDefaultCriteria(StoreCustomerRate.class);
@@ -845,14 +853,14 @@ public class RetailerDao extends AbstractGenericDao {
         criteria.addOrder(Order.asc("dateCreate"));
         return criteria.list();
     }
-    
+
     public StoreCustomerRate saveOrUpdateStoreCustomerRate(final StoreCustomerRate productMarketingCustomerRate) {
-        if(productMarketingCustomerRate.getDateCreate() == null){
+        if (productMarketingCustomerRate.getDateCreate() == null) {
             productMarketingCustomerRate.setDateCreate(new Date());
         }
         productMarketingCustomerRate.setDateUpdate(new Date());
         if (productMarketingCustomerRate.getId() != null) {
-            if(em.contains(productMarketingCustomerRate)){
+            if (em.contains(productMarketingCustomerRate)) {
                 em.refresh(productMarketingCustomerRate);
             }
             StoreCustomerRate mergedStoreCustomerRate = em.merge(productMarketingCustomerRate);
@@ -867,14 +875,14 @@ public class RetailerDao extends AbstractGenericDao {
     public void deleteStoreCustomerRate(final StoreCustomerRate productMarketingCustomerRate) {
         em.remove(productMarketingCustomerRate);
     }
-    
+
     public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment customerComment) {
-        if(customerComment.getDateCreate() == null){
+        if (customerComment.getDateCreate() == null) {
             customerComment.setDateCreate(new Date());
         }
         customerComment.setDateUpdate(new Date());
         if (customerComment.getId() != null) {
-            if(em.contains(customerComment)){
+            if (em.contains(customerComment)) {
                 em.refresh(customerComment);
             }
             StoreCustomerComment mergedStoreCustomerComment = em.merge(customerComment);
@@ -889,7 +897,7 @@ public class RetailerDao extends AbstractGenericDao {
     public void deleteStoreCustomerComment(final StoreCustomerComment customerComment) {
         em.remove(customerComment);
     }
-    
+
     protected FetchPlan handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
@@ -897,7 +905,7 @@ public class RetailerDao extends AbstractGenericDao {
             return super.handleSpecificFetchMode(criteria, FetchPlanGraphRetailer.defaultRetailerFetchPlan());
         }
     }
-    
+
     protected FetchPlan handleSpecificStoreFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
