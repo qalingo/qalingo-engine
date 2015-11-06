@@ -81,7 +81,7 @@ public class MarketPlace extends AbstractEntity<MarketPlace> {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MARKET_PLACE_ID")
-    private Set<MarketPlaceAttribute> marketPlaceAttributes = new HashSet<MarketPlaceAttribute>();
+    private Set<MarketPlaceAttribute> attributes = new HashSet<MarketPlaceAttribute>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -202,12 +202,12 @@ public class MarketPlace extends AbstractEntity<MarketPlace> {
         this.markets = markets;
     }
 
-    public Set<MarketPlaceAttribute> getMarketPlaceAttributes() {
-        return marketPlaceAttributes;
+    public Set<MarketPlaceAttribute> getAttributes() {
+        return attributes;
     }
 
-    public void setMarketPlaceAttributes(Set<MarketPlaceAttribute> marketPlaceAttributes) {
-        this.marketPlaceAttributes = marketPlaceAttributes;
+    public void setAttributes(Set<MarketPlaceAttribute> attributes) {
+        this.attributes = attributes;
     }
 
     public Date getDateCreate() {
@@ -231,9 +231,9 @@ public class MarketPlace extends AbstractEntity<MarketPlace> {
     }
 
     private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
-        if (marketPlaceAttributes != null 
-                && Hibernate.isInitialized(marketPlaceAttributes)) {
-            for (Iterator<MarketPlaceAttribute> iterator = marketPlaceAttributes.iterator(); iterator.hasNext();) {
+        if (attributes != null 
+                && Hibernate.isInitialized(attributes)) {
+            for (Iterator<MarketPlaceAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 MarketPlaceAttribute marketPlaceAttribute = (MarketPlaceAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = marketPlaceAttribute.getAttributeDefinition();
                 if (StringUtils.isNotEmpty(marketPlaceAttribute.getContext()) && marketPlaceAttribute.getContext().equals(contextNameValue)

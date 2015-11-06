@@ -2057,7 +2057,11 @@ public class RequestUtil {
     protected EngineEcoSession initEcoMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         MarketArea marketArea = evaluateMarketPlace(request);
+        
         Market market = marketArea.getMarket();
+        // RELOAD TO AVOID LAZY EXCEPTION : marketArea.market.marketplace is not load if the marketplace came from a marketplace.market entity
+        market = marketService.getMarketById(market.getId());
+        
         MarketPlace marketPlace = market.getMarketPlace();
         
         engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, marketPlace);

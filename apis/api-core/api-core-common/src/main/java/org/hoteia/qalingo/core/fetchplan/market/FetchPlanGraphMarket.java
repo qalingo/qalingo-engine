@@ -16,16 +16,22 @@ import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
+import org.hoteia.qalingo.core.domain.MarketPlace_;
+import org.hoteia.qalingo.core.domain.Market_;
+import org.hoteia.qalingo.core.domain.MarketArea_;
+import org.hoteia.qalingo.core.domain.CatalogVirtual_;
+import org.hoteia.qalingo.core.domain.CatalogMaster_;
+
 public class FetchPlanGraphMarket {
 
     public static FetchPlan defaultMarketPlaceFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("masterCatalog"));
-        fetchplans.add(new SpecificFetchMode("markets"));
-        fetchplans.add(new SpecificFetchMode("marketPlaceAttributes"));
+        fetchplans.add(new SpecificFetchMode(MarketPlace_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketPlace_.masterCatalog.getName()));
 
-        fetchplans.add(new SpecificFetchMode("marketAreas", new SpecificAlias("markets.marketAreas")));
+        fetchplans.add(new SpecificFetchMode(MarketPlace_.markets.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketPlace_.markets.getName() + "." + Market_.marketAreas.getName()));
 
         return new FetchPlan(fetchplans);
     }
@@ -33,9 +39,9 @@ public class FetchPlanGraphMarket {
     public static FetchPlan defaultMarketFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("marketPlace"));
-        fetchplans.add(new SpecificFetchMode("marketAreas"));
-        fetchplans.add(new SpecificFetchMode("marketAttributes"));
+        fetchplans.add(new SpecificFetchMode(Market_.marketPlace.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName()));
         
         return new FetchPlan(fetchplans);
     }
@@ -43,17 +49,14 @@ public class FetchPlanGraphMarket {
     public static FetchPlan specificMarketFetch(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("marketPlace"));
-        fetchplans.add(new SpecificFetchMode("marketAreas"));
-        fetchplans.add(new SpecificFetchMode("marketAttributes"));
+        fetchplans.add(new SpecificFetchMode(Market_.marketPlace.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName()));
         
-        fetchplans.add(new SpecificFetchMode("defaultLocalization", new SpecificAlias("marketAreas.defaultLocalization")));
-
-        fetchplans.add(new SpecificFetchMode("localizations", new SpecificAlias("marketAreas.localizations")));
-
-        fetchplans.add(new SpecificFetchMode("retailers", new SpecificAlias("marketAreas.retailers")));
-
-        fetchplans.add(new SpecificFetchMode("marketAreaAttributes", new SpecificAlias("marketAreas.marketAreaAttributes")));
+        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName() + "." + MarketArea_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName() + "." + MarketArea_.localizations.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName() + "." + MarketArea_.retailers.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName() + "." + MarketArea_.attributes.getName()));
         
         return new FetchPlan(fetchplans);
     }
@@ -61,22 +64,21 @@ public class FetchPlanGraphMarket {
     public static FetchPlan defaultMarketAreaFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("catalog"));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.catalog.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.catalog.getName() + "." + CatalogVirtual_.catalogMaster.getName()));
         
-        fetchplans.add(new SpecificFetchMode("catalogMaster", new SpecificAlias("catalog.catalogMaster")));
-
-        fetchplans.add(new SpecificFetchMode("market"));
-
-        fetchplans.add(new SpecificFetchMode("marketAreaAttributes"));
-
-        fetchplans.add(new SpecificFetchMode("defaultLocalization"));
-        fetchplans.add(new SpecificFetchMode("localizations"));
-
-        fetchplans.add(new SpecificFetchMode("defaultRetailer"));
-        fetchplans.add(new SpecificFetchMode("retailers"));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.market.getName()));
         
-        fetchplans.add(new SpecificFetchMode("defaultCurrency"));
-        fetchplans.add(new SpecificFetchMode("currencies"));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.attributes.getName()));
+
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.localizations.getName()));
+
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultRetailer.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.retailers.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultCurrency.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.currencies.getName()));
 
         return new FetchPlan(fetchplans);
     }
@@ -88,24 +90,26 @@ public class FetchPlanGraphMarket {
     public static FetchPlan fullMarketAreaFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("catalog"));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.catalog.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.catalog.getName() + "." + CatalogVirtual_.catalogMaster.getName()));
         
-        fetchplans.add(new SpecificFetchMode("catalogMaster", new SpecificAlias("catalog.catalogMaster")));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.market.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.attributes.getName()));
 
-        fetchplans.add(new SpecificFetchMode("market"));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.localizations.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultRetailer.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.retailers.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultCurrency.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.currencies.getName()));
 
-        fetchplans.add(new SpecificFetchMode("defaultCurrency"));
-        fetchplans.add(new SpecificFetchMode("currencies"));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.paymentGateways.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.taxes.getName()));
 
-        fetchplans.add(new SpecificFetchMode("marketAreaAttributes"));
-
-        fetchplans.add(new SpecificFetchMode("defaultLocalization"));
-        fetchplans.add(new SpecificFetchMode("localizations"));
-
-        fetchplans.add(new SpecificFetchMode("defaultRetailer"));
-        fetchplans.add(new SpecificFetchMode("retailers"));
-
-        fetchplans.add(new SpecificFetchMode("warehouseMarketAreaRel", new SpecificAlias("warehouseMarketAreaRels")));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.warehouseMarketAreaRels.getName()));
 
         fetchplans.add(new SpecificFetchMode("deliveryMethods", new SpecificAlias("warehouseMarketAreaRel.pk.warehouse.deliveryMethods")));
 
@@ -113,10 +117,6 @@ public class FetchPlanGraphMarket {
 
         fetchplans.add(new SpecificFetchMode("deliveryMethodPrices", new SpecificAlias("warehouseMarketAreaRel.pk.warehouse.deliveryMethods.prices")));
 
-        fetchplans.add(new SpecificFetchMode("paymentGateways"));
-        
-        fetchplans.add(new SpecificFetchMode("taxes"));
-        
         return new FetchPlan(fetchplans);
     }
     

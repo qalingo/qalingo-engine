@@ -106,7 +106,7 @@ public class MarketArea extends AbstractEntity<MarketArea> {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.MarketAreaAttribute.class)
     @JoinColumn(name = "MARKET_AREA_ID")
-    private Set<MarketAreaAttribute> marketAreaAttributes = new HashSet<MarketAreaAttribute>();
+    private Set<MarketAreaAttribute> attributes = new HashSet<MarketAreaAttribute>();
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)
     @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
@@ -289,12 +289,12 @@ public class MarketArea extends AbstractEntity<MarketArea> {
         this.currencies = currencies;
     }
 
-    public Set<MarketAreaAttribute> getMarketAreaAttributes() {
-        return marketAreaAttributes;
+    public Set<MarketAreaAttribute> getAttributes() {
+        return attributes;
     }
 
-    public void setMarketAreaAttributes(Set<MarketAreaAttribute> marketAreaAttributes) {
-        this.marketAreaAttributes = marketAreaAttributes;
+    public void setAttributes(Set<MarketAreaAttribute> attributes) {
+        this.attributes = attributes;
     }
     
     public Localization getDefaultLocalization() {
@@ -545,9 +545,9 @@ public class MarketArea extends AbstractEntity<MarketArea> {
     }
     
     protected Object getAttributeValue(String attributeDefinitionCode, String contextNameValue) {
-        if (marketAreaAttributes != null 
-                && Hibernate.isInitialized(marketAreaAttributes)) {
-            for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+        if (attributes != null 
+                && Hibernate.isInitialized(attributes)) {
+            for (Iterator<MarketAreaAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();
                 if (StringUtils.isNotEmpty(marketAreaAttribute.getContext()) && marketAreaAttribute.getContext().equals(contextNameValue)

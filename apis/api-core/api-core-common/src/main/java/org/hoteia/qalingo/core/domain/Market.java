@@ -81,7 +81,7 @@ public class Market extends AbstractEntity<Market> {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MARKET_ID")
-    private Set<MarketAttribute> marketAttributes = new HashSet<MarketAttribute>();
+    private Set<MarketAttribute> attributes = new HashSet<MarketAttribute>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -205,6 +205,14 @@ public class Market extends AbstractEntity<Market> {
         }
         return defaultMarketArea;
     }
+    
+    public Set<MarketAttribute> getAttributes() {
+        return attributes;
+    }
+    
+    public void setAttributes(Set<MarketAttribute> attributes) {
+        this.attributes = attributes;
+    }
 
     public Date getDateCreate() {
         return dateCreate;
@@ -227,9 +235,9 @@ public class Market extends AbstractEntity<Market> {
     }
 
     private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
-        if (marketAttributes != null 
-                && Hibernate.isInitialized(marketAttributes)) {
-            for (Iterator<MarketAttribute> iterator = marketAttributes.iterator(); iterator.hasNext();) {
+        if (attributes != null 
+                && Hibernate.isInitialized(attributes)) {
+            for (Iterator<MarketAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 MarketAttribute marketAttribute = (MarketAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = marketAttribute.getAttributeDefinition();
                 if (StringUtils.isNotEmpty(marketAttribute.getContext()) && marketAttribute.getContext().equals(contextNameValue) && attributeDefinition.getCode().equals(attributeDefinitionCode)) {
