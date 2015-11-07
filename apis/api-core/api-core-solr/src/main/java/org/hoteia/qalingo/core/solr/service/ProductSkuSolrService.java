@@ -79,6 +79,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
         if(productMarketing.getProductBrand() != null
                 && Hibernate.isInitialized(productMarketing.getProductBrand())){
             productSkuSolr.setProductBrandCode(productMarketing.getProductBrand().getCode());
+            productSkuSolr.setProductBrandName(productMarketing.getProductBrand().getName());
         }
         
         CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productSku, catalogCategories, true);

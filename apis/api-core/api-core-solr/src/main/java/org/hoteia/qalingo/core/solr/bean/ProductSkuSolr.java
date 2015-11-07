@@ -50,6 +50,9 @@ public class ProductSkuSolr {
     private String productBrandCode;
     
     @Field
+    private String productBrandName;
+    
+    @Field
     private String defaultCategoryCode;
     
     @Field
@@ -164,6 +167,14 @@ public class ProductSkuSolr {
         this.productBrandCode = productBrandCode;
     }
 
+    public String getProductBrandName() {
+        return productBrandName;
+    }
+    
+    public void setProductBrandName(String productBrandName) {
+        this.productBrandName = productBrandName;
+    }
+    
     public String getDefaultCategoryCode() {
         return defaultCategoryCode;
     }

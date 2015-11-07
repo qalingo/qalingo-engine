@@ -65,6 +65,8 @@
 		<field name="salableB2C"          type="boolean"      indexed="true"  stored="true"  multiValued="false" />
 
 		<field name="productBrandCode"      type="string"		indexed="true" 	stored="true"  multiValued="false" />
+		<field name="productBrandName"      type="string"		indexed="true" 	stored="true"  multiValued="false" />
+
 		<field name="catalogCodes"			type="string"		indexed="true" 	stored="true"  multiValued="true" />
 		<field name="defaultCategoryCode"	type="string"   	indexed="true"  stored="true"  multiValued="false" />
 		<field name="catalogCategories"		type="string"		indexed="true"  stored="true"  multiValued="true" />
@@ -88,15 +90,16 @@
 	<!-- field for the QueryParser to use when an explicit fieldname is absent -->
 	<defaultSearchField>text</defaultSearchField>
 
-	<copyField source="code"				dest="text" />
-	<copyField source="name"				dest="text" />
-	<copyField source="description"			dest="text" />
+	<copyField source="code"				  dest="text" />
+	<copyField source="name"				  dest="text" />
+	<copyField source="description"	      dest="text" />
 	<copyField source="productBrandCode"    dest="text" />
-	<copyField source="defaultCategoryCode"	dest="text" />
-	<copyField source="catalogCategories"	dest="text" />
-	<copyField source="tags"			    dest="text" />
-	<copyField source="optionDefinitions"	dest="text" />
-	<copyField source="price"			    dest="price_s" />
+	<copyField source="productBrandName"    dest="text" />
+	<copyField source="defaultCategoryCode" dest="text" />
+	<copyField source="catalogCategories"   dest="text" />
+	<copyField source="tags"			      dest="text" />
+	<copyField source="optionDefinitions"	  dest="text" />
+	<copyField source="price"			      dest="price_s" />
    
 	<!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
 	<solrQueryParser defaultOperator="OR" />

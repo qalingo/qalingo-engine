@@ -49,6 +49,9 @@ public class ProductMarketingSolr {
     @Field
     private String productBrandCode;
 
+    @Field
+    private String productBrandName;
+    
 	@Field
 	private String defaultCategoryCode;
 
@@ -157,6 +160,14 @@ public class ProductMarketingSolr {
 
     public void setProductBrandCode(String productBrandCode) {
         this.productBrandCode = productBrandCode;
+    }
+    
+    public String getProductBrandName() {
+        return productBrandName;
+    }
+    
+    public void setProductBrandName(String productBrandName) {
+        this.productBrandName = productBrandName;
     }
     
 	public String getDescription() {

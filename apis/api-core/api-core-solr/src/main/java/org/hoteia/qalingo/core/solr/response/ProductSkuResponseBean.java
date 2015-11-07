@@ -20,7 +20,7 @@ public class ProductSkuResponseBean {
     public static final String PRODUCT_SKU_SEARCH_FIELD_CODE                    = "code";
     public static final String PRODUCT_SKU_SEARCH_FIELD_CATEGORIE_CODES         = "catalogCategories";
     public static final String PRODUCT_SKU_SEARCH_FIELD_CATALOG_CODES           = "catalogCodes";
-    public static final String PRODUCT_SKU_SEARCH_FIELD_TAG_CODE                = "tags";
+    public static final String PRODUCT_SKU_SEARCH_FIELD_TAG_CODES               = "tags";
     public static final String PRODUCT_SKU_SEARCH_FIELD_OPTION_DEFINITION_CODES = "optionDefinitions";
     public static final String PRODUCT_SKU_SEARCH_FIELD_PRODUCT_BRAND_CODE      = "productBrandCode";
     public static final String PRODUCT_SKU_DEFAULT_SEARCH_FIELD                 = "text";
