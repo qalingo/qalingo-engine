@@ -8,9 +8,17 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CoreUtil {
 
+    public static String generateUUID(){
+        return UUID.randomUUID().toString();
+    }
+    
+    public static String generateHashFolder(){
+        return generateUUID();
+    }
+    
     public static String generateEntityCode(){
         // ONLY UNDERSCORE IN CODE
-        return UUID.randomUUID().toString().replace("-", "_");
+        return generateUUID().replace("-", "_");
     }
     
     public static String cleanEntityCode(String string) {
