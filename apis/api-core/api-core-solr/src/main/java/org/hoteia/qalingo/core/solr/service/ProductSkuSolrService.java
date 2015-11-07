@@ -38,6 +38,7 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import org.hoteia.qalingo.core.solr.bean.SolrFields;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
+import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,7 +139,11 @@ public class ProductSkuSolrService extends AbstractSolrService {
         productSkuSolrServer.commit();
     }
     
-    public ProductSkuResponseBean searchProductSku(final String searchQuery, final List<String> facetFields, final SolrParam solrParam) throws SolrServerException, IOException {
+    public ProductSkuResponseBean searchProductSku(final String searchQuery, final List<String> facetFields, SolrParam solrParam) throws SolrServerException, IOException {
+        return searchProductSku(searchQuery, facetFields, null, solrParam);
+    }
+    
+    public ProductSkuResponseBean searchProductSku(final String searchQuery, final List<String> facetFields, final List<String> filterQueries, SolrParam solrParam) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
 
         if(solrParam != null){
@@ -162,11 +167,18 @@ public class ProductSkuSolrService extends AbstractSolrService {
         }
         solrQuery.setQuery(searchQuery);
 
-        if(facetFields != null && !facetFields.isEmpty()){
+        if (facetFields != null && !facetFields.isEmpty()) {
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
-            for(String facetField : facetFields){
+            for (String facetField : facetFields) {
                 solrQuery.addFacetField(facetField);
+            }
+        }
+
+        if (filterQueries != null && filterQueries.size() > 0) {
+            for (Iterator<String> iterator = filterQueries.iterator(); iterator.hasNext();) {
+                String filterQuery = (String) iterator.next();
+                solrQuery.addFilterQuery(filterQuery);
             }
         }
 

@@ -60,7 +60,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    protected ProductService productMarketingService;
+    protected ProductService productService;
 
     @Autowired
     protected WebManagementService webManagementService;
@@ -128,7 +128,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
         List<ProductMarketingSolr> searchtItems = productMarketingResponseBean.getProductMarketingSolrList();
         for (Iterator<ProductMarketingSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {
             ProductMarketingSolr productMarketingSolr = (ProductMarketingSolr) iterator.next();
-            ProductMarketing productMarketing = productMarketingService.getProductMarketingById(productMarketingSolr.getId(), new FetchPlan(productMarketingFetchPlans));
+            ProductMarketing productMarketing = productService.getProductMarketingById(productMarketingSolr.getId(), new FetchPlan(productMarketingFetchPlans));
             if(productMarketing != null){
                 ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestData, productMarketing);
                 productMarketingViewBeans.add(productMarketingViewBean);

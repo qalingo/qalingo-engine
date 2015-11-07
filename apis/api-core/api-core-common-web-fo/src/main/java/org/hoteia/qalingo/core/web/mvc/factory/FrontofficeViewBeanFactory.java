@@ -44,6 +44,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
+import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
@@ -443,6 +444,75 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                 }
 
             }else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
+                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    searchFacetViewBeans.add(searchFacetViewBean);
+                }
+            }
+        }
+        return searchFacetViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public List<SearchFacetViewBean> buildListViewBeanCatalogSearchFacet(final RequestData requestData, final ProductSkuResponseBean productMarketingResponseBean) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        
+        final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
+        final List<FacetField> facetFields = productMarketingResponseBean.getProductSkuSolrFacetFieldList();
+        for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
+            FacetField facetField = (FacetField) iterator.next();
+            if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_CATEGORIE_CODES.equalsIgnoreCase(facetField.getName())) {
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
+                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    searchFacetViewBeans.add(searchFacetViewBean);
+                }
+                
+            } else if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_OPTION_DEFINITION_CODES.equalsIgnoreCase(facetField.getName())) {
+                
+                // GROUP SKU OPTIONS BY TYPE
+                Map<String, List<SearchFacetValueBean>> skuOptionsByType = new HashMap<String, List<SearchFacetValueBean>>();
+                for (Iterator<Count> iteratorFacetField = facetField.getValues().iterator(); iteratorFacetField.hasNext();) {
+                    Count value = (Count) iteratorFacetField.next();
+                    String skuOptionDefinitionCode = value.getName();
+                    final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode);
+                    if(productSkuOptionDefinition != null && productSkuOptionDefinition.getOptionDefinitionType() != null){
+                        String key = productSkuOptionDefinition.getOptionDefinitionType().getI18nName(localizationCode);
+                        List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
+                        if(skuOptions == null){
+                            skuOptions = new ArrayList<SearchFacetValueBean>();
+                        }
+                        SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), productSkuOptionDefinition.getOptionDefinitionType().getCode(), value.getCount());                
+                        skuOptions.add(valueBean);
+                        skuOptionsByType.put(key, skuOptions);
+                    }
+                }
+                
+                for (Iterator<String> iteratorSkuOption = skuOptionsByType.keySet().iterator(); iteratorSkuOption.hasNext();) {
+                    String key = (String) iteratorSkuOption.next();
+
+                    final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
+                    searchFacetViewBean.setCode(facetField.getName());
+                    searchFacetViewBean.setName(key);
+
+                    List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
+                    for(SearchFacetValueBean valueBean : skuOptions){
+                        searchFacetViewBean.addValue(valueBean);
+                    }
+                    if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                        searchFacetViewBeans.add(searchFacetViewBean);
+                    }
+                }
+                
+            } else if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())) {
+                SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
+                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    searchFacetViewBeans.add(searchFacetViewBean);
+                }
+
+            }else if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
                 if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
                     searchFacetViewBeans.add(searchFacetViewBean);

@@ -187,6 +187,9 @@ public class ProductMarketingSolrService extends AbstractSolrService {
             }
         }
 
+        if (StringUtils.isEmpty(searchQuery)) {
+            throw new IllegalArgumentException("SearchQuery field can not be Empty or Blank!");
+        }
         solrQuery.setQuery(searchQuery);
 
         if (facetFields != null && !facetFields.isEmpty()) {
