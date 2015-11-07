@@ -29,6 +29,7 @@ public class FetchPlanGraphOrder {
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shippingAddress.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.payments.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.states.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.currency.getName()));
 
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName()));

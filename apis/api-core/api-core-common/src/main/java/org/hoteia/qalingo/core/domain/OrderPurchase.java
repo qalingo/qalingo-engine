@@ -98,6 +98,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     @JoinColumn(name = "ORDER_ID")
     private Set<OrderDocument> documents = new HashSet<OrderDocument>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderState.class)
+    @JoinColumn(name="ORDER_ID")
+    private Set<OrderState> states = new HashSet<OrderState>();
+    
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -237,6 +241,14 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     
     public void setDocuments(Set<OrderDocument> documents) {
         this.documents = documents;
+    }
+    
+    public Set<OrderState> getStates() {
+        return states;
+    }
+    
+    public void setStates(Set<OrderState> states) {
+        this.states = states;
     }
     
 	public Date getDateCreate() {
