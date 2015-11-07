@@ -107,7 +107,7 @@ public class User extends AbstractEntity<User> {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
     
-    @Column(name = "phone")
+    @Column(name = "PHONE")
     private String phone;
     
     @Column(name = "MOBILE")
