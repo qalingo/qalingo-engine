@@ -660,7 +660,7 @@
 			<dependency>
 				<groupId>com.maxmind.db</groupId>
 				<artifactId>maxmind-db</artifactId>
-				<version>0.3.1</version>
+				<version>1.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.maxmind.geoip2</groupId>
