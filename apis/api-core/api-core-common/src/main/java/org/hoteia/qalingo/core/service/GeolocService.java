@@ -283,7 +283,7 @@ public class GeolocService {
     
     protected String cleanGoogleAddress(String value){
         if(StringUtils.isNotEmpty(value)){
-            value = CoreUtil.replaceCharactersNotLetterOrDigit(value, ",");
+            value = CoreUtil.replaceCharactersNotLetterOrDigit(value, "+");
         }
         return value;
     }
