@@ -1785,9 +1785,10 @@ public class RequestUtil {
             // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
             GeolocDataCity geolocDataCity = geolocData.getCity();
             GeolocDataCountry geolocDataCountry = geolocData.getCountry();
-            if(geolocDataCity != null
-                    && geolocDataCountry != null){
-                GeolocCity geolocCity = null;
+            if(geolocDataCity != null && geolocDataCountry != null){
+                geolocData.setCountry(geolocDataCountry);
+                geolocData.setCity(geolocDataCity);
+                GeolocCity geolocCity;
                 if(geolocDataCity.getName() != null){
                     geolocCity = geolocService.getGeolocCityByCityAndCountry(geolocDataCity.getName(), geolocDataCountry.getName());
                 } else {
