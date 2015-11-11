@@ -9,23 +9,12 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_ORDER_ITEM")
@@ -186,6 +175,19 @@ public class OrderItem extends AbstractEntity<OrderItem> {
         totalAmount = totalAmount.multiply(new BigDecimal(quantity));
         return totalAmount;
     }
+
+    public String getPriceWithStandardCurrencySign(final Long marketAreaId) {
+        return getCurrency().formatPriceWithStandardCurrencySign(price);
+    }
+
+    public BigDecimal getTotalAmountCartItem() {
+        return price.multiply(new BigDecimal(quantity));
+    }
+
+    public String getTotalAmountWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(price.multiply(new BigDecimal(quantity)));
+    }
+
 
     @Override
     public int hashCode() {
