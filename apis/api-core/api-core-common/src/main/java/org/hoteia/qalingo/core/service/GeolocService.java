@@ -56,6 +56,13 @@ import com.maxmind.geoip2.record.Country;
 public class GeolocService {
     
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    protected final String GOOGLE_GEOCODING_GEO_CODE_OK               = "OK";
+    protected final String GOOGLE_GEOCODING_GEO_CODE_ZERO_RESULTS     = "ZERO_RESULTS";
+    protected final String GOOGLE_GEOCODING_GEO_CODE_OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
+    protected final String GOOGLE_GEOCODING_GEO_CODE_REQUEST_DENIED   = "REQUEST_DENIED";
+    protected final String GOOGLE_GEOCODING_GEO_CODE_INVALID_REQUEST  = "INVALID_REQUEST";
+    protected final String GOOGLE_GEOCODING_GEO_CODE_UNKNOWN_ERROR    = "UNKNOWN_ERROR";
     
     @Autowired
     protected EmailService emailService;
@@ -78,8 +85,8 @@ public class GeolocService {
         GeolocCity geolocCity = null;
         String addressParam = encodeGoogleAddress(null, null, city, country);
         GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
-        if(geoCode != null && "OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
-            logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+        if(geoCode != null && GOOGLE_GEOCODING_GEO_CODE_OVER_QUERY_LIMIT.equals(geoCode.getStatus())){
+            logger.error("API Geoloc returns message " + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocCity;
         }
@@ -122,8 +129,8 @@ public class GeolocService {
         GoogleGeoCode geoCode = geolocGoogleWithAddress(formatedAddress);
         
         // SANITY CHECK
-        if(geoCode != null && "OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
-            logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+        if(geoCode != null && GOOGLE_GEOCODING_GEO_CODE_OVER_QUERY_LIMIT.equals(geoCode.getStatus())){
+            logger.error("API Geoloc returns message " + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
         }
@@ -133,7 +140,7 @@ public class GeolocService {
             geolocAddress.setLongitude(geoCode.getLongitude());
             
          // SANITY CHECK
-            if(!"OK".equals(geoCode.getStatus())){
+            if(!GOOGLE_GEOCODING_GEO_CODE_OK.equals(geoCode.getStatus())){
                 logger.error("API Geoloc returns message" + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
                 engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
                 return geolocAddress;
@@ -148,8 +155,8 @@ public class GeolocService {
     public GeolocAddress geolocByLatitudeLongitude(final String latitude, final String longitude) {
         GeolocAddress geolocAddress = null;
         GoogleGeoCode geoCode = geolocGoogleWithLatitudeLongitude(latitude, longitude);
-        if(geoCode != null && "OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
-            logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
+        if(geoCode != null && GOOGLE_GEOCODING_GEO_CODE_OVER_QUERY_LIMIT.equals(geoCode.getStatus())){
+            logger.error("API Geoloc returns message " + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
         }
