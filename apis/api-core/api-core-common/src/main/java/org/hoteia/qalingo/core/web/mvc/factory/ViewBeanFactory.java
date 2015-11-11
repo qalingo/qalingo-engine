@@ -2209,6 +2209,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         ProductSkuTagViewBean productSkuTagViewBean = new ProductSkuTagViewBean();
+        if(productSkuTag.getId() != null){
+            productSkuTagViewBean.setId(productSkuTag.getId().toString());
+        }
         productSkuTagViewBean.setCode(productSkuTag.getCode());
         productSkuTagViewBean.setName(productSkuTag.getName());
         productSkuTagViewBean.setDescription(productSkuTag.getDescription());
@@ -2222,8 +2225,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public ProductSkuOptionDefinitionViewBean buildViewBeanProductSkuOptionDefinition(final RequestData requestData, final ProductSkuOptionDefinition productSkuOptionDefinition) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
-        
         ProductSkuOptionDefinitionViewBean productSkuOptionDefinitionViewBean = new ProductSkuOptionDefinitionViewBean();
+        if(productSkuOptionDefinition.getId() != null){
+            productSkuOptionDefinitionViewBean.setId(productSkuOptionDefinition.getId().toString());
+        }
         productSkuOptionDefinitionViewBean.setCode(productSkuOptionDefinition.getCode());
         productSkuOptionDefinitionViewBean.setName(productSkuOptionDefinition.getName());
         productSkuOptionDefinitionViewBean.setI18nName(productSkuOptionDefinition.getI18nName(localizationCode));
