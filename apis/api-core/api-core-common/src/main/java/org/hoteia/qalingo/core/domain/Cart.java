@@ -35,7 +35,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_CART")
-public class Cart extends AbstractEntity<Cart> {
+public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
 
     /**
      * Generated UID
@@ -96,6 +96,10 @@ public class Cart extends AbstractEntity<Cart> {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CartAttribute.class)
+    @JoinColumn(name = "CART_ID")
+    private Set<CartAttribute> attributes = new HashSet<CartAttribute>();
 
     public Cart() {
         this.dateCreate = new Date();
@@ -205,11 +209,9 @@ public class Cart extends AbstractEntity<Cart> {
     }
 
     public void deleteCartItem(CartItem cartItemToDelete) {
-        if (cartItems != null
-                && Hibernate.isInitialized(cartItems)) {
+        if (cartItems != null && Hibernate.isInitialized(cartItems)) {
             Set<CartItem> checkedCartItems = new HashSet<CartItem>(cartItems);
-            for (Iterator<CartItem> iterator = checkedCartItems.iterator(); iterator.hasNext();) {
-                CartItem cartItem = (CartItem) iterator.next();
+            for (CartItem cartItem : checkedCartItems) {
                 if (cartItem != null && cartItem.getProductSku().equals(cartItemToDelete.getProductSku())) {
                     cartItems.remove(cartItem);
                 }
@@ -218,8 +220,7 @@ public class Cart extends AbstractEntity<Cart> {
     }
 
     public int getTotalCartItems() {
-        if (cartItems != null
-                && Hibernate.isInitialized(cartItems)) {
+        if (cartItems != null && Hibernate.isInitialized(cartItems)) {
             return cartItems.size();
         }
         return 0;
@@ -260,11 +261,9 @@ public class Cart extends AbstractEntity<Cart> {
     public BigDecimal getDeliveryMethodTotal() {
         final Set<DeliveryMethod> deliveryMethods = getDeliveryMethods();
         BigDecimal cartDeliveryMethodTotal = new BigDecimal("0");
-        if (deliveryMethods != null
-                && Hibernate.isInitialized(deliveryMethods)) {
-            for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
-                final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-                if(deliveryMethod != null){
+        if (deliveryMethods != null && Hibernate.isInitialized(deliveryMethods)) {
+            for (final DeliveryMethod deliveryMethod : deliveryMethods) {
+                if (deliveryMethod != null) {
                     BigDecimal price = deliveryMethod.getPrice(getCurrency().getId());
                     if (price != null) {
                         cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(price);
@@ -283,8 +282,7 @@ public class Cart extends AbstractEntity<Cart> {
         BigDecimal cartItemsTotal = new BigDecimal("0");
         if (cartItems != null
                 && Hibernate.isInitialized(cartItems)) {
-            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-                final CartItem cartItem = (CartItem) iterator.next();
+            for (final CartItem cartItem : cartItems) {
                 cartItemsTotal = cartItemsTotal.add(cartItem.getTotalAmountCartItem(getMarketAreaId()));
             }
         }
@@ -302,9 +300,7 @@ public class Cart extends AbstractEntity<Cart> {
         BigDecimal cartFeesTotal = new BigDecimal("0");
         final Set<Tax> taxes = getTaxes();
         if (taxes != null && Hibernate.isInitialized(taxes)) {
-            for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
-                final Tax tax = (Tax) iterator.next();
-
+            for (final Tax tax : taxes) {
                 // TODO TAX can be only on product or deliveyMethod or both
 
                 BigDecimal taxesCalc = getDeliveryMethodTotal();
@@ -330,6 +326,14 @@ public class Cart extends AbstractEntity<Cart> {
 
     public String getCartTotalWithStandardCurrencySign() {
         return getCurrency().formatPriceWithStandardCurrencySign(getCartTotal());
+    }
+
+    public Set<CartAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Set<CartAttribute> attributes) {
+        this.attributes = attributes;
     }
 
     public void copyTransient(Cart cart) {

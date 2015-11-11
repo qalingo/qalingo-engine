@@ -12,14 +12,10 @@ package org.hoteia.qalingo.core.fetchplan.order;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
-
-import org.hoteia.qalingo.core.domain.OrderPurchase_;
-import org.hoteia.qalingo.core.domain.OrderItem_;
-import org.hoteia.qalingo.core.domain.OrderShipment_;
-import org.hoteia.qalingo.core.domain.ProductSku_;
 
 public class FetchPlanGraphOrder {
 
@@ -27,7 +23,10 @@ public class FetchPlanGraphOrder {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.billingAddress.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shippingAddress.getName()));
+
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.payments.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.payments.getName() + "." + OrderPayment_.attributes.getName()));
+
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.states.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.currency.getName()));

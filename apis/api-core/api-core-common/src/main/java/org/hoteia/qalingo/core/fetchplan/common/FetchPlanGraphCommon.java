@@ -31,6 +31,8 @@ public class FetchPlanGraphCommon {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode(Cart_.currency.getName()));
+        fetchplans.add(new SpecificFetchMode(Cart_.attributes.getName()));
+
         fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName()));
 
         fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.catalogCategory.getName()));
@@ -44,6 +46,7 @@ public class FetchPlanGraphCommon {
         fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productSku.getName() + "." + ProductSku_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productSku.getName() + "." + ProductSku_.assets.getName()));
         fetchplans.add(new SpecificFetchMode(Cart_.cartItems.getName() + "." + CartItem_.productSku.getName() + "." + ProductSku_.prices.getName()));
+
 
         return new FetchPlan(fetchplans);
     }
