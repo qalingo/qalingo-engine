@@ -162,8 +162,8 @@ public class GeolocService {
             geolocAddress.setLongitude(longitude);
             
             // SANITY CHECK : DON'T SAVE AN ADDRESS WHICH ALREADY EXIST BUT WAS LOCATED WITH LAT/LONG DIFFERENT
-            GeolocAddress geolocGeolocAddress = geolocDao.getGeolocAddressByFormatedAddress(formatedAdress);
-            if(geolocGeolocAddress == null){
+            Long rowCount = geolocDao.countGeolocAddressByFormatedAddress(formatedAdress);
+            if(rowCount != null && rowCount.intValue() == 0){
                 geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);
             }
             
@@ -316,6 +316,10 @@ public class GeolocService {
         return geolocDao.getGeolocAddressByLatitudeAndLongitude(latitude, longitude, params);
     }
 
+    public Long countGeolocAddressByFormatedAddress(final String formatedAddress) {
+        return geolocDao.countGeolocAddressByFormatedAddress(formatedAddress);
+    }
+    
     public GeolocAddress saveOrUpdateGeolocAddress(final GeolocAddress geolocCity) {
         return geolocDao.saveOrUpdateGeolocAddress(geolocCity);
     }

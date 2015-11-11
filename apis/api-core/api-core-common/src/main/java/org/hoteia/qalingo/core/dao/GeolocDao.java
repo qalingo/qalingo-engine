@@ -10,11 +10,15 @@
 package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.GeolocAddress;
 import org.hoteia.qalingo.core.domain.GeolocCity;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +105,7 @@ public class GeolocDao extends AbstractGenericDao {
             FetchPlan fetchPlan = handleSpecificFetchMode(criteria);
             
             criteria.add(Restrictions.eq("formatedAddress", formatedAddress));
+            
             GeolocAddress geolocAddress = (GeolocAddress) criteria.uniqueResult();
             if(geolocAddress != null){
                 geolocAddress.setFetchPlan(fetchPlan);
@@ -131,6 +136,16 @@ public class GeolocDao extends AbstractGenericDao {
         return null;
     }
 	
+    public Long countGeolocAddressByFormatedAddress(String formatedAddress) {
+        Criteria criteria = createDefaultCriteria(GeolocAddress.class);
+        criteria.setProjection(Projections.rowCount());
+        
+        criteria.add(Restrictions.eq("formatedAddress", formatedAddress));
+        
+        Long rowCount = (Long) criteria.uniqueResult();
+        return rowCount;
+    }
+    
 	public GeolocAddress saveOrUpdateGeolocAddress(final GeolocAddress geolocAddress) {
 		if(geolocAddress.getDateCreate() == null){
 			geolocAddress.setDateCreate(new Date());

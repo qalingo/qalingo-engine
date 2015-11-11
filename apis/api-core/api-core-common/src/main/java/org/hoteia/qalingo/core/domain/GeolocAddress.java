@@ -45,7 +45,7 @@ public class GeolocAddress extends AbstractEntity<GeolocAddress> {
     @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "FORMATED_ADDRESS")
+    @Column(name = "FORMATED_ADDRESS", unique = true, nullable = false)
     private String formatedAddress;
     
     @Column(name = "POSTAL_CODE")
