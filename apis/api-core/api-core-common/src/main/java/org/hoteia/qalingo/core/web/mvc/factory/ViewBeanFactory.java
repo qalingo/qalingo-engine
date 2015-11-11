@@ -374,8 +374,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public OurCompanyViewBean buildViewBeanOurCompany(final RequestData requestData) throws Exception {
-        final OurCompanyViewBean ourCompany = new OurCompanyViewBean();
-        return ourCompany;
+        return new OurCompanyViewBean();
     }
 
     /**
@@ -439,7 +438,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         menuViewBean = new MenuViewBean();
         menuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_product_comment_label", locale));
         menuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestData));
-        menuViewBean.setOrdering(ordering++);
+        menuViewBean.setOrdering(ordering);
         customerLinks.add(menuViewBean);
 
         return customerLinks;
@@ -451,16 +450,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public List<MarketPlaceViewBean> buildListViewBeanMarketPlace(final RequestData requestData) throws Exception {
         List<MarketPlaceViewBean> marketPlaceViewBeans = new ArrayList<MarketPlaceViewBean>();
         final List<MarketPlace> marketPlaceList = marketService.findMarketPlaces();
-        for (Iterator<MarketPlace> iteratorMarketPlace = marketPlaceList.iterator(); iteratorMarketPlace.hasNext();) {
-            final MarketPlace marketPlaceNavigation = (MarketPlace) iteratorMarketPlace.next();
-            
+        for (final MarketPlace marketPlaceNavigation : marketPlaceList) {
             // TODO : why : SET A RELOAD OBJECT MARKET -> event
             // LazyInitializationException: could not initialize proxy - no Session
             final Market reloadedMarket = marketService.getMarketById(marketPlaceNavigation.getDefaultMarket().getId().toString());
             final MarketArea defaultMarketArea = marketService.getMarketAreaByCode(reloadedMarket.getDefaultMarketArea().getCode());
             final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
             final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
-            
+
             RequestData requestDataForThisMarketPlace = new RequestData();
             BeanUtils.copyProperties(requestData, requestDataForThisMarketPlace);
             requestDataForThisMarketPlace.setMarketPlace(marketPlaceNavigation);
@@ -468,7 +465,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             requestDataForThisMarketPlace.setMarketArea(defaultMarketArea);
             requestDataForThisMarketPlace.setMarketAreaLocalization(defaultLocalization);
             requestDataForThisMarketPlace.setMarketAreaRetailer(defaultRetailer);
-            
+
             marketPlaceViewBeans.add(buildViewBeanMarketPlace(requestDataForThisMarketPlace, marketPlaceNavigation));
         }
         return marketPlaceViewBeans;
@@ -494,13 +491,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<MarketViewBean> buildListViewBeanMarket(final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
         List<MarketViewBean> marketViewBeans = new ArrayList<MarketViewBean>();
-        for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {
-            final Market marketNavigation = (Market) iteratorMarket.next();
+        for (final Market marketNavigation : markets) {
             // TODO : why : SET A RELOAD OBJECT MARKET -> event
             // LazyInitializationException: could not initialize proxy - no Session
             final Market marketNavigationReloaded = marketService.getMarketById(marketNavigation.getId().toString());
-            
-            if(marketNavigationReloaded.getDefaultMarketArea() != null){
+
+            if (marketNavigationReloaded.getDefaultMarketArea() != null) {
                 // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
                 final MarketArea defaultMarketArea = marketService.getMarketAreaByCode(marketNavigationReloaded.getDefaultMarketArea().getCode());
                 final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
@@ -514,11 +510,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 requestDataForThisMarket.setMarketAreaRetailer(defaultRetailer);
 
                 marketViewBeans.add(buildViewBeanMarket(requestDataForThisMarket, marketNavigationReloaded));
-                
+
             } else {
                 marketViewBeans.add(buildViewBeanMarket(requestData, marketNavigationReloaded));
             }
-            
+
         }
         return marketViewBeans;
     }
@@ -545,14 +541,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         List<MarketAreaViewBean> marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
         final MarketArea currentMarketArea = requestData.getMarketArea();
         if(marketAreas != null){
-            for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
-                final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
-                
+            for (final MarketArea marketArea : marketAreas) {
                 // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
                 final Market reloadedMarket = marketService.getMarketByCode(marketArea.getMarket().getCode());
                 // RELOAD THE MARKETPLACE TO KEEP AN ENTITY WITH RIGHT FETCHS
                 final MarketPlace reloadedMarketPlace = marketService.getMarketPlaceByCode(reloadedMarket.getMarketPlace().getCode());
-                
+
                 final MarketArea reloadedMarketArea = marketService.getMarketAreaByCode(marketArea.getCode());
                 final Localization defaultLocalization = reloadedMarketArea.getDefaultLocalization();
                 final Retailer defaultRetailer = reloadedMarketArea.getDefaultRetailer();
@@ -566,9 +560,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 requestDataForThisMarketArea.setMarketAreaLocalization(defaultLocalization);
                 requestDataForThisMarketArea.setMarketAreaRetailer(defaultRetailer);
                 requestDataForThisMarketArea.setMarketAreaCurrency(defaultCurrency);
-                
+
                 MarketAreaViewBean marketAreaViewBean = buildViewBeanMarketArea(requestDataForThisMarketArea, marketArea);
-                if(marketAreaViewBean.getCode().equalsIgnoreCase(currentMarketArea.getCode())){
+                if (marketAreaViewBean.getCode().equalsIgnoreCase(currentMarketArea.getCode())) {
                     marketAreaViewBean.setActive(true);
                 }
                 marketAreaViewBeans.add(marketAreaViewBean);
@@ -609,12 +603,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final MarketArea marketArea = requestData.getMarketArea();
         final List<Localization> translationAvailables = new ArrayList<Localization>(marketArea.getLocalizations());
         List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
-        for (Iterator<Localization> iterator = translationAvailables.iterator(); iterator.hasNext();) {
-            final Localization localizationAvailable = (Localization) iterator.next();
+        for (final Localization localizationAvailable : translationAvailables) {
             localizationViewBeans.add(buildViewBeanLocalization(requestData, localizationAvailable));
         }
-        for (Iterator<LocalizationViewBean> iterator = localizationViewBeans.iterator(); iterator.hasNext();) {
-            final LocalizationViewBean localizationViewBean = (LocalizationViewBean) iterator.next();
+        for (final LocalizationViewBean localizationViewBean : localizationViewBeans) {
             localizationViewBean.setActive(false);
             if (localizationViewBean.getCode().equals(currentLocalization.getCode())) {
                 localizationViewBean.setActive(true);
@@ -673,8 +665,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public List<CurrencyReferentialViewBean> buildListViewBeanCurrenciesByMarketArea(final RequestData requestData) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final List<CurrencyReferential> currencies = new ArrayList<CurrencyReferential>(marketArea.getCurrencies());
-        List<CurrencyReferentialViewBean> retailerViewBeans = buildListViewBeanCurrencyReferential(requestData, currencies);
-        return retailerViewBeans;
+        return buildListViewBeanCurrencyReferential(requestData, currencies);
     }
 
     /**
@@ -683,8 +674,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public List<CurrencyReferentialViewBean> buildListViewBeanCurrencyReferential(final RequestData requestData, final List<CurrencyReferential> currencyReferentials) throws Exception {
         final List<CurrencyReferentialViewBean> currencyReferentialViewBeans = new ArrayList<CurrencyReferentialViewBean>();
         if (currencyReferentials != null) {
-            for (Iterator<CurrencyReferential> iterator = currencyReferentials.iterator(); iterator.hasNext();) {
-                CurrencyReferential currencyReferential = (CurrencyReferential) iterator.next();
+            for (CurrencyReferential currencyReferential : currencyReferentials) {
                 currencyReferentialViewBeans.add(buildViewBeanCurrencyReferential(requestData, currencyReferential));
             }
         }
@@ -729,18 +719,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public List<RetailerViewBean> buildListViewBeanRetailerByMarketArea(final RequestData requestData) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
-        List<RetailerViewBean> retailerViewBeans = buildListViewBeanRetailer(requestData, retailers);
-        return retailerViewBeans;
+        return buildListViewBeanRetailer(requestData, retailers);
     }
 
     /**
      * 
      */
     public List<RetailerViewBean> buildListViewBeanRetailer(final RequestData requestData, final List<Retailer> retailers) throws Exception {
-        List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
+        List<RetailerViewBean> retailerViewBeans;
         retailerViewBeans = new ArrayList<RetailerViewBean>();
-        for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-            final Retailer retailer = (Retailer) iterator.next();
+        for (final Retailer retailer : retailers) {
             retailerViewBeans.add(buildViewBeanRetailer(requestData, retailer));
         }
         return retailerViewBeans;
@@ -750,7 +738,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
+//        final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
@@ -773,8 +761,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         String logo = retailerService.buildRetailerLogoWebPath(retailer.getLogo());
         retailerViewBean.setImg(logo);
         
-        if (Hibernate.isInitialized(retailer.getAddresses()) 
-                && retailer.getAddresses() != null) {
+        if (Hibernate.isInitialized(retailer.getAddresses()) && retailer.getAddresses() != null) {
             RetailerAddress defaultAddress = retailer.getDefaultAddress();
             if (defaultAddress != null) {
                 retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
@@ -815,8 +802,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         Set<RetailerCustomerComment> customerComments = retailer.getCustomerComments();
         if (Hibernate.isInitialized(customerComments) &&
                 customerComments != null) {
-            for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-                RetailerCustomerComment customerComment = (RetailerCustomerComment) iterator.next();
+            for (RetailerCustomerComment customerComment : customerComments) {
                 RetailerCustomerCommentViewBean customerCommentViewBean = buildViewBeanRetailerCustomerComment(requestData, retailer, customerComment);
                 retailerViewBean.getComments().add(customerCommentViewBean);
             }
@@ -838,10 +824,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         // STORES
         Set<Store> stores = retailer.getStores();
-        if (Hibernate.isInitialized(stores) &&
-                stores != null) {
-            for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
-                Store store = (Store) iterator.next();
+        if (Hibernate.isInitialized(stores) && stores != null) {
+            for (Store store : stores) {
                 StoreViewBean storeViewBean = buildViewBeanStore(requestData, store);
                 retailerViewBean.getStores().add(storeViewBean);
             }
@@ -850,8 +834,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final String contextNameValue = requestUtil.getCurrentContextNameValue();
         List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
         if (shareOptions != null) {
-            for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
-                String shareOption = (String) iterator.next();
+            for (String shareOption : shareOptions) {
                 String relativeUrl = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer);
                 ShareOptionViewBean shareOptionViewBean = buildViewBeanShareOption(requestData, shareOption, relativeUrl);
                 retailerViewBean.getShareOptions().add(shareOptionViewBean);
@@ -885,8 +868,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<RetailerCustomerCommentViewBean> buildListViewBeanRetailerCustomerComments(final RequestData requestData, final List<RetailerCustomerComment> customerComments) throws Exception {
         final List<RetailerCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<RetailerCustomerCommentViewBean>();
-        for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-            RetailerCustomerComment customerComment = (RetailerCustomerComment) iterator.next();
+        for (RetailerCustomerComment customerComment : customerComments) {
             customerCommentViewBeans.add(buildViewBeanRetailerCustomerComment(requestData, customerComment.getRetailer(), customerComment));
         }
         return customerCommentViewBeans;
@@ -924,7 +906,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (customerComment.getCustomer() != null) {
             reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
         }
-        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+//        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
         reviewDataVocabulary.setDescription(customerComment.getComment());
@@ -940,8 +922,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<StoreViewBean> buildListViewBeanStore(final RequestData requestData, final List<Store> stores) throws Exception {
         List<StoreViewBean> storeViewBeans = new ArrayList<StoreViewBean>();
-        for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
-            final Store store = (Store) iterator.next();
+        for (final Store store : stores) {
             storeViewBeans.add(buildViewBeanStore(requestData, store));
         }
         return storeViewBeans;
@@ -996,8 +977,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // ASSETS
         if (Hibernate.isInitialized(store.getAssets()) && store.getAssets() != null) {
-            for (Iterator<Asset> iterator = store.getAssets().iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
+            for (Asset asset : store.getAssets()) {
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
                 final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
                 assetViewBean.setRelativeWebPath(path);
@@ -1039,11 +1019,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // BUSINESS HOUR
         Set<StoreBusinessHour> storeBusinessHours = store.getBusinessHours();
-        if (Hibernate.isInitialized(storeBusinessHours) 
-                && storeBusinessHours != null) {
+        if (Hibernate.isInitialized(storeBusinessHours) && storeBusinessHours != null) {
             List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = new ArrayList<StoreBusinessHourViewBean>();
-            for (Iterator<StoreBusinessHour> iterator = storeBusinessHours.iterator(); iterator.hasNext();) {
-                StoreBusinessHour storeBusinessHour = (StoreBusinessHour) iterator.next();
+            for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
                 StoreBusinessHourViewBean storeBusinessHourViewBean = buildViewBeanStoreBusinessHour(requestData, storeBusinessHour);
                 storeBusinessHourViewBeans.add(storeBusinessHourViewBean);
             }
@@ -1063,12 +1041,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // ASSETS
         Set<Asset> assets = store.getAssets();
-        if (Hibernate.isInitialized(assets) 
-                && assets != null) {
+        if (Hibernate.isInitialized(assets) && assets != null) {
             List<String> sliders = new ArrayList<String>();
-            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                Asset assetSlideshow = (Asset) iterator.next();
-                if(AssetType.SLIDESHOW.getPropertyKey().equals(assetSlideshow.getType())){
+            for (Asset assetSlideshow : assets) {
+                if (AssetType.SLIDESHOW.getPropertyKey().equals(assetSlideshow.getType())) {
                     final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(assetSlideshow);
                     sliders.add(iconImage);
                 }
@@ -1131,8 +1107,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<StoreCustomerCommentViewBean> buildListViewBeanStoreCustomerComments(final RequestData requestData, final List<StoreCustomerComment> customerComments) throws Exception {
         final List<StoreCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<StoreCustomerCommentViewBean>();
-        for (Iterator<StoreCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-            StoreCustomerComment customerComment = (StoreCustomerComment) iterator.next();
+        for (StoreCustomerComment customerComment : customerComments) {
             customerCommentViewBeans.add(buildViewBeanStoreCustomerComment(requestData, customerComment.getStore(), customerComment));
         }
         return customerCommentViewBeans;
@@ -1169,7 +1144,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (customerComment.getCustomer() != null) {
             reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
         }
-        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+//        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
@@ -1192,8 +1167,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (shareOptionCode.contains(":")) {
             String[] shareOptionAddInfo = shareOptionCode.split(":");
             shareOptionCode = shareOptionAddInfo[0];
-            for (int i = 0; i < shareOptionAddInfo.length; i++) {
-                String addInfo = (String) shareOptionAddInfo[i];
+            for (String aShareOptionAddInfo : shareOptionAddInfo) {
+                String addInfo = (String) aShareOptionAddInfo;
                 if (addInfo.contains("#")) {
                     shareOptionColor = addInfo;
                 }
@@ -1239,24 +1214,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
             if (customer.getGroups() != null && Hibernate.isInitialized(customer.getGroups())) {
                 final Set<CustomerGroup> groups = customer.getGroups();
-                for (Iterator<CustomerGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
-                    CustomerGroup group = (CustomerGroup) iteratorGroup.next();
+                for (CustomerGroup group : groups) {
                     String keyCustomerGroup = group.getCode();
                     String valueCustomerGroup = group.getName();
                     customerViewBean.getGroups().put(keyCustomerGroup, valueCustomerGroup);
 
                     if (group.getRoles() != null && Hibernate.isInitialized(group.getRoles())) {
                         final Set<CustomerRole> roles = group.getRoles();
-                        for (Iterator<CustomerRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
-                            CustomerRole role = (CustomerRole) iteratorRole.next();
+                        for (CustomerRole role : roles) {
                             String keyCustomerRole = role.getCode();
                             String valueCustomerRole = role.getName();
                             customerViewBean.getRoles().put(keyCustomerRole, valueCustomerRole);
 
                             if (role.getPermissions() != null && Hibernate.isInitialized(role.getPermissions())) {
                                 final Set<CustomerPermission> permissions = role.getPermissions();
-                                for (Iterator<CustomerPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
-                                    CustomerPermission permission = (CustomerPermission) iteratorPermission.next();
+                                for (CustomerPermission permission : permissions) {
                                     String keyCustomerPermission = permission.getCode();
                                     String valueCustomerPermission = permission.getName();
                                     customerViewBean.getPermissions().put(keyCustomerPermission, valueCustomerPermission);
@@ -1268,16 +1240,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
             
             if (customer.getConnectionLogs() != null && Hibernate.isInitialized(customer.getConnectionLogs())) {
-                int count = 0;
                 DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-                for (Iterator<CustomerConnectionLog> iteratorCustomerConnectionLog = customer.getSortedConnectionLogs().iterator(); iteratorCustomerConnectionLog.hasNext();) {
-                    CustomerConnectionLog connectionLog = (CustomerConnectionLog) iteratorCustomerConnectionLog.next();
-                    if(count == 0){
-                        if (connectionLog.getLoginDate() != null) {
-                            customerViewBean.setLastConnectionDate(dateFormat.format(connectionLog.getLoginDate()));
-                        } else {
-                            customerViewBean.setLastConnectionDate(Constants.NOT_AVAILABLE);
-                        }
+                for (CustomerConnectionLog connectionLog : customer.getSortedConnectionLogs()) {
+                    if (connectionLog.getLoginDate() != null) {
+                        customerViewBean.setLastConnectionDate(dateFormat.format(connectionLog.getLoginDate()));
+                    } else {
+                        customerViewBean.setLastConnectionDate(Constants.NOT_AVAILABLE);
                     }
                     CustomerConnectionLogValueBean connectionLogValueBean = new CustomerConnectionLogValueBean();
                     connectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
@@ -1298,8 +1266,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
 
             if (customer.getAddresses() != null && Hibernate.isInitialized(customer.getAddresses())) {
-                for (Iterator<CustomerAddress> iteratorGroup = customer.getAddresses().iterator(); iteratorGroup.hasNext();) {
-                    CustomerAddress address = (CustomerAddress) iteratorGroup.next();
+                for (CustomerAddress address : customer.getAddresses()) {
                     customerViewBean.getAddresses().add(buildViewBeanCustomeAddress(requestData, address));
                 }
             }
@@ -1351,8 +1318,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         customerAddressListViewBean.setBackUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         final Set<CustomerAddress> addresses = customer.getAddresses();
         if(Hibernate.isInitialized(addresses) && addresses != null){
-            for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
-                CustomerAddress customerAddress = (CustomerAddress) iterator.next();
+            for (CustomerAddress customerAddress : addresses) {
                 customerAddressListViewBean.getCustomerAddressList().add(buildViewBeanCustomeAddress(requestData, customerAddress));
             }
         }
@@ -1414,8 +1380,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<ProductBrandViewBean> buildListViewBeanProductBrand(final RequestData requestData, final List<ProductBrand> productBrands) throws Exception {
         final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
-        for (Iterator<ProductBrand> iterator = productBrands.iterator(); iterator.hasNext();) {
-            ProductBrand productBrand = (ProductBrand) iterator.next();
+        for (ProductBrand productBrand : productBrands) {
             productBrandViewBeans.add(buildViewBeanProductBrand(requestData, productBrand));
         }
         return productBrandViewBeans;
@@ -1448,16 +1413,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (Hibernate.isInitialized(productBrand.getAttributes()) && productBrand.getAttributes() != null) {
             List<ProductBrandAttribute> globalAttributes = productBrand.getGlobalAttributes();
             if(globalAttributes != null){
-                for (Iterator<ProductBrandAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                for (ProductBrandAttribute attribute : globalAttributes) {
                     productBrandViewBean.getGlobalAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
                 }
             }
 
             List<ProductBrandAttribute> marketAreaAttributes = productBrand.getMarketAreaAttributes(marketArea.getId());
             if(marketAreaAttributes != null){
-                for (Iterator<ProductBrandAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-                    ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                for (ProductBrandAttribute attribute : marketAreaAttributes) {
                     productBrandViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
                 }
             }
@@ -1465,8 +1428,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // ASSETS
         if (Hibernate.isInitialized(productBrand.getAssets()) && productBrand.getAssets() != null) {
-            for (Iterator<Asset> iterator = productBrand.getAssets().iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
+            for (Asset asset : productBrand.getAssets()) {
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
                 final String path = engineSettingService.getProductBrandImageWebPath(asset);
                 assetViewBean.setRelativeWebPath(path);
@@ -1486,10 +1448,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // TAGS
         Set<ProductBrandTag> tags = productBrand.getTags();
-        if (Hibernate.isInitialized(tags) &&
-                tags != null) {
-            for (Iterator<ProductBrandTag> iterator = tags.iterator(); iterator.hasNext();) {
-                ProductBrandTag productBrandTag = (ProductBrandTag) iterator.next();
+        if (Hibernate.isInitialized(tags) && tags != null) {
+            for (ProductBrandTag productBrandTag : tags) {
                 ProductBrandTagViewBean productBrandTagViewBean = new ProductBrandTagViewBean();
                 productBrandTagViewBean.setCode(productBrandTag.getCode());
                 productBrandTagViewBean.setName(productBrandTag.getName());
@@ -1508,8 +1468,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public ProductBrandViewBean buildViewBeanProductBrand(final RequestData requestData, final ProductBrand productBrand, final List<ProductMarketing> productMarketings) throws Exception {
         final ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, productBrand);
-        for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
-            final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+        for (final ProductMarketing productMarketing : productMarketings) {
             final ProductSku productSku = productMarketing.getDefaultProductSku();
             CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
             productBrandViewBean.getProductMarketings().add(buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing, productSku));
@@ -1522,8 +1481,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<ProductBrandCustomerCommentViewBean> buildListViewBeanProductBrandCustomerComments(final RequestData requestData, final List<ProductBrandCustomerComment> customerComments) throws Exception {
         final List<ProductBrandCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductBrandCustomerCommentViewBean>();
-        for (Iterator<ProductBrandCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-            ProductBrandCustomerComment customerComment = (ProductBrandCustomerComment) iterator.next();
+        for (ProductBrandCustomerComment customerComment : customerComments) {
             customerCommentViewBeans.add(buildViewBeanProductBrandCustomerComment(requestData, customerComment.getProductBrand(), customerComment));
         }
         return customerCommentViewBeans;
@@ -1560,7 +1518,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (customerComment.getCustomer() != null) {
             reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
         }
-        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+//        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
@@ -1577,8 +1535,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<CatalogCategoryViewBean> buildListViewBeanMasterCatalogCategory(final RequestData requestData, final List<CatalogCategoryMaster> catalogCategories) throws Exception {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
-        for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
-            CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iterator.next();
+        for (CatalogCategoryMaster catalogCategory : catalogCategories) {
             catalogCategoryViewBeans.add(buildViewBeanMasterCatalogCategory(requestData, catalogCategory));
         }
         
@@ -1589,12 +1546,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory) throws Exception {
-        final CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory);
+        final CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategory);
         
         // PARENT CATEGORY
         if (catalogCategory != null && catalogCategory.getParentCatalogCategory() != null
                 && Hibernate.isInitialized(catalogCategory.getParentCatalogCategory())) {
-            catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getParentCatalogCategory()));
+            catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, catalogCategory.getParentCatalogCategory()));
         }
        
 //        // SUB CATEGORIES
@@ -1622,8 +1579,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<CatalogCategoryViewBean> buildListViewBeanVirtualCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories) throws Exception {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
-        for (Iterator<CatalogCategoryVirtual> iterator = catalogCategories.iterator(); iterator.hasNext();) {
-            CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iterator.next();
+        for (CatalogCategoryVirtual catalogCategory : catalogCategories) {
             catalogCategoryViewBeans.add(buildViewBeanVirtualCatalogCategory(requestData, catalogCategory));
         }
         return catalogCategoryViewBeans;
@@ -1633,16 +1589,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public CatalogCategoryViewBean buildViewBeanVirtualCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
-        final CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory);
+        final CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategory);
         if (catalogCategory != null && catalogCategory.getCategoryMaster() != null
                 && Hibernate.isInitialized(catalogCategory.getCategoryMaster())) {
-            catalogCategoryViewBean.setMasterCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getCategoryMaster()));
+            catalogCategoryViewBean.setMasterCategory(buildViewBeanCatalogCategory(requestData, catalogCategory.getCategoryMaster()));
         }
         
         // PARENT CATEGORY
         if (catalogCategory != null && catalogCategory.getParentCatalogCategory() != null
                 && Hibernate.isInitialized(catalogCategory.getParentCatalogCategory())) {
-            catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategory.getParentCatalogCategory()));
+            catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanCatalogCategory(requestData, catalogCategory.getParentCatalogCategory()));
         }
        
 //        // SUB CATEGORIES
@@ -1692,16 +1648,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             if (Hibernate.isInitialized(catalogCategory.getAttributes()) && catalogCategory.getAttributes() != null) {
                 List<AbstractAttribute> globalAttributes = catalogCategory.getGlobalAttributes();
                 if(globalAttributes != null){
-                    for (Iterator<AbstractAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-                        AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+                    for (AbstractAttribute attribute : globalAttributes) {
                         catalogCategoryViewBean.getGlobalAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
                     }
                 }
 
                 List<AbstractAttribute> marketAreaAttributes = catalogCategory.getMarketAreaAttributes(marketArea.getId());
                 if(marketAreaAttributes != null){
-                    for (Iterator<AbstractAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-                        AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+                    for (AbstractAttribute attribute : marketAreaAttributes) {
                         catalogCategoryViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
                     }
                 }
@@ -1709,8 +1663,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             
             // ASSETS
             if (Hibernate.isInitialized(catalogCategory.getAssets()) && catalogCategory.getAssets() != null) {
-                for (Iterator<Asset> iterator = catalogCategory.getAssets().iterator(); iterator.hasNext();) {
-                    Asset asset = (Asset) iterator.next();
+                for (Asset asset : (Iterable<Asset>) catalogCategory.getAssets()) {
                     AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
                     final String path = engineSettingService.getCatalogImageWebPath(asset);
                     assetViewBean.setRelativeWebPath(path);
@@ -1738,8 +1691,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
             final List<AbstractCatalogCategory> subCategories = catalogCategory.getSortedChildCatalogCategories();
             if (subCategories != null) {
-                for (Iterator<AbstractCatalogCategory> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
-                    final AbstractCatalogCategory subcatalogCategoryVirtual = (AbstractCatalogCategory) iteratorSubcatalogCategoryVirtual.next();
+                for (final AbstractCatalogCategory subcatalogCategoryVirtual : subCategories) {
                     subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, subcatalogCategoryVirtual));
                 }
             }
@@ -1748,8 +1700,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             // PRODUCTS
             final List<ProductSku> productSkus = catalogCategory.getSortedProductSkus();
             if (productSkus != null) {
-                for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
-                    final ProductSku productSku = (ProductSku) iteratorProductMarketing.next();
+                for (final ProductSku productSku : productSkus) {
                     final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
                     final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
                     ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing, reloadedProductSku);
@@ -1769,8 +1720,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<ProductMarketingViewBean> buildListViewBeanProductMarketing(final RequestData requestData, final List<ProductMarketing> productMarketings) throws Exception {
         final List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
-        for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
-            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+        for (ProductMarketing productMarketing : productMarketings) {
             productMarketingViewBeans.add(buildViewBeanProductMarketing(requestData, productMarketing));
         }
         return productMarketingViewBeans;
@@ -1791,8 +1741,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Set<ProductSku> skus = productMarketing.getProductSkus();
         if (Hibernate.isInitialized(skus) && skus != null) {
             List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
-            for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
-                final ProductSku productSkuIt = (ProductSku) iterator.next();
+            for (final ProductSku productSkuIt : skus) {
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuIt.getCode());
                 productSkus.add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
             }
@@ -1803,8 +1752,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         final Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
         if (Hibernate.isInitialized(productAssociationLinks) && productAssociationLinks != null) {
-            for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
-                final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
+            for (final ProductAssociationLink productAssociationLink : productAssociationLinks) {
                 if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
                     final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductSku().getProductMarketing().getCode());
                     productMarketingViewBean.getProductAssociationLinks().add(buildViewBeanProductAssociationLink(requestData, catalogCategory, reloadedAssociatedProductMarketing));
@@ -1848,16 +1796,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // ATTRIBUTES
         List<ProductMarketingAttribute> globalAttributes = productMarketing.getGlobalAttributes();
         if(globalAttributes != null){
-            for (Iterator<ProductMarketingAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-                ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
+            for (ProductMarketingAttribute attribute : globalAttributes) {
                 productMarketingViewBean.getGlobalAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
             }
         }
 
         List<ProductMarketingAttribute> marketAreaAttributes = productMarketing.getMarketAreaAttributes(marketArea.getId());
         if(marketAreaAttributes != null){
-            for (Iterator<ProductMarketingAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-                ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
+            for (ProductMarketingAttribute attribute : marketAreaAttributes) {
                 productMarketingViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
             }
         }
@@ -1872,8 +1818,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // ASSETS
         if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null && !productMarketing.getAssets().isEmpty()) {
-            for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
+            for (Asset asset : productMarketing.getAssets()) {
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
                 final String path = engineSettingService.getProductMarketingImageWebPath(productMarketing, asset);
                 assetViewBean.setRelativeWebPath(path);
@@ -1908,8 +1853,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         // SKUS
         if (Hibernate.isInitialized(productMarketing.getProductSkus()) && productMarketing.getProductSkus() != null) {
-            for (Iterator<ProductSku> iterator = productMarketing.getProductSkus().iterator(); iterator.hasNext();) {
-                ProductSku productSku = (ProductSku) iterator.next();
+            for (ProductSku productSku : productMarketing.getProductSkus()) {
                 ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketingViewBean, productSku);
                 productMarketingViewBean.getProductSkus().add(productSkuViewBean);
             }
@@ -1933,8 +1877,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<ProductMarketingCustomerCommentViewBean> buildListViewBeanProductMarketingCustomerComments(final RequestData requestData, final List<ProductMarketingCustomerComment> customerComments) throws Exception {
         final List<ProductMarketingCustomerCommentViewBean> customerCommentViewBeans = new ArrayList<ProductMarketingCustomerCommentViewBean>();
-        for (Iterator<ProductMarketingCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-            ProductMarketingCustomerComment customerComment = (ProductMarketingCustomerComment) iterator.next();
+        for (ProductMarketingCustomerComment customerComment : customerComments) {
             customerCommentViewBeans.add(buildViewBeanProductMarketingCustomerComment(requestData, customerComment.getProductMarketing(), customerComment));
         }
         return customerCommentViewBeans;
@@ -1971,7 +1914,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (customerComment.getCustomer() != null) {
             reviewDataVocabulary.setReviewer(customerComment.getCustomer().getScreenName());
         }
-        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+//        DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
         DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         reviewDataVocabulary.setDtreviewed(dateFormat.format(customerComment.getDateCreate()));
         // reviewDataVocabulary.setSummary(summary);
@@ -2098,8 +2041,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<ProductSkuViewBean> buildListViewBeanProductSku(final RequestData requestData, final List<ProductSku> productSkus) throws Exception {
         final List<ProductSkuViewBean> productSkuViewBeans = new ArrayList<ProductSkuViewBean>();
-        for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
-            ProductSku productSku = (ProductSku) iterator.next();
+        for (ProductSku productSku : productSkus) {
             productSkuViewBeans.add(buildViewBeanProductSku(requestData, productSku));
         }
         return productSkuViewBeans;
@@ -2124,7 +2066,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
+//        final Retailer retailer = requestData.getMarketAreaRetailer();
         
         final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
@@ -2185,16 +2127,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         List<ProductSkuAttribute> marketAreaAttributes = productSku.getMarketAreaAttributes(marketArea.getId());
         if(marketAreaAttributes != null){
-            for (Iterator<ProductSkuAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-                ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
+            for (ProductSkuAttribute attribute : marketAreaAttributes) {
                 productSkuViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), buildViewBeanAttributeValue(requestData, attribute));
             }
         }
             
          // ASSETS
         if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null && !productSku.getAssets().isEmpty()) {
-            for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
+            for (Asset asset : productSku.getAssets()) {
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
                 final String path = engineSettingService.getProductSkuImageWebPath(productSku, asset);
                 assetViewBean.setRelativeWebPath(path);
@@ -2222,22 +2162,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // SKU OPTIONS
         Set<ProductSkuOptionRel> optionRels = productSku.getOptionRels();
         if (Hibernate.isInitialized(optionRels) && optionRels != null) {
-            for (Iterator<ProductSkuOptionRel> iterator = optionRels.iterator(); iterator.hasNext();) {
-                ProductSkuOptionRel productSkuOptionRel = (ProductSkuOptionRel) iterator.next();
-                if (Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition()) 
+            for (ProductSkuOptionRel productSkuOptionRel : optionRels) {
+                if (Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition())
                         && productSkuOptionRel.getProductSkuOptionDefinition() != null) {
                     final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(productSkuOptionRel.getProductSkuOptionDefinition().getCode());
                     ProductSkuOptionDefinitionViewBean productSkuOptionDefinitionViewBean = new ProductSkuOptionDefinitionViewBean();
                     productSkuOptionDefinitionViewBean.setCode(productSkuOptionDefinition.getCode());
                     productSkuOptionDefinitionViewBean.setName(productSkuOptionDefinition.getI18nName(localizationCode));
-                    
-                    if (Hibernate.isInitialized(productSkuOptionDefinition.getOptionDefinitionType()) 
+
+                    if (Hibernate.isInitialized(productSkuOptionDefinition.getOptionDefinitionType())
                             && productSkuOptionDefinition.getOptionDefinitionType() != null) {
                         ProductSkuOptionDefinitionType productSkuOptionDefinitionType = productSkuOptionDefinition.getOptionDefinitionType();
                         productSkuOptionDefinitionViewBean.setTypeCode(productSkuOptionDefinitionType.getCode());
                         productSkuOptionDefinitionViewBean.setTypeName(productSkuOptionDefinitionType.getI18nName(localizationCode));
                     }
-                    
+
                     productSkuViewBean.getSkuOptionDefinitions().add(productSkuOptionDefinitionViewBean);
                 }
             }
@@ -2246,9 +2185,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // CATALOG CATEGORIES
         Set<CatalogCategoryVirtualProductSkuRel> catalogCategories = productSku.getCatalogCategoryVirtualProductSkuRels();
         if (Hibernate.isInitialized(catalogCategories) && catalogCategories != null) {
-            for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategories.iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
-                CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, (AbstractCatalogCategory) catalogCategoryVirtualProductSkuRel.getCatalogCategoryVirtual());
+            for (CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel : catalogCategories) {
+                CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtualProductSkuRel.getCatalogCategoryVirtual());
                 productSkuViewBean.getCatalogCategories().add(catalogCategoryViewBean);
             }
         }
@@ -2342,8 +2280,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         // ASSETS
         if (Hibernate.isInitialized(productMarketing.getAssets()) && productMarketing.getAssets() != null) {
-            for (Iterator<Asset> iterator = productMarketing.getAssets().iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
+            for (Asset asset : productMarketing.getAssets()) {
                 productAssociationLinkViewBean.getAssets().add(buildViewBeanAsset(requestData, asset));
             }
         }
@@ -2356,8 +2293,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public CartViewBean buildViewBeanCart(final RequestData requestData, final Cart cart) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
+//        final MarketArea marketArea = requestData.getMarketArea();
+//        final Retailer retailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
         
         List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
@@ -2384,8 +2321,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             // ITEMS PART
             List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
             Set<CartItem> cartItems = cart.getCartItems();
-            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-                final CartItem cartItem = (CartItem) iterator.next();
+            for (final CartItem cartItem : cartItems) {
                 cartItemViewBeans.add(buildViewBeanCartItem(requestData, cartItem, productSkuFetchPlan));
             }
             cartViewBean.setCartItems(cartItemViewBeans);
@@ -2394,13 +2330,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             final List<CartDeliveryMethodViewBean> cartDeliveryMethodViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
             final Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
             if (deliveryMethods != null) {
-                for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
-                    final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-                    if(deliveryMethod != null){
+                for (final DeliveryMethod deliveryMethod : deliveryMethods) {
+                    if (deliveryMethod != null) {
                         final CartDeliveryMethodViewBean cartDeliveryMethodViewBean = new CartDeliveryMethodViewBean();
                         cartDeliveryMethodViewBean.setLabel(deliveryMethod.getName());
                         cartDeliveryMethodViewBean.setAmountWithCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
-                        Object[] params = { deliveryMethod.getName() };
+                        Object[] params = {deliveryMethod.getName()};
                         cartDeliveryMethodViewBean.setLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
                         cartDeliveryMethodViewBeans.add(cartDeliveryMethodViewBean);
                     }
@@ -2458,8 +2393,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         // ASSETS
         if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
-            for (Iterator<Asset> iterator = productSku.getAssets().iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
+            for (Asset asset : productSku.getAssets()) {
                 AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
                 final String path = engineSettingService.getProductSkuImageWebPath(asset);
                 assetViewBean.setRelativeWebPath(path);
@@ -2504,8 +2438,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<OrderViewBean> buildListViewBeanOrder(final RequestData requestData, final List<OrderPurchase> orders) throws Exception {
         final List<OrderViewBean> orderViewBeans = new ArrayList<OrderViewBean>();
-        for (Iterator<OrderPurchase> iterator = orders.iterator(); iterator.hasNext();) {
-            OrderPurchase order = (OrderPurchase) iterator.next();
+        for (OrderPurchase order : orders) {
             orderViewBeans.add(buildViewBeanOrder(requestData, order));
         }
         return orderViewBeans;
@@ -2517,27 +2450,26 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public OrderViewBean buildViewBeanOrder(final RequestData requestData, final OrderPurchase order) throws Exception {
         final Locale locale = requestData.getLocale();
         final OrderViewBean orderViewBean = new OrderViewBean();
-        orderViewBean.setOrderNum(order.getOrderNum());
-        
         if (order != null) {
+            orderViewBean.setOrderNum(order.getOrderNum());
+
             if (order.getExpectedDeliveryDate() != null) {
                 orderViewBean.setExpectedDeliveryDate(buildCommonFormatDate(requestData, order.getExpectedDeliveryDate()));
             } else {
                 orderViewBean.setExpectedDeliveryDate(Constants.NOT_AVAILABLE);
             }
-            
+
             if (order.getDateCreate() != null) {
                 orderViewBean.setDateCreate(buildCommonFormatDate(requestData, order.getDateCreate()));
             }
             if (order.getDateUpdate() != null) {
                 orderViewBean.setDateUpdate(buildCommonFormatDate(requestData, order.getDateUpdate()));
             }
-            
+
             // ITEMS PART
             final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
             final Set<OrderItem> orderItems = order.getOrderItems();
-            for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
-                OrderItem orderItem = (OrderItem) iterator.next();
+            for (OrderItem orderItem : orderItems) {
                 orderItemViewBeans.add(buildViewBeanOrderItem(requestData, orderItem));
             }
             orderViewBean.setOrderItems(orderItemViewBeans);
@@ -2546,10 +2478,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
             final Set<OrderShipment> orderShipments = order.getShipments();
             if (Hibernate.isInitialized(orderShipments) && orderShipments != null) {
-                for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
-                    final OrderShipment orderShipment = (OrderShipment) iterator.next();
+                for (final OrderShipment orderShipment : orderShipments) {
                     final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
-                    Object[] params = { orderShipment.getName() };
+                    Object[] params = {orderShipment.getName()};
                     orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
                     orderShippingViewBeans.add(orderShippingViewBean);
                 }
@@ -2560,10 +2491,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
             final Set<OrderTax> orderTaxes = order.getOrderTaxes();
             if (Hibernate.isInitialized(orderTaxes) && orderTaxes != null) {
-                for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
-                    final OrderTax orderTax = (OrderTax) iterator.next();
+                for (final OrderTax orderTax : orderTaxes) {
                     final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
-                    Object[] params = { orderTax.getAmount() };
+                    Object[] params = {orderTax.getAmount()};
                     orderTaxViewBean.setOrderTaxTotal(order.getCurrency().formatPriceWithStandardCurrencySign(orderTax.getAmount()));
                     orderTaxViewBean.setOrderTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
                     orderTaxViewBeans.add(orderTaxViewBean);
@@ -2706,8 +2636,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         final Set<PaymentGatewayOption> paymentGatewayOptions = paymentGateway.getOptions();
         if(Hibernate.isInitialized(paymentGatewayOptions) && paymentGatewayOptions != null){
-            for (Iterator<PaymentGatewayOption> iterator = paymentGatewayOptions.iterator(); iterator.hasNext();) {
-                PaymentGatewayOption paymentGatewayOption = (PaymentGatewayOption) iterator.next();
+            for (PaymentGatewayOption paymentGatewayOption : paymentGatewayOptions) {
                 paymentMethodViewBean.getPaymentMethodOptions().add(buildViewBeanPaymentMethodOption(requestData, paymentGatewayOption));
             }
         }
@@ -2766,24 +2695,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         if(user.getGroups() != null && Hibernate.isInitialized(user.getGroups())){
             final Set<UserGroup> groups = user.getGroups();
-            for (Iterator<UserGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
-                UserGroup group = (UserGroup) iteratorGroup.next();
+            for (UserGroup group : groups) {
                 String keyUserGroup = group.getCode();
                 String valueUserGroup = group.getName();
                 userViewBean.getGroups().put(keyUserGroup, valueUserGroup);
 
-                if(group.getRoles() != null && Hibernate.isInitialized(group.getRoles())){
+                if (group.getRoles() != null && Hibernate.isInitialized(group.getRoles())) {
                     final Set<UserRole> roles = group.getRoles();
-                    for (Iterator<UserRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
-                        UserRole role = (UserRole) iteratorRole.next();
+                    for (UserRole role : roles) {
                         String keyUserRole = role.getCode();
                         String valueUserRole = role.getName();
                         userViewBean.getRoles().put(keyUserRole, valueUserRole);
 
-                        if(role.getPermissions() != null && Hibernate.isInitialized(role.getPermissions())){
+                        if (role.getPermissions() != null && Hibernate.isInitialized(role.getPermissions())) {
                             final Set<UserPermission> permissions = role.getPermissions();
-                            for (Iterator<UserPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
-                                UserPermission permission = (UserPermission) iteratorPermission.next();
+                            for (UserPermission permission : permissions) {
                                 String keyUserPermission = permission.getCode();
                                 String valueUserPermission = permission.getName();
                                 userViewBean.getPermissions().put(keyUserPermission, valueUserPermission);
@@ -2796,8 +2722,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         if(user.getConnectionLogs() != null && Hibernate.isInitialized(user.getConnectionLogs())){
             final Set<UserConnectionLog> connectionLogs = user.getConnectionLogs();
-            for (Iterator<UserConnectionLog> iteratorUserConnectionLog = connectionLogs.iterator(); iteratorUserConnectionLog.hasNext();) {
-                UserConnectionLog connectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
+            for (UserConnectionLog connectionLog : connectionLogs) {
                 UserConnectionLogValueBean connectionLogValueBean = new UserConnectionLogValueBean();
                 DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
                 connectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
@@ -2829,8 +2754,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<UserViewBean> buildListViewBeanUser(final RequestData requestData, final List<User> users) throws Exception {
         final List<UserViewBean> userViewBeans = new ArrayList<UserViewBean>();
-        for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
-            User user = (User) iterator.next();
+        for (User user : users) {
             userViewBeans.add(buildViewBeanUser(requestData, user));
         }
         return userViewBeans;
@@ -2841,8 +2765,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<CompanyViewBean> buildListViewBeanCompany(final RequestData requestData, final List<Company> companies) throws Exception {
         final List<CompanyViewBean> companyViewBeans = new ArrayList<CompanyViewBean>();
-        for (Iterator<Company> iterator = companies.iterator(); iterator.hasNext();) {
-            Company company = (Company) iterator.next();
+        for (Company company : companies) {
             companyViewBeans.add(buildViewBeanCompany(requestData, company));
         }
         return companyViewBeans;
@@ -2930,9 +2853,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     }
     
     protected boolean menuIsActive(String currentUrl, List<String> scopeUrls){
-        for (Iterator<String> iterator = scopeUrls.iterator(); iterator.hasNext();) {
-            String scopeUrl = (String) iterator.next();
-            if(menuIsActive(currentUrl, scopeUrl)){
+        for (String scopeUrl : scopeUrls) {
+            if (menuIsActive(currentUrl, scopeUrl)) {
                 return true;
             }
         }
@@ -2940,10 +2862,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     }
     
     protected boolean menuIsActive(String currentUrl, String scopeUrl){
-        if(currentUrl.contains(scopeUrl)){
-            return true;
-        }
-        return false;
+        return currentUrl.contains(scopeUrl);
     }
     
     protected String buildCommonFormatDate(RequestData requestData, Date date) throws Exception {
