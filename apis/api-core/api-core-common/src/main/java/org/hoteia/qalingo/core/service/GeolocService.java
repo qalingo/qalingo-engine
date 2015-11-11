@@ -113,25 +113,33 @@ public class GeolocService {
     }
     
     public GeolocAddress geolocByAddress(final String address, final String postalCode, final String city, final String country){
-        GeolocAddress geolocAddress = null;
+        GeolocAddress geolocAddress = new GeolocAddress();
+        geolocAddress.setAddress(address);
+        geolocAddress.setPostalCode(postalCode);
+        geolocAddress.setCity(city);
+        geolocAddress.setCountry(country);
         String formatedAddress = encodeGoogleAddress(address, postalCode, city, country);
         GoogleGeoCode geoCode = geolocGoogleWithAddress(formatedAddress);
+        
+        // SANITY CHECK
         if(geoCode != null && "OVER_QUERY_LIMIT".equals(geoCode.getStatus())){
             logger.error("API Geoloc returns message OVER_QUERY_LIMIT: " + geoCode.getErrorMessage());
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
         }
         
-        if(geoCode != null) {
-            geolocAddress = new GeolocAddress();
-            geolocAddress.setAddress(address);
-            geolocAddress.setPostalCode(postalCode);
-            geolocAddress.setCity(city);
-            geolocAddress.setCountry(country);
-            geolocAddress.setJson(SerializationHelper.serialize(geoCode));
-            geolocAddress.setFormatedAddress(formatedAddress);
+        if(geoCode != null){
             geolocAddress.setLatitude(geoCode.getLatitude());
             geolocAddress.setLongitude(geoCode.getLongitude());
+            
+         // SANITY CHECK
+            if(!"OK".equals(geoCode.getStatus())){
+                logger.error("API Geoloc returns message" + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
+                engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
+                return geolocAddress;
+            }
+            geolocAddress.setJson(SerializationHelper.serialize(geoCode));
+            geolocAddress.setFormatedAddress(formatedAddress);
             geolocAddress = geolocDao.saveOrUpdateGeolocAddress(geolocAddress);
         }
         return geolocAddress;
