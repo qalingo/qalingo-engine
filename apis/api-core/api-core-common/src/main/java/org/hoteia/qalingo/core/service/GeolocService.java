@@ -399,22 +399,29 @@ public class GeolocService {
      * 
      */
     public City geolocAndGetCity(final String customerRemoteAddr) throws Exception {
-        try {
-            final InetAddress address = InetAddress.getByName(customerRemoteAddr);
-            
-            final DatabaseReader databaseReader = new DatabaseReader.Builder(getCityDataBase()).build();
+        if(StringUtils.isNotEmpty(customerRemoteAddr)){
+            if(!unknownValueList.contains(customerRemoteAddr)){
+                try {
+                    final InetAddress address = InetAddress.getByName(customerRemoteAddr);
+                    
+                    final DatabaseReader databaseReader = new DatabaseReader.Builder(getCityDataBase()).build();
 
-            final CityResponse cityResponse = databaseReader.city(address);
-            if(cityResponse != null){
-                return cityResponse.getCity();
-                
+                    final CityResponse cityResponse = databaseReader.city(address);
+                    if(cityResponse != null){
+                        return cityResponse.getCity();
+                    }
+                } catch (AddressNotFoundException e) {
+                    logger.warn("Geoloc city, can't find this address:" + customerRemoteAddr);
+                } catch (FileNotFoundException e) {
+                    logger.error("Geoloc city, can't find database MaxMind", e);
+                } catch (Exception e) {
+                    logger.error("Geoloc city, can't find this city with this address:" + customerRemoteAddr, e);
+                }
+            } else {
+                logger.debug("Geoloc city, can't find address (private navigation): '" + customerRemoteAddr + "'");
             }
-        } catch (AddressNotFoundException e) {
-            logger.warn("Geoloc city, can't find this address:" + customerRemoteAddr);
-        } catch (FileNotFoundException e) {
-            logger.error("Geoloc city, can't find database MaxMind", e);
-        } catch (Exception e) {
-            logger.error("Geoloc city, can't find this city with this address:" + customerRemoteAddr, e);
+        } else {
+            logger.debug("Geoloc city, can't find address, value is empty.");
         }
         return null;
     }
