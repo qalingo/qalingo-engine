@@ -90,9 +90,9 @@ import org.springframework.web.servlet.support.RequestContextUtils;
  * <p>
  * <a href="RequestUtilImpl.java.html"><i>View Source</i></a>
  * </p>
- * 
+ *
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
- * 
+ *
  */
 @Service("requestUtil")
 @Transactional
@@ -111,13 +111,13 @@ public class RequestUtil {
 
     @Value("${cookie.prefix}")
     protected String cookiePrefix;
-    
+
     @Autowired
     protected MarketService marketService;
 
     @Autowired
     protected CatalogCategoryService catalogCategoryService;
-    
+
     @Autowired
     protected ProductService productService;
 
@@ -126,40 +126,40 @@ public class RequestUtil {
 
     @Autowired
     protected LocalizationService localizationService;
-    
+
     @Autowired
     protected RetailerService retailerService;
-    
+
     @Autowired
     protected CurrencyReferentialService currencyReferentialService;
-    
+
     @Autowired
     protected ReferentialDataService referentialDataService;
-    
+
     @Autowired
     protected UserService userService;
-    
+
     @Autowired
     protected EngineSettingService engineSettingService;
-    
+
     @Autowired
     protected EngineSessionService engineSessionService;
-    
+
     @Autowired
     protected CartService cartService;
-    
+
     @Autowired
     protected GeolocService geolocService;
-    
+
     // Only used with Front-end, but autowired for many cases
     @Autowired(required = false)
     protected WURFLHolder wurflHolder;
-    
+
     @Autowired
     protected CoreMessageSource coreMessageSource;
-    
+
     /**
-     * 
+     *
      */
     public void handleFrontofficeUrlParameters(final HttpServletRequest request) throws Exception {
         UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
@@ -284,7 +284,7 @@ public class RequestUtil {
                             newMarketArea = market.getDefaultMarketArea();
                         }
                         newMarketArea = marketService.getMarketAreaByCode(newMarketArea.getCode());
-                        
+
                         engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, newMarketArea);
                         marketArea = engineEcoSession.getCurrentMarketArea();
                         updateCurrentTheme(request, newMarketArea.getTheme());
@@ -335,7 +335,7 @@ public class RequestUtil {
                             } else {
                                 engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, newRetailer);
                             }
-                            
+
                         } else if (currency != null && !currency.getCode().toString().equalsIgnoreCase(currencyCode)) {
                             // CHANGE THE CURRENCY
                             CurrencyReferential newCurrency = marketArea.getCurrency(currencyCode);
@@ -364,7 +364,7 @@ public class RequestUtil {
     }
 
     /**
-    * 
+    *
     */
     public void handleBackofficeUrlParameters(final HttpServletRequest request) throws Exception {
         UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
@@ -378,7 +378,7 @@ public class RequestUtil {
         EngineBoSession engineBoSession = getCurrentBoSession(request);
 
         engineBoSession = checkEngineBoSession(request);
-        
+
         MarketPlace currentMarketPlace = engineBoSession.getCurrentMarketPlace();
         if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localizationCode)) {
             if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
@@ -422,7 +422,7 @@ public class RequestUtil {
                     } else {
                         engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
                     }
-                    
+
                     // CURRENCY
                     CurrencyReferential currency = marketArea.getCurrency(currencyCode);
                     if (currency == null) {
@@ -468,7 +468,7 @@ public class RequestUtil {
                     } else {
                         engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
                     }
-                    
+
                     // CURRENCY
                     CurrencyReferential currency = marketArea.getCurrency(currencyCode);
                     if (currency == null) {
@@ -507,7 +507,7 @@ public class RequestUtil {
                         } else {
                             engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
                         }
-                        
+
                         // CURRENCY
                         CurrencyReferential currency = newMarketArea.getCurrency(currencyCode);
                         if (currency == null) {
@@ -538,7 +538,7 @@ public class RequestUtil {
                             } else {
                                 engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, newRetailer);
                             }
-                            
+
                         } else if (currency != null && !currency.getCode().toString().equalsIgnoreCase(currencyCode)) {
                             // CHANGE THE CURRENCY
                             CurrencyReferential newCurrency = marketArea.getCurrency(currencyCode);
@@ -574,30 +574,35 @@ public class RequestUtil {
         // SAVE THE ENGINE SESSION
         updateCurrentBoSession(request, engineBoSession);
     }
-   
+
     /**
 	 *
 	 */
     public boolean isLocalHostMode(final HttpServletRequest request) throws Exception {
-        if (StringUtils.isNotEmpty(getHost(request)) && (getHost(request).contains("localhost") || getHost(request).equalsIgnoreCase("127.0.0.1"))) {
-            return true;
-        }
-        return false;
+        return isLocalHostMode(getHost(request));
+    }
+    public boolean isLocalHostMode(final String address) throws Exception {
+        return StringUtils.isNotEmpty(address) && (
+                address.contains("localhost")
+                        || address.equalsIgnoreCase("127.0.0.1")
+                        || address.startsWith("192.168.")
+                        || address.startsWith("10.")
+        );
     }
 
     /**
 	 *
 	 */
     public String getHost(final HttpServletRequest request) throws Exception {
-        return (String) request.getHeader(Constants.HOST);
+        return request.getHeader(Constants.HOST);
     }
 
     /**
-     * 
+     *
      */
     public String getRemoteAddr(final HttpServletRequest request){
         String customerRemoteAddr = request.getRemoteAddr();
-        String xForwardedFor = request.getHeader(Constants.X_FORWARDED_FOR);        
+        String xForwardedFor = request.getHeader(Constants.X_FORWARDED_FOR);
         if(StringUtils.isNotEmpty(xForwardedFor)){
             customerRemoteAddr = xForwardedFor;
             if(xForwardedFor.contains(",")){
@@ -608,7 +613,7 @@ public class RequestUtil {
         }
         return customerRemoteAddr;
     }
-    
+
     /**
 	 *
 	 */
@@ -635,7 +640,7 @@ public class RequestUtil {
 	 */
     public DateFormat getCommonFormatDate(final RequestData requestData, final Integer dateStyle, final Integer timeStyle) throws Exception {
         final Locale locale = requestData.getLocale();
-        DateFormat formatter = null;
+        DateFormat formatter;
         if(timeStyle != null){
             formatter = DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale);
         } else {
@@ -662,7 +667,7 @@ public class RequestUtil {
            return "yyyy-MM-dd";
        }
    }
-   
+
    /**
     *
     */
@@ -670,7 +675,7 @@ public class RequestUtil {
       SimpleDateFormat formatter = new SimpleDateFormat(getFormatDatePattern(requestData));
       return formatter;
   }
-   
+
     /**
 	 *
 	 */
@@ -688,7 +693,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public ClickstreamSession getClickstreamSession(final HttpServletRequest request) throws Exception {
         ClickstreamSession clickstream = (ClickstreamSession) request.getSession().getAttribute(Constants.ENGINE_CLICKSTREAM);
@@ -698,23 +703,23 @@ public class RequestUtil {
         }
         return clickstream;
     }
-    
+
     /**
-     * 
+     *
      */
     public void addClickstream(final HttpServletRequest request) throws Exception {
         ClickstreamSession clickstream = getClickstreamSession(request);
         Date lastRequest = new Date();
         clickstream.setLastRequest(lastRequest);
         clickstream.setHostname(request.getRemoteHost());
-        
+
         clickstream.getRequests().add(new ClickstreamRequest(request, lastRequest));
 
         request.getSession().setAttribute(Constants.ENGINE_CLICKSTREAM, clickstream);
     }
-    
+
     /**
-     * 
+     *
      */
     public String getLastRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
@@ -722,7 +727,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getRequestUrlAfterChangeContext(final HttpServletRequest request, final String fallbackUrl) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
@@ -732,16 +737,16 @@ public class RequestUtil {
         }
         return fallbackUrl;
     }
-    
+
     /**
-     * 
+     *
      */
     public String getCurrentRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
         return getRequestUrl(request, excludedPatterns, 0);
     }
 
     /**
-     * 
+     *
      */
     public String getCurrentRequestUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
         String currentUrl = getRequestUrl(request, new ArrayList<String>(), 0);
@@ -750,16 +755,16 @@ public class RequestUtil {
         }
         return fallbackUrl;
     }
-    
+
     /**
-     * 
+     *
      */
     public String getCurrentRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 0);
     }
 
     /**
-     * 
+     *
      */
     public String getCurrentRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
@@ -767,7 +772,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getLastRequestForEmptyCartUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
@@ -775,9 +780,9 @@ public class RequestUtil {
         String lastUrl = getLastRequestUrl(request, excludedPatterns, fallbackUrl);
         return lastUrl;
     }
-    
+
     /**
-     * 
+     *
      */
     public List<String> getCommonUrlExcludedPatterns() throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
@@ -797,16 +802,16 @@ public class RequestUtil {
         excludedPatterns.add("cachemanager.html");
         return excludedPatterns;
     }
-    
+
     /**
-     * 
+     *
      */
     public String getLastRequestUrl(final HttpServletRequest request, String fallbackUrl) throws Exception {
         return getLastRequestUrl(request, new ArrayList<String>(), fallbackUrl);
     }
-    
+
     /**
-     * 
+     *
      */
     public String getLastRequestUrl(final HttpServletRequest request, final List<String> moreExcludedPatterns, String fallbackUrl) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
@@ -819,58 +824,56 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getLastRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
         return getRequestUrl(request, excludedPatterns, 1);
     }
 
     /**
-     * 
+     *
      */
     public String getLastRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 1);
     }
-    
+
     /**
-     * 
+     *
      */
     public String getLastProductDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.PRODUCT_DETAILS.getUrlPatternKey());
     }
 
     /**
-     * 
+     *
      */
     public String getLastProductBrandDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.BRAND_DETAILS.getUrlPatternKey());
     }
-    
+
     /**
-     * 
+     *
      */
     public String getLastStoreDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.STORE_DETAILS.getUrlPatternKey());
     }
-    
+
     /**
-     * 
+     *
      */
     public String getLastRetailerDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.RETAILER_DETAILS.getUrlPatternKey());
     }
-    
+
     /**
-     * 
+     *
      */
     protected String getLastSpecificRequestUrl(final HttpServletRequest request, String pattern) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);
         final List<ClickstreamRequest> clickstreams = clickstreamSession.getRequests();
         if (clickstreams != null && !clickstreams.isEmpty()) {
-            Iterator<ClickstreamRequest> it = clickstreams.iterator();
-            while (it.hasNext()) {
-                ClickstreamRequest clickstream = (ClickstreamRequest) it.next();
+            for (ClickstreamRequest clickstream : clickstreams) {
                 String uri = clickstream.getRequestURI();
                 if (uri.endsWith(".html")) {
                     // TEST IF THE URL MATCH
@@ -887,29 +890,26 @@ public class RequestUtil {
         }
         return handleUrl(url);
     }
-    
+
     /**
-     * 
+     *
      */
     public String getRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns, int position) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);
-        
+
         final List<ClickstreamRequest> clickstreams = clickstreamSession.getRequests();
 
         if (clickstreams != null && !clickstreams.isEmpty()) {
             // Clean not html values or exluded patterns
             List<ClickstreamRequest> cleanClickstreams = new ArrayList<ClickstreamRequest>();
-            Iterator<ClickstreamRequest> it = clickstreams.iterator();
-            while (it.hasNext()) {
-                ClickstreamRequest clickstream = (ClickstreamRequest) it.next();
+            for (ClickstreamRequest clickstream : clickstreams) {
                 String uri = clickstream.getRequestURI();
                 if (uri.endsWith(".html")) {
                     // TEST IF THE URL IS EXCLUDE
                     CharSequence[] excludedPatternsCharSequence = excludedPatterns.toArray(new CharSequence[excludedPatterns.size()]);
                     boolean isExclude = false;
-                    for (int i = 0; i < excludedPatternsCharSequence.length; i++) {
-                        CharSequence string = excludedPatternsCharSequence[i];
+                    for (CharSequence string : excludedPatternsCharSequence) {
                         if (uri.contains(string)) {
                             isExclude = true;
                         }
@@ -921,10 +921,8 @@ public class RequestUtil {
             }
 
             if (cleanClickstreams.size() == 1) {
-                Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
-                while (itCleanClickstreams.hasNext()) {
-                    ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
-                	url = clickstream.getUriWithQueryString();
+                for (ClickstreamRequest clickstream : cleanClickstreams) {
+                    url = clickstream.getUriWithQueryString();
                 }
             } else {
                 Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
@@ -946,9 +944,9 @@ public class RequestUtil {
         }
         return handleUrl(url);
     }
-    
+
     /**
-     * 
+     *
      */
     public String getCurrentThemeResourcePrefixPath(final RequestData requestData) throws Exception {
         EngineSetting engineSetting = engineSettingService.getSettingThemeResourcePrefixPath();
@@ -974,7 +972,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public GeolocData getCurrentGeolocData(final HttpServletRequest request) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -982,14 +980,14 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getCurrentContextNameValue() throws Exception {
         return PropertiesUtil.getWebappContextKey(getContextName());
     }
 
     /**
-     * 
+     *
      */
     public String getCurrentVelocityWebPrefix(final RequestData requestData) throws Exception {
         String velocityPath = "/" + getCurrentTheme(requestData) + "/www/" + getCurrentDevice(requestData) + "/content/";
@@ -997,7 +995,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getCurrentVelocityEmailPrefix(final RequestData requestData) throws Exception {
         String velocityPath = "/" + getCurrentTheme(requestData) + "/email/";
@@ -1005,14 +1003,14 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected String handleUrl(String url) {
         return url;
     }
 
     /**
-     * 
+     *
      */
     public EngineEcoSession getCurrentEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = (EngineEcoSession) request.getSession().getAttribute(Constants.ENGINE_ECO_SESSION_OBJECT);
@@ -1020,7 +1018,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public EngineEcoSession updateCurrentEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
         setCurrentEcoSession(request, engineEcoSession);
@@ -1028,15 +1026,15 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void setCurrentEcoSession(final HttpServletRequest request, final EngineEcoSession engineEcoSession) throws Exception {
         request.getSession().setAttribute(Constants.ENGINE_ECO_SESSION_OBJECT, engineEcoSession);
     }
 
-    
+
     /**
-     * 
+     *
      */
     public EngineBoSession getCurrentBoSession(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = (EngineBoSession) request.getSession().getAttribute(Constants.ENGINE_BO_SESSION_OBJECT);
@@ -1044,51 +1042,51 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void updateCurrentBoSession(final HttpServletRequest request, final EngineBoSession engineBoSession) throws Exception {
         setCurrentBoSession(request, engineBoSession);
     }
 
     /**
-     * 
+     *
      */
     public void setCurrentBoSession(final HttpServletRequest request, final EngineBoSession engineBoSession) throws Exception {
         request.getSession().setAttribute(Constants.ENGINE_BO_SESSION_OBJECT, engineBoSession);
     }
 
     /**
-     * 
+     *
      */
     public void resetCurrentCart(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         engineEcoSession.resetCurrentCart();
         updateCurrentEcoSession(request, engineEcoSession);
     }
-    
+
     /**
-     * 
+     *
      */
     public void updateCurrentCart(final HttpServletRequest request, final Cart cart) throws Exception {
         // SAVE AND UPDATE THE ENGINE SESSION AT THE END
         EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
         engineEcoSessionWithTransientValues.updateCart(cart);
         engineEcoSessionWithTransientValues = engineSessionService.updateAndSynchronizeEngineEcoSession(engineEcoSessionWithTransientValues);
-        updateCurrentEcoSession(request, engineEcoSessionWithTransientValues); 
+        updateCurrentEcoSession(request, engineEcoSessionWithTransientValues);
     }
-    
+
     /**
-     * 
+     *
      */
     public void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
         engineEcoSessionWithTransientValues.deleteCurrentCart();
         engineSessionService.updateAndSynchronizeEngineEcoSession(engineEcoSessionWithTransientValues);
-        updateCurrentEcoSession(request, engineEcoSessionWithTransientValues); 
+        updateCurrentEcoSession(request, engineEcoSessionWithTransientValues);
     }
-    
+
     /**
-     * 
+     *
      */
     public OrderPurchase getLastOrder(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
@@ -1097,7 +1095,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void keepLastOrderInSession(final RequestData requestData, final OrderPurchase order) throws Exception {
         if (order != null) {
@@ -1109,7 +1107,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected MarketPlace getCurrentMarketPlace(final RequestData requestData) throws Exception {
         MarketPlace marketPlace = null;
@@ -1133,7 +1131,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected Market getCurrentMarket(final RequestData requestData) throws Exception {
         Market market = null;
@@ -1157,7 +1155,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected MarketArea getCurrentMarketArea(final RequestData requestData) throws Exception {
         MarketArea marketArea = null;
@@ -1181,7 +1179,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected Localization getCurrentMarketAreaLocalization(final RequestData requestData) throws Exception {
         Localization localization = null;
@@ -1201,9 +1199,9 @@ public class RequestUtil {
         setLocaleSpringContext(request, locale.toString());
         setSessionMarketAreaLocalization(session, localization);
     }
-    
+
     /**
-     * 
+     *
      */
     @Deprecated
     public void updateCurrentLocalization(final RequestData requestData, final Localization localization) throws Exception {
@@ -1233,15 +1231,15 @@ public class RequestUtil {
                     throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
                 }
                 localeResolver.setLocale(request, null, org.springframework.util.StringUtils.parseLocaleString(newLocale));
-                
+
             } catch (Exception e) {
                 logger.error("No LocaleResolver found: not in a DispatcherServlet request?");
             }
-        }   
+        }
     }
-    
+
     /**
-     * 
+     *
      */
     protected Retailer getCurrentMarketAreaRetailer(final RequestData requestData) throws Exception {
         Retailer retailer;
@@ -1263,7 +1261,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected CurrencyReferential getCurrentMarketAreaCurrency(final RequestData requestData) throws Exception {
         CurrencyReferential currencyReferential = null;
@@ -1285,7 +1283,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected Localization getCurrentBackofficeLocalization(final RequestData requestData) throws Exception {
         Localization localization = null;
@@ -1296,9 +1294,9 @@ public class RequestUtil {
         }
         return localization;
     }
-    
+
     /**
-     * 
+     *
      */
     protected Cart getCurrentCart(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -1310,9 +1308,9 @@ public class RequestUtil {
         newCart.copyTransient(cart);
         return newCart;
     }
-    
+
     /**
-     * 
+     *
      */
     protected Customer getCurrentCustomer(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -1331,7 +1329,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getCustomerAvatar(final HttpServletRequest request, final Customer customer) throws Exception {
         String customerAvatar = null;
@@ -1360,7 +1358,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public boolean hasKnownCustomerLogged(final HttpServletRequest request) throws Exception {
         final Customer customer = getCurrentCustomer(request);
@@ -1371,7 +1369,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public Long getCurrentCustomerId(final HttpServletRequest request) throws Exception {
         Customer customer = getCurrentCustomer(request);
@@ -1382,7 +1380,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getCurrentCustomerLogin(final HttpServletRequest request) throws Exception {
         EngineEcoSession session = getCurrentEcoSession(request);
@@ -1394,7 +1392,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void updateCurrentCustomer(final HttpServletRequest request, final Customer customer) throws Exception {
         if (customer != null) {
@@ -1405,7 +1403,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void cleanCurrentCustomer(final HttpServletRequest request) throws Exception {
         final EngineEcoSession session = getCurrentEcoSession(request);
@@ -1416,7 +1414,7 @@ public class RequestUtil {
 
 
     /**
-     * 
+     *
      */
     public User getCurrentUser(final HttpServletRequest request) throws Exception {
         EngineBoSession session = getCurrentBoSession(request);
@@ -1424,7 +1422,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void updateCurrentUser(final HttpServletRequest request, final User user) throws Exception {
         if (user != null) {
@@ -1436,9 +1434,9 @@ public class RequestUtil {
             updateCurrentBoSession(request, session);
         }
     }
-    
+
     /**
-     * 
+     *
      */
     public void cleanCurrentUser(final HttpServletRequest request) throws Exception {
         final EngineBoSession session = getCurrentBoSession(request);
@@ -1449,7 +1447,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public Company getCurrentCompany(final HttpServletRequest request) throws Exception {
         EngineBoSession session = getCurrentBoSession(request);
@@ -1466,9 +1464,9 @@ public class RequestUtil {
             }
         }
     }
-    
+
     /**
-     * 
+     *
      */
     public String getCurrentTheme(final RequestData requestData) throws Exception {
         String currenTheme = "";
@@ -1484,7 +1482,7 @@ public class RequestUtil {
                 currenTheme = engineEcoSession.getTheme();
             }
         }
-        
+
         // SANITY CHECK
         if (StringUtils.isEmpty(currenTheme)) {
             return "default";
@@ -1493,7 +1491,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void updateCurrentTheme(final HttpServletRequest request, final String theme) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -1504,7 +1502,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public String getCurrentDevice(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
@@ -1524,7 +1522,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public void updateCurrentDevice(final RequestData requestData, final String device) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
@@ -1544,12 +1542,12 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public RequestData getRequestData(final HttpServletRequest request) throws Exception {
         final RequestData requestData = new RequestData();
         requestData.setRequest(request);
-        
+
         String contextPath = "";
         if (request.getRequestURL().toString().contains("localhost") || request.getRequestURL().toString().contains("127.0.0.1")) {
             contextPath = contextPath + request.getContextPath() + "/";
@@ -1564,7 +1562,7 @@ public class RequestUtil {
             final Device device = manager.getDeviceForRequest(request);
             requestData.setDevice(device);
         }
-        
+
         // SPECIFIC BACKOFFICE
         if (requestData.isBackoffice()) {
             checkEngineBoSession(request);
@@ -1573,7 +1571,7 @@ public class RequestUtil {
             checkEngineEcoSession(request);
             requestData.setGeolocData(getCurrentGeolocData(request));
         }
-        
+
         requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(requestData));
 
         requestData.setMarketPlace(getCurrentMarketPlace(requestData));
@@ -1582,7 +1580,7 @@ public class RequestUtil {
         requestData.setMarketAreaLocalization(getCurrentMarketAreaLocalization(requestData));
         requestData.setMarketAreaRetailer(getCurrentMarketAreaRetailer(requestData));
         requestData.setMarketAreaCurrency(getCurrentMarketAreaCurrency(requestData));
-        
+
         // SPECIFIC BACKOFFICE
         if (requestData.isBackoffice()) {
             User user = getCurrentUser(request);
@@ -1603,7 +1601,7 @@ public class RequestUtil {
             if (customer != null) {
                 requestData.setCustomer(customer);
             }
-            
+
             // TODO : IMPROVE TOO MANY CALL
             requestData.setCart(getCurrentCart(request));
         }
@@ -1612,13 +1610,12 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     public EngineEcoSession handleGeolocLatitudeLongitude(final RequestData requestData, final String latitude, final String longitude) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        if (StringUtils.isNotEmpty(latitude)
-                && StringUtils.isNotEmpty(longitude)) {
+        if (StringUtils.isNotEmpty(latitude) && StringUtils.isNotEmpty(longitude)) {
             // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
             GeolocData geolocData = requestData.getGeolocData();
             if(geolocData == null){
@@ -1626,21 +1623,21 @@ public class RequestUtil {
                 geolocData.setLatitude(latitude);
                 geolocData.setLongitude(longitude);
             }
-            
+
             GeolocAddress geolocAddress = geolocService.getGeolocAddressByLatitudeAndLongitude(latitude, longitude);
             if (geolocAddress != null) {
                 geolocData.setLatitude(geolocAddress.getLatitude());
                 geolocData.setLongitude(geolocAddress.getLongitude());
-                
+
                 GeolocDataCountry geolocDataCountry = new GeolocDataCountry();
                 geolocDataCountry.setIsoCode(geolocAddress.getCountry());
                 geolocDataCountry.setName(referentialDataService.getCountryByLocale(geolocAddress.getCountry(), requestData.getLocale()));
                 geolocData.setCountry(geolocDataCountry);
-                
+
                 GeolocDataCity geolocDataCity = new GeolocDataCity();
                 geolocDataCity.setName(geolocAddress.getCity());
                 geolocData.setCity(geolocDataCity);
-                
+
             } else {
                 // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
                 geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
@@ -1649,11 +1646,11 @@ public class RequestUtil {
                     geolocDataCountry.setIsoCode(geolocAddress.getCountry());
                     geolocDataCountry.setName(referentialDataService.getCountryByLocale(geolocAddress.getCountry(), requestData.getLocale()));
                     geolocData.setCountry(geolocDataCountry);
-                    
+
                     GeolocDataCity geolocDataCity = new GeolocDataCity();
                     geolocDataCity.setName(geolocAddress.getCity());
                     geolocData.setCity(geolocDataCity);
-                    
+
                 }
             }
             engineEcoSession.setGeolocData(geolocData);
@@ -1661,7 +1658,7 @@ public class RequestUtil {
         }
         return engineEcoSession;
     }
-    
+
     protected UrlParameterMapping handleUrlParameters(final HttpServletRequest request) {
         UrlParameterMapping urlParameterMapping = new UrlParameterMapping();
         String marketPlaceCode = null;
@@ -1690,19 +1687,19 @@ public class RequestUtil {
             retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE);
             currencyCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE);
         }
-        
+
         urlParameterMapping.setMarketPlaceCode(marketPlaceCode);
         urlParameterMapping.setMarketCode(marketCode);
         urlParameterMapping.setMarketAreaCode(marketAreaCode);
         urlParameterMapping.setLocalizationCode(localizationCode);
         urlParameterMapping.setRetailerCode(retailerCode);
         urlParameterMapping.setCurrencyCode(currencyCode);
-        
+
         return urlParameterMapping;
     }
-    
+
     /**
-	 * 
+	 *
 	 */
     protected EngineEcoSession initEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = new EngineEcoSession();
@@ -1731,16 +1728,14 @@ public class RequestUtil {
         setCurrentEcoSession(request, engineEcoSession);
         String jSessionId = request.getSession().getId();
         engineEcoSession.setjSessionId(jSessionId);
-        
-        // STEP 2 - TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
-        engineEcoSession = checkGeolocData(request, engineEcoSession);
 
-        engineEcoSession = initEcoMarketPlace(request);
-        
+        // STEP 2 - TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
+        checkGeolocData(request, engineEcoSession);
+        initEcoMarketPlace(request);
         engineEcoSession = initCart(request);
-        
+
         engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
-        
+
         if(wurflHolder != null){
             try {
                 final WURFLManager manager = wurflHolder.getWURFLManager();
@@ -1756,12 +1751,12 @@ public class RequestUtil {
                 // NOTHING
             }
         }
-        
+
         return engineEcoSession;
     }
 
     /**
-     * 
+     *
      */
     protected EngineEcoSession checkGeolocData(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
         final String remoteAddress = getRemoteAddr(request);
@@ -1770,8 +1765,7 @@ public class RequestUtil {
             geolocData = geolocService.getGeolocData(remoteAddress);
             handleGeolocData(request, engineEcoSession, geolocData);
         } else {
-            if (StringUtils.isNotEmpty(geolocData.getRemoteAddress()) 
-                    && !geolocData.getRemoteAddress().equals(remoteAddress)) {
+            if (StringUtils.isNotEmpty(geolocData.getRemoteAddress()) && !geolocData.getRemoteAddress().equals(remoteAddress)) {
                 // IP ADDRESS HAS CHANGED - RELOAD
                 geolocData = geolocService.getGeolocData(remoteAddress);
                 handleGeolocData(request, engineEcoSession, geolocData);
@@ -1779,7 +1773,7 @@ public class RequestUtil {
         }
         return engineEcoSession;
     }
-    
+
     protected EngineEcoSession handleGeolocData(final HttpServletRequest request, EngineEcoSession engineEcoSession, final GeolocData geolocData) throws Exception {
         if (geolocData != null) {
             // FIND LATITUDE/LONGITUDE BY CITY/COUNTRY
@@ -1809,9 +1803,9 @@ public class RequestUtil {
         }
         return engineEcoSession;
     }
-    
+
     /**
-     * 
+     *
      */
     protected EngineEcoSession checkEngineEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -1848,7 +1842,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected EngineBoSession checkEngineBoSession(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = getCurrentBoSession(request);
@@ -1864,7 +1858,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected void initDefaultBoMarketPlace(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = getCurrentBoSession(request);
@@ -1891,7 +1885,7 @@ public class RequestUtil {
             }
         }
         updateCurrentLocalization(request, engineBoSession, localization);
-        
+
         Retailer retailer = marketArea.getDefaultRetailer();
         engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
 
@@ -1902,7 +1896,7 @@ public class RequestUtil {
     }
 
     /**
-	 * 
+	 *
 	 */
     protected EngineBoSession initBoSession(final HttpServletRequest request) throws Exception {
         final EngineBoSession engineBoSession = new EngineBoSession();
@@ -1956,7 +1950,7 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected EngineEcoSession initCart(final HttpServletRequest request) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -1971,7 +1965,7 @@ public class RequestUtil {
 
     /**
      * @throws Exception
-     * 
+     *
      */
     protected void resetCart(final HttpServletRequest request) throws Exception {
         // Reset Cart
@@ -1981,18 +1975,18 @@ public class RequestUtil {
     }
 
     /**
-     * 
+     *
      */
     protected MarketArea evaluateMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         MarketPlace marketPlace = null;
         Market market = null;
         MarketArea marketArea = null;
-        
+
         if(engineEcoSession == null){
-            initEcoSession(request);
+            engineEcoSession = initEcoSession(request);
         }
-        
+
         // STEP 1 - CHECK THE URL PARAMETERS
         UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
         String marketPlaceCode = urlParameterMapping.getMarketPlaceCode();
@@ -2018,22 +2012,21 @@ public class RequestUtil {
                 List<MarketArea> marketAreas = marketService.getMarketAreaOpenedByGeolocCountryCode(country.getIsoCode());
                 if(marketAreas != null && marketAreas.size() == 1){
                     marketAreaGeoloc = marketAreas.get(0);
-                } else {
+                } else if(marketAreas != null) {
                     // WE HAVE MANY MARKET AREA FOR THE CURRENT COUNTRY CODE - WE SELECT THE DEFAULT MARKET PLACE ASSOCIATE
-                    for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
-                        MarketArea marketAreaIt = (MarketArea) iterator.next();
-                        if(marketAreaIt.getMarket().getMarketPlace().isDefault()){
+                    for (MarketArea marketAreaIt : marketAreas) {
+                        if (marketAreaIt.getMarket().getMarketPlace().isDefault()) {
                             marketAreaGeoloc = marketAreaIt;
                         }
                     }
                 }
             }
         }
-        
+
         if (marketAreaGeoloc != null) {
             try {
                 market = marketService.getMarketByCode(marketAreaGeoloc.getMarket().getCode());
-                
+
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -2048,23 +2041,23 @@ public class RequestUtil {
         marketPlace = marketService.getDefaultMarketPlace();
         market = marketPlace.getDefaultMarket();
         marketArea = market.getDefaultMarketArea();
-        
+
         return marketArea;
     }
-    
+
     /**
-     * 
+     *
      */
     protected EngineEcoSession initEcoMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         MarketArea marketArea = evaluateMarketPlace(request);
-        
+
         Market market = marketArea.getMarket();
         // RELOAD TO AVOID LAZY EXCEPTION : marketArea.market.marketplace is not load if the marketplace came from a marketplace.market entity
         market = marketService.getMarketById(market.getId());
-        
+
         MarketPlace marketPlace = market.getMarketPlace();
-        
+
         engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, marketPlace);
         engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
         engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
@@ -2092,10 +2085,10 @@ public class RequestUtil {
         engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
 
         setCurrentEcoSession(request, engineEcoSession);
-        
-        return engineEcoSession; 
+
+        return engineEcoSession;
     }
-    
+
     protected AbstractEngineSession setSessionMarketPlace(final AbstractEngineSession session, final MarketPlace marketPlace){
         session.setCurrentMarketPlace(marketService.getMarketPlaceById(marketPlace.getId().toString()));
         return session;
@@ -2120,27 +2113,26 @@ public class RequestUtil {
         session.setCurrentMarketAreaRetailer(retailerService.getRetailerById(retailer.getId().toString()));
         return session;
     }
-    
+
     protected AbstractEngineSession setSessionMarketAreaCurrency(final AbstractEngineSession session, final CurrencyReferential currency){
         session.setCurrentMarketAreaCurrency(currencyReferentialService.getCurrencyReferentialById(currency.getId().toString()));
         return session;
     }
-    
+
     protected EngineEcoSession setSessionCustomer(final EngineEcoSession session, final Customer customer){
         session.setCurrentCustomer(customerService.getCustomerById(customer.getId().toString(), FetchPlanGraphCustomer.fullCustomerFetchPlan()));
         return session;
     }
-    
+
     /**
-     * @throws Exception 
-     * 
+     * @throws Exception
+     *
      */
     public String getAppName(HttpServletRequest request) throws Exception {
         final RequestData requestData = getRequestData(request);
         final Locale locale = requestData.getLocale();
         Object[] params = {StringUtils.capitalize(getApplicationName())};
-        String appName = coreMessageSource.getCommonMessage(ScopeCommonMessage.APP.getPropertyKey(), "name_text", params, locale);
-        return appName;
+        return coreMessageSource.getCommonMessage(ScopeCommonMessage.APP.getPropertyKey(), "name_text", params, locale);
     }
 
     /**
@@ -2151,26 +2143,24 @@ public class RequestUtil {
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
         if(cookies !=  null){
-	        for(int i = 0; i < cookies.length; i++) {
-	            info = cookies[i];
-	            if(getRecentProductsCookieName().equals(info.getName())) {
-	                found = true;
-	                break;
-	            }
-	        }
-        }   
+            for (Cookie cooky : cookies) {
+                info = cooky;
+                if (getRecentProductsCookieName().equals(info.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+        }
         List<String> cookieProductValues = new ArrayList<String>();
         if(found){
 	        try {
 	        	String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
-	        	if(StringUtils.isNotEmpty(value)
-	        	        && value.contains(catalogVirtualCode)){
+	        	if(StringUtils.isNotEmpty(value) && value.contains(catalogVirtualCode)){
 	        	    if(value.contains(Constants.PIPE)){
                         String[] splits = value.split(Constants.PIPE);
-                        for (int i = 0; i < splits.length; i++) {
-                            String splitValue = splits[i];
-                            if(splitValue.contains(catalogVirtualCode)){
-                                cookieProductValues.add(splits[i]);
+                        for (String splitValue : splits) {
+                            if (splitValue.contains(catalogVirtualCode)) {
+                                cookieProductValues.add(splitValue);
                             }
                         }
 	        	    } else {
@@ -2180,12 +2170,12 @@ public class RequestUtil {
             } catch (UnsupportedEncodingException e) {
                 logger.error("Cookie decode value", e);
             }
-        } 
+        }
         return cookieProductValues;
     }
-    
+
     public void addOrUpdateRecentProductToCookie(final HttpServletRequest request, final HttpServletResponse response,
-                                                    final String catalogCode, final String virtualCategoryCode, 
+                                                    final String catalogCode, final String virtualCategoryCode,
                                                     final String productMarketingCode, final String productSkuCode) throws Exception {
         Cookie info = null;
         String cookieProductValue = catalogCode + Constants.SEMI_COLON + virtualCategoryCode + Constants.SEMI_COLON + productMarketingCode + Constants.SEMI_COLON + productSkuCode;
@@ -2193,14 +2183,14 @@ public class RequestUtil {
         Boolean found = false;
         String domain = request.getServerName();
         if(cookies !=  null){
-	        for(int i=0; i < cookies.length; i++) {
-	            info = cookies[i];
-	            if(getRecentProductsCookieName().equals(info.getName())) {
-	                found = true;
-	                break;
-	            }
-	        }
-        }   
+            for (Cookie cooky : cookies) {
+                info = cooky;
+                if (getRecentProductsCookieName().equals(info.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+        }
         if(found){
         	Boolean flag = false;
         	String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
@@ -2210,21 +2200,21 @@ public class RequestUtil {
                     if(cookieProductValueIt.contains(Constants.SEMI_COLON)){
                         if(cookieProductValueIt.contains(cookieProductValue)){
                             flag = true;
-                        } 
+                        }
                     } else {
                         // VALUE DOESN'T CONTAIN SEMI COLON : CLEAN THE COOKIE - NON COMPATIBLE VALUE
                         info.setValue("");
                         info.setPath("/");
                         info.setMaxAge(Constants.COOKIES_LENGTH);
                         info.setDomain(domain);
-                        response.addCookie(info);               
+                        response.addCookie(info);
                     }
                 }
         	} else {
         		if(value.contains(Constants.SEMI_COLON)){
                     if(value.contains(cookieProductValue)){
                         flag = true;
-                    } 
+                    }
                 } else {
                     // VALUE DOESN'T CONTAIN SEMI COLON : CLEAN THE COOKIE - NON COMPATIBLE VALUE
                 	value = "";
@@ -2232,7 +2222,7 @@ public class RequestUtil {
                     info.setPath("/");
                     info.setMaxAge(Constants.COOKIES_LENGTH);
                     info.setDomain(domain);
-                    response.addCookie(info);               
+                    response.addCookie(info);
                 }
         	}
             if(!flag){
@@ -2245,8 +2235,8 @@ public class RequestUtil {
                 info.setPath("/");
                 info.setMaxAge(Constants.COOKIES_LENGTH);
                 info.setDomain(domain);
-                response.addCookie(info);               
-            } 
+                response.addCookie(info);
+            }
         } else {
 			info = new Cookie(getRecentProductsCookieName(), cookieProductValue);
             info.setPath("/");
@@ -2255,49 +2245,49 @@ public class RequestUtil {
 			response.addCookie(info);
         }
     }
-    
+
     /**
-     * @throws Exception 
-     * 
+     * @throws Exception
+     *
      */
     public String decodeRecentProductCookieVirtualCatalogCode(String cookieProductValue) throws Exception {
         String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
         return cookieProductValueSplit[0];
     }
-    
+
     /**
-     * @throws Exception 
-     * 
+     * @throws Exception
+     *
      */
     public String decodeRecentProductCookieVirtualCategoryCode(String cookieProductValue) throws Exception {
         String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
         return cookieProductValueSplit[1];
     }
-    
+
     /**
-     * @throws Exception 
-     * 
+     * @throws Exception
+     *
      */
     public String decodeRecentProductCookieProductMarketingCode(String cookieProductValue) throws Exception {
         String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
         return cookieProductValueSplit[2];
     }
-    
+
     /**
-     * @throws Exception 
-     * 
+     * @throws Exception
+     *
      */
     public String decodeRecentProductCookieProductSkuCode(String cookieProductValue) throws Exception {
         String[] cookieProductValueSplit = cookieProductValue.split(Constants.SEMI_COLON);
         return cookieProductValueSplit[3];
     }
-    
+
     protected String getEngineSessionIdCookieName(){
         return cookiePrefix + Constants.COOKIE_ECO_ENGINE_SESSION_ID;
     }
-    
+
     protected String getRecentProductsCookieName(){
         return cookiePrefix + Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME;
     }
-    
+
 }
