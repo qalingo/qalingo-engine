@@ -82,10 +82,11 @@ public class GeolocService {
     
     public GeolocCity geolocByCityAndCountry(final String city, final String country){
         GeolocCity geolocCity = null;
-        String addressParam = encodeGoogleAddress(null, null, city, country);
-        GoogleGeoCode geoCode = geolocGoogleWithAddress(addressParam);
+        String formatedAddress = encodeGoogleAddress(null, null, city, country);
+        GoogleGeoCode geoCode = geolocGoogleWithAddress(formatedAddress);
         if(geoCode != null && GOOGLE_GEOCODING_GEO_CODE_OVER_QUERY_LIMIT.equals(geoCode.getStatus())){
-            logger.error("API Geoloc returns message " + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
+            logger.error("API Geoloc returns message '" + geoCode.getStatus() + "': " + geoCode.getErrorMessage());
+            logger.error("Address encoded: '" + formatedAddress + "'");
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocCity;
         }
@@ -129,7 +130,8 @@ public class GeolocService {
         
         // SANITY CHECK
         if(geoCode != null && GOOGLE_GEOCODING_GEO_CODE_OVER_QUERY_LIMIT.equals(geoCode.getStatus())){
-            logger.error("API Geoloc returns message " + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
+            logger.error("API Geoloc returns message '" + geoCode.getStatus() + "': " + geoCode.getErrorMessage());
+            logger.error("Address encoded: '" + formatedAddress + "'");
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
         }
@@ -140,7 +142,8 @@ public class GeolocService {
             
          // SANITY CHECK
             if(!GOOGLE_GEOCODING_GEO_CODE_OK.equals(geoCode.getStatus())){
-                logger.error("API Geoloc returns message" + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
+                logger.error("API Geoloc returns message '" + geoCode.getStatus() + "': " + geoCode.getErrorMessage());
+                logger.error("Address encoded: '" + formatedAddress + "'");
                 engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
                 return geolocAddress;
             }
@@ -155,7 +158,8 @@ public class GeolocService {
         GeolocAddress geolocAddress = null;
         GoogleGeoCode geoCode = geolocGoogleWithLatitudeLongitude(latitude, longitude);
         if(geoCode != null && GOOGLE_GEOCODING_GEO_CODE_OVER_QUERY_LIMIT.equals(geoCode.getStatus())){
-            logger.error("API Geoloc returns message " + geoCode.getStatus() + ": " + geoCode.getErrorMessage());
+            logger.error("API Geoloc returns message '" + geoCode.getStatus() + "': " + geoCode.getErrorMessage());
+            logger.error("latitude: '" + latitude + "', longitude: '" + longitude + "'");
             engineSettingService.flagSettingGoogleGeolocationApiOverQuota();
             return geolocAddress;
         }
