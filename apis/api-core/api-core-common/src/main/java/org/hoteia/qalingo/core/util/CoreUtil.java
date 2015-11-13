@@ -30,6 +30,14 @@ public class CoreUtil {
         return stringToReturn;
     }
     
+    public static String decodeParamCode(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            stringToReturn = stringToReturn.replaceAll("-", "_").toUpperCase();
+        }
+        return stringToReturn;
+    }
+    
     public static String handleFileName(String fileName){
         if(StringUtils.isNotEmpty(fileName)){
             String name = CoreUtil.replaceCharactersNotLetterOrDigit(fileName.substring(0, fileName.lastIndexOf(".")));
