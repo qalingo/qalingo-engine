@@ -38,6 +38,7 @@ import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -61,7 +62,7 @@ public class StoreLocationController extends AbstractMCommerceController {
     }
 	
 	@RequestMapping(FoUrls.STORE_LOCATION_URL)
-	public ModelAndView storeLocation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView storeLocation(final HttpServletRequest request, final HttpServletResponse response, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_LOCATION.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea marketArea = requestData.getMarketArea();

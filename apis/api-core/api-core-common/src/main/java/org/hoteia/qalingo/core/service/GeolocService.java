@@ -140,7 +140,7 @@ public class GeolocService {
             geolocAddress.setLatitude(geoCode.getLatitude());
             geolocAddress.setLongitude(geoCode.getLongitude());
             
-         // SANITY CHECK
+            // SANITY CHECK
             if(!GOOGLE_GEOCODING_GEO_CODE_OK.equals(geoCode.getStatus())){
                 logger.error("API Geoloc returns message '" + geoCode.getStatus() + "': " + geoCode.getErrorMessage());
                 logger.error("Address encoded: '" + formatedAddress + "'");
