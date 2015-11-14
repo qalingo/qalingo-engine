@@ -53,7 +53,7 @@ public class ProductSkuSolrService extends AbstractSolrService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     @Autowired
-    public SolrServer productSkuSolrServer;
+    protected SolrServer productSkuSolrServer;
     
     @Autowired
     protected ProductService productService;

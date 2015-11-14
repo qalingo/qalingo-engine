@@ -74,6 +74,7 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UserService;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamRequest;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
 import org.slf4j.Logger;
@@ -575,31 +576,15 @@ public class RequestUtil {
         updateCurrentBoSession(request, engineBoSession);
     }
 
-    /**
-	 *
-	 */
-    public boolean isLocalHostMode(final HttpServletRequest request) throws Exception {
-        return isLocalHostMode(getHost(request));
-    }
-    public boolean isLocalHostMode(final String address) throws Exception {
-        return StringUtils.isNotEmpty(address) && (
-                address.contains("localhost")
-                        || address.equalsIgnoreCase("127.0.0.1")
-                        || address.startsWith("192.168.")
-                        || address.startsWith("10.")
-        );
-    }
 
-    /**
-	 *
-	 */
+    public boolean isLocalHostMode(final HttpServletRequest request) throws Exception {
+        return CoreUtil.isLocalHostMode(getHost(request));
+    }
+    
     public String getHost(final HttpServletRequest request) throws Exception {
         return request.getHeader(Constants.HOST);
     }
 
-    /**
-     *
-     */
     public String getRemoteAddr(final HttpServletRequest request){
         String customerRemoteAddr = request.getRemoteAddr();
         String xForwardedFor = request.getHeader(Constants.X_FORWARDED_FOR);
@@ -614,30 +599,18 @@ public class RequestUtil {
         return customerRemoteAddr;
     }
 
-    /**
-	 *
-	 */
     public String getEnvironmentName() throws Exception {
         return environmentName;
     }
 
-    /**
-	 *
-	 */
     public String getApplicationName() throws Exception {
         return applicationName;
     }
 
-    /**
-	 *
-	 */
     public String getContextName() throws Exception {
         return contextName;
     }
-
-    /**
-	 *
-	 */
+    
     public DateFormat getCommonFormatDate(final RequestData requestData, final Integer dateStyle, final Integer timeStyle) throws Exception {
         final Locale locale = requestData.getLocale();
         DateFormat formatter;
@@ -649,52 +622,34 @@ public class RequestUtil {
         return formatter;
     }
 
-    /**
-	 *
-	 */
     public SimpleDateFormat getRssFormatDate(final RequestData requestData) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
         return formatter;
     }
 
-    /**
-     *
-     */
-   public String getFormatDatePattern(final RequestData requestData) throws Exception {
-       if(requestData.getMarketAreaLocalization() != null && StringUtils.isNotEmpty(requestData.getMarketAreaLocalization().getFormatDatePattern())){
-           return requestData.getMarketAreaLocalization().getFormatDatePattern();
-       } else {
-           return "yyyy-MM-dd";
-       }
-   }
+    public String getFormatDatePattern(final RequestData requestData) throws Exception {
+        if (requestData.getMarketAreaLocalization() != null && StringUtils.isNotEmpty(requestData.getMarketAreaLocalization().getFormatDatePattern())) {
+            return requestData.getMarketAreaLocalization().getFormatDatePattern();
+        } else {
+            return "yyyy-MM-dd";
+        }
+    }
 
-   /**
-    *
-    */
-  public SimpleDateFormat getFormatDate(final RequestData requestData) throws Exception {
-      SimpleDateFormat formatter = new SimpleDateFormat(getFormatDatePattern(requestData));
-      return formatter;
-  }
+    public SimpleDateFormat getFormatDate(final RequestData requestData) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat(getFormatDatePattern(requestData));
+        return formatter;
+    }
 
-    /**
-	 *
-	 */
     public SimpleDateFormat getDataVocabularyFormatDate(final RequestData requestData) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter;
     }
 
-    /**
-	 *
-	 */
     public SimpleDateFormat getAtomFormatDate(final RequestData requestData) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
         return formatter;
     }
 
-    /**
-     *
-     */
     public ClickstreamSession getClickstreamSession(final HttpServletRequest request) throws Exception {
         ClickstreamSession clickstream = (ClickstreamSession) request.getSession().getAttribute(Constants.ENGINE_CLICKSTREAM);
         if(clickstream == null){
@@ -704,9 +659,6 @@ public class RequestUtil {
         return clickstream;
     }
 
-    /**
-     *
-     */
     public void addClickstream(final HttpServletRequest request) throws Exception {
         ClickstreamSession clickstream = getClickstreamSession(request);
         Date lastRequest = new Date();
@@ -718,17 +670,11 @@ public class RequestUtil {
         request.getSession().setAttribute(Constants.ENGINE_CLICKSTREAM, clickstream);
     }
 
-    /**
-     *
-     */
     public String getLastRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
         return getRequestUrl(request, excludedPatterns, 1);
     }
 
-    /**
-     *
-     */
     public String getRequestUrlAfterChangeContext(final HttpServletRequest request, final String fallbackUrl) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
         String currentUrl = getRequestUrl(request, excludedPatterns, 0);
@@ -738,16 +684,10 @@ public class RequestUtil {
         return fallbackUrl;
     }
 
-    /**
-     *
-     */
     public String getCurrentRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
         return getRequestUrl(request, excludedPatterns, 0);
     }
 
-    /**
-     *
-     */
     public String getCurrentRequestUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
         String currentUrl = getRequestUrl(request, new ArrayList<String>(), 0);
         if(StringUtils.isNotEmpty(currentUrl)){
@@ -756,24 +696,15 @@ public class RequestUtil {
         return fallbackUrl;
     }
 
-    /**
-     *
-     */
     public String getCurrentRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 0);
     }
 
-    /**
-     *
-     */
     public String getCurrentRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
         return getRequestUrl(request, excludedPatterns, 0);
     }
 
-    /**
-     *
-     */
     public String getLastRequestForEmptyCartUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
         excludedPatterns.add("cart");
@@ -781,9 +712,6 @@ public class RequestUtil {
         return lastUrl;
     }
 
-    /**
-     *
-     */
     public List<String> getCommonUrlExcludedPatterns() throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
         excludedPatterns.add(FoUrls.ERROR_400.getUrlPatternKey());
@@ -803,16 +731,10 @@ public class RequestUtil {
         return excludedPatterns;
     }
 
-    /**
-     *
-     */
     public String getLastRequestUrl(final HttpServletRequest request, String fallbackUrl) throws Exception {
         return getLastRequestUrl(request, new ArrayList<String>(), fallbackUrl);
     }
 
-    /**
-     *
-     */
     public String getLastRequestUrl(final HttpServletRequest request, final List<String> moreExcludedPatterns, String fallbackUrl) throws Exception {
         final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
         excludedPatterns.addAll(moreExcludedPatterns);
@@ -823,51 +745,30 @@ public class RequestUtil {
         return url;
     }
 
-    /**
-     *
-     */
     public String getLastRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
         return getRequestUrl(request, excludedPatterns, 1);
     }
 
-    /**
-     *
-     */
     public String getLastRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 1);
     }
 
-    /**
-     *
-     */
     public String getLastProductDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.PRODUCT_DETAILS.getUrlPatternKey());
     }
 
-    /**
-     *
-     */
     public String getLastProductBrandDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.BRAND_DETAILS.getUrlPatternKey());
     }
 
-    /**
-     *
-     */
     public String getLastStoreDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.STORE_DETAILS.getUrlPatternKey());
     }
 
-    /**
-     *
-     */
     public String getLastRetailerDetailsRequestUrl(final HttpServletRequest request) throws Exception {
         return getLastSpecificRequestUrl(request, FoUrls.RETAILER_DETAILS.getUrlPatternKey());
     }
 
-    /**
-     *
-     */
     protected String getLastSpecificRequestUrl(final HttpServletRequest request, String pattern) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);
@@ -891,9 +792,6 @@ public class RequestUtil {
         return handleUrl(url);
     }
 
-    /**
-     *
-     */
     public String getRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns, int position) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);
@@ -945,9 +843,6 @@ public class RequestUtil {
         return handleUrl(url);
     }
 
-    /**
-     *
-     */
     public String getCurrentThemeResourcePrefixPath(final RequestData requestData) throws Exception {
         EngineSetting engineSetting = engineSettingService.getSettingThemeResourcePrefixPath();
         try {
@@ -971,102 +866,62 @@ public class RequestUtil {
         return null;
     }
 
-    /**
-     *
-     */
     public GeolocData getCurrentGeolocData(final HttpServletRequest request) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         return engineEcoSession.getGeolocData();
     }
 
-    /**
-     *
-     */
     public String getCurrentContextNameValue() throws Exception {
         return PropertiesUtil.getWebappContextKey(getContextName());
     }
 
-    /**
-     *
-     */
     public String getCurrentVelocityWebPrefix(final RequestData requestData) throws Exception {
         String velocityPath = "/" + getCurrentTheme(requestData) + "/www/" + getCurrentDevice(requestData) + "/content/";
         return velocityPath;
     }
 
-    /**
-     *
-     */
     public String getCurrentVelocityEmailPrefix(final RequestData requestData) throws Exception {
         String velocityPath = "/" + getCurrentTheme(requestData) + "/email/";
         return velocityPath;
     }
 
-    /**
-     *
-     */
     protected String handleUrl(String url) {
         return url;
     }
 
-    /**
-     *
-     */
     public EngineEcoSession getCurrentEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = (EngineEcoSession) request.getSession().getAttribute(Constants.ENGINE_ECO_SESSION_OBJECT);
         return engineEcoSession;
     }
 
-    /**
-     *
-     */
     public EngineEcoSession updateCurrentEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
         setCurrentEcoSession(request, engineEcoSession);
         return engineEcoSession;
     }
 
-    /**
-     *
-     */
     public void setCurrentEcoSession(final HttpServletRequest request, final EngineEcoSession engineEcoSession) throws Exception {
         request.getSession().setAttribute(Constants.ENGINE_ECO_SESSION_OBJECT, engineEcoSession);
     }
 
-
-    /**
-     *
-     */
     public EngineBoSession getCurrentBoSession(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = (EngineBoSession) request.getSession().getAttribute(Constants.ENGINE_BO_SESSION_OBJECT);
         return engineBoSession;
     }
 
-    /**
-     *
-     */
     public void updateCurrentBoSession(final HttpServletRequest request, final EngineBoSession engineBoSession) throws Exception {
         setCurrentBoSession(request, engineBoSession);
     }
 
-    /**
-     *
-     */
     public void setCurrentBoSession(final HttpServletRequest request, final EngineBoSession engineBoSession) throws Exception {
         request.getSession().setAttribute(Constants.ENGINE_BO_SESSION_OBJECT, engineBoSession);
     }
 
-    /**
-     *
-     */
     public void resetCurrentCart(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         engineEcoSession.resetCurrentCart();
         updateCurrentEcoSession(request, engineEcoSession);
     }
 
-    /**
-     *
-     */
     public void updateCurrentCart(final HttpServletRequest request, final Cart cart) throws Exception {
         // SAVE AND UPDATE THE ENGINE SESSION AT THE END
         EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
@@ -1075,9 +930,6 @@ public class RequestUtil {
         updateCurrentEcoSession(request, engineEcoSessionWithTransientValues);
     }
 
-    /**
-     *
-     */
     public void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
         engineEcoSessionWithTransientValues.deleteCurrentCart();
@@ -1085,18 +937,12 @@ public class RequestUtil {
         updateCurrentEcoSession(request, engineEcoSessionWithTransientValues);
     }
 
-    /**
-     *
-     */
     public OrderPurchase getLastOrder(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         return engineEcoSession.getLastOrder();
     }
 
-    /**
-     *
-     */
     public void keepLastOrderInSession(final RequestData requestData, final OrderPurchase order) throws Exception {
         if (order != null) {
             final HttpServletRequest request = requestData.getRequest();
@@ -1106,9 +952,6 @@ public class RequestUtil {
         }
     }
 
-    /**
-     *
-     */
     protected MarketPlace getCurrentMarketPlace(final RequestData requestData) throws Exception {
         MarketPlace marketPlace = null;
         final HttpServletRequest request = requestData.getRequest();
@@ -1130,9 +973,6 @@ public class RequestUtil {
         return marketPlace;
     }
 
-    /**
-     *
-     */
     protected Market getCurrentMarket(final RequestData requestData) throws Exception {
         Market market = null;
         final HttpServletRequest request = requestData.getRequest();
@@ -1154,9 +994,6 @@ public class RequestUtil {
         return market;
     }
 
-    /**
-     *
-     */
     protected MarketArea getCurrentMarketArea(final RequestData requestData) throws Exception {
         MarketArea marketArea = null;
         final HttpServletRequest request = requestData.getRequest();
@@ -1178,9 +1015,6 @@ public class RequestUtil {
         return marketArea;
     }
 
-    /**
-     *
-     */
     protected Localization getCurrentMarketAreaLocalization(final RequestData requestData) throws Exception {
         Localization localization = null;
         final HttpServletRequest request = requestData.getRequest();
@@ -1200,9 +1034,6 @@ public class RequestUtil {
         setSessionMarketAreaLocalization(session, localization);
     }
 
-    /**
-     *
-     */
     @Deprecated
     public void updateCurrentLocalization(final RequestData requestData, final Localization localization) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
@@ -1238,9 +1069,6 @@ public class RequestUtil {
         }
     }
 
-    /**
-     *
-     */
     protected Retailer getCurrentMarketAreaRetailer(final RequestData requestData) throws Exception {
         Retailer retailer;
         final HttpServletRequest request = requestData.getRequest();
@@ -1260,9 +1088,6 @@ public class RequestUtil {
         return retailer;
     }
 
-    /**
-     *
-     */
     protected CurrencyReferential getCurrentMarketAreaCurrency(final RequestData requestData) throws Exception {
         CurrencyReferential currencyReferential = null;
         final HttpServletRequest request = requestData.getRequest();
@@ -1282,9 +1107,6 @@ public class RequestUtil {
         return currencyReferential;
     }
 
-    /**
-     *
-     */
     protected Localization getCurrentBackofficeLocalization(final RequestData requestData) throws Exception {
         Localization localization = null;
         final HttpServletRequest request = requestData.getRequest();
@@ -1295,9 +1117,6 @@ public class RequestUtil {
         return localization;
     }
 
-    /**
-     *
-     */
     protected Cart getCurrentCart(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         Cart cart = engineEcoSession.getCart();
@@ -1309,9 +1128,6 @@ public class RequestUtil {
         return newCart;
     }
 
-    /**
-     *
-     */
     protected Customer getCurrentCustomer(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         Customer customer = engineEcoSession.getCurrentCustomer();
@@ -1328,9 +1144,6 @@ public class RequestUtil {
         return customer;
     }
 
-    /**
-     *
-     */
     public String getCustomerAvatar(final HttpServletRequest request, final Customer customer) throws Exception {
         String customerAvatar = null;
         if (customer != null) {
@@ -1357,9 +1170,6 @@ public class RequestUtil {
         return customerAvatar;
     }
 
-    /**
-     *
-     */
     public boolean hasKnownCustomerLogged(final HttpServletRequest request) throws Exception {
         final Customer customer = getCurrentCustomer(request);
         if (customer != null) {
@@ -1368,9 +1178,6 @@ public class RequestUtil {
         return false;
     }
 
-    /**
-     *
-     */
     public Long getCurrentCustomerId(final HttpServletRequest request) throws Exception {
         Customer customer = getCurrentCustomer(request);
         if (customer == null) {
@@ -1379,9 +1186,6 @@ public class RequestUtil {
         return customer.getId();
     }
 
-    /**
-     *
-     */
     public String getCurrentCustomerLogin(final HttpServletRequest request) throws Exception {
         EngineEcoSession session = getCurrentEcoSession(request);
         Customer customer = session.getCurrentCustomer();
@@ -1391,9 +1195,6 @@ public class RequestUtil {
         return customer.getLogin();
     }
 
-    /**
-     *
-     */
     public void updateCurrentCustomer(final HttpServletRequest request, final Customer customer) throws Exception {
         if (customer != null) {
             final EngineEcoSession session = getCurrentEcoSession(request);
@@ -1402,28 +1203,17 @@ public class RequestUtil {
         }
     }
 
-    /**
-     *
-     */
     public void cleanCurrentCustomer(final HttpServletRequest request) throws Exception {
         final EngineEcoSession session = getCurrentEcoSession(request);
         session.setCurrentCustomer(null);
         updateCurrentEcoSession(request, session);
     }
 
-
-
-    /**
-     *
-     */
     public User getCurrentUser(final HttpServletRequest request) throws Exception {
         EngineBoSession session = getCurrentBoSession(request);
         return session.getCurrentUser();
     }
 
-    /**
-     *
-     */
     public void updateCurrentUser(final HttpServletRequest request, final User user) throws Exception {
         if (user != null) {
             final EngineBoSession session = getCurrentBoSession(request);
@@ -1435,9 +1225,6 @@ public class RequestUtil {
         }
     }
 
-    /**
-     *
-     */
     public void cleanCurrentUser(final HttpServletRequest request) throws Exception {
         final EngineBoSession session = getCurrentBoSession(request);
         if(session != null){
@@ -1446,9 +1233,6 @@ public class RequestUtil {
         updateCurrentBoSession(request, session);
     }
 
-    /**
-     *
-     */
     public Company getCurrentCompany(final HttpServletRequest request) throws Exception {
         EngineBoSession session = getCurrentBoSession(request);
         return session.getCurrentCompany();
@@ -1465,9 +1249,6 @@ public class RequestUtil {
         }
     }
 
-    /**
-     *
-     */
     public String getCurrentTheme(final RequestData requestData) throws Exception {
         String currenTheme = "";
         final HttpServletRequest request = requestData.getRequest();
@@ -1490,9 +1271,6 @@ public class RequestUtil {
         return currenTheme;
     }
 
-    /**
-     *
-     */
     public void updateCurrentTheme(final HttpServletRequest request, final String theme) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         if (StringUtils.isNotEmpty(theme)) {
@@ -1501,9 +1279,6 @@ public class RequestUtil {
         }
     }
 
-    /**
-     *
-     */
     public String getCurrentDevice(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         String currenDevice = "default";
@@ -1521,9 +1296,6 @@ public class RequestUtil {
         return currenDevice;
     }
 
-    /**
-     *
-     */
     public void updateCurrentDevice(final RequestData requestData, final String device) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         if (requestData.isBackoffice()) {
@@ -1541,9 +1313,6 @@ public class RequestUtil {
         }
     }
 
-    /**
-     *
-     */
     public RequestData getRequestData(final HttpServletRequest request) throws Exception {
         final RequestData requestData = new RequestData();
         requestData.setRequest(request);
@@ -1609,9 +1378,6 @@ public class RequestUtil {
         return requestData;
     }
 
-    /**
-     *
-     */
     public EngineEcoSession handleGeolocLatitudeLongitude(final RequestData requestData, final String latitude, final String longitude) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -1698,9 +1464,6 @@ public class RequestUtil {
         return urlParameterMapping;
     }
 
-    /**
-	 *
-	 */
     protected EngineEcoSession initEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = new EngineEcoSession();
         EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getSettingEnvironmentStagingModeEnabled();
@@ -1755,9 +1518,6 @@ public class RequestUtil {
         return engineEcoSession;
     }
 
-    /**
-     *
-     */
     protected EngineEcoSession checkGeolocData(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
         final String remoteAddress = getRemoteAddr(request);
         GeolocData geolocData = engineEcoSession.getGeolocData();
@@ -1804,9 +1564,6 @@ public class RequestUtil {
         return engineEcoSession;
     }
 
-    /**
-     *
-     */
     protected EngineEcoSession checkEngineEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         String jSessionId = request.getSession().getId();
@@ -1841,9 +1598,6 @@ public class RequestUtil {
         return engineEcoSession;
     }
 
-    /**
-     *
-     */
     protected EngineBoSession checkEngineBoSession(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = getCurrentBoSession(request);
         if (engineBoSession == null) {
@@ -1857,9 +1611,6 @@ public class RequestUtil {
         return engineBoSession;
     }
 
-    /**
-     *
-     */
     protected void initDefaultBoMarketPlace(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = getCurrentBoSession(request);
         MarketPlace marketPlace = marketService.getDefaultMarketPlace();
@@ -1895,9 +1646,6 @@ public class RequestUtil {
         updateCurrentBoSession(request, engineBoSession);
     }
 
-    /**
-	 *
-	 */
     protected EngineBoSession initBoSession(final HttpServletRequest request) throws Exception {
         final EngineBoSession engineBoSession = new EngineBoSession();
         EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getSettingEnvironmentStagingModeEnabled();
@@ -1949,9 +1697,6 @@ public class RequestUtil {
         return engineBoSession;
     }
 
-    /**
-     *
-     */
     protected EngineEcoSession initCart(final HttpServletRequest request) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         Cart cart = engineEcoSession.getCart();
@@ -1974,9 +1719,6 @@ public class RequestUtil {
         updateCurrentEcoSession(request, engineEcoSession);
     }
 
-    /**
-     *
-     */
     protected MarketArea evaluateMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         MarketPlace marketPlace = null;
@@ -2045,9 +1787,6 @@ public class RequestUtil {
         return marketArea;
     }
 
-    /**
-     *
-     */
     protected EngineEcoSession initEcoMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         MarketArea marketArea = evaluateMarketPlace(request);
@@ -2135,9 +1874,6 @@ public class RequestUtil {
         return coreMessageSource.getCommonMessage(ScopeCommonMessage.APP.getPropertyKey(), "name_text", params, locale);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public List<String> getRecentProductCodesFromCookie(final HttpServletRequest request, final String catalogVirtualCode){
 		Cookie info = null;
         Cookie[] cookies = request.getCookies();

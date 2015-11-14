@@ -38,7 +38,7 @@ public class MarketPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private GeolocService geolocService;
+    protected GeolocService geolocService;
 
     @Autowired
     protected MarketService marketService;

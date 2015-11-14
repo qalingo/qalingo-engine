@@ -41,7 +41,7 @@ public class CustomerSolrService extends AbstractSolrService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     @Autowired
-    public SolrServer customerSolrServer;
+    protected SolrServer customerSolrServer;
     
     public void addOrUpdateCustomer(final Customer customer, final MarketArea marketArea) throws SolrServerException, IOException, IllegalArgumentException {
         if (customer.getId() == null) {

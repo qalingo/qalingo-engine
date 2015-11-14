@@ -23,7 +23,8 @@ import org.springframework.stereotype.Service;
 @WebService(endpointInterface="org.hoteia.qalingo.core.ws.service.CatalogWebService")
 public class CatalogWebServiceImpl implements CatalogWebService {
 
-    @Autowired private CatalogPojoService catalogService;
+    @Autowired 
+    protected CatalogPojoService catalogService;
 
     @Override
     public List<CatalogPojo> getAllCatalogMasters() {

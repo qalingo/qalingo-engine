@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 import org.hoteia.qalingo.core.pojo.retailer.StoreListPojoResponse;
 import org.hoteia.qalingo.core.pojo.retailer.StorePojoResponse;
 import org.hoteia.qalingo.core.pojo.store.StorePojo;
-import org.hoteia.qalingo.core.service.pojo.StorePojoService;
+import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +29,13 @@ import org.springframework.stereotype.Component;
 public class StoreRestService {
 
     @Autowired
-    protected StorePojoService storeService;
+    protected RetailerPojoService retailerPojoService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public StoreListPojoResponse getAllStores() {
         StoreListPojoResponse storeListPojoResponse = new StoreListPojoResponse();
-        List<StorePojo> stores = storeService.getAllStores();
+        List<StorePojo> stores = retailerPojoService.getAllStores();
         storeListPojoResponse.setStores(stores);
         return storeListPojoResponse;
     }
@@ -45,7 +45,7 @@ public class StoreRestService {
     @Path("{code}")
     public StorePojoResponse getStoreByCode(@PathParam("code") final String code) {
         StorePojoResponse StorePojoResponse = new StorePojoResponse();
-        StorePojo store = storeService.getStoreByCode(code);
+        StorePojo store = retailerPojoService.getStoreByCode(code);
         StorePojoResponse.setStore(store);
         return StorePojoResponse;
     }

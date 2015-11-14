@@ -9,13 +9,17 @@
  */
 package org.hoteia.qalingo.core.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.CountryResponse;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -33,19 +37,19 @@ import org.hoteia.qalingo.core.domain.bean.GeolocDataCountry;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCode;
 import org.hoteia.qalingo.core.web.bean.geoloc.json.GoogleGeoCodeResult;
-import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.*;
-import java.net.InetAddress;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Country;
 
 @Service("geolocService")
 @Transactional
@@ -68,9 +72,6 @@ public class GeolocService {
     
     @Autowired
     protected GeolocDao geolocDao;
-
-    @Autowired
-    protected RequestUtil requestUtil;
 
     protected List<String> unknownValueList = new ArrayList<String>();
     
@@ -346,12 +347,9 @@ public class GeolocService {
         geolocDao.deleteGeolocAddress(geolocCity);
     }
     
-    /**
-     * 
-     */
     public GeolocData getGeolocData(final String remoteAddress) throws Exception {
         GeolocData geolocData = null;
-        if(!requestUtil.isLocalHostMode(remoteAddress)){
+        if(!CoreUtil.isLocalHostMode(remoteAddress)){
             geolocData = new GeolocData();
             final Country country = geolocAndGetCountry(remoteAddress);
             geolocData.setRemoteAddress(remoteAddress);
@@ -371,17 +369,11 @@ public class GeolocService {
         return geolocData;
     }
     
-    /**
-     * 
-     */
     public String geolocAndGetCountryIsoCode(final String customerRemoteAddr) throws Exception {
         final Country country = geolocAndGetCountry(customerRemoteAddr);
         return country.getIsoCode();
     }
     
-    /**
-     * 
-     */
     public Country geolocAndGetCountry(final String customerRemoteAddr) throws Exception {
         if(StringUtils.isNotEmpty(customerRemoteAddr)){
             if(!unknownValueList.contains(customerRemoteAddr)){
@@ -409,17 +401,11 @@ public class GeolocService {
         return null;
     }
     
-    /**
-     * 
-     */
     public String geolocAndGetCityName(final String customerRemoteAddr) throws Exception {
         final City city = geolocAndGetCity(customerRemoteAddr);
         return city.getName();
     }
     
-    /**
-     * 
-     */
     public City geolocAndGetCity(final String customerRemoteAddr) throws Exception {
         if(StringUtils.isNotEmpty(customerRemoteAddr)){
             if(!unknownValueList.contains(customerRemoteAddr)){

@@ -24,7 +24,8 @@ import org.hoteia.qalingo.core.ws.service.RetailerWebService;
 @WebService(endpointInterface="org.hoteia.qalingo.core.ws.service.RetailerWebService")
 public class RetailerWebServiceImpl implements RetailerWebService {
 
-    @Autowired private RetailerPojoService retailerService;
+    @Autowired
+    protected RetailerPojoService retailerService;
 
     @Override
     public List<RetailerPojo> findAllRetailers() {

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.solr.service;
 
-
 public abstract class AbstractSolrService {
 
     // SEARCH PAGINATION

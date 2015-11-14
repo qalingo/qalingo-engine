@@ -24,7 +24,8 @@ import org.hoteia.qalingo.core.ws.service.CustomerWebService;
 @WebService(endpointInterface = "org.hoteia.qalingo.core.ws.service.CustomerWebService")
 public class CustomerWebServiceImpl implements CustomerWebService {
 
-    @Autowired private CustomerPojoService customerService;
+    @Autowired
+    protected CustomerPojoService customerService;
 
     @Override
     public CustomerPojo getCustomerById(final String customerId) {

@@ -14,7 +14,7 @@ import javax.jws.WebService;
 import java.util.List;
 
 import org.hoteia.qalingo.core.pojo.store.StorePojo;
-import org.hoteia.qalingo.core.service.pojo.StorePojoService;
+import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
 import org.hoteia.qalingo.core.ws.service.StoreWebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,20 +23,21 @@ import org.springframework.stereotype.Service;
 @WebService(endpointInterface="org.hoteia.qalingo.core.ws.service.StoreWebService")
 public class StoreWebServiceImpl implements StoreWebService {
 
-    @Autowired private StorePojoService storeService;
+    @Autowired
+    protected RetailerPojoService retailerPojoService;
 
     @Override
     public List<StorePojo> getStores() {
-        return storeService.getAllStores();
+        return retailerPojoService.getAllStores();
     }
 
     public StorePojo getStoreById(String storeId){
-		return storeService.getStoreById(storeId);
+		return retailerPojoService.getStoreById(storeId);
 	}
 
     @Override
     public void saveOrUpdate(@WebParam(name = "store") StorePojo storeBean) {
-        storeService.saveOrUpdate(storeBean);
+        retailerPojoService.saveOrUpdate(storeBean);
     }
 
 }

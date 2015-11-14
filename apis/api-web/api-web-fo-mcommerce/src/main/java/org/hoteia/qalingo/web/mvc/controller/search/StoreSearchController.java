@@ -69,13 +69,13 @@ public class StoreSearchController extends AbstractMCommerceController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	public ProductService productMarketingService;
+	protected ProductService productMarketingService;
 	
     @Autowired
-    public RetailerService retailerService;
+    protected RetailerService retailerService;
     
 	@Autowired
-	public StoreSolrService storeSolrService;
+	protected StoreSolrService storeSolrService;
 
     protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
 

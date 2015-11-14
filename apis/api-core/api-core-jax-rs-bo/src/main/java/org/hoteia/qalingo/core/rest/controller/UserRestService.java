@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 public class UserRestService {
 
     @Autowired
-    private UserPojoService userService;
+    protected UserPojoService userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

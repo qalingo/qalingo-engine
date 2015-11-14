@@ -41,7 +41,7 @@ public class CatalogCategorySolrService extends AbstractSolrService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     @Autowired
-    public SolrServer catalogCategorySolrServer;
+    protected SolrServer catalogCategorySolrServer;
     
 	public void addOrUpdateCatalogCategory(final CatalogCategoryMaster catalogCategoryMaster, final MarketArea marketArea) throws SolrServerException, IOException {
         if (catalogCategoryMaster.getId() == null) {

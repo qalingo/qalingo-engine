@@ -31,10 +31,10 @@ public class LocalizationPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired 
-    private Mapper dozerBeanMapper;
+    protected Mapper dozerBeanMapper;
     
     @Autowired 
-    private LocalizationService localizationService;
+    protected LocalizationService localizationService;
 
     public LocalizationPojo getLocalizationById(String localizationId) {
         final Localization localization = localizationService.getLocalizationById(localizationId);

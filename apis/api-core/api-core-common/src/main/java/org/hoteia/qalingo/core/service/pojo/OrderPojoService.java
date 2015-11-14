@@ -26,7 +26,7 @@ public class OrderPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired 
-    private Mapper dozerBeanMapper;
+    protected Mapper dozerBeanMapper;
     
     public OrderPurchasePojo handleOrderMapping(final OrderPurchase order) {
         return order == null ? null : dozerBeanMapper.map(order, OrderPurchasePojo.class);

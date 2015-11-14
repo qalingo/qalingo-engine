@@ -42,7 +42,7 @@ public class CheckoutPojoService {
     protected CatalogCategoryService catalogCategoryService;
     
     @Autowired 
-    private Mapper dozerBeanMapper;
+    protected Mapper dozerBeanMapper;
     
     public CartPojo getCart(MarketArea marketArea, Customer customer) throws Exception {
         Cart cart = cartService.getCartByMarketAreaIdAndCustomerId(marketArea.getId(), customer.getId());

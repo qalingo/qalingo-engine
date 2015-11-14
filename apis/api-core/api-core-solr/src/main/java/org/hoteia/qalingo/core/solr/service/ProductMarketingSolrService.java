@@ -53,7 +53,7 @@ public class ProductMarketingSolrService extends AbstractSolrService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     @Autowired
-    public SolrServer productMarketingSolrServer;
+    protected SolrServer productMarketingSolrServer;
     
     @Autowired
     protected ProductService productService;

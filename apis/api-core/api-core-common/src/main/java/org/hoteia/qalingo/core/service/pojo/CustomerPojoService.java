@@ -35,13 +35,13 @@ public class CustomerPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private Mapper dozerBeanMapper;
+    protected Mapper dozerBeanMapper;
     
     @Autowired 
     protected MarketService marketService;
     
     @Autowired
-    private CustomerService customerService;
+    protected CustomerService customerService;
 
     public List<CustomerPojo> getAllCustomers() {
         List<Customer> customers = customerService.findCustomers();

@@ -8,6 +8,17 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CoreUtil {
 
+    public static boolean isLocalHostMode(final String address) throws Exception {
+        if(StringUtils.isNotEmpty(address) 
+                && (address.contains("localhost") 
+                        || address.equalsIgnoreCase("127.0.0.1") 
+                        || address.startsWith("192.168.") 
+                        || address.startsWith("10."))){
+            return true;
+        }
+        return false;
+    }
+   
     public static String generateUUID(){
         return UUID.randomUUID().toString();
     }

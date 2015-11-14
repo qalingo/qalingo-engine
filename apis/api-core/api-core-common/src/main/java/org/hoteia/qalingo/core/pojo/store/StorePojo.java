@@ -13,69 +13,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class StorePojo {
+public class StorePojo extends LightStorePojo {
 
-    private Long id;
-    private int version;
-    private String code;
-    private String type;
-    private String name;
-    private String address1;
-    private String address2;
-    private String addressAdditionalInformation;
-    private String postalCode;
-    private String city;
-    private String stateCode;
-    private String areaCode;
-    private String countryCode;
-    private String longitude;
-    private String latitude;
-    private Date dateCreate;
-    private Date dateUpdate;
+    protected String address1;
+    protected String address2;
+    protected String addressAdditionalInformation;
+    protected String postalCode;
+    protected String city;
+    protected String stateCode;
+    protected String areaCode;
+    protected String countryCode;
 
-    private List<StoreAttributePojo> attributes = new ArrayList<StoreAttributePojo>();
-    private List<StoreBusinessHourPojo> businessHours = new ArrayList<StoreBusinessHourPojo>();
-    private List<StoreServicePojo> services = new ArrayList<StoreServicePojo>();
+    protected Date dateCreate;
+    protected Date dateUpdate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    protected List<StoreAttributePojo> attributes = new ArrayList<StoreAttributePojo>();
+    protected List<StoreBusinessHourPojo> businessHours = new ArrayList<StoreBusinessHourPojo>();
+    protected List<StoreServicePojo> services = new ArrayList<StoreServicePojo>();
 
     public String getAddress1() {
         return address1;
@@ -139,22 +93,6 @@ public class StorePojo {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
     }
 
     public Date getDateCreate() {

@@ -29,10 +29,10 @@ public class UserPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private Mapper dozerBeanMapper;
+    protected Mapper dozerBeanMapper;
     
     @Autowired
-    private UserService userService;
+    protected UserService userService;
 
     public List<UserPojo> getAllUsers() {
         List<User> users = userService.findUsers();
