@@ -52,7 +52,7 @@ public class CoreUtil {
     public static String handleFileName(String fileName){
         if(StringUtils.isNotEmpty(fileName)){
             String name = CoreUtil.replaceCharactersNotLetterOrDigit(fileName.substring(0, fileName.lastIndexOf(".")));
-            String type = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+            String type = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
             String newFileName = name + "." + type;
             return newFileName.toLowerCase();
         }
