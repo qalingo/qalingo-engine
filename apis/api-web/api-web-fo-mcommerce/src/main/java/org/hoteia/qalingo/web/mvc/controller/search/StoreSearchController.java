@@ -86,7 +86,7 @@ public class StoreSearchController extends AbstractMCommerceController {
     
 	@RequestMapping(value = FoUrls.STORE_SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView search(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = (ModelAndViewThemeDevice) displaySearch(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
         
         // SANITY CHECK : evict values
@@ -94,7 +94,7 @@ public class StoreSearchController extends AbstractMCommerceController {
         evictValues.add("*");
         if (StringUtils.isNotEmpty(searchForm.getText())
                 && evictValues.contains(searchForm.getText())) {
-            return displaySearch(request, model);
+            return modelAndView;
         }
 
         // SANITY CHECK : if empty search : use geolocated city as default value
@@ -108,7 +108,7 @@ public class StoreSearchController extends AbstractMCommerceController {
         // SANITY CHECK : empty search
         if (StringUtils.isEmpty(searchForm.getText())
 		        && searchForm.getPage() == 0) {
-			return displaySearch(request, model);
+			return modelAndView;
 		}
 
 		String url = requestUtil.getCurrentRequestUrl(request);
@@ -204,19 +204,9 @@ public class StoreSearchController extends AbstractMCommerceController {
 			
 		} catch (Exception e) {
 			logger.error("SOLR Error", e);
-			return displaySearch(request, model);
+			return modelAndView;
 		}
 		
-		loadRecentProducts(requestData, model);
-        
-        final Cart currentCart = requestData.getCart();
-        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
-        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
-		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_SEARCH.getKey());
-
-        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
-        
         modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
 
         return modelAndView;
@@ -241,6 +231,8 @@ public class StoreSearchController extends AbstractMCommerceController {
 
         modelAndView.addObject(ModelConstants.SEARCH_FORM, formFactory.buildSearchForm(requestData));
 
+        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
+        
         loadRecentProducts(requestData, model);
 
         final Cart currentCart = requestData.getCart();
