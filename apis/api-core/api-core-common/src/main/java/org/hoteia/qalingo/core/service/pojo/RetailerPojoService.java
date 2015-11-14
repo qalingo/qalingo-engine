@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 import org.hoteia.qalingo.core.pojo.store.LightStorePojo;
 import org.hoteia.qalingo.core.pojo.store.StorePojo;
+import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.slf4j.Logger;
@@ -40,6 +41,9 @@ public class RetailerPojoService {
     @Autowired 
     protected RetailerService retailerService;
 
+    @Autowired 
+    protected ReferentialDataService referentialDataService;
+    
     @Autowired 
     protected UrlService urlService;
 
@@ -92,7 +96,8 @@ public class RetailerPojoService {
         lightStorePojo.setI18nName(store.getI18nName(localizationCode));
         lightStorePojo.setI18nDescription(store.getI18nDescription(localizationCode));
 
-//        lightStorePojo.setAddressOnLine(getStoreAddress(requestData, store));
+        lightStorePojo.setAddressOnLine(referentialDataService.buildFullAddress(requestData.getLocale(), store.getAddress1(), store.getPostalCode(), 
+                store.getCity(), store.getI18nCity(localizationCode), store.getCountryCode()));
         
         lightStorePojo.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
         

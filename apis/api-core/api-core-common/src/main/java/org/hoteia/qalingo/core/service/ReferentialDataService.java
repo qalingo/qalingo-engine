@@ -45,6 +45,35 @@ public class ReferentialDataService {
 
     Map<Locale, Map<String, String>> areasByLocale = new HashMap<Locale, Map<String, String>>();
 
+    public String buildFullAddress(final Locale locale, final String address1, final String postalCode, final String city, final String i18nCity, final String countryCode) {
+        StringBuilder address = new StringBuilder();
+        if(StringUtils.isNotEmpty(address1)){
+            address.append(address1);
+        }
+        if(postalCode != null || city != null || i18nCity != null){
+            address.append(" - ");
+        }
+        if(StringUtils.isNotEmpty(postalCode)){
+            address.append(postalCode).append(" ");
+        }
+        if(StringUtils.isNotEmpty(i18nCity)){
+            address.append(i18nCity);
+        } else {
+            if(StringUtils.isNotEmpty(city)){
+                address.append(city);
+            }
+        }
+        String coutryLabel = getCountryByLocale(countryCode, locale);
+        if(StringUtils.isNotEmpty(coutryLabel)){
+            address.append(" - ").append(coutryLabel);
+        } else {
+            if(coutryLabel != null){
+                address.append(" - ").append(coutryLabel);
+            }
+        }
+        return address.toString();
+    }
+    
 	public String getTitleByLocale(final String titleCode, final Locale locale) {
 		Map<String, String> titlesResourceByLocale = getTitlesByLocale(locale);
 		String title = titlesResourceByLocale.get(titleCode);
