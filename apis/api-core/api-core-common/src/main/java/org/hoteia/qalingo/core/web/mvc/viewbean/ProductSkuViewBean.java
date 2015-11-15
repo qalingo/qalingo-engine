@@ -9,12 +9,14 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.util.CoreUtil;
 
@@ -436,9 +438,17 @@ public class ProductSkuViewBean extends AbstractViewBean {
                 } else {
                     // merge skuOptionDefinition values
                     ProductSkuOptionDefinitionViewBean skuOptionDefinitionPrevious = map.get(skuOptionDefinition.getTypeCode());
-                    String newValue = skuOptionDefinition.getName() + ", " + skuOptionDefinitionPrevious.getName();
-                    skuOptionDefinitionPrevious.setName(newValue);
-                    map.put(skuOptionDefinition.getTypeCode(), skuOptionDefinitionPrevious);
+                    ProductSkuOptionDefinitionViewBean skuOptionDefinitionClone = new ProductSkuOptionDefinitionViewBean();
+                    try {
+                        BeanUtils.copyProperties(skuOptionDefinitionClone, skuOptionDefinitionPrevious);
+                    } catch (IllegalAccessException e) {
+                        // NOTHING
+                    } catch (InvocationTargetException e) {
+                        // NOTHING
+                    }
+                    String newValue = skuOptionDefinition.getName() + ", " + skuOptionDefinitionClone.getName();
+                    skuOptionDefinitionClone.setName(newValue);
+                    map.put(skuOptionDefinition.getTypeCode(), skuOptionDefinitionClone);
                 }
             }
             skuOptionDefinitionViewBeans = new ArrayList<ProductSkuOptionDefinitionViewBean>();
