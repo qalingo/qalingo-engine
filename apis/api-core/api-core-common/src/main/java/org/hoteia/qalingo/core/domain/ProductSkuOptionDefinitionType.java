@@ -54,6 +54,9 @@ public class ProductSkuOptionDefinitionType extends AbstractExtendEntity<Product
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "RANKING")
+    private Integer ranking;
+    
     @Column(name = "DESCRIPTION")
     @Lob
     private String description;
@@ -107,6 +110,14 @@ public class ProductSkuOptionDefinitionType extends AbstractExtendEntity<Product
         this.name = name;
     }
 
+    public Integer getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
+    }
+    
     public String getDescription() {
         return description;
     }

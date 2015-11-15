@@ -2162,6 +2162,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         // SKU OPTIONS
         Set<ProductSkuOptionRel> optionRels = productSku.getOptionRels();
         if (Hibernate.isInitialized(optionRels) && optionRels != null) {
+            
+            List<ProductSkuOptionDefinitionViewBean> productSkuOptionDefinitionViewBeans = new ArrayList<ProductSkuOptionDefinitionViewBean>();
             for (ProductSkuOptionRel productSkuOptionRel : optionRels) {
                 if (Hibernate.isInitialized(productSkuOptionRel.getProductSkuOptionDefinition())
                         && productSkuOptionRel.getProductSkuOptionDefinition() != null) {
@@ -2175,11 +2177,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                         ProductSkuOptionDefinitionType productSkuOptionDefinitionType = productSkuOptionDefinition.getOptionDefinitionType();
                         productSkuOptionDefinitionViewBean.setTypeCode(productSkuOptionDefinitionType.getCode());
                         productSkuOptionDefinitionViewBean.setTypeName(productSkuOptionDefinitionType.getI18nName(localizationCode));
+                        productSkuOptionDefinitionViewBean.setTypeRanking(productSkuOptionDefinitionType.getRanking());
                     }
-
-                    productSkuViewBean.getSkuOptionDefinitions().add(productSkuOptionDefinitionViewBean);
+                    productSkuOptionDefinitionViewBeans.add(productSkuOptionDefinitionViewBean);
                 }
             }
+            Collections.sort(productSkuOptionDefinitionViewBeans, new Comparator<ProductSkuOptionDefinitionViewBean>() {
+                @Override
+                public int compare(ProductSkuOptionDefinitionViewBean o1, ProductSkuOptionDefinitionViewBean o2) {
+                    if (o1 != null && o1.getTypeRanking() != null && o2 != null && o2.getTypeRanking() != null) {
+                        return o1.getTypeRanking().compareTo(o2.getTypeRanking());
+                    }
+                    return 0;
+                }
+            });
+            productSkuViewBean.setSkuOptionDefinitions(productSkuOptionDefinitionViewBeans);
         }
         
         // CATALOG CATEGORIES

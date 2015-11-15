@@ -431,13 +431,14 @@ public class ProductSkuViewBean extends AbstractViewBean {
         if(skuOptionDefinitions != null){
             Map<String, ProductSkuOptionDefinitionViewBean> map = new HashMap<String, ProductSkuOptionDefinitionViewBean>();
             for(ProductSkuOptionDefinitionViewBean skuOptionDefinition : skuOptionDefinitions){
-                if(map.get(skuOptionDefinition.getCode()) == null){
-                    map.put(skuOptionDefinition.getCode(), skuOptionDefinition);
+                if(map.get(skuOptionDefinition.getTypeCode()) == null){
+                    map.put(skuOptionDefinition.getTypeCode(), skuOptionDefinition);
                 } else {
                     // merge skuOptionDefinition values
-                    ProductSkuOptionDefinitionViewBean skuOptionDefinitionPrevious = map.get(skuOptionDefinition.getCode());
+                    ProductSkuOptionDefinitionViewBean skuOptionDefinitionPrevious = map.get(skuOptionDefinition.getTypeCode());
                     String newValue = skuOptionDefinition.getName() + ", " + skuOptionDefinitionPrevious.getName();
                     skuOptionDefinitionPrevious.setName(newValue);
+                    map.put(skuOptionDefinition.getTypeCode(), skuOptionDefinitionPrevious);
                 }
             }
             skuOptionDefinitionViewBeans = new ArrayList<ProductSkuOptionDefinitionViewBean>();

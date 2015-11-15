@@ -24,6 +24,7 @@ public class ProductSkuOptionDefinitionViewBean extends AbstractViewBean {
     protected String typeCode;
     protected String typeName;
     protected String typeI18nName;
+    protected Integer typeRanking;
 
     protected String detailsUrl;
 
@@ -73,6 +74,14 @@ public class ProductSkuOptionDefinitionViewBean extends AbstractViewBean {
     
     public void setTypeI18nName(String typeI18nName) {
         this.typeI18nName = typeI18nName;
+    }
+    
+    public Integer getTypeRanking() {
+        return typeRanking;
+    }
+    
+    public void setTypeRanking(Integer typeRanking) {
+        this.typeRanking = typeRanking;
     }
     
     public String getDetailsUrl() {
