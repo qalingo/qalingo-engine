@@ -1408,6 +1408,9 @@ public class RequestUtil {
                 // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
                 geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
                 if (geolocAddress != null) {
+                    geolocData.setLatitude(geolocAddress.getLatitude());
+                    geolocData.setLongitude(geolocAddress.getLongitude());
+
                     GeolocDataCountry geolocDataCountry = new GeolocDataCountry();
                     geolocDataCountry.setIsoCode(geolocAddress.getCountry());
                     geolocDataCountry.setName(referentialDataService.getCountryByLocale(geolocAddress.getCountry(), requestData.getLocale()));
