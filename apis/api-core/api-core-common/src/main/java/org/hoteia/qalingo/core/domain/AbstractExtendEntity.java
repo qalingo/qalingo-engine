@@ -29,14 +29,11 @@ public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> ex
     
     public List<A> getGlobalAttributes() {
         List<A> productSkuGlobalAttributes = null;
-        if (getAttributes() != null
-                && Hibernate.isInitialized(getAttributes())) {
+        if (getAttributes() != null && Hibernate.isInitialized(getAttributes())) {
             productSkuGlobalAttributes = new ArrayList<A>();
-            for (Iterator<A> iterator = getAttributes().iterator(); iterator.hasNext();) {
-                A attribute = (A) iterator.next();
+            for (A attribute : getAttributes()) {
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && attributeDefinition.isGlobal()) {
+                if (attributeDefinition != null && attributeDefinition.isGlobal()) {
                     productSkuGlobalAttributes.add(attribute);
                 }
             }
@@ -46,14 +43,11 @@ public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> ex
 
     public List<A> getMarketAreaAttributes(Long marketAreaId) {
         List<A> productSkuMarketAreaAttributes = null;
-        if (getAttributes() != null
-                && Hibernate.isInitialized(getAttributes())) {
+        if (getAttributes() != null && Hibernate.isInitialized(getAttributes())) {
             productSkuMarketAreaAttributes = new ArrayList<A>();
-            for (Iterator<A> iterator = getAttributes().iterator(); iterator.hasNext();) {
-                A attribute = (A) iterator.next();
+            for (A attribute : getAttributes()) {
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && !attributeDefinition.isGlobal()) {
+                if (attributeDefinition != null && !attributeDefinition.isGlobal()) {
                     productSkuMarketAreaAttributes.add(attribute);
                 }
             }
@@ -84,22 +78,19 @@ public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> ex
         List<A> attributesFilter = new ArrayList<A>();
         if(attributes != null) {
             // GET ALL attributes FOR THIS ATTRIBUTE
-            for (Iterator<A> iterator = attributes.iterator(); iterator.hasNext();) {
-                A attribute = (A) iterator.next();
+            for (A attribute : attributes) {
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if(attributeDefinition != null
-                        && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
+                if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
                     attributesFilter.add(attribute);
                 }
             }
             // REMOVE ALL attributes NOT ON THIS MARKET AREA
             if(marketAreaId != null) {
                 for (Iterator<A> iterator = attributesFilter.iterator(); iterator.hasNext();) {
-                    A attribute = (A) iterator.next();
+                    A attribute = iterator.next();
                     AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                     if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        if(attribute.getMarketAreaId() != null
-                                && BooleanUtils.negate(attribute.getMarketAreaId().equals(marketAreaId))){
+                        if(attribute.getMarketAreaId() != null && BooleanUtils.negate(attribute.getMarketAreaId().equals(marketAreaId))){
                             iterator.remove();
                         }
                     }
@@ -110,8 +101,7 @@ public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> ex
                 for (Iterator<A> iterator = attributesFilter.iterator(); iterator.hasNext();) {
                     A attribute = (A) iterator.next();
                     String attributeLocalizationCode = attribute.getLocalizationCode();
-                    if(StringUtils.isNotEmpty(attributeLocalizationCode)
-                            && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
+                    if(StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
                         iterator.remove();
                     }
                 }

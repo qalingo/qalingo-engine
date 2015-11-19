@@ -975,7 +975,7 @@ public class RequestUtil {
     }
 
     protected Market getCurrentMarket(final RequestData requestData) throws Exception {
-        Market market = null;
+        Market market;
         final HttpServletRequest request = requestData.getRequest();
         if (requestData.isBackoffice()) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
@@ -996,7 +996,7 @@ public class RequestUtil {
     }
 
     protected MarketArea getCurrentMarketArea(final RequestData requestData) throws Exception {
-        MarketArea marketArea = null;
+        MarketArea marketArea;
         final HttpServletRequest request = requestData.getRequest();
         if (requestData.isBackoffice()) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);

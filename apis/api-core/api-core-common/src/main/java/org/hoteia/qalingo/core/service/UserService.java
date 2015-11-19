@@ -115,7 +115,7 @@ public class UserService {
 	}
 	
     public Company getCompanyById(String rawCompanyId, Object... params) {
-        long companyId = -1;
+        long companyId;
         try {
             companyId = Long.parseLong(rawCompanyId);
         } catch (NumberFormatException e) {

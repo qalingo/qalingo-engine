@@ -566,24 +566,20 @@ public class Customer extends AbstractEntity<Customer> {
 	
 	public CustomerAttribute getCustomerAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
 		CustomerAttribute customerAttributeToReturn = null;
-		if(attributes != null
-		        && Hibernate.isInitialized(attributes)) {
+		if(attributes != null && Hibernate.isInitialized(attributes)) {
 			List<CustomerAttribute> customerAttributesFilter = new ArrayList<CustomerAttribute>();
-			for (Iterator<CustomerAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-				CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
+			for (CustomerAttribute customerAttribute : attributes) {
 				AttributeDefinition attributeDefinition = customerAttribute.getAttributeDefinition();
-				if(attributeDefinition != null
-						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
+				if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
 					customerAttributesFilter.add(customerAttribute);
 				}
 			}
 			if(marketAreaId != null) {
 				for (Iterator<CustomerAttribute> iterator = customerAttributesFilter.iterator(); iterator.hasNext();) {
-					CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
+					CustomerAttribute customerAttribute = iterator.next();
 					AttributeDefinition attributeDefinition = customerAttribute.getAttributeDefinition();
 					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						if(customerAttribute.getMarketAreaId() != null
-								&& BooleanUtils.negate(customerAttribute.getMarketAreaId().equals(marketAreaId))){
+						if(customerAttribute.getMarketAreaId() != null && BooleanUtils.negate(customerAttribute.getMarketAreaId().equals(marketAreaId))){
 							iterator.remove();
 						}
 					}
@@ -594,25 +590,22 @@ public class Customer extends AbstractEntity<Customer> {
 			}
 			if(StringUtils.isNotEmpty(localizationCode)) {
 				for (Iterator<CustomerAttribute> iterator = customerAttributesFilter.iterator(); iterator.hasNext();) {
-					CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
+					CustomerAttribute customerAttribute = iterator.next();
 					AttributeDefinition attributeDefinition = customerAttribute.getAttributeDefinition();
 					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
 						String attributeLocalizationCode = customerAttribute.getLocalizationCode();
-						if(StringUtils.isNotEmpty(attributeLocalizationCode)
-								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
+						if(StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
 							iterator.remove();
 						}
 					}
 				}
 				if(customerAttributesFilter.size() == 0){
 					// TODO : throw error ?
-					
-					for (Iterator<CustomerAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
-						CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
-						
+
+					for (CustomerAttribute customerAttribute : attributes) {
 						// TODO : get a default locale code from setting database ?
-						
-						if(customerAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
+
+						if (customerAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)) {
 							customerAttributeToReturn = customerAttribute;
 						}
 					}

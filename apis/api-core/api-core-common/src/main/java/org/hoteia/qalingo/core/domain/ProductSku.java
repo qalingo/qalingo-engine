@@ -455,16 +455,14 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     public CatalogCategoryVirtual getDefaultCatalogCategoryVirtual(CatalogVirtual catalog) {
         CatalogCategoryVirtual defaultCatalogCategory = null;
         if (catalogCategoryVirtualProductSkuRels != null && Hibernate.isInitialized(catalogCategoryVirtualProductSkuRels) && !catalogCategoryVirtualProductSkuRels.isEmpty()) {
-            for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategoryVirtualProductSkuRels.iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
+            for (CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel : catalogCategoryVirtualProductSkuRels) {
                 CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryVirtualProductSkuRel.getCatalogCategoryVirtual();
                 if (catalogCategoryVirtual.isDefault() && Hibernate.isInitialized(catalogCategoryVirtual.getCatalog()) && catalog.getId().equals(catalogCategoryVirtual.getCatalog().getId())) {
                     defaultCatalogCategory = catalogCategoryVirtual;
                 }
             }
             if (defaultCatalogCategory == null) {
-                for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategoryVirtualProductSkuRels.iterator(); iterator.hasNext();) {
-                    CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
+                for (CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel : catalogCategoryVirtualProductSkuRels) {
                     CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryVirtualProductSkuRel.getCatalogCategoryVirtual();
                     if (Hibernate.isInitialized(catalogCategoryVirtual.getCatalog()) && catalog.getId().equals(catalogCategoryVirtual.getCatalog().getId())) {
                         defaultCatalogCategory = catalogCategoryVirtual;

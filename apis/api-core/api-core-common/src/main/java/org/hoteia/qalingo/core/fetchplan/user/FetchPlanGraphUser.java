@@ -25,6 +25,7 @@ public class FetchPlanGraphUser {
     public static FetchPlan defaultCompanyFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(Company_.localizations.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.attributes.getName()));
         return new FetchPlan(fetchplans);
     }
     

@@ -110,18 +110,17 @@ public class CustomerDao extends AbstractGenericDao {
 		if(customer.getPermalink() == null){
 			customer.setPermalink(UUID.randomUUID().toString());
 		}
-		
-		for (Iterator<CustomerAttribute> iterator = customer.getAttributes().iterator(); iterator.hasNext();) {
-			CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
-			// ATTRIBUTE DEFINITION CAN'T BE NULL
-	        if(customerAttribute.getAttributeDefinition() == null){
-	        	throw new CustomerAttributeException("Attribute Definition can't be null!");
-	        }
-			// MARKET AREA CAN'T BE NULL IF ATTRIBUTE IS NOT GLOBAL
-	        if(!customerAttribute.getAttributeDefinition().isGlobal()
-	        		&& customerAttribute.getMarketAreaId() == null){
-	        	throw new CustomerAttributeException("Market Area can't be null if Attribute is not global!");
-	        }
+
+        for (CustomerAttribute customerAttribute : customer.getAttributes()) {
+            // ATTRIBUTE DEFINITION CAN'T BE NULL
+            if (customerAttribute.getAttributeDefinition() == null) {
+                throw new CustomerAttributeException("Attribute Definition can't be null!");
+            }
+            // MARKET AREA CAN'T BE NULL IF ATTRIBUTE IS NOT GLOBAL
+            if (!customerAttribute.getAttributeDefinition().isGlobal()
+                    && customerAttribute.getMarketAreaId() == null) {
+                throw new CustomerAttributeException("Market Area can't be null if Attribute is not global!");
+            }
         }
         if (customer.getId() != null) {
             if(em.contains(customer)){

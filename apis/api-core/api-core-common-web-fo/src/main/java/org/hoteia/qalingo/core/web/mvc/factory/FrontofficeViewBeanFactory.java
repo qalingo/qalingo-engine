@@ -131,9 +131,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
      */
     public List<MenuViewBean> buildListViewBeanHeaderNav(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCode = localization.getCode();
         final Locale locale = localization.getLocale();
 
         final String currentUrl = requestUtil.getCurrentRequestUrl(request);
@@ -146,19 +144,17 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
         menuViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBean.setActive(currentUrl.contains(FoUrls.HOME.getUrlPatternKey()));
-        menuViewBean.setOrdering(ordering++);
+        menuViewBean.setOrdering(ordering);
         menuViewBeans.add(menuViewBean);
         
         // Set active menu
-        for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
-            MenuViewBean menuCheck = (MenuViewBean) iteratorMenu.next();
+        for (MenuViewBean menuCheck : menuViewBeans) {
             menuCheck.setActive(false);
-            if (currentUrl != null && currentUrl.contains(menuCheck.getUrl())) {
+            if (currentUrl.contains(menuCheck.getUrl())) {
                 menuCheck.setActive(true);
-                for (Iterator<MenuViewBean> iteratorSubMenu = menuCheck.getSubMenus().iterator(); iteratorSubMenu.hasNext();) {
-                    MenuViewBean subMenu = (MenuViewBean) iteratorSubMenu.next();
+                for (MenuViewBean subMenu : menuCheck.getSubMenus()) {
                     subMenu.setActive(false);
-                    if (currentUrl != null && currentUrl.contains(subMenu.getUrl())) {
+                    if (currentUrl.contains(subMenu.getUrl())) {
                         subMenu.setActive(true);
                     }
                 }
@@ -201,22 +197,20 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         if (catalogVirtual != null) {
             final List<CatalogCategoryVirtual> catalogCategories = catalogVirtual.getSortedRootCatalogCategories();
             if (catalogCategories != null) {
-                for (Iterator<CatalogCategoryVirtual> iteratorCatalogCategory = catalogCategories.iterator(); iteratorCatalogCategory.hasNext();) {
-                    final CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorCatalogCategory.next();
+                for (final CatalogCategoryVirtual catalogCategory : catalogCategories) {
                     final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), new FetchPlan(categoryVirtualFetchPlans));
-                    
+
                     menuViewBean = new MenuViewBean();
                     final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localizationCode);
                     menuViewBean.setName(seoCatalogCategoryName);
                     menuViewBean.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategoryReloaded));
                     menuViewBean.setOrdering(ordering++);
                     menuViewBean.setCatalog(true);
-                    
+
                     List<CatalogCategoryVirtual> subCatalogCategories = catalogCategoryReloaded.getSortedChildCatalogCategories();
                     if (subCatalogCategories != null) {
                         List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
-                        for (Iterator<CatalogCategoryVirtual> iteratorSubCatalogCategory = subCatalogCategories.iterator(); iteratorSubCatalogCategory.hasNext();) {
-                            final CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCatalogCategory.next();
+                        for (final CatalogCategoryVirtual subCatalogCategory : subCatalogCategories) {
                             final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), new FetchPlan(categoryVirtualFetchPlans));
                             final MenuViewBean subMenu = new MenuViewBean();
                             final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localizationCode) + " " + subCatalogCategoryReloaded.getI18nName(localizationCode);
@@ -243,19 +237,17 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
         menuViewBean.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
         menuViewBean.setActive(currentUrl.contains(FoUrls.STORE_LOCATION.getUrlPatternKey()));
-        menuViewBean.setOrdering(ordering++);
+        menuViewBean.setOrdering(ordering);
         menuViewBeans.add(menuViewBean);
 
         // Set active menu
-        for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
-            MenuViewBean menuCheck = (MenuViewBean) iteratorMenu.next();
+        for (MenuViewBean menuCheck : menuViewBeans) {
             menuCheck.setActive(false);
-            if (currentUrl != null && currentUrl.contains(menuCheck.getUrl())) {
+            if (currentUrl.contains(menuCheck.getUrl())) {
                 menuCheck.setActive(true);
-                for (Iterator<MenuViewBean> iteratorSubMenu = menuCheck.getSubMenus().iterator(); iteratorSubMenu.hasNext();) {
-                    MenuViewBean subMenu = (MenuViewBean) iteratorSubMenu.next();
+                for (MenuViewBean subMenu : menuCheck.getSubMenus()) {
                     subMenu.setActive(false);
-                    if (currentUrl != null && currentUrl.contains(subMenu.getUrl())) {
+                    if (currentUrl.contains(subMenu.getUrl())) {
                         subMenu.setActive(true);
                     }
                 }
@@ -317,7 +309,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         menuViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
         menuViewBean.setUrl(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
         menuViewBean.setType(MENU_TYPE_OUR_COMPANY);
-        menuViewBean.setOrdering(ordering++);
+        menuViewBean.setOrdering(ordering);
         MenuViewBeans.add(menuViewBean);
 
         return MenuViewBeans;
@@ -393,59 +385,55 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
         final List<FacetField> facetFields = productMarketingResponseBean.getProductMarketingSolrFacetFieldList();
-        for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
-            FacetField facetField = (FacetField) iterator.next();
+        for (FacetField facetField : facetFields) {
             if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_CATEGORIE_CODES.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
-                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
-                
+
             } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_OPTION_DEFINITION_CODES.equalsIgnoreCase(facetField.getName())) {
-                
+
                 // GROUP SKU OPTIONS BY TYPE
                 Map<String, List<SearchFacetValueBean>> skuOptionsByType = new HashMap<String, List<SearchFacetValueBean>>();
-                for (Iterator<Count> iteratorFacetField = facetField.getValues().iterator(); iteratorFacetField.hasNext();) {
-                    Count value = (Count) iteratorFacetField.next();
+                for (Count value : facetField.getValues()) {
                     String skuOptionDefinitionCode = value.getName();
                     final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode);
-                    if(productSkuOptionDefinition != null && productSkuOptionDefinition.getOptionDefinitionType() != null){
+                    if (productSkuOptionDefinition != null && productSkuOptionDefinition.getOptionDefinitionType() != null) {
                         String key = productSkuOptionDefinition.getOptionDefinitionType().getI18nName(localizationCode);
                         List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
-                        if(skuOptions == null){
+                        if (skuOptions == null) {
                             skuOptions = new ArrayList<SearchFacetValueBean>();
                         }
-                        SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), productSkuOptionDefinition.getOptionDefinitionType().getCode(), value.getCount());                
+                        SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), productSkuOptionDefinition.getOptionDefinitionType().getCode(), value.getCount());
                         skuOptions.add(valueBean);
                         skuOptionsByType.put(key, skuOptions);
                     }
                 }
-                
-                for (Iterator<String> iteratorSkuOption = skuOptionsByType.keySet().iterator(); iteratorSkuOption.hasNext();) {
-                    String key = (String) iteratorSkuOption.next();
 
+                for (String key : skuOptionsByType.keySet()) {
                     final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
                     searchFacetViewBean.setCode(facetField.getName());
                     searchFacetViewBean.setName(key);
 
                     List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
-                    for(SearchFacetValueBean valueBean : skuOptions){
+                    for (SearchFacetValueBean valueBean : skuOptions) {
                         searchFacetViewBean.addValue(valueBean);
                     }
-                    if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                         searchFacetViewBeans.add(searchFacetViewBean);
                     }
                 }
-                
+
             } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
-                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
 
-            }else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
+            } else if (ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
-                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
             }
@@ -462,59 +450,55 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
         final List<FacetField> facetFields = productMarketingResponseBean.getProductSkuSolrFacetFieldList();
-        for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
-            FacetField facetField = (FacetField) iterator.next();
+        for (FacetField facetField : facetFields) {
             if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_CATEGORIE_CODES.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
-                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
-                
+
             } else if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_OPTION_DEFINITION_CODES.equalsIgnoreCase(facetField.getName())) {
-                
+
                 // GROUP SKU OPTIONS BY TYPE
                 Map<String, List<SearchFacetValueBean>> skuOptionsByType = new HashMap<String, List<SearchFacetValueBean>>();
-                for (Iterator<Count> iteratorFacetField = facetField.getValues().iterator(); iteratorFacetField.hasNext();) {
-                    Count value = (Count) iteratorFacetField.next();
+                for (Count value : facetField.getValues()) {
                     String skuOptionDefinitionCode = value.getName();
                     final ProductSkuOptionDefinition productSkuOptionDefinition = productService.getProductSkuOptionDefinitionByCode(skuOptionDefinitionCode);
-                    if(productSkuOptionDefinition != null && productSkuOptionDefinition.getOptionDefinitionType() != null){
+                    if (productSkuOptionDefinition != null && productSkuOptionDefinition.getOptionDefinitionType() != null) {
                         String key = productSkuOptionDefinition.getOptionDefinitionType().getI18nName(localizationCode);
                         List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
-                        if(skuOptions == null){
+                        if (skuOptions == null) {
                             skuOptions = new ArrayList<SearchFacetValueBean>();
                         }
-                        SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), productSkuOptionDefinition.getOptionDefinitionType().getCode(), value.getCount());                
+                        SearchFacetValueBean valueBean = new SearchFacetValueBean(productSkuOptionDefinition.getCode(), productSkuOptionDefinition.getI18nName(localizationCode), productSkuOptionDefinition.getOptionDefinitionType().getCode(), value.getCount());
                         skuOptions.add(valueBean);
                         skuOptionsByType.put(key, skuOptions);
                     }
                 }
-                
-                for (Iterator<String> iteratorSkuOption = skuOptionsByType.keySet().iterator(); iteratorSkuOption.hasNext();) {
-                    String key = (String) iteratorSkuOption.next();
 
+                for (String key : skuOptionsByType.keySet()) {
                     final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
                     searchFacetViewBean.setCode(facetField.getName());
                     searchFacetViewBean.setName(key);
 
                     List<SearchFacetValueBean> skuOptions = skuOptionsByType.get(key);
-                    for(SearchFacetValueBean valueBean : skuOptions){
+                    for (SearchFacetValueBean valueBean : skuOptions) {
                         searchFacetViewBean.addValue(valueBean);
                     }
-                    if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                    if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                         searchFacetViewBeans.add(searchFacetViewBean);
                     }
                 }
-                
+
             } else if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
-                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
 
-            }else if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
+            } else if (ProductSkuResponseBean.PRODUCT_SKU_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())) {
                 SearchFacetViewBean searchFacetViewBean = buildViewBeanCatalogSearchFacet(requestData, facetField);
-                if(searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()){
+                if (searchFacetViewBean.getValues() != null && !searchFacetViewBean.getValues().isEmpty()) {
                     searchFacetViewBeans.add(searchFacetViewBean);
                 }
             }
@@ -556,15 +540,13 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.attributes.getName()));
 
         	searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
-            List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
-            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
-                Count value = (Count) iterator.next();
+            for (Count value : facetField.getValues()) {
                 String specificCatalogCategoryCode = value.getName();
-                if(specificCatalogCategoryCode.contains(catalog.getCode())){
+                if (specificCatalogCategoryCode.contains(catalog.getCode())) {
                     String categoryCode = specificCatalogCategoryCode.replace(catalog.getCode() + "_", "");
                     final CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalog.getCode(), new FetchPlan(categoryVirtualFetchPlans));
-                    if(catalogCategoryVirtual != null){
-                        SearchFacetValueBean valueBean = new SearchFacetValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode), value.getCount());                
+                    if (catalogCategoryVirtual != null) {
+                        SearchFacetValueBean valueBean = new SearchFacetValueBean(catalogCategoryVirtual.getCode(), catalogCategoryVirtual.getI18nName(localizationCode), value.getCount());
                         searchFacetViewBean.addValue(valueBean);
                     }
                 }
@@ -577,11 +559,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_TAG_CODES.equalsIgnoreCase(facetField.getName())){
             searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
-            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
-                Count value = (Count) iterator.next();
+            for (Count value : facetField.getValues()) {
                 String tagCode = value.getName();
                 final Tag tag = referentialDataService.getTagByCode(tagCode);
-                if(tagCode != null){
+                if (tagCode != null) {
                     SearchFacetValueBean valueBean = new SearchFacetValueBean(tag.getCode(), tag.getI18nName(localizationCode), value.getCount());
                     searchFacetViewBean.addValue(valueBean);
                 }
@@ -589,11 +570,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         } else if(ProductMarketingResponseBean.PRODUCT_MARKETING_SEARCH_FIELD_PRODUCT_BRAND_CODE.equalsIgnoreCase(facetField.getName())){
             searchFacetViewBean.setName(getSpecificMessage(ScopeWebMessage.FACET_FIELD, facetField.getName().toLowerCase(), locale));
             List<SearchFacetValueBean> values = new ArrayList<SearchFacetValueBean>();
-            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
-                Count value = (Count) iterator.next();
+            for (Count value : facetField.getValues()) {
                 String productBrandCode = value.getName();
                 final ProductBrand productBrand = productService.getProductBrandByCode(productBrandCode);
-                if(productBrand != null){
+                if (productBrand != null) {
                     SearchFacetValueBean valueBean = new SearchFacetValueBean(productBrand.getCode(), productBrand.getI18nName(localizationCode), value.getCount());
                     searchFacetViewBean.addValue(valueBean);
                 }
