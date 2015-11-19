@@ -25,6 +25,7 @@ import net.sf.ehcache.Statistics;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(value = "/admin/cachemanager.html")
+@RequestMapping(value = CommonUrls.ENTITY_CACHE_URL)
 public class CacheManagerController extends AbstractQalingoController {
 
     @Autowired
@@ -114,7 +115,7 @@ public class CacheManagerController extends AbstractQalingoController {
         model.addAttribute("hostname", getHostname());
         model.addAttribute("hasMemorySize", calculateMemorySize);
 
-        return "/velocity/admin/cache-manager";
+        return CommonUrls.ENTITY_CACHE.getVelocityPage();
     }
 
     private List<Cache> getCaches() {

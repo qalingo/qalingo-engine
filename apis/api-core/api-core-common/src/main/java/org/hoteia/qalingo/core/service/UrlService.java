@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tag;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.slf4j.Logger;
@@ -123,8 +124,9 @@ public class UrlService extends AbstractUrlService {
     public String generateRedirectUrl(final FoUrls url, final RequestData requestData, Object... params) {
         return generateUrl(url.getUrlWithoutWildcard(), true, url.withPrefixSEO(), requestData, params);
     }
-
+    
     @SuppressWarnings("unchecked")
+    @Override
     public String generateUrl(final String urlWithoutWildcard, final boolean isEncoded, final boolean isSEO, final RequestData requestData, Object... params) {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();

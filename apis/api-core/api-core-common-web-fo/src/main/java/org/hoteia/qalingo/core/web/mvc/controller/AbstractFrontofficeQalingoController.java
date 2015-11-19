@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -96,7 +97,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 */
 	@ModelAttribute(ModelConstants.XRDS_URL_VIEW_BEAN)
 	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
-		String xrdsURL = urlService.generateUrl(FoUrls.XRDS, requestUtil.getRequestData(request));
+		String xrdsURL = urlService.generateUrl(CommonUrls.XRDS, requestUtil.getRequestData(request));
 		String fullXrdsURL = urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), xrdsURL);
 		return fullXrdsURL;
 	}

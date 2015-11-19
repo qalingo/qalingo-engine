@@ -110,14 +110,7 @@ public enum FoUrls {
     CANCEL_RESET_PASSWORD(FoUrls.CANCEL_RESET_PASSWORD_URL, FoUrls.CANCEL_RESET_PASSWORD_KEY, FoUrls.CANCEL_RESET_PASSWORD_VELOCITY_PAGE, true),
     TIMEOUT(FoUrls.TIMEOUT_URL, FoUrls.TIMEOUT_KEY, FoUrls.TIMEOUT_VELOCITY_PAGE, true),
 
-    CONTEXT(FoUrls.CONTEXT_URL, FoUrls.CONTEXT_KEY, FoUrls.CONTEXT_VELOCITY_PAGE, false),
-    ERROR_500(FoUrls.ERROR_500_URL, FoUrls.ERROR_500_KEY, FoUrls.ERROR_500_VELOCITY_PAGE, true),
-    ERROR_400(FoUrls.ERROR_400_URL, FoUrls.ERROR_400_KEY, FoUrls.ERROR_400_VELOCITY_PAGE, true),
-    ERROR_403(FoUrls.ERROR_403_URL, FoUrls.ERROR_403_KEY, FoUrls.ERROR_403_VELOCITY_PAGE, true),
-    ERROR_404(FoUrls.ERROR_404_URL, FoUrls.ERROR_404_KEY, FoUrls.ERROR_404_VELOCITY_PAGE, true),
-
-    XRDS(FoUrls.XRDS_URL, FoUrls.XRDS_KEY, FoUrls.XRDS_VELOCITY_PAGE, true),
-    VELOCITY_CACHE(FoUrls.VELOCITY_CACHE_URL, FoUrls.VELOCITY_CACHE_KEY, FoUrls.VELOCITY_CACHE_VELOCITY_PAGE, true);
+    CONTEXT(FoUrls.CONTEXT_URL, FoUrls.CONTEXT_KEY, FoUrls.CONTEXT_VELOCITY_PAGE, false);
 
     public static final String PREHOME_KEY             = "prehome";
     public static final String PREHOME_URL             = "/**/prehome.html";
@@ -431,33 +424,6 @@ public enum FoUrls {
     public static final String CONTEXT_URL            = "/**/fo-context.config"; // WARN: *.config pattern must be without any web cache
     public static final String CONTEXT_VELOCITY_PAGE  = "context/context";
 
-    public static final String ERROR_500_KEY            = "error-500";
-    public static final String ERROR_500_URL            = "/**/500.html";
-    public static final String ERROR_500_VELOCITY_PAGE  = "error/error-500";
-
-    public static final String ERROR_400_KEY            = "error-400";
-    public static final String ERROR_400_URL            = "/**/400.html";
-    public static final String ERROR_400_VELOCITY_PAGE  = "error/error-400";
-
-    public static final String ERROR_403_KEY            = "error-403";
-    public static final String ERROR_403_URL            = "/**/403.html";
-    public static final String ERROR_403_VELOCITY_PAGE  = "error/error-403";
-
-    public static final String ERROR_404_KEY            = "error-404";
-    public static final String ERROR_404_URL            = "/**/404.html";
-    public static final String ERROR_404_VELOCITY_PAGE  = "error/error-404";
-
-	public static final String XRDS_KEY				= "xrds";
-	public static final String XRDS_URL				= "/**/xrds.html";
-	public static final String XRDS_VELOCITY_PAGE	= "openid/xrds";
-
-    public static final String VELOCITY_CACHE_KEY           = "flush-cache-ihm";
-    public static final String VELOCITY_CACHE_URL           = "/**/flush-cache-ihm.html";
-    public static final String VELOCITY_CACHE_VELOCITY_PAGE = "tools/flush-cache-ihm";
-	    
-	// TOOLS
-//	public static final String XRDS_CACHE_VELOCITY_PAGE = "openid/xrds";
-	
     private final String url;
     private final String key; // CODE IS USE TO GET THE SEO VALUE
     private final String velocityPage;

@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.controller.common;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.springframework.stereotype.Controller;
@@ -24,30 +24,30 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("errorController")
 public class ErrorController extends AbstractBackofficeQalingoController {
 
-	@RequestMapping(BoUrls.ERROR_500_URL)
+	@RequestMapping(CommonUrls.ERROR_500_URL)
 	public ModelAndView error500(final HttpServletRequest request) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ERROR_500.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), CommonUrls.ERROR_500.getVelocityPage());
 
         return modelAndView;
 	}
 
-    @RequestMapping(BoUrls.ERROR_400_URL)
+    @RequestMapping(CommonUrls.ERROR_400_URL)
     public ModelAndView error400(final HttpServletRequest request) throws Exception {
-        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ERROR_400.getVelocityPage());
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), CommonUrls.ERROR_400.getVelocityPage());
 
         return modelAndView;
     }
 
-    @RequestMapping(BoUrls.ERROR_403_URL)
+    @RequestMapping(CommonUrls.ERROR_403_URL)
     public ModelAndView error403(final HttpServletRequest request) throws Exception {
-        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ERROR_403.getVelocityPage());
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), CommonUrls.ERROR_403.getVelocityPage());
 
         return modelAndView;
     }
 
-    @RequestMapping(BoUrls.ERROR_404_URL)
+    @RequestMapping(CommonUrls.ERROR_404_URL)
     public ModelAndView error404(final HttpServletRequest request) throws Exception {
-        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ERROR_404.getVelocityPage());
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), CommonUrls.ERROR_404.getVelocityPage());
 
         return modelAndView;
     }

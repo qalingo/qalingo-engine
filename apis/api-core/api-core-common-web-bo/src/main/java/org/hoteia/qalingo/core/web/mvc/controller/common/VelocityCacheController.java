@@ -12,12 +12,11 @@ package org.hoteia.qalingo.core.web.mvc.controller.common;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +34,9 @@ public class VelocityCacheController extends AbstractBackofficeQalingoController
 	@Autowired
 	protected CoreMessageSource coreMessageSource;
 	
-	@RequestMapping(BoUrls.VELOCITY_CACHE_URL)
+	@RequestMapping(CommonUrls.VELOCITY_CACHE_URL)
 	public ModelAndView searchEngineSetting(final HttpServletRequest request) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.VELOCITY_CACHE.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), CommonUrls.VELOCITY_CACHE.getVelocityPage());
 
 		viewResolver.clearCache();
 

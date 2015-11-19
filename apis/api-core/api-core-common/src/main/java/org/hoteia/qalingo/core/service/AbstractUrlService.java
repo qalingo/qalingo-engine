@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -38,29 +39,14 @@ public abstract class AbstractUrlService {
     @Autowired
     protected EngineSettingService engineSettingService;
 
-    protected String handleUrlParameters(String url, Map<String, String> urlParams, Map<String, String> getParams) {
-        if (StringUtils.isNotEmpty(url)) {
-            if (urlParams != null) {
-                for (Entry<String, String> entry : urlParams.entrySet()) {
-                    String key = String.format("\\{%s(:[^\\}]+)?\\}", entry.getKey());
-                    if (StringUtils.equals(entry.getKey(), "slug")) {
-                        key = "\\*\\*";
-                    }
-                    if (entry.getValue() != null) {
-                        url = url.replaceAll(key, entry.getValue());
-                    }
-                }
-            }
+    public abstract String generateUrl(final String urlWithoutWildcard, final boolean isEncoded, final boolean isSEO, final RequestData requestData, Object... params);
+    
+    public String generateUrl(final CommonUrls url, final RequestData requestData, Object... params) {
+        return generateUrl(url.getUrlWithoutWildcard(), false, url.withPrefixSEO(), requestData, params);
+    }
 
-            String queryString = "";
-            if (getParams != null) {
-                for (Entry<String, String> entry : getParams.entrySet()) {
-                    queryString += "&" + entry.getKey() + "=" + entry.getValue();
-                }
-            }
-            return url.toLowerCase() + queryString.replaceFirst("&", "?");
-        }
-        return url;
+    public String generateRedirectUrl(final CommonUrls url, final RequestData requestData, Object... params) {
+        return generateUrl(url.getUrlWithoutWildcard(), true, url.withPrefixSEO(), requestData, params);
     }
 
     public String buildAbsoluteUrl(final RequestData requestData, final String relativeUrl) throws Exception {
@@ -139,6 +125,31 @@ public abstract class AbstractUrlService {
         return fullPrefixUrl;
     }
 
+    protected String handleUrlParameters(String url, Map<String, String> urlParams, Map<String, String> getParams) {
+        if (StringUtils.isNotEmpty(url)) {
+            if (urlParams != null) {
+                for (Entry<String, String> entry : urlParams.entrySet()) {
+                    String key = String.format("\\{%s(:[^\\}]+)?\\}", entry.getKey());
+                    if (StringUtils.equals(entry.getKey(), "slug")) {
+                        key = "\\*\\*";
+                    }
+                    if (entry.getValue() != null) {
+                        url = url.replaceAll(key, entry.getValue());
+                    }
+                }
+            }
+
+            String queryString = "";
+            if (getParams != null) {
+                for (Entry<String, String> entry : getParams.entrySet()) {
+                    queryString += "&" + entry.getKey() + "=" + entry.getValue();
+                }
+            }
+            return url.toLowerCase() + queryString.replaceFirst("&", "?");
+        }
+        return url;
+    }
+    
     protected String getSeoPrefixUrl(final RequestData requestData, boolean isEncoded) throws Exception {
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final Market market = requestData.getMarket();

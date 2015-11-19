@@ -90,6 +90,7 @@ public class BackofficeUrlService extends AbstractUrlService {
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public String generateUrl(final String urlWithoutWildcard, final boolean isEncoded, final boolean isSEO, final RequestData requestData, Object... params) {
     	String urlStr = null;
     	Map<String, String> getParams = new HashMap<String, String>();

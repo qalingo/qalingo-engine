@@ -12,7 +12,7 @@ package org.hoteia.qalingo.core.web.mvc.controller.common;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -34,9 +34,9 @@ public class VelocityCacheController extends AbstractFrontofficeQalingoControlle
 	@Autowired
 	protected CoreMessageSource coreMessageSource;
 
-	@RequestMapping(FoUrls.VELOCITY_CACHE_URL)
+	@RequestMapping(CommonUrls.VELOCITY_CACHE_URL)
 	public ModelAndView flushCache(final HttpServletRequest request) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.VELOCITY_CACHE.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), CommonUrls.VELOCITY_CACHE.getVelocityPage());
 
 		viewResolver.clearCache();
 		

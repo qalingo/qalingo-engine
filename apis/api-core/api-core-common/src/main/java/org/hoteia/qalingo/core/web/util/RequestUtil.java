@@ -54,6 +54,7 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.bean.GeolocDataCity;
 import org.hoteia.qalingo.core.domain.bean.GeolocDataCountry;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
@@ -714,10 +715,10 @@ public class RequestUtil {
 
     public List<String> getCommonUrlExcludedPatterns() throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add(FoUrls.ERROR_400.getUrlPatternKey());
-        excludedPatterns.add(FoUrls.ERROR_403.getUrlPatternKey());
-        excludedPatterns.add(FoUrls.ERROR_404.getUrlPatternKey());
-        excludedPatterns.add(FoUrls.ERROR_500.getUrlPatternKey());
+        excludedPatterns.add(CommonUrls.ERROR_400.getUrlPatternKey());
+        excludedPatterns.add(CommonUrls.ERROR_403.getUrlPatternKey());
+        excludedPatterns.add(CommonUrls.ERROR_404.getUrlPatternKey());
+        excludedPatterns.add(CommonUrls.ERROR_500.getUrlPatternKey());
         excludedPatterns.add(FoUrls.CHANGE_CONTEXT.getUrlPatternKey());
         excludedPatterns.add(FoUrls.CHANGE_LANGUAGE.getUrlPatternKey());
         excludedPatterns.add(FoUrls.FORBIDDEN.getUrlPatternKey());

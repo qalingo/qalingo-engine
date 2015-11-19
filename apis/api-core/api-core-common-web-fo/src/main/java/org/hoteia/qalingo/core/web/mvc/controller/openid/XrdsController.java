@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver;
@@ -31,9 +31,9 @@ public class XrdsController extends AbstractFrontofficeQalingoController {
 	@Resource(name="viewResolver")
 	protected VelocityLayoutViewResolver viewResolver;
 
-	@RequestMapping(FoUrls.XRDS_URL)
+	@RequestMapping(CommonUrls.XRDS_URL)
 	public ModelAndView displayXRDS(final HttpServletRequest request, final HttpServletResponse response, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.XRDS.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), CommonUrls.XRDS.getVelocityPage());
 		String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(requestUtil.getRequestData(request));
 		String returnToURL = urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), openIdCallBackURL);
 		

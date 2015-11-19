@@ -139,14 +139,7 @@ public enum BoUrls {
     COMPANY_DETAILS(BoUrls.COMPANY_DETAILS_URL, BoUrls.COMPANY_DETAILS_KEY, BoUrls.COMPANY_DETAILS_VELOCITY_PAGE, true),
     COMPANY_EDIT(BoUrls.COMPANY_EDIT_URL, BoUrls.COMPANY_EDIT_KEY, BoUrls.COMPANY_EDIT_VELOCITY_PAGE, true),
 
-    CONTEXT(BoUrls.CONTEXT_URL, BoUrls.CONTEXT_KEY, BoUrls.CONTEXT_VELOCITY_PAGE, false),
-
-    ERROR_500(BoUrls.ERROR_500_URL, BoUrls.ERROR_500_KEY, BoUrls.ERROR_500_VELOCITY_PAGE, false),
-    ERROR_400(BoUrls.ERROR_400_URL, BoUrls.ERROR_400_KEY, BoUrls.ERROR_400_VELOCITY_PAGE, false),
-    ERROR_403(BoUrls.ERROR_403_URL, BoUrls.ERROR_403_KEY, BoUrls.ERROR_403_VELOCITY_PAGE, false),
-    ERROR_404(BoUrls.ERROR_404_URL, BoUrls.ERROR_404_KEY, BoUrls.ERROR_404_VELOCITY_PAGE, false),
-    
-    VELOCITY_CACHE(BoUrls.VELOCITY_CACHE_URL, BoUrls.VELOCITY_CACHE_KEY, BoUrls.VELOCITY_CACHE_PAGE, false);
+    CONTEXT(BoUrls.CONTEXT_URL, BoUrls.CONTEXT_KEY, BoUrls.CONTEXT_VELOCITY_PAGE, false);
 
 	public static final String HOME_KEY				= "home";
 	public static final String HOME_URL				= "/**/home.html";
@@ -516,26 +509,6 @@ public enum BoUrls {
     public static final String CONTEXT_URL            = "/**/bo-context.config"; // WARN: *.config pattern must be without any web cache
     public static final String CONTEXT_VELOCITY_PAGE  = "context/context";
 
-    public static final String ERROR_500_KEY            = "error-500";
-    public static final String ERROR_500_URL            = "/500.html";
-    public static final String ERROR_500_VELOCITY_PAGE  = "error/error-500";
-
-    public static final String ERROR_400_KEY            = "error-400";
-    public static final String ERROR_400_URL            = "/400.html";
-    public static final String ERROR_400_VELOCITY_PAGE  = "error/error-400";
-
-    public static final String ERROR_403_KEY            = "error-403";
-    public static final String ERROR_403_URL            = "/403.html";
-    public static final String ERROR_403_VELOCITY_PAGE  = "error/error-403";
-
-    public static final String ERROR_404_KEY            = "error-404";
-    public static final String ERROR_404_URL            = "/404.html";
-    public static final String ERROR_404_VELOCITY_PAGE  = "error/error-404";
-    
-    public static final String VELOCITY_CACHE_KEY           = "flush-cache-ihm";
-    public static final String VELOCITY_CACHE_URL           = "/flush-cache-ihm.html";
-    public static final String VELOCITY_CACHE_PAGE          = "tools/flush-cache-ihm";
-    
     private final String url;
     private final String key; // CODE IS USE TO GET THE ASSOCIATED MENU AND THE SEO VALUE
     private final String velocityPage;
