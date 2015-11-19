@@ -46,7 +46,7 @@ public class CacheIhmManagerController extends AbstractQalingoController {
 
 		processFlush(flush);
 
-        model.addAttribute("title", Constants.QALINGO + " Cache Manager");
+        model.addAttribute("title", Constants.QALINGO + " IHM Cache Manager");
         model.addAttribute("flushName", flush);
         model.addAttribute("hostname", getHostname());
         

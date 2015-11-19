@@ -107,7 +107,7 @@ public class CacheEntityManagerController extends AbstractQalingoController {
         if (enable != null)
             processCachesStatus(enable, caches, false);
 
-        model.addAttribute("title", Constants.QALINGO + " Cache Manager");
+        model.addAttribute("title", Constants.QALINGO + " Cache Entity Manager");
         model.addAttribute("flushName", flush);
         model.addAttribute("caches", caches);
         model.addAttribute("hostname", getHostname());
