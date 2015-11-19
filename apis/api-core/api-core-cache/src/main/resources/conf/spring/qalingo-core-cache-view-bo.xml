@@ -27,15 +27,15 @@
                            http://www.springframework.org/schema/aop/spring-aop.xsd
                            http://www.springframework.org/schema/cache
                            http://www.springframework.org/schema/cache/spring-cache.xsd">
-
-	<bean id="viewResolver" class="org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver">
-		<property name="viewClass" value="org.hoteia.qalingo.core.cache.CustomVelocityLayoutView" />
+	
+    <bean id="viewResolver" class="org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver">
+        <property name="viewClass" value="org.hoteia.qalingo.core.cache.CustomVelocityLayoutView" />
         <property name="layoutUrl" value="default/www/default/layout/default.vm" />
-		<property name="cache" value="true" />
-		<property name="prefix" value="" />
-		<property name="suffix" value=".vm" />
-		<property name="exposeSpringMacroHelpers" value="true" />
-		<property name="contentType" value="text/html; charset=UTF-8" />
+        <property name="cache" value="true" />
+        <property name="prefix" value="" />
+        <property name="suffix" value=".vm" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="contentType" value="text/html; charset=UTF-8" />
         <property name="dateToolAttribute" value="dateTool" />
         <property name="numberToolAttribute" value="numberTool" />
         <property name="attributesMap">
@@ -49,15 +49,6 @@
         <property name="toolboxConfigLocation">
             <value>/WEB-INF/classes/velocity/velocity-toolbox.xml</value>
         </property>
-	</bean>
-	
-	<!--
-    <aop:config>
-        <aop:aspect id="triggerFrontofficeViewBeanFactory" ref="cacheManagementAspect">
-            <aop:pointcut id="frontofficeViewBeanFactoryPointcut" expression="execution(* org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory.buildViewBean*(..))" />
-            <aop:around method="around" pointcut-ref="frontofficeViewBeanFactoryPointcut" />
-        </aop:aspect>
-    </aop:config>
-	-->
-	
+    </bean>
+    
 </beans>

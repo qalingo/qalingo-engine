@@ -42,18 +42,5 @@
 	        </props>
 	    </property>
 	</bean>
-	
-	<!-- 
-	<bean id="viewResolver" class="org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
-        <property name="layoutUrl" value="default/www/default/layout/default.vm" />
-		<property name="cache" value="true" />
-		<property name="prefix" value="" />
-		<property name="suffix" value=".vm" />
-		<property name="exposeSpringMacroHelpers" value="true" />
-		<property name="contentType" value="text/html; charset=UTF-8" />
-		<property name="velocityConfigurer" value="velocityConfigurer" />
-	</bean>
-	 -->
 
 </beans>
