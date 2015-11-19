@@ -44,12 +44,12 @@ public enum CommonUrls {
     public static final String ERROR_404_VELOCITY_PAGE  = "error/error-404";
     
     public static final String ENTITY_CACHE_KEY           = "flush-cache-ihm";
-    public static final String ENTITY_CACHE_URL           = "/admin/cachemanager.html";
-    public static final String ENTITY_CACHE_PAGE          = "/velocity/admin/cache-manager";
+    public static final String ENTITY_CACHE_URL           = "/admin/cache-entity-manager.html";
+    public static final String ENTITY_CACHE_PAGE          = "/velocity/admin/cache-entity-manager";
 
     public static final String VELOCITY_CACHE_KEY           = "flush-cache-ihm";
-    public static final String VELOCITY_CACHE_URL           = "/admin/flush-cache-ihm.html";
-    public static final String VELOCITY_CACHE_PAGE          = "tools/flush-cache-ihm";
+    public static final String VELOCITY_CACHE_URL           = "/admin/cache-ihm-manager.html";
+    public static final String VELOCITY_CACHE_PAGE          = "/velocity/admin/cache-ihm-manager";
     
     private final String url;
     private final String key; // CODE IS USE TO GET THE ASSOCIATED MENU AND THE SEO VALUE

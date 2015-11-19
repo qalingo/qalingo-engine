@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.web.mvc.controller;
+package org.hoteia.qalingo.core.web.mvc.controller.admin;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,6 +26,7 @@ import net.sf.ehcache.Statistics;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
+import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = CommonUrls.ENTITY_CACHE_URL)
-public class CacheManagerController extends AbstractQalingoController {
+public class CacheEntityManagerController extends AbstractQalingoController {
 
     @Autowired
     private EhCacheCacheManager ehCacheCacheManager;
@@ -78,15 +79,12 @@ public class CacheManagerController extends AbstractQalingoController {
         public abstract void doAction(Cache cache, String value);
     }
 
-//    private StoreCache storeCache;
-
     @PostConstruct
     public void init() {
-//        storeCache = OpenJPAPersistence.cast(entityManagerFactory).getStoreCache();
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String display(final HttpServletRequest request, final Model model,
+    public String displayCacheEntityManager(final HttpServletRequest request, final Model model,
                 @RequestParam(value = "flush", required = false) String flush,
                 @RequestParam(value = "resetStats", required = false) Boolean resetStats,
                 @RequestParam(value = "calculateMemorySize", required = false) Boolean calculateMemorySize,
@@ -159,8 +157,6 @@ public class CacheManagerController extends AbstractQalingoController {
     }
 
     private void processFlush(String flush, List<Cache> caches) {
-        // if ("openjpa".equals(flush) || "awoj".equals(flush) ||
-        // "allwithopenjpa".equals(flush)) storeCache.evictAll();
         if ("all".equals(flush) || "awoj".equals(flush) || "allwithopenjpa".equals(flush)) {
             flushCaches(caches);
         }
