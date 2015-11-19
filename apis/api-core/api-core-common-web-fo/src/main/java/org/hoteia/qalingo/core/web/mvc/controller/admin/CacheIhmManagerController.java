@@ -9,9 +9,13 @@
  */
 package org.hoteia.qalingo.core.web.mvc.controller.admin;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
@@ -42,6 +46,10 @@ public class CacheIhmManagerController extends AbstractQalingoController {
 
 		processFlush(flush);
 
+        model.addAttribute("title", Constants.QALINGO + " Cache Manager");
+        model.addAttribute("flushName", flush);
+        model.addAttribute("hostname", getHostname());
+        
 		return CommonUrls.VELOCITY_CACHE.getVelocityPage();
 	}
     
@@ -56,6 +64,14 @@ public class CacheIhmManagerController extends AbstractQalingoController {
         } else if ("message".equals(flush)) {
             coreMessageSource.clearCache();
             
+        }
+    }
+    
+    private String getHostname() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            return "unknowned";
         }
     }
 	
