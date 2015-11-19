@@ -478,6 +478,20 @@ public class ProductDao extends AbstractGenericDao {
         List<Long> productSkuIds = criteria.list();
         return productSkuIds;
     }
+
+    public List<String> findProductSkuCode(int maxResults) {
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
+        criteria.setProjection(Projections.property("code"));
+        criteria.addOrder(Order.asc("code"));
+
+        if(maxResults != 0){
+            criteria.setMaxResults(maxResults);
+        }
+
+        @SuppressWarnings("unchecked")
+        List<String> productSkuIds = criteria.list();
+        return productSkuIds;
+    }
     
     public List<Long> findProductSkuIdsEnableB2COrderByDateUpdate(int maxResults) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);

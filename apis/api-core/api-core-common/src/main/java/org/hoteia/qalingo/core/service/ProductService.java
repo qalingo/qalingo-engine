@@ -278,9 +278,18 @@ public class ProductService {
     public List<Long> findAllProductSkuIds() {
         return findProductSkuIds(0);
     }
-    
+
+
     public List<Long> findProductSkuIds(int maxResults){
         return productDao.findProductSkuIds(maxResults);
+    }
+
+    public List<String> findAllProductSkuCode() {
+        return findProductSkuCode(0);
+    }
+
+    public List<String> findProductSkuCode(int maxResults){
+        return productDao.findProductSkuCode(maxResults);
     }
     
     public List<Long> findProductSkuIdsEnableB2COrderByDateUpdate(int maxResults){

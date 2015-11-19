@@ -340,25 +340,21 @@ public class WebBackofficeService {
 
         brand.setEnabled(brandForm.isEnabled());
 
-        if(brandForm != null
-                && brandForm.getMarketAreaAttributes() != null) {
+        if(brandForm.getMarketAreaAttributes() != null) {
             Map<String, String> attributes = brandForm.getMarketAreaAttributes();
-            for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-                String attributeKey = (String) iterator.next();
+            for (String attributeKey : attributes.keySet()) {
                 String value = attributes.get(attributeKey);
-                if(StringUtils.isNotEmpty(value)) {
+                if (StringUtils.isNotEmpty(value)) {
                     brand.getMarketAreaAttributes(marketArea.getId()).add(buildProductBrandAttribute(marketArea, localization, attributeKey, value, false));
                 }
             }
         }
         
-        if(brandForm != null
-                && brandForm.getGlobalAttributes() != null) {
+        if(brandForm.getGlobalAttributes() != null) {
             Map<String, String> attributes = brandForm.getGlobalAttributes();
-            for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-                String attributeKey = (String) iterator.next();
+            for (String attributeKey : attributes.keySet()) {
                 String value = attributes.get(attributeKey);
-                if(StringUtils.isNotEmpty(value)) {
+                if (StringUtils.isNotEmpty(value)) {
                     brand.getGlobalAttributes().add(buildProductBrandAttribute(marketArea, localization, attributeKey, value, true));
                 }
             }
@@ -391,28 +387,24 @@ public class WebBackofficeService {
 		catalogCategory.setParentCatalogCategory(parentCatalogCategory);
 		catalogCategory.setCatalog(requestData.getMasterCatalog());
 		
-		if(catalogCategoryForm != null
-				&& catalogCategoryForm.getMarketAreaAttributes() != null) {
+		if(catalogCategoryForm.getMarketAreaAttributes() != null) {
 			Map<String, String> attributes = catalogCategoryForm.getMarketAreaAttributes();
-			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-				String attributeKey = (String) iterator.next();
-				String value = attributes.get(attributeKey);
-				if(StringUtils.isNotEmpty(value)) {
-					catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, false));
-				}
-			}
+            for (String attributeKey : attributes.keySet()) {
+                String value = attributes.get(attributeKey);
+                if (StringUtils.isNotEmpty(value)) {
+                    catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, false));
+                }
+            }
 		}
 		
-		if(catalogCategoryForm != null
-				&& catalogCategoryForm.getGlobalAttributes() != null) {
+		if(catalogCategoryForm.getGlobalAttributes() != null) {
 			Map<String, String> attributes = catalogCategoryForm.getGlobalAttributes();
-			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-				String attributeKey = (String) iterator.next();
-				String value = attributes.get(attributeKey);
-				if(StringUtils.isNotEmpty(value)) {
-					catalogCategory.getGlobalAttributes().add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, true));
-				}
-			}
+            for (String attributeKey : attributes.keySet()) {
+                String value = attributes.get(attributeKey);
+                if (StringUtils.isNotEmpty(value)) {
+                    catalogCategory.getGlobalAttributes().add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, true));
+                }
+            }
 		}
 		
 		try {
@@ -464,48 +456,42 @@ public class WebBackofficeService {
 		    catalogCategory.setParentCatalogCategory(null);
 		}
 
-		if(catalogCategoryForm != null
-				&& catalogCategoryForm.getGlobalAttributes() != null) {
+		if(catalogCategoryForm.getGlobalAttributes() != null) {
 			Map<String, String> attributes = catalogCategoryForm.getGlobalAttributes();
 			boolean doesntExist = true;
-			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
-					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryGlobalAttributes.next();
-					if(catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
-					    catalogCategoryMasterAttribute.setValue(catalogCategoryForm.getGlobalAttributes().get(attributeKey));
-						doesntExist = false;
-					}
-				}
-				if(doesntExist) {
-					String value = attributes.get(attributeKey);
-					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, true));
-					}
-				}
-			}
+            for (String attributeKey : attributes.keySet()) {
+                for (CatalogCategoryMasterAttribute catalogCategoryMasterAttribute : catalogCategory.getGlobalAttributes()) {
+                    if (catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
+                        catalogCategoryMasterAttribute.setValue(catalogCategoryForm.getGlobalAttributes().get(attributeKey));
+                        doesntExist = false;
+                    }
+                }
+                if (doesntExist) {
+                    String value = attributes.get(attributeKey);
+                    if (StringUtils.isNotEmpty(value)) {
+                        catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, true));
+                    }
+                }
+            }
 		}
 		
-		if(catalogCategoryForm != null
-				&& catalogCategoryForm.getMarketAreaAttributes() != null) {
+		if(catalogCategoryForm.getMarketAreaAttributes() != null) {
 			Map<String, String> attributes = catalogCategoryForm.getMarketAreaAttributes();
 			boolean doesntExist = true;
-			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryMarketAttributes = catalogCategory.getMarketAreaAttributes(marketArea.getId()).iterator(); iteratorCategoryMarketAttributes.hasNext();) {
-					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryMarketAttributes.next();
-					if(catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
-					    catalogCategoryMasterAttribute.setValue(catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
-						doesntExist = false;
-					}
-				}
-				if(doesntExist) {
-					String value = attributes.get(attributeKey);
-					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, false));
-					}
-				}
-			}
+            for (String attributeKey : attributes.keySet()) {
+                for (CatalogCategoryMasterAttribute catalogCategoryMasterAttribute : catalogCategory.getMarketAreaAttributes(marketArea.getId())) {
+                    if (catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
+                        catalogCategoryMasterAttribute.setValue(catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
+                        doesntExist = false;
+                    }
+                }
+                if (doesntExist) {
+                    String value = attributes.get(attributeKey);
+                    if (StringUtils.isNotEmpty(value)) {
+                        catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, false));
+                    }
+                }
+            }
 		}
 		return catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
@@ -532,25 +518,21 @@ public class WebBackofficeService {
         catalogCategory.setParentCatalogCategory(parentCatalogCategory);
         catalogCategory.setCatalog(marketArea.getCatalog());
         
-        if(catalogCategoryForm != null
-                && catalogCategoryForm.getMarketAreaAttributes() != null) {
+        if(catalogCategoryForm.getMarketAreaAttributes() != null) {
             Map<String, String> attributes = catalogCategoryForm.getMarketAreaAttributes();
-            for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-                String attributeKey = (String) iterator.next();
+            for (String attributeKey : attributes.keySet()) {
                 String value = attributes.get(attributeKey);
-                if(StringUtils.isNotEmpty(value)) {
+                if (StringUtils.isNotEmpty(value)) {
                     catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, false));
                 }
             }
         }
         
-        if(catalogCategoryForm != null
-                && catalogCategoryForm.getGlobalAttributes() != null) {
+        if(catalogCategoryForm.getGlobalAttributes() != null) {
             Map<String, String> attributes = catalogCategoryForm.getGlobalAttributes();
-            for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-                String attributeKey = (String) iterator.next();
+            for (String attributeKey : attributes.keySet()) {
                 String value = attributes.get(attributeKey);
-                if(StringUtils.isNotEmpty(value)) {
+                if (StringUtils.isNotEmpty(value)) {
                     catalogCategory.getGlobalAttributes().add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, true));
                 }
             }
@@ -631,48 +613,42 @@ public class WebBackofficeService {
 //			}
 //		}
 		
-		if(catalogCategoryForm != null
-				&& catalogCategoryForm.getGlobalAttributes() != null) {
+		if(catalogCategoryForm.getGlobalAttributes() != null) {
 			Map<String, String> attributes = catalogCategoryForm.getGlobalAttributes();
 			boolean doesntExist = true;
-			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
-					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryGlobalAttributes.next();
-					if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
-					    catalogCategoryVirtualAttribute.setValue(catalogCategoryForm.getGlobalAttributes().get(attributeKey));
-						doesntExist = false;
-					}
-				}
-				if(doesntExist) {
-					String value = attributes.get(attributeKey);
-					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, true));
-					}
-				}
-			}
+            for (String attributeKey : attributes.keySet()) {
+                for (CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute : catalogCategory.getGlobalAttributes()) {
+                    if (catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
+                        catalogCategoryVirtualAttribute.setValue(catalogCategoryForm.getGlobalAttributes().get(attributeKey));
+                        doesntExist = false;
+                    }
+                }
+                if (doesntExist) {
+                    String value = attributes.get(attributeKey);
+                    if (StringUtils.isNotEmpty(value)) {
+                        catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, true));
+                    }
+                }
+            }
 		}
 		
-		if(catalogCategoryForm != null
-				&& catalogCategoryForm.getMarketAreaAttributes() != null) {
+		if(catalogCategoryForm.getMarketAreaAttributes() != null) {
 			Map<String, String> attributes = catalogCategoryForm.getMarketAreaAttributes();
 			boolean doesntExist = true;
-			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
-				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryMarketAttributes = catalogCategory.getMarketAreaAttributes(marketArea.getId()).iterator(); iteratorCategoryMarketAttributes.hasNext();) {
-					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryMarketAttributes.next();
-					if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
-					    catalogCategoryVirtualAttribute.setValue(catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
-						doesntExist = false;
-					}
-				}
-				if(doesntExist) {
-					String value = attributes.get(attributeKey);
-					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, false));
-					}
-				}
-			}
+            for (String attributeKey : attributes.keySet()) {
+                for (CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute : catalogCategory.getMarketAreaAttributes(marketArea.getId())) {
+                    if (catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
+                        catalogCategoryVirtualAttribute.setValue(catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
+                        doesntExist = false;
+                    }
+                }
+                if (doesntExist) {
+                    String value = attributes.get(attributeKey);
+                    if (StringUtils.isNotEmpty(value)) {
+                        catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, false));
+                    }
+                }
+            }
 		}
 		
 		return catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
@@ -732,9 +708,8 @@ public class WebBackofficeService {
             productMarketing.setName(productMarketingForm.getName());
         }
 		productMarketing.setDescription(productMarketingForm.getDescription());
-		
-		ProductMarketing savedProductMarketing = productService.saveOrUpdateProductMarketing(productMarketing);
-		return savedProductMarketing;
+
+        return productService.saveOrUpdateProductMarketing(productMarketing);
 	}
 	
 	public ProductSku createOrUpdateProductSku(ProductSku productSku, final ProductSkuForm productSkuForm) {
@@ -882,9 +857,8 @@ public class WebBackofficeService {
 
         warehouse.setLatitude(warehouseForm.getLatitude());
         warehouse.setLongitude(warehouseForm.getLongitude());
-        
-        Warehouse savedWarehouse = warehouseService.saveOrUpdateWarehouse(warehouse);
-        return savedWarehouse;
+
+        return warehouseService.saveOrUpdateWarehouse(warehouse);
     }
 
     public DeliveryMethod createOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod, final DeliveryMethodForm deliveryMethodForm) {
@@ -940,27 +914,25 @@ public class WebBackofficeService {
                 paymentGateway.addMarketArea(marketArea);
             }
         } else {
-            if (paymentGateway.getMarketAreas() == null || paymentGateway.getMarketAreas().contains(marketArea)) {
+            if (paymentGateway.getMarketAreas() != null && paymentGateway.getMarketAreas().contains(marketArea)) {
                 paymentGateway.getMarketAreas().remove(marketArea);
             }
         }
 
-        for (Iterator<String> iterator = paymentGatewayForm.getGlobalAttributeMap().keySet().iterator(); iterator.hasNext();) {
-            String key = (String) iterator.next();
+        for (String key : paymentGatewayForm.getGlobalAttributeMap().keySet()) {
             String value = paymentGatewayForm.getGlobalAttributeMap().get(key);
             boolean success = paymentGateway.updateAttribute(key, value);
-            if(!success){
+            if (!success) {
                 // ATTRIBUTE DOESN'T EXIT - ADD
                 AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(key);
                 paymentGateway.addAttribute(null, attributeDefinition, value);
             }
         }
-        
-        for (Iterator<String> iterator = paymentGatewayForm.getMarketAreaAttributeMap().keySet().iterator(); iterator.hasNext();) {
-            String key = (String) iterator.next();
+
+        for (String key : paymentGatewayForm.getMarketAreaAttributeMap().keySet()) {
             String value = paymentGatewayForm.getMarketAreaAttributeMap().get(key);
             boolean success = paymentGateway.updateAttribute(key, value);
-            if(!success){
+            if (!success) {
                 // ATTRIBUTE DOESN'T EXIT - ADD
                 AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(key);
                 paymentGateway.addAttribute(marketArea, attributeDefinition, value);
@@ -969,9 +941,8 @@ public class WebBackofficeService {
         
         List<PaymentGatewayOption> availableOptions = paymentGatewayService.findPaymentGatewayOptions();
         Set<PaymentGatewayOption> options = new HashSet<PaymentGatewayOption>();
-        for (Iterator<PaymentGatewayOption> iterator = availableOptions.iterator(); iterator.hasNext();) {
-            PaymentGatewayOption paymentGatewayOption = (PaymentGatewayOption) iterator.next();
-            if(paymentGatewayForm.getOptionMap().keySet().contains(paymentGatewayOption.getCode())){
+        for (PaymentGatewayOption paymentGatewayOption : availableOptions) {
+            if (paymentGatewayForm.getOptionMap().keySet().contains(paymentGatewayOption.getCode())) {
                 options.add(paymentGatewayOption);
             }
         }

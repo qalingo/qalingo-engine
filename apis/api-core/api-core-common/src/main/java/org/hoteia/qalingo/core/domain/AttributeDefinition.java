@@ -1,69 +1,59 @@
 /**
  * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
  * under the Apache License Version 2.0 (release version 0.8.0)
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- *                   Copyright (c) Hoteia, 2012-2014
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Copyright (c) Hoteia, 2012-2014
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
- *
  */
 package org.hoteia.qalingo.core.domain;
 
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
-
 @Entity
-@Table(name="TECO_ATTRIBUTE_DEFINITION")
+@Table(name = "TECO_ATTRIBUTE_DEFINITION")
 public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = -9192631267286418164L;
-	
-    // TODO : ENUM this
-    public static int ATTRIBUTE_TYPE_SHORT_STRING   = 1;
-    public static int ATTRIBUTE_TYPE_LONG_STRING    = 2;
-    public static int ATTRIBUTE_TYPE_DOUBLE         = 3;
-    public static int ATTRIBUTE_TYPE_FLOAT          = 4;
-    public static int ATTRIBUTE_TYPE_INTEGER        = 5;
-    public static int ATTRIBUTE_TYPE_BLOB           = 6;
-    public static int ATTRIBUTE_TYPE_BOOLEAN        = 7;
-    public static int ATTRIBUTE_TYPE_DATE           = 8;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -9192631267286418164L;
 
-    public static int OBJECT_TYPE_CATALOG_CATEGORY              = 1;
-    public static int OBJECT_TYPE_PRODUCT_MARKETING             = 2;
-    public static int OBJECT_TYPE_PRODUCT_SKU                   = 3;
-    public static int OBJECT_TYPE_CUSTOMER                      = 4;
-    public static int OBJECT_TYPE_STORE                         = 5;
-    public static int OBJECT_TYPE_PAYMENT_GATEWAY               = 6;
-    public static int OBJECT_TYPE_RULE_REFERENTIAL              = 7;
-    public static int OBJECT_TYPE_MARKET_AREA                   = 8;
-    public static int OBJECT_TYPE_TAX                           = 9;
-    public static int OBJECT_TYPE_RETAILER                      = 10;
+    // TODO : ENUM this
+    public static int ATTRIBUTE_TYPE_SHORT_STRING = 1;
+    public static int ATTRIBUTE_TYPE_LONG_STRING = 2;
+    public static int ATTRIBUTE_TYPE_DOUBLE = 3;
+    public static int ATTRIBUTE_TYPE_FLOAT = 4;
+    public static int ATTRIBUTE_TYPE_INTEGER = 5;
+    public static int ATTRIBUTE_TYPE_BLOB = 6;
+    public static int ATTRIBUTE_TYPE_BOOLEAN = 7;
+    public static int ATTRIBUTE_TYPE_DATE = 8;
+
+    public static int OBJECT_TYPE_CATALOG_CATEGORY = 1;
+    public static int OBJECT_TYPE_PRODUCT_MARKETING = 2;
+    public static int OBJECT_TYPE_PRODUCT_SKU = 3;
+    public static int OBJECT_TYPE_CUSTOMER = 4;
+    public static int OBJECT_TYPE_STORE = 5;
+    public static int OBJECT_TYPE_PAYMENT_GATEWAY = 6;
+    public static int OBJECT_TYPE_RULE_REFERENTIAL = 7;
+    public static int OBJECT_TYPE_MARKET_AREA = 8;
+    public static int OBJECT_TYPE_TAX = 9;
+    public static int OBJECT_TYPE_RETAILER = 10;
     public static int OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION = 11;
-    public static int OBJECT_TYPE_USER                          = 12;
-    public static int OBJECT_TYPE_PRODUCT_BRAND                 = 13;
-    public static int OBJECT_TYPE_PRODUCT_SKU_STORE             = 14;
-    public static int OBJECT_TYPE_TAG                           = 15;
-    public static int OBJECT_TYPE_ORDER                         = 16;
-    public static int OBJECT_TYPE_ORDER_PAYMENT                 = 17;
+    public static int OBJECT_TYPE_USER = 12;
+    public static int OBJECT_TYPE_PRODUCT_BRAND = 13;
+    public static int OBJECT_TYPE_PRODUCT_SKU_STORE = 14;
+    public static int OBJECT_TYPE_TAG = 15;
+    public static int OBJECT_TYPE_ORDER = 16;
+    public static int OBJECT_TYPE_ORDER_PAYMENT = 17;
+    public static int OBJECT_TYPE_COMPANY = 18;
 
     public static final String CACHE_NAME = "web_cache_settings";
 
     public static SimpleDateFormat fullAttributeDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
@@ -75,7 +65,7 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
 
     @Column(name = "CODE", nullable = false)
     private String code;
-    
+
     @Column(name = "NAME")
     private String name;
 
@@ -91,10 +81,10 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
 
     @Column(name = "ENABLED", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean enabled;
-    
+
     @Column(name = "MANDATORY", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean mandatory;
-    
+
     @Column(name = "LOCALIZABLE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean localizable;
 
@@ -107,9 +97,9 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     @Column(name = "WITH_PLANNER", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean withPlanner;
 
-    @Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
     private Integer ordering;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -118,27 +108,27 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-	public AttributeDefinition() {
+    public AttributeDefinition() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
-	
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     public String getCode() {
         return code;
     }
@@ -146,26 +136,26 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     public void setCode(String code) {
         this.code = code;
     }
-    
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getAttributeType() {
-		return attributeType;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getAttributeType() {
+        return attributeType;
+    }
 
     public String getAttributeType(int type) {
         if (type == ATTRIBUTE_TYPE_SHORT_STRING) {
@@ -186,13 +176,13 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
         return null;
     }
 
-	public void setAttributeType(int attributeType) {
-		this.attributeType = attributeType;
-	}
+    public void setAttributeType(int attributeType) {
+        this.attributeType = attributeType;
+    }
 
-	public int getObjectType() {
-		return objectType;
-	}
+    public int getObjectType() {
+        return objectType;
+    }
 
     public String getObjectType(int type) {
         if (type == OBJECT_TYPE_CATALOG_CATEGORY) {
@@ -213,23 +203,25 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
             return "MARKET_AREA";
         } else if (type == OBJECT_TYPE_TAX) {
             return "TAX";
-        }else if (type == OBJECT_TYPE_RETAILER) {
+        } else if (type == OBJECT_TYPE_RETAILER) {
             return "RETAILER";
-        }else if (type == OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION) {
+        } else if (type == OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION) {
             return "PRODUCT_SKU_OPTION_DEFINITION";
-        }else if (type == OBJECT_TYPE_ORDER) {
+        } else if (type == OBJECT_TYPE_ORDER) {
             return "ORDER";
-        }else if (type == OBJECT_TYPE_ORDER_PAYMENT) {
+        } else if (type == OBJECT_TYPE_ORDER_PAYMENT) {
             return "OBJECT_TYPE_ORDER_PAYMENT";
+        } else if (type == OBJECT_TYPE_COMPANY) {
+            return "OBJECT_TYPE_COMPANY";
         }
         return null;
     }
-	   
-	public void setObjectType(int objectType) {
-		this.objectType = objectType;
-	}
 
-	public boolean isEnabled() {
+    public void setObjectType(int objectType) {
+        this.objectType = objectType;
+    }
+
+    public boolean isEnabled() {
         return enabled;
     }
 
@@ -246,28 +238,28 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     }
 
     public boolean isLocalizable() {
-		return localizable;
-	}
+        return localizable;
+    }
 
-	public void setLocalizable(boolean localizable) {
-		this.localizable = localizable;
-	}
+    public void setLocalizable(boolean localizable) {
+        this.localizable = localizable;
+    }
 
-	public boolean isGlobal() {
-		return global;
-	}
+    public boolean isGlobal() {
+        return global;
+    }
 
-	public void setGlobal(boolean global) {
-		this.global = global;
-	}
+    public void setGlobal(boolean global) {
+        this.global = global;
+    }
 
-	public boolean isMultiValue() {
-		return multiValue;
-	}
+    public boolean isMultiValue() {
+        return multiValue;
+    }
 
-	public void setMultiValue(boolean multiValue) {
-		this.multiValue = multiValue;
-	}
+    public void setMultiValue(boolean multiValue) {
+        this.multiValue = multiValue;
+    }
 
     public boolean isWithPlanner() {
         return withPlanner;
@@ -289,17 +281,17 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
         return dateCreate;
     }
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 
     @Override
     public int hashCode() {
