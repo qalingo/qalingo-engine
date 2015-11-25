@@ -11,16 +11,13 @@ package org.hoteia.qalingo.core.web.mvc.controller.admin;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Iterator;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.velocity.runtime.resource.ResourceCache;
-import org.apache.velocity.runtime.resource.ResourceManager;
+import org.apache.velocity.app.VelocityEngine;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
-import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 /**
  * 
@@ -37,35 +35,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = CommonUrls.VELOCITY_CACHE_URL)
 public class CacheIhmManagerController extends AbstractQalingoController {
 
-	@Resource(name="viewResolver")
-	protected VelocityLayoutViewResolver viewResolver;
-	
-    @Resource(name = "resourceCache")
-    protected ResourceCache resourceCache;
-	   
-    @Resource(name = "resourceManager")
-    protected ResourceManager resourceManager;
+    @Resource(name="viewResolver")
+    protected VelocityLayoutViewResolver viewResolver;
     
-	@Autowired
-	protected CoreMessageSource coreMessageSource;
-	
+    @Autowired
+    protected VelocityConfigurer velocityConfigurer;
+
+    protected VelocityEngine getVelocityEngine(){
+        return velocityConfigurer.getVelocityEngine();
+    }
+    
     @RequestMapping(method = RequestMethod.GET)
     public String displayCacheIhmManager(final HttpServletRequest request, final Model model,
                 @RequestParam(value = "flush", required = false) String flush) throws Exception {
 
-		processFlush(flush);
+        processFlush(flush);
 
         model.addAttribute("title", Constants.QALINGO + " IHM Cache Manager");
         model.addAttribute("flushName", flush);
         model.addAttribute("hostname", getHostname());
         
-        for (Iterator<Object> iterator = resourceCache.enumerateKeys(); iterator.hasNext();) {
-            Object key = (Object) iterator.next();
-            resourceCache.remove(key);
-        };
+        getVelocityEngine().forceFlushCache();
         
-		return CommonUrls.VELOCITY_CACHE.getVelocityPage();
-	}
+        return CommonUrls.VELOCITY_CACHE.getVelocityPage();
+    }
     
     private void processFlush(String flush) {
         if ("all".equals(flush)) {
@@ -80,7 +73,7 @@ public class CacheIhmManagerController extends AbstractQalingoController {
             
         }
     }
-	
+    
     private String getHostname() {
         try {
             return InetAddress.getLocalHost().getHostName();

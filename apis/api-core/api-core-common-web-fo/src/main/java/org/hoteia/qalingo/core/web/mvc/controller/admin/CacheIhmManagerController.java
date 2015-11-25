@@ -15,9 +15,9 @@ import java.net.UnknownHostException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.velocity.app.VelocityEngine;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
-import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 /**
  * 
@@ -34,24 +35,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = CommonUrls.VELOCITY_CACHE_URL)
 public class CacheIhmManagerController extends AbstractQalingoController {
 
-	@Resource(name="viewResolver")
-	protected VelocityLayoutViewResolver viewResolver;
-	
-	@Autowired
-	protected CoreMessageSource coreMessageSource;
-	
+    @Resource(name="viewResolver")
+    protected VelocityLayoutViewResolver viewResolver;
+    
+    @Autowired
+    protected VelocityConfigurer velocityConfigurer;
+
+    protected VelocityEngine getVelocityEngine(){
+        return velocityConfigurer.getVelocityEngine();
+    }
+    
     @RequestMapping(method = RequestMethod.GET)
     public String displayCacheIhmManager(final HttpServletRequest request, final Model model,
                 @RequestParam(value = "flush", required = false) String flush) throws Exception {
 
-		processFlush(flush);
+        processFlush(flush);
 
         model.addAttribute("title", Constants.QALINGO + " IHM Cache Manager");
         model.addAttribute("flushName", flush);
         model.addAttribute("hostname", getHostname());
         
-		return CommonUrls.VELOCITY_CACHE.getVelocityPage();
-	}
+        getVelocityEngine().forceFlushCache();
+        
+        return CommonUrls.VELOCITY_CACHE.getVelocityPage();
+    }
     
     private void processFlush(String flush) {
         if ("all".equals(flush)) {
@@ -74,5 +81,5 @@ public class CacheIhmManagerController extends AbstractQalingoController {
             return "unknowned";
         }
     }
-	
+    
 }
