@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.pojo.cart;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hoteia.qalingo.core.pojo.FoMessagePojo;
 import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 
 public class FoAddToWishlistPojo {

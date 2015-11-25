@@ -12,7 +12,6 @@ package org.hoteia.qalingo.core.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hoteia.qalingo.core.pojo.cart.FoMessagePojo;
 
 public class FoNavigatorGeolocationPojo {
 

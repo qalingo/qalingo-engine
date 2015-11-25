@@ -11,10 +11,13 @@ package org.hoteia.qalingo.core.web.mvc.controller.admin;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Iterator;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.velocity.runtime.resource.ResourceCache;
+import org.apache.velocity.runtime.resource.ResourceManager;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -37,6 +40,12 @@ public class CacheIhmManagerController extends AbstractQalingoController {
 	@Resource(name="viewResolver")
 	protected VelocityLayoutViewResolver viewResolver;
 	
+    @Resource(name = "resourceCache")
+    protected ResourceCache resourceCache;
+	   
+    @Resource(name = "resourceManager")
+    protected ResourceManager resourceManager;
+    
 	@Autowired
 	protected CoreMessageSource coreMessageSource;
 	
@@ -49,6 +58,11 @@ public class CacheIhmManagerController extends AbstractQalingoController {
         model.addAttribute("title", Constants.QALINGO + " IHM Cache Manager");
         model.addAttribute("flushName", flush);
         model.addAttribute("hostname", getHostname());
+        
+        for (Iterator<Object> iterator = resourceCache.enumerateKeys(); iterator.hasNext();) {
+            Object key = (Object) iterator.next();
+            resourceCache.remove(key);
+        };
         
 		return CommonUrls.VELOCITY_CACHE.getVelocityPage();
 	}
