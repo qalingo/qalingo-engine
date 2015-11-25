@@ -38,7 +38,7 @@ import org.hoteia.qalingo.core.pojo.cart.FoAddToCartPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoAddToWishlistPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoCheckoutPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoDeliveryMethodInformationPojo;
-import org.hoteia.qalingo.core.pojo.cart.FoMessagePojo;
+import org.hoteia.qalingo.core.pojo.FoMessagePojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.MarketService;
