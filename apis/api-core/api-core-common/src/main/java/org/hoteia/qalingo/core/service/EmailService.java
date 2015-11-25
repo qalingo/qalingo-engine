@@ -58,6 +58,7 @@ import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 @Service("emailService")
 @Transactional
@@ -79,7 +80,7 @@ public class EmailService {
     protected BackofficeUrlService backofficeUrlService;
 	   
 	@Autowired
-	protected VelocityEngine velocityEngine;
+	protected VelocityConfigurer velocityConfigurer;
     
 	@Autowired
 	protected CoreMessageSource coreMessageSource;
@@ -154,8 +155,8 @@ public class EmailService {
             mimeMessagePreparator.setFromName(fromName);
             mimeMessagePreparator.setReplyTo(fromAddress);
             mimeMessagePreparator.setSubject(adminNotificationEmailBean.getSubject());
-            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-html-content.vm", model));
-            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "admin-notification-text-content.vm", model));
+            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "admin-notification-html-content.vm", model));
+            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "admin-notification-text-content.vm", model));
             
             email = new Email();
             email.setType(Email.EMAIl_TYPE_ADMIN_NOTIFICATION);
@@ -208,8 +209,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {contactEmailBean.getLastname(), contactEmailBean.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.contact.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "contact-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "contact-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_CONTACT);
@@ -262,8 +263,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {retailerContactEmailBean.getLastname(), retailerContactEmailBean.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.retailer_contact.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "retailer-contact-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "retailer-contact-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "retailer-contact-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "retailer-contact-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_RETAILER_CONTACT);
@@ -326,8 +327,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter_subscription.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-subscription-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-subscription-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "newsletter-subscription-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "newsletter-subscription-confirmation-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION);
@@ -391,8 +392,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter_unsubscription.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-unsubscription-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-unsubscription-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "newsletter-unsubscription-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "newsletter-unsubscription-confirmation-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION);
@@ -451,8 +452,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customerNewAccountConfirmationEmailBean.getLastname(), customerNewAccountConfirmationEmailBean.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.new_account.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "new-account-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "new-account-confirmation-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION);
@@ -516,8 +517,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.forgotten_password.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "forgotten-password-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "forgotten-password-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_FORGOTTEN_PASSWORD);
@@ -574,8 +575,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.reset_password_confirmation.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "reset-password-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "reset-password-confirmation-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION);
@@ -634,8 +635,8 @@ public class EmailService {
             mimeMessagePreparator.setReplyTo(fromAddress);
             Object[] parameters = {userNewAccountConfirmationEmailBean.getLastname(), userNewAccountConfirmationEmailBean.getFirstname()};
             mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.new_account.email_subject", parameters, locale));
-            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-html-content.vm", model));
-            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-text-content.vm", model));
+            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "new-account-confirmation-html-content.vm", model));
+            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "new-account-confirmation-text-content.vm", model));
             
             email = new Email();
             email.setType(Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION);
@@ -701,8 +702,8 @@ public class EmailService {
             mimeMessagePreparator.setReplyTo(fromAddress);
             Object[] parameters = {user.getLastname(), user.getFirstname()};
             mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.forgotten_password.email_subject", parameters, locale));
-            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-html-content.vm", model));
-            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-text-content.vm", model));
+            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "forgotten-password-html-content.vm", model));
+            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "forgotten-password-text-content.vm", model));
             
             email = new Email();
             email.setType(Email.EMAIl_TYPE_FORGOTTEN_PASSWORD);
@@ -759,8 +760,8 @@ public class EmailService {
             mimeMessagePreparator.setReplyTo(fromAddress);
             Object[] parameters = {user.getLastname(), user.getFirstname()};
             mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.reset_password_confirmation.email_subject", parameters, locale));
-            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-html-content.vm", model));
-            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-text-content.vm", model));
+            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "reset-password-confirmation-html-content.vm", model));
+            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "reset-password-confirmation-text-content.vm", model));
             
             email = new Email();
             email.setType(Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION);
@@ -814,8 +815,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.confirmation_email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-confirmation-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_CONFIRMATION);
@@ -869,8 +870,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order_shipped.shipped_email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-shipped-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-shipped-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_SHIPPED);
@@ -924,8 +925,8 @@ public class EmailService {
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.abandoned_shopping_cart.email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "abandoned-shopping-cart-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "abandoned-shopping-cart-text-content.vm", model));
         	
         	email = new Email();
         	email.setType(Email.EMAIl_TYPE_ABANDONED_SHOPPING_CART);
@@ -1006,6 +1007,10 @@ public class EmailService {
 		if(StringUtils.isEmpty(emailBean.getReplyToEmail())){
 			throw new EmailProcessException(EmailProcessException.EMAIl_REPLY_TO_ADDRESS_IS_EMPTY);
 		}
+    }
+    
+    protected VelocityEngine getVelocityEngine(){
+        return velocityConfigurer.getVelocityEngine();
     }
     
 }

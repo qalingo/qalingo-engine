@@ -18,24 +18,6 @@
 	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	    ">
 
-    <!-- Configure Velocity for sending e-mail -->
-    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-		<!--     
-        <property name="velocityProperties">
-            <props>
-				<prop key="resource.loader">${velocity.resource.loader}</prop>
-				<prop key="file.resource.loader.path">${velocity.file.resource.loader.path}</prop>
-				<prop key="file.resource.loader.class">${velocity.file.resource.loader.class}</prop>
-				<prop key="file.resource.loader.cache">${velocity.file.resource.loader.cache}</prop>
-				<prop key="eventhandler.include.class">${velocity.eventhandler.include.class}</prop>
-				
-                <prop key="velocimacro.library"></prop>
-            </props>
-        </property>
-		-->
-        <property name="velocityPropertiesMap" ref="velocityPropertiesMap" />
-    </bean>
-
 	<!-- 
 	  This bean sets up the Velocity environment for us based on a root path for templates.
 	  Optionally, a properties file can be specified for more control over the Velocity
