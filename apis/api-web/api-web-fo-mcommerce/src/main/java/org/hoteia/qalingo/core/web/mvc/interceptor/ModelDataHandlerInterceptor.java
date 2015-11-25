@@ -59,7 +59,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
     @Autowired
     protected GeolocService geolocService;
     
-    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public ModelDataHandlerInterceptor() {
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));

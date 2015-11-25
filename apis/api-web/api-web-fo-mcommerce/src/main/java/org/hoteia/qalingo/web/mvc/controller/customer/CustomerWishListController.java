@@ -64,7 +64,7 @@ public class CustomerWishListController extends AbstractCustomerController {
     @Autowired
     protected ProductService productService;
 	   
-    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public CustomerWishListController() {
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));

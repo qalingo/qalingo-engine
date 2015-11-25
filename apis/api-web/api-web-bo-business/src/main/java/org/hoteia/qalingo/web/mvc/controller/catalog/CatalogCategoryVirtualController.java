@@ -72,7 +72,7 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
 	protected WebBackofficeService webBackofficeService;
 	
     protected List<SpecificFetchMode> categoryMasterFetchPlans = new ArrayList<SpecificFetchMode>();
-    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public CatalogCategoryVirtualController() {
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));

@@ -62,7 +62,7 @@ public class ProductSkuController extends AbstractBusinessBackofficeController {
     @Autowired
     protected CatalogCategoryService catalogCategoryService;
     
-    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public ProductSkuController() {

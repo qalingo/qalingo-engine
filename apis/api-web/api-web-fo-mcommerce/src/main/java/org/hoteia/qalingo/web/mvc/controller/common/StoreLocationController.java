@@ -54,7 +54,7 @@ public class StoreLocationController extends AbstractMCommerceController {
 	@Autowired
     protected RetailerService retailerService;
 	
-    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
 
 	public StoreLocationController() {
 	    storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));

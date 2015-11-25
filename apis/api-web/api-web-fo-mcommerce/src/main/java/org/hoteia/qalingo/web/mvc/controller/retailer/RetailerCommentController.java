@@ -60,7 +60,7 @@ public class RetailerCommentController extends AbstractMCommerceController {
     @Autowired
     protected RetailerService retailerService;
 
-    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public RetailerCommentController() {
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));

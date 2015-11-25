@@ -85,7 +85,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
                 // && (lastUrl.contains("cart") || lastUrl.contains("checkout"))
                 targetUrl = lastUrl;
             } else {
-                targetUrl = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));;
+                targetUrl = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
             }
 
             setDefaultTargetUrl(targetUrl);

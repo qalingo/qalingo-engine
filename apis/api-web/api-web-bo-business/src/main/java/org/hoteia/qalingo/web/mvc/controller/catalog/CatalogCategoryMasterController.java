@@ -185,7 +185,7 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
 				webBackofficeService.updateCatalogCategory(requestData, currentMarketArea, currentRetailer, currentLocalization, catalogCategory, catalogCategoryForm);
 				addSessionSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.success.message", locale));
 				
-				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory);;
+				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory);
 				return new ModelAndView(new RedirectView(urlRedirect));
 				
 			} catch (UniqueConstraintCodeCategoryException e) {

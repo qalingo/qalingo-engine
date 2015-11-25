@@ -50,7 +50,7 @@ public class RetailerContactController extends AbstractMCommerceController {
 	@Autowired
 	protected RetailerService retailerService;
 	
-    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public RetailerContactController() {
         retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));

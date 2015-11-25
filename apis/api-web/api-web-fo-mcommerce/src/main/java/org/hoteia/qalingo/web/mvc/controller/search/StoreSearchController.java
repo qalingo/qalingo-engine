@@ -77,7 +77,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 	@Autowired
 	protected StoreSolrService storeSolrService;
 
-    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
 
     public StoreSearchController() {
         storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
