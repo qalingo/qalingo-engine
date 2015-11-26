@@ -14,6 +14,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ClickstreamRequest implements Serializable {
 
     /**
@@ -96,7 +98,11 @@ public class ClickstreamRequest implements Serializable {
     }
     
     public String getUriWithQueryString() {
-        return requestURI + "?" + queryString;
+        String uriWithQueryString = requestURI;
+        if(StringUtils.isNotEmpty(queryString)){
+            uriWithQueryString = uriWithQueryString + "?" + queryString;
+        }
+        return uriWithQueryString ;
     }
     
 }
