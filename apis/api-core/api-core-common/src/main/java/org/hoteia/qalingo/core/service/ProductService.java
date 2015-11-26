@@ -392,7 +392,12 @@ public class ProductService {
     public List<ProductSkuStoreRel> findProductSkuStoreRelByStoreId(final Long storeId, Object... params) {
         return productDao.findProductSkuStoreRelByStoreId(storeId, params);
     }
-    
+
+
+    public List<ProductSkuStoreRel> getProductSkuStoreRelB2B(Object... params) {
+        return productDao.getProductSkuStoreRelB2B(params);
+    }
+
     public void saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel)  {
         productDao.saveNewProductSkuStoreRel(productSkuStoreRel);
     }

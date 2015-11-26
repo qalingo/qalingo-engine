@@ -46,28 +46,23 @@ public abstract class AbstractGenericDao {
     }
     
     protected Query createSqlQuery(String queryString) {
-        Query query = em.createQuery(queryString);
-        return query;
+        return em.createQuery(queryString);
     }
     
     protected Query createSqlQuery(Class<?> entityClass, String queryString) {
-        Query query = em.createQuery(queryString, entityClass);
-        return query;
+        return em.createQuery(queryString, entityClass);
     }
     
     protected Query createNativeQuery(String queryString) {
-        Query query = em.createNativeQuery(queryString);
-        return query;
+        return em.createNativeQuery(queryString);
     }
     
     protected Query createNativeQuery(Class<?> entityClass, String queryString) {
-        Query query = em.createNativeQuery(queryString, entityClass);
-        return query;
+        return em.createNativeQuery(queryString, entityClass);
     }
     
     protected Query createNativeQuery(String resultSetMapping, String queryString) {
-        Query query = em.createNativeQuery(queryString, resultSetMapping);
-        return query;
+        return em.createNativeQuery(queryString, resultSetMapping);
     }
     
     protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params){
@@ -76,19 +71,17 @@ public abstract class AbstractGenericDao {
             for (Object param : params) {
                 if (param instanceof FetchPlan) {
                     FetchPlan fetchPlan = (FetchPlan) param;
-                    for (Iterator<SpecificFetchMode> iterator = fetchPlan.getFetchModes().iterator(); iterator.hasNext();) {
-                        SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
-                        if(!globalFetchPlan.getFetchModes().contains(specificFetchMode)){
+                    for (SpecificFetchMode specificFetchMode : fetchPlan.getFetchModes()) {
+                        if (!globalFetchPlan.getFetchModes().contains(specificFetchMode)) {
                             globalFetchPlan.getFetchModes().add(specificFetchMode);
                         }
                     }
                 }
             }
             
-            if(globalFetchPlan != null && globalFetchPlan.getFetchModes() != null){
-                for (Iterator<SpecificFetchMode> iterator = globalFetchPlan.getFetchModes().iterator(); iterator.hasNext();) {
-                    SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
-                    if(specificFetchMode.getRequiredAlias() != null){
+            if(globalFetchPlan.getFetchModes() != null){
+                for (SpecificFetchMode specificFetchMode : globalFetchPlan.getFetchModes()) {
+                    if (specificFetchMode.getRequiredAlias() != null) {
                         // TODO : Denis : check duplicate entry are manage or not
                         criteria.createAlias(specificFetchMode.getRequiredAlias().getAssocationPath(), specificFetchMode.getRequiredAlias().getAlias(), specificFetchMode.getRequiredAlias().getJoinType());
                     }

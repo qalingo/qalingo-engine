@@ -743,6 +743,18 @@ public class ProductDao extends AbstractGenericDao {
         List<ProductSkuStoreRel> productSkuStoreRels = criteria.list();
         return productSkuStoreRels;
     }
+
+    public List<ProductSkuStoreRel> getProductSkuStoreRelB2B(Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
+
+        criteria.add(Restrictions.eq("salableOnlineB2B", true));
+
+        handleSpecificProductSkuStoreRelFetchMode(criteria, params);
+
+        @SuppressWarnings("unchecked")
+        List<ProductSkuStoreRel> productSkuStoreRels = criteria.list();
+        return productSkuStoreRels;
+    }
     
     public ProductSkuStoreRel findProductSkuStoreRelByStoreIdAndProductId(final Long storeId, final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
