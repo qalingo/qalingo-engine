@@ -9,8 +9,7 @@
  */
 package org.hoteia.qalingo.core.pojo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class VelocityPageContextDataPojo {
 
@@ -29,7 +28,7 @@ public class VelocityPageContextDataPojo {
     
     private int cartMaxItemQuantity;
 
-    private List<UrlPojo> urls = new ArrayList<UrlPojo>();
+    private Map<String, UrlPojo> urls = new HashMap<String, UrlPojo>();
 
     public String getMarketPlaceCode() {
         return marketPlaceCode;
@@ -118,13 +117,12 @@ public class VelocityPageContextDataPojo {
     public void setCartMaxItemQuantity(int cartMaxItemQuantity) {
         this.cartMaxItemQuantity = cartMaxItemQuantity;
     }
-    
-    public List<UrlPojo> getUrls() {
+
+    public Map<String, UrlPojo> getUrls() {
         return urls;
     }
-    
-    public void setUrls(List<UrlPojo> urls) {
+
+    public void setUrls(Map<String, UrlPojo> urls) {
         this.urls = urls;
     }
-    
 }
