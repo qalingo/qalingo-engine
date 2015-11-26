@@ -9,16 +9,7 @@
  */
 package org.hoteia.qalingo.core.i18n;
 
-public final class BoMessageKey {
+public final class BoMessageKey extends CommonMessageKey {
 
-	// SEO
-	public static final String SEO_META_AUTHOR = "meta.author";
-	public static final String SEO_META_KEYWORDS = "meta.keywords";
-	public static final String SEO_META_DESCRIPTION = "meta.description";
-	public static final String SEO_PAGE_TITLE_PREFIX = "page.title.";
-
-	public static final String MAIN_CONTENT_TITLE_PREFIX = "main.content.title.";
-
-	public static final String MAIN_CONTENT_TEXT = "content.text";
 
 }

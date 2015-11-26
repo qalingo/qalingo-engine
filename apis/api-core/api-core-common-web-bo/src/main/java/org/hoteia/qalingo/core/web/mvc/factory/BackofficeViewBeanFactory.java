@@ -130,7 +130,10 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 
         final SeoDataViewBean seoDataViewBean = super.buildViewSeoData(requestData);
 
-        seoDataViewBean.setPageTitle(requestUtil.getAppName(request));
+        // TODO : canonical urls
+        
+        String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        seoDataViewBean.setPageTitle(pageTitle);
         String metaAuthor = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_AUTHOR, locale);
         seoDataViewBean.setMetaAuthor(metaAuthor);
         String metaKeywords = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_KEYWORDS, locale);
@@ -138,6 +141,13 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         String metaDescription = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_DESCRIPTION, locale);
         seoDataViewBean.setMetaDescription(metaDescription);
 
+        String metaOgTitle = getSpecificMessage(ScopeWebMessage.SEO, BoMessageKey.PAGE_META_OG_TITLE, locale);
+        seoDataViewBean.setMetaOgTitle(metaOgTitle);
+        String metaOgDescription = getSpecificMessage(ScopeWebMessage.SEO, BoMessageKey.PAGE_META_OG_DESCRIPTION, locale);
+        seoDataViewBean.setMetaOgDescription(metaOgDescription);
+        String metaOgImage = getSpecificMessage(ScopeWebMessage.SEO, BoMessageKey.PAGE_META_OG_IMAGE, locale);
+        seoDataViewBean.setMetaOgImage(metaOgImage);
+        
         return seoDataViewBean;
     }
     
