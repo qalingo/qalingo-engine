@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -129,15 +130,31 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		return backofficeUrlService.generateUrl(BoUrls.GLOBAL_SEARCH, requestUtil.getRequestData(request));
 	}
 	
-	/**
-	 * 
-	 */
-	protected void overrideMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
-		if(StringUtils.isNotEmpty(title)){
-			 modelAndView.addObject(ModelConstants.PAGE_TITLE, title);
-		}
-	}
-	
+    /**
+     * 
+     */
+    protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
+        overrideDefaultPageTitle(request, modelAndView, titleKey, null);
+    }
+    
+    /**
+     * 
+     */
+    protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, String pageTitleKey, Object[] params) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        String headerTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        if(StringUtils.isNotEmpty(pageTitleKey)){
+            pageTitleKey = pageTitleKey.replace("-", "_");
+            if(params != null){
+                headerTitle += " - " + getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
+            } else {
+                headerTitle += " - " + getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
+            }
+            modelAndView.addObject(ModelConstants.PAGE_TITLE, headerTitle);
+        }
+    }
+    
 	/**
 	 * 
 	 */
