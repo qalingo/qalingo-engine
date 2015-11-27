@@ -194,7 +194,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
         final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CATALOG_SEARCH.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CATALOG_SEARCH.getKey());
 
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         

@@ -18,7 +18,9 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
@@ -105,25 +107,26 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
     /**
      * 
      */
-    protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
-        overrideDefaultMainContentTitle(request, modelAndView, titleKey, null);
+    protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
+        overrideDefaultPageTitle(request, modelAndView, titleKey, null);
     }
     
     /**
      * 
      */
-    protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
+    protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, String pageTitleKey, Object[] params) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
-        String pageTitleKey = titleKey;
-        String headerTitle = "";
-        if(params != null){
-            headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
-        } else {
-            headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
+        String headerTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        if(StringUtils.isNotEmpty(pageTitleKey)){
+            pageTitleKey = pageTitleKey.replace("-", "_");
+            if(params != null){
+                headerTitle += " - " + getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
+            } else {
+                headerTitle += " - " + getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
+            }
+            modelAndView.addObject(ModelConstants.PAGE_TITLE, headerTitle);
         }
-//        String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
-        modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
     }
 	
 	/**
@@ -139,7 +142,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute
 	protected void initBreadcrumAndHeaderContent(final HttpServletRequest request, final Model model) throws Exception {
         // DEFAULT EMPTY VALUE
-        model.addAttribute(ModelConstants.MAIN_CONTENT_TITLE, "");
+        model.addAttribute(ModelConstants.PAGE_TITLE, "");
 	}
 	
 	/**

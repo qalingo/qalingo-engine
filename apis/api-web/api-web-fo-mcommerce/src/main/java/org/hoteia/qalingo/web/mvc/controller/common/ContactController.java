@@ -53,7 +53,7 @@ public class ContactController extends AbstractMCommerceController {
 		
         modelAndView.addObject("withMap", true);
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CONTACT.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CONTACT.getKey());
 
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
 

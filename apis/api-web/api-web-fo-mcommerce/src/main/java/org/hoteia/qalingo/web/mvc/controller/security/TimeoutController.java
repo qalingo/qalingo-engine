@@ -47,7 +47,7 @@ public class TimeoutController extends AbstractMCommerceController {
 		SecurityViewBean security = frontofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request));
 		modelAndView.addObject("security", security);
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.TIMEOUT.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.TIMEOUT.getKey());
 		
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
 

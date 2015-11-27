@@ -58,7 +58,7 @@ public class CustomerAddressController extends AbstractCustomerController {
         final Customer reloadedCustomer = customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
 		
 		Object[] params = { customer.getLastname(), customer.getFirstname() };
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADDRESS_LIST.getKey(), params);
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.PERSONAL_ADDRESS_LIST.getKey(), params);
         
 		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerAddressList(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute(ModelConstants.CUSTOMER_ADDRESSES_VIEW_BEAN, customerAdressesViewBean);
@@ -97,7 +97,7 @@ public class CustomerAddressController extends AbstractCustomerController {
         model.addAttribute(ModelConstants.CUSTOMER_ADDRESSES_VIEW_BEAN, customerAdressesViewBean);
 
         Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ADD_ADDRESS.getKey(), params);
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.PERSONAL_ADD_ADDRESS.getKey(), params);
 
         if(customerAddressForm == null 
                 || customerAddressForm.equals(new CustomerAddressForm())){

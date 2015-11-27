@@ -125,7 +125,7 @@ public class RetailerController extends AbstractMCommerceController {
 		
 		model.addAttribute("withMap", true);
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RETAILER_DETAILS.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.RETAILER_DETAILS.getKey());
 
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, retailer));
 
@@ -156,7 +156,7 @@ public class RetailerController extends AbstractMCommerceController {
 		// CREATE
 		
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RETAILER_CREATE.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.RETAILER_CREATE.getKey());
 
         return modelAndView;
 	}

@@ -38,7 +38,7 @@ public class ClpController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CLP.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CLP.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CLP.getKey());
 
         modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         

@@ -38,7 +38,7 @@ public class ConditionsController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONDITIONS_OF_USE.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CONDITIONS_OF_USE.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CONDITIONS_OF_USE.getKey());
 
         modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBeanConditionsOfUse(requestData));
         
@@ -75,7 +75,7 @@ public class ConditionsController extends AbstractMCommerceController {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONDITIONS_OF_SALE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CONDITIONS_OF_SALE.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CONDITIONS_OF_SALE.getKey());
 
         modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBeanConditionsOfSale(requestData));
         

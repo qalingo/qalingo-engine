@@ -51,7 +51,7 @@ public class FollowUsController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FOLLOW_US.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.FOLLOW_US.getKey());
 
         modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         

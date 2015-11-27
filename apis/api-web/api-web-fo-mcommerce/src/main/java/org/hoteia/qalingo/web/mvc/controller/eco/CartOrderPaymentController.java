@@ -80,7 +80,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
         modelAndView.addObject(ModelConstants.PAYMENT_FORM, formFactory.buildPaymentForm(requestData));
 		modelAndView.addObject(ModelConstants.PAYMENT_FORM, formFactory.buildPaymentForm(requestData));
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CART_ORDER_PAYMENT.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CART_ORDER_PAYMENT.getKey());
 
         return modelAndView;
 	}

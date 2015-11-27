@@ -85,7 +85,7 @@ public class RetailerContactController extends AbstractMCommerceController {
 			model.addAttribute("customerContactForm", customerContactForm);
 		}
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RETAILER_CONTACT.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.RETAILER_CONTACT.getKey());
 		
         return modelAndView;
 	}

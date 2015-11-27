@@ -81,7 +81,7 @@ public class BrandController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_ALL.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.BRAND_ALL.getKey());
 
         final List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled(new FetchPlan(productBrandFetchPlans));
         final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestData, productBrands);
@@ -133,7 +133,7 @@ public class BrandController extends AbstractMCommerceController {
 	        List<ProductMarketingViewBean> productMarketingViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductMarketing(requestData, productMarketings);
 	        model.addAttribute(ModelConstants.PRODUCT_MARKETINGS_VIEW_BEAN, productMarketingViewBeans);
 
-	        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
+	        overrideDefaultPageTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
 
 	        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbBrandDetailsViewBean(requestData, productBrand));
 

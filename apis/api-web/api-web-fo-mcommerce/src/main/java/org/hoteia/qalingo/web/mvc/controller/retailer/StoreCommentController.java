@@ -125,7 +125,7 @@ public class StoreCommentController extends AbstractMCommerceController {
 		
 		model.addAttribute("urlSubmit", urlService.generateUrl(FoUrls.STORE_COMMENT, requestData, store));
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_COMMENT.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.STORE_COMMENT.getKey());
 
         return modelAndView;
 	}

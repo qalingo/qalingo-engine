@@ -107,7 +107,7 @@ public class ProductAxeController extends AbstractMCommerceController {
             model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 
             Object[] params = { catalogCategoryViewBean.getI18nName() };
-            overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_AXE.getKey(), params);
+            overrideDefaultPageTitle(request, modelAndView, FoUrls.CATEGORY_AS_AXE.getKey(), params);
 
             model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory));
 

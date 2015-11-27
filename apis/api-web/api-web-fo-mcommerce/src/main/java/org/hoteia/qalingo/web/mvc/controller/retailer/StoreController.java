@@ -93,7 +93,7 @@ public class StoreController extends AbstractMCommerceController {
 	        model.addAttribute("withMap", true);
 	        
 	        Object[] params = {storeViewBean.getI18nName()};
-	        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.STORE_DETAILS.getKey(), params);
+	        overrideDefaultPageTitle(request, modelAndView, FoUrls.STORE_DETAILS.getKey(), params);
 
             model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, store));
 	        

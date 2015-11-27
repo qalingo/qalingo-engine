@@ -38,7 +38,7 @@ public class FaqController extends AbstractMCommerceController {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FAQ.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FAQ.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.FAQ.getKey());
 
         modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         

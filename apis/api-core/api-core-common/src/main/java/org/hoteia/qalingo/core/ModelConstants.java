@@ -30,7 +30,7 @@ public class ModelConstants {
     public static final String THEME                = "theme";
     public static final String ENV_NAME             = "envName";
 
-    public static final String MAIN_CONTENT_TITLE       = "mainContentTitle";
+    public static final String PAGE_TITLE       = "pageTitle";
 
     // CHECKOUT PROCESS
     public static final String CHECKOUT_STEP            = "checkoutStep";

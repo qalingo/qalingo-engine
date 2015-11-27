@@ -127,7 +127,7 @@ public class RetailerCommentController extends AbstractMCommerceController {
 		
 		model.addAttribute("urlSubmit", urlService.generateUrl(FoUrls.RETAILER_COMMENT, requestData, retailer));
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RETAILER_COMMENT.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.RETAILER_COMMENT.getKey());
 
         return modelAndView;
 	}

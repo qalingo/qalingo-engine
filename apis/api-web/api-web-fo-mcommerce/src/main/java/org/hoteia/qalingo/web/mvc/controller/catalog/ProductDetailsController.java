@@ -139,7 +139,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         requestUtil.addOrUpdateRecentProductToCookie(request, response, requestData.getVirtualCatalogCode(), catalogCategory.getCode(), productMarketing.getCode(), productSku.getCode());
         
         Object[] params = { productMarketingViewBean.getI18nName() };
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
         
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory, productMarketing));
 

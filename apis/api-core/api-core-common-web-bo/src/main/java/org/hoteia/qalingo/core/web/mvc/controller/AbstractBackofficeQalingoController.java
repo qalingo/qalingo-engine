@@ -134,7 +134,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 */
 	protected void overrideMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
 		if(StringUtils.isNotEmpty(title)){
-			 modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, title);
+			 modelAndView.addObject(ModelConstants.PAGE_TITLE, title);
 		}
 	}
 	
@@ -175,7 +175,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         } else {
             headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
         }
-        modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
+        modelAndView.addObject(ModelConstants.PAGE_TITLE, headerTitle);
     }
 	
 	/**
@@ -191,7 +191,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	@ModelAttribute
 	protected void initBreadcrumAndHeaderContent(final HttpServletRequest request, final Model model) throws Exception {
         // DEFAULT EMPTY VALUE
-        model.addAttribute(ModelConstants.MAIN_CONTENT_TITLE, "");
+        model.addAttribute(ModelConstants.PAGE_TITLE, "");
 	}
 	
     /**

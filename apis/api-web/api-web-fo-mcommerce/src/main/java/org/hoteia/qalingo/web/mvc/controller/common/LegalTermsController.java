@@ -38,7 +38,7 @@ public class LegalTermsController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LEGAL_TERMS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.LEGAL_TERMS.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.LEGAL_TERMS.getKey());
 
         modelAndView.addObject(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
         

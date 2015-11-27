@@ -69,7 +69,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 
         modelAndView.addObject(ModelConstants.CART_FORM, formFactory.buildCartForm(requestData));
 
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CART_DELIVERY.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CART_DELIVERY.getKey());
 
         return modelAndView;
     }

@@ -31,7 +31,7 @@ public class HomeController extends AbstractMCommerceController {
 	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.HOME.getVelocityPage());
 
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.HOME.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.HOME.getKey());
 
         return modelAndView;
 	}

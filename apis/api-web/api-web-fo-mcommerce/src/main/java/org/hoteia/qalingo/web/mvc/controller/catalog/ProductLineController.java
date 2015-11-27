@@ -160,7 +160,7 @@ public class ProductLineController extends AbstractMCommerceController {
     		loadRecentProducts(requestData, model);
             
             Object[] params = { catalogCategoryViewBean.getI18nName() };
-            overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_LINE.getKey(), params);
+            overrideDefaultPageTitle(request, modelAndView, FoUrls.CATEGORY_AS_LINE.getKey(), params);
             
             model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory));
 

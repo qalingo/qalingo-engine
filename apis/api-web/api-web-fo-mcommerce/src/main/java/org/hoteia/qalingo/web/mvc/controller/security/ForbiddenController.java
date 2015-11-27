@@ -40,7 +40,7 @@ public class ForbiddenController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORBIDDEN.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORBIDDEN.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.FORBIDDEN.getKey());
 
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData));
 

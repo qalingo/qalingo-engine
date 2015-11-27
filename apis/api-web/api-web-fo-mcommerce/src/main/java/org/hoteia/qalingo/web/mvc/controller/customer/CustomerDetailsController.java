@@ -56,7 +56,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);
 		
 		Object[] params = { customer.getLastname(), customer.getFirstname() };
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.CUSTOMER_DETAILS.getKey(), params);
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.CUSTOMER_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -70,7 +70,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		// Customer is already set by the abstract
 
 		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_DETAILS.getKey(), params);
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.PERSONAL_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -92,7 +92,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		}
 		
 		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_EDIT.getKey(), params);
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.PERSONAL_EDIT.getKey(), params);
 
 		
         return modelAndView;

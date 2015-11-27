@@ -54,7 +54,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
 		// SEO
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
 
         // BREADCRUMB
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, FoUrls.FORGOTTEN_PASSWORD));
@@ -91,7 +91,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		webManagementService.buildAndSaveCustomerForgottenPasswordMail(requestData, customer, customerCredential, forgottenPasswordForm);
 
 		// SEO
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.FORGOTTEN_PASSWORD.getKey());
 
         // BREADCRUMB
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, FoUrls.FORGOTTEN_PASSWORD));
@@ -128,7 +128,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 			addSessionErrorMessage(request, errorMessage);
 		}
 		
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.RESET_PASSWORD.getKey());
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.RESET_PASSWORD.getKey());
 
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, FoUrls.RESET_PASSWORD));
 

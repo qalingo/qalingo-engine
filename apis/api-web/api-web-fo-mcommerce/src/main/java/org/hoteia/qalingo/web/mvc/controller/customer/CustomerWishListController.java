@@ -108,7 +108,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 		model.addAttribute(ModelConstants.PRODUCT_SKUS_VIEW_BEAN, productSkuViewBeans);
 
         Object[] params = { customer.getLastname(), customer.getFirstname() };
-        overrideDefaultMainContentTitle(request, modelAndView, FoUrls.PERSONAL_WISHLIST.getKey(), params);
+        overrideDefaultPageTitle(request, modelAndView, FoUrls.PERSONAL_WISHLIST.getKey(), params);
 
         return modelAndView;
 	}
