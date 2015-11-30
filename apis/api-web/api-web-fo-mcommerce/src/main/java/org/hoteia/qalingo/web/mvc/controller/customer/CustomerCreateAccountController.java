@@ -77,6 +77,8 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	        modelAndView.addObject(ModelConstants.CAPTCHA_VIEW_BEAN, captchaViewBean);
 		}
 		
+		overrideDefaultPageTitle(request, modelAndView, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey());
+		
 		model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildCommonBreadcrumbViewBean(requestData));
         
         return modelAndView;
@@ -127,7 +129,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CUSTOMER_CREATE_ACCOUNT.getKey(), locale));
         
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();

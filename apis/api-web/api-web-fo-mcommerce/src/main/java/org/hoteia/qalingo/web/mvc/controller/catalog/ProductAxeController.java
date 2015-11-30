@@ -125,7 +125,7 @@ public class ProductAxeController extends AbstractMCommerceController {
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CATEGORY_AS_LINE.getKey(), params, locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CATEGORY_AS_LINE.getKey(), params, locale));
 
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();

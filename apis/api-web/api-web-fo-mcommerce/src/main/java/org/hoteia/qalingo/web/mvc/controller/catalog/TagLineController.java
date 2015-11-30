@@ -116,7 +116,7 @@ public class TagLineController extends AbstractMCommerceController {
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.TAG_AS_LINE.getKey(), params, locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.TAG_AS_LINE.getKey(), params, locale));
 
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         

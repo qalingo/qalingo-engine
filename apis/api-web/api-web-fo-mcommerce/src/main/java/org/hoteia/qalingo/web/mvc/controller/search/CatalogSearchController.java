@@ -236,7 +236,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
         
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CATALOG_SEARCH.getKey(), locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CATALOG_SEARCH.getKey(), locale));
         
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();

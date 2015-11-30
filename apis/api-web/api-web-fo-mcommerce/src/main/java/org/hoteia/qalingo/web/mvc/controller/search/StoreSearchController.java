@@ -247,7 +247,7 @@ public class StoreSearchController extends AbstractMCommerceController {
         
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.STORE_LOCATION.getKey(), locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.STORE_LOCATION.getKey(), locale));
         
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();

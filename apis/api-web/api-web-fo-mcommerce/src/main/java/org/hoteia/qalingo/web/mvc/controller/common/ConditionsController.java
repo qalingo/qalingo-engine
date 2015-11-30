@@ -50,7 +50,7 @@ public class ConditionsController extends AbstractMCommerceController {
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CONDITIONS_OF_USE.getMessageKey(), locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, FoUrls.CONDITIONS_OF_USE.getMessageKey(), locale));
 
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
 
@@ -87,7 +87,7 @@ public class ConditionsController extends AbstractMCommerceController {
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.CONDITIONS_OF_SALE.getMessageKey(), locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessageHEADER_MENUE, FoUrls.CONDITIONS_OF_SALE.getMessageKey(), locale));
 
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
 

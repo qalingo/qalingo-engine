@@ -233,7 +233,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 
         // BREADCRUMB
         BreadcrumbViewBean breadcrumbViewBean = new BreadcrumbViewBean();
-        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, urlContext.getKey(), locale));
+        breadcrumbViewBean.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, urlContext.getKey(), locale));
 
         List<MenuViewBean> menuViewBeans = breadcrumbViewBean.getMenus();
         MenuViewBean menu = new MenuViewBean();
@@ -244,7 +244,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 
         menu = new MenuViewBean();
         menu.setKey(urlContext.getKey());
-        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_TITLE, urlContext.getKey(), locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, urlContext.getKey(), locale));
         menu.setUrl(urlService.generateUrl(urlContext, requestData));
         menu.setActive(true);
         menuViewBeans.add(menu);
