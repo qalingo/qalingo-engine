@@ -161,7 +161,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     final Cart cart = requestData.getCart();
 
                     if(cart != null) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat simpleDateFormat = requestUtil.getFormatDate(requestData);
                         String maxDay = deliveryMethod.getDeliveryTimeValueMax();
                         if(maxDay != null){
                             GregorianCalendar arrivalTime = new GregorianCalendar(); 
