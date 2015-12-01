@@ -214,7 +214,20 @@ public class CallBackOAuthTwitterController extends AbstractOAuthFrontofficeCont
 	                // Update the customer session
 	                requestUtil.updateCurrentCustomer(request, customer);
 
-	                response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
+                    String targetUrl = null;
+                    String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
+
+                    // SANITY CHECK
+                    if (StringUtils.isNotEmpty(lastUrl)) {
+                        targetUrl = lastUrl;
+                    } else {
+                        targetUrl = urlService.generateRedirectUrl(FoUrls.PERSONAL_EDIT, requestUtil.getRequestData(request));
+                    }
+                    if (lastUrl.contains("cart-") || lastUrl.contains("checkout-")) {
+                        // STAY ON THE CHECKOUT - REDIRECT ON THE ADDRESSES PAGES
+                        targetUrl = urlService.generateRedirectUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request));
+                    } 
+                    response.sendRedirect(targetUrl);
 	            }
 			}
 		}
