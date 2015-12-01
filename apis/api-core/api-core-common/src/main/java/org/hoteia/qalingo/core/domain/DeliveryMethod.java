@@ -31,6 +31,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 
 @Entity
@@ -131,6 +132,45 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
 
     public String getDeliveryTime() {
         return deliveryTime;
+    }
+    
+    public String getDeliveryTimeValue() {
+        if(StringUtils.isNotEmpty(deliveryTime)
+                && deliveryTime.contains(";")){
+            String[] deliveryTimeValues = deliveryTime.split(";");
+            return deliveryTimeValues[0];
+        }
+        return null;
+    }
+    
+    public String getDeliveryTimeValueMin() {
+        if(StringUtils.isNotEmpty(deliveryTime)
+                && deliveryTime.contains(";")){
+            String[] deliveryTimeValues = deliveryTime.split(";");
+            if(StringUtils.isNotEmpty(deliveryTime)
+                    && deliveryTime.contains("-")){
+                String[] deliveryTimeValueRanges = deliveryTimeValues[0].split("-");
+                return deliveryTimeValueRanges[0];
+            } else {
+                return deliveryTimeValues[0];
+            }
+        }
+        return null;
+    }
+    
+    public String getDeliveryTimeValueMax() {
+        if(StringUtils.isNotEmpty(deliveryTime)
+                && deliveryTime.contains(";")){
+            String[] deliveryTimeValues = deliveryTime.split(";");
+            if(StringUtils.isNotEmpty(deliveryTime)
+                    && deliveryTime.contains("-")){
+                String[] deliveryTimeValueRanges = deliveryTimeValues[0].split("-");
+                return deliveryTimeValueRanges[1];
+            } else {
+                return deliveryTimeValues[0];
+            }
+        }
+        return null;
     }
 
     public void setDeliveryTime(String deliveryTime) {

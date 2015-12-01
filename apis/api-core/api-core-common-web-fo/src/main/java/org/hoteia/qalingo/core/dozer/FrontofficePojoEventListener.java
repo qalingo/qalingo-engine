@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.dozer;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -159,7 +161,14 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     final Cart cart = requestData.getCart();
 
                     if(cart != null) {
-                        deliveryMethodPojo.setArrivalTime("??");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String maxDay = deliveryMethod.getDeliveryTimeValueMax();
+                        if(maxDay != null){
+                            GregorianCalendar arrivalTime = new GregorianCalendar(); 
+                            int day = arrivalTime.get(GregorianCalendar.DAY_OF_YEAR);
+                            arrivalTime.set(GregorianCalendar.DAY_OF_YEAR, day + Integer.parseInt(maxDay));
+                            deliveryMethodPojo.setArrivalTime(simpleDateFormat.format(arrivalTime));
+                        }
                         deliveryMethodPojo.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
                         deliveryMethodPojo.setPriceWithStandardCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
 
