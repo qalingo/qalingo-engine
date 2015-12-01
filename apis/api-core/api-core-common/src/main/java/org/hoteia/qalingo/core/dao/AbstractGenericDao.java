@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.core.dao;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,7 +31,7 @@ public abstract class AbstractGenericDao {
     }
     
     protected String handleCodeValue(String code) {
-        return CoreUtil.replaceSpaceAndDash(code);
+        return CoreUtil.cleanEntityCode(code);
     }
     
     protected Criteria createDefaultCriteria(Class<?> entityClass) {
