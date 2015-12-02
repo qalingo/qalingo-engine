@@ -167,7 +167,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                             GregorianCalendar arrivalTime = new GregorianCalendar(); 
                             int day = arrivalTime.get(GregorianCalendar.DAY_OF_YEAR);
                             arrivalTime.set(GregorianCalendar.DAY_OF_YEAR, day + Integer.parseInt(maxDay));
-                            deliveryMethodPojo.setArrivalTime(simpleDateFormat.format(arrivalTime));
+                            deliveryMethodPojo.setArrivalTime(simpleDateFormat.format(arrivalTime.getTime()));
                         }
                         deliveryMethodPojo.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
                         deliveryMethodPojo.setPriceWithStandardCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
