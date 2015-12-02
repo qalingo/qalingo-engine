@@ -450,6 +450,10 @@ public class User extends AbstractEntity<User> {
         return false;
     }
     
+    public boolean hasNotGroup(String groupCode) {
+        return !hasGroup(groupCode);
+    }
+    
     public boolean hasRole(String roleCode) {
         if(groups != null 
                 && Hibernate.isInitialized(groups)){
@@ -464,6 +468,10 @@ public class User extends AbstractEntity<User> {
             }
         }
         return false;
+    }
+    
+    public boolean hasNotRole(String roleCode) {
+        return !hasRole(roleCode);
     }
     
     public void setGroups(Set<UserGroup> groups) {
