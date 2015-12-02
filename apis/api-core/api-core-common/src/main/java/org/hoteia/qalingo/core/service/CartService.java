@@ -227,17 +227,20 @@ public class CartService {
     public BigDecimal getTaxTotal(final Cart cart) {
         BigDecimal total = new BigDecimal(0);
         Long marketAreaId = cart.getMarketAreaId();
+        Tax tax = getTax(marketAreaId);
+        if(tax == null) {
+            return total;
+        }
         for (final CartItem cartItem : cart.getCartItems()) {
             List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
             for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
                 if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                    Tax tax = getTax(marketAreaId);
                     if (productSkuStorePrice.isVATIncluded()) {
-                        BigDecimal itemTax = productSkuStorePrice.getSalePrice().multiply(tax.getPercent().divide(tax.getPercent().multiply(new BigDecimal(100)), RoundingMode.FLOOR));
-                        total = total.add(itemTax);
+                        BigDecimal itemTax = productSkuStorePrice.getSalePrice().multiply(tax.getPercent().divide(tax.getPercent().add(new BigDecimal(100)), RoundingMode.FLOOR));
+                        total = total.add(itemTax).multiply(new BigDecimal(cartItem.getQuantity()));
                     } else {
                         BigDecimal itemTax = productSkuStorePrice.getSalePrice().multiply(tax.getPercent()).divide(new BigDecimal(100), RoundingMode.FLOOR);
-                        total = total.add(itemTax);
+                        total = total.add(itemTax).multiply(new BigDecimal(cartItem.getQuantity()));;
                     }
 
                     break;
