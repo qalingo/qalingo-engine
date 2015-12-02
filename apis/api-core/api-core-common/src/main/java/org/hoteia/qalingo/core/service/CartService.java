@@ -236,10 +236,10 @@ public class CartService {
             for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
                 if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
                     if (productSkuStorePrice.isVATIncluded()) {
-                        BigDecimal itemTax = productSkuStorePrice.getSalePrice().multiply(tax.getPercent().divide(tax.getPercent().add(new BigDecimal(100)), RoundingMode.FLOOR));
+                        BigDecimal itemTax = productSkuStorePrice.getSalePrice().multiply(tax.getPercent().divide(tax.getPercent().add(new BigDecimal(100)), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
                         total = total.add(itemTax).multiply(new BigDecimal(cartItem.getQuantity()));
                     } else {
-                        BigDecimal itemTax = productSkuStorePrice.getSalePrice().multiply(tax.getPercent()).divide(new BigDecimal(100), RoundingMode.FLOOR);
+                        BigDecimal itemTax = productSkuStorePrice.getSalePrice().multiply(tax.getPercent()).divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).setScale(2, BigDecimal.ROUND_HALF_EVEN);
                         total = total.add(itemTax).multiply(new BigDecimal(cartItem.getQuantity()));;
                     }
 
@@ -308,7 +308,7 @@ public class CartService {
         if (productSkuStorePrice.isVATIncluded()) {
             Tax taxes = getTax(marketAreaId);
             if (taxes != null) {
-                BigDecimal taxAmount = taxes.getPercent().divide(new BigDecimal(100), 0, BigDecimal.ROUND_FLOOR).add(new BigDecimal(1));
+                BigDecimal taxAmount = taxes.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
                 totalAmount = totalAmount.divide(taxAmount, BigDecimal.ROUND_CEILING);
             }
         }
@@ -342,7 +342,7 @@ public class CartService {
             Tax taxes = getTax(marketAreaId);
             if (taxes != null) {
                 BigDecimal taxAmount = totalAmount.multiply(taxes.getPercent());
-                totalAmount = totalAmount.add(taxAmount.divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR));
+                totalAmount = totalAmount.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
             }
         }
         return totalAmount;
