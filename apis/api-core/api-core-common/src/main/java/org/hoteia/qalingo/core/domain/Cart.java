@@ -1,37 +1,20 @@
 /**
  * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
  * under the Apache License Version 2.0 (release version 0.8.0)
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- *                   Copyright (c) Hoteia, 2012-2014
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Copyright (c) Hoteia, 2012-2014
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
- *
  */
 package org.hoteia.qalingo.core.domain;
 
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-
-import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_CART")
@@ -53,7 +36,7 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
 
     @Column(name = "TYPE")
     private String type;
-    
+
     @Column(name = "STATUS")
     private String status;
 
@@ -65,7 +48,7 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
 
     @Column(name = "RETAILER_ID")
     private Long retailerId;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
@@ -80,7 +63,7 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
     private Long shippingAddressId;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL}, targetEntity = org.hoteia.qalingo.core.domain.CartItem.class)
-    @JoinColumn(name="CART_ID", referencedColumnName="ID")
+    @JoinColumn(name = "CART_ID", referencedColumnName = "ID")
     private Set<CartItem> cartItems = new HashSet<CartItem>();
 
     @Transient
@@ -125,11 +108,11 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
     public String getType() {
         return type;
     }
-    
+
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getStatus() {
         return status;
     }
@@ -145,15 +128,15 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
     public void setMarketAreaId(Long marketAreaId) {
         this.marketAreaId = marketAreaId;
     }
-    
+
     public Long getLocalizationId() {
         return localizationId;
     }
-    
+
     public void setLocalizationId(Long localizationId) {
         this.localizationId = localizationId;
     }
-    
+
     public Long getRetailerId() {
         return retailerId;
     }
@@ -258,76 +241,6 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
         this.dateUpdate = dateUpdate;
     }
 
-    public BigDecimal getDeliveryMethodTotal() {
-        final Set<DeliveryMethod> deliveryMethods = getDeliveryMethods();
-        BigDecimal cartDeliveryMethodTotal = new BigDecimal("0");
-        if (deliveryMethods != null && Hibernate.isInitialized(deliveryMethods)) {
-            for (final DeliveryMethod deliveryMethod : deliveryMethods) {
-                if (deliveryMethod != null) {
-                    BigDecimal price = deliveryMethod.getPrice(getCurrency().getId());
-                    if (price != null) {
-                        cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(price);
-                    }
-                }
-            }
-        }
-        return cartDeliveryMethodTotal;
-    }
-
-    public String getDeliveryMethodTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getDeliveryMethodTotal());
-    }
-
-    public BigDecimal getCartItemTotal() {
-        BigDecimal cartItemsTotal = new BigDecimal("0");
-        if (cartItems != null
-                && Hibernate.isInitialized(cartItems)) {
-            for (final CartItem cartItem : cartItems) {
-                cartItemsTotal = cartItemsTotal.add(cartItem.getTotalAmountCartItem(getMarketAreaId()));
-            }
-        }
-        return cartItemsTotal;
-    }
-
-    public String getCartItemTotalWithStandardCurrencySign() {
-        if(getCurrency() != null){
-            return getCurrency().formatPriceWithStandardCurrencySign(getCartItemTotal());
-        }
-        return null;
-    }
-
-    public BigDecimal getTaxTotal() {
-        BigDecimal cartFeesTotal = new BigDecimal("0");
-        final Set<Tax> taxes = getTaxes();
-        if (taxes != null && Hibernate.isInitialized(taxes)) {
-            for (final Tax tax : taxes) {
-                // TODO TAX can be only on product or deliveyMethod or both
-
-                BigDecimal taxesCalc = getDeliveryMethodTotal();
-                taxesCalc = taxesCalc.multiply(tax.getPercent());
-                taxesCalc = taxesCalc.divide(new BigDecimal("100"));
-                cartFeesTotal = cartFeesTotal.add(taxesCalc);
-            }
-        }
-        return cartFeesTotal;
-    }
-
-    public String getTaxTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getTaxTotal());
-    }
-
-    public BigDecimal getCartTotal() {
-        BigDecimal carTotal = new BigDecimal("0");
-        carTotal = carTotal.add(getCartItemTotal());
-        carTotal = carTotal.add(getDeliveryMethodTotal());
-        carTotal = carTotal.add(getTaxTotal());
-        return carTotal;
-    }
-
-    public String getCartTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getCartTotal());
-    }
-
     public Set<CartAttribute> getAttributes() {
         return attributes;
     }
@@ -340,61 +253,57 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
         this.deliveryMethods = cart.getDeliveryMethods();
         this.taxes = cart.getTaxes();
     }
-    
+
     @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((dateCreate == null) ? 0 : dateCreate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((localizationId == null) ? 0 : localizationId.hashCode());
-		result = prime * result
-				+ ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
-		result = prime * result
-				+ ((retailerId == null) ? 0 : retailerId.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((localizationId == null) ? 0 : localizationId.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
+        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cart other = (Cart) obj;
-		if (dateCreate == null) {
-			if (other.dateCreate != null)
-				return false;
-		} else if (!dateCreate.equals(other.dateCreate))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (localizationId == null) {
-			if (other.localizationId != null)
-				return false;
-		} else if (!localizationId.equals(other.localizationId))
-			return false;
-		if (marketAreaId == null) {
-			if (other.marketAreaId != null)
-				return false;
-		} else if (!marketAreaId.equals(other.marketAreaId))
-			return false;
-		if (retailerId == null) {
-			if (other.retailerId != null)
-				return false;
-		} else if (!retailerId.equals(other.retailerId))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Cart other = (Cart) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (localizationId == null) {
+            if (other.localizationId != null)
+                return false;
+        } else if (!localizationId.equals(other.localizationId))
+            return false;
+        if (marketAreaId == null) {
+            if (other.marketAreaId != null)
+                return false;
+        } else if (!marketAreaId.equals(other.marketAreaId))
+            return false;
+        if (retailerId == null) {
+            if (other.retailerId != null)
+                return false;
+        } else if (!retailerId.equals(other.retailerId))
+            return false;
+        return true;
+    }
 
-	@Override
+    @Override
     public String toString() {
         return "Cart [id=" + id + ", version=" + version + ", status=" + status + ", marketAreaId=" + marketAreaId + ", retailerId=" + retailerId + ", customerId=" + customerId
                 + ", billingAddressId=" + billingAddressId + ", shippingAddressId=" + shippingAddressId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";

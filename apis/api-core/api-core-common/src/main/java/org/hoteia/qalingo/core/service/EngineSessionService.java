@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.service;
 
 import org.dozer.Mapper;
 import org.hoteia.qalingo.core.dao.EngineSessionDao;
+import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.slf4j.Logger;
@@ -19,6 +20,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 @Service("engineSessionService")
 @Transactional
@@ -31,6 +34,9 @@ public class EngineSessionService {
 
     @Autowired 
     protected Mapper dozerBeanMapper;
+
+    @Autowired
+    protected TaxService taxService;
 
     // ECO SESSION
     
@@ -118,5 +124,26 @@ public class EngineSessionService {
     public void deleteEngineBoSession(final EngineBoSession engineBoSession) {
         engineSessionDao.deleteEngineBoSession(engineBoSession);
     }
-    
+
+    public EngineEcoSession addNewCart(EngineEcoSession engineEcoSession) {
+        Cart cart = new Cart();
+        cart.setVersion(1);
+        cart.setMarketAreaId(engineEcoSession.getCurrentMarketArea().getId());
+        cart.setLocalizationId(engineEcoSession.getCurrentMarketAreaLocalization().getId());
+        cart.setRetailerId(engineEcoSession.getCurrentMarketAreaRetailer().getId());
+        cart.setCurrency(engineEcoSession.getCurrentMarketAreaCurrency());
+        Date date = new Date();
+        cart.setDateCreate(date);
+        cart.setDateUpdate(date);
+//        List<Tax> taxesByMarketAreaId = taxService.findTaxesByMarketAreaId(engineEcoSession.getCurrentMarketArea().getId());
+//        cart.getTaxes().addAll(taxesByMarketAreaId);
+        if (engineEcoSession.getCurrentCustomer() != null) {
+            cart.setCustomerId(engineEcoSession.getCurrentCustomer().getId());
+            cart.setBillingAddressId(engineEcoSession.getCurrentCustomer().getDefaultBillingAddressId());
+            cart.setShippingAddressId(engineEcoSession.getCurrentCustomer().getDefaultShippingAddressId());
+        }
+
+        engineEcoSession.getCarts().add(cart);
+        return engineEcoSession;
+    }
 }

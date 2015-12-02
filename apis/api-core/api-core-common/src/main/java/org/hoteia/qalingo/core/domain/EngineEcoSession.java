@@ -149,27 +149,6 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
         return null;
     }
 
-    public Cart addNewCart() {
-        Cart cart = new Cart();
-        cart.setVersion(1);
-        cart.setMarketAreaId(getCurrentMarketArea().getId());
-        cart.setLocalizationId(getCurrentMarketAreaLocalization().getId());
-        cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
-        cart.setCurrency(getCurrentMarketAreaCurrency());
-        Date date = new Date();
-        cart.setDateCreate(date);
-        cart.setDateUpdate(date);
-
-        if (getCurrentCustomer() != null) {
-            cart.setCustomerId(getCurrentCustomer().getId());
-            cart.setBillingAddressId(getCurrentCustomer().getDefaultBillingAddressId());
-            cart.setShippingAddressId(getCurrentCustomer().getDefaultShippingAddressId());
-        }
-
-        this.carts.add(cart);
-        return cart;
-    }
-
     public Cart resetCurrentCart() {
         Cart cart = getCart();
         cart.getCartItems().clear();
@@ -197,7 +176,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
 
     public void updateCart(Cart cart) {
         if(this.carts != null){
-        	Set<Cart> updatedCarts = new HashSet<Cart>();
+            Set<Cart> updatedCarts = new HashSet<Cart>();
             for (Cart cartIt : carts) {
                 if (cartIt.getId().equals(cart.getId())) {
                     updatedCarts.add(cart);

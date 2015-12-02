@@ -342,8 +342,7 @@ public class ProductService {
 
     public List<Long> getProductIds(List<ProductSku> productSkus) {
         List<Long> productSkuIds = new ArrayList<Long>();
-        for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
-            ProductSku productSku = (ProductSku) iterator.next();
+        for (ProductSku productSku : productSkus) {
             productSkuIds.add(productSku.getId());
         }
         return productSkuIds;

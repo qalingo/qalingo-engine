@@ -105,7 +105,8 @@ public class WebManagementService {
         final HttpServletRequest request = requestData.getRequest();
         if(cart == null) {
             EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
-            cart = engineEcoSession.addNewCart();
+            engineEcoSession = engineSessionService.addNewCart(engineEcoSession);
+            cart = engineEcoSession.getCart();
         }
         cart = cartService.addProductSkuToCart(cart, store, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
@@ -140,9 +141,10 @@ public class WebManagementService {
         }
 
         Cart cart = requestData.getCart();
-        if(cart == null){
+        if(cart == null) {
             EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
-            cart = engineEcoSession.addNewCart();
+            engineEcoSession = engineSessionService.addNewCart(engineEcoSession);
+            cart = engineEcoSession.getCart();
         }
 
         cartService.updateCartItem(cart, store, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);

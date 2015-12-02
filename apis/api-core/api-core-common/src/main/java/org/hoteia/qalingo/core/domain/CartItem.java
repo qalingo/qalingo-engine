@@ -178,6 +178,7 @@ public class CartItem extends AbstractEntity<CartItem> {
         this.taxes = taxes;
     }
 
+    @Deprecated
     public ProductSkuPrice getPrice(final Long marketAreaId) {
         if (productSku != null 
                 && Hibernate.isInitialized(productSku)
@@ -192,6 +193,7 @@ public class CartItem extends AbstractEntity<CartItem> {
         return null;
     }
 
+    @Deprecated
     public String getPriceWithStandardCurrencySign(final Long marketAreaId) {
         final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
         if (productSkuPrice != null) {
@@ -200,24 +202,16 @@ public class CartItem extends AbstractEntity<CartItem> {
         return null;
     }
 
-    public BigDecimal getTotalAmountCartItem(final Long marketAreaId) {
-        BigDecimal totalAmount = new BigDecimal("0");
-        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
-        if (productSkuPrice != null) {
-            totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
-        }
-        totalAmount = totalAmount.multiply(new BigDecimal(quantity));
-        return totalAmount;
-    }
-
+    @Deprecated
     public String getTotalAmountWithStandardCurrencySign(final Long marketAreaId) {
         BigDecimal totalAmount = new BigDecimal("0");
         final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
         if (productSkuPrice != null) {
             totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
+            totalAmount = totalAmount.multiply(new BigDecimal(quantity));
+            return productSkuPrice.getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
         }
-        totalAmount = totalAmount.multiply(new BigDecimal(quantity));
-        return productSkuPrice.getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
+        return "0";
     }
 
     @Override

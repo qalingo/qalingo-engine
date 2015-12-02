@@ -1702,11 +1702,11 @@ public class RequestUtil {
     }
 
     protected EngineEcoSession initCart(final HttpServletRequest request) throws Exception {
-        final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         Cart cart = engineEcoSession.getCart();
         if (cart == null) {
             // Init a new empty Cart with a default configuration
-            engineEcoSession.addNewCart();
+            engineEcoSession = engineSessionService.addNewCart(engineEcoSession);
         }
         updateCurrentEcoSession(request, engineEcoSession);
         return engineEcoSession;
@@ -1725,9 +1725,9 @@ public class RequestUtil {
 
     protected MarketArea evaluateMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        MarketPlace marketPlace = null;
+        MarketPlace marketPlace;
         Market market = null;
-        MarketArea marketArea = null;
+        MarketArea marketArea;
 
         if(engineEcoSession == null){
             engineEcoSession = initEcoSession(request);

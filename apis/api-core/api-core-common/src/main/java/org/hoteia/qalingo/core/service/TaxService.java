@@ -9,13 +9,13 @@
  */
 package org.hoteia.qalingo.core.service;
 
-import java.util.List;
-
 import org.hoteia.qalingo.core.dao.TaxDao;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service("taxService")
 @Transactional
@@ -49,7 +49,7 @@ public class TaxService {
     public List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params) {
         return taxDao.findTaxesByMarketAreaId(marketAreaId, params);
     }
-    
+
     public Tax saveOrUpdateTax(Tax tax) {
         return taxDao.saveOrUpdateTax(tax);
     }
