@@ -30,13 +30,14 @@ public class ProductSkuViewBean extends AbstractViewBean {
     protected String code;
     protected String name;
     protected String description;
-    protected String backgroundImage;
-    protected String carouselImage;
-    protected String iconImage;
 
     protected String i18nName;
     protected String i18nDescription;
     protected String i18nShortDescription;
+
+    protected String backgroundImage;
+    protected String carouselImage;
+    protected String iconImage;
     
     protected int positionItem;
     protected boolean isDefault;

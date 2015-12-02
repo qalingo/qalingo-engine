@@ -14,8 +14,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
+import org.hoteia.qalingo.core.util.CoreUtil;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,8 +27,14 @@ public class ProductSkuPojo {
     private int version;
     private String code;
     private String ean;
+
     private String name;
-    private String i18nName;
+    private String description;
+    
+    protected String i18nName;
+    protected String i18nDescription;
+    protected String i18nShortDescription;
+    
     private Integer width;
     private Integer height;
     private Integer length;
@@ -35,7 +43,6 @@ public class ProductSkuPojo {
     private String defaultBackgroundImage;
     private String defaultIconImage;
     private String priceWithStandardCurrencySign;
-    private String description;
     
     private boolean isDefault;
     
@@ -99,17 +106,64 @@ public class ProductSkuPojo {
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
     
     public String getI18nName() {
-        return i18nName;
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
     }
     
     public void setI18nName(String i18nName) {
         this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
+    }
+    
+    public String getI18nShortDescription() {
+        return i18nShortDescription;
+    }
+    
+    public void setI18nShortDescription(String i18nShortDescription) {
+        this.i18nShortDescription = i18nShortDescription;
+    }
+    
+    public String getI18nTruncatedDescription() {
+        if(StringUtils.isNotEmpty(getI18nShortDescription())){
+            if(getI18nShortDescription().length() >= 150){
+                return CoreUtil.handleTruncatedDescription(getI18nShortDescription());
+            } else {
+                return getI18nShortDescription();
+            }
+        } else if (StringUtils.isNotEmpty(getI18nDescription())){
+            if(getI18nDescription().length() >= 150){
+                return CoreUtil.handleTruncatedDescription(getI18nDescription());
+            } else {
+                return getI18nDescription();
+            }
+        }
+        return "";
     }
 
     public Integer getWidth() {
@@ -176,14 +230,6 @@ public class ProductSkuPojo {
         this.priceWithStandardCurrencySign = priceWithStandardCurrencySign;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
     public boolean isDefault() {
         return isDefault;
     }
