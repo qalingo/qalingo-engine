@@ -32,6 +32,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.FoCartItemPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.FoDeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
+import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -54,6 +55,10 @@ public class FrontofficePojoEventListener implements DozerEventListener {
     @Autowired
     protected RequestUtil requestUtil;
 
+
+    @Autowired
+    protected CartService cartService;
+
     @Autowired 
     private HttpServletRequest httpServletRequest;
 
@@ -73,47 +78,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
     @Override
     public void postWritingDestinationValue(DozerEvent event) {
         logger.debug("post writing destination value, SourceObject: " + event.getSourceObject());
-        if(event.getDestinationObject() instanceof FoCartItemPojo){
-            if(event.getFieldMap().getDestFieldName().equals("productSkuCode")){
-                // INJECT BACKOFFICE URLS
-                CartItem cartItem = (CartItem) event.getSourceObject();
-                FoCartItemPojo cartItemPojo = (FoCartItemPojo) event.getDestinationObject();
-                try {
-                    final RequestData requestData = requestUtil.getRequestData(httpServletRequest);
-                    final MarketArea marketArea = requestData.getMarketArea();
-                    final Localization localization = requestData.getMarketAreaLocalization();
-                    final String localizationCode = localization.getCode();
-                    
-                    // ASSETS
-                    ProductSku productSku = cartItem.getProductSku();
-                    if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
-                        for (Asset asset : productSku.getAssets()) {
-                            AssetPojo assetPojo = new AssetPojo();
-                            assetPojo.setName(asset.getName());
-                            assetPojo.setDescription(asset.getDescription());
-                            assetPojo.setType(asset.getType());
-                            assetPojo.setPath(asset.getPath());
-
-                            final String path = engineSettingService.getProductSkuImageWebPath(asset);
-                            assetPojo.setRelativeWebPath(path);
-                            assetPojo.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-                            cartItemPojo.getAssets().add(assetPojo);
-
-                            cartItemPojo.setSummaryImage(buildDefaultAsset(requestData, productSku));
-                        }
-                    }
-                    cartItemPojo.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
-                    
-                    cartItemPojo.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), cartItem.getProductSku()));
-
-                    cartItemPojo.setPriceWithStandardCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId()));
-                    cartItemPojo.setTotalAmountWithStandardCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId()));
-
-                } catch (Exception e) {
-                    logger.error("postWritingDestinationValue error with FoCartItemPojo", e);
-                }
-            }
-        } else if(event.getDestinationObject() instanceof ProductSkuPojo){
+        if(event.getDestinationObject() instanceof ProductSkuPojo){
             if(event.getFieldMap().getDestFieldName().equals("code")){
                 // INJECT BACKOFFICE URLS
                 ProductSku productSku = (ProductSku) event.getSourceObject();
@@ -169,9 +134,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                             arrivalTime.set(GregorianCalendar.DAY_OF_YEAR, day + Integer.parseInt(maxDay));
                             deliveryMethodPojo.setArrivalTime(simpleDateFormat.format(arrivalTime.getTime()));
                         }
-                        deliveryMethodPojo.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
-                        deliveryMethodPojo.setPriceWithStandardCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
-
+                        deliveryMethodPojo.setPrice(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
                         if (cart.getDeliveryMethods().contains(deliveryMethod)) {
                             deliveryMethodPojo.setSelected(true);
                         }
@@ -183,7 +146,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
         }
     }
 
-    protected String buildDefaultAsset(final RequestData requestData, final ProductSku productSku) throws Exception{
+    public String buildDefaultAsset(final RequestData requestData, final ProductSku productSku) throws Exception{
         // TEMPORARY FIX : ASSET
         Set<Asset> assets = productSku.getAssets();
         Asset defaultAsset = null;
@@ -217,11 +180,12 @@ public class FrontofficePojoEventListener implements DozerEventListener {
         }
         return urlService.buildAbsoluteUrl(requestData, buildAssetPath(productSku, defaultAsset));
     }
-    
+
     protected String buildAssetPath(final ProductSku productSku, final Asset defaultAsset) throws Exception{
         return engineSettingService.getProductSkuImageWebPath(defaultAsset);
     }
-    
+
+
     @Override
     public void mappingFinished(DozerEvent event) {
         logger.debug("mapping finished, SourceObject: " + event.getSourceObject());

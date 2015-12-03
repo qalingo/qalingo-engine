@@ -700,7 +700,7 @@ public class WebManagementService {
         // UPDATE SESSION
         requestUtil.updateCurrentCustomer(request, savedCustomer);
         
-        return customer;
+        return savedCustomer;
     }
     
     public Customer deleteAddressCustomer(final RequestData requestData, final String customerAddressId) throws Exception {

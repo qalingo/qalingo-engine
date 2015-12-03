@@ -135,8 +135,7 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
     }
     
     public String getDeliveryTimeValue() {
-        if(StringUtils.isNotEmpty(deliveryTime)
-                && deliveryTime.contains(";")){
+        if(StringUtils.isNotEmpty(deliveryTime) && deliveryTime.contains(";")){
             String[] deliveryTimeValues = deliveryTime.split(";");
             return deliveryTimeValues[0];
         }
@@ -144,11 +143,9 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
     }
     
     public String getDeliveryTimeValueMin() {
-        if(StringUtils.isNotEmpty(deliveryTime)
-                && deliveryTime.contains(";")){
+        if(StringUtils.isNotEmpty(deliveryTime) && deliveryTime.contains(";")){
             String[] deliveryTimeValues = deliveryTime.split(";");
-            if(StringUtils.isNotEmpty(deliveryTime)
-                    && deliveryTime.contains("-")){
+            if(StringUtils.isNotEmpty(deliveryTime) && deliveryTime.contains("-")){
                 String[] deliveryTimeValueRanges = deliveryTimeValues[0].split("-");
                 return deliveryTimeValueRanges[0];
             } else {
@@ -159,16 +156,22 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
     }
     
     public String getDeliveryTimeValueMax() {
-        if(StringUtils.isNotEmpty(deliveryTime)
-                && deliveryTime.contains(";")){
+        if(StringUtils.isNotEmpty(deliveryTime) && deliveryTime.contains(";")){
             String[] deliveryTimeValues = deliveryTime.split(";");
-            if(StringUtils.isNotEmpty(deliveryTime)
-                    && deliveryTime.contains("-")){
+            if(StringUtils.isNotEmpty(deliveryTime) && deliveryTime.contains("-")){
                 String[] deliveryTimeValueRanges = deliveryTimeValues[0].split("-");
                 return deliveryTimeValueRanges[1];
             } else {
                 return deliveryTimeValues[0];
             }
+        }
+        return null;
+    }
+
+    public String getDeliveryTimeType() {
+        if(StringUtils.isNotEmpty(deliveryTime) && deliveryTime.contains(";")){
+            String[] deliveryTimeValues = deliveryTime.split(";");
+            return deliveryTimeValues[1];
         }
         return null;
     }

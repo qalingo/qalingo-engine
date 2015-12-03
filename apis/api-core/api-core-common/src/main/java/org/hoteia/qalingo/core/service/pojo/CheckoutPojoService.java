@@ -43,11 +43,10 @@ public class CheckoutPojoService {
     
     @Autowired 
     protected Mapper dozerBeanMapper;
-    
+
     public CartPojo getCart(MarketArea marketArea, Customer customer) throws Exception {
         Cart cart = cartService.getCartByMarketAreaIdAndCustomerId(marketArea.getId(), customer.getId());
-        CartPojo cartPojo = handleCartMapping(cart);
-        return cartPojo;
+        return handleCartMapping(cart);
     }
     
     public void addProductSkuToCart(Cart cart, final String virtualCatalogCode, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
@@ -77,32 +76,7 @@ public class CheckoutPojoService {
     }
     
     public CartPojo handleCartMapping(final Cart cart) {
-        if(cart != null){
-//            Set<CartItem> cartItems = cart.getCartItems();
-//            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-//                CartItem cartItem = (CartItem) iterator.next();
-//                cartItem.setProductSku(cartItem.getProductSku());
-//                cartItem.setProductMarketing(cartItem.getProductMarketing());
-//                cartItem.setCatalogCategory(cartItem.getCatalogCategory());
-//            }
-        }
         return cart == null ? null : dozerBeanMapper.map(cart, CartPojo.class);
-    }
-    
-    public List<DeliveryMethodPojo> getAvailableDeliveryMethodsByMarketArea(final MarketArea marketArea) {
-        if(marketArea != null 
-                && marketArea.getDeliveryMethods() != null){
-            return getAvailableDeliveryMethods(new ArrayList<DeliveryMethod>(marketArea.getDeliveryMethods()));
-        }
-        return null;
-    }
-    
-    public List<DeliveryMethodPojo> getAvailableDeliveryMethods(final List<DeliveryMethod> deliveryMethods) {
-        if(deliveryMethods != null){
-            logger.debug("Found {} deliveryMethods", deliveryMethods.size());
-            return PojoUtil.mapAll(dozerBeanMapper, deliveryMethods, DeliveryMethodPojo.class);
-        }
-        return null;
     }
     
 }

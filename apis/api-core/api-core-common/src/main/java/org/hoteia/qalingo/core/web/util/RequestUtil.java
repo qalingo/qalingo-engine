@@ -15,11 +15,7 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,26 +27,10 @@ import net.sourceforge.wurfl.core.WURFLManager;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.AbstractEngineSession;
-import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.Company;
-import org.hoteia.qalingo.core.domain.CurrencyReferential;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.EngineBoSession;
-import org.hoteia.qalingo.core.domain.EngineEcoSession;
-import org.hoteia.qalingo.core.domain.EngineSetting;
-import org.hoteia.qalingo.core.domain.EngineSettingValue;
-import org.hoteia.qalingo.core.domain.GeolocAddress;
-import org.hoteia.qalingo.core.domain.GeolocCity;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.OrderPurchase;
-import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.bean.GeolocDataCity;
 import org.hoteia.qalingo.core.domain.bean.GeolocDataCountry;
@@ -62,19 +42,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.UrlParameterMapping;
-import org.hoteia.qalingo.core.service.CartService;
-import org.hoteia.qalingo.core.service.CatalogCategoryService;
-import org.hoteia.qalingo.core.service.CurrencyReferentialService;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.service.EngineSessionService;
-import org.hoteia.qalingo.core.service.EngineSettingService;
-import org.hoteia.qalingo.core.service.GeolocService;
-import org.hoteia.qalingo.core.service.LocalizationService;
-import org.hoteia.qalingo.core.service.MarketService;
-import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.ReferentialDataService;
-import org.hoteia.qalingo.core.service.RetailerService;
-import org.hoteia.qalingo.core.service.UserService;
+import org.hoteia.qalingo.core.service.*;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamRequest;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
@@ -160,6 +128,8 @@ public class RequestUtil {
     @Autowired
     protected CoreMessageSource coreMessageSource;
 
+    @Autowired
+    protected UrlService urlService;
     /**
      *
      */

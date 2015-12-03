@@ -14,20 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hoteia.qalingo.core.dao.ProductDao;
-import org.hoteia.qalingo.core.domain.Asset;
-import org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
-import org.hoteia.qalingo.core.domain.ProductBrand;
-import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
-import org.hoteia.qalingo.core.domain.ProductBrandCustomerRate;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
-import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
-import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
-import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
-import org.hoteia.qalingo.core.domain.ProductSkuStoreRel;
+import org.hoteia.qalingo.core.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -603,6 +590,10 @@ public class ProductService {
     
     public void createCatalogCategoryVirtualProductSkuRel(final CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel) {
     	productDao.createCatalogCategoryVirtualProductSkuRel(catalogCategoryVirtualProductSkuRel);
+    }
+
+    public List<ProductSkuStorePrice> findProductSkuStorePrices(final Long storeId, final Long productSkuCode) {
+        return productDao.findProductSkuStorePrices(storeId, productSkuCode);
     }
 
 }
