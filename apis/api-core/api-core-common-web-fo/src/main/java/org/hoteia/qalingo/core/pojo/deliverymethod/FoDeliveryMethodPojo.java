@@ -9,40 +9,53 @@
  */
 package org.hoteia.qalingo.core.pojo.deliverymethod;
 
-import java.math.BigDecimal;
+public class FoDeliveryMethodPojo {
 
-public class FoDeliveryMethodPojo extends DeliveryMethodPojo {
-
+    private String code;
+    private String description;
     private String arrivalTime;
-    public BigDecimal price;
-    public String priceWithStandardCurrencySign;
+    private String deliveryTime;
+    private String price;
     private boolean selected;
-    
-    public FoDeliveryMethodPojo() {
+
+    public String getCode() {
+        return code;
     }
-    
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getArrivalTime() {
         return arrivalTime;
     }
-    
+
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-    
-    public BigDecimal getPrice() {
+
+    public String getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(String price) {
         this.price = price;
-    }
-
-    public String getPriceWithStandardCurrencySign() {
-        return priceWithStandardCurrencySign;
-    }
-
-    public void setPriceWithStandardCurrencySign(String priceWithStandardCurrencySign) {
-        this.priceWithStandardCurrencySign = priceWithStandardCurrencySign;
     }
 
     public boolean isSelected() {
@@ -52,5 +65,6 @@ public class FoDeliveryMethodPojo extends DeliveryMethodPojo {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
     
 }

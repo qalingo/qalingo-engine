@@ -50,10 +50,8 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
-import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerPermission;
 import org.hoteia.qalingo.core.domain.CustomerRole;
-import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -79,7 +77,6 @@ import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
 import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
-import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
@@ -100,19 +97,11 @@ import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.CatalogCategoryService;
-import org.hoteia.qalingo.core.service.CatalogService;
-import org.hoteia.qalingo.core.service.EngineSettingService;
-import org.hoteia.qalingo.core.service.MarketService;
-import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.ReferentialDataService;
-import org.hoteia.qalingo.core.service.RetailerService;
-import org.hoteia.qalingo.core.service.UrlService;
+import org.hoteia.qalingo.core.service.*;
 import org.hoteia.qalingo.core.service.openid.OpenProvider;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeDefinitionViewBean;
@@ -151,20 +140,17 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandCustomerCommentViewB
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuOptionDefinitionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerCustomerCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreCustomerCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
@@ -214,6 +200,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     
     @Autowired
     protected UrlService urlService;
+
+    @Autowired
+    protected CartService cartService;
 
     /**
      * 
@@ -2380,10 +2369,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 //            }
             
             
-            cartViewBean.setCartItemsTotalWithCurrencySign(cart.getCartItemTotalWithStandardCurrencySign());
-            cartViewBean.setCartShippingTotalWithCurrencySign(cart.getDeliveryMethodTotalWithStandardCurrencySign());
-            cartViewBean.setCartFeesTotalWithCurrencySign(cart.getTaxTotalWithStandardCurrencySign());
-            cartViewBean.setCartTotalWithCurrencySign(cart.getCartTotalWithStandardCurrencySign());
+            cartViewBean.setCartItemsTotalWithCurrencySign(cartService.getCartItemTotalWithStandardCurrencySign(cart));
+            cartViewBean.setCartShippingTotalWithCurrencySign(cartService.getDeliveryMethodTotalWithStandardCurrencySign(cart));
+            cartViewBean.setCartFeesTotalWithCurrencySign(cartService.getTaxTotalWithStandardCurrencySign(cart));
+            cartViewBean.setCartTotalWithCurrencySign(cartService.getCartTotalWithStandardCurrencySign(cart));
         }
 
         return cartViewBean;

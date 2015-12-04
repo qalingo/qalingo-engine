@@ -81,12 +81,15 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
-    
+
+    @Column(name = "IS_VAT_INCLUDED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isVATIncluded;
+
 	public ProductSkuStorePrice() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -191,6 +194,14 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
+    }
+
+    public boolean isVATIncluded() {
+        return isVATIncluded;
+    }
+
+    public void setIsVATIncluded(boolean isVATIncluded) {
+        this.isVATIncluded = isVATIncluded;
     }
 
     @Override
