@@ -212,15 +212,10 @@ public class CallBackOAuthGoogleAccountController extends AbstractOAuthFrontoffi
                     // Update the customer session
                     requestUtil.updateCurrentCustomer(request, customer);
 
-                    String targetUrl = null;
+                    String targetUrl = urlService.generateRedirectUrl(FoUrls.PERSONAL_EDIT, requestUtil.getRequestData(request));
                     String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
 
                     // SANITY CHECK
-                    if (StringUtils.isNotEmpty(lastUrl)) {
-                        targetUrl = lastUrl;
-                    } else {
-                        targetUrl = urlService.generateRedirectUrl(FoUrls.PERSONAL_EDIT, requestUtil.getRequestData(request));
-                    }
                     if (lastUrl.contains("cart-") || lastUrl.contains("checkout-")) {
                         // STAY ON THE CHECKOUT - REDIRECT ON THE ADDRESSES PAGES
                         targetUrl = urlService.generateRedirectUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request));
