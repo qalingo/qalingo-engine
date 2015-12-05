@@ -329,10 +329,32 @@ public class Customer extends AbstractEntity<Customer> {
 	    this.credentials = credentials;
     }
 	
-	public Set<CustomerAddress> getAddresses() {
-		return addresses;
-	}
-	
+    public Set<CustomerAddress> getAddresses() {
+        return addresses;
+    }
+
+    public boolean hasAddress() {
+        if (addresses != null 
+                && Hibernate.isInitialized(addresses) 
+                && !addresses.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasAddressForThisCountry(final String countryCode) {
+        if (addresses != null
+                && Hibernate.isInitialized(addresses)) {
+            for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
+                CustomerAddress customerAddress = (CustomerAddress) iterator.next();
+                if (customerAddress.getCountryCode().equals(countryCode)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 	public CustomerAddress getAddress(final Long customerAddressId) {
 		CustomerAddress customerAddressToReturn = null;
 		if(addresses != null

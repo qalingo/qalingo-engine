@@ -52,10 +52,10 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
     protected CustomerService customerService;
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
-	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
+	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, 
+	                                                 @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
 		// SANITY CHECK: Customer logged
 		if(securityUtil.isAuthenticated()){

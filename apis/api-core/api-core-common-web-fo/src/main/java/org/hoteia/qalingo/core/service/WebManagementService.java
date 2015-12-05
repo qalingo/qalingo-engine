@@ -998,16 +998,7 @@ public class WebManagementService {
         emailService.buildAndSaveNewOrderConfirmationMail(requestData, customer, velocityPath, orderConfirmationEmailBean);
     }
     
-    protected String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String contextNameValue, final String emailType) throws Exception{
-        String emailFromAddress = marketArea.getEmailFromAddress(contextNameValue, emailType);
-        if(StringUtils.isEmpty(emailFromAddress)){
-            final String contextValue = requestUtil.getCurrentContextNameValue();
-            emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
-        }
-        return emailFromAddress;
-    }
-    
-    protected Customer checkCustomerMarketArea(final RequestData requestData, Customer customer) throws Exception{
+    public Customer checkCustomerMarketArea(final RequestData requestData, Customer customer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
         if(customerMarketArea == null){
@@ -1021,6 +1012,15 @@ public class WebManagementService {
             }
         }
         return customer;
+    }
+    
+    protected String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String contextNameValue, final String emailType) throws Exception {
+        String emailFromAddress = marketArea.getEmailFromAddress(contextNameValue, emailType);
+        if(StringUtils.isEmpty(emailFromAddress)){
+            final String contextValue = requestUtil.getCurrentContextNameValue();
+            emailFromAddress = engineSettingService.getDefaultEmailAddress(contextValue);
+        }
+        return emailFromAddress;
     }
     
 }
