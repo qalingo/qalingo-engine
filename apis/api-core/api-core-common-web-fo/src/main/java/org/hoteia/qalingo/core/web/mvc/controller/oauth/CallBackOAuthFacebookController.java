@@ -224,6 +224,8 @@ public class CallBackOAuthFacebookController extends AbstractOAuthFrontofficeCon
                     String targetUrl = urlService.generateRedirectUrl(FoUrls.PERSONAL_EDIT, requestUtil.getRequestData(request));
                     String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
 
+                    System.out.println("OAUTH FACEBOOK : " + lastUrl);
+                    
                     // SANITY CHECK
                     if (lastUrl.contains("cart-") || lastUrl.contains("checkout-")) {
                         // STAY ON THE CHECKOUT - REDIRECT ON THE ADDRESSES PAGES

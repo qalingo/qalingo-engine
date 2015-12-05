@@ -689,6 +689,8 @@ public class RequestUtil {
         excludedPatterns.add(CommonUrls.ERROR_403.getUrlPatternKey());
         excludedPatterns.add(CommonUrls.ERROR_404.getUrlPatternKey());
         excludedPatterns.add(CommonUrls.ERROR_500.getUrlPatternKey());
+        excludedPatterns.add(CommonUrls.ENTITY_CACHE.getUrlPatternKey());
+        excludedPatterns.add(CommonUrls.VELOCITY_CACHE.getUrlPatternKey());
         excludedPatterns.add(FoUrls.CHANGE_CONTEXT.getUrlPatternKey());
         excludedPatterns.add(FoUrls.CHANGE_LANGUAGE.getUrlPatternKey());
         excludedPatterns.add(FoUrls.FORBIDDEN.getUrlPatternKey());
@@ -698,7 +700,7 @@ public class RequestUtil {
         excludedPatterns.add(FoUrls.FORGOTTEN_PASSWORD.getUrlPatternKey());
         excludedPatterns.add(FoUrls.RESET_PASSWORD.getUrlPatternKey());
         excludedPatterns.add(FoUrls.CANCEL_RESET_PASSWORD.getUrlPatternKey());
-        excludedPatterns.add("cachemanager.html");
+        excludedPatterns.add("connect-oauth");
         return excludedPatterns;
     }
 
