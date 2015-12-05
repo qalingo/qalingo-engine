@@ -700,7 +700,8 @@ public class RequestUtil {
         excludedPatterns.add(FoUrls.FORGOTTEN_PASSWORD.getUrlPatternKey());
         excludedPatterns.add(FoUrls.RESET_PASSWORD.getUrlPatternKey());
         excludedPatterns.add(FoUrls.CANCEL_RESET_PASSWORD.getUrlPatternKey());
-        excludedPatterns.add("connect-oauth");
+        excludedPatterns.add("oauth");
+        excludedPatterns.add("openid");
         return excludedPatterns;
     }
 
