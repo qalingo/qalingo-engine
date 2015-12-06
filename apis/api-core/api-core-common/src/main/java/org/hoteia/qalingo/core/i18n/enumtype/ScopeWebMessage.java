@@ -20,6 +20,11 @@ public enum ScopeWebMessage {
 	COMMON("common"),
 	
 	/**
+     * 
+     */
+    LABEL("label"),
+    
+	/**
 	 * 
 	 */
 	SEO("seo"),
