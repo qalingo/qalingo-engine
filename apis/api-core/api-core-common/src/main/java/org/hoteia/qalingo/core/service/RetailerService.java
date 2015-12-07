@@ -73,10 +73,10 @@ public class RetailerService {
         return retailerDao.findAllRetailers(params);
     }
     
-    public List<Retailer> findAllRetailersByCountry(String countryCode, Object... params) {
+    public List<Retailer> findAllRetailersByCountry(final String countryCode, Object... params) {
         return retailerDao.findAllRetailersByCountry(countryCode, params);
     }
-
+    
     @Deprecated
     public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
         return retailerDao.findRetailersByMarketAreaCode(marketAreaCode, params);
@@ -247,12 +247,16 @@ public class RetailerService {
         return retailerDao.findStoreIdsByRetailerId(retailerId, params);
     }
     
-    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
-        return retailerDao.findShopStoresByCountryCode(countryCode, params);
-    }
-    
     public List<Store> findAllStores(Object... params) {
         return retailerDao.findAllStores(0, params);
+    }
+    
+    public List<Store> findAllStoresByCountry(final String countryCode, int maxResults, Object... params) {
+        return retailerDao.findAllStoresByCountry(countryCode, maxResults, params);
+    }
+    
+    public List<Store> findAllStoresByCountryAndType(final String countryCode, final String type, int maxResults, Object... params) {
+        return retailerDao.findAllStoresByCountryAndType(countryCode, type, maxResults, params);
     }
     
     public List<Store> findStoresWithMax(int maxResults, Object... params) {
@@ -263,7 +267,7 @@ public class RetailerService {
         return retailerDao.findB2CStores(null, maxResults, params);
     }
     
-    public List<Store> findB2CStoresByType(List<String> types, int maxResults, Object... params) {
+    public List<Store> findB2CStoresByType(final List<String> types, int maxResults, Object... params) {
         return retailerDao.findB2CStores(types, maxResults, params);
     }
     
@@ -271,7 +275,7 @@ public class RetailerService {
         return retailerDao.findB2BStores(null, maxResults, params);
     }
     
-    public List<Store> findB2BStoresByType(List<String> types, int maxResults, Object... params) {
+    public List<Store> findB2BStoresByType(final List<String> types, int maxResults, Object... params) {
         return retailerDao.findB2BStores(types, maxResults, params);
     }
     

@@ -10,7 +10,6 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -423,6 +422,44 @@ public class RetailerDao extends AbstractGenericDao {
         List<Store> stores = criteria.list();
         return stores;
     }
+    
+    public List<Store> findAllStoresByCountry(final String countryCode, int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("countryCode", countryCode));
+        
+        criteria.addOrder(Order.asc("name"));
+
+        if (maxResults != 0) {
+            criteria.setMaxResults(maxResults);
+        }
+
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
+    
+    
+    public List<Store> findAllStoresByCountryAndType(final String countryCode, final String type, int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("countryCode", countryCode));
+        criteria.add(Restrictions.like("type", "%" + type + "%"));
+        
+        criteria.addOrder(Order.asc("name"));
+
+        if (maxResults != 0) {
+            criteria.setMaxResults(maxResults);
+        }
+        
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
 
     public List<Store> findB2CStores(List<String> types, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
@@ -519,23 +556,6 @@ public class RetailerDao extends AbstractGenericDao {
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("retailer.id", retailerId));
-        criteria.setProjection(Projections.property("id"));
-
-        @SuppressWarnings("unchecked")
-        List<Long> storeIds = criteria.list();
-        return storeIds;
-    }
-
-    public List<Long> findShopStoresByCountryCode(final String countryCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(Store.class);
-
-        handleSpecificStoreFetchMode(criteria, params);
-
-        criteria.add(Restrictions.eq("countryCode", countryCode));
-        criteria.add(Restrictions.like("type", "%SHOP%"));
-
-        criteria.addOrder(Order.asc("name"));
-
         criteria.setProjection(Projections.property("id"));
 
         @SuppressWarnings("unchecked")
