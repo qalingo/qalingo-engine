@@ -202,17 +202,14 @@ public class ProductDetailsController extends AbstractMCommerceController {
         ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(productMarketingFetchPlans));
         final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), productMarketing);
 
-        Object[] params = { productMarketingViewBean.getI18nName() };
-        String prefixSeoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
-        String title = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, FoUrls.PRODUCT_DETAILS.getKey(), params, locale);
-        String seoPageTitle = prefixSeoPageTitle;
+        String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         if(seoPageTitle != null && !seoPageTitle.trim().endsWith("-")){
             seoPageTitle += " - ";
         }
         if(Hibernate.isInitialized(productMarketing.getProductBrand()) && productMarketing.getProductBrand() != null){
             seoPageTitle += productMarketing.getProductBrand().getI18nName(localization.getCode()) + " ";
         }
-        seoPageTitle += title;
+        seoPageTitle += productMarketingViewBean.getI18nName();
         
         // SEO
         seoDataViewBean.setPageTitle(seoDataViewBean.getPageTitle());
