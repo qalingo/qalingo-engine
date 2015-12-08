@@ -1097,9 +1097,15 @@ public class RequestUtil {
         if(cart == null) {
             return null;
         }
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
-        return newCart;
+        try {
+            Cart newCart = cartService.getCartById(cart.getId());
+            newCart.copyTransient(cart);
+            return newCart;
+            
+        } catch (Exception e) {
+            logger.error("Can't load from Database the Cart, id: '" + cart.getId() + "'");
+        }
+        return null;
     }
 
     protected Customer getCurrentCustomer(final HttpServletRequest request) throws Exception {
