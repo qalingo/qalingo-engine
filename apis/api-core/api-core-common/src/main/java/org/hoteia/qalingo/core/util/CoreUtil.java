@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.util.HtmlUtils;
 
 public class CoreUtil {
 

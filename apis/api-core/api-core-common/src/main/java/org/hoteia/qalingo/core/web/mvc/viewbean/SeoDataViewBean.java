@@ -12,7 +12,6 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 import java.util.List;
 
 import org.hoteia.qalingo.core.util.CoreUtil;
-import org.springframework.web.util.HtmlUtils;
 
 public class SeoDataViewBean extends AbstractViewBean {
 
