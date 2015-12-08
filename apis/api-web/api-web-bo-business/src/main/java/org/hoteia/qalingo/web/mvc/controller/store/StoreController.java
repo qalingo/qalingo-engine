@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
@@ -213,8 +214,8 @@ public class StoreController extends AbstractBusinessBackofficeController{
     
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        return getCountries(requestData);
+        Localization currentMarketAreaLocalization = requestUtil.getCurrentMarketAreaLocalization(request);
+        return getCountries(currentMarketAreaLocalization.getLocale());
     }
     
     @ModelAttribute(ModelConstants.RETAILERS_VIEW_BEAN)
@@ -223,11 +224,10 @@ public class StoreController extends AbstractBusinessBackofficeController{
     	try {
     		List<Retailer> retailers = retailerService.findAllRetailers();
 	        if(retailers != null){
-		        for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-		        	Retailer retailerIt = (Retailer) iterator.next();
-		            final String retailerId = retailerIt.getId().toString();
-		            retailerValues.add(new ValueBean(retailerId, retailerIt.getName()));
-		        }
+                for (Retailer retailerIt : retailers) {
+                    final String retailerId = retailerIt.getId().toString();
+                    retailerValues.add(new ValueBean(retailerId, retailerIt.getName()));
+                }
 		        Collections.sort(retailerValues, new Comparator<ValueBean>() {
 					@Override
 					public int compare(ValueBean o1, ValueBean o2) {

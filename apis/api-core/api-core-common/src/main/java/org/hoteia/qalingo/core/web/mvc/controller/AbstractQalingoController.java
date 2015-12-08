@@ -180,17 +180,14 @@ public abstract class AbstractQalingoController {
 		return monitoringViewBean;
 	}
 	
-	protected List<ValueBean> getCountries(final RequestData requestData) throws Exception {
+	protected List<ValueBean> getCountries(final Locale locale) throws Exception {
         List<ValueBean> countriesValues = new ArrayList<ValueBean>();
         try {
-            final Locale locale = requestData.getLocale();
-            
             final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
             Set<String> countriesKey = countries.keySet();
-            for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
-                final String countryKey = (String) iterator.next();
-                countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), countries.get(countryKey)));
-            }
+			for (final String countryKey : countriesKey) {
+				countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), countries.get(countryKey)));
+			}
             Collections.sort(countriesValues, new Comparator<ValueBean>() {
                 @Override
                 public int compare(ValueBean o1, ValueBean o2) {
@@ -208,8 +205,7 @@ public abstract class AbstractQalingoController {
      * 
      */
     protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        return requestUtil.getCurrentVelocityWebPrefix(requestData);
+        return requestUtil.getCurrentVelocityWebPrefix(request);
     }
     
 	protected void addMessageError(BindingResult result, Exception e, String formKey, String fieldKey, String errorMessage){

@@ -1,11 +1,10 @@
 /**
  * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
  * under the Apache License Version 2.0 (release version 0.8.0)
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- *                   Copyright (c) Hoteia, 2012-2014
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Copyright (c) Hoteia, 2012-2014
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
- *
  */
 package org.hoteia.qalingo.core.domain;
 
@@ -42,8 +41,8 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     @Column(name = "ENGINE_SESSION_GUID", unique = true)
     private String engineSessionGuid;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name="ECO_ENGINE_SESSION_ID", referencedColumnName="ID")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST})
+    @JoinColumn(name = "ECO_ENGINE_SESSION_ID", referencedColumnName = "ID")
     private Set<Cart> carts = new HashSet<Cart>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -82,7 +81,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
 
     @Transient
     private GeolocData geolocData;
-    
+
     @Transient
     private String theme;
 
@@ -138,6 +137,10 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
         return carts;
     }
 
+    public boolean addCart(Cart cart) {
+        return this.carts.add(cart);
+    }
+
     public Cart getCart() {
         if (carts != null && Hibernate.isInitialized(carts)) {
             for (Cart cart : carts) {
@@ -175,7 +178,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     }
 
     public void updateCart(Cart cart) {
-        if(this.carts != null){
+        if (this.carts != null) {
             Set<Cart> updatedCarts = new HashSet<Cart>();
             for (Cart cartIt : carts) {
                 if (cartIt.getId().equals(cart.getId())) {
@@ -304,11 +307,11 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     public void setLastOrders(Set<OrderPurchase> lastOrders) {
         this.lastOrders = lastOrders;
     }
-    
+
     public GeolocData getGeolocData() {
         return geolocData;
     }
-    
+
     public void setGeolocData(GeolocData geolocData) {
         this.geolocData = geolocData;
     }

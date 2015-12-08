@@ -250,7 +250,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public SeoDataViewBean buildViewSeoData(final RequestData requestData) throws Exception {
         final SeoDataViewBean seoDataViewBean = new SeoDataViewBean();
-
         return seoDataViewBean;
     }
     

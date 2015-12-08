@@ -93,7 +93,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
         
 	       // SANITY CHECK
         final Cart currentCart = requestData.getCart();
-        if(currentCart.getTotalCartItems() == 0){
+        if(currentCart == null || currentCart.getTotalCartItems() == 0){
             return new ModelAndView(new RedirectView(urlService.generateRedirectUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
         

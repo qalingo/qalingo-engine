@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +28,6 @@ import net.sourceforge.wurfl.core.WURFLManager;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.*;
@@ -336,8 +336,8 @@ public class RequestUtil {
     }
 
     /**
-    *
-    */
+     *
+     */
     public void handleBackofficeUrlParameters(final HttpServletRequest request) throws Exception {
         UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
         String marketPlaceCode = urlParameterMapping.getMarketPlaceCode();
@@ -551,7 +551,7 @@ public class RequestUtil {
     public boolean isLocalHostMode(final HttpServletRequest request) throws Exception {
         return CoreUtil.isLocalHostMode(getHost(request));
     }
-    
+
     public String getHost(final HttpServletRequest request) throws Exception {
         return request.getHeader(Constants.HOST);
     }
@@ -581,7 +581,7 @@ public class RequestUtil {
     public String getContextName() throws Exception {
         return contextName;
     }
-    
+
     public DateFormat getCommonFormatDate(final RequestData requestData, final Integer dateStyle, final Integer timeStyle) throws Exception {
         final Locale locale = requestData.getLocale();
         DateFormat formatter;
@@ -803,7 +803,7 @@ public class RequestUtil {
                     ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
                     // The last url is the current URI, so we need to get the url previous the last
                     if (countCleanClickstream == (cleanClickstreams.size() - position)) {
-                       url = clickstream.getUriWithQueryString();
+                        url = clickstream.getUriWithQueryString();
                     }
                     countCleanClickstream++;
                 }
@@ -828,7 +828,7 @@ public class RequestUtil {
             } else {
                 logger.warn("This engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + contextValue);
             }
-            String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(requestData);
+            String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(requestData.getRequest());
             if (currentThemeResourcePrefixPath.endsWith("/")) {
                 currentThemeResourcePrefixPath = currentThemeResourcePrefixPath.substring(0, currentThemeResourcePrefixPath.length() - 1);
             }
@@ -849,14 +849,12 @@ public class RequestUtil {
         return PropertiesUtil.getWebappContextKey(getContextName());
     }
 
-    public String getCurrentVelocityWebPrefix(final RequestData requestData) throws Exception {
-        String velocityPath = "/" + getCurrentTheme(requestData) + "/www/" + getCurrentDevice(requestData) + "/content/";
-        return velocityPath;
+    public String getCurrentVelocityWebPrefix(final HttpServletRequest request) throws Exception {
+        return "/" + getCurrentTheme(request) + "/www/" + getCurrentDevice(request) + "/content/";
     }
 
-    public String getCurrentVelocityEmailPrefix(final RequestData requestData) throws Exception {
-        String velocityPath = "/" + getCurrentTheme(requestData) + "/email/";
-        return velocityPath;
+    public String getCurrentVelocityEmailPrefix(final HttpServletRequest request) throws Exception {
+        return "/" + getCurrentTheme(request) + "/email/";
     }
 
     protected String handleUrl(String url) {
@@ -864,8 +862,7 @@ public class RequestUtil {
     }
 
     public EngineEcoSession getCurrentEcoSession(final HttpServletRequest request) throws Exception {
-        EngineEcoSession engineEcoSession = (EngineEcoSession) request.getSession().getAttribute(Constants.ENGINE_ECO_SESSION_OBJECT);
-        return engineEcoSession;
+        return (EngineEcoSession) request.getSession().getAttribute(Constants.ENGINE_ECO_SESSION_OBJECT);
     }
 
     public EngineEcoSession updateCurrentEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
@@ -878,8 +875,7 @@ public class RequestUtil {
     }
 
     public EngineBoSession getCurrentBoSession(final HttpServletRequest request) throws Exception {
-        EngineBoSession engineBoSession = (EngineBoSession) request.getSession().getAttribute(Constants.ENGINE_BO_SESSION_OBJECT);
-        return engineBoSession;
+        return (EngineBoSession) request.getSession().getAttribute(Constants.ENGINE_BO_SESSION_OBJECT);
     }
 
     public void updateCurrentBoSession(final HttpServletRequest request, final EngineBoSession engineBoSession) throws Exception {
@@ -926,10 +922,9 @@ public class RequestUtil {
         }
     }
 
-    protected MarketPlace getCurrentMarketPlace(final RequestData requestData) throws Exception {
-        MarketPlace marketPlace = null;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+    public MarketPlace getCurrentMarketPlace(final HttpServletRequest request) throws Exception {
+        MarketPlace marketPlace;
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             marketPlace = engineBoSession.getCurrentMarketPlace();
             if (marketPlace == null) {
@@ -947,10 +942,9 @@ public class RequestUtil {
         return marketPlace;
     }
 
-    protected Market getCurrentMarket(final RequestData requestData) throws Exception {
+    public Market getCurrentMarket(final HttpServletRequest request) throws Exception {
         Market market;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             market = engineBoSession.getCurrentMarket();
             if (market == null) {
@@ -968,10 +962,9 @@ public class RequestUtil {
         return market;
     }
 
-    protected MarketArea getCurrentMarketArea(final RequestData requestData) throws Exception {
+    public MarketArea getCurrentMarketArea(final HttpServletRequest request) throws Exception {
         MarketArea marketArea;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             marketArea = engineBoSession.getCurrentMarketArea();
             if (marketArea == null) {
@@ -989,10 +982,9 @@ public class RequestUtil {
         return marketArea;
     }
 
-    protected Localization getCurrentMarketAreaLocalization(final RequestData requestData) throws Exception {
-        Localization localization = null;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+    public Localization getCurrentMarketAreaLocalization(final HttpServletRequest request) throws Exception {
+        Localization localization;
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             localization = engineBoSession.getCurrentMarketAreaLocalization();
         } else {
@@ -1000,6 +992,14 @@ public class RequestUtil {
             localization = engineEcoSession.getCurrentMarketAreaLocalization();
         }
         return localization;
+    }
+
+    public boolean isBackOffice() throws Exception {
+        return getCurrentContextNameValue() != null && getCurrentContextNameValue().contains("BO_");
+    }
+
+    public static boolean isBackOffice(String currentContextNameValue) throws Exception {
+        return currentContextNameValue != null && currentContextNameValue.contains("BO_");
     }
 
     public void updateCurrentLocalization(HttpServletRequest request, AbstractEngineSession session, Localization localization) throws Exception {
@@ -1012,7 +1012,7 @@ public class RequestUtil {
     public void updateCurrentLocalization(final RequestData requestData, final Localization localization) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         if (localization != null) {
-            if (requestData.isBackoffice()) {
+            if (isBackOffice()) {
                 EngineBoSession engineBoSession = getCurrentBoSession(request);
                 if(engineBoSession != null){
                     engineBoSession.setCurrentBackofficeLocalization(localization);
@@ -1043,10 +1043,9 @@ public class RequestUtil {
         }
     }
 
-    protected Retailer getCurrentMarketAreaRetailer(final RequestData requestData) throws Exception {
+    protected Retailer getCurrentMarketAreaRetailer(final HttpServletRequest request) throws Exception {
         Retailer retailer;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             retailer = engineBoSession.getCurrentMarketAreaRetailer();
             if (retailer == null) {
@@ -1062,10 +1061,9 @@ public class RequestUtil {
         return retailer;
     }
 
-    protected CurrencyReferential getCurrentMarketAreaCurrency(final RequestData requestData) throws Exception {
-        CurrencyReferential currencyReferential = null;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+    protected CurrencyReferential getCurrentMarketAreaCurrency(final HttpServletRequest request) throws Exception {
+        CurrencyReferential currencyReferential;
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             currencyReferential = engineBoSession.getCurrentMarketAreaCurrency();
             if (currencyReferential == null) {
@@ -1081,34 +1079,26 @@ public class RequestUtil {
         return currencyReferential;
     }
 
-    protected Localization getCurrentBackofficeLocalization(final RequestData requestData) throws Exception {
+    protected Localization getCurrentBackofficeLocalization(final HttpServletRequest request) throws Exception {
         Localization localization = null;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             localization = engineBoSession.getCurrentBackofficeLocalization();
         }
         return localization;
     }
 
+    @Nullable
     protected Cart getCurrentCart(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         Cart cart = engineEcoSession.getCart();
-        if(cart == null) {
+        if(cart == null || cart.getId() == null) {
             return null;
         }
-        if(cart.getId() == null) {
-            return cart;
-        }
-        try {
-            Cart newCart = cartService.getCartById(cart.getId());
-            newCart.copyTransient(cart);
-            return newCart;
-            
-        } catch (Exception e) {
-            logger.error("Can't load from Database the Cart, id: '" + cart.getId() + "'");
-        }
-        return null;
+        Long id = cart.getId();
+        Cart newCart = cartService.getCartById(id);
+        newCart.copyTransient(cart);
+        return newCart;
     }
 
     protected Customer getCurrentCustomer(final HttpServletRequest request) throws Exception {
@@ -1138,8 +1128,8 @@ public class RequestUtil {
                     MessageDigest md = MessageDigest.getInstance("MD5");
                     byte[] array = md.digest(email.getBytes("CP1252"));
                     StringBuffer sb = new StringBuffer();
-                    for (int i = 0; i < array.length; ++i) {
-                        sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+                    for (byte anArray : array) {
+                        sb.append(Integer.toHexString((anArray & 0xFF) | 0x100).substring(1, 3));
                     }
                     String gravatarId = sb.toString();
                     if ("https".equals(request.getScheme())) {
@@ -1155,10 +1145,7 @@ public class RequestUtil {
 
     public boolean hasKnownCustomerLogged(final HttpServletRequest request) throws Exception {
         final Customer customer = getCurrentCustomer(request);
-        if (customer != null) {
-            return true;
-        }
-        return false;
+        return customer != null;
     }
 
     public Long getCurrentCustomerId(final HttpServletRequest request) throws Exception {
@@ -1232,26 +1219,25 @@ public class RequestUtil {
         }
     }
 
-    public String getCurrentTheme(final RequestData requestData) throws Exception {
-        String currenTheme = "";
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+    public String getCurrentTheme(final HttpServletRequest request) throws Exception {
+        String currentTheme = "";
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             if(engineBoSession != null){
-                currenTheme = engineBoSession.getTheme();
+                currentTheme = engineBoSession.getTheme();
             }
         } else {
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
             if(engineEcoSession != null){
-                currenTheme = engineEcoSession.getTheme();
+                currentTheme = engineEcoSession.getTheme();
             }
         }
 
         // SANITY CHECK
-        if (StringUtils.isEmpty(currenTheme)) {
+        if (StringUtils.isEmpty(currentTheme)) {
             return "default";
         }
-        return currenTheme;
+        return currentTheme;
     }
 
     public void updateCurrentTheme(final HttpServletRequest request, final String theme) throws Exception {
@@ -1262,10 +1248,9 @@ public class RequestUtil {
         }
     }
 
-    public String getCurrentDevice(final RequestData requestData) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
+    public String getCurrentDevice(final HttpServletRequest request) throws Exception {
         String currenDevice = "default";
-        if (requestData.isBackoffice()) {
+        if (isBackOffice(getCurrentContextNameValue())) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             if (StringUtils.isNotEmpty(engineBoSession.getDevice())) {
                 currenDevice = engineBoSession.getDevice();
@@ -1281,7 +1266,7 @@ public class RequestUtil {
 
     public void updateCurrentDevice(final RequestData requestData, final String device) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
+        if (isBackOffice()) {
             final EngineBoSession engineBoSession = getCurrentBoSession(request);
             if (StringUtils.isNotEmpty(device)) {
                 engineBoSession.setDevice(device);
@@ -1316,7 +1301,7 @@ public class RequestUtil {
         }
 
         // SPECIFIC BACKOFFICE
-        if (requestData.isBackoffice()) {
+        if (isBackOffice()) {
             checkEngineBoSession(request);
         } else {
             // SPECIFIC FRONTOFFICE
@@ -1324,17 +1309,17 @@ public class RequestUtil {
             requestData.setGeolocData(getCurrentGeolocData(request));
         }
 
-        requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(requestData));
+        requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(request));
 
-        requestData.setMarketPlace(getCurrentMarketPlace(requestData));
-        requestData.setMarket(getCurrentMarket(requestData));
-        requestData.setMarketArea(getCurrentMarketArea(requestData));
-        requestData.setMarketAreaLocalization(getCurrentMarketAreaLocalization(requestData));
-        requestData.setMarketAreaRetailer(getCurrentMarketAreaRetailer(requestData));
-        requestData.setMarketAreaCurrency(getCurrentMarketAreaCurrency(requestData));
+        requestData.setMarketPlace(getCurrentMarketPlace(request));
+        requestData.setMarket(getCurrentMarket(request));
+        requestData.setMarketArea(getCurrentMarketArea(request));
+        requestData.setMarketAreaLocalization(getCurrentMarketAreaLocalization(request));
+        requestData.setMarketAreaRetailer(getCurrentMarketAreaRetailer(request));
+        requestData.setMarketAreaCurrency(getCurrentMarketAreaCurrency(request));
 
         // SPECIFIC BACKOFFICE
-        if (requestData.isBackoffice()) {
+        if (isBackOffice()) {
             User user = getCurrentUser(request);
             if (user != null) {
                 requestData.setUser(user);
@@ -1345,7 +1330,7 @@ public class RequestUtil {
                 requestData.setCompany(company);
             }
 
-            requestData.setBackofficeLocalization(getCurrentBackofficeLocalization(requestData));
+            requestData.setBackofficeLocalization(getCurrentBackofficeLocalization(request));
 
         } else {
             // SPECIFIC FRONTOFFICE
@@ -1374,6 +1359,9 @@ public class RequestUtil {
             }
 
             GeolocAddress geolocAddress = geolocService.getGeolocAddressByLatitudeAndLongitude(latitude, longitude);
+            if (geolocAddress == null) {
+                geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
+            }
             if (geolocAddress != null) {
                 geolocData.setLatitude(geolocAddress.getLatitude());
                 geolocData.setLongitude(geolocAddress.getLongitude());
@@ -1386,25 +1374,8 @@ public class RequestUtil {
                 GeolocDataCity geolocDataCity = new GeolocDataCity();
                 geolocDataCity.setName(geolocAddress.getCity());
                 geolocData.setCity(geolocDataCity);
-
-            } else {
-                // LATITUDE/LONGITUDE DOESN'T EXIST - WE USE GOOGLE GEOLOC TO FOUND IT
-                geolocAddress = geolocService.geolocByLatitudeLongitude(latitude, longitude);
-                if (geolocAddress != null) {
-                    geolocData.setLatitude(geolocAddress.getLatitude());
-                    geolocData.setLongitude(geolocAddress.getLongitude());
-
-                    GeolocDataCountry geolocDataCountry = new GeolocDataCountry();
-                    geolocDataCountry.setIsoCode(geolocAddress.getCountry());
-                    geolocDataCountry.setName(referentialDataService.getCountryByLocale(geolocAddress.getCountry(), requestData.getLocale()));
-                    geolocData.setCountry(geolocDataCountry);
-
-                    GeolocDataCity geolocDataCity = new GeolocDataCity();
-                    geolocDataCity.setName(geolocAddress.getCity());
-                    geolocData.setCity(geolocDataCity);
-
-                }
             }
+
             engineEcoSession.setGeolocData(geolocData);
             engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
         }
@@ -1424,7 +1395,7 @@ public class RequestUtil {
         if (requestUri.startsWith("/")) {
             requestUri = requestUri.substring(1, requestUri.length());
         }
-        String[] uriSegments = requestUri.toString().split("/");
+        String[] uriSegments = requestUri.split("/");
         if (uriSegments.length > 4) {
             marketPlaceCode = uriSegments[0];
             marketCode = uriSegments[1];
@@ -1481,7 +1452,7 @@ public class RequestUtil {
         // STEP 2 - TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
         checkGeolocData(request, engineEcoSession);
         initEcoMarketPlace(request);
-        engineEcoSession = initCart(request);
+//        engineEcoSession = initCart(request);
 
         engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
 
@@ -1671,7 +1642,7 @@ public class RequestUtil {
                     String localeLanguage = request.getLocale().getLanguage();
                     engineBoSession.setCurrentBackofficeLocalization(localizationService.getLocalizationByCode(localeLanguage));
                 } else if (requestLocale.length() == 2) {
-                	engineBoSession.setCurrentBackofficeLocalization(localizationService.getLocalizationByCode(requestLocale));
+                    engineBoSession.setCurrentBackofficeLocalization(localizationService.getLocalizationByCode(requestLocale));
                 }
             } else {
                 Localization defaultLocalization = localizationService.getLocalizationByCode("en");
@@ -1683,16 +1654,17 @@ public class RequestUtil {
         return engineBoSession;
     }
 
-    protected EngineEcoSession initCart(final HttpServletRequest request) throws Exception {
-        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        Cart cart = engineEcoSession.getCart();
-        if (cart == null) {
-            // Init a new empty Cart with a default configuration
-            engineEcoSession = engineSessionService.addNewCart(engineEcoSession);
-        }
-        updateCurrentEcoSession(request, engineEcoSession);
-        return engineEcoSession;
-    }
+//    protected EngineEcoSession initCart(final HttpServletRequest request) throws Exception {
+//        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+//        Cart cart = engineEcoSession.getCart();
+//        if (cart == null) {
+//            // Init a new empty Cart with a default configuration
+//            engineEcoSession = engineSessionService.addNewCart(engineEcoSession);
+//        }
+//
+//        updateCurrentEcoSession(request, engineEcoSession);
+//        return engineEcoSession;
+//    }
 
     /**
      * @throws Exception
@@ -1854,14 +1826,13 @@ public class RequestUtil {
      *
      */
     public String getAppName(HttpServletRequest request) throws Exception {
-        final RequestData requestData = getRequestData(request);
-        final Locale locale = requestData.getLocale();
+        final Locale locale = getCurrentMarketAreaLocalization(request).getLocale();
         Object[] params = {StringUtils.capitalize(getApplicationName())};
         return coreMessageSource.getCommonMessage(ScopeCommonMessage.APP.getPropertyKey(), "name_text", params, locale);
     }
 
     public List<String> getRecentProductCodesFromCookie(final HttpServletRequest request, final String catalogVirtualCode){
-		Cookie info = null;
+        Cookie info = null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
         if(cookies !=  null){
@@ -1875,20 +1846,20 @@ public class RequestUtil {
         }
         List<String> cookieProductValues = new ArrayList<String>();
         if(found){
-	        try {
-	        	String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
-	        	if(StringUtils.isNotEmpty(value) && value.contains(catalogVirtualCode)){
-	        	    if(value.contains(Constants.PIPE)){
+            try {
+                String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
+                if(StringUtils.isNotEmpty(value) && value.contains(catalogVirtualCode)){
+                    if(value.contains(Constants.PIPE)){
                         String[] splits = value.split(Constants.PIPE);
                         for (String splitValue : splits) {
                             if (splitValue.contains(catalogVirtualCode)) {
                                 cookieProductValues.add(splitValue);
                             }
                         }
-	        	    } else {
-	        	    	cookieProductValues.add(value);
-	        	    }
-	        	}
+                    } else {
+                        cookieProductValues.add(value);
+                    }
+                }
             } catch (UnsupportedEncodingException e) {
                 logger.error("Cookie decode value", e);
             }
@@ -1897,8 +1868,8 @@ public class RequestUtil {
     }
 
     public void addOrUpdateRecentProductToCookie(final HttpServletRequest request, final HttpServletResponse response,
-                                                    final String catalogCode, final String virtualCategoryCode,
-                                                    final String productMarketingCode, final String productSkuCode) throws Exception {
+                                                 final String catalogCode, final String virtualCategoryCode,
+                                                 final String productMarketingCode, final String productSkuCode) throws Exception {
         Cookie info = null;
         String cookieProductValue = catalogCode + Constants.SEMI_COLON + virtualCategoryCode + Constants.SEMI_COLON + productMarketingCode + Constants.SEMI_COLON + productSkuCode;
         Cookie[] cookies = request.getCookies();
@@ -1914,9 +1885,9 @@ public class RequestUtil {
             }
         }
         if(found){
-        	Boolean flag = false;
-        	String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
-        	if(value.contains(Constants.PIPE)){
+            Boolean flag = false;
+            String value = URLDecoder.decode(info.getValue(), Constants.UTF8);
+            if(value.contains(Constants.PIPE)){
                 String[] splits = value.split(Constants.PIPE);
                 for(String cookieProductValueIt : splits){
                     if(cookieProductValueIt.contains(Constants.SEMI_COLON)){
@@ -1932,21 +1903,21 @@ public class RequestUtil {
                         response.addCookie(info);
                     }
                 }
-        	} else {
-        		if(value.contains(Constants.SEMI_COLON)){
+            } else {
+                if(value.contains(Constants.SEMI_COLON)){
                     if(value.contains(cookieProductValue)){
                         flag = true;
                     }
                 } else {
                     // VALUE DOESN'T CONTAIN SEMI COLON : CLEAN THE COOKIE - NON COMPATIBLE VALUE
-                	value = "";
+                    value = "";
                     info.setValue("");
                     info.setPath("/");
                     info.setMaxAge(Constants.COOKIES_LENGTH);
                     info.setDomain(domain);
                     response.addCookie(info);
                 }
-        	}
+            }
             if(!flag){
                 String values = value;
                 if(StringUtils.isNotEmpty(values)){
@@ -1960,11 +1931,11 @@ public class RequestUtil {
                 response.addCookie(info);
             }
         } else {
-			info = new Cookie(getRecentProductsCookieName(), cookieProductValue);
+            info = new Cookie(getRecentProductsCookieName(), cookieProductValue);
             info.setPath("/");
-			info.setMaxAge(Constants.COOKIES_LENGTH);
-			info.setDomain(domain);
-			response.addCookie(info);
+            info.setMaxAge(Constants.COOKIES_LENGTH);
+            info.setDomain(domain);
+            response.addCookie(info);
         }
     }
 

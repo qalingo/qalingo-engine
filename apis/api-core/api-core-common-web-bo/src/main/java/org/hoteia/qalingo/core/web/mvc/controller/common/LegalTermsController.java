@@ -33,10 +33,7 @@ public class LegalTermsController extends AbstractBackofficeQalingoController {
 
 	@RequestMapping(BoUrls.LEGAL_TERMS_URL)
 	public ModelAndView legalTerms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.LEGAL_TERMS.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-		
-        return modelAndView;
+        return new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.LEGAL_TERMS.getVelocityPage());
 	}
 
     @Override

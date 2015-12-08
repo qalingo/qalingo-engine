@@ -90,8 +90,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.FOLLOW_US_VIEW_BEAN)
 	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final FollowUsViewBean followUs = frontofficeViewBeanFactory.buildViewBeanFollowUs(requestUtil.getRequestData(request));
-		return followUs;
+		return frontofficeViewBeanFactory.buildViewBeanFollowUs(requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -100,8 +99,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.XRDS_URL_VIEW_BEAN)
 	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
 		String xrdsURL = urlService.generateUrl(CommonUrls.XRDS, requestUtil.getRequestData(request));
-		String fullXrdsURL = urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), xrdsURL);
-		return fullXrdsURL;
+		return urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), xrdsURL);
 	}
 
     /**
@@ -115,8 +113,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
      * 
      */
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, String pageTitleKey, Object[] params) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
+        final Locale locale = requestUtil.getCurrentMarketAreaLocalization(request).getLocale();
         String headerTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
         if(StringUtils.isNotEmpty(pageTitleKey)){
             pageTitleKey = pageTitleKey.replace("-", "_");
@@ -154,7 +151,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
         final Locale locale = requestData.getLocale();
 		model.addAttribute(ModelConstants.LOCALE_LANGUAGE_CODE, locale.getLanguage());
 		model.addAttribute(ModelConstants.CONTEXT_PATH, request.getContextPath());
-		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(requestData));
+		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(request));
 		Object[] params = {StringUtils.capitalize(requestUtil.getEnvironmentName())};
 		model.addAttribute(ModelConstants.ENV_NAME, getSpecificMessage(ScopeWebMessage.COMMON, "header.env.name", params, locale));
 	}
@@ -175,8 +172,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	
 	protected Map<String, String> getWordingMap(final HttpServletRequest request){
 		try {
-	        final RequestData requestData = requestUtil.getRequestData(request);
-	        final Locale locale = requestData.getLocale();
+	        final Locale locale = requestUtil.getCurrentMarketAreaLocalization(request).getLocale();
 			String contextName = requestUtil.getContextName();
 			String contextValue = PropertiesUtil.getWebappContextKey(contextName);
 			return coreMessageSource.loadWordingByContext(contextValue, locale);

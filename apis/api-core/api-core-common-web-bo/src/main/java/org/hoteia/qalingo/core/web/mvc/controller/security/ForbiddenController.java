@@ -32,9 +32,7 @@ public class ForbiddenController extends AbstractBackofficeQalingoController {
 
 	@RequestMapping(BoUrls.FORBIDDEN_URL)
 	public ModelAndView forbidden(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.FORBIDDEN.getVelocityPage());
-		
-        return modelAndView;
+		return new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.FORBIDDEN.getVelocityPage());
 	}
 	
 	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
