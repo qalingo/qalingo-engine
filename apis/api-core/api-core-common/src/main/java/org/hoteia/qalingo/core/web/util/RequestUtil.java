@@ -1097,6 +1097,9 @@ public class RequestUtil {
         if(cart == null) {
             return null;
         }
+        if(cart.getId() == null) {
+            return cart;
+        }
         try {
             Cart newCart = cartService.getCartById(cart.getId());
             newCart.copyTransient(cart);
