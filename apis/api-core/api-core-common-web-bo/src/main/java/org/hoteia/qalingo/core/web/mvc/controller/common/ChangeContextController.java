@@ -53,7 +53,7 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
         if (currentRequestUri.startsWith("/")) {
             currentRequestUri = currentRequestUri.substring(1, currentRequestUri.length());
         }
-        String[] uriSegments = currentRequestUri.toString().split("/");
+        String[] uriSegments = currentRequestUri.split("/");
         String url = "";
         int uriSegmentCount = 0;
         String seoSegmentMain = backofficeUrlService.getFullPrefixUrl(requestData, true);
@@ -63,7 +63,7 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
         if (StringUtils.isNotEmpty(seoSegmentMain)) {
             String[] seoSegmentSegments = seoSegmentMain.split("/");
             // ALSO REMOVE DEFAULT SEO SEGMENT
-            for (int i = 0; i < seoSegmentSegments.length; i++) {
+            for (String ignored : seoSegmentSegments) {
                 uriSegmentCount++;
             }
         }

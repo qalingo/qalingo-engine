@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
@@ -47,8 +48,7 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
 			final Map<String, String> titles = referentialDataService.getTitlesByLocale(locale);
 			if(titles != null){
 				Set<String> titlesKey = titles.keySet();
-				for (Iterator<String> iterator = titlesKey.iterator(); iterator.hasNext();) {
-					final String titleKey = (String) iterator.next();
+				for (final String titleKey : titlesKey) {
 					titlesValues.add(new ValueBean(titleKey.replace(Constants.TITLE_MESSAGE_PREFIX, ""), titles.get(titleKey)));
 				}
 				Collections.sort(titlesValues, new Comparator<ValueBean>() {
@@ -66,8 +66,8 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
     
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        return getCountries(requestData);
+		Localization currentMarketAreaLocalization = requestUtil.getCurrentMarketAreaLocalization(request);
+		return getCountries(currentMarketAreaLocalization.getLocale());
     }
     
     @ModelAttribute(ModelConstants.CUSTOMER_DETAILS_LINKS_VIEW_BEAN)

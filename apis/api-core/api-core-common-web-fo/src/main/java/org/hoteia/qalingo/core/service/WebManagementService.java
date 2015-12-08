@@ -196,6 +196,9 @@ public class WebManagementService {
     public void linkAndUpdateCartWithCustomer(final RequestData requestData, final Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
+        if(cart == null) {
+            return;
+        }
         cart.setCustomerId(customer.getId());
         cart.setBillingAddressId(customer.getDefaultBillingAddressId());
         cart.setShippingAddressId(customer.getDefaultShippingAddressId());
@@ -214,6 +217,9 @@ public class WebManagementService {
     public void updateCart(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
+        if(cart == null) {
+            return;
+        }
         cart.setBillingAddressId(billingAddressId);
         cart.setShippingAddressId(shippingAddressId);
         cartService.saveOrUpdateCart(cart);
@@ -231,9 +237,10 @@ public class WebManagementService {
     public void deleteCartItem(final RequestData requestData, final Store store, final String productSkuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        
+        if(cart == null) {
+            return;
+        }
         cartService.deleteCartItem(cart, store, productSkuCode);
-        
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
@@ -248,6 +255,9 @@ public class WebManagementService {
         final HttpServletRequest request = requestData.getRequest();
         Customer customer = requestData.getCustomer();
         Cart cart = requestData.getCart();
+        if(cart == null) {
+            return;
+        }
         Long customerAddressId = Long.parseLong(customerShippingAddressId);
         cartService.setShippingAddress(cart, customer, customerAddressId);
         
@@ -265,6 +275,9 @@ public class WebManagementService {
         final HttpServletRequest request = requestData.getRequest();
         Customer customer = requestData.getCustomer();
         Cart cart = requestData.getCart();
+        if(cart == null) {
+            return;
+        }
         Long customerAddressId = Long.parseLong(customerBillingAddressId);
         cartService.setBillingAddress(cart, customer, customerAddressId);
         
@@ -281,6 +294,9 @@ public class WebManagementService {
     public void setDeliveryMethod(final RequestData requestData, final String deliveryMethodCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
+        if(cart == null) {
+            return;
+        }
         cartService.setDeliveryMethod(cart, deliveryMethodCode);
         
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -122,8 +123,8 @@ public class ContactController extends AbstractMCommerceController {
     
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-		return getCountries(requestData);
+        Localization currentMarketAreaLocalization = requestUtil.getCurrentMarketAreaLocalization(request);
+        return getCountries(currentMarketAreaLocalization.getLocale());
     }
     
 }

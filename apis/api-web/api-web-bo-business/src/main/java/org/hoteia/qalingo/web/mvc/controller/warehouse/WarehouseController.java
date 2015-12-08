@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
@@ -193,8 +194,8 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
     
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        return getCountries(requestData);
+        Localization currentMarketAreaLocalization = requestUtil.getCurrentMarketAreaLocalization(request);
+        return getCountries(currentMarketAreaLocalization.getLocale());
     }
 
     protected void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception {

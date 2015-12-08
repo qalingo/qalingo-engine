@@ -121,8 +121,7 @@ public abstract class AbstractUrlService {
     }
     
     public String getFullPrefixUrl(final RequestData requestData, boolean isEncoded) throws Exception {
-        String fullPrefixUrl = getSeoPrefixUrl(requestData, isEncoded) + "/";
-        return fullPrefixUrl;
+        return getSeoPrefixUrl(requestData, isEncoded) + "/";
     }
 
     protected String handleUrlParameters(String url, Map<String, String> urlParams, Map<String, String> getParams) {
@@ -177,28 +176,23 @@ public abstract class AbstractUrlService {
     }
 
     protected String getMarketPlacePrefixUrl(final MarketPlace marketPlace) throws Exception {
-        String marketPlacePrefixUrl = marketPlace.getCode().toLowerCase() + "/";
-        return marketPlacePrefixUrl;
+        return marketPlace.getCode().toLowerCase() + "/";
     }
 
     protected String getMarketPrefixUrl(final Market market) throws Exception {
-        String marketPrefixUrl = market.getCode().toLowerCase() + "/";
-        return marketPrefixUrl;
+        return market.getCode().toLowerCase() + "/";
     }
 
     protected String getMarketAreaPrefixUrl(final MarketArea marketArea) throws Exception {
-        String marketAreaPrefixUrl = marketArea.getCode().toLowerCase() + "/";
-        return marketAreaPrefixUrl;
+        return marketArea.getCode().toLowerCase() + "/";
     }
 
     protected String getLocalizationPrefixUrl(final Localization localization) throws Exception {
-        String localizationPrefixUrl = localization.getCode().toLowerCase() + "/";
-        return localizationPrefixUrl;
+        return localization.getCode().toLowerCase() + "/";
     }
 
     protected String getRetailerPrefixUrl(final Retailer retailer) throws Exception {
-        String retailerPrefixUrl = retailer.getCode().toLowerCase() + "/";
-        return retailerPrefixUrl;
+        return retailer.getCode().toLowerCase() + "/";
     }
 
     protected String encodeString(String url) throws Exception {
