@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.util.HtmlUtils;
 
 public class CoreUtil {
 
@@ -95,7 +96,16 @@ public class CoreUtil {
         }
         return stringToReturn;
     }
-        
+
+    public static String removeHtmlTag(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(string)) {
+            stringToReturn = stringToReturn.replaceAll("\\<.*?>","");
+            // HtmlUtils.htmlEscape() not good
+        }
+        return stringToReturn;
+    }
+    
     public static String replaceCharactersNotLetterOrDigit(String string) {
         return replaceCharactersNotLetterOrDigit(string, "-");
     }
