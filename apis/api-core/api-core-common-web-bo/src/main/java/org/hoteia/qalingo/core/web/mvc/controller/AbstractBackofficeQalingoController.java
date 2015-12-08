@@ -108,7 +108,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         
 		model.addAttribute(ModelConstants.LOCALE_LANGUAGE_CODE, locale.getLanguage());
 		model.addAttribute(ModelConstants.CONTEXT_PATH, request.getContextPath());
-		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(requestData));
+		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(request));
 		Object[] params = {StringUtils.capitalize(requestUtil.getEnvironmentName())};
 		model.addAttribute(ModelConstants.ENV_NAME, getSpecificMessage(ScopeWebMessage.COMMON, "header.env.name", params, locale));
 	}
@@ -216,8 +216,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
      * 
      */
     protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        return requestUtil.getCurrentVelocityWebPrefix(requestData);
+        return requestUtil.getCurrentVelocityWebPrefix(request);
     }
     
 	/**

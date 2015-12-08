@@ -102,9 +102,7 @@ public class TagLineController extends AbstractMCommerceController {
     @RequestMapping(FoUrls.TAG_AS_LINE_URL)
     public ModelAndView tagLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_TAG_CODE) final String tagCode, final SearchForm searchForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.TAG_AS_LINE.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Cart currentCart = requestData.getCart();
-        
+
         final String urlRedirect = urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
     }

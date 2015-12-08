@@ -12,7 +12,6 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 import java.util.List;
 
 import org.hoteia.qalingo.core.util.CoreUtil;
-import org.springframework.web.util.HtmlUtils;
 
 public class SeoDataViewBean extends AbstractViewBean {
 
@@ -92,7 +91,7 @@ public class SeoDataViewBean extends AbstractViewBean {
 
     public String getMetaOgDescription() {
         // FACEBOOK WILL DISPLAY 300
-        String metaOgDescriptionEscape = HtmlUtils.htmlEscape(metaOgDescription);
+        String metaOgDescriptionEscape = CoreUtil.removeHtmlTag(metaOgDescription);
         return CoreUtil.replaceCarriagReturn(metaOgDescriptionEscape);
     }
 

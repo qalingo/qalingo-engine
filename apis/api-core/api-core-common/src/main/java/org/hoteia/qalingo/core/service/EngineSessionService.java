@@ -143,7 +143,7 @@ public class EngineSessionService {
             cart.setShippingAddressId(engineEcoSession.getCurrentCustomer().getDefaultShippingAddressId());
         }
 
-        engineEcoSession.getCarts().add(cart);
+        engineEcoSession.addCart(cart);
         return engineEcoSession;
     }
 }

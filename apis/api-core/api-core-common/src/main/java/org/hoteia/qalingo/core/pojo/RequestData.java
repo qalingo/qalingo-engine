@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sourceforge.wurfl.core.Device;
@@ -200,6 +201,7 @@ public class RequestData implements Serializable {
         this.marketAreaCurrency = marketAreaCurrency;
     }
 
+    @Nullable
     public Cart getCart() {
         return cart;
     }
@@ -314,11 +316,7 @@ public class RequestData implements Serializable {
     }
     
     public boolean isBackoffice() throws Exception {
-        if (getContextNameValue() != null
-                && getContextNameValue().contains("BO_")) {
-            return true;
-        }
-        return false;
+        return getContextNameValue() != null && getContextNameValue().contains("BO_");
     }
 
 }
