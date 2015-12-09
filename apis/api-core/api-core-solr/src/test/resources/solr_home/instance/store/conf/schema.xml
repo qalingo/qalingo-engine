@@ -46,16 +46,17 @@
 		<!-- general -->
 		<field name="id"			type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
 		<field name="code"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="scoring" 	    type="long" 		indexed="true" 	stored="true"/>
 		<field name="name"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		
+		<field name="companyname"   type="string"       indexed="true"  stored="true"  multiValued="false" />
+
         <field name="active"        type="boolean"      indexed="true"  stored="true"  multiValued="false" />
         <field name="b2b"           type="boolean"      indexed="true"  stored="true"  multiValued="false" />
         <field name="b2c"           type="boolean"      indexed="true"  stored="true"  multiValued="false" />
 		
+		<field name="address"		type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="postalcode"	type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="city"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="countrycode"	type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="postalcode"	type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="type"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="text"			type="text_general" indexed="true"  stored="false" multiValued="true" />
 		<field name="_version_" 	type="long" 		indexed="true" 	stored="true"/>
@@ -75,9 +76,11 @@
 
 	<copyField source="code"		dest="text" />
 	<copyField source="name"		dest="text" />
+	<copyField source="companyname" dest="text" />
+	<copyField source="address"		dest="text" />
+	<copyField source="postalcode"	dest="text" />
 	<copyField source="city"		dest="text" />
 	<copyField source="countrycode"	dest="text" />
-	<copyField source="postalcode"	dest="text" />
 	<copyField source="tags"	    dest="text" />
    
 	<!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
