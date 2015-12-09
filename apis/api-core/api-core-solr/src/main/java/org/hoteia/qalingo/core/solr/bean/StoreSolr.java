@@ -28,6 +28,9 @@ public class StoreSolr {
     
     @Field
 	private String name;
+    
+    @Field("companyname")
+    private String companyName;
 
     @Field
     private boolean active;
@@ -38,14 +41,17 @@ public class StoreSolr {
     @Field
     private boolean b2b;
     
+    @Field("address")
+    private String address;
+    
+    @Field("postalcode")
+    private String postalCode;
+
     @Field
    	private String city;
     
     @Field("countrycode")
    	private String countryCode;
-    
-    @Field("postalcode")
-   	private String postalCode;
     
     @Field
    	private String type;
@@ -93,6 +99,14 @@ public class StoreSolr {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public String getCompanyName() {
+        return companyName;
+    }
+    
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
     public Boolean getActive() {
         return active;
@@ -117,7 +131,23 @@ public class StoreSolr {
     public void setB2b(boolean b2b) {
         this.b2b = b2b;
     }
+    
+    public String getAddress() {
+        return address;
+    }
+    
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+    
     public String getCity() {
         return city;
     }
@@ -132,14 +162,6 @@ public class StoreSolr {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 
     public String getType() {

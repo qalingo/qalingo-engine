@@ -22,6 +22,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.solr.bean.SolrFields;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
@@ -53,13 +54,18 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolr.setId(store.getId());
         storeSolr.setCode(store.getCode());
         storeSolr.setName(store.getName());
+        if(Hibernate.isInitialized(store.getRetailer()) && store.getRetailer() != null
+                && Hibernate.isInitialized(store.getRetailer().getCompany()) && store.getRetailer().getCompany() != null){
+            storeSolr.setCompanyName(store.getRetailer().getCompany().getName());
+        }
         storeSolr.setActive(store.isActive());
         storeSolr.setB2b(store.isB2b());
         storeSolr.setB2c(store.isB2c());
         storeSolr.setActive(store.isActive());
+        storeSolr.setAddress(store.getAddress1());
+        storeSolr.setPostalCode(store.getPostalCode());
         storeSolr.setCity(store.getCity());
         storeSolr.setCountryCode(store.getCountryCode());
-        storeSolr.setPostalCode(store.getPostalCode());
         storeSolr.setType(store.getType());
         storeSolrServer.addBean(storeSolr);
         storeSolrServer.commit();
