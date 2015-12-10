@@ -136,6 +136,10 @@ public class UserService {
         return userDao.findCompanyByAddress(address, params);
     }
     
+    public List<Company> findCompanyByAddressAndPostalCode(final String address, final String postalCode, Object... params) {
+        return userDao.findCompanyByAddressAndPostalCode(address, postalCode, params);
+    }
+    
     public Long getMaxCompanyId() {
         return userDao.getMaxCompanyId();
     }

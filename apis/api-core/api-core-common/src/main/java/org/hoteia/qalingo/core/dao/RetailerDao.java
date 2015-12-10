@@ -27,7 +27,6 @@ import org.hibernate.sql.JoinType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
-import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
@@ -428,6 +427,17 @@ public class RetailerDao extends AbstractGenericDao {
         Criteria criteria = createDefaultCriteria(Store.class);
         handleStoreSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("address1", address));
+        
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
+    
+    public List<Store> findStoreByAddressAndPostalCode(final String address, final String postalCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+        handleStoreSpecificFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("address1", address));
+        criteria.add(Restrictions.eq("postalCode", postalCode));
         
         @SuppressWarnings("unchecked")
         List<Store> stores = criteria.list();
