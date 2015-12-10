@@ -27,6 +27,7 @@ import org.hibernate.sql.JoinType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
@@ -337,7 +338,7 @@ public class RetailerDao extends AbstractGenericDao {
     public Store getStoreById(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleStoreSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", storeId));
 
@@ -353,7 +354,7 @@ public class RetailerDao extends AbstractGenericDao {
     public Store getStoreByCode(final String storeCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleStoreSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", handleCodeValue(storeCode)));
 
@@ -368,7 +369,7 @@ public class RetailerDao extends AbstractGenericDao {
 
     public Store findStoreByEmail(final String email, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
-        FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleStoreSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("email", email));
 
@@ -410,7 +411,7 @@ public class RetailerDao extends AbstractGenericDao {
     public List<Store> findAllStores(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        handleSpecificStoreFetchMode(criteria, params);
+        handleStoreSpecificFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
@@ -423,10 +424,20 @@ public class RetailerDao extends AbstractGenericDao {
         return stores;
     }
     
+    public List<Store> findStoreByAddress(final String address, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+        handleStoreSpecificFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("address1", address));
+        
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
+    
     public List<Store> findAllStoresByCountry(final String countryCode, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        handleSpecificStoreFetchMode(criteria, params);
+        handleStoreSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("countryCode", countryCode));
         
@@ -445,7 +456,7 @@ public class RetailerDao extends AbstractGenericDao {
     public List<Store> findAllStoresByCountryAndType(final String countryCode, final String type, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        handleSpecificStoreFetchMode(criteria, params);
+        handleStoreSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("countryCode", countryCode));
         criteria.add(Restrictions.like("type", "%" + type + "%"));
@@ -464,7 +475,7 @@ public class RetailerDao extends AbstractGenericDao {
     public List<Store> findB2CStores(List<String> types, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        handleSpecificStoreFetchMode(criteria, params);
+        handleStoreSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("b2c", true));
 
@@ -490,7 +501,7 @@ public class RetailerDao extends AbstractGenericDao {
     public List<Store> findB2BStores(List<String> types, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        handleSpecificStoreFetchMode(criteria, params);
+        handleStoreSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("b2b", true));
 
@@ -566,7 +577,7 @@ public class RetailerDao extends AbstractGenericDao {
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        handleSpecificStoreFetchMode(criteria, params);
+        handleStoreSpecificFetchMode(criteria, params);
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("retailer.id", retailerId));
@@ -581,7 +592,7 @@ public class RetailerDao extends AbstractGenericDao {
     public List<Store> findStoresByRetailerCode(final String retailerCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        handleSpecificStoreFetchMode(criteria, params);
+        handleStoreSpecificFetchMode(criteria, params);
 
         criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("retailer.code", retailerCode));
@@ -926,7 +937,7 @@ public class RetailerDao extends AbstractGenericDao {
         }
     }
 
-    protected FetchPlan handleSpecificStoreFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleStoreSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
