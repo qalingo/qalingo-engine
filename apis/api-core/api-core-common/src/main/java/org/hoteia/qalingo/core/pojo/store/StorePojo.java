@@ -23,6 +23,7 @@ public class StorePojo extends LightStorePojo {
     protected String stateCode;
     protected String areaCode;
     protected String countryCode;
+    protected String countryLabel;
 
     protected Date dateCreate;
     protected Date dateUpdate;
@@ -93,6 +94,14 @@ public class StorePojo extends LightStorePojo {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+    
+    public String getCountryLabel() {
+        return countryLabel;
+    }
+    
+    public void setCountryLabel(String countryLabel) {
+        this.countryLabel = countryLabel;
     }
 
     public Date getDateCreate() {
