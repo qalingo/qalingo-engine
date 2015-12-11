@@ -280,7 +280,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             headerCartViewBean.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
         }
 
-
         return headerCartViewBean;
     }
 
@@ -927,6 +926,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         final StoreViewBean storeViewBean = new StoreViewBean();
         storeViewBean.setCode(store.getCode());
+        storeViewBean.setType(store.getType());
         storeViewBean.setName(store.getName());
         
         storeViewBean.setI18nName(store.getI18nName(localizationCode));

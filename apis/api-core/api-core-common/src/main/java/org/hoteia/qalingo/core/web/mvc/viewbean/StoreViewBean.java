@@ -25,6 +25,7 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	protected static final long serialVersionUID = 2538607600492625532L;
 
 	protected String code;
+    protected String type;
     protected String name;
     protected String description;
 
@@ -63,6 +64,21 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
+	public String getType() {
+        return type;
+    }
+	
+    public boolean containsType(String selectedType) {
+        if(type != null){
+            return type.contains(selectedType);
+        }
+        return false;
+    }
+	
+	public void setType(String type) {
+        this.type = type;
+    }
 	
     public String getName() {
         return name;
