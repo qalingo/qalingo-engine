@@ -68,9 +68,6 @@ public class StoreSearchController extends AbstractMCommerceController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-	protected ProductService productMarketingService;
-	
     @Autowired
     protected RetailerService retailerService;
     
@@ -287,10 +284,9 @@ public class StoreSearchController extends AbstractMCommerceController {
         
         final List<StoreViewBean> storeViewBeans = new ArrayList<StoreViewBean>();
         List<StoreSolr> searchtItems = storeResponseBean.getStoreSolrList();
-        for (Iterator<StoreSolr> iterator = searchtItems.iterator(); iterator.hasNext();) {
-            StoreSolr storeSolr = (StoreSolr) iterator.next();
+        for (StoreSolr storeSolr : searchtItems) {
             Store store = retailerService.getStoreByCode(storeSolr.getCode(), new FetchPlan(storeFetchPlans));
-            if(store != null){
+            if (store != null) {
                 StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestData, store);
                 storeViewBeans.add(storeViewBean);
             } else {

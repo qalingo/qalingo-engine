@@ -317,17 +317,19 @@ public class WebManagementService {
     /**
      * 
      */
-    public Customer buildAndSaveQuickNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, 
-                                                 final CreateAccountForm createAccountForm) throws Exception {
+    public Customer buildAndSaveQuickNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, final CreateAccountForm createAccountForm) throws Exception {
+        return buildAndSaveQuickNewCustomer(requestData.getRequest(), market, marketArea, createAccountForm);
+    }
+
+    public Customer buildAndSaveQuickNewCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CreateAccountForm createAccountForm) throws Exception {
         Customer customer = new Customer();
-        
         customer.setLogin(createAccountForm.getEmail());
         customer.setLastname(createAccountForm.getLastname());
         customer.setPassword(securityUtil.generateAndEncodePassword());
         
         customer.setEmail(createAccountForm.getEmail());
 
-        return buildAndSaveNewCustomer(requestData, market, marketArea, customer);
+        return buildAndSaveNewCustomer(request, market, marketArea, customer);
     }
     
     /**
@@ -569,9 +571,9 @@ public class WebManagementService {
         
         saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, newsletterEmailBean);
     }
-    
+
     /**
-     * 
+     *
      */
     public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final Customer customer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
@@ -620,7 +622,7 @@ public class WebManagementService {
     /**
      * 
      */
-    public void resetCustomerCredential(final RequestData requestData, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
+    public void resetCustomerCredential(final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
         // FLAG LAST CURRENT CREDENTIEL
         CustomerCredential customerCredential = customer.getCurrentCredential();
         if(customerCredential != null){
@@ -629,7 +631,7 @@ public class WebManagementService {
         }
         
         // ADD A NEW ONE
-        addNewCustomerCredential(requestData, customer, resetPasswordForm.getNewPassword());
+        addNewCustomerCredential(customer, resetPasswordForm.getNewPassword());
     }
     
     /**
@@ -674,10 +676,9 @@ public class WebManagementService {
     /**
      * 
      */
-    public void addNewCustomerCredential(final RequestData requestData, final Customer customer, final String newPassword) throws Exception {
+    public void addNewCustomerCredential(final Customer customer, final String newPassword) throws Exception {
         if(customer != null){
-            String clearPassword = newPassword;
-            String encodePassword = securityUtil.encodePassword(clearPassword);
+            String encodePassword = securityUtil.encodePassword(newPassword);
             CustomerCredential customerCredential = new CustomerCredential();
             customerCredential.setPassword(encodePassword);
             customerCredential.setDateCreate(new Date());
@@ -689,24 +690,27 @@ public class WebManagementService {
             customerService.saveOrUpdateCustomer(customer);
         }
     }
-    
-    /**
-     * 
-     */
+
     public Customer buildAndSaveNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, Customer customer) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
+        return buildAndSaveNewCustomer(requestData.getRequest(), market, marketArea, customer);
+    }
+
+    /**
+     *
+     */
+    public Customer buildAndSaveNewCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, Customer customer) throws Exception {
         if(customer.getCode() == null){
             customer.setCode(CoreUtil.generateEntityCode());
         }
-        
+
         if(customer.getPermalink() == null){
             String permalink = securityUtil.generatePermalink();
             customer.setPermalink(permalink);
         }
-        
+
         customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD.getPropertyKey());
         customer.setMarketAreaOrigin(marketArea.getCode());
-        
+
         customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
         customer.setActive(true);
         customer.setDateCreate(new Date());
@@ -714,17 +718,17 @@ public class WebManagementService {
 
         // WE SAVE A FIRST TIME TO EVICT DETACH ENTITY ISSUE WITH CUSTOMERGROUP - NOT THE BEST WAY
         Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
-        
+
         CustomerGroup customerGroup = customerService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
         savedCustomer.getGroups().add(customerGroup);
-        
+
         savedCustomer = customerService.saveOrUpdateCustomer(savedCustomer);
-        
+
         requestUtil.updateCurrentCustomer(request, savedCustomer);
-        
+
         return savedCustomer;
     }
-    
+
     public Customer updateCurrentCustomer(final RequestData requestData, Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         customer.setActive(true);

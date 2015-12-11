@@ -1101,7 +1101,7 @@ public class RequestUtil {
         return newCart;
     }
 
-    protected Customer getCurrentCustomer(final HttpServletRequest request) throws Exception {
+    public Customer getCurrentCustomer(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         Customer customer = engineEcoSession.getCurrentCustomer();
         if (customer == null) {

@@ -165,7 +165,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 			return displayResetPassword(request, model);
 		}
 		
-		webManagementService.resetCustomerCredential(requestData, customer, resetPasswordForm);
+		webManagementService.resetCustomerCredential(customer, resetPasswordForm);
 
 		webManagementService.buildAndSaveCustomerResetPasswordConfirmationMail(requestData, customer);
 		

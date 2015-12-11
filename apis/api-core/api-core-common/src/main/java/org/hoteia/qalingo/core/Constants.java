@@ -170,11 +170,11 @@ public class Constants {
     public static final String COOKIE_ECO_ENGINE_SESSION_ID = "EcoEngineSessionGuid";
 	public static final String COOKIE_RECENT_PRODUCT_COOKIE_NAME = "RecentProducts";
 	
-	// PRODUCT RATING
+	// PRODUCT
+	public static final String PRODUCT_RATING_TYPE = "PRODUCT_RATING";
 	public static final String PRODUCT_QUALITY_RATING_TYPE = "QUALITY_OF_SERVICE";
 	public static final String PRODUCT_PRICE_RATING_TYPE = "RATIO_QUALITY_PRICE";
 	public static final String PRODUCT_VALUE_RATING_TYPE = "PRICE_SCORE";
-	
 	// TOKEN
     public static final String AUTO_LOGIN_TOKEN = "AUTO_LOGIN_TOKEN";
     public static final String VALIDATION_TOKEN = "VALIDATION_TOKEN";

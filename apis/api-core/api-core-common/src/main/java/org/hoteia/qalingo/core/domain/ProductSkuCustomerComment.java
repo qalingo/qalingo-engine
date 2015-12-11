@@ -72,7 +72,10 @@ public class ProductSkuCustomerComment extends AbstractEntity<ProductSkuCustomer
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
-	
+
+    @Column(name="RATE")
+    private Integer rate;
+
 	public ProductSkuCustomerComment() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
@@ -156,6 +159,14 @@ public class ProductSkuCustomerComment extends AbstractEntity<ProductSkuCustomer
 
 	public void setDateUpdate(Date dateUpdate) {
     	this.dateUpdate = dateUpdate;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
     }
 
     @Override

@@ -141,7 +141,7 @@ public class BrandCommentController extends AbstractMCommerceController {
                     CreateAccountForm createAccountForm = new CreateAccountForm();
                     createAccountForm.setEmail(customerCommentForm.getEmail());
                     createAccountForm.setLastname(customerCommentForm.getName());
-                    customer = webManagementService.buildAndSaveQuickNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
+                    customer = webManagementService.buildAndSaveQuickNewCustomer(requestData.getRequest(), currentMarket, currentMarketArea, createAccountForm);
                     
                     // Save the email confirmation
                     webManagementService.buildAndSaveCustomerNewAccountMail(requestData, customer);

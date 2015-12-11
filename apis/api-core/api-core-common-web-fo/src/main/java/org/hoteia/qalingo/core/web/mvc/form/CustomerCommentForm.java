@@ -24,6 +24,7 @@ public class CustomerCommentForm implements Serializable {
 
 	private String objectCode;
 
+	private int globalRating = 0;
 	private int qualityOfService = 0;
 	private int ratioQualityPrice = 0;
 	private int priceScore = 0;
@@ -35,6 +36,14 @@ public class CustomerCommentForm implements Serializable {
 	private String comment;
 
 	public CustomerCommentForm() {
+	}
+
+	public int getGlobalRating() {
+		return globalRating;
+	}
+
+	public void setGlobalRating(int globalRating) {
+		this.globalRating = globalRating;
 	}
 
 	public String getObjectCode() {

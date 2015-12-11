@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nullable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -192,6 +193,7 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
         return prices;
     }
 
+    @Nullable
     public DeliveryMethodPrice getDeliveryMethodPrice(final Long currencyId){
         if(prices != null
                 && Hibernate.isInitialized(prices)){
@@ -204,7 +206,8 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
         }
         return null;
     }
-    
+
+    @Nullable
     public BigDecimal getPrice(final Long currencyId){
         DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(currencyId);
         if(deliveryMethodPrice != null){
@@ -212,7 +215,8 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
         }
         return null;
     }
-    
+
+    @Nullable
     public String getPriceWithStandardCurrencySign(final Long currencyId){
         DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(currencyId);
         if(deliveryMethodPrice != null){
