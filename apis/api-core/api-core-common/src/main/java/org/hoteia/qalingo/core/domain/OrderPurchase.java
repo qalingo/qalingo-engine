@@ -314,6 +314,20 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         return orderItems;
     }
     
+    public Set<Long> getStoreIds() {
+        Set<Long> stores = null;
+        if (shipments != null
+                && Hibernate.isInitialized(shipments)) {
+            stores = new HashSet<Long>();
+            for (final OrderShipment orderShipment : shipments) {
+                for (final OrderItem orderItem : orderShipment.getOrderItems()) {
+                    stores.add(orderItem.getStoreId());
+                }
+            }
+        }
+        return stores;
+    }
+    
     public BigDecimal getShippingMethodTotal() {
         BigDecimal shippingTotal = new BigDecimal("0");
         if (shipments != null

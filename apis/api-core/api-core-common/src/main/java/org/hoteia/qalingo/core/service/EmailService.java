@@ -126,7 +126,6 @@ public class EmailService {
 	
     /**
      * @throws Exception 
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveAdminNotification(Localization localization, Customer customer, String velocityPath, AdminNotficationEmailBean adminNotificationEmailBean)
      */
     public Email buildAndSaveAdminNotification(final RequestData requestData, final String velocityPath, final AdminNotificationEmailBean adminNotificationEmailBean) throws Exception {
         Email email = null;
@@ -178,10 +177,8 @@ public class EmailService {
     
     /**
      * @throws Exception 
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveContactMail(Localization localization, Customer customer, String velocityPath, ContactEmailBean contactEmailBean)
      */
-    public Email buildAndSaveContactMail(final RequestData requestData, final String velocityPath, 
-                                        final ContactEmailBean contactEmailBean) throws Exception {
+    public Email buildAndSaveContactMail(final RequestData requestData, final String velocityPath, final ContactEmailBean contactEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -231,10 +228,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveRetailerContactMail(Localization localization, Customer customer, String velocityPath, RetailerContactEmailBean retailerContactEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveRetailerContactMail(final RequestData requestData, final Customer customer, final String velocityPath, 
-                                                final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
+                                                 final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -285,7 +282,7 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterSubscriptionnConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterEmailBean newsletterEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveNewsletterSubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
@@ -349,10 +346,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterUnsubscriptionConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterEmailBean newsletterEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
-    															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
+    															      final NewsletterEmailBean newsletterEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -414,10 +411,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerNewAccountMail(Localization localization, Customer customer, String velocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveCustomerNewAccountMail(final RequestData requestData, final String velocityPath, 
-    											   final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception {
+    											    final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -475,10 +472,9 @@ public class EmailService {
     
     /**
      * @throws Exception 
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String velocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean)
      */
     public Email buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final String velocityPath, 
-    													  final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception {
+    													   final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -539,10 +535,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerResetPasswordConfirmationMail(Localization localization, Customer customer, String velocityPath, CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
-    															  final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception {
+    															   final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -597,10 +593,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveUserNewAccountMail(Localization localization, User user, String velocityPath, UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveUserNewAccountMail(final RequestData requestData, final String velocityPath, 
-                                                   final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean) throws Exception {
+                                                final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -658,10 +654,9 @@ public class EmailService {
     
     /**
      * @throws Exception 
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveUserForgottenPasswordMail(Localization localization, User user, String velocityPath, UserForgottenPasswordEmailBean userForgottenPasswordEmailBean)
      */
     public Email buildAndSaveUserForgottenPasswordMail(final RequestData requestData, final User user, final String velocityPath, 
-                                                          final UserForgottenPasswordEmailBean userForgottenPasswordEmailBean) throws Exception {
+                                                       final UserForgottenPasswordEmailBean userForgottenPasswordEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -724,10 +719,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveUserResetPasswordConfirmationMail(Localization localization, User user, String velocityPath, UserResetPasswordConfirmationEmailBean userResetPasswordConfirmationEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveUserResetPasswordConfirmationMail(final RequestData requestData, final User user, final String velocityPath, 
-                                                                  final UserResetPasswordConfirmationEmailBean userResetPasswordConfirmationEmailBean) throws Exception {
+                                                               final UserResetPasswordConfirmationEmailBean userResetPasswordConfirmationEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -782,10 +777,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
-    												 final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
+    												  final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -837,10 +832,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveOrderShippedConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
-    													 final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception {
+    													  final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -892,10 +887,10 @@ public class EmailService {
     }
     
     /**
-     * @see org.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean)
+     * @throws Exception 
      */
     public Email buildAndSaveAbandonedShoppingCartMail(final RequestData requestData, final Customer customer, final String velocityPath, 
-    												  final AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception {
+    												   final AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception {
         Email email = null;
         try {
             final String contextNameValue = requestData.getContextNameValue();
@@ -946,7 +941,11 @@ public class EmailService {
         return email;
     }
     
-    public String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String currentContextNameValue, final String targetContextNameValue, final String emailType) throws Exception{
+    /**
+     * @throws Exception 
+     */
+    public String getEmailFromAddress(final RequestData requestData, final MarketArea marketArea, final String currentContextNameValue, 
+                                      final String targetContextNameValue, final String emailType) throws Exception{
         String emailFromAddress = marketArea.getEmailFromAddress(targetContextNameValue, emailType);
         if(StringUtils.isEmpty(emailFromAddress) && StringUtils.isNotEmpty(currentContextNameValue)){
             emailFromAddress = engineSettingService.getDefaultEmailAddress(currentContextNameValue);
