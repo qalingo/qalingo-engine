@@ -809,7 +809,7 @@ public class EmailService {
         	mimeMessagePreparator.setFromName(fromName);
         	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.confirmation_email_subject", parameters, locale));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.customer_new_order.confirmation_email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-confirmation-text-content.vm", model));
         	
