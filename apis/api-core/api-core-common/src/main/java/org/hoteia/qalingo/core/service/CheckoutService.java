@@ -88,15 +88,15 @@ public class CheckoutService {
                             orderItem.getTaxes().add(orderTax);
                         }
                     }
-
+                    orderItem.setShipment(orderShipment);
                     orderItems.add(orderItem);
                 }
                 orderShipment.setOrderItems(orderItems);
+                orderShipment.setOrderPurchase(orderPurchase);
                 orderShipments.add(orderShipment);
             }
         }
         orderPurchase.setShipments(orderShipments);
-
         orderPurchase = orderPurchaseService.createNewOrder(orderPurchase);
 
         return orderPurchase;
