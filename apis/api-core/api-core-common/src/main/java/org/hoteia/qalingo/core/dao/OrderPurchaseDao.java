@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderItem_;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderNumber;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -75,31 +76,27 @@ public class OrderPurchaseDao extends AbstractGenericDao {
     
     public List<OrderItem> findOrderItemsByStoreId(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderItem.class);
-
-//        handleSpecificOrderFetchMode(criteria, params);
-
-        criteria.add(Restrictions.eq("storeId", storeId));
-
-        criteria.addOrder(Order.asc("dateCreate"));
-
+        handleSpecificOrderFetchMode(criteria, params);
+        criteria.add(Restrictions.eq(OrderItem_.storeId.getName(), storeId));
         @SuppressWarnings("unchecked")
         List<OrderItem> orderItems = criteria.list();
-
         return orderItems;
+    }
+
+    public OrderItem findOrderItemById(final Long id, Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderItem.class);
+        handleSpecificOrderFetchMode(criteria, params);
+        criteria.add(Restrictions.eq(OrderItem_.id.getName(), id));
+        return (OrderItem) criteria.uniqueResult();
     }
 
     public List<OrderPurchase> findOrdersByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderPurchase.class);
-
         handleSpecificOrderFetchMode(criteria, params);
-
         criteria.add(Restrictions.eq("customerId", customerId));
-
         criteria.addOrder(Order.asc("dateCreate"));
-
         @SuppressWarnings("unchecked")
         List<OrderPurchase> orderPurchases = criteria.list();
-
         return orderPurchases;
     }
 

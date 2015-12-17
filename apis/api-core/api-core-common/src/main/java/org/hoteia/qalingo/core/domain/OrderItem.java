@@ -176,7 +176,7 @@ public class OrderItem extends AbstractEntity<OrderItem> {
         return totalAmount;
     }
 
-    public String getPriceWithStandardCurrencySign(final Long marketAreaId) {
+    public String getPriceWithStandardCurrencySign() {
         return getCurrency().formatPriceWithStandardCurrencySign(price);
     }
 

@@ -63,6 +63,10 @@ public class OrderPurchaseService {
         }
     }
 
+    public OrderItem findOrderItemById(final Long id, Object... params) {
+        return orderDao.findOrderItemById(id, params);
+    }
+
     public OrderPurchase createNewOrder(final OrderPurchase orderPurchase) {
         return orderDao.createNewOrder(orderPurchase);
     }

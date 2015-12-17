@@ -72,6 +72,11 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
 
     public final static String PAYMENT_GATEWAY_ATTRIBUTE_CLIENT_TOKEN = "PAYMENT_GATEWAY_CLIENT_TOKEN";
 
+    public final static String MANGOPAY_PAYIN_ID = "MANGOPAY_PAYIN_ID";
+    public final static String MANGOPAY_WALLET_ID = "MANGOPAY_WALLET_ID";
+    public final static String MANGOPAY_BANK_ACCOUNT_ID = "MANGOPAY_BANK_ACCOUNT_ID";
+    public final static String MANGOPAY_USER_ACCOUNT_ID = "MANGOPAY_USER_ACCOUNT_ID";
+
     public final static String TAG_ATTRIBUTE_I18N_NAME        = "TAG_I18N_NAME";
 
     public abstract AttributeDefinition getAttributeDefinition();
