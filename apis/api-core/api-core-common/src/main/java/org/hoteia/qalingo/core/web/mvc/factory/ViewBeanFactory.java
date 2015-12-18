@@ -9,87 +9,11 @@
  */
 package org.hoteia.qalingo.core.web.mvc.factory;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.AbstractAttribute;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice;
-import org.hoteia.qalingo.core.domain.ProductSku_;
-import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
-import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
-import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
-import org.hoteia.qalingo.core.domain.Asset;
-import org.hoteia.qalingo.core.domain.AttributeDefinition;
-import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.CartItem;
-import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
-import org.hoteia.qalingo.core.domain.Company;
-import org.hoteia.qalingo.core.domain.CurrencyReferential;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.CustomerAddress;
-import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
-import org.hoteia.qalingo.core.domain.CustomerGroup;
-import org.hoteia.qalingo.core.domain.CustomerPermission;
-import org.hoteia.qalingo.core.domain.CustomerRole;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
-import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.OrderPurchase;
-import org.hoteia.qalingo.core.domain.OrderItem;
-import org.hoteia.qalingo.core.domain.OrderShipment;
-import org.hoteia.qalingo.core.domain.OrderTax;
-import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
-import org.hoteia.qalingo.core.domain.ProductAssociationLink;
-import org.hoteia.qalingo.core.domain.ProductBrand;
-import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
-import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
-import org.hoteia.qalingo.core.domain.ProductBrandTag;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
-import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
-import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
-import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
-import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
-import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
-import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
-import org.hoteia.qalingo.core.domain.Tag;
-import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.RetailerAddress;
-import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
-import org.hoteia.qalingo.core.domain.Store;
-import org.hoteia.qalingo.core.domain.StoreBusinessHour;
-import org.hoteia.qalingo.core.domain.StoreCustomerComment;
-import org.hoteia.qalingo.core.domain.Tax;
-import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.UserConnectionLog;
-import org.hoteia.qalingo.core.domain.UserGroup;
-import org.hoteia.qalingo.core.domain.UserPermission;
-import org.hoteia.qalingo.core.domain.UserRole;
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -103,59 +27,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.*;
 import org.hoteia.qalingo.core.service.openid.OpenProvider;
-import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeDefinitionViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeValueViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CompanyViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerConnectionLogValueBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.HeaderCartViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.LegalTermsViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodOptionViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandCustomerCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuOptionDefinitionViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuTagViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerCustomerCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreCustomerCommentViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.*;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 import org.slf4j.Logger;
@@ -164,6 +36,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.*;
 
 /**
  * 
@@ -203,6 +82,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
     @Autowired
     protected CartService cartService;
+
+    @Autowired
+    protected OrderPurchaseService orderPurchaseService;
 
     /**
      * 
@@ -2505,10 +2387,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 }
                 orderViewBean.setOrderTaxes(orderTaxViewBeans);
             }
-            orderViewBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithStandardCurrencySign());
-            orderViewBean.setOrderShippingTotalWithCurrencySign(order.getShippingTotalWithStandardCurrencySign());
-            orderViewBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
-            orderViewBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
+            orderViewBean.setOrderItemsTotalWithCurrencySign(orderPurchaseService.getOrderItemTotalWithTaxesWithStandardCurrencySign(order));
+            orderViewBean.setOrderShippingTotalWithCurrencySign(orderPurchaseService.getDeliveryMethodTotalWithStandardCurrencySign(order));
+            orderViewBean.setOrderTaxesTotalWithCurrencySign(orderPurchaseService.getTaxTotalWithStandardCurrencySign(order));
+            orderViewBean.setOrderTotalWithCurrencySign(orderPurchaseService.getOrderTotalWithStandardCurrencySign(order));
 
             Map<String, String> getParams = new HashMap<String, String>();
             getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID, order.getId().toString());
@@ -2525,29 +2407,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public OrderItemViewBean buildViewBeanOrderItem(final RequestData requestData, final OrderItem orderItem) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
-
         final OrderItemViewBean orderItemViewBean = new OrderItemViewBean();
-
         orderItemViewBean.setSkuCode(orderItem.getProductSkuCode());
-        
         if(StringUtils.isNotEmpty(orderItem.getProductSkuCode())){
             ProductSku productSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
             orderItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
             orderItemViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
         }
-
-        final BigDecimal price = orderItem.getPrice();
-        if (price != null) {
-            orderItemViewBean.setPrice(orderItem.getCurrency().formatPriceWithStandardCurrencySign(price));
-        }
-
+        orderItemViewBean.setPrice(orderPurchaseService.getOrderItemPriceWithTaxesWithStandardCurrencySign(orderItem));
         orderItemViewBean.setQuantity(orderItem.getQuantity());
-
-        final BigDecimal totalAmountOrderItem = orderItem.getTotalAmountOrderItem();
-        if (totalAmountOrderItem != null) {
-            orderItemViewBean.setAmount(orderItem.getCurrency().formatPriceWithStandardCurrencySign(totalAmountOrderItem));
-        }
-        
+        orderItemViewBean.setAmount(orderPurchaseService.getOrderItemTotalPriceWithTaxesWithStandardCurrencySign(orderItem));
         return orderItemViewBean;
     }
     

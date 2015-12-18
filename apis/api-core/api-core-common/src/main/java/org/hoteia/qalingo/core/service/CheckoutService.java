@@ -11,16 +11,7 @@ package org.hoteia.qalingo.core.service;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.CartItem;
-import org.hoteia.qalingo.core.domain.CartItemTax;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
-import org.hoteia.qalingo.core.domain.OrderAddress;
-import org.hoteia.qalingo.core.domain.OrderItem;
-import org.hoteia.qalingo.core.domain.OrderPurchase;
-import org.hoteia.qalingo.core.domain.OrderShipment;
-import org.hoteia.qalingo.core.domain.OrderTax;
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +25,9 @@ public class CheckoutService {
     @Autowired
     protected OrderPurchaseService orderPurchaseService;
 
+    @Autowired
+    protected CartService cartService;
+
     public OrderPurchase checkout(final Customer customer, final Cart cart) throws Exception {
         OrderPurchase orderPurchase = new OrderPurchase();
         // ORDER NUMBER IS CREATE BY DAO
@@ -41,7 +35,8 @@ public class CheckoutService {
         orderPurchase.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());
 
         orderPurchase.setCurrency(cart.getCurrency());
-        orderPurchase.setMarketAreaId(cart.getMarketAreaId());
+        Long marketAreaId = cart.getMarketAreaId();
+        orderPurchase.setMarketAreaId(marketAreaId);
         orderPurchase.setRetailerId(cart.getRetailerId());
         orderPurchase.setLocalizationId(cart.getLocalizationId());
         orderPurchase.setCustomerId(customer.getId());
@@ -60,6 +55,7 @@ public class CheckoutService {
         Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
         Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
         if (deliveryMethods != null) {
+            Set<Tax> taxes = cart.getTaxes();
             for (DeliveryMethod deliveryMethod : deliveryMethods) {
                 OrderShipment orderShipment = new OrderShipment();
                 orderShipment.setName(deliveryMethod.getName());
@@ -72,19 +68,25 @@ public class CheckoutService {
                 for (CartItem cartItem : cartItems) {
                     OrderItem orderItem = new OrderItem();
                     orderItem.setCurrency(cart.getCurrency());
-                    orderItem.setProductSkuCode(cartItem.getProductSku().getCode());
-                    orderItem.setProductSku(cartItem.getProductSku());
-                    orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId()).getSalePrice());
+                    ProductSku productSku = cartItem.getProductSku();
+                    orderItem.setProductSkuCode(productSku.getCode());
+                    orderItem.setProductSku(productSku);
+                    Boolean cartItemVATIncluded = cartService.isCartItemVATIncluded(cartItem, marketAreaId);
+                    if(cartItemVATIncluded) {
+                        orderItem.setPrice(cartService.getCartItemPriceWithTaxes(cartItem, marketAreaId, taxes));
+                    } else {
+                        orderItem.setPrice(cartService.getCartItemPrice(cartItem, marketAreaId, taxes));
+                    }
                     orderItem.setQuantity(cartItem.getQuantity());
                     orderItem.setStoreId(cartItem.getStoreId());
+                    orderItem.setVATIncluded(cartItemVATIncluded);
                     // TAXES
-                    Set<CartItemTax> taxes = cartItem.getTaxes();
                     if (taxes != null) {
-                        for (CartItemTax cartItemTax : taxes) {
+                        for (Tax tax : taxes) {
                             OrderTax orderTax = new OrderTax();
-                            orderTax.setName(cartItemTax.getTax().getName());
-                            orderTax.setPercent(cartItemTax.getTax().getPercent());
-                            orderTax.setAmount(cartItemTax.getTaxAmount());
+                            orderTax.setName(tax.getName());
+                            orderTax.setPercent(tax.getPercent());
+                            orderTax.setAmount(cartService.getCartItemTaxesAmount(cartItem, marketAreaId, taxes));
                             orderItem.getTaxes().add(orderTax);
                         }
                     }

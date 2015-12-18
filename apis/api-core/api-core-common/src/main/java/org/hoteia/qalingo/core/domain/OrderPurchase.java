@@ -9,28 +9,12 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.math.BigDecimal;
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
-
-import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_ORDER_PURCHASE")
@@ -283,11 +267,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         }
         return expectedDeliveryDate;
     }
-    
+
     public Set<OrderTax> getOrderTaxes() {
         Set<OrderTax> orderTaxes = null;
-        if(shipments != null
-                && Hibernate.isInitialized(shipments)){
+        if(shipments != null && Hibernate.isInitialized(shipments)){
             orderTaxes = new HashSet<OrderTax>();
             for (final OrderShipment orderShipment : shipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
@@ -299,11 +282,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         }
         return orderTaxes;
     }
-    
+
     public Set<OrderItem> getOrderItems() {
         Set<OrderItem> orderItems = null;
-        if (shipments != null
-                && Hibernate.isInitialized(shipments)) {
+        if (shipments != null && Hibernate.isInitialized(shipments)) {
             orderItems = new HashSet<OrderItem>();
             for (final OrderShipment orderShipment : shipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
@@ -313,11 +295,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         }
         return orderItems;
     }
-    
+
     public Set<Long> getStoreIds() {
         Set<Long> stores = null;
-        if (shipments != null
-                && Hibernate.isInitialized(shipments)) {
+        if (shipments != null && Hibernate.isInitialized(shipments)) {
             stores = new HashSet<Long>();
             for (final OrderShipment orderShipment : shipments) {
                 for (final OrderItem orderItem : orderShipment.getOrderItems()) {
@@ -326,72 +307,6 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
             }
         }
         return stores;
-    }
-    
-    public BigDecimal getShippingMethodTotal() {
-        BigDecimal shippingTotal = new BigDecimal("0");
-        if (shipments != null
-                && Hibernate.isInitialized(shipments)) {
-            for (final OrderShipment orderShipment : shipments) {
-                BigDecimal price = orderShipment.getPrice();
-                if (price != null) {
-                    shippingTotal = shippingTotal.add(price);
-                }
-            }
-        }
-        return shippingTotal;
-    }
-
-    public String getShippingTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getShippingMethodTotal());
-    }
-
-    public BigDecimal getOrderItemTotal() {
-        BigDecimal orderItemsTotal = new BigDecimal("0");
-        if (shipments != null
-                && Hibernate.isInitialized(shipments)) {
-            for (final OrderShipment orderShipment : shipments) {
-                for (final OrderItem orderItem : orderShipment.getOrderItems()) {
-                    orderItemsTotal = orderItemsTotal.add(orderItem.getTotalAmountOrderItem());
-                }
-            }
-        }
-        return orderItemsTotal;
-    }
-
-    public String getOrderItemTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getOrderItemTotal());
-    }
-
-    public BigDecimal getTaxTotal() {
-        BigDecimal orderTaxesTotal = new BigDecimal("0");
-        if (shipments != null
-                && Hibernate.isInitialized(shipments)) {
-            for (final OrderShipment orderShipment : shipments) {
-                for (final OrderItem orderItem : orderShipment.getOrderItems()) {
-                    for (final OrderTax orderTax : orderItem.getTaxes()) {
-                        orderTaxesTotal = orderTaxesTotal.add(orderTax.getAmount());
-                    }
-                }
-            }
-        }
-        return orderTaxesTotal;
-    }
-
-    public String getTaxTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getTaxTotal());
-    }
-
-    public BigDecimal getOrderTotal() {
-        BigDecimal carTotal = new BigDecimal("0");
-        carTotal = carTotal.add(getOrderItemTotal());
-        carTotal = carTotal.add(getShippingMethodTotal());
-        carTotal = carTotal.add(getTaxTotal());
-        return carTotal;
-    }
-
-    public String getOrderTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getOrderTotal());
     }
 
     @Override

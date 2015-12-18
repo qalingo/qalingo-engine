@@ -62,8 +62,11 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     private OrderShipment shipment;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.OrderTax.class)
-    @JoinColumn(name = "ORDER_TAX_ID")
+    @JoinColumn(name = "ORDER_ITEM_ID")
     private Set<OrderTax> taxes = new HashSet<OrderTax>();
+
+    @Column(name = "IS_VAT_INCLUDED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isVATIncluded;
 
     public OrderItem() {
     }
@@ -79,18 +82,6 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     public Long getOrderId() {
         return orderId;
     }
-    
-//    public void setOrderId(Long orderId) {
-//        this.orderId = orderId;
-//    }
-//
-//    public Long getRetailerId() {
-//        return retailerId;
-//    }
-//
-//    public void setRetailerId(Long retailerId) {
-//        this.retailerId = retailerId;
-//    }
 
 
     public Long getStoreId() {
@@ -166,28 +157,14 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     public void setTaxes(Set<OrderTax> taxes) {
         this.taxes = taxes;
     }
-    
-    public BigDecimal getTotalAmountOrderItem() {
-        BigDecimal totalAmount = new BigDecimal("0");
-        if (price != null) {
-            totalAmount = totalAmount.add(price);
-        }
-        totalAmount = totalAmount.multiply(new BigDecimal(quantity));
-        return totalAmount;
+
+    public boolean isVATIncluded() {
+        return isVATIncluded;
     }
 
-    public String getPriceWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(price);
+    public void setVATIncluded(boolean VATIncluded) {
+        isVATIncluded = VATIncluded;
     }
-
-    public BigDecimal getTotalAmountCartItem() {
-        return price.multiply(new BigDecimal(quantity));
-    }
-
-    public String getTotalAmountWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(price.multiply(new BigDecimal(quantity)));
-    }
-
 
     @Override
     public int hashCode() {
