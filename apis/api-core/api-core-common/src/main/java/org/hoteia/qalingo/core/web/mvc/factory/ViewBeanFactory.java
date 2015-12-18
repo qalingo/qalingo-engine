@@ -2338,8 +2338,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Locale locale = requestData.getLocale();
         final OrderViewBean orderViewBean = new OrderViewBean();
         if (order != null) {
+            orderViewBean.setStatus(order.getStatus());
             orderViewBean.setOrderNum(order.getOrderNum());
-
             if (order.getExpectedDeliveryDate() != null) {
                 orderViewBean.setExpectedDeliveryDate(buildCommonFormatDate(requestData, order.getExpectedDeliveryDate()));
             } else {
