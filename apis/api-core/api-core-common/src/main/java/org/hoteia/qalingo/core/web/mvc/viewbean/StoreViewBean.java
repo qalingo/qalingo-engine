@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.util.CoreUtil;
 
 public class StoreViewBean extends AbstractAddressViewBean {
@@ -108,7 +109,7 @@ public class StoreViewBean extends AbstractAddressViewBean {
     }
     
     public String getI18nTruncatedName() {
-        int size = 15;
+        int size = Constants.POJO_NAME_MAX_LENGTH;
         if (StringUtils.isNotEmpty(getI18nName())){
             if(getI18nName().length() >= size){
                 return CoreUtil.handleTruncatedString(getI18nName(), size);
@@ -139,7 +140,7 @@ public class StoreViewBean extends AbstractAddressViewBean {
     }
     
     public String getI18nTruncatedDescription() {
-        int size = 150;
+        int size = Constants.POJO_DESCRIPTION_MAX_LENGTH;
         if(StringUtils.isNotEmpty(getI18nShortDescription())){
             if(getI18nShortDescription().length() >= size){
                 return CoreUtil.handleTruncatedString(getI18nShortDescription(), size);

@@ -158,7 +158,11 @@ public class Constants {
 	public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT = "head_content";
 	public static final String VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT = "footer_script_content";
 
-	public static final int SHORT_DESCRIPTION_MAX_LENGTH = 50;
+    public static final int POJO_NAME_MAX_LENGTH = 15;
+    public static final int POJO_DESCRIPTION_MAX_LENGTH = 150;
+    public static final String TRUNCATED_SUFFIX = "...";
+
+    public static final int SHORT_DESCRIPTION_MAX_LENGTH = 50;
 	public static final int SHARE_META_DESCRIPTION_MAX_LENGTH = 150;
 	
 	public static final String ERROR_MESSAGE = "errorMessage";
