@@ -107,6 +107,18 @@ public class StoreViewBean extends AbstractAddressViewBean {
         this.i18nName = i18nName;
     }
     
+    public String getI18nTruncatedName() {
+        int size = 15;
+        if (StringUtils.isNotEmpty(getI18nName())){
+            if(getI18nName().length() >= size){
+                return CoreUtil.handleTruncatedString(getI18nName(), size);
+            } else {
+                return getI18nName();
+            }
+        }
+        return "";
+    }
+    
     public String getI18nDescription() {
         if(StringUtils.isNotEmpty(i18nDescription)){
             return i18nDescription;
@@ -127,15 +139,16 @@ public class StoreViewBean extends AbstractAddressViewBean {
     }
     
     public String getI18nTruncatedDescription() {
+        int size = 150;
         if(StringUtils.isNotEmpty(getI18nShortDescription())){
-            if(getI18nShortDescription().length() >= 150){
-                return CoreUtil.handleTruncatedDescription(getI18nShortDescription());
+            if(getI18nShortDescription().length() >= size){
+                return CoreUtil.handleTruncatedString(getI18nShortDescription(), size);
             } else {
                 return getI18nShortDescription();
             }
         } else if (StringUtils.isNotEmpty(getI18nDescription())){
-            if(getI18nDescription().length() >= 150){
-                return CoreUtil.handleTruncatedDescription(getI18nDescription());
+            if(getI18nDescription().length() >= size){
+                return CoreUtil.handleTruncatedString(getI18nDescription(), size);
             } else {
                 return getI18nDescription();
             }

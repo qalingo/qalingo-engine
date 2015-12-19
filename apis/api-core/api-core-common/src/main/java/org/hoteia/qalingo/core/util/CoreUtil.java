@@ -59,10 +59,10 @@ public class CoreUtil {
         return fileName;
     }
     
-    public static String handleTruncatedDescription(String string) {
+    public static String handleTruncatedString(String string, int size) {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {
-            return StringUtils.substring(stringToReturn, 0, 150).replaceAll(" [^ ]+$", "") + "...";
+            return StringUtils.substring(stringToReturn, 0, size).replaceAll(" [^ ]+$", "") + "...";
         }
         return stringToReturn;
     }
