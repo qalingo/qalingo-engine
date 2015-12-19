@@ -16,9 +16,11 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.Store;
@@ -33,6 +35,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
@@ -97,6 +100,8 @@ public class StoreController extends AbstractMCommerceController {
 
             model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, store));
 	        
+            model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, overideInitSeo(request, model, storeViewBean));
+
 	        return modelAndView;
 		}
 		
@@ -137,31 +142,26 @@ public class StoreController extends AbstractMCommerceController {
         return breadcrumbViewBean;
     }
     
-    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
-    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
+    protected SeoDataViewBean overideInitSeo(final HttpServletRequest request, final Model model, final StoreViewBean storeViewBean) throws Exception {
         SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
-        if(store != null){
-            StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestData, store);
-
-            // SEO
-            String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
-            seoDataViewBean.setPageTitle(pageTitle + " - " + storeViewBean.getI18nName());
-            
-            String metaOgTitle = storeViewBean.getI18nName();
-            seoDataViewBean.setMetaOgTitle(metaOgTitle);
-            String metaOgDescription = storeViewBean.getI18nDescription();
-            seoDataViewBean.setMetaOgDescription(metaOgDescription);
-            String metaOgImage = storeViewBean.getAssetAbsoluteWebPath("LOGO");
-            if(StringUtils.isNotEmpty(metaOgImage)){
-                seoDataViewBean.setMetaOgImage(metaOgImage);
-            }
+        String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
+        if(seoPageTitle != null && !seoPageTitle.trim().endsWith("-")){
+            seoPageTitle += " - ";
         }
-
+        seoPageTitle += storeViewBean.getI18nName();
+        
+        // SEO
+        seoDataViewBean.setPageTitle(seoDataViewBean.getPageTitle());
+        seoDataViewBean.setMetaDescription(storeViewBean.getI18nDescription());
+        
+        seoDataViewBean.setMetaOgTitle(seoPageTitle);
+        seoDataViewBean.setMetaOgDescription(storeViewBean.getI18nDescription());
+        seoDataViewBean.setMetaOgImage(storeViewBean.getDefaultAsset().getAbsoluteWebPath());
+        
         return seoDataViewBean;
     }
-
+    
 }

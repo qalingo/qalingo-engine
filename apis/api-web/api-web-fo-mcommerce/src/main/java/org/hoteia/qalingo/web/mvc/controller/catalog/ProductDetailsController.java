@@ -147,7 +147,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory, productMarketing));
 
-        model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, overideInitSeo(request, model, categoryCode, productMarketingCode, productSkuCode));
+        model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, overideInitSeo(request, model, productMarketingViewBean));
 
         return modelAndView;
 	}
@@ -196,22 +196,17 @@ public class ProductDetailsController extends AbstractMCommerceController {
         return productBrandViewBeans;
     }
     
-    protected SeoDataViewBean overideInitSeo(final HttpServletRequest request, final Model model, final String categoryCode,
-                                             final String productMarketingCode, final String productSkuCode) throws Exception {
+    protected SeoDataViewBean overideInitSeo(final HttpServletRequest request, final Model model, final ProductMarketingViewBean productMarketingViewBean) throws Exception {
         SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
         
-        ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(productMarketingFetchPlans));
-        final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), productMarketing);
-
         String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         if(seoPageTitle != null && !seoPageTitle.trim().endsWith("-")){
             seoPageTitle += " - ";
         }
-        if(Hibernate.isInitialized(productMarketing.getProductBrand()) && productMarketing.getProductBrand() != null){
-            seoPageTitle += productMarketing.getProductBrand().getI18nName(localization.getCode()) + " ";
+        if(productMarketingViewBean.getBrand() != null){
+            seoPageTitle += productMarketingViewBean.getBrand().getI18nName() + " ";
         }
         seoPageTitle += productMarketingViewBean.getI18nName();
         
