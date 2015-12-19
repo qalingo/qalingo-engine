@@ -113,7 +113,7 @@ public abstract class AbstractUrlService {
     }
 
     public String getSeoSegmentMain(Locale locale, boolean isEncoded) throws Exception {
-        return handleSeoSegmentMain(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale), isEncoded);
+        return handleSeoSegmentMain(coreMessageSource.getSpecificMessage(getMessageAppUniverse(), ScopeWebMessage.SEO.getPropertyKey(), "seo.url.main", locale), isEncoded);
     }
 
     public String handleSeoSegmentMain(String seoSegment, boolean isEncoded) throws Exception {
@@ -124,6 +124,10 @@ public abstract class AbstractUrlService {
         return getSeoPrefixUrl(requestData, isEncoded) + "/";
     }
 
+    protected String getMessageAppUniverse(){
+        return I18nKeyValueUniverse.FO.getPropertyKey();
+    }
+    
     protected String handleUrlParameters(String url, Map<String, String> urlParams, Map<String, String> getParams) {
         if (StringUtils.isNotEmpty(url)) {
             if (urlParams != null) {
@@ -155,7 +159,7 @@ public abstract class AbstractUrlService {
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final Retailer retailer = requestData.getMarketAreaRetailer();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketAreaPrefixUrl(marketArea)
                 + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer);
 

@@ -37,6 +37,7 @@ import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -207,5 +208,10 @@ public class BackofficeUrlService extends AbstractUrlService {
 	public String buildSpringSecurityCheckUrl(final RequestData requestData) throws Exception {
 		return buildContextPath(requestData) + BoUrls.SPRING_SECURITY_URL;
 	}
+	
+    @Override
+    protected String getMessageAppUniverse(){
+        return I18nKeyValueUniverse.BO.getPropertyKey();
+    }
 	
 }
