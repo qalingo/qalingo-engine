@@ -9,25 +9,163 @@
  */
 package org.hoteia.qalingo.core.web.mvc.factory;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.AbstractAttribute;
+import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
+import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.AttributeDefinition;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
+import org.hoteia.qalingo.core.domain.Company;
+import org.hoteia.qalingo.core.domain.CurrencyReferential;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerAddress;
+import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.CustomerPermission;
+import org.hoteia.qalingo.core.domain.CustomerRole;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
+import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.domain.OrderAddress;
+import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
+import org.hoteia.qalingo.core.domain.OrderShipment;
+import org.hoteia.qalingo.core.domain.OrderTax;
+import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
+import org.hoteia.qalingo.core.domain.ProductAssociationLink;
+import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductBrandTag;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionRel;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.RetailerAddress;
+import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
+import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.StoreBusinessHour;
+import org.hoteia.qalingo.core.domain.StoreCustomerComment;
+import org.hoteia.qalingo.core.domain.Tag;
+import org.hoteia.qalingo.core.domain.Tax;
+import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserConnectionLog;
+import org.hoteia.qalingo.core.domain.UserGroup;
+import org.hoteia.qalingo.core.domain.UserPermission;
+import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.*;
+import org.hoteia.qalingo.core.service.CartService;
+import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.service.CatalogService;
+import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.hoteia.qalingo.core.service.MarketService;
+import org.hoteia.qalingo.core.service.OrderPurchaseService;
+import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.service.ReferentialDataService;
+import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.service.openid.OpenProvider;
-import org.hoteia.qalingo.core.web.mvc.viewbean.*;
+import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeDefinitionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeValueViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CompanyViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerConnectionLogValueBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.HeaderCartViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.LegalTermsViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderAddressViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodOptionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandCustomerCommentViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandTagViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingCustomerCommentViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuOptionDefinitionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuTagViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerCustomerCommentViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreCustomerCommentViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 import org.slf4j.Logger;
@@ -36,13 +174,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.*;
 
 /**
  * 
@@ -1137,7 +1268,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
             if (customer.getAddresses() != null && Hibernate.isInitialized(customer.getAddresses())) {
                 for (CustomerAddress address : customer.getAddresses()) {
-                    customerViewBean.getAddresses().add(buildViewBeanCustomeAddress(requestData, address));
+                    customerViewBean.getAddresses().add(buildViewBeanCustomerAddress(requestData, address));
                 }
             }
 
@@ -1149,6 +1280,33 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             customerScreenNameValueBean.setValue(customer.getScreenName());
             customerViewBean.getCustomerAttributes().put(CustomerViewBean.SCREEN_NAME, customerScreenNameValueBean);
 
+        }
+        return customerViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public CustomerViewBean buildViewBeanCustomer(final RequestData requestData, final User user) throws Exception {
+        final Locale locale = requestData.getLocale();
+        final CustomerViewBean customerViewBean = new CustomerViewBean();
+        if (user != null) {
+            customerViewBean.setCode(user.getCode());
+            customerViewBean.setTitle(referentialDataService.getTitleByLocale(user.getTitle(), locale));
+            customerViewBean.setFirstname(user.getFirstname());
+            customerViewBean.setLastname(user.getLastname());
+            customerViewBean.setEmail(user.getEmail());
+            customerViewBean.setLogin(user.getLogin());
+
+            if (user.getDateCreate() != null) {
+                customerViewBean.setDateCreate(buildCommonFormatDate(requestData, user.getDateCreate()));
+            }
+            if (user.getDateUpdate() != null) {
+                customerViewBean.setDateUpdate(buildCommonFormatDate(requestData, user.getDateUpdate()));
+            }
+
+            customerViewBean.setValidated(user.isValidated());
+            customerViewBean.setActive(user.isActive());
         }
         return customerViewBean;
     }
@@ -1189,7 +1347,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Set<CustomerAddress> addresses = customer.getAddresses();
         if(Hibernate.isInitialized(addresses) && addresses != null){
             for (CustomerAddress customerAddress : addresses) {
-                customerAddressListViewBean.getCustomerAddressList().add(buildViewBeanCustomeAddress(requestData, customerAddress));
+                customerAddressListViewBean.getCustomerAddressList().add(buildViewBeanCustomerAddress(requestData, customerAddress));
             }
         }
         return customerAddressListViewBean;
@@ -1198,83 +1356,83 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public CustomerAddressViewBean buildViewBeanCustomeAddress(final RequestData requestData, final CustomerAddress address) throws Exception {
+    public CustomerAddressViewBean buildViewBeanCustomerAddress(final RequestData requestData, final CustomerAddress address) throws Exception {
         final Locale locale = requestData.getLocale();
-        final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
+        final CustomerAddressViewBean addressViewBean = new CustomerAddressViewBean();
         if(address.getId() != null){
-            customerAddressViewBean.setId(address.getId().toString());
+            addressViewBean.setId(address.getId().toString());
         }
 
         String addressName = address.getAddressName();
         if (StringUtils.isNotEmpty(addressName)) {
-            customerAddressViewBean.setAddressName(addressName);
+            addressViewBean.setAddressName(addressName);
         } else {
-            customerAddressViewBean.setAddressName(address.getCity());
+            addressViewBean.setAddressName(address.getCity());
         }
 
-        customerAddressViewBean.setTitleCode(address.getTitle());
+        addressViewBean.setTitleCode(address.getTitle());
         String titleLabel = referentialDataService.getTitleByLocale(address.getTitle(), locale);
-        customerAddressViewBean.setTitleLabel(titleLabel);
+        addressViewBean.setTitleLabel(titleLabel);
 
-        customerAddressViewBean.setLastname(address.getLastname());
-        customerAddressViewBean.setFirstname(address.getFirstname());
+        addressViewBean.setLastname(address.getLastname());
+        addressViewBean.setFirstname(address.getFirstname());
 
-        customerAddressViewBean.setAddress1(address.getAddress1());
-        customerAddressViewBean.setAddress2(address.getAddress2());
-        customerAddressViewBean.setAddressAdditionalInformation(address.getAddressAdditionalInformation());
-        customerAddressViewBean.setPostalCode(address.getPostalCode());
-        customerAddressViewBean.setCity(address.getCity());
-        customerAddressViewBean.setStateCode(address.getStateCode());
-        customerAddressViewBean.setAreaCode(address.getAreaCode());
-        customerAddressViewBean.setCountryCode(address.getCountryCode());
+        addressViewBean.setAddress1(address.getAddress1());
+        addressViewBean.setAddress2(address.getAddress2());
+        addressViewBean.setAddressAdditionalInformation(address.getAddressAdditionalInformation());
+        addressViewBean.setPostalCode(address.getPostalCode());
+        addressViewBean.setCity(address.getCity());
+        addressViewBean.setStateCode(address.getStateCode());
+        addressViewBean.setAreaCode(address.getAreaCode());
+        addressViewBean.setCountryCode(address.getCountryCode());
 
         String coutryLabel = referentialDataService.getCountryByLocale(address.getCountryCode(), locale);
-        customerAddressViewBean.setCountry(coutryLabel);
+        addressViewBean.setCountry(coutryLabel);
 
-        customerAddressViewBean.setDefaultBilling(address.isDefaultBilling());
-        customerAddressViewBean.setDefaultShipping(address.isDefaultShipping());
+        addressViewBean.setDefaultBilling(address.isDefaultBilling());
+        addressViewBean.setDefaultShipping(address.isDefaultShipping());
 
         Long customerAddressId = address.getId();
         if(customerAddressId != null){
             Map<String, String> urlParams = new HashMap<String, String>();
             urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID, customerAddressId.toString());
-            customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestData, urlParams));
-            customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestData, urlParams));
+            addressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestData, urlParams));
+            addressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestData, urlParams));
         }
 
-        return customerAddressViewBean;
+        return addressViewBean;
     }
-
+    
     /**
      * 
      */
-    public CustomerAddressViewBean buildViewBeanCustomeAddress(final RequestData requestData, final OrderAddress address) throws Exception {
+    public OrderAddressViewBean buildViewBeanOrderAddress(final RequestData requestData, final OrderAddress address) throws Exception {
         final Locale locale = requestData.getLocale();
-        final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
+        final OrderAddressViewBean addressViewBean = new OrderAddressViewBean();
         if(address.getId() != null){
-            customerAddressViewBean.setId(address.getId().toString());
+            addressViewBean.setId(address.getId().toString());
         }
 
-        customerAddressViewBean.setTitleCode(address.getTitle());
+        addressViewBean.setTitleCode(address.getTitle());
         String titleLabel = referentialDataService.getTitleByLocale(address.getTitle(), locale);
-        customerAddressViewBean.setTitleLabel(titleLabel);
+        addressViewBean.setTitleLabel(titleLabel);
 
-        customerAddressViewBean.setLastname(address.getLastname());
-        customerAddressViewBean.setFirstname(address.getFirstname());
+        addressViewBean.setLastname(address.getLastname());
+        addressViewBean.setFirstname(address.getFirstname());
 
-        customerAddressViewBean.setAddress1(address.getAddress1());
-        customerAddressViewBean.setAddress2(address.getAddress2());
-        customerAddressViewBean.setAddressAdditionalInformation(address.getAddressAdditionalInformation());
-        customerAddressViewBean.setPostalCode(address.getPostalCode());
-        customerAddressViewBean.setCity(address.getCity());
-        customerAddressViewBean.setStateCode(address.getStateCode());
-        customerAddressViewBean.setAreaCode(address.getAreaCode());
-        customerAddressViewBean.setCountryCode(address.getCountryCode());
+        addressViewBean.setAddress1(address.getAddress1());
+        addressViewBean.setAddress2(address.getAddress2());
+        addressViewBean.setAddressAdditionalInformation(address.getAddressAdditionalInformation());
+        addressViewBean.setPostalCode(address.getPostalCode());
+        addressViewBean.setCity(address.getCity());
+        addressViewBean.setStateCode(address.getStateCode());
+        addressViewBean.setAreaCode(address.getAreaCode());
+        addressViewBean.setCountryCode(address.getCountryCode());
 
         String coutryLabel = referentialDataService.getCountryByLocale(address.getCountryCode(), locale);
-        customerAddressViewBean.setCountry(coutryLabel);
+        addressViewBean.setCountry(coutryLabel);
 
-        return customerAddressViewBean;
+        return addressViewBean;
     }
     
     /**
@@ -2370,7 +2528,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         return orderViewBeans;
     }
-
+    
     /**
      * 
      */
@@ -2385,12 +2543,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 orderViewBean.setCustomer(buildViewBeanCustomer(requestData, order.getCustomer()));
             }
             
+            if (Hibernate.isInitialized(order.getUser()) && order.getUser() != null) {
+                orderViewBean.setUser(buildViewBeanUser(requestData, order.getUser()));
+            }
+            
             if (Hibernate.isInitialized(order.getBillingAddress()) && order.getBillingAddress() != null) {
-                orderViewBean.setBillingAddress(buildViewBeanCustomeAddress(requestData, order.getBillingAddress()));
+                orderViewBean.setBillingAddress(buildViewBeanOrderAddress(requestData, order.getBillingAddress()));
             }
             
             if (Hibernate.isInitialized(order.getShippingAddress()) && order.getShippingAddress() != null) {
-                orderViewBean.setShippingAddress(buildViewBeanCustomeAddress(requestData, order.getShippingAddress()));
+                orderViewBean.setShippingAddress(buildViewBeanOrderAddress(requestData, order.getShippingAddress()));
             }
             
             if (order.getExpectedDeliveryDate() != null) {
@@ -2452,7 +2614,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         return orderViewBean;
     }
-
+    
     /**
      * 
      */

@@ -74,6 +74,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     @JoinColumn(name = "CUSTOMER_ID", insertable = true, updatable = true)
     private Customer customer;
     
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.User.class)
+    @JoinColumn(name = "USER_ID", insertable = true, updatable = true)
+    private User user;
+    
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderAddress.class)
     @JoinColumn(name="BILLING_ORDER_ADDRESS_ID")
 	private OrderAddress billingAddress;
@@ -193,6 +197,14 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
     }
 	
 	public OrderAddress getBillingAddress() {

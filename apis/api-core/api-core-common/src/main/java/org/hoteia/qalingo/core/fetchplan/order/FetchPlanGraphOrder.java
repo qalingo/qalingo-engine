@@ -22,6 +22,7 @@ public class FetchPlanGraphOrder {
     public static FetchPlan defaultOrderPurchaseFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.customer.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.user.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.billingAddress.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shippingAddress.getName()));
 

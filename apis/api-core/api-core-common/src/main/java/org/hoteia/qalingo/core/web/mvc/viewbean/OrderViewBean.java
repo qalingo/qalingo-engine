@@ -42,8 +42,9 @@ public class OrderViewBean extends AbstractViewBean {
     private String cardExpirationYear;
 
     private CustomerViewBean customer;
-    private CustomerAddressViewBean billingAddress;
-    private CustomerAddressViewBean shippingAddress;
+    private UserViewBean user;
+    private OrderAddressViewBean billingAddress;
+    private OrderAddressViewBean shippingAddress;
 
     private List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
     private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
@@ -198,19 +199,27 @@ public class OrderViewBean extends AbstractViewBean {
         this.customer = customer;
     }
 	
-	public CustomerAddressViewBean getBillingAddress() {
+    public UserViewBean getUser() {
+        return user;
+    }
+    
+    public void setUser(UserViewBean user) {
+        this.user = user;
+    }
+    
+    public OrderAddressViewBean getBillingAddress() {
         return billingAddress;
     }
-	
-	public void setBillingAddress(CustomerAddressViewBean billingAddress) {
+    
+    public void setBillingAddress(OrderAddressViewBean billingAddress) {
         this.billingAddress = billingAddress;
     }
 
-	public CustomerAddressViewBean getShippingAddress() {
+    public OrderAddressViewBean getShippingAddress() {
         return shippingAddress;
     }
-	
-    public void setShippingAddress(CustomerAddressViewBean shippingAddress) {
+    
+    public void setShippingAddress(OrderAddressViewBean shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
     

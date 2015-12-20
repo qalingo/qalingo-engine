@@ -118,7 +118,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             final Customer customer = requestData.getCustomer();
             Set<CustomerAddress> addresses = customer.getAddresses();
             for (final CustomerAddress customerAddress : addresses) {
-                addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomeAddress(requestData, customerAddress));
+                addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomerAddress(requestData, customerAddress));
             }
 
             Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {
@@ -141,7 +141,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             final Customer customer = requestData.getCustomer();
             Set<CustomerAddress> addresses = customer.getAddresses();
             for (final CustomerAddress customerAddress : addresses) {
-                addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomeAddress(requestData, customerAddress));
+                addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomerAddress(requestData, customerAddress));
             }
 
             Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {
