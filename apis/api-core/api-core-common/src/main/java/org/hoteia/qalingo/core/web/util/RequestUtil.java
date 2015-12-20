@@ -1097,7 +1097,9 @@ public class RequestUtil {
         }
         Long id = cart.getId();
         Cart newCart = cartService.getCartById(id);
-        newCart.copyTransient(cart);
+        if(newCart != null){
+            newCart.copyTransient(cart);
+        }
         return newCart;
     }
 
