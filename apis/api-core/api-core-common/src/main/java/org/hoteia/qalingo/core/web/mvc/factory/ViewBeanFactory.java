@@ -2621,9 +2621,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             orderViewBean.setOrderTaxesTotalWithCurrencySign(orderPurchaseService.getTaxTotalWithStandardCurrencySign(order));
             orderViewBean.setOrderTotalWithCurrencySign(orderPurchaseService.getOrderTotalWithStandardCurrencySign(order));
 
-            orderViewBean.setPaymentGateway(order.getPayments());
-            orderViewBean.setPaymentMethod(paymentMethod);
-
             Map<String, String> getParams = new HashMap<String, String>();
             getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID, order.getId().toString());
 
