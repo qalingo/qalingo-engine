@@ -246,6 +246,13 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     public String getType() {
         return type;
     }
+    
+    public boolean hasType(String value) {
+        if(type != null){
+            return type.contains(value);
+        }
+        return false;
+    }
 
     public void setType(String type) {
         this.type = type;
