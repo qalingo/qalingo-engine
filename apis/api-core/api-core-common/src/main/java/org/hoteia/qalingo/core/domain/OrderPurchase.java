@@ -9,12 +9,27 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import org.hibernate.Hibernate;
-
-import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
+
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_ORDER_PURCHASE")
@@ -55,9 +70,10 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     @Column(name = "LOCALIZATION_ID")
     private Long localizationId;
     
-	@Column(name="CUSTOMER_ID")
-	private Long customerId;
-
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Customer.class)
+    @JoinColumn(name = "CUSTOMER_ID", insertable = true, updatable = true)
+    private Customer customer;
+    
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderAddress.class)
     @JoinColumn(name="BILLING_ORDER_ADDRESS_ID")
 	private OrderAddress billingAddress;
@@ -171,13 +187,13 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         this.retailerId = retailerId;
     }
 
-    public Long getCustomerId() {
-		return customerId;
-	}
-	
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
+    public Customer getCustomer() {
+        return customer;
+    }
+    
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 	
 	public OrderAddress getBillingAddress() {
         return billingAddress;
@@ -313,7 +329,6 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((orderNum == null) ? 0 : orderNum.hashCode());
@@ -330,11 +345,6 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
         if (getClass() != obj.getClass())
             return false;
         OrderPurchase other = (OrderPurchase) obj;
-        if (customerId == null) {
-            if (other.customerId != null)
-                return false;
-        } else if (!customerId.equals(other.customerId))
-            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -356,7 +366,7 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> {
     @Override
     public String toString() {
         return "OrderPurchase [id=" + id + ", version=" + version + ", status=" + status + ", orderNum=" + orderNum + ", prefixHashFolder=" + prefixHashFolder + ", marketAreaId=" + marketAreaId
-                + ", retailerId=" + retailerId + ", customerId=" + customerId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", retailerId=" + retailerId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 	
 }

@@ -39,7 +39,7 @@ public class CheckoutService {
         orderPurchase.setMarketAreaId(marketAreaId);
         orderPurchase.setRetailerId(cart.getRetailerId());
         orderPurchase.setLocalizationId(cart.getLocalizationId());
-        orderPurchase.setCustomerId(customer.getId());
+        orderPurchase.setCustomer(customer);
 
         OrderAddress billingAddress = new OrderAddress();
         BeanUtils.copyProperties(customer.getAddress(cart.getBillingAddressId()), billingAddress);

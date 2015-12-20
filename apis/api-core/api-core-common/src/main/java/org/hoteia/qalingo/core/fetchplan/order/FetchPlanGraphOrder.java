@@ -21,16 +21,18 @@ public class FetchPlanGraphOrder {
 
     public static FetchPlan defaultOrderPurchaseFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.customer.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.billingAddress.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shippingAddress.getName()));
 
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.payments.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.payments.getName() + "." + OrderPayment_.attributes.getName()));
 
-        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.states.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.currency.getName()));
 
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName()));
+        fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderPurchase.getName()));
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName()));
         
         fetchplans.add(new SpecificFetchMode(OrderPurchase_.shipments.getName() + "." + OrderShipment_.orderItems.getName() + "." + OrderItem_.productSku.getName()));

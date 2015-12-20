@@ -71,15 +71,15 @@ public class Market extends AbstractEntity<Market> {
     @Column(name = "THEME")
     private String theme;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketPlace.class)
     @JoinColumn(name = "MARKETPLACE_ID", insertable = true, updatable = true)
     private MarketPlace marketPlace;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
     @JoinColumn(name = "MARKET_ID")
     private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.MarketAttribute.class)
     @JoinColumn(name = "MARKET_ID")
     private Set<MarketAttribute> attributes = new HashSet<MarketAttribute>();
 

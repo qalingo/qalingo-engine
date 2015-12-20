@@ -362,9 +362,15 @@ public class BackofficeFormFactory {
             orderForm.setVersion(order.getVersion());
             orderForm.setStatus(order.getStatus());
             orderForm.setOrderNum(order.getOrderNum());
-            orderForm.setCustomerId(order.getCustomerId());
-            orderForm.setBillingAddressId(order.getBillingAddress().getId());
-            orderForm.setShippingAddressId(order.getShippingAddress().getId());
+            if(order.getCustomer() != null){
+                orderForm.setCustomerId(order.getCustomer().getId());
+            }
+            if(order.getBillingAddress() != null){
+                orderForm.setBillingAddressId(order.getBillingAddress().getId());
+            }
+            if(order.getShippingAddress() != null){
+                orderForm.setShippingAddressId(order.getShippingAddress().getId());
+            }
         }
         return orderForm;
     }

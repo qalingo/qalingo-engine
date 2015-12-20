@@ -41,9 +41,9 @@ public class OrderViewBean extends AbstractViewBean {
     private String cardExpirationMonth;
     private String cardExpirationYear;
 
-    private Long customerId;
-    private Long billingAddressId;
-    private Long shippingAddressId;
+    private CustomerViewBean customer;
+    private CustomerAddressViewBean billingAddress;
+    private CustomerAddressViewBean shippingAddress;
 
     private List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
     private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
@@ -190,30 +190,30 @@ public class OrderViewBean extends AbstractViewBean {
 		this.cardExpirationYear = cardExpirationYear;
 	}
 
-	public Long getCustomerId() {
-        return customerId;
+	public CustomerViewBean getCustomer() {
+        return customer;
+    }
+	
+	public void setCustomer(CustomerViewBean customer) {
+        this.customer = customer;
+    }
+	
+	public CustomerAddressViewBean getBillingAddress() {
+        return billingAddress;
+    }
+	
+	public void setBillingAddress(CustomerAddressViewBean billingAddress) {
+        this.billingAddress = billingAddress;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+	public CustomerAddressViewBean getShippingAddress() {
+        return shippingAddress;
     }
-
-    public Long getBillingAddressId() {
-        return billingAddressId;
+	
+    public void setShippingAddress(CustomerAddressViewBean shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
-
-    public void setBillingAddressId(Long billingAddressId) {
-        this.billingAddressId = billingAddressId;
-    }
-
-    public Long getShippingAddressId() {
-        return shippingAddressId;
-    }
-
-    public void setShippingAddressId(Long shippingAddressId) {
-        this.shippingAddressId = shippingAddressId;
-    }
-
+    
     public List<OrderItemViewBean> getOrderItems() {
 		return orderItems;
 	}

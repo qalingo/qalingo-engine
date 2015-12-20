@@ -1198,43 +1198,43 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public CustomerAddressViewBean buildViewBeanCustomeAddress(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
+    public CustomerAddressViewBean buildViewBeanCustomeAddress(final RequestData requestData, final CustomerAddress address) throws Exception {
         final Locale locale = requestData.getLocale();
         final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
-        if(customerAddress.getId() != null){
-            customerAddressViewBean.setId(customerAddress.getId().toString());
+        if(address.getId() != null){
+            customerAddressViewBean.setId(address.getId().toString());
         }
 
-        String addressName = customerAddress.getAddressName();
+        String addressName = address.getAddressName();
         if (StringUtils.isNotEmpty(addressName)) {
             customerAddressViewBean.setAddressName(addressName);
         } else {
-            customerAddressViewBean.setAddressName(customerAddress.getCity());
+            customerAddressViewBean.setAddressName(address.getCity());
         }
 
-        customerAddressViewBean.setTitleCode(customerAddress.getTitle());
-        String titleLabel = referentialDataService.getTitleByLocale(customerAddress.getTitle(), locale);
+        customerAddressViewBean.setTitleCode(address.getTitle());
+        String titleLabel = referentialDataService.getTitleByLocale(address.getTitle(), locale);
         customerAddressViewBean.setTitleLabel(titleLabel);
 
-        customerAddressViewBean.setLastname(customerAddress.getLastname());
-        customerAddressViewBean.setFirstname(customerAddress.getFirstname());
+        customerAddressViewBean.setLastname(address.getLastname());
+        customerAddressViewBean.setFirstname(address.getFirstname());
 
-        customerAddressViewBean.setAddress1(customerAddress.getAddress1());
-        customerAddressViewBean.setAddress2(customerAddress.getAddress2());
-        customerAddressViewBean.setAddressAdditionalInformation(customerAddress.getAddressAdditionalInformation());
-        customerAddressViewBean.setPostalCode(customerAddress.getPostalCode());
-        customerAddressViewBean.setCity(customerAddress.getCity());
-        customerAddressViewBean.setStateCode(customerAddress.getStateCode());
-        customerAddressViewBean.setAreaCode(customerAddress.getAreaCode());
-        customerAddressViewBean.setCountryCode(customerAddress.getCountryCode());
+        customerAddressViewBean.setAddress1(address.getAddress1());
+        customerAddressViewBean.setAddress2(address.getAddress2());
+        customerAddressViewBean.setAddressAdditionalInformation(address.getAddressAdditionalInformation());
+        customerAddressViewBean.setPostalCode(address.getPostalCode());
+        customerAddressViewBean.setCity(address.getCity());
+        customerAddressViewBean.setStateCode(address.getStateCode());
+        customerAddressViewBean.setAreaCode(address.getAreaCode());
+        customerAddressViewBean.setCountryCode(address.getCountryCode());
 
-        String coutryLabel = referentialDataService.getCountryByLocale(customerAddress.getCountryCode(), locale);
+        String coutryLabel = referentialDataService.getCountryByLocale(address.getCountryCode(), locale);
         customerAddressViewBean.setCountry(coutryLabel);
 
-        customerAddressViewBean.setDefaultBilling(customerAddress.isDefaultBilling());
-        customerAddressViewBean.setDefaultShipping(customerAddress.isDefaultShipping());
+        customerAddressViewBean.setDefaultBilling(address.isDefaultBilling());
+        customerAddressViewBean.setDefaultShipping(address.isDefaultShipping());
 
-        Long customerAddressId = customerAddress.getId();
+        Long customerAddressId = address.getId();
         if(customerAddressId != null){
             Map<String, String> urlParams = new HashMap<String, String>();
             urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID, customerAddressId.toString());
@@ -1245,6 +1245,38 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return customerAddressViewBean;
     }
 
+    /**
+     * 
+     */
+    public CustomerAddressViewBean buildViewBeanCustomeAddress(final RequestData requestData, final OrderAddress address) throws Exception {
+        final Locale locale = requestData.getLocale();
+        final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
+        if(address.getId() != null){
+            customerAddressViewBean.setId(address.getId().toString());
+        }
+
+        customerAddressViewBean.setTitleCode(address.getTitle());
+        String titleLabel = referentialDataService.getTitleByLocale(address.getTitle(), locale);
+        customerAddressViewBean.setTitleLabel(titleLabel);
+
+        customerAddressViewBean.setLastname(address.getLastname());
+        customerAddressViewBean.setFirstname(address.getFirstname());
+
+        customerAddressViewBean.setAddress1(address.getAddress1());
+        customerAddressViewBean.setAddress2(address.getAddress2());
+        customerAddressViewBean.setAddressAdditionalInformation(address.getAddressAdditionalInformation());
+        customerAddressViewBean.setPostalCode(address.getPostalCode());
+        customerAddressViewBean.setCity(address.getCity());
+        customerAddressViewBean.setStateCode(address.getStateCode());
+        customerAddressViewBean.setAreaCode(address.getAreaCode());
+        customerAddressViewBean.setCountryCode(address.getCountryCode());
+
+        String coutryLabel = referentialDataService.getCountryByLocale(address.getCountryCode(), locale);
+        customerAddressViewBean.setCountry(coutryLabel);
+
+        return customerAddressViewBean;
+    }
+    
     /**
      * 
      */
@@ -2348,12 +2380,24 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (order != null) {
             orderViewBean.setStatus(order.getStatus());
             orderViewBean.setOrderNum(order.getOrderNum());
+            
+            if (Hibernate.isInitialized(order.getCustomer()) && order.getCustomer() != null) {
+                orderViewBean.setCustomer(buildViewBeanCustomer(requestData, order.getCustomer()));
+            }
+            
+            if (Hibernate.isInitialized(order.getBillingAddress()) && order.getBillingAddress() != null) {
+                orderViewBean.setBillingAddress(buildViewBeanCustomeAddress(requestData, order.getBillingAddress()));
+            }
+            
+            if (Hibernate.isInitialized(order.getShippingAddress()) && order.getShippingAddress() != null) {
+                orderViewBean.setShippingAddress(buildViewBeanCustomeAddress(requestData, order.getShippingAddress()));
+            }
+            
             if (order.getExpectedDeliveryDate() != null) {
                 orderViewBean.setExpectedDeliveryDate(buildCommonFormatDate(requestData, order.getExpectedDeliveryDate()));
             } else {
                 orderViewBean.setExpectedDeliveryDate(Constants.NOT_AVAILABLE);
             }
-
             if (order.getDateCreate() != null) {
                 orderViewBean.setDateCreate(buildCommonFormatDate(requestData, order.getDateCreate()));
             }
