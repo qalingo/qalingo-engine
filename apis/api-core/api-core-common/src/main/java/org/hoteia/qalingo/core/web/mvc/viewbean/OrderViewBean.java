@@ -19,8 +19,9 @@ public class OrderViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = -7481342045685333815L;
 	
-    private int version;
     private String status;
+    private String statusLabel;
+
     private String confirmationMessage;
     private String orderNum;
 
@@ -30,9 +31,6 @@ public class OrderViewBean extends AbstractViewBean {
     private String orderShippingTotalWithCurrencySign;
     private String orderTaxesTotalWithCurrencySign;
     private String orderTotalWithCurrencySign;
-
-    private String paymentGateway;
-    private String paymentMethod;
 
     private String cardHolder;
     private String cardNumber;
@@ -49,26 +47,27 @@ public class OrderViewBean extends AbstractViewBean {
     private List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
     private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
     private List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
+    private List<OrderPaymentViewBean> payments = new ArrayList<OrderPaymentViewBean>();
 
     private String detailsUrl;
 
 	public OrderViewBean() {
 	}
 	
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public String getStatusLabel() {
+        return statusLabel;
+    }
+    
+    public void setStatusLabel(String statusLabel) {
+        this.statusLabel = statusLabel;
     }
     
     public String getConfirmationMessage() {
@@ -125,22 +124,6 @@ public class OrderViewBean extends AbstractViewBean {
 
     public void setOrderTotalWithCurrencySign(String orderTotalWithCurrencySign) {
         this.orderTotalWithCurrencySign = orderTotalWithCurrencySign;
-    }
-
-    public String getPaymentGateway() {
-        return paymentGateway;
-    }
-
-    public void setPaymentGateway(String paymentGateway) {
-        this.paymentGateway = paymentGateway;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
 
     public String getCardHolder() {
@@ -266,6 +249,21 @@ public class OrderViewBean extends AbstractViewBean {
             return orderTaxes.size();
         }
         return 0;
+    }
+    
+    public List<OrderPaymentViewBean> getPayments() {
+        return payments;
+    }
+    
+    public OrderPaymentViewBean getPrincipalPayment() {
+        if(payments != null && !payments.isEmpty()){
+            return payments.iterator().next();
+        }
+        return null;
+    }
+    
+    public void setPayments(List<OrderPaymentViewBean> payments) {
+        this.payments = payments;
     }
     
     public String getDetailsUrl() {

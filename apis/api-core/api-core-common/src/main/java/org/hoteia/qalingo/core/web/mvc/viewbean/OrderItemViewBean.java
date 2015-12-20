@@ -24,6 +24,7 @@ public class OrderItemViewBean extends AbstractViewBean {
     private static final long serialVersionUID = -1319651665404107265L;
 
     protected String skuCode;
+    protected String ean;
 
     protected String i18nName;
     protected String i18nDescription;
@@ -44,6 +45,14 @@ public class OrderItemViewBean extends AbstractViewBean {
         this.skuCode = skuCode;
     }
 
+    public String getEan() {
+        return ean;
+    }
+    
+    public void setEan(String ean) {
+        this.ean = ean;
+    }
+    
     public String getI18nName() {
         return i18nName;
     }

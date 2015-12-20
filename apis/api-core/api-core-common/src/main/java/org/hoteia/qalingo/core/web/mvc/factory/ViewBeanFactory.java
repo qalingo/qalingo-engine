@@ -56,6 +56,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.OrderAddress;
 import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderPayment;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderShipment;
 import org.hoteia.qalingo.core.domain.OrderTax;
@@ -139,6 +140,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderAddressViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderPaymentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
@@ -2537,6 +2539,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final OrderViewBean orderViewBean = new OrderViewBean();
         if (order != null) {
             orderViewBean.setStatus(order.getStatus());
+            orderViewBean.setStatusLabel(getCommonMessage(ScopeCommonMessage.ORDER, "order.status." + order.getStatus().toLowerCase(), locale));
             orderViewBean.setOrderNum(order.getOrderNum());
             
             if (Hibernate.isInitialized(order.getCustomer()) && order.getCustomer() != null) {
@@ -2575,7 +2578,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
             orderViewBean.setOrderItems(orderItemViewBeans);
 
-            // SUB PART : Shippings
+            // SHIPPINGS
             final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
             final Set<OrderShipment> orderShipments = order.getShipments();
             if (Hibernate.isInitialized(orderShipments) && orderShipments != null) {
@@ -2588,7 +2591,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 orderViewBean.setOrderShippings(orderShippingViewBeans);
             }
 
-            // SUB PART : Taxes
+            // TAXES
             final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
             final Set<OrderTax> orderTaxes = order.getOrderTaxes();
             if (Hibernate.isInitialized(orderTaxes) && orderTaxes != null) {
@@ -2601,10 +2604,25 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 }
                 orderViewBean.setOrderTaxes(orderTaxViewBeans);
             }
+            
+            // PAYMENTS
+            final List<OrderPaymentViewBean> orderPaymentViewBeans = new ArrayList<OrderPaymentViewBean>();
+            final Set<OrderPayment> orderPayments = order.getPayments();
+            if (Hibernate.isInitialized(orderPayments) && orderPayments != null) {
+                for (final OrderPayment orderPayment : orderPayments) {
+                    final OrderPaymentViewBean orderPaymentViewBean = buildViewBeanOrderPayment(requestData, order, orderPayment);
+                    orderPaymentViewBeans.add(orderPaymentViewBean);
+                }
+                orderViewBean.setPayments(orderPaymentViewBeans);
+            }
+            
             orderViewBean.setOrderItemsTotalWithCurrencySign(orderPurchaseService.getOrderItemTotalWithTaxesWithStandardCurrencySign(order));
             orderViewBean.setOrderShippingTotalWithCurrencySign(orderPurchaseService.getDeliveryMethodTotalWithStandardCurrencySign(order));
             orderViewBean.setOrderTaxesTotalWithCurrencySign(orderPurchaseService.getTaxTotalWithStandardCurrencySign(order));
             orderViewBean.setOrderTotalWithCurrencySign(orderPurchaseService.getOrderTotalWithStandardCurrencySign(order));
+
+            orderViewBean.setPaymentGateway(order.getPayments());
+            orderViewBean.setPaymentMethod(paymentMethod);
 
             Map<String, String> getParams = new HashMap<String, String>();
             getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID, order.getId().toString());
@@ -2618,6 +2636,39 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
+    public OrderPaymentViewBean buildViewBeanOrderPayment(final RequestData requestData, final OrderPurchase order, final OrderPayment orderPayment) throws Exception {
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final OrderPaymentViewBean orderPaymentViewBean = new OrderPaymentViewBean();
+        
+        orderPaymentViewBean.setId(orderPayment.getId().toString());
+        orderPaymentViewBean.setAmount(order.getCurrency().formatPriceWithStandardCurrencySign(orderPayment.getAmount()));
+        orderPaymentViewBean.setIpAddress(orderPayment.getIpAddress());
+        orderPaymentViewBean.setRequestToken(orderPayment.getRequestToken());
+        orderPaymentViewBean.setPaymentType(orderPayment.getPaymentType());
+        orderPaymentViewBean.setTransactionType(orderPayment.getTransactionType());
+        orderPaymentViewBean.setCardType(orderPayment.getCardType());
+        orderPaymentViewBean.setStatus(orderPayment.getStatus());
+        orderPaymentViewBean.setCardHolderName(orderPayment.getCardHolderName());
+        orderPaymentViewBean.setExpirationMonth(orderPayment.getExpirationMonth());
+        orderPaymentViewBean.setExpirationYear(orderPayment.getExpirationYear());
+        orderPaymentViewBean.setCvv2Code(orderPayment.getCvv2Code());
+        orderPaymentViewBean.setAuthorizationCode(orderPayment.getAuthorizationCode());
+        orderPaymentViewBean.setCurrencyCode(orderPayment.getCurrencyCode());
+        
+        if (orderPayment.getDateCreate() != null) {
+            orderPaymentViewBean.setDateCreate(buildCommonFormatDate(requestData, orderPayment.getDateCreate()));
+        }
+        if (orderPayment.getDateUpdate() != null) {
+            orderPaymentViewBean.setDateUpdate(buildCommonFormatDate(requestData, orderPayment.getDateUpdate()));
+        }
+        
+        return orderPaymentViewBean;
+    }
+    
+    /**
+     * 
+     */
     public OrderItemViewBean buildViewBeanOrderItem(final RequestData requestData, final OrderItem orderItem) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
@@ -2625,6 +2676,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         orderItemViewBean.setSkuCode(orderItem.getProductSkuCode());
         if(StringUtils.isNotEmpty(orderItem.getProductSkuCode())){
             ProductSku productSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
+            orderItemViewBean.setEan(productSku.getEan());
             orderItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
             orderItemViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
         }

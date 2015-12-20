@@ -45,6 +45,11 @@ public enum ScopeCommonMessage {
     CONTACT("contact"),
     
     /**
+     * 
+     */
+    ORDER("order"),
+    
+    /**
 	 * 
 	 */
     SEO("seo");
