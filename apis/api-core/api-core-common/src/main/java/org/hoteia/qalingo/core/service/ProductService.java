@@ -195,7 +195,12 @@ public class ProductService {
         List<ProductMarketingCustomerComment> customerComments = productDao.findProductMarketingCustomerCommentsByCustomerId(customerId, params);
         return customerComments;
     }
-    
+
+    public List<ProductSkuCustomerComment> findProductSkuCustomerCommentsByCustomerId(final Long customerId, Object... params){
+        List<ProductSkuCustomerComment> customerComments = productDao.findProductSkuCustomerCommentsByCustomerId(customerId, params);
+        return customerComments;
+    }
+
     public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId, final String type, Object... params) {
         List<ProductMarketingCustomerRate> customerRates = productDao.findProductMarketingCustomerRatesByProductMarketingId(productMarketingId, type, params);
         return customerRates;

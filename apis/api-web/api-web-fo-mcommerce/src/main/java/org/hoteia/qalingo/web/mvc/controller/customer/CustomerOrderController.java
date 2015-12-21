@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
@@ -54,8 +55,7 @@ public class CustomerOrderController extends AbstractCustomerController {
         final Customer reloadedCustomer = customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
 		
 		List<OrderPurchase> orderPurchases = orderPurchaseService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
-		if(orderPurchases != null
-				&& orderPurchases.size() > 0){
+		if(orderPurchases != null && orderPurchases.size() > 0){
 			String url = requestUtil.getCurrentRequestUrl(request);
 			
 			String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
@@ -69,7 +69,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 		        if (orderViewBeanPagedListHolder == null) { 
 		        	orderViewBeanPagedListHolder = initList(request, sessionKey, orderPurchases, orderViewBeanPagedListHolder);
 		        }
-		        int pageTarget = new Integer(page).intValue() - 1;
+		        int pageTarget = new Integer(page) - 1;
 		        int pageCurrent = orderViewBeanPagedListHolder.getPage();
 		        if (pageCurrent < pageTarget) { 
 		        	for (int i = pageCurrent; i < pageTarget; i++) {
@@ -87,12 +87,11 @@ public class CustomerOrderController extends AbstractCustomerController {
 		
 		Object[] params = { customer.getLastname(), customer.getFirstname() };
         overrideDefaultPageTitle(request, modelAndView, FoUrls.PERSONAL_ORDER_LIST.getKey(), params);
-		
         return modelAndView;
 	}
 
 	@RequestMapping(FoUrls.PERSONAL_ORDER_DETAILS_URL)
-	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
+	public ModelAndView personalOrderDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_DETAILS.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String orderPurchaseId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ORDER_NUM);
@@ -109,6 +108,8 @@ public class CustomerOrderController extends AbstractCustomerController {
 				
 				List<OrderPurchase> orderPurchases = orderPurchaseService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
 				if(orderPurchases.contains(orderPurchase)){
+					final OrderViewBean orderViewBean = frontofficeViewBeanFactory.buildViewBeanOrder(requestData, orderPurchase);
+					modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, orderViewBean);
 			        return modelAndView;
 				} else {
 					logger.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderPurchaseId + ", which does not belong");

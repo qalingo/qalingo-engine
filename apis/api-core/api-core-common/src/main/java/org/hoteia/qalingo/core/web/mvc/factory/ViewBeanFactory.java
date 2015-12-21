@@ -2622,7 +2622,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             orderViewBean.setOrderTotalWithCurrencySign(orderPurchaseService.getOrderTotalWithStandardCurrencySign(order));
 
             Map<String, String> getParams = new HashMap<String, String>();
-            getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID, order.getId().toString());
+            getParams.put(RequestConstants.REQUEST_PARAMETER_ORDER_NUM, order.getOrderNum());
 
             orderViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestData, getParams));
         }
@@ -2634,8 +2634,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public OrderPaymentViewBean buildViewBeanOrderPayment(final RequestData requestData, final OrderPurchase order, final OrderPayment orderPayment) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCode = localization.getCode();
         final OrderPaymentViewBean orderPaymentViewBean = new OrderPaymentViewBean();
         
         orderPaymentViewBean.setId(orderPayment.getId().toString());

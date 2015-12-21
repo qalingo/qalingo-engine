@@ -76,7 +76,7 @@ public class ContextController extends AbstractFrontofficeQalingoController {
         return context;
     }
 
-    private void addUrlToContext(RequestData requestData, VelocityPageContextDataPojo context, FoUrls foUrls, String post) {
+    protected void addUrlToContext(RequestData requestData, VelocityPageContextDataPojo context, FoUrls foUrls, String post) {
         UrlPojo url = new UrlPojo();
         String code = foUrls.name();
         url.setCode(code);

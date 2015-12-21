@@ -307,6 +307,16 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     @SuppressWarnings("unchecked")
+    public List<ProductSkuCustomerComment> findProductSkuCustomerCommentsByCustomerId(final Long customerId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuCustomerComment.class);
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("customer.id", customerId));
+        criteria.createAlias("productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
+        criteria.addOrder(Order.asc("dateCreate"));
+        return criteria.list();
+    }
+
+    @SuppressWarnings("unchecked")
     public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductMarketingId(final Long productMarketingId, final String type, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
         criteria.createAlias("productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
