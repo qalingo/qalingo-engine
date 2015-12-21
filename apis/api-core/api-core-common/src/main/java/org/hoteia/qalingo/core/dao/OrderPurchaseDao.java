@@ -19,6 +19,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderItem_;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
@@ -93,7 +94,8 @@ public class OrderPurchaseDao extends AbstractGenericDao {
     public List<OrderPurchase> findOrdersByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderPurchase.class);
         handleSpecificOrderFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("customerId", customerId));
+        criteria.createAlias("customer", "customer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("customer.id", customerId));
         criteria.addOrder(Order.asc("dateCreate"));
         @SuppressWarnings("unchecked")
         List<OrderPurchase> orderPurchases = criteria.list();
