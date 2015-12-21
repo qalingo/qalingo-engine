@@ -2538,9 +2538,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Locale locale = requestData.getLocale();
         final OrderViewBean orderViewBean = new OrderViewBean();
         if (order != null) {
-            orderViewBean.setStatus(order.getStatus());
-            orderViewBean.setStatusLabel(getCommonMessage(ScopeCommonMessage.ORDER, "order.status." + order.getStatus().toLowerCase(), locale));
             orderViewBean.setOrderNum(order.getOrderNum());
+
+            orderViewBean.setStatus(order.getStatus());
+            if(order.getStatus() != null){
+                orderViewBean.setStatusLabel(getCommonMessage(ScopeCommonMessage.ORDER, "order_status_" + order.getStatus().toLowerCase(), locale));
+            }
             
             if (Hibernate.isInitialized(order.getCustomer()) && order.getCustomer() != null) {
                 orderViewBean.setCustomer(buildViewBeanCustomer(requestData, order.getCustomer()));
