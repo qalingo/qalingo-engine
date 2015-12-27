@@ -2687,18 +2687,25 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public OrderStateViewBean buildViewBeanOrderState(final RequestData requestData, final OrderPurchase order, final OrderState orderState) throws Exception {
-        final OrderStateViewBean orderStateViewBean = new OrderStateViewBean();
+        final Locale locale = requestData.getLocale();
         
-        orderStateViewBean.setId(orderState.getId().toString());
-        orderStateViewBean.setState(orderState.getState());
-        orderStateViewBean.setTechnicalComment(orderState.getTechnicalComment());
-        orderStateViewBean.setUserComment(orderState.getUserComment());
-        
-        if (orderState.getDateCreate() != null) {
-            orderStateViewBean.setDateCreate(buildCommonFormatDate(requestData, orderState.getDateCreate()));
-        }
-        if (orderState.getDateUpdate() != null) {
-            orderStateViewBean.setDateUpdate(buildCommonFormatDate(requestData, orderState.getDateUpdate()));
+        final OrderStateViewBean orderStateViewBean = null;
+        if(orderState != null){
+            orderStateViewBean = new OrderStateViewBean();
+            orderStateViewBean.setId(orderState.getId().toString());
+            orderStateViewBean.setState(orderState.getState());
+            if(StringUtils.isNotEmpty(orderState.getState())){
+                orderStateViewBean.setStateLabel(getCommonMessage(ScopeCommonMessage.ORDER, "order_status_" + order.getStatus().toLowerCase(), locale));
+            }
+            orderStateViewBean.setTechnicalComment(orderState.getTechnicalComment());
+            orderStateViewBean.setUserComment(orderState.getUserComment());
+            
+            if (orderState.getDateCreate() != null) {
+                orderStateViewBean.setDateCreate(buildCommonFormatDate(requestData, orderState.getDateCreate()));
+            }
+            if (orderState.getDateUpdate() != null) {
+                orderStateViewBean.setDateUpdate(buildCommonFormatDate(requestData, orderState.getDateUpdate()));
+            }
         }
         
         return orderStateViewBean;

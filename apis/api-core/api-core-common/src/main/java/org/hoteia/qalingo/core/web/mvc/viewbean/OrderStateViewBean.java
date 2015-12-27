@@ -17,6 +17,7 @@ public class OrderStateViewBean extends AbstractViewBean {
 	private static final long serialVersionUID = 5892416934330014330L;
 
     private String state;
+    private String stateLabel;
     private String technicalComment;
     private String userComment;
 
@@ -29,6 +30,14 @@ public class OrderStateViewBean extends AbstractViewBean {
 
     public void setState(String state) {
         this.state = state;
+    }
+    
+    public String getStateLabel() {
+        return stateLabel;
+    }
+    
+    public void setStateLabel(String stateLabel) {
+        this.stateLabel = stateLabel;
     }
 
     public String getTechnicalComment() {
