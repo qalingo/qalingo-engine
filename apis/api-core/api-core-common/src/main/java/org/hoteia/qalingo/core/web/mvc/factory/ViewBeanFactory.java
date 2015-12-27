@@ -2631,7 +2631,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             final List<OrderStateViewBean> orderStateViewBeans = new ArrayList<OrderStateViewBean>();
             final Set<OrderState> orderStates = order.getStates();
             if (Hibernate.isInitialized(orderStates) && orderStates != null) {
-                for (final OrderState orderState : orderStates) {
+                List<OrderState> sortedOrderState = new LinkedList<OrderState>(orderStates);
+                Collections.sort(sortedOrderState, new Comparator<OrderState>() {
+                    @Override
+                    public int compare(OrderState o1, OrderState o2) {
+                        if (o1 != null && o1.getDateCreate() != null && o2 != null && o2.getDateCreate() != null) {
+                            return o1.getDateCreate().compareTo(o2.getDateCreate());
+                        }
+                        return 0;
+                    }
+                });
+                for (final OrderState orderState : sortedOrderState) {
                     final OrderStateViewBean orderStateViewBean = buildViewBeanOrderState(requestData, order, orderState);
                     orderStateViewBeans.add(orderStateViewBean);
                 }
