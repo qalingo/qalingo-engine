@@ -2699,7 +2699,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     public OrderStateViewBean buildViewBeanOrderState(final RequestData requestData, final OrderPurchase order, final OrderState orderState) throws Exception {
         final Locale locale = requestData.getLocale();
         
-        final OrderStateViewBean orderStateViewBean = null;
+        OrderStateViewBean orderStateViewBean = null;
         if(orderState != null){
             orderStateViewBean = new OrderStateViewBean();
             orderStateViewBean.setId(orderState.getId().toString());
