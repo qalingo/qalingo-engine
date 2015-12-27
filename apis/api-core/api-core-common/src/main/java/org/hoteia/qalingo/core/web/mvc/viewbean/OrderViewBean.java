@@ -48,6 +48,7 @@ public class OrderViewBean extends AbstractViewBean {
     private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
     private List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
     private List<OrderPaymentViewBean> payments = new ArrayList<OrderPaymentViewBean>();
+    private List<OrderStateViewBean> states = new ArrayList<OrderStateViewBean>();
 
     private String detailsUrl;
 
@@ -264,6 +265,14 @@ public class OrderViewBean extends AbstractViewBean {
     
     public void setPayments(List<OrderPaymentViewBean> payments) {
         this.payments = payments;
+    }
+    
+    public List<OrderStateViewBean> getStates() {
+        return states;
+    }
+    
+    public void setStates(List<OrderStateViewBean> states) {
+        this.states = states;
     }
     
     public String getDetailsUrl() {

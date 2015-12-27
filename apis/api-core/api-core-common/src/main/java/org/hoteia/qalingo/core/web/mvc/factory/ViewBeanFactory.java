@@ -59,6 +59,7 @@ import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderPayment;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.OrderShipment;
+import org.hoteia.qalingo.core.domain.OrderState;
 import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
@@ -89,13 +90,13 @@ import org.hoteia.qalingo.core.domain.UserConnectionLog;
 import org.hoteia.qalingo.core.domain.UserGroup;
 import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
+import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
-import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
-import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
@@ -142,6 +143,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.OrderAddressViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderPaymentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderStateViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
@@ -2540,8 +2542,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public OrderViewBean buildViewBeanOrder(final RequestData requestData, final OrderPurchase order) throws Exception {
         final Locale locale = requestData.getLocale();
-        final OrderViewBean orderViewBean = new OrderViewBean();
+        OrderViewBean orderViewBean = null;
         if (order != null) {
+            orderViewBean = new OrderViewBean();
+            
             orderViewBean.setOrderNum(order.getOrderNum());
 
             orderViewBean.setStatus(order.getStatus());
@@ -2623,6 +2627,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 orderViewBean.setPayments(orderPaymentViewBeans);
             }
             
+            // STATES
+            final List<OrderStateViewBean> orderStateViewBeans = new ArrayList<OrderStateViewBean>();
+            final Set<OrderState> orderStates = order.getStates();
+            if (Hibernate.isInitialized(orderStates) && orderStates != null) {
+                for (final OrderState orderState : orderStates) {
+                    final OrderStateViewBean orderStateViewBean = buildViewBeanOrderState(requestData, order, orderState);
+                    orderStateViewBeans.add(orderStateViewBean);
+                }
+                orderViewBean.setStates(orderStateViewBeans);
+            }
+            
             orderViewBean.setOrderItemsTotalWithCurrencySign(orderPurchaseService.getOrderItemTotalWithTaxesWithStandardCurrencySign(order));
             orderViewBean.setOrderShippingTotalWithCurrencySign(orderPurchaseService.getDeliveryMethodTotalWithStandardCurrencySign(order));
             orderViewBean.setOrderTaxesTotalWithCurrencySign(orderPurchaseService.getTaxTotalWithStandardCurrencySign(order));
@@ -2666,6 +2681,27 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
         
         return orderPaymentViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public OrderStateViewBean buildViewBeanOrderState(final RequestData requestData, final OrderPurchase order, final OrderState orderState) throws Exception {
+        final OrderStateViewBean orderStateViewBean = new OrderStateViewBean();
+        
+        orderStateViewBean.setId(orderState.getId().toString());
+        orderStateViewBean.setState(orderState.getState());
+        orderStateViewBean.setTechnicalComment(orderState.getTechnicalComment());
+        orderStateViewBean.setUserComment(orderState.getUserComment());
+        
+        if (orderState.getDateCreate() != null) {
+            orderStateViewBean.setDateCreate(buildCommonFormatDate(requestData, orderState.getDateCreate()));
+        }
+        if (orderState.getDateUpdate() != null) {
+            orderStateViewBean.setDateUpdate(buildCommonFormatDate(requestData, orderState.getDateUpdate()));
+        }
+        
+        return orderStateViewBean;
     }
     
     /**
