@@ -43,8 +43,11 @@ public class OrderState extends AbstractEntity<OrderState> {
 	@Column(name="STATE")
 	private String state;
 
-	@Column(name="COMMENT")
-	private String comment;
+	@Column(name="TECHNICAL_COMMENT")
+	private String technicalComment;
+
+    @Column(name = "USER_COMMENT")
+    private String userComment;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -75,12 +78,20 @@ public class OrderState extends AbstractEntity<OrderState> {
         this.state = state;
     }
 
-    public String getComment() {
-        return comment;
+    public String getTechnicalComment() {
+        return technicalComment;
     }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    
+    public void setTechnicalComment(String technicalComment) {
+        this.technicalComment = technicalComment;
+    }
+    
+    public String getUserComment() {
+        return userComment;
+    }
+    
+    public void setUserComment(String userComment) {
+        this.userComment = userComment;
     }
 
     public Date getDateCreate() {
@@ -138,7 +149,8 @@ public class OrderState extends AbstractEntity<OrderState> {
 
     @Override
     public String toString() {
-        return "OrderState [id=" + id + ", state=" + state + ", comment=" + comment + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "OrderState [id=" + id + ", state=" + state + ", technicalComment=" + technicalComment + ", userComment=" + userComment + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+                + "]";
     }
 
 }

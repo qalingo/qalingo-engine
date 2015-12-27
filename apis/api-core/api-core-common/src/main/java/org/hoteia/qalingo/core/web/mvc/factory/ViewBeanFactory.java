@@ -939,7 +939,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Locale locale = requestData.getLocale();
         final GeolocData geolocData = requestData.getGeolocData();
         
-        final StoreViewBean storeViewBean = null; 
+        StoreViewBean storeViewBean = null; 
         if(store != null){
             storeViewBean = new StoreViewBean();
             
