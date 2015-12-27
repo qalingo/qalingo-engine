@@ -109,6 +109,7 @@ public class EmailService {
 	}
 	
 	public Email saveOrUpdateEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
+	    controleMimeMessage(email, mimeMessagePreparator);
 		return emailDao.saveEmail(email, mimeMessagePreparator);
 	}
 	
@@ -122,6 +123,15 @@ public class EmailService {
 	
 	public void handleEmailException(final Email email, final Exception exception) throws IOException {
 	    emailDao.handleEmailException(email, exception);
+	}
+	
+	protected void controleMimeMessage(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator){
+	    if(StringUtils.isEmpty(mimeMessagePreparator.getTo())){
+	        logger.error("Email To is empty! email type: '" + email.getType() + "', date: '" + email.getDateCreate() + "'");
+	    }
+        if(StringUtils.isEmpty(mimeMessagePreparator.getFrom())){
+            logger.error("Email From is empty! email type: '" + email.getType() + "', date: '" + email.getDateCreate() + "'");
+        }
 	}
 	
     /**

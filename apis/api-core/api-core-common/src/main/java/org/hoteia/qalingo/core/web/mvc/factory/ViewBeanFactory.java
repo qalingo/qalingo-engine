@@ -939,123 +939,127 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Locale locale = requestData.getLocale();
         final GeolocData geolocData = requestData.getGeolocData();
         
-        final StoreViewBean storeViewBean = new StoreViewBean();
-        storeViewBean.setCode(store.getCode());
-        storeViewBean.setType(store.getType());
-        storeViewBean.setName(store.getName());
-        
-        storeViewBean.setI18nName(store.getI18nName(localizationCode));
-        storeViewBean.setI18nDescription(store.getI18nDescription(localizationCode));
-        
-        storeViewBean.setAddress1(store.getAddress1());
-        storeViewBean.setAddress2(store.getAddress2());
-        storeViewBean.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
-        storeViewBean.setPostalCode(store.getPostalCode());
+        final StoreViewBean storeViewBean = null; 
+        if(store != null){
+            storeViewBean = new StoreViewBean();
+            
+            storeViewBean.setCode(store.getCode());
+            storeViewBean.setType(store.getType());
+            storeViewBean.setName(store.getName());
+            
+            storeViewBean.setI18nName(store.getI18nName(localizationCode));
+            storeViewBean.setI18nDescription(store.getI18nDescription(localizationCode));
+            
+            storeViewBean.setAddress1(store.getAddress1());
+            storeViewBean.setAddress2(store.getAddress2());
+            storeViewBean.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
+            storeViewBean.setPostalCode(store.getPostalCode());
 
-        storeViewBean.setCity(store.getCity());
-        String i18nCityName = store.getI18nCity(localizationCode);
-        if(StringUtils.isNotEmpty(i18nCityName)){
-            storeViewBean.setCity(i18nCityName);
-        }
-
-        storeViewBean.setStateCode(store.getStateCode());
-        
-        storeViewBean.setCountryCode(store.getCountryCode());
-        String coutryLabel = referentialDataService.getCountryByLocale(store.getCountryCode(), locale);
-        storeViewBean.setCountry(coutryLabel);
-        
-        storeViewBean.setEmail(store.getEmail());
-        storeViewBean.setPhone(store.getPhone());
-        storeViewBean.setFax(store.getFax());
-        storeViewBean.setWebsite(store.getWebsite());
-        
-        storeViewBean.setLongitude(store.getLongitude());
-        storeViewBean.setLatitude(store.getLatitude());
-        
-        if(geolocData != null && StringUtils.isNotEmpty(geolocData.getLatitude()) && StringUtils.isNotEmpty(geolocData.getLongitude())
-                && StringUtils.isNotEmpty(store.getLongitude()) && StringUtils.isNotEmpty(store.getLongitude())){
-            NumberFormat formatter = new DecimalFormat("#0.00");
-            storeViewBean.setDistance(formatter.format(store.getDistanceFromInKm(geolocData.getLatitude(), geolocData.getLongitude())));
-        }
-        
-        // ASSETS
-        if (Hibernate.isInitialized(store.getAssets()) && store.getAssets() != null) {
-            for (Asset asset : store.getAssets()) {
-                AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-                final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
-                assetViewBean.setRelativeWebPath(path);
-                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-                storeViewBean.getAssets().add(assetViewBean);
+            storeViewBean.setCity(store.getCity());
+            String i18nCityName = store.getI18nCity(localizationCode);
+            if(StringUtils.isNotEmpty(i18nCityName)){
+                storeViewBean.setCity(i18nCityName);
             }
-        } 
-        // FALLBACK ASSET
-        Asset asset = new Asset();
-        asset.setType(Asset.ASSET_TYPE_DEFAULT);
-        asset.setScope("store");
-        asset.setPath("default-store.png");
-        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
-        final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
-        assetViewBean.setRelativeWebPath(path);
-        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
-        storeViewBean.getAssets().add(assetViewBean);
-        
-//        // TAGS
-//        Set<StoreTag> tags = store.getTags();
-//        if (Hibernate.isInitialized(tags) 
-//                && tags != null) {
-//            for (Iterator<StoreTag> iterator = tags.iterator(); iterator.hasNext();) {
-//                StoreTag storeTag = (StoreTag) iterator.next();
-//                StoreTagViewBean storeTagViewBean = new StoreTagViewBean();
-//                storeTagViewBean.setCode(storeTag.getCode());
-//                storeTagViewBean.setName(storeTag.getName());
-//                storeTagViewBean.setDescription(storeTag.getDescription());
-//                storeViewBean.getTags().add(storeTagViewBean);
-//            }
-//        }
-        
-        if (store.getDateCreate() != null) {
-            storeViewBean.setDateCreate(buildCommonFormatDate(requestData, store.getDateCreate()));
-        }
-        if (store.getDateUpdate() != null) {
-            storeViewBean.setDateUpdate(buildCommonFormatDate(requestData, store.getDateUpdate()));
-        }
-        
-        // BUSINESS HOUR
-        Set<StoreBusinessHour> storeBusinessHours = store.getBusinessHours();
-        if (Hibernate.isInitialized(storeBusinessHours) && storeBusinessHours != null) {
-            List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = new ArrayList<StoreBusinessHourViewBean>();
-            for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
-                StoreBusinessHourViewBean storeBusinessHourViewBean = buildViewBeanStoreBusinessHour(requestData, storeBusinessHour);
-                storeBusinessHourViewBeans.add(storeBusinessHourViewBean);
+
+            storeViewBean.setStateCode(store.getStateCode());
+            
+            storeViewBean.setCountryCode(store.getCountryCode());
+            String coutryLabel = referentialDataService.getCountryByLocale(store.getCountryCode(), locale);
+            storeViewBean.setCountry(coutryLabel);
+            
+            storeViewBean.setEmail(store.getEmail());
+            storeViewBean.setPhone(store.getPhone());
+            storeViewBean.setFax(store.getFax());
+            storeViewBean.setWebsite(store.getWebsite());
+            
+            storeViewBean.setLongitude(store.getLongitude());
+            storeViewBean.setLatitude(store.getLatitude());
+            
+            if(geolocData != null && StringUtils.isNotEmpty(geolocData.getLatitude()) && StringUtils.isNotEmpty(geolocData.getLongitude())
+                    && StringUtils.isNotEmpty(store.getLongitude()) && StringUtils.isNotEmpty(store.getLongitude())){
+                NumberFormat formatter = new DecimalFormat("#0.00");
+                storeViewBean.setDistance(formatter.format(store.getDistanceFromInKm(geolocData.getLatitude(), geolocData.getLongitude())));
             }
             
-            List<StoreBusinessHourViewBean> sortedStoreBusinessHourViewBeans = new LinkedList<StoreBusinessHourViewBean>(storeBusinessHourViewBeans);
-            Collections.sort(sortedStoreBusinessHourViewBeans, new Comparator<StoreBusinessHourViewBean>() {
-                @Override
-                public int compare(StoreBusinessHourViewBean o1, StoreBusinessHourViewBean o2) {
-                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
-                        return o1.getRanking().compareTo(o2.getRanking());
-                    }
-                    return 0;
+            // ASSETS
+            if (Hibernate.isInitialized(store.getAssets()) && store.getAssets() != null) {
+                for (Asset asset : store.getAssets()) {
+                    AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                    final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
+                    assetViewBean.setRelativeWebPath(path);
+                    assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                    storeViewBean.getAssets().add(assetViewBean);
                 }
-            });
-            storeViewBean.setBusinessHours(sortedStoreBusinessHourViewBeans);
-        }
-        
-        // ASSETS
-        Set<Asset> assets = store.getAssets();
-        if (Hibernate.isInitialized(assets) && assets != null) {
-            List<String> sliders = new ArrayList<String>();
-            for (Asset assetSlideshow : assets) {
-                if (AssetType.SLIDESHOW.getPropertyKey().equals(assetSlideshow.getType())) {
-                    final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(assetSlideshow);
-                    sliders.add(iconImage);
-                }
+            } 
+            // FALLBACK ASSET
+            Asset asset = new Asset();
+            asset.setType(Asset.ASSET_TYPE_DEFAULT);
+            asset.setScope("store");
+            asset.setPath("default-store.png");
+            AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+            final String path = engineSettingService.getRetailerOrStoreImageWebPath(asset);
+            assetViewBean.setRelativeWebPath(path);
+            assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+            storeViewBean.getAssets().add(assetViewBean);
+            
+//            // TAGS
+//            Set<StoreTag> tags = store.getTags();
+//            if (Hibernate.isInitialized(tags) 
+//                    && tags != null) {
+//                for (Iterator<StoreTag> iterator = tags.iterator(); iterator.hasNext();) {
+//                    StoreTag storeTag = (StoreTag) iterator.next();
+//                    StoreTagViewBean storeTagViewBean = new StoreTagViewBean();
+//                    storeTagViewBean.setCode(storeTag.getCode());
+//                    storeTagViewBean.setName(storeTag.getName());
+//                    storeTagViewBean.setDescription(storeTag.getDescription());
+//                    storeViewBean.getTags().add(storeTagViewBean);
+//                }
+//            }
+            
+            if (store.getDateCreate() != null) {
+                storeViewBean.setDateCreate(buildCommonFormatDate(requestData, store.getDateCreate()));
             }
-            storeViewBean.setSliders(sliders);
+            if (store.getDateUpdate() != null) {
+                storeViewBean.setDateUpdate(buildCommonFormatDate(requestData, store.getDateUpdate()));
+            }
+            
+            // BUSINESS HOUR
+            Set<StoreBusinessHour> storeBusinessHours = store.getBusinessHours();
+            if (Hibernate.isInitialized(storeBusinessHours) && storeBusinessHours != null) {
+                List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = new ArrayList<StoreBusinessHourViewBean>();
+                for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
+                    StoreBusinessHourViewBean storeBusinessHourViewBean = buildViewBeanStoreBusinessHour(requestData, storeBusinessHour);
+                    storeBusinessHourViewBeans.add(storeBusinessHourViewBean);
+                }
+                
+                List<StoreBusinessHourViewBean> sortedStoreBusinessHourViewBeans = new LinkedList<StoreBusinessHourViewBean>(storeBusinessHourViewBeans);
+                Collections.sort(sortedStoreBusinessHourViewBeans, new Comparator<StoreBusinessHourViewBean>() {
+                    @Override
+                    public int compare(StoreBusinessHourViewBean o1, StoreBusinessHourViewBean o2) {
+                        if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                            return o1.getRanking().compareTo(o2.getRanking());
+                        }
+                        return 0;
+                    }
+                });
+                storeViewBean.setBusinessHours(sortedStoreBusinessHourViewBeans);
+            }
+            
+            // ASSETS
+            Set<Asset> assets = store.getAssets();
+            if (Hibernate.isInitialized(assets) && assets != null) {
+                List<String> sliders = new ArrayList<String>();
+                for (Asset assetSlideshow : assets) {
+                    if (AssetType.SLIDESHOW.getPropertyKey().equals(assetSlideshow.getType())) {
+                        final String iconImage = engineSettingService.getRetailerOrStoreImageWebPath(assetSlideshow);
+                        sliders.add(iconImage);
+                    }
+                }
+                storeViewBean.setSliders(sliders);
+            }
+            
+            storeViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
         }
-	    
-        storeViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
         
         return storeViewBean;
     }

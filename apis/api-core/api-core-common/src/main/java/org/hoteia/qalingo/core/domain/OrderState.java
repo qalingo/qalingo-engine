@@ -29,6 +29,12 @@ public class OrderState extends AbstractEntity<OrderState> {
 	 */
 	private static final long serialVersionUID = 1602080387919993090L;
 
+    public final static String ORDER_STATE_PENDING      = "PENDING";
+    public final static String ORDER_STATE_SHIPPING     = "SHIPPING";
+    public final static String ORDER_STATE_CANCELED     = "CANCELED";
+    public final static String ORDER_STATE_REFUNDED     = "REFUNDED";
+    public final static String ORDER_STATE_CLOSED       = "CLOSED";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)
