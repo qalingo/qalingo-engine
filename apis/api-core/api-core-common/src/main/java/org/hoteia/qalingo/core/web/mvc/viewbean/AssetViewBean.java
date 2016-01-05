@@ -124,7 +124,12 @@ public class AssetViewBean extends AbstractViewBean {
     }
 
     public String getRelativeWebPath() {
-        return relativeWebPath;
+        String webPathValue = relativeWebPath;
+        // SANITY CHECK : no space for webpath src
+        if(webPathValue != null && webPathValue.contains(" ")){
+            webPathValue = webPathValue.replaceAll(" ", "%20");
+        }
+        return webPathValue;
     }
 	
 	public void setRelativeWebPath(String relativeWebPath) {
@@ -132,7 +137,12 @@ public class AssetViewBean extends AbstractViewBean {
     }
 	
 	public String getAbsoluteWebPath() {
-		return absoluteWebPath;
+	    String webPathValue = absoluteWebPath;
+	    // SANITY CHECK : no space for webpath src
+	    if(webPathValue != null && webPathValue.contains(" ")){
+	        webPathValue = webPathValue.replaceAll(" ", "%20");
+	    }
+		return webPathValue;
 	}
 	
 	public void setAbsoluteWebPath(String absoluteWebPath) {
