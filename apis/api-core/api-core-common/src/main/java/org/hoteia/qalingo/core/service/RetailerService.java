@@ -235,6 +235,10 @@ public class RetailerService {
         return retailerDao.findAllStoreIds(params);
     }
     
+    public List<Long> findAllStoreIdsByCountry(final String countryCode, int maxResults, Object... params) {
+        return retailerDao.findAllStoreIdsByCountry(countryCode, maxResults, params);
+    }
+    
     public List<Long> findStoreWithoutLatitudeLongitude(int maxResults, Object... params) {
         return retailerDao.findStoreWithoutLatitudeLongitude(maxResults, params);
     }

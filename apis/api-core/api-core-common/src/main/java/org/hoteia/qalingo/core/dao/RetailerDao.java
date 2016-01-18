@@ -543,6 +543,22 @@ public class RetailerDao extends AbstractGenericDao {
         List<Long> storeIds = criteria.list();
         return storeIds;
     }
+    
+    public List<Long> findAllStoreIdsByCountry(final String countryCode, int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        criteria.add(Restrictions.eq("countryCode", countryCode));
+
+        criteria.setProjection(Projections.property("id"));
+
+        if (maxResults != 0) {
+            criteria.setMaxResults(maxResults);
+        }
+        
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
 
     public List<Long> findStoreWithoutLatitudeLongitude(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);

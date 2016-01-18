@@ -24,7 +24,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -128,6 +130,10 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
     @JoinColumn(name = "WAREHOUSE_ID", insertable = true, updatable = true)
     private Warehouse warehouse;
+    
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.User.class)
+    @JoinTable(name = "TBO_USER_STORE_REL", joinColumns = @JoinColumn(name = "STORE_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    private Set<User> users = new HashSet<User>();
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.StoreAttribute.class)
     @JoinColumn(name = "STORE_ID")
@@ -384,6 +390,23 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
+    }
+    
+    public Set<User> getUsers() {
+        return users;
+    }
+    
+    public User getDefaultUser() {
+        if(users != null
+                && Hibernate.isInitialized(users)
+                && users.size() > 0){
+            return users.iterator().next();
+        }
+        return null;
+    }
+    
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
     
     public Set<StoreAttribute> getAttributes() {
