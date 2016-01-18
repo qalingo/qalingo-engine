@@ -485,7 +485,9 @@ public class BackofficeFormFactory {
 	    	storeForm.setId(store.getId().toString());
             storeForm.setCode(store.getCode());
             storeForm.setName(store.getName());
-            storeForm.setRetailerId(store.getRetailer().getId().toString());
+            if(store.getRetailer() != null){
+                storeForm.setRetailerId(store.getRetailer().getId().toString());
+            }
 
             storeForm.setAddress1(store.getAddress1());
             storeForm.setAddress2(store.getAddress2());
