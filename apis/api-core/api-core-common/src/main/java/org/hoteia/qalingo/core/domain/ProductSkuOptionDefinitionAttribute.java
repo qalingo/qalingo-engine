@@ -24,10 +24,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE")
+@Table(
+        name = "TECO_PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE",
+        uniqueConstraints= @UniqueConstraint(columnNames={"PRODUCT_SKU_OPTION_DEFINITION_ID", "ATTRIBUTE_DEFINITION_ID", "MARKET_AREA_ID", "LOCALIZATION_CODE"})
+)
 public class ProductSkuOptionDefinitionAttribute extends AbstractAttribute<ProductSkuOptionDefinitionAttribute> {
 
     /**
