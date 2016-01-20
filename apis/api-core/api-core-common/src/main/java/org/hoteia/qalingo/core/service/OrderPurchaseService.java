@@ -68,6 +68,10 @@ public class OrderPurchaseService {
         return orderDao.findOrderItemById(id, params);
     }
 
+    public List<OrderPurchase> findOrdersByStatus(final String status, Object... params) {
+        return orderDao.findOrdersByStatus(status, params);
+    }
+
     public OrderPurchase createNewOrder(final OrderPurchase orderPurchase) {
         return orderDao.createNewOrder(orderPurchase);
     }

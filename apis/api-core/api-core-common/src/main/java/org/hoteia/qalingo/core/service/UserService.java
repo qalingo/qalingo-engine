@@ -12,11 +12,7 @@ package org.hoteia.qalingo.core.service;
 import java.util.List;
 
 import org.hoteia.qalingo.core.dao.UserDao;
-import org.hoteia.qalingo.core.domain.Company;
-import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.UserCredential;
-import org.hoteia.qalingo.core.domain.UserGroup;
-import org.hoteia.qalingo.core.domain.UserToken;
+import org.hoteia.qalingo.core.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,6 +146,10 @@ public class UserService {
     
     public List<Company> findCompaniesByText(String text, Object... params) {
         return userDao.findCompaniesByText(text, params);
+    }
+
+    public List<CompanyAttribute> findCompanyAttributeByDefinitionCode(String definitionCode, Object... params) {
+        return userDao.findCompanyAttributeByDefinitionCode(definitionCode, params);
     }
 
     public Company saveOrUpdateCompany(Company company) {

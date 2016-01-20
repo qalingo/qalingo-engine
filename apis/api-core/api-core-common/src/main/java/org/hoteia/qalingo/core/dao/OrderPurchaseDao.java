@@ -20,10 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.domain.OrderItem;
-import org.hoteia.qalingo.core.domain.OrderItem_;
-import org.hoteia.qalingo.core.domain.OrderPurchase;
-import org.hoteia.qalingo.core.domain.OrderNumber;
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.order.FetchPlanGraphOrder;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -89,6 +86,15 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         handleSpecificOrderFetchMode(criteria, params);
         criteria.add(Restrictions.eq(OrderItem_.id.getName(), id));
         return (OrderItem) criteria.uniqueResult();
+    }
+
+    public List<OrderPurchase> findOrdersByStatus(final String status, Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderItem.class);
+        handleSpecificOrderFetchMode(criteria, params);
+        criteria.add(Restrictions.eq(OrderPurchase_.status.getName(), status));
+        @SuppressWarnings("unchecked")
+        List<OrderPurchase> orderPurchases = criteria.list();
+        return orderPurchases;
     }
 
     public List<OrderPurchase> findOrdersByCustomerId(final Long customerId, Object... params) {

@@ -34,6 +34,7 @@ public class OrderState extends AbstractEntity<OrderState> {
     public final static String ORDER_STATE_CANCELED     = "CANCELED";
     public final static String ORDER_STATE_REFUNDED     = "REFUNDED";
     public final static String ORDER_STATE_CLOSED       = "CLOSED";
+    public final static String ORDER_STATE_FINALIZED       = "FINALIZED";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

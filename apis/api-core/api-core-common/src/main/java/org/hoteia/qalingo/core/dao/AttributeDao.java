@@ -28,15 +28,13 @@ public class AttributeDao extends AbstractGenericDao {
     public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("id", attributeDefinitionId));
-        AttributeDefinition attributeDefinitions = (AttributeDefinition) criteria.uniqueResult();
-        return attributeDefinitions;
+        return (AttributeDefinition) criteria.uniqueResult();
     }
 
     public AttributeDefinition getAttributeDefinitionByCode(final String code) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("code", handleCodeValue(code)));
-        AttributeDefinition attributeDefinition = (AttributeDefinition) criteria.uniqueResult();
-        return attributeDefinition;
+        return (AttributeDefinition) criteria.uniqueResult();
     }
 
     public List<AttributeDefinition> findAttributeDefinitions() {

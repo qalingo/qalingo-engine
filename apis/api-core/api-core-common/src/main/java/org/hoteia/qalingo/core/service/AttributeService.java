@@ -200,9 +200,8 @@ public class AttributeService {
     
     protected List<AttributeDefinition> getGlobalAttributeDefinitions(final List<AttributeDefinition> allAttributeDefinitions) {
         List<AttributeDefinition> attributeDefinitions = new ArrayList<AttributeDefinition>();
-        for (Iterator<AttributeDefinition> iterator = allAttributeDefinitions.iterator(); iterator.hasNext();) {
-            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
-            if(attributeDefinition.isGlobal()){
+        for (AttributeDefinition attributeDefinition : allAttributeDefinitions) {
+            if (attributeDefinition.isGlobal()) {
                 attributeDefinitions.add(attributeDefinition);
             }
         }
@@ -211,9 +210,8 @@ public class AttributeService {
     
     protected List<AttributeDefinition> getMarketAreaAttributeDefinitions(final List<AttributeDefinition> allAttributeDefinitions) {
         List<AttributeDefinition> attributeDefinitions = new ArrayList<AttributeDefinition>();
-        for (Iterator<AttributeDefinition> iterator = allAttributeDefinitions.iterator(); iterator.hasNext();) {
-            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
-            if(!attributeDefinition.isGlobal()){
+        for (AttributeDefinition attributeDefinition : allAttributeDefinitions) {
+            if (!attributeDefinition.isGlobal()) {
                 attributeDefinitions.add(attributeDefinition);
             }
         }
@@ -238,7 +236,7 @@ public class AttributeService {
             });
             return sortedObjects;
         }
-        return attributeDefinitions;
+        return null;
     }
 
 }

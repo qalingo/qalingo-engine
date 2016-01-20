@@ -20,11 +20,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.domain.Company;
-import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.UserCredential;
-import org.hoteia.qalingo.core.domain.UserGroup;
-import org.hoteia.qalingo.core.domain.UserToken;
+import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.user.FetchPlanGraphUser;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -293,6 +289,16 @@ public class UserDao extends AbstractGenericDao {
         @SuppressWarnings("unchecked")
         List<Company> companies = criteria.list();
         return companies;
+    }
+
+    public List<CompanyAttribute> findCompanyAttributeByDefinitionCode(String definitionCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(CompanyAttribute.class);
+        criteria.createAlias("attributeDefinition", "attributeDefinition", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("attributeDefinition.code", definitionCode));
+
+        @SuppressWarnings("unchecked")
+        List<CompanyAttribute> companieAttributes = criteria.list();
+        return companieAttributes;
     }
 
     public Company saveOrUpdateCompany(Company company) {
