@@ -879,6 +879,9 @@ public class ProductDao extends AbstractGenericDao {
         Criteria criteria = getSession().createCriteria(ProductSkuOptionDefinition.class);
         handleSpecificProductSkuOptionDefinitionFetchMode(criteria, params);
 
+        // FIX a multiple entities issue  : http://stackoverflow.com/questions/1995080/hibernate-criteria-returns-children-multiple-times-with-fetchtype-eager
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        
         @SuppressWarnings("unchecked")
         List<ProductSkuOptionDefinition> productSkuOptionDefinitions = criteria.list();
         return productSkuOptionDefinitions;

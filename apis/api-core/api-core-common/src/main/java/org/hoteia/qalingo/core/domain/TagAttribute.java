@@ -24,10 +24,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_TAG_ATTRIBUTE")
+@Table(
+        name = "TECO_TAG_ATTRIBUTE",
+        uniqueConstraints= {
+                @UniqueConstraint(columnNames={"TAG_ID", "ATTRIBUTE_DEFINITION_ID", "MARKET_AREA_ID", "LOCALIZATION_CODE"}),
+                @UniqueConstraint(columnNames={"TAG_ID", "ATTRIBUTE_DEFINITION_ID", "LOCALIZATION_CODE"})}
+)
 public class TagAttribute extends AbstractAttribute<TagAttribute> {
 
 	/**

@@ -32,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION_TYPE")
-public class ProductSkuOptionDefinitionType extends AbstractExtendEntity<ProductSkuOptionDefinition, ProductSkuOptionDefinitionTypeAttribute> {
+public class ProductSkuOptionDefinitionType extends AbstractExtendEntity<ProductSkuOptionDefinitionType, ProductSkuOptionDefinitionTypeAttribute> {
 
     /**
      * Generated UID
@@ -61,7 +61,7 @@ public class ProductSkuOptionDefinitionType extends AbstractExtendEntity<Product
     @Lob
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionTypeAttribute.class)
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_TYPE_ID")
     private Set<ProductSkuOptionDefinitionTypeAttribute> attributes = new HashSet<ProductSkuOptionDefinitionTypeAttribute>();
 
