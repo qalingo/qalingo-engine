@@ -53,6 +53,10 @@ public class SecurityUtil {
        return token;
     }
 	
+   public boolean passwordMatches(String rawPassword, String encodedPassword) {
+       return encoder.matches(rawPassword, encodedPassword);
+   }
+   
 	public String encodePassword(String clearPassword) {
 		String result = encoder.encode(clearPassword);
 		return result;
