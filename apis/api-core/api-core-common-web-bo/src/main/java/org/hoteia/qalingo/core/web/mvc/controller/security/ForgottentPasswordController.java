@@ -51,12 +51,6 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
 	public ModelAndView displayForgottenPassword(final HttpServletRequest request, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.FORGOTTEN_PASSWORD.getVelocityPage());
 		
-	      // SANITY CHECK: User logged
-        if(securityUtil.isAuthenticated()){
-            final String url = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
-            return new ModelAndView(new RedirectView(url));
-        }
-
         modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
         return modelAndView;
@@ -69,12 +63,6 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        // SANITY CHECK: User logged
-      if(securityUtil.isAuthenticated()){
-          final String url = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
-          return new ModelAndView(new RedirectView(url));
-      }
-      
         if (result.hasErrors()) {
             return displayForgottenPassword(request, model);
         }
@@ -105,12 +93,6 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 
-        // SANITY CHECK: User logged
-      if(securityUtil.isAuthenticated()){
-          final String url = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
-          return new ModelAndView(new RedirectView(url));
-      }
-      
         String token = request.getParameter(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_TOKEN);
         if (StringUtils.isEmpty(token)) {
             // ADD ERROR MESSAGE
@@ -148,12 +130,6 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        // SANITY CHECK: User logged
-        if(securityUtil.isAuthenticated()){
-            final String url = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
-            return new ModelAndView(new RedirectView(url));
-        }
-      
         if (result.hasErrors()) {
             return displayResetPassword(request, model);
         }
