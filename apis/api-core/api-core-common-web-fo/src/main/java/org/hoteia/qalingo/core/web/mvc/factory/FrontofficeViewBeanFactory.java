@@ -107,7 +107,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         
         // TODO : canonical urls
         
-        String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         seoDataViewBean.setPageTitle(pageTitle);
         String metaAuthor = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_AUTHOR, locale);
         seoDataViewBean.setMetaAuthor(metaAuthor);
