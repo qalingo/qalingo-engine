@@ -114,7 +114,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
      */
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, String pageTitleKey, Object[] params) throws Exception {
         final Locale locale = requestUtil.getCurrentMarketAreaLocalization(request).getLocale();
-        String headerTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        String headerTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         if(StringUtils.isNotEmpty(pageTitleKey)){
             pageTitleKey = pageTitleKey.replace("-", "_");
             if(params != null){
