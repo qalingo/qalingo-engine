@@ -211,7 +211,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         seoPageTitle += productMarketingViewBean.getI18nName();
         
         // SEO
-        seoDataViewBean.setPageTitle(seoDataViewBean.getPageTitle());
+        seoDataViewBean.setPageTitle(seoPageTitle);
         seoDataViewBean.setMetaDescription(productMarketingViewBean.getI18nDescription());
 
         seoDataViewBean.setMetaOgTitle(seoPageTitle);
