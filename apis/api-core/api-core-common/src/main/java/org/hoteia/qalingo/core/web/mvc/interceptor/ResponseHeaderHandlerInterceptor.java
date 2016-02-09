@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-public class SecurityHeaderHandlerInterceptor implements HandlerInterceptor {
+public class ResponseHeaderHandlerInterceptor implements HandlerInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -47,6 +47,10 @@ public class SecurityHeaderHandlerInterceptor implements HandlerInterceptor {
             
             // HTTP "X-Frame-Options"
             response.addHeader("X-XSS-Protection", "1; mode=block");
+            
+            // HTTP Caches
+            response.addHeader("Cache-Control", "public, max-age=604800"); // 604800 1 semaine
+            // response.addHeader("Expires", "Mon, 25 Jun 2012 21:31:12 GMT");
             
         } catch (Exception e) {
             logger.error("addClickstream failed", e);
