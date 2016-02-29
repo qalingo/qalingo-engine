@@ -111,6 +111,9 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
+    @Column(name = "LEGAL_GUID")
+    private String legalGuid;
+    
     @Column(name = "EMAIL")
     private String email;
     
@@ -344,6 +347,14 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
         this.countryCode = countryCode;
     }
 
+    public String getLegalGuid() {
+        return legalGuid;
+    }
+    
+    public void setLegalGuid(String legalGuid) {
+        this.legalGuid = legalGuid;
+    }
+    
     public String getEmail() {
         return email;
     }
