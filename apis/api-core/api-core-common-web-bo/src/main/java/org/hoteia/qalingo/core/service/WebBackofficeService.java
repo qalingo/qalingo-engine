@@ -987,6 +987,11 @@ public class WebBackofficeService {
     	store.setStateCode(storeForm.getStateCode());
     	store.setCountryCode(storeForm.getCountryCode());
 
+        store.setEmail(storeForm.getEmail());
+        store.setPhone(storeForm.getPhone());
+        store.setFax(storeForm.getFax());
+        store.setWebsite(storeForm.getWebsite());
+        
         store.setLatitude(storeForm.getLatitude());
         store.setLongitude(storeForm.getLongitude());
 
