@@ -117,7 +117,21 @@ public class BrandController extends AbstractMCommerceController {
         
         return breadcrumbViewBean;
     }
-        
+
+    @RequestMapping(FoUrls.BRAND_DETAILS_OLD_URL)
+    public ModelAndView brandDetailsOld(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_DETAILS.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final ProductBrand productBrand = productService.getProductBrandByCode(brandCode, new FetchPlan(productBrandFetchPlans));
+        if(productBrand != null
+                && productBrand.isEnabled()){
+            final String urlRedirect = urlService.generateRedirectUrl(FoUrls.BRAND_DETAILS, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.BRAND_ALL, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
+    }
+
 	@RequestMapping(FoUrls.BRAND_DETAILS_URL)
 	public ModelAndView brandDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_DETAILS.getVelocityPage());

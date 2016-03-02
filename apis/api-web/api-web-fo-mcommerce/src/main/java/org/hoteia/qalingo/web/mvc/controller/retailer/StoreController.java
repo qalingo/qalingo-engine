@@ -73,7 +73,19 @@ public class StoreController extends AbstractMCommerceController {
         storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
         storeFetchPlans.add(new SpecificFetchMode(Store_.businessHours.getName()));
     }
-    
+
+    @RequestMapping(FoUrls.STORE_DETAILS_OLD_URL)
+    public ModelAndView displayStoreDetailsOld(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        if(StringUtils.isNotEmpty(storeCode)){
+            Store store = retailerService.getStoreByCode(storeCode, new FetchPlan(storeFetchPlans));
+            final String urlRedirect = urlService.generateRedirectUrl(FoUrls.STORE_DETAILS, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.STORE_LOCATION, requestData);
+        return new ModelAndView(new RedirectView(urlRedirect));
+    }
+
 	@RequestMapping(FoUrls.STORE_DETAILS_URL)
 	public ModelAndView displayStoreDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_DETAILS.getVelocityPage());

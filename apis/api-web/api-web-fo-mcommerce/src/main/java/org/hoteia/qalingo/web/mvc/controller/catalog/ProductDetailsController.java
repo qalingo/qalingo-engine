@@ -51,6 +51,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -102,6 +103,25 @@ public class ProductDetailsController extends AbstractMCommerceController {
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName()));
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.catalogCategoryType.getName()));
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.attributes.getName()));
+    }
+    
+    @RequestMapping(FoUrls.PRODUCT_DETAILS_OLD_URL)
+    public ModelAndView productDetailsOld(final HttpServletRequest request, final HttpServletResponse response ,final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode,
+                                       @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productMarketingCode,
+                                       @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE) final String productSkuCode,
+                                       @ModelAttribute(ModelConstants.CUSTOMER_COMMENT_FORM) CustomerCommentForm customerCommentForm) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+
+        CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
+        ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(productMarketingFetchPlans));
+        ProductSku productSku = productService.getProductSkuByCode(productSkuCode, new FetchPlan(productSkuFetchPlans));
+
+        if (productMarketing.isEnabledB2C() && productSku.isEnabledB2C()) {
+            final String urlRedirect = urlService.generateRedirectUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+        final String urlRedirect = urlService.generateRedirectUrl(FoUrls.HOME, requestData);
+        return new ModelAndView(new RedirectView(urlRedirect));
     }
     
 	@RequestMapping(FoUrls.PRODUCT_DETAILS_URL)
