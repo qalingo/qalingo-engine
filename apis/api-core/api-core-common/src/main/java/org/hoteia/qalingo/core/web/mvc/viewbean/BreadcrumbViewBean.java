@@ -28,5 +28,10 @@ public class BreadcrumbViewBean extends AbstractViewBean {
     public void setMenus(List<MenuViewBean> menus) {
         this.menus = menus;
     }
+
+    @Override
+    public String toString() {
+        return "BreadcrumbViewBean [name=" + name + ", menus=" + menus + "]";
+    }
     
 }

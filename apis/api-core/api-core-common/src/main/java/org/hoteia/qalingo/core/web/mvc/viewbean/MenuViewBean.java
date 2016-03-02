@@ -174,4 +174,10 @@ public class MenuViewBean extends AbstractViewBean {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "MenuViewBean [key=" + key + ", name=" + name + ", description=" + description + ", alt=" + alt + ", img=" + img + ", url=" + url + ", type=" + type + ", external=" + external
+                + ", active=" + active + ", catalog=" + catalog + ", ordering=" + ordering + ", cssClass=" + cssClass + ", cssIcon=" + cssIcon + ", subMenus=" + subMenus + "]";
+    }
+
 }

@@ -107,4 +107,10 @@ public class SeoDataViewBean extends AbstractViewBean {
         this.metaOgImage = metaOgImage;
     }
 
+    @Override
+    public String toString() {
+        return "SeoDataViewBean [pageTitle=" + pageTitle + ", currentUrl=" + currentUrl + ", canonicalUrls=" + canonicalUrls + ", metaAuthor=" + metaAuthor + ", metaKeywords=" + metaKeywords
+                + ", metaDescription=" + metaDescription + ", metaOgTitle=" + metaOgTitle + ", metaOgDescription=" + metaOgDescription + ", metaOgImage=" + metaOgImage + "]";
+    }
+
 }
