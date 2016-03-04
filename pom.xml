@@ -602,9 +602,9 @@
 
 			<!-- Quartz -->
 			<dependency>
-				<groupId>quartz</groupId>
+				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
-				<version>1.5.2</version>
+				<version>2.2.2</version>
 			</dependency>
 
 			<!-- MySQL database driver -->
