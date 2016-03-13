@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.web.mvc.factory;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +34,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractAttribute;
 import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
+import org.hoteia.qalingo.core.domain.AbstractCmsEntity;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
@@ -40,6 +43,11 @@ import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
+import org.hoteia.qalingo.core.domain.CmsContent;
+import org.hoteia.qalingo.core.domain.CmsContentAsset;
+import org.hoteia.qalingo.core.domain.CmsContentBlock;
+import org.hoteia.qalingo.core.domain.CmsLink;
+import org.hoteia.qalingo.core.domain.CmsMenu;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -90,22 +98,30 @@ import org.hoteia.qalingo.core.domain.UserConnectionLog;
 import org.hoteia.qalingo.core.domain.UserGroup;
 import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
-import org.hoteia.qalingo.core.domain.ProductSku_;
-import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
 import org.hoteia.qalingo.core.domain.bean.GeolocData;
+import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
+import org.hoteia.qalingo.core.domain.Store_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice_;
+import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
+import org.hoteia.qalingo.core.service.CmsContentService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.OrderPurchaseService;
@@ -121,6 +137,10 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CmsContentBlockViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CmsContentLinkViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CmsContentViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CmsMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
@@ -205,6 +225,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
     @Autowired
     protected RetailerService retailerService;
+    
+    @Autowired
+    protected CmsContentService cmsContentService;
 
     @Autowired
     protected ReferentialDataService referentialDataService;
@@ -215,6 +238,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     @Autowired
     protected UrlService urlService;
 
+    @Autowired
+    protected BackofficeUrlService backofficeUrlService;
+    
     @Autowired
     protected CartService cartService;
 
@@ -3012,6 +3038,401 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
 
         return companyViewBean;
+    }
+
+    public List<CmsMenuViewBean> buildListViewBeanCmsMenu(final RequestData requestData, final List<CmsMenu> cmsMenus) throws Exception {
+        final List<CmsMenuViewBean> cmsMenuViewBeans = new ArrayList<CmsMenuViewBean>();
+        for (Iterator<CmsMenu> iterator = cmsMenus.iterator(); iterator.hasNext();) {
+            CmsMenu cmsMenu = (CmsMenu) iterator.next();
+            cmsMenuViewBeans.add(buildViewBeanCmsMenu(requestData, cmsMenu));
+        }
+        return cmsMenuViewBeans;
+    }
+
+    public CmsMenuViewBean buildViewBeanCmsMenu(final RequestData requestData, final CmsMenu cmsMenu) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        CmsMenuViewBean cmsMenuViewBean = new CmsMenuViewBean();
+        if (cmsMenu != null) {
+            cmsMenuViewBean.setId(cmsMenu.getId().toString());
+            cmsMenuViewBean.setCode(cmsMenu.getCode());
+            cmsMenuViewBean.setApp(cmsMenu.getApp());
+            cmsMenuViewBean.setMarketArea(buildViewBeanMarketArea(requestData, marketArea));
+            cmsMenuViewBean.setPosition(cmsMenu.getPosition());
+            cmsMenuViewBean.setActive(cmsMenu.isActive());
+            cmsMenuViewBean.setOrdering(cmsMenu.getOrdering());
+
+            // LINK
+            if (Hibernate.isInitialized(cmsMenu.getLink()) && cmsMenu.getLink() != null) {
+                CmsContentLinkViewBean linkViewBean = buildViewBeanCmsContentLink(requestData, cmsMenu.getLink());
+                if (StringUtils.isEmpty(linkViewBean.getName())) {
+                    linkViewBean.setName(cmsMenu.getName());
+                }
+                cmsMenuViewBean.setLink(linkViewBean);
+            }
+
+            // ASSETS
+            if (Hibernate.isInitialized(cmsMenu.getBlocks()) && cmsMenu.getBlocks() != null) {
+                for (Iterator<CmsContentBlock> iterator = cmsMenu.getBlocks().iterator(); iterator.hasNext();) {
+                    CmsContentBlock block = (CmsContentBlock) iterator.next();
+                    CmsContentBlockViewBean cmsContentBlockViewBean = buildViewBeanCmsContentBlock(requestData, cmsMenu, block);
+                    cmsMenuViewBean.getBlocks().add(cmsContentBlockViewBean);
+                }
+            }
+
+            cmsMenuViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MANAGE_EDIT_MENU, requestData, cmsMenu));
+        }
+        return cmsMenuViewBean;
+    }
+
+    public Map<Long, Map<String, List<CmsContentViewBean>>> buildMapViewBeanCmsContent(final RequestData requestData, final List<CmsContent> cmsContents) throws Exception {
+        TreeMap<Long, Map<String, List<CmsContentViewBean>>> mapCmsContentViewBeans = new TreeMap<Long, Map<String, List<CmsContentViewBean>>>();
+        for (Iterator<CmsContent> iterator = cmsContents.iterator(); iterator.hasNext();) {
+            CmsContent cmsContent = (CmsContent) iterator.next();
+            SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMMM yyyy");
+            if (cmsContent.getDateCreate() != null) {
+                String key = formatMonthYear.format(cmsContent.getDateCreate());
+                Long longKey = formatMonthYear.parse(key).getTime();
+                Map<String, List<CmsContentViewBean>> subMapCmsContentViewBeans = mapCmsContentViewBeans.get(longKey);
+                if (subMapCmsContentViewBeans == null) {
+                    subMapCmsContentViewBeans = new HashMap<String, List<CmsContentViewBean>>();
+                }
+                List<CmsContentViewBean> subCmsContentViewBeans = subMapCmsContentViewBeans.get(key);
+                if (subCmsContentViewBeans == null) {
+                    subCmsContentViewBeans = new ArrayList<CmsContentViewBean>();
+                }
+                subCmsContentViewBeans.add(buildViewBeanCmsContent(requestData, cmsContent));
+                subMapCmsContentViewBeans.put(key, subCmsContentViewBeans);
+                mapCmsContentViewBeans.put(longKey, subMapCmsContentViewBeans);
+            }
+        }
+        return mapCmsContentViewBeans.descendingMap();
+    }
+
+    public List<CmsContentViewBean> buildListViewBeanCmsContent(final RequestData requestData, final List<CmsContent> cmsContents) throws Exception {
+        final List<CmsContentViewBean> cmsContentViewBeans = new ArrayList<CmsContentViewBean>();
+        for (Iterator<CmsContent> iterator = cmsContents.iterator(); iterator.hasNext();) {
+            CmsContent cmsContent = (CmsContent) iterator.next();
+            cmsContentViewBeans.add(buildViewBeanCmsContent(requestData, cmsContent));
+        }
+        return cmsContentViewBeans;
+    }
+
+    public CmsContentViewBean buildViewBeanCmsContent(final RequestData requestData, final CmsContent cmsContent) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        CmsContentViewBean cmsContentViewBean = new CmsContentViewBean();
+        if (cmsContent != null) {
+            cmsContentViewBean.setId(cmsContent.getId().toString());
+            cmsContentViewBean.setCode(cmsContent.getCode());
+            cmsContentViewBean.setApp(cmsContent.getApp());
+            cmsContentViewBean.setMarketArea(buildViewBeanMarketArea(requestData, marketArea));
+            cmsContentViewBean.setType(cmsContent.getType());
+            cmsContentViewBean.setTitle(cmsContent.getTitle());
+            cmsContentViewBean.setLinkTitle(cmsContent.getLinkTitle());
+            cmsContentViewBean.setSeoSegment(cmsContent.getSeoSegment());
+            cmsContentViewBean.setSeoKey(cmsContent.getSeoKey());
+            cmsContentViewBean.setSummary(cmsContent.getSummary());
+            cmsContentViewBean.setMaster(cmsContent.isMaster());
+            cmsContentViewBean.setActive(cmsContent.isActive());
+
+            Date createDate = cmsContent.getDateCreate();
+            SimpleDateFormat formatDay = new SimpleDateFormat("dd");
+            cmsContentViewBean.setDateCreateDay(formatDay.format(createDate));
+            SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMM yyyy");
+            cmsContentViewBean.setDateCreateMonthYear(formatMonthYear.format(createDate));
+
+            // USER
+            if (Hibernate.isInitialized(cmsContent.getUser()) && cmsContent.getUser() != null) {
+                cmsContentViewBean.setUser(buildViewBeanUser(requestData, cmsContent.getUser()));
+            }
+
+            // BLOCK
+            if (Hibernate.isInitialized(cmsContent.getBlocks()) && cmsContent.getBlocks() != null) {
+                for (Iterator<CmsContentBlock> iterator = cmsContent.getSortedCmsContentBlocks().iterator(); iterator.hasNext();) {
+                    CmsContentBlock block = (CmsContentBlock) iterator.next();
+                    CmsContentBlockViewBean blockViewBean = buildViewBeanCmsContentBlock(requestData, cmsContent, block);
+                    cmsContentViewBean.getBlocks().add(blockViewBean);
+                }
+            }
+
+            // ASSETS
+            if (Hibernate.isInitialized(cmsContent.getAssets()) && cmsContent.getAssets() != null) {
+                for (Iterator<CmsContentAsset> iterator = cmsContent.getSortedAssets().iterator(); iterator.hasNext();) {
+                    CmsContentAsset asset = (CmsContentAsset) iterator.next();
+                    AssetViewBean assetViewBean = buildViewBeanCmsContentAsset(requestData, asset);
+                    final String path = engineSettingService.getCmsContentImageWebPath(cmsContent, asset);
+                    assetViewBean.setRelativeWebPath(path);
+                    assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                    if (cmsContent.getAssets().size() == 1) {
+                        assetViewBean.setType("default");
+                    }
+                    cmsContentViewBean.getAssets().add(assetViewBean);
+                }
+            }
+
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, null);
+            if (cmsContent.getDateCreate() != null) {
+                cmsContentViewBean.setDateCreate(dateFormat.format(cmsContent.getDateCreate()));
+            }
+            if (cmsContent.getDateUpdate() != null) {
+                cmsContentViewBean.setDateUpdate(dateFormat.format(cmsContent.getDateUpdate()));
+            }
+
+            cmsContentViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MANAGE_EDIT_ARTICLE, requestData, cmsContent));
+            cmsContentViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.ARTICLE_CMS_CONTENT, requestData, cmsContent));
+        }
+        return cmsContentViewBean;
+    }
+
+    /**
+ * 
+ */
+    public CmsContentBlockViewBean buildViewBeanCmsContentBlock(final RequestData requestData, final AbstractCmsEntity cmsEntity, final CmsContentBlock block) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+
+        final CmsContentBlockViewBean blockViewBean = new CmsContentBlockViewBean();
+        blockViewBean.setId(block.getId().toString());
+        blockViewBean.setType(block.getType());
+        blockViewBean.setOrdering(block.getOrdering());
+        blockViewBean.setTitle(block.getTitle());
+        blockViewBean.setText(block.getText());
+
+        // LINK
+        if (Hibernate.isInitialized(block.getLink()) && block.getLink() != null) {
+            CmsContentLinkViewBean linkViewBean = buildViewBeanCmsContentLink(requestData, block.getLink());
+            if (StringUtils.isEmpty(linkViewBean.getName())) {
+                linkViewBean.setName(block.getTitle());
+            }
+            blockViewBean.setLink(linkViewBean);
+        }
+
+        // ASSETS
+        if (block.getAssets() != null && Hibernate.isInitialized(block.getAssets()) && block.getAssets().size() > 0) {
+            for (Iterator<CmsContentAsset> iteratorCmsContentAsset = block.getSortedAssets().iterator(); iteratorCmsContentAsset.hasNext();) {
+                CmsContentAsset asset = (CmsContentAsset) iteratorCmsContentAsset.next();
+                AssetViewBean assetViewBean = buildViewBeanCmsContentAsset(requestData, asset);
+                final String path = engineSettingService.getCmsContentImageWebPath(cmsEntity, asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                blockViewBean.getAssets().add(assetViewBean);
+            }
+        }
+
+        // BLOCK
+        if (Hibernate.isInitialized(block.getBlocks()) && block.getBlocks() != null) {
+            for (Iterator<CmsContentBlock> iterator = block.getSortedCmsContentBlocks().iterator(); iterator.hasNext();) {
+                CmsContentBlock subBlock = (CmsContentBlock) iterator.next();
+                CmsContentBlockViewBean subBlockViewBean = buildViewBeanCmsContentBlock(requestData, cmsEntity, subBlock);
+                blockViewBean.getBlocks().add(subBlockViewBean);
+            }
+        }
+        if (StringUtils.isNotEmpty(block.getType())) {
+            if (block.getType().contains("PRODUCT_SELECTION_SMALL") || block.getType().contains("PRODUCT_SELECTION_MEDIUM")) {
+                String[] productCodes = block.getParams().split(";");
+                List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.assets.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "."
+                        + CatalogCategoryVirtualProductSkuRel_.pk.getName()));
+                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "."
+                        + CatalogCategoryVirtualProductSkuRel_.pk.getName() + "." + CatalogCategoryVirtualProductSkuPk_.catalogCategoryVirtual.getName()));
+                for (int i = 0; i < productCodes.length; i++) {
+                    String productMarketingCode = productCodes[i];
+                    ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(fetchplans));
+                    if (productMarketing != null) {
+                        if (block.getType().contains("PRODUCT_SELECTION_SMALL")) {
+                            ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);
+                            if (productMarketingViewBean != null && StringUtils.isNotEmpty(productMarketingViewBean.getDetailsUrl())) {
+                                blockViewBean.getProductMarketings().add(productMarketingViewBean);
+                            } else {
+                                // HACK : CAT EMPTY
+                                ProductSku productSku = productMarketing.getDefaultProductSku();
+                                if (productSku != null) {
+                                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode("GLASSES", marketArea.getCatalog().getCode());
+                                    if (catalogCategory != null) {
+                                        productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+                                    }
+                                    if (productMarketingViewBean != null && StringUtils.isNotEmpty(productMarketingViewBean.getDetailsUrl())) {
+                                        blockViewBean.getProductMarketings().add(productMarketingViewBean);
+                                    }
+                                }
+                            }
+                        }
+                        if (block.getType().contains("PRODUCT_SELECTION_MEDIUM")) {
+                            ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);
+                            if (productMarketingViewBean != null && StringUtils.isNotEmpty(productMarketingViewBean.getDetailsUrl())) {
+                                blockViewBean.getProductMarketings().add(productMarketingViewBean);
+                            } else {
+                                // HACK : CAT EMPTY
+                                ProductSku productSku = productMarketing.getDefaultProductSku();
+                                if (productSku != null) {
+                                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode("GLASSES", marketArea.getCatalog().getCode());
+                                    if (catalogCategory != null) {
+                                        productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+                                    }
+                                    if (productMarketingViewBean != null && StringUtils.isNotEmpty(productMarketingViewBean.getDetailsUrl())) {
+                                        blockViewBean.getProductMarketings().add(productMarketingViewBean);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (block.getType().contains("STORE_SELECTION_MEDIUM") || block.getType().contains("STORE_SELECTION_SMALL")) {
+                    GeolocData geolocData = requestData.getGeolocData();
+
+                    List<SpecificFetchMode> storeFetchPlans = new ArrayList<SpecificFetchMode>();
+                    storeFetchPlans.add(new SpecificFetchMode(Store_.attributes.getName()));
+                    storeFetchPlans.add(new SpecificFetchMode(Store_.assets.getName()));
+
+                    int maxStoreList = 5;
+                    List<GeolocatedStore> storeRandom = null;
+                    if (geolocData != null) {
+                        storeRandom = new ArrayList<GeolocatedStore>();
+                        int distance = 20;
+                        storeRandom = retailerService.findRandomB2CStores(marketArea, geolocData, maxStoreList, distance);
+                        int escape = 10;
+                        int retray = 0;
+                        while (storeRandom == null || (storeRandom != null && storeRandom.size() < maxStoreList)) {
+                            if (retray > escape) {
+                                break;
+                            }
+                            storeRandom = retailerService.findRandomB2CStores(marketArea, geolocData, maxStoreList, distance);
+                            distance = distance + 15;
+                            retray++;
+                        }
+                    }
+
+                    List<Store> stores = new ArrayList<Store>();
+                    if (storeRandom != null) {
+                        for (Iterator<GeolocatedStore> iterator = storeRandom.iterator(); iterator.hasNext();) {
+                            GeolocatedStore geolocatedStore = (GeolocatedStore) iterator.next();
+                            Store store = retailerService.getStoreById(geolocatedStore.getId(), new FetchPlan(storeFetchPlans));
+                            stores.add(store);
+                        }
+                    } else {
+                        // DEFAULT LIST : LIKE BOT WITHOUT GEOLOC
+                        List<String> types = new ArrayList<String>();
+                        types.add("OPTICIAN");
+                        stores = retailerService.findB2CStoresByType(types, maxStoreList, new FetchPlan(storeFetchPlans));
+                    }
+
+                    for (Store store : stores) {
+                        Store reloadedStore = retailerService.getStoreByCode(store.getCode(), new FetchPlan(storeFetchPlans));
+                        if (store != null) {
+                            if (block.getType().contains("STORE_SELECTION_MEDIUM") && blockViewBean.getStores().size() < 5) {
+                                StoreViewBean storeViewBean = buildViewBeanStore(requestData, reloadedStore);
+                                if (storeViewBean != null && StringUtils.isNotEmpty(storeViewBean.getDetailsUrl())) {
+                                    blockViewBean.getStores().add(storeViewBean);
+                                }
+                            }
+                            if (block.getType().contains("STORE_SELECTION_SMALL") && blockViewBean.getStores().size() < 10) {
+                                StoreViewBean storeViewBean = buildViewBeanStore(requestData, reloadedStore);
+                                if (storeViewBean != null && StringUtils.isNotEmpty(storeViewBean.getDetailsUrl())) {
+                                    blockViewBean.getStores().add(storeViewBean);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, null);
+            if (block.getDateCreate() != null) {
+                blockViewBean.setDateCreate(dateFormat.format(block.getDateCreate()));
+            }
+            if (block.getDateUpdate() != null) {
+                blockViewBean.setDateUpdate(dateFormat.format(block.getDateUpdate()));
+            }
+        }
+
+        return blockViewBean;
+    }
+
+    /**
+ * 
+ */
+    public CmsContentBlockViewBean buildViewBeanStandaloneCmsContentBlock(final RequestData requestData, final CmsContentBlock block) throws Exception {
+        final CmsContentBlockViewBean blockViewBean = new CmsContentBlockViewBean();
+        blockViewBean.setTitle(block.getTitle());
+        blockViewBean.setText(block.getText());
+        blockViewBean.setType(block.getType());
+
+        // LINK
+        if (Hibernate.isInitialized(block.getLink()) && block.getLink() != null) {
+            CmsContentLinkViewBean linkViewBean = buildViewBeanCmsContentLink(requestData, block.getLink());
+            if (StringUtils.isEmpty(linkViewBean.getName())) {
+                linkViewBean.setName(block.getTitle());
+            }
+            blockViewBean.setLink(linkViewBean);
+        }
+
+        // ASSETS
+        if (block.getAssets() != null && Hibernate.isInitialized(block.getAssets()) && block.getAssets().size() > 0) {
+            for (Iterator<CmsContentAsset> iteratorCmsContentAsset = block.getSortedAssets().iterator(); iteratorCmsContentAsset.hasNext();) {
+                CmsContentAsset asset = (CmsContentAsset) iteratorCmsContentAsset.next();
+                AssetViewBean assetViewBean = buildViewBeanCmsContentAsset(requestData, asset);
+                final String path = engineSettingService.getCmsContentImageWebPath(block, asset);
+                assetViewBean.setRelativeWebPath(path);
+                assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                blockViewBean.getAssets().add(assetViewBean);
+            }
+        }
+        return blockViewBean;
+    }
+
+    /**
+ * 
+ */
+    public AssetViewBean buildViewBeanCmsContentAsset(final RequestData requestData, final CmsContentAsset asset) throws Exception {
+        final AssetViewBean assetViewBean = new AssetViewBean();
+        assetViewBean.setName(asset.getName());
+        assetViewBean.setDescription(asset.getDescription());
+        assetViewBean.setScope(asset.getScope());
+        assetViewBean.setType(asset.getType());
+        assetViewBean.setPath(asset.getPath());
+        assetViewBean.setSize(asset.getSize());
+        assetViewBean.setOrdering(asset.getOrdering());
+        if (asset.getFileSize() != null) {
+            assetViewBean.setFileSize(asset.getFileSize().toString());
+        }
+        assetViewBean.setDefault(asset.isDefault());
+
+        return assetViewBean;
+    }
+
+    protected CmsContentLinkViewBean buildViewBeanCmsContentLink(final RequestData requestData, final CmsLink link) {
+        CmsContentLinkViewBean linkViewBean = new CmsContentLinkViewBean();
+        linkViewBean.setName(link.getName());
+        linkViewBean.setType(link.getType());
+        linkViewBean.setParams(link.getParams());
+        linkViewBean.setExternal(link.isExternal());
+
+        if (FoUrls.ARTICLE_CMS_CONTENT.name().equals(link.getType())) {
+            CmsContent article = cmsContentService.getCmsContentById(link.getParams());
+            linkViewBean.setUrl(urlService.generateCmsLink(requestData, link, article));
+
+        } else if (FoUrls.BRAND_DETAILS.name().equals(link.getType())) {
+            ProductBrand productBrand = productService.getProductBrandByCode(link.getParams());
+            linkViewBean.setUrl(urlService.generateCmsLink(requestData, link, productBrand));
+
+        } else if (FoUrls.BRAND_LINE.name().equals(link.getType())) {
+            ProductBrand productBrand = productService.getProductBrandByCode(link.getParams());
+            linkViewBean.setUrl(urlService.generateCmsLink(requestData, link, productBrand));
+
+        } else {
+            linkViewBean.setUrl(urlService.generateCmsLink(requestData, link));
+        }
+
+        if (link.getFullURlPath() == null) {
+            linkViewBean.setFullURlPath(link.getFullURlPath());
+        }
+
+        return linkViewBean;
     }
 
     protected AttributeValueViewBean buildViewBeanAttributeValue(final RequestData requestData, final AbstractAttribute abstractAttribute) throws Exception {

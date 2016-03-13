@@ -103,7 +103,10 @@ public enum FoUrls {
     SET_SHIPPING_ADDRESS_AJAX(FoUrls.SET_SHIPPING_ADDRESS_AJAX_URL, FoUrls.SET_SHIPPING_ADDRESS_AJAX_KEY, null, false),
     SET_BILLING_ADDRESS_AJAX(FoUrls.SET_BILLING_ADDRESS_AJAX_URL, FoUrls.SET_BILLING_ADDRESS_AJAX_KEY, null, false),
     SET_DELIVERY_METHOD_AJAX(FoUrls.SET_DELIVERY_METHOD_AJAX_URL, FoUrls.SET_DELIVERY_METHOD_AJAX_KEY, null, false),
-   
+
+    ARTICLES(FoUrls.ARTICLES_URL, FoUrls.ARTICLES_KEY, FoUrls.ARTICLES_VELOCITY_PAGE, true),
+    ARTICLE_CMS_CONTENT(FoUrls.ARTICLE_CMS_CONTENT_URL, FoUrls.ARTICLE_CMS_CONTENT_KEY, FoUrls.ARTICLE_CMS_CONTENT_VELOCITY_PAGE, true),
+
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE, true),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, true),
     RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE, true),
@@ -399,6 +402,14 @@ public enum FoUrls {
     public static final String SET_DELIVERY_METHOD_AJAX_KEY             = "set-delivery-method-ajax";
     public static final String SET_DELIVERY_METHOD_AJAX_URL             = "/**/set-delivery-method.ajax";
 
+    public static final String ARTICLES_KEY            = "articles";
+    public static final String ARTICLES_URL            = "/**/articles.html";
+    public static final String ARTICLES_VELOCITY_PAGE  = "cms/article/articles";
+    
+    public static final String ARTICLE_CMS_CONTENT_KEY            = "article-cms-content";
+    public static final String ARTICLE_CMS_CONTENT_URL            = "/**/article-{" + RequestConstants.URL_PATTERN_CMS_CONTENT_SEO_KEY + ":[a-zA-Z0-9-]+}.html";
+    public static final String ARTICLE_CMS_CONTENT_VELOCITY_PAGE  = "cms/article/article-details";
+    
 	public static final String FORBIDDEN_KEY				= "forbidden";
 	public static final String FORBIDDEN_URL				= "/**/forbidden.html";
 	public static final String FORBIDDEN_VELOCITY_PAGE		= "security/forbidden";

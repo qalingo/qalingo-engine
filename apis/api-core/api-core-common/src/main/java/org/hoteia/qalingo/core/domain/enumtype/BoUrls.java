@@ -139,6 +139,14 @@ public enum BoUrls {
     COMPANY_DETAILS(BoUrls.COMPANY_DETAILS_URL, BoUrls.COMPANY_DETAILS_KEY, BoUrls.COMPANY_DETAILS_VELOCITY_PAGE, true),
     COMPANY_EDIT(BoUrls.COMPANY_EDIT_URL, BoUrls.COMPANY_EDIT_KEY, BoUrls.COMPANY_EDIT_VELOCITY_PAGE, true),
 
+    MANAGE_MENUS(BoUrls.MANAGE_MENUS_URL, BoUrls.MANAGE_MENUS_KEY, BoUrls.MANAGE_MENUS_VELOCITY_PAGE, true),
+    MANAGE_EDIT_MENU(BoUrls.MANAGE_EDIT_MENU_URL, BoUrls.MANAGE_EDIT_MENU_KEY, BoUrls.MANAGE_EDIT_MENU_VELOCITY_PAGE, true),
+    GET_MENU_FOR_MANAGE_MENUS_AJAX(BoUrls.GET_MENU_FOR_MANAGE_MENUS_AJAX_URL, BoUrls.GET_MENU_FOR_MANAGE_MENUS_AJAX_KEY, null, true),
+
+    MANAGE_ARTICLES(BoUrls.MANAGE_ARTICLES_URL, BoUrls.MANAGE_ARTICLES_KEY, BoUrls.MANAGE_ARTICLES_VELOCITY_PAGE, true),
+    MANAGE_EDIT_ARTICLE(BoUrls.MANAGE_EDIT_ARTICLE_URL, BoUrls.MANAGE_EDIT_ARTICLE_KEY, BoUrls.MANAGE_EDIT_ARTICLE_VELOCITY_PAGE, true),
+    GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX(BoUrls.GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_URL, BoUrls.GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_KEY, null, true),
+
     CONTEXT(BoUrls.CONTEXT_URL, BoUrls.CONTEXT_KEY, BoUrls.CONTEXT_VELOCITY_PAGE, false);
 
 	public static final String HOME_KEY				= "home";
@@ -505,6 +513,28 @@ public enum BoUrls {
     public static final String COMPANY_EDIT_URL                = "/**/company-edit.html";
     public static final String COMPANY_EDIT_VELOCITY_PAGE      = "company/company-edit";
 
+    public static final String MANAGE_MENUS_KEY             = "manage-menus";
+    public static final String MANAGE_MENUS_URL             = "/**/admin-menus.html";
+    public static final String MANAGE_MENUS_VELOCITY_PAGE   = "cms/menu/manage-menus";
+
+    public static final String GET_MENU_FOR_MANAGE_MENUS_AJAX_KEY   = "get-menu-list-for-manage-menus-ajax";
+    public static final String GET_MENU_FOR_MANAGE_MENUS_AJAX_URL   = "/**/get-menu-list-for-manage-menus-ajax.ajax";
+
+    public static final String MANAGE_EDIT_MENU_KEY             = "manage-menu-edit";
+    public static final String MANAGE_EDIT_MENU_URL             = "/**/admin-menu-edit.html";
+    public static final String MANAGE_EDIT_MENU_VELOCITY_PAGE   = "cms/menu/manage-menu-edit";
+
+    public static final String MANAGE_ARTICLES_KEY              = "manage-articles";
+    public static final String MANAGE_ARTICLES_URL              = "/**/admin-articles.html";
+    public static final String MANAGE_ARTICLES_VELOCITY_PAGE    = "cms/article/manage-articles";
+
+    public static final String MANAGE_EDIT_ARTICLE_KEY              = "manage-article-edit";
+    public static final String MANAGE_EDIT_ARTICLE_URL              = "/**/admin-article-edit.html";
+    public static final String MANAGE_EDIT_ARTICLE_VELOCITY_PAGE    = "cms/article/manage-article-edit";
+
+    public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_KEY   = "get-article-list-for-manage-articles-ajax";
+    public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_URL   = "/**/get-article-list-for-manage-articles-ajax.ajax";
+    
     public static final String CONTEXT_KEY            = "context";
     public static final String CONTEXT_URL            = "/**/bo-context.config"; // WARN: *.config pattern must be without any web cache
     public static final String CONTEXT_VELOCITY_PAGE  = "context/context";
