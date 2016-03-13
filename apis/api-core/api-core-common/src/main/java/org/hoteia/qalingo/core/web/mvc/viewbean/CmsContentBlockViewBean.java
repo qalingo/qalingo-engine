@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CmsContentViewBean.AssetViewBeanComparator;
 
 public class CmsContentBlockViewBean extends AbstractViewBean {
 
@@ -102,20 +104,11 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
     public List<AssetViewBean> getSortedAssets() {
         List<AssetViewBean> sortedAssets = null;
         if (assets != null 
-                && !assets.isEmpty()) {
-        	sortedAssets = new LinkedList<AssetViewBean>(assets);
+                && Hibernate.isInitialized(assets)) {
+            sortedAssets = new LinkedList<AssetViewBean>(assets);
             Collections.sort(sortedAssets, new AssetViewBeanComparator());
         }
         return sortedAssets;
-    }
-    
-    public class AssetViewBeanComparator implements Comparator<AssetViewBean> {
-        public int compare(AssetViewBean o1, AssetViewBean o2) {
-            if (o1 != null && o2 != null) {
-                return ((Integer)o1.getOrdering()).compareTo(((Integer)o2.getOrdering()));
-            }
-            return 0;
-        }
     }
     
     public AssetViewBean getDefaultAsset() {
@@ -133,13 +126,13 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
     }
     
     public String getDefaultImage() {
-        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+        for (Iterator<AssetViewBean> iterator = getSortedAssets().iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
             if("default".equalsIgnoreCase(assetViewBean.getType())){
                 return assetViewBean.getAbsoluteWebPath();
             }
         }
-        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+        for (Iterator<AssetViewBean> iterator = getSortedAssets().iterator(); iterator.hasNext();) {
             AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
             return assetViewBean.getAbsoluteWebPath();
         }
@@ -169,6 +162,17 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
 		return blocks;
 	}
 	
+    public CmsContentBlockViewBean getDefaultBlock() {
+        if (blocks != null && !blocks.isEmpty()) {
+            return blocks.get(0);
+        }
+        return null;
+    }
+
+    public void setBlocks(List<CmsContentBlockViewBean> blocks) {
+        this.blocks = blocks;
+    }
+	    
 	public List<ProductMarketingViewBean> getProductMarketings() {
 		return productMarketings;
 	}
@@ -185,15 +189,16 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
 		this.stores = stores;
 	}
 	
-	public CmsContentBlockViewBean getDefaultBlock() {
-		if(blocks != null && !blocks.isEmpty()){
-			return blocks.get(0);
-		}
-		return null;
-	}
-
-	public void setBlocks(List<CmsContentBlockViewBean> blocks) {
-		this.blocks = blocks;
-	}
-	
+    public class AssetViewBeanComparator implements Comparator<AssetViewBean> {
+        public int compare(AssetViewBean o1, AssetViewBean o2) {
+            if (o1 != null && o2 != null) {
+                int result = ((Integer)o1.getOrdering()).compareTo(((Integer)o2.getOrdering()));
+                if(result == 0){
+                    return (new Long(o1.getId())).compareTo((new Long(o2.getId())));
+                }
+                return result;
+            }
+            return 0;
+        }
+    }
 }
