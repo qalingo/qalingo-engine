@@ -3085,10 +3085,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     }
 
     public Map<Long, Map<String, List<CmsContentViewBean>>> buildMapViewBeanCmsContent(final RequestData requestData, final List<CmsContent> cmsContents) throws Exception {
+        final Locale locale = requestData.getLocale();
         TreeMap<Long, Map<String, List<CmsContentViewBean>>> mapCmsContentViewBeans = new TreeMap<Long, Map<String, List<CmsContentViewBean>>>();
         for (Iterator<CmsContent> iterator = cmsContents.iterator(); iterator.hasNext();) {
             CmsContent cmsContent = (CmsContent) iterator.next();
-            SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMMM yyyy");
+            SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMMM yyyy", locale);
             if (cmsContent.getDateCreate() != null) {
                 String key = formatMonthYear.format(cmsContent.getDateCreate());
                 Long longKey = formatMonthYear.parse(key).getTime();
