@@ -106,6 +106,7 @@ public enum FoUrls {
 
     ARTICLES(FoUrls.ARTICLES_URL, FoUrls.ARTICLES_KEY, FoUrls.ARTICLES_VELOCITY_PAGE, true),
     ARTICLE_CMS_CONTENT(FoUrls.ARTICLE_CMS_CONTENT_URL, FoUrls.ARTICLE_CMS_CONTENT_KEY, FoUrls.ARTICLE_CMS_CONTENT_VELOCITY_PAGE, true),
+    PAGE_CMS_CONTENT(FoUrls.ARTICLE_CMS_CONTENT_URL, FoUrls.ARTICLE_CMS_CONTENT_KEY, FoUrls.ARTICLE_CMS_CONTENT_VELOCITY_PAGE, true),
 
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE, true),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, true),
@@ -409,7 +410,11 @@ public enum FoUrls {
     public static final String ARTICLE_CMS_CONTENT_KEY            = "article-cms-content";
     public static final String ARTICLE_CMS_CONTENT_URL            = "/**/article-{" + RequestConstants.URL_PATTERN_CMS_CONTENT_SEO_KEY + ":[a-zA-Z0-9-]+}.html";
     public static final String ARTICLE_CMS_CONTENT_VELOCITY_PAGE  = "cms/article/article-details";
-    
+
+    public static final String PAGE_CMS_CONTENT_KEY            = "page-cms-content";
+    public static final String PAGE_CMS_CONTENT_URL            = "/**/page-{" + RequestConstants.URL_PATTERN_CMS_CONTENT_SEO_KEY + ":[a-zA-Z0-9-]+}.html";
+    public static final String PAGE_CMS_CONTENT_VELOCITY_PAGE  = "cms/article/article-details";
+
 	public static final String FORBIDDEN_KEY				= "forbidden";
 	public static final String FORBIDDEN_URL				= "/**/forbidden.html";
 	public static final String FORBIDDEN_VELOCITY_PAGE		= "security/forbidden";

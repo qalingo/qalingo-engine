@@ -228,7 +228,7 @@ public class UrlService extends AbstractUrlService {
         }
         try {
             FoUrls urlType = FoUrls.valueOf(FoUrls.class, link.getType());
-            if(FoUrls.ARTICLE_CMS_CONTENT.equals(urlType)){
+            if(FoUrls.ARTICLE_CMS_CONTENT.equals(urlType) || FoUrls.PAGE_CMS_CONTENT.equals(urlType)){
                 if(StringUtils.isNotEmpty(link.getParams())){
                     return generateUrl(urlType, requestData, params);
                 }

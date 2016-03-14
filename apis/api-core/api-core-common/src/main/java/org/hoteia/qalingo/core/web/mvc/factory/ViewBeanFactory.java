@@ -3412,7 +3412,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         linkViewBean.setParams(link.getParams());
         linkViewBean.setExternal(link.isExternal());
 
-        if (FoUrls.ARTICLE_CMS_CONTENT.name().equals(link.getType())) {
+        if (FoUrls.ARTICLE_CMS_CONTENT.name().equals(link.getType()) || FoUrls.PAGE_CMS_CONTENT.name().equals(link.getType())) {
             CmsContent article = cmsContentService.getCmsContentById(link.getParams());
             linkViewBean.setUrl(urlService.generateCmsLink(requestData, link, article));
 
