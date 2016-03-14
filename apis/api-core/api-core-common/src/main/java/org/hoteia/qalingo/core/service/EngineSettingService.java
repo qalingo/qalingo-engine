@@ -803,7 +803,7 @@ public class EngineSettingService {
             prefixPath = engineSetting.getDefaultValue();
         }
         String cmsContentImageWebPath = getRootAssetWebPath() + prefixPath + "/" + cmsContent.getMarketArea().getName().toLowerCase() + "/" + handleFilePath(cmsContent.getType()) + "/";
-        if("MENU".equals(cmsContent.getType()) || "ARTICLE".equals(cmsContent.getType())){
+        if("MENU".equals(cmsContent.getType()) || "ARTICLE".equals(cmsContent.getType()) || "PAGE".equals(cmsContent.getType())){
             cmsContentImageWebPath += handleFilePath(cmsContent.getCode()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
         } else {
             cmsContentImageWebPath += handleFilePath(asset.getScopePathValue()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
