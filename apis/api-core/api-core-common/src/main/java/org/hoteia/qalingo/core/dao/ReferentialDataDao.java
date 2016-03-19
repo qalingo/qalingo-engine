@@ -8,6 +8,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.domain.Dictionary;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
@@ -21,6 +23,8 @@ public class ReferentialDataDao extends AbstractGenericDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    // TAG
+    
     public Tag getTagById(final Long tagId, Object... params) {
         Criteria criteria = createDefaultCriteria(Tag.class);
 
@@ -99,6 +103,70 @@ public class ReferentialDataDao extends AbstractGenericDao {
         } else {
             return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultTagFetchPlan());
         }
+    }
+    
+    // DICTIONARY
+    
+    public Dictionary getDictionaryById(final Long dictionaryId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Dictionary.class);
+
+        criteria.add(Restrictions.eq("id", dictionaryId));
+
+        Dictionary dictionary = (Dictionary) criteria.uniqueResult();
+        return dictionary;
+    }
+
+    public Dictionary getDictionaryByCodeAndLocalizationId(final String dictionaryCode, final Long localizationId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Dictionary.class);
+
+        criteria.add(Restrictions.eq("code", handleCodeValue(dictionaryCode)));
+
+        criteria.add(Restrictions.eq("localization.id", localizationId));
+
+        Dictionary dictionary = (Dictionary) criteria.uniqueResult();
+        return dictionary;
+    }
+
+    public Long getMaxDictionaryId() {
+        Criteria criteria = createDefaultCriteria(Dictionary.class);
+        criteria.setProjection(Projections.max("id"));
+        Long maxId = (Long) criteria.uniqueResult();
+        return (maxId == null) ? new Long(0) : maxId;
+    }
+
+    public List<Dictionary> findAllDictionarys(Object... params) {
+        Criteria criteria = createDefaultCriteria(Dictionary.class);
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Dictionary> dictionarys = criteria.list();
+        return dictionarys;
+    }
+
+    public Dictionary saveOrUpdateDictionary(final Dictionary dictionary) {
+        if (dictionary.getDateCreate() == null) {
+            dictionary.setDateCreate(new Date());
+        }
+        if (StringUtils.isEmpty(dictionary.getCode())) {
+            dictionary.setCode(CoreUtil.generateEntityCode());
+        }
+        dictionary.setDateUpdate(new Date());
+        if (dictionary.getId() != null) {
+            if (em.contains(dictionary)) {
+                em.refresh(dictionary);
+            }
+            Dictionary mergedDictionary = em.merge(dictionary);
+            em.flush();
+            return mergedDictionary;
+        } else {
+            em.persist(dictionary);
+            return dictionary;
+        }
+    }
+
+    public void deleteDictionary(final Dictionary dictionary) {
+        em.remove(dictionary);
     }
 
 }

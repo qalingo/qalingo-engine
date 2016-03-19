@@ -21,6 +21,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.ReferentialDataDao;
+import org.hoteia.qalingo.core.domain.Dictionary;
+import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -226,6 +228,30 @@ public class ReferentialDataService {
     
     public void deleteTag(final Tag tag) {
         referentialDataDao.deleteTag(tag);
+    }
+    
+    // DICTIONARY
+    
+    public Dictionary getDictionaryById(final Long dictionaryId, Object... params) {
+        return referentialDataDao.getDictionaryById(dictionaryId, params);
+    }
+
+    public Dictionary getDictionaryById(final String rawDictionaryId, Object... params) {
+        long dictionaryId = -1;
+        try {
+            dictionaryId = Long.parseLong(rawDictionaryId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getDictionaryById(dictionaryId, params);
+    }
+
+    public Dictionary getDictionaryByCodeAndLocalizationId(final String dictionaryCode, final Long localizationId, Object... params) {
+        return referentialDataDao.getDictionaryByCodeAndLocalizationId(dictionaryCode, localizationId, params);
+    }
+
+    public List<Dictionary> findAllDictionarys(Object... params) {
+        return referentialDataDao.findAllDictionarys(params);
     }
 
 }
