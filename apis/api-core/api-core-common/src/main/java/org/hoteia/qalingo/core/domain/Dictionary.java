@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_DICTIONARY")
+@Table(name="TCOMMON_DICTIONARY")
 public class Dictionary extends AbstractEntity<Dictionary> {
 
 	/**
