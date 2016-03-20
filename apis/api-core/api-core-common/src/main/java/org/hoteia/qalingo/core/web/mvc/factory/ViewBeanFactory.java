@@ -106,6 +106,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 import org.hoteia.qalingo.core.domain.Store_;
+import org.hoteia.qalingo.core.domain.ProductBrand_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_;
@@ -3157,9 +3158,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             
             // PRODUCT BRAND
             if (Hibernate.isInitialized(cmsContent.getProductBrands()) && cmsContent.getProductBrands() != null) {
+                List<SpecificFetchMode> productBrandFetchplans = new ArrayList<SpecificFetchMode>();
+                productBrandFetchplans.add(new SpecificFetchMode(ProductBrand_.attributes.getName()));
+                productBrandFetchplans.add(new SpecificFetchMode(ProductBrand_.assets.getName()));
                 for (Iterator<ProductBrand> iterator = cmsContent.getProductBrands().iterator(); iterator.hasNext();) {
                     ProductBrand productBrand = (ProductBrand) iterator.next();
-                    ProductBrand reloadedProductBrand = productService.getProductBrandById(productBrand.getId());
+                    ProductBrand reloadedProductBrand = productService.getProductBrandById(productBrand.getId(), new FetchPlan(productBrandFetchplans));
                     ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, reloadedProductBrand);
                     cmsContentViewBean.getProductBrands().add(productBrandViewBean);
                 }

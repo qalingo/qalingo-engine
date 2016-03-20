@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.domain.ProductBrand;
 
 public class CmsContentViewBean extends AbstractViewBean {
 
