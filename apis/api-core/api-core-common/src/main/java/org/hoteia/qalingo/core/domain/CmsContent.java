@@ -109,6 +109,10 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     @JoinTable(name = "TCMS_CONTENT_PRODUCT_SKU_REL", joinColumns = @JoinColumn(name = "CMS_CONTENT_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"))
     private Set<ProductSku> productSkus = new HashSet<ProductSku>();
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TCMS_CONTENT_PRODUCT_BRAND_REL", joinColumns = @JoinColumn(name = "CMS_CONTENT_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"))
+    private Set<ProductBrand> productBrands = new HashSet<ProductBrand>();
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -307,10 +311,28 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
         }
         return sortedProductSkus;
     }
-	
+    
 	public void setProductSkus(Set<ProductSku> productSkus) {
 		this.productSkus = productSkus;
 	}
+	
+	public Set<ProductBrand> getProductBrands() {
+        return productBrands;
+    }
+	
+    public ProductBrand getDefaultProductBrand() {
+        if (Hibernate.isInitialized(productBrands)
+                && productBrands != null) {
+            for (ProductBrand productBrand : productBrands) {
+                return productBrand;
+            }
+        }
+        return null;
+    }
+    
+	public void setProductBrands(Set<ProductBrand> productBrands) {
+        this.productBrands = productBrands;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;
