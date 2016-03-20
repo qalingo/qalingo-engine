@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 
 public class CmsContentViewBean extends AbstractViewBean {
 
@@ -299,6 +300,15 @@ public class CmsContentViewBean extends AbstractViewBean {
     
     public List<ProductBrandViewBean> getProductBrands() {
         return productBrands;
+    }
+    
+    public ProductBrandViewBean getDefaultProductBrand() {
+        if (productBrands != null) {
+            for (ProductBrandViewBean productBrand : productBrands) {
+                return productBrand;
+            }
+        }
+        return null;
     }
     
     public void setProductBrands(List<ProductBrandViewBean> productBrands) {
