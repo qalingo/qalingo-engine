@@ -3154,6 +3154,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     cmsContentViewBean.getBlocks().add(blockViewBean);
                 }
             }
+            
+            // PRODUCT BRAND
+            if (Hibernate.isInitialized(cmsContent.getProductBrands()) && cmsContent.getProductBrands() != null) {
+                for (Iterator<ProductBrand> iterator = cmsContent.getProductBrands().iterator(); iterator.hasNext();) {
+                    ProductBrand productBrand = (ProductBrand) iterator.next();
+                    ProductBrand reloadedProductBrand = productService.getProductBrandById(productBrand.getId());
+                    ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, reloadedProductBrand);
+                    cmsContentViewBean.getProductBrands().add(productBrandViewBean);
+                }
+            }
 
             // ASSETS
             if (Hibernate.isInitialized(cmsContent.getAssets()) && cmsContent.getAssets() != null) {

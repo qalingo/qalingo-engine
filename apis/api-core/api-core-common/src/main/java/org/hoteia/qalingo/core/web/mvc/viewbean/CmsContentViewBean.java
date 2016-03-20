@@ -34,6 +34,7 @@ public class CmsContentViewBean extends AbstractViewBean {
 
     protected List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    protected List<ProductBrandViewBean> productBrands = new ArrayList<ProductBrandViewBean>();
     
 	private String editUrl;
 	private String detailsUrl;
@@ -294,6 +295,14 @@ public class CmsContentViewBean extends AbstractViewBean {
     
     public void setAssets(List<AssetViewBean> assets) {
         this.assets = assets;
+    }
+    
+    public List<ProductBrandViewBean> getProductBrands() {
+        return productBrands;
+    }
+    
+    public void setProductBrands(List<ProductBrandViewBean> productBrands) {
+        this.productBrands = productBrands;
     }
     
     public String getEditUrl() {

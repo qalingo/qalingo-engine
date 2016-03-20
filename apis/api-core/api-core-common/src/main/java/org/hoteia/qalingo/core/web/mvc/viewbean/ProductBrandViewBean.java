@@ -197,6 +197,16 @@ public class ProductBrandViewBean extends AbstractViewBean {
         return null;
     }
     
+    public String getSocialNetWorkUrl(String code) {
+        if(globalAttributes != null){
+            AttributeValueViewBean attributeValue = globalAttributes.get("PRODUCT_BRAND_URL_" + code);
+            if(attributeValue != null){
+                return attributeValue.getValue();
+            }
+        }
+        return null;
+    }
+    
     public void setGlobalAttributes(Map<String, AttributeValueViewBean> globalAttributes) {
         this.globalAttributes = globalAttributes;
     }
