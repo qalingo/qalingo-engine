@@ -193,7 +193,7 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
         public int compare(AssetViewBean o1, AssetViewBean o2) {
             if (o1 != null && o2 != null) {
                 int result = ((Integer)o1.getOrdering()).compareTo(((Integer)o2.getOrdering()));
-                if(result == 0){
+                if(result == 0 && o1.getId() != null && o2.getId() != null){
                     return (new Long(o1.getId())).compareTo((new Long(o2.getId())));
                 }
                 return result;
