@@ -92,6 +92,8 @@ public enum FoUrls {
     CART_ORDER_PAYMENT(FoUrls.CART_ORDER_PAYMENT_URL, FoUrls.CART_ORDER_PAYMENT_KEY, FoUrls.CART_ORDER_PAYMENT_VELOCITY_PAGE, true),
     CART_ORDER_CONFIRMATION(FoUrls.CART_ORDER_CONFIRMATION_URL, FoUrls.CART_ORDER_CONFIRMATION_KEY, FoUrls.CART_ORDER_CONFIRMATION_VELOCITY_PAGE, true),
 
+    PRIVATE_SALE(FoUrls.PRIVATE_SALE_URL, FoUrls.PRIVATE_SALE_KEY, FoUrls.PRIVATE_SALE_VELOCITY_PAGE, true),
+
     NAVIGATOR_GEOLOCATION_AJAX(FoUrls.NAVIGATOR_GEOLOCATION_AJAX_URL, FoUrls.NAVIGATOR_GEOLOCATION_AJAX_KEY, null, false),
     ADD_TO_WISHLIST_AJAX(FoUrls.ADD_TO_WISHLIST_AJAX_URL, FoUrls.ADD_TO_WISHLIST_AJAX_KEY, null, false),
     GET_CART_AJAX(FoUrls.GET_CART_AJAX_URL, FoUrls.GET_CART_AJAX_KEY, null, false),
@@ -103,7 +105,11 @@ public enum FoUrls {
     SET_SHIPPING_ADDRESS_AJAX(FoUrls.SET_SHIPPING_ADDRESS_AJAX_URL, FoUrls.SET_SHIPPING_ADDRESS_AJAX_KEY, null, false),
     SET_BILLING_ADDRESS_AJAX(FoUrls.SET_BILLING_ADDRESS_AJAX_URL, FoUrls.SET_BILLING_ADDRESS_AJAX_KEY, null, false),
     SET_DELIVERY_METHOD_AJAX(FoUrls.SET_DELIVERY_METHOD_AJAX_URL, FoUrls.SET_DELIVERY_METHOD_AJAX_KEY, null, false),
-   
+
+    ARTICLES(FoUrls.ARTICLES_URL, FoUrls.ARTICLES_KEY, FoUrls.ARTICLES_VELOCITY_PAGE, true),
+    ARTICLE_CMS_CONTENT(FoUrls.ARTICLE_CMS_CONTENT_URL, FoUrls.ARTICLE_CMS_CONTENT_KEY, FoUrls.ARTICLE_CMS_CONTENT_VELOCITY_PAGE, true),
+    PAGE_CMS_CONTENT(FoUrls.PAGE_CMS_CONTENT_URL, FoUrls.PAGE_CMS_CONTENT_KEY, FoUrls.PAGE_CMS_CONTENT_VELOCITY_PAGE, true),
+
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE, true),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, true),
     RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE, true),
@@ -366,6 +372,10 @@ public enum FoUrls {
 	public static final String CART_ORDER_CONFIRMATION_URL				= "/**/cart-order-confirmation.html";
 	public static final String CART_ORDER_CONFIRMATION_VELOCITY_PAGE	= "cart/cart-order-confirmation";
 
+    public static final String PRIVATE_SALE_KEY                         = "private-sale-form";
+    public static final String PRIVATE_SALE_URL                         = "/**/private-sale.html";
+    public static final String PRIVATE_SALE_VELOCITY_PAGE               = "private-sale/private-sale";
+
     public static final String NAVIGATOR_GEOLOCATION_AJAX_KEY            = "navigator-geolocation-ajax";
     public static final String NAVIGATOR_GEOLOCATION_AJAX_URL            = "/**/navigator-geolocation.ajax";
 
@@ -398,6 +408,18 @@ public enum FoUrls {
 
     public static final String SET_DELIVERY_METHOD_AJAX_KEY             = "set-delivery-method-ajax";
     public static final String SET_DELIVERY_METHOD_AJAX_URL             = "/**/set-delivery-method.ajax";
+
+    public static final String ARTICLES_KEY            = "articles";
+    public static final String ARTICLES_URL            = "/**/articles.html";
+    public static final String ARTICLES_VELOCITY_PAGE  = "cms/article/articles";
+    
+    public static final String ARTICLE_CMS_CONTENT_KEY            = "article-cms-content";
+    public static final String ARTICLE_CMS_CONTENT_URL            = "/**/article-{" + RequestConstants.URL_PATTERN_CMS_CONTENT_SEO_KEY + ":[a-zA-Z0-9-]+}.html";
+    public static final String ARTICLE_CMS_CONTENT_VELOCITY_PAGE  = "cms/article/article-details";
+
+    public static final String PAGE_CMS_CONTENT_KEY            = "page-cms-content";
+    public static final String PAGE_CMS_CONTENT_URL            = "/**/page-{" + RequestConstants.URL_PATTERN_CMS_CONTENT_SEO_KEY + ":[a-zA-Z0-9-]+}.html";
+    public static final String PAGE_CMS_CONTENT_VELOCITY_PAGE  = "cms/article/article-details";
 
 	public static final String FORBIDDEN_KEY				= "forbidden";
 	public static final String FORBIDDEN_URL				= "/**/forbidden.html";

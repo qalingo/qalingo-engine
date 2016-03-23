@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Column;

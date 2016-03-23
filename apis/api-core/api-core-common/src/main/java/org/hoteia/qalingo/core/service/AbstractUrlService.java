@@ -39,6 +39,9 @@ public abstract class AbstractUrlService {
     @Autowired
     protected EngineSettingService engineSettingService;
 
+    @Autowired
+    protected ReferentialDataService referentialDataService;
+    
     public abstract String generateUrl(final String urlWithoutWildcard, final boolean isEncoded, final boolean isSEO, final RequestData requestData, Object... params);
     
     public String generateUrl(final CommonUrls url, final RequestData requestData, Object... params) {

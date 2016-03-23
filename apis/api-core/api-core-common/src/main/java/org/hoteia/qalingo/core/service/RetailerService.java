@@ -13,14 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.dao.RetailerDao;
 import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.StoreCustomerComment;
 import org.hoteia.qalingo.core.domain.StoreCustomerRate;
+import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -379,4 +382,20 @@ public class RetailerService {
         retailerDao.deleteStoreCustomerComment(customerRate);
     }
 
+    public List<GeolocatedStore> findRandomB2CStores(final MarketArea marketArea, final GeolocData geolocData, int maxStoreList, int distance){
+        List<GeolocatedStore> storeRandom = new ArrayList<GeolocatedStore>();
+        if(marketArea.getGeolocCountryCode() != null){
+            List<String> types = new ArrayList<String>();
+            types.add("OPTICIAN");
+            storeRandom = findB2CStoresByGeolocAndCountryAndType(marketArea.getGeolocCountryCode(), types, geolocData.getLatitude(), geolocData.getLongitude(), Integer.toString(distance), maxStoreList);
+        } else {
+            if(StringUtils.isNotEmpty(geolocData.getLatitude()) 
+                    && StringUtils.isNotEmpty(geolocData.getLongitude())){
+                List<String> types = new ArrayList<String>();
+                types.add("OPTICIAN");
+                storeRandom = findB2CStoresByGeolocAndCountryAndType(null, types, geolocData.getLatitude(), geolocData.getLongitude(), Integer.toString(distance), maxStoreList);
+            }
+        }
+        return storeRandom;
+    }
 }

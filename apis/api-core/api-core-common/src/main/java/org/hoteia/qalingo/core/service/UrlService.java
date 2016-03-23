@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CmsLink;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
@@ -31,7 +32,6 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tag;
-import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.slf4j.Logger;
@@ -218,6 +218,30 @@ public class UrlService extends AbstractUrlService {
         return handleUrlParameters(urlStr, urlParams, getParams);
     }
 
+    public String generateCmsLink(RequestData requestData, CmsLink link, Object... params){
+        try {
+            FoUrls urlType = FoUrls.valueOf(FoUrls.class, link.getType());
+            return generateUrl(urlType, requestData, params);
+            
+        } catch (Exception e) {
+            logger.debug("Can't build link: " + link.toString(), e);
+        }
+        try {
+            FoUrls urlType = FoUrls.valueOf(FoUrls.class, link.getType());
+            if(FoUrls.ARTICLE_CMS_CONTENT.equals(urlType) || FoUrls.PAGE_CMS_CONTENT.equals(urlType)){
+                if(StringUtils.isNotEmpty(link.getParams())){
+                    return generateUrl(urlType, requestData, params);
+                }
+            } else {
+                return generateUrl(urlType, requestData, params);
+            }
+            
+        } catch (Exception e) {
+            logger.debug("Can't build link: " + link.toString(), e);
+        }
+        return null;
+    }
+    
     public String buildSpringSecurityCheckUrl(final RequestData requestData) throws Exception {
         return buildContextPath(requestData) + FoUrls.SPRING_SECURITY_URL;
     }

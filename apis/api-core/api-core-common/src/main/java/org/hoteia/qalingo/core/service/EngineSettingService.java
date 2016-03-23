@@ -20,7 +20,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.EngineSettingDao;
+import org.hoteia.qalingo.core.domain.AbstractCmsEntity;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CmsContentAsset;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -28,7 +30,6 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("engineSettingService")
@@ -117,6 +118,9 @@ public class EngineSettingService {
     public static final String ENGINE_SETTING_GOOGLE_GEOLOC_OVER_QUOTA_KEY      = "GOOGLE_GEOLOC_OVER_QUOTA_TIMESTAMP";
     public static final String ENGINE_SETTING_GOOGLE_MAP_API_KEY                = "GOOGLE_MAP_API_KEY";
     public static final String ENGINE_SETTING_GOOGLE_MAP_OVER_QUOTA_KEY         = "GOOGLE_MAP_OVER_QUOTA_TIMESTAMP";
+
+    // LIGTH CMS
+    public static final String ENGINE_SETTING_CODE_ASSET_CMS_CONTENT_FILE_PATH   = "ASSET_CMS_CONTENT_FILE_PATH";
 
     public static SimpleDateFormat timestampPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     
@@ -781,6 +785,33 @@ public class EngineSettingService {
         }
         String retailerImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScopePathValue() + "/" + asset.getType() + "/" + asset.getPath();
         return handleWebPath(retailerImageWebPath);
+    }
+    
+    // CMS
+    
+    public EngineSetting getSettingAssetCmsContentFilePath() {
+        return getEngineSettingByCode(ENGINE_SETTING_CODE_ASSET_CMS_CONTENT_FILE_PATH);
+    }
+    
+    /**
+     * 
+     */
+    public String getCmsContentImageWebPath(final AbstractCmsEntity cmsContent, final CmsContentAsset asset) throws Exception {
+        EngineSetting engineSetting = getSettingAssetCmsContentFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String cmsContentImageWebPath = getRootAssetWebPath() + prefixPath + "/" + cmsContent.getMarketArea().getName().toLowerCase() + "/" + handleFilePath(cmsContent.getType()) + "/";
+        if("MENU".equals(cmsContent.getType()) || "ARTICLE".equals(cmsContent.getType()) || "PAGE".equals(cmsContent.getType())){
+            cmsContentImageWebPath += handleFilePath(cmsContent.getCode()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
+        } else {
+            cmsContentImageWebPath += handleFilePath(asset.getScopePathValue()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
+        }
+        if (cmsContentImageWebPath.endsWith("/")) {
+            cmsContentImageWebPath = cmsContentImageWebPath.substring(0, cmsContentImageWebPath.length() - 1);
+        }
+        return handleWebPath(cmsContentImageWebPath);
     }
     
     protected String handleWebPath(String path){
