@@ -45,11 +45,12 @@
             <artifactId>spring-jms</artifactId>
         </dependency>
 		
-		<!-- Spring Batch libs -->
+		<!-- Spring Batch libs
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-core</artifactId>
 		</dependency>
+		 -->
         
         <!-- JMS libs -->
         <dependency>
