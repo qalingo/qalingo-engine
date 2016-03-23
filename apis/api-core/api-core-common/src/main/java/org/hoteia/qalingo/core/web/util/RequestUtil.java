@@ -995,11 +995,11 @@ public class RequestUtil {
     }
 
     public boolean isBackOffice() throws Exception {
-        return getCurrentContextNameValue() != null && getCurrentContextNameValue().contains("BO_");
+        return getCurrentContextNameValue() != null && (getCurrentContextNameValue().contains("BO_") || getCurrentContextNameValue().contains("APP_"));
     }
 
     public static boolean isBackOffice(String currentContextNameValue) throws Exception {
-        return currentContextNameValue != null && currentContextNameValue.contains("BO_");
+        return currentContextNameValue != null && (currentContextNameValue.contains("BO_") || currentContextNameValue.contains("APP_"));
     }
 
     public void updateCurrentLocalization(HttpServletRequest request, AbstractEngineSession session, Localization localization) throws Exception {
