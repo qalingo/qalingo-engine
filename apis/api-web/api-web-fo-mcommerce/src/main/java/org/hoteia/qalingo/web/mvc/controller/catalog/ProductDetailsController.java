@@ -234,7 +234,9 @@ public class ProductDetailsController extends AbstractMCommerceController {
 
         seoDataViewBean.setMetaOgTitle(seoPageTitle);
         seoDataViewBean.setMetaOgDescription(productMarketingViewBean.getI18nDescription());
-        seoDataViewBean.setMetaOgImage(productMarketingViewBean.getDefaultAsset().getAbsoluteWebPath());
+        if(productMarketingViewBean.getDefaultAsset() != null){
+            seoDataViewBean.setMetaOgImage(productMarketingViewBean.getDefaultAsset().getAbsoluteWebPath());
+        }
 
         return seoDataViewBean;
     }
