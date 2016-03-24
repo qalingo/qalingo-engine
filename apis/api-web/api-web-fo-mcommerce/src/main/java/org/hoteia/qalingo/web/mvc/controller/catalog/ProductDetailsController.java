@@ -167,7 +167,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory, productMarketing));
 
-        model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, overideInitSeo(request, model, productMarketingViewBean));
+        model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, initSeo(request, model, productMarketingViewBean));
 
         return modelAndView;
 	}
@@ -206,9 +206,6 @@ public class ProductDetailsController extends AbstractMCommerceController {
         return breadcrumbViewBean;
     }
     
-    /**
-     * 
-     */
     @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
     protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
         List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
@@ -216,9 +213,10 @@ public class ProductDetailsController extends AbstractMCommerceController {
         return productBrandViewBeans;
     }
     
-    protected SeoDataViewBean overideInitSeo(final HttpServletRequest request, final Model model, final ProductMarketingViewBean productMarketingViewBean) throws Exception {
-        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, final ProductMarketingViewBean productMarketingViewBean) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
+        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         final Locale locale = requestData.getLocale();
         
         String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);

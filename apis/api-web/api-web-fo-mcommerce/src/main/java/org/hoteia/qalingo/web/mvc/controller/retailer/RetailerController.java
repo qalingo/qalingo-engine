@@ -196,8 +196,8 @@ public class RetailerController extends AbstractMCommerceController {
     
     @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
     protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode) throws Exception {
-        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
+        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         final Locale locale = requestData.getLocale();
         
         Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
@@ -221,9 +221,6 @@ public class RetailerController extends AbstractMCommerceController {
         return seoDataViewBean;
     }
     
-	/**
-	 * 
-	 */
     @ModelAttribute("retailerCreateForm")
 	protected RetailerCreateForm getRetailerCreateForm(final HttpServletRequest request, final Model model) throws Exception {
     	return new RetailerCreateForm();

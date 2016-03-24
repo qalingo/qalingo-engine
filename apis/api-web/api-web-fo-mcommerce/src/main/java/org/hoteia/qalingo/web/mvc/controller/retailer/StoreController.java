@@ -112,7 +112,7 @@ public class StoreController extends AbstractMCommerceController {
 
             model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, store));
 	        
-            model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, overideInitSeo(request, model, storeViewBean));
+            model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, initSeo(request, model, storeViewBean));
 
 	        return modelAndView;
 		}
@@ -154,9 +154,9 @@ public class StoreController extends AbstractMCommerceController {
         return breadcrumbViewBean;
     }
     
-    protected SeoDataViewBean overideInitSeo(final HttpServletRequest request, final Model model, final StoreViewBean storeViewBean) throws Exception {
-        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, final StoreViewBean storeViewBean) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
+        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         final Locale locale = requestData.getLocale();
         
         String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);

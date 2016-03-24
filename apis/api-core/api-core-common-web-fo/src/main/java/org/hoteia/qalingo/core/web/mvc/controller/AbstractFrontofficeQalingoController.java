@@ -16,26 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.security.util.SecurityRequestUtil;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
-import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -69,42 +62,6 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
     /**
      * 
      */
-    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
-    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        return frontofficeViewBeanFactory.buildViewSeoData(requestData);
-    }
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH)
-	protected String initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
-		// QUICK SEARCH
-		return urlService.generateUrl(FoUrls.CATALOG_SEARCH, requestUtil.getRequestData(request));
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute(ModelConstants.FOLLOW_US_VIEW_BEAN)
-	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
-		// QUICK SEARCH
-		return frontofficeViewBeanFactory.buildViewBeanFollowUs(requestUtil.getRequestData(request));
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute(ModelConstants.XRDS_URL_VIEW_BEAN)
-	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
-		String xrdsURL = urlService.generateUrl(CommonUrls.XRDS, requestUtil.getRequestData(request));
-		return urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), xrdsURL);
-	}
-
-    /**
-     * 
-     */
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
         overrideDefaultPageTitle(request, modelAndView, titleKey, null);
     }
@@ -131,43 +88,6 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 */
 	protected String getMessageTitleKey(final String pageKey) throws Exception {
 		return "page_title_" + pageKey;
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initBreadcrumAndHeaderContent(final HttpServletRequest request, final Model model) throws Exception {
-        // DEFAULT EMPTY VALUE
-        model.addAttribute(ModelConstants.PAGE_TITLE, "");
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initConfig(final HttpServletRequest request, final Model model) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
-		model.addAttribute(ModelConstants.LOCALE_LANGUAGE_CODE, locale.getLanguage());
-		model.addAttribute(ModelConstants.CONTEXT_PATH, request.getContextPath());
-		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(request));
-		Object[] params = {StringUtils.capitalize(requestUtil.getEnvironmentName())};
-		model.addAttribute(ModelConstants.ENV_NAME, getSpecificMessage(ScopeWebMessage.COMMON, "header.env.name", params, locale));
-	}
-
-	/**
-	 * @return 
-	 * 
-	 */
-	@ModelAttribute(ModelConstants.WORDING)
-	public Map<String, String> initWording(final HttpServletRequest request, final Model model) throws Exception {
-		try {
-			return getWordingMap(request);
-        } catch (Exception e) {
-        	logger.error("Context name, " + requestUtil.getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
-        }
-		return null;
 	}
 	
 	protected Map<String, String> getWordingMap(final HttpServletRequest request){

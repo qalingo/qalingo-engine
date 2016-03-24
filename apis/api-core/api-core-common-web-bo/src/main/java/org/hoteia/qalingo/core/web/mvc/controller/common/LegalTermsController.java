@@ -14,6 +14,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -22,6 +23,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SeoDataViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,10 +38,10 @@ public class LegalTermsController extends AbstractBackofficeQalingoController {
         return new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.LEGAL_TERMS.getVelocityPage());
 	}
 
-    @Override
+    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
     protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model) throws Exception {
-        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
+        SeoDataViewBean seoDataViewBean = backofficeViewBeanFactory.buildViewSeoData(requestData);
         final Locale locale = requestData.getLocale();
         final String pageKey = BoUrls.LEGAL_TERMS_KEY;
         final String pageTitle = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);

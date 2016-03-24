@@ -14,10 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.VelocityPageContextDataPojo;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.UrlPojo;
+import org.hoteia.qalingo.core.pojo.VelocityPageContextDataPojo;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.springframework.stereotype.Controller;

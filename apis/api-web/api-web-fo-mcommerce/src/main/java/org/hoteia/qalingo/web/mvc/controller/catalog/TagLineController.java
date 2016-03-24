@@ -146,8 +146,8 @@ public class TagLineController extends AbstractMCommerceController {
     
     @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
     protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
-        SeoDataViewBean seoDataViewBean = super.initSeo(request, model);
         final RequestData requestData = requestUtil.getRequestData(request);
+        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         
         final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
         final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
