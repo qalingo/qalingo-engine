@@ -79,6 +79,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
     protected SecurityUtil securityUtil;
 
     /**
+     * @throws Exception 
      * 
      */
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
@@ -86,6 +87,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
     }
     
     /**
+     * @throws Exception 
      * 
      */
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, String pageTitleKey, Object[] params) throws Exception {
@@ -104,6 +106,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
     }
     
     /**
+     * @throws Exception 
      * 
      */
     protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
@@ -111,6 +114,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
     }
     
     /**
+     * @throws Exception 
      * 
      */
     protected void overrideDefaultMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
@@ -126,9 +130,10 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         modelAndView.addObject(ModelConstants.PAGE_TITLE, headerTitle);
     }
 	
-	/**
-	 * 
-	 */
+    /**
+     * @throws Exception 
+     * 
+     */
 	protected String getMessageTitleKey(final String pageKey) throws Exception {
 		return "page_title_" + pageKey;
 	}
@@ -141,30 +146,18 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         return requestUtil.getCurrentVelocityWebPrefix(request);
     }
     
-	/**
-	 * 
-	 */
 	protected String getSpecificMessage(ScopeWebMessage scope, String key, Locale locale){
 		return getSpecificMessage(scope.getPropertyKey(), key, locale);
 	}
 	
-	/**
-	 * 
-	 */
 	protected String getSpecificMessage(ScopeWebMessage scope, String key, Object[] params, Locale locale){
 		return getSpecificMessage(scope.getPropertyKey(), key, params, locale);
 	}
 	
-	   /**
-     * 
-     */
     protected String getSpecificMessage(String scope, String key, Locale locale){
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO.getPropertyKey(), scope, key, locale);
     }
     
-    /**
-     * 
-     */
     protected String getSpecificMessage(String scope, String key, Object[] params, Locale locale){
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO.getPropertyKey(), scope, key, params, locale);
     }

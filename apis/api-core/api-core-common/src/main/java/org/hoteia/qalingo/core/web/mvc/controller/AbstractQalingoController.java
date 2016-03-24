@@ -70,9 +70,6 @@ public abstract class AbstractQalingoController {
 	@Autowired
     protected RequestUtil requestUtil;
 	
-	/**
-	 * 
-	 */
 	@ModelAttribute
 	protected void initVelocityLayout(final HttpServletRequest request, final Model model) throws Exception {
 		// Velocity layout mandatory attributes
@@ -82,9 +79,10 @@ public abstract class AbstractQalingoController {
 		model.addAttribute(Constants.VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT, "../_include/body-footer-empty-script-content.vm");
 	}
 	
-	/**
-	 * 
-	 */
+    /**
+     * @throws Exception 
+     * 
+     */
 	@ModelAttribute
 	protected void handleMessages(final HttpServletRequest request, final Model model) throws Exception {
 		// WE USE SESSION FOR MESSAGES BECAUSE REDIRECT CLEAN REQUEST
@@ -114,9 +112,10 @@ public abstract class AbstractQalingoController {
 		}
 	}
 
-	/**
-	 * 
-	 */
+    /**
+     * @throws Exception 
+     * 
+     */
 	@ModelAttribute(ModelConstants.TRACKING_VIEW_BEAN)
 	protected TrackingViewBean initTracking(final HttpServletRequest request, final Model model) throws Exception {
 		TrackingViewBean trackingViewBean = null;
@@ -143,6 +142,7 @@ public abstract class AbstractQalingoController {
 	}
 	
     /**
+     * @throws Exception 
      * 
      */
     @ModelAttribute(ModelConstants.URL_BACK)
@@ -153,9 +153,10 @@ public abstract class AbstractQalingoController {
         return requestUtil.getLastRequestUrl(request, excludedPatterns);
     }
 
-	/**
-	 * 
-	 */
+    /**
+     * @throws Exception 
+     * 
+     */
 	@ModelAttribute(ModelConstants.MONITORING_VIEW_BEAN)
 	protected MonitoringViewBean initMonitoring(final HttpServletRequest request, final Model model) throws Exception {
 		MonitoringViewBean monitoringViewBean = new MonitoringViewBean();
@@ -178,6 +179,10 @@ public abstract class AbstractQalingoController {
 		return monitoringViewBean;
 	}
 	
+    /**
+     * @throws Exception 
+     * 
+     */
 	protected List<ValueBean> getCountries(final Locale locale) throws Exception {
         List<ValueBean> countriesValues = new ArrayList<ValueBean>();
         try {

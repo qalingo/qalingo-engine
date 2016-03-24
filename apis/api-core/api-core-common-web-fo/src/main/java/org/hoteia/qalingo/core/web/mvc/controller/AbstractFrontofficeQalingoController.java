@@ -60,6 +60,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
     protected SecurityUtil securityUtil;
     
     /**
+     * @throws Exception 
      * 
      */
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
@@ -67,6 +68,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
     }
     
     /**
+     * @throws Exception 
      * 
      */
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, String pageTitleKey, Object[] params) throws Exception {
@@ -83,9 +85,10 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
         }
     }
 	
-	/**
-	 * 
-	 */
+    /**
+     * @throws Exception 
+     * 
+     */
 	protected String getMessageTitleKey(final String pageKey) throws Exception {
 		return "page_title_" + pageKey;
 	}
@@ -103,30 +106,18 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		return null;
 	}
 	
-	/**
-	 * 
-	 */
 	protected String getSpecificMessage(ScopeWebMessage scope, String key, Locale locale){
 		return getSpecificMessage(scope.getPropertyKey(), key, locale);
 	}
 	
-	/**
-	 * 
-	 */
 	protected String getSpecificMessage(ScopeWebMessage scope, String key, Object[] params, Locale locale){
 		return getSpecificMessage(scope.getPropertyKey(), key, params, locale);
 	}
 	
-	   /**
-     * 
-     */
     protected String getSpecificMessage(String scope, String key, Locale locale){
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), scope, key, locale);
     }
     
-    /**
-     * 
-     */
     protected String getSpecificMessage(String scope, String key, Object[] params, Locale locale){
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), scope, key, params, locale);
     }
