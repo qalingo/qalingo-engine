@@ -127,6 +127,8 @@ public class RetailerController extends AbstractMCommerceController {
 		
         overrideDefaultPageTitle(request, modelAndView, FoUrls.RETAILER_DETAILS.getKey());
 
+        model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, initSeo(request, model, retailerViewBean));
+
         model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, retailer));
 
         return modelAndView;
@@ -194,16 +196,13 @@ public class RetailerController extends AbstractMCommerceController {
         return breadcrumbViewBean;
     }
     
-    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
-    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_RETAILER_CODE) final String retailerCode) throws Exception {
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, final RetailerViewBean retailerViewBean) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         final Locale locale = requestData.getLocale();
-        
-        Retailer retailer = retailerService.getRetailerByCode(retailerCode, new FetchPlan(retailerFetchPlans));
-        if(retailer != null){
-            RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
 
+        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
+        
+        if(retailerViewBean != null){
             // SEO
             String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
             seoDataViewBean.setPageTitle(pageTitle + " - " + retailerViewBean.getI18nName());

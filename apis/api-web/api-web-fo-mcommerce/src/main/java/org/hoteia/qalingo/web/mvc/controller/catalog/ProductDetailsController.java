@@ -213,11 +213,11 @@ public class ProductDetailsController extends AbstractMCommerceController {
         return productBrandViewBeans;
     }
     
-    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
     protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, final ProductMarketingViewBean productMarketingViewBean) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         final Locale locale = requestData.getLocale();
+
+        SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         
         String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         if(seoPageTitle != null && !seoPageTitle.trim().endsWith("-")){
