@@ -88,7 +88,7 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     
     @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean active;
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentAttribute.class)
     @JoinColumn(name = "CMS_CONTENT_ID")
     private Set<CmsContentAttribute> attributes = new HashSet<CmsContentAttribute>();
@@ -100,7 +100,11 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentAsset.class)
     @JoinColumn(name = "CMS_CONTENT_ID")
     private Set<CmsContentAsset> assets = new HashSet<CmsContentAsset>();
-    
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CmsContent.class)
+    @JoinColumn(name = "CMS_CONTENT_ID", insertable = true, updatable = true)
+    private CmsContent masterCmsContent;
+
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.User.class)
     @JoinColumn(name = "USER_ID", insertable = true, updatable = true)
     private User user;
@@ -289,6 +293,14 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
 	public void setAssets(Set<CmsContentAsset> assets) {
 		this.assets = assets;
 	}
+	
+	public CmsContent getMasterCmsContent() {
+        return masterCmsContent;
+    }
+	
+	public void setMasterCmsContent(CmsContent masterCmsContent) {
+        this.masterCmsContent = masterCmsContent;
+    }
 	
 	public User getUser() {
 		return user;
