@@ -991,6 +991,7 @@ public class WebBackofficeService {
         store.setPhone(storeForm.getPhone());
         store.setFax(storeForm.getFax());
         store.setWebsite(storeForm.getWebsite());
+        store.setLegalGuid(storeForm.getLegalGuid());
         
         store.setLatitude(storeForm.getLatitude());
         store.setLongitude(storeForm.getLongitude());

@@ -38,6 +38,7 @@ public class StoreViewBean extends AbstractAddressViewBean {
     protected String phone;
     protected String fax;
     protected String website;
+    protected String legalGuid;
     
 	protected String longitude;
 	protected String latitude;
@@ -187,6 +188,14 @@ public class StoreViewBean extends AbstractAddressViewBean {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+    
+    public String getLegalGuid() {
+        return legalGuid;
+    }
+    
+    public void setLegalGuid(String legalGuid) {
+        this.legalGuid = legalGuid;
     }
 
     public String getWebsiteWithoutHttp() {

@@ -15,29 +15,30 @@ package org.hoteia.qalingo.core.web.mvc.form;
  */
 public class StoreForm {
 
-    private String id;
-    private String code;
-    private String name;
-    private String description;
+    protected String id;
+    protected String code;
+    protected String name;
+    protected String description;
 
-    private String address1;
-    private String address2;
-    private String addressAdditionalInformation;
-    private String postalCode;
-    private String city;
-    private String stateCode;
-    private String areaCode;
-    private String countryCode;
+    protected String address1;
+    protected String address2;
+    protected String addressAdditionalInformation;
+    protected String postalCode;
+    protected String city;
+    protected String stateCode;
+    protected String areaCode;
+    protected String countryCode;
 
-    private String email;
-    private String phone;
-    private String fax;
-    private String website;
+    protected String email;
+    protected String phone;
+    protected String fax;
+    protected String website;
+    protected String legalGuid;
+    
+    protected String longitude;
+    protected String latitude;
 
-    private String longitude;
-    private String latitude;
-
-	private String retailerId;
+	protected String retailerId;
 
 	public String getId() {
 		return id;
@@ -165,6 +166,14 @@ public class StoreForm {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+    
+    public String getLegalGuid() {
+        return legalGuid;
+    }
+    
+    public void setLegalGuid(String legalGuid) {
+        this.legalGuid = legalGuid;
     }
 
     public String getLongitude() {

@@ -1000,6 +1000,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             storeViewBean.setPhone(store.getPhone());
             storeViewBean.setFax(store.getFax());
             storeViewBean.setWebsite(store.getWebsite());
+            storeViewBean.setLegalGuid(store.getLegalGuid());
             
             storeViewBean.setLongitude(store.getLongitude());
             storeViewBean.setLatitude(store.getLatitude());
