@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.hoteia.qalingo.core.domain.CmsMenu;
 
-import fr.hoteia.opticmarketplace.core.pojo.cms.MenuPojo;
+import org.hoteia.qalingo.core.pojo.cms.MenuPojo;
 
 public class CmsMenuForm {
 	
