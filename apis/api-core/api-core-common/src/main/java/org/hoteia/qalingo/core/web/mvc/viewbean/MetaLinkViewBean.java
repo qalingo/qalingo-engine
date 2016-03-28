@@ -32,6 +32,9 @@ public class MetaLinkViewBean implements Serializable {
     }
     
 	public MetaLinkViewBean(String rel, String hreflang, String href){
+        this.rel = rel;
+        this.hreflang = hreflang;
+        this.href = href;
 	}
 
     public String getDisabled() {
