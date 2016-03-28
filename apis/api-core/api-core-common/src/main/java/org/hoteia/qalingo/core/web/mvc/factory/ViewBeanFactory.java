@@ -618,6 +618,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         marketAreaViewBean.setLatitude(marketArea.getLatitude());
         marketAreaViewBean.setLongitude(marketArea.getLongitude());
 
+        if (Hibernate.isInitialized(marketArea.getLocalizations()) && marketArea.getLocalizations() != null) {
+            marketAreaViewBean.setLocalizations(buildListViewBeanLocalizations(requestData, new ArrayList<Localization>(marketArea.getLocalizations())));
+        }
+        
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
         requestDataChangecontext.setMarketArea(marketArea);
@@ -627,6 +631,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return marketAreaViewBean;
     }
 
+    /**
+     * 
+     */
+    public List<LocalizationViewBean> buildListViewBeanLocalizations(final RequestData requestData, final List<Localization> localizations) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
+        for (final Localization localization : localizations) {
+            localizationViewBeans.add(buildViewBeanLocalization(requestData, localization));
+        }
+        return localizationViewBeans;
+    }
+    
     /**
      * 
      */
