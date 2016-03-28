@@ -54,9 +54,6 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
 	@Autowired
 	protected PaymentGatewayService paymentGatewayService;
 	
-    @Autowired
-    protected MarketService marketService;
-    
     @RequestMapping(value = BoUrls.PAYMENT_GATEWAY_LIST_URL, method = RequestMethod.GET)
     public ModelAndView paymentGatewayList(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PAYMENT_GATEWAY_LIST.getVelocityPage());

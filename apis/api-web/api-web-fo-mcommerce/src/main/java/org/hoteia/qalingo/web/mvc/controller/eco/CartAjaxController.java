@@ -61,9 +61,6 @@ public class CartAjaxController extends AbstractMCommerceController {
     protected CatalogPojoService catalogPojoService;
 
     @Autowired
-    protected MarketService marketService;
-
-    @Autowired
     protected RetailerService retailerService;
 
     @Autowired

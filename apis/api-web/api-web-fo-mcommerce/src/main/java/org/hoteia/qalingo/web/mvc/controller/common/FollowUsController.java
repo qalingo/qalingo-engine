@@ -21,7 +21,6 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.core.web.mvc.form.NewsletterQuickRegistrationForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
@@ -43,9 +42,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("followUsController")
 public class FollowUsController extends AbstractMCommerceController {
 
-	@Autowired
-    protected MarketService marketService;
-	
 	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.GET)
 	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.FOLLOW_US_FORM) FollowUsForm followUsForm) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US.getVelocityPage());

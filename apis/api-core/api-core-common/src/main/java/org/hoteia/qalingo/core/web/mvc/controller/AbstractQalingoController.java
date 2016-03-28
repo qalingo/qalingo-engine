@@ -28,6 +28,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MonitoringViewBean;
@@ -61,6 +62,9 @@ public abstract class AbstractQalingoController {
 	@Autowired
 	protected EngineSettingService engineSettingService;
 	
+    @Autowired
+    protected MarketService marketService;
+    
 	@Autowired
     protected UrlService urlService;
 	

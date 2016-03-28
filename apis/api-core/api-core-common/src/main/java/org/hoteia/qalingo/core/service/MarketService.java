@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hoteia.qalingo.core.dao.MarketDao;
 import org.hoteia.qalingo.core.domain.Market;
@@ -128,6 +130,21 @@ public class MarketService {
 
     public List<MarketArea> getMarketAreaOpenedByGeolocCountryCode(final String countryCode, Object... params) {
         return marketDao.getMarketAreaOpenedByGeolocCountryCode(countryCode, params);
+    }
+    
+    public List<MarketArea> getMarketAreaOpenedByMarketPlace(final MarketPlace marketPlace) {
+        Set<Market> marketList = marketPlace.getMarkets();
+        List<MarketArea> allMarketArea = new ArrayList<MarketArea>();
+        for (Market marketIt : marketList) {
+            Set<MarketArea> marketAreaList = marketIt.getMarketAreas();
+            for (MarketArea marketAreaIt : marketAreaList) {
+                if (marketAreaIt.isOpened()) {
+                    MarketArea reloadedMarketArea = getMarketAreaById(marketAreaIt.getId());
+                    allMarketArea.add(reloadedMarketArea);
+                }
+            }
+        }
+        return allMarketArea;
     }
     
 }
