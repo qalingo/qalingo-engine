@@ -132,15 +132,14 @@ public class MarketService {
         return marketDao.getMarketAreaOpenedByGeolocCountryCode(countryCode, params);
     }
     
-    public List<MarketArea> getMarketAreaOpenedByMarketPlace(final MarketPlace marketPlace) {
+    public List<Long> findMarketAreaOpenedByMarketPlace(final MarketPlace marketPlace) {
         Set<Market> marketList = marketPlace.getMarkets();
-        List<MarketArea> allMarketArea = new ArrayList<MarketArea>();
+        List<Long> allMarketArea = new ArrayList<Long>();
         for (Market marketIt : marketList) {
             Set<MarketArea> marketAreaList = marketIt.getMarketAreas();
             for (MarketArea marketAreaIt : marketAreaList) {
                 if (marketAreaIt.isOpened()) {
-                    MarketArea reloadedMarketArea = getMarketAreaById(marketAreaIt.getId());
-                    allMarketArea.add(reloadedMarketArea);
+                    allMarketArea.add(marketAreaIt.getId());
                 }
             }
         }
