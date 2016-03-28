@@ -18,8 +18,8 @@ public class UrlBean implements Serializable {
      */
     private static final long serialVersionUID = 3100619545421675045L;
     
-    String key;
-	String value;
+    protected String key;
+    protected String value;
 	
 	public UrlBean(){
 	}
