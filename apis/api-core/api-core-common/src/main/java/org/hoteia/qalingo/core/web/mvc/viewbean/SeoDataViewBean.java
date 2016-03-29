@@ -74,7 +74,9 @@ public class SeoDataViewBean extends AbstractViewBean {
     }
 
     public String getMetaDescription() {
-        return CoreUtil.replaceCarriagReturn(metaDescription);
+        String metaDescriptionEscape = CoreUtil.removeHtmlTag(metaDescription);
+        metaDescriptionEscape = metaDescriptionEscape.replaceAll("\"","&quote;");
+        return CoreUtil.replaceCarriagReturn(metaDescriptionEscape);
     }
 
     public void setMetaDescription(String metaDescription) {
@@ -82,7 +84,8 @@ public class SeoDataViewBean extends AbstractViewBean {
     }
 
     public String getMetaOgTitle() {
-        return metaOgTitle;
+        String metaOgTitleEscape = metaOgTitle.replaceAll("\"","&quote;");
+        return metaOgTitleEscape;
     }
 
     public void setMetaOgTitle(String metaOgTitle) {
@@ -92,6 +95,7 @@ public class SeoDataViewBean extends AbstractViewBean {
     public String getMetaOgDescription() {
         // FACEBOOK WILL DISPLAY 300
         String metaOgDescriptionEscape = CoreUtil.removeHtmlTag(metaOgDescription);
+        metaOgDescriptionEscape = metaOgDescriptionEscape.replaceAll("\"","&quote;");
         return CoreUtil.replaceCarriagReturn(metaOgDescriptionEscape);
     }
 
