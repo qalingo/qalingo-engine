@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
 
-public class MetaLinkViewBean implements Serializable {
+public class HeadLinkViewBean implements Serializable {
 
 	/**
      * 
@@ -28,10 +28,10 @@ public class MetaLinkViewBean implements Serializable {
     protected String hreflang;
     protected String href;
 	
-    public MetaLinkViewBean() {
+    public HeadLinkViewBean() {
     }
     
-	public MetaLinkViewBean(String rel, String hreflang, String href){
+	public HeadLinkViewBean(String rel, String hreflang, String href){
         this.rel = rel;
         this.hreflang = hreflang;
         this.href = href;
@@ -125,7 +125,7 @@ public class MetaLinkViewBean implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        MetaLinkViewBean other = (MetaLinkViewBean) obj;
+        HeadLinkViewBean other = (HeadLinkViewBean) obj;
         if (href == null) {
             if (other.href != null)
                 return false;
