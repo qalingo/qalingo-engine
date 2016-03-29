@@ -194,6 +194,9 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
                         
                         String alternateUrl = backofficeUrlService.buildAbsoluteUrl(requestDataStore, backofficeUrlService.generateUrl(url, requestDataStore));
                         String hreflang = localizationIt.getCode().replace("_", "-");
+                        if(marketAreaIt.getLocalizations().size() > 1 && !hreflang.contains("-")){
+                            hreflang = marketAreaIt.getGeolocCountryCode() + "-" + localizationIt.getCode();
+                        }
                         if(marketAreaIt.getCode().equals("INT") && localizationIt.getCode().equals("en")){
                             hreflang = "x-default";
                         }
