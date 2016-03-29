@@ -130,7 +130,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO.getPropertyKey(), scope, key, params, locale);
     }
 
-    protected List<HeadLinkViewBean> buildConditionsOfUseLinkViewBeans(final RequestData requestData, FoUrls url) {
+    protected List<HeadLinkViewBean> buildLinkViewBeans(final RequestData requestData, FoUrls url) {
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final MarketArea marketArea = requestData.getMarketArea();
         

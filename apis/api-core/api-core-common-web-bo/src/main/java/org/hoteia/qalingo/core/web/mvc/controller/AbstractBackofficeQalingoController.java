@@ -169,7 +169,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO.getPropertyKey(), scope, key, params, locale);
     }
     
-    protected List<HeadLinkViewBean> buildConditionsOfUseLinkViewBeans(final RequestData requestData, BoUrls url) {
+    protected List<HeadLinkViewBean> buildLinkViewBeans(final RequestData requestData, BoUrls url) {
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final MarketArea marketArea = requestData.getMarketArea();
         
