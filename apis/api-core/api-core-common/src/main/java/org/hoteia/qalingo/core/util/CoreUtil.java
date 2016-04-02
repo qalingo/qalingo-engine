@@ -154,7 +154,7 @@ public class CoreUtil {
     
     public static String cleanDash(String stringToReturn) {
         // SPECIFIC DASH
-        stringToReturn = stringToReturn.replaceAll("–", "-");
+//        stringToReturn = stringToReturn.replaceAll("–", "-");// break build for non latin
 
         while (stringToReturn.contains("--")) {
             stringToReturn = stringToReturn.replaceAll("--", "-");
