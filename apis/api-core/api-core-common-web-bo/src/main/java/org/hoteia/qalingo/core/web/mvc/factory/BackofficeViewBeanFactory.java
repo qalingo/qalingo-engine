@@ -74,12 +74,12 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingValueViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.GlobalSearchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.LegalTermsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentGatewayViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
@@ -125,14 +125,13 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
     
     @Override
     public SeoDataViewBean buildViewSeoData(final RequestData requestData) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
         final Locale locale = requestData.getLocale();
 
         final SeoDataViewBean seoDataViewBean = super.buildViewSeoData(requestData);
 
         // TODO : canonical urls
         
-        String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        String pageTitle = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.PAGE_META_OG_TITLE, locale);
         seoDataViewBean.setPageTitle(pageTitle);
         String metaAuthor = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_AUTHOR, locale);
         seoDataViewBean.setMetaAuthor(metaAuthor);
