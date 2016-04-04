@@ -147,6 +147,10 @@ public enum BoUrls {
     MANAGE_EDIT_ARTICLE(BoUrls.MANAGE_EDIT_ARTICLE_URL, BoUrls.MANAGE_EDIT_ARTICLE_KEY, BoUrls.MANAGE_EDIT_ARTICLE_VELOCITY_PAGE, true),
     GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX(BoUrls.GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_URL, BoUrls.GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_KEY, null, true),
 
+    MANAGE_HOMES(BoUrls.MANAGE_HOMES_URL, BoUrls.MANAGE_HOMES_KEY, BoUrls.MANAGE_HOMES_VELOCITY_PAGE, true),
+    MANAGE_EDIT_HOME(BoUrls.MANAGE_EDIT_HOME_URL, BoUrls.MANAGE_EDIT_HOME_KEY, BoUrls.MANAGE_EDIT_HOME_VELOCITY_PAGE, true),
+    GET_HOME_FOR_MANAGE_HOMES_AJAX(BoUrls.GET_HOME_FOR_MANAGE_HOMES_AJAX_URL, BoUrls.GET_HOME_FOR_MANAGE_HOMES_AJAX_KEY, null, true),
+
     CONTEXT(BoUrls.CONTEXT_URL, BoUrls.CONTEXT_KEY, BoUrls.CONTEXT_VELOCITY_PAGE, false);
 
 	public static final String HOME_KEY				= "home";
@@ -534,7 +538,18 @@ public enum BoUrls {
 
     public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_KEY   = "get-article-list-for-manage-articles-ajax";
     public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_URL   = "/**/get-article-list-for-manage-articles-ajax.ajax";
-    
+
+    public static final String MANAGE_HOMES_KEY              = "manage-homes";
+    public static final String MANAGE_HOMES_URL              = "/**/admin-homes.html";
+    public static final String MANAGE_HOMES_VELOCITY_PAGE    = "cms/home/manage-homes";
+
+    public static final String MANAGE_EDIT_HOME_KEY              = "manage-home-edit";
+    public static final String MANAGE_EDIT_HOME_URL              = "/**/admin-home-edit.html";
+    public static final String MANAGE_EDIT_HOME_VELOCITY_PAGE    = "cms/home/manage-home-edit";
+
+    public static final String GET_HOME_FOR_MANAGE_HOMES_AJAX_KEY   = "get-home-list-for-manage-homes-ajax";
+    public static final String GET_HOME_FOR_MANAGE_HOMES_AJAX_URL   = "/**/get-home-list-for-manage-homes-ajax.ajax";
+
     public static final String CONTEXT_KEY            = "context";
     public static final String CONTEXT_URL            = "/**/bo-context.config"; // WARN: *.config pattern must be without any web cache
     public static final String CONTEXT_VELOCITY_PAGE  = "context/context";

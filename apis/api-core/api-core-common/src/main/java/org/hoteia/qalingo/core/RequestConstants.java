@@ -51,6 +51,7 @@ public class RequestConstants {
     public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_CODE           = "payment-gateway-code";
     public static final String REQUEST_PARAMETER_RETAILER_CODE                  = "retailer-code";
     public static final String REQUEST_PARAMETER_STORE_CODE                     = "store-code";
+    public static final String REQUEST_PARAMETER_CMS_CONTENT_ID                 = "cms-content-id";
 
     public static final String REQUEST_PARAMETER_SKU_CODE_LIST                  = "sku-codes";
 

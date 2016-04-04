@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CmsContent;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSetting;
@@ -169,6 +170,10 @@ public class BackofficeUrlService extends AbstractUrlService {
                     } else if (param instanceof Store){ 
                         Store store = (Store) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_STORE_CODE, handleParamValue(store.getCode()));
+                        break;
+                    } else if (param instanceof CmsContent){ 
+                        CmsContent cmsContent = (CmsContent) param;
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_CMS_CONTENT_ID, cmsContent.getId());
                         break;
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
