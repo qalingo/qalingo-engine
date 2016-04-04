@@ -545,7 +545,7 @@ public enum BoUrls {
 
     public static final String MANAGE_PAGES_KEY              = "manage-pages";
     public static final String MANAGE_PAGES_URL              = "/**/manage-pages.html";
-    public static final String MANAGE_PAGES_VELOCITY_PAGE    = "cms/article/manage-pages";
+    public static final String MANAGE_PAGES_VELOCITY_PAGE    = "cms/manage/manage-pages";
 
     public static final String MANAGE_EDIT_PAGE_KEY              = "manage-page-edit";
     public static final String MANAGE_EDIT_PAGE_URL              = "/**/manage-page-edit.html";
