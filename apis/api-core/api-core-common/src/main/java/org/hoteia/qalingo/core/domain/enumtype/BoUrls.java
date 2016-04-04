@@ -552,7 +552,7 @@ public enum BoUrls {
     public static final String MANAGE_EDIT_PAGE_VELOCITY_PAGE    = "cms/article/manage-article-edit";
 
     public static final String GET_PAGE_FOR_MANAGE_PAGES_AJAX_KEY   = "get-page-list-for-manage-pages-ajax";
-    public static final String GET_PAGE_FOR_MANAGE_PAGES_AJAX_URL   = "/**/get-article-list-for-manage-articles-ajax.ajax";
+    public static final String GET_PAGE_FOR_MANAGE_PAGES_AJAX_URL   = "/**/get-page-list-for-manage-pages-ajax.ajax";
 
     public static final String MANAGE_HOMES_KEY              = "manage-homes";
     public static final String MANAGE_HOMES_URL              = "/**/admin-homes.html";
