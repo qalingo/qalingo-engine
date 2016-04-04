@@ -3227,6 +3227,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         blockViewBean.setOrdering(block.getOrdering());
         blockViewBean.setTitle(block.getTitle());
         blockViewBean.setText(block.getText());
+        blockViewBean.setParams(block.getParams());
 
         // LINK
         if (Hibernate.isInitialized(block.getLink()) && block.getLink() != null) {

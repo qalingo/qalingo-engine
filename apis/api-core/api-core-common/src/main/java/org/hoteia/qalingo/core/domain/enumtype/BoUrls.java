@@ -147,6 +147,10 @@ public enum BoUrls {
     MANAGE_EDIT_ARTICLE(BoUrls.MANAGE_EDIT_ARTICLE_URL, BoUrls.MANAGE_EDIT_ARTICLE_KEY, BoUrls.MANAGE_EDIT_ARTICLE_VELOCITY_PAGE, true),
     GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX(BoUrls.GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_URL, BoUrls.GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_KEY, null, true),
 
+    MANAGE_PAGES(BoUrls.MANAGE_PAGES_URL, BoUrls.MANAGE_PAGES_KEY, BoUrls.MANAGE_PAGES_VELOCITY_PAGE, true),
+    MANAGE_EDIT_PAGE(BoUrls.MANAGE_EDIT_PAGE_URL, BoUrls.MANAGE_EDIT_PAGE_KEY, BoUrls.MANAGE_EDIT_PAGE_VELOCITY_PAGE, true),
+    GET_PAGE_FOR_MANAGE_PAGES_AJAX(BoUrls.GET_PAGE_FOR_MANAGE_PAGES_AJAX_URL, BoUrls.GET_PAGE_FOR_MANAGE_PAGES_AJAX_KEY, null, true),
+
     MANAGE_HOMES(BoUrls.MANAGE_HOMES_URL, BoUrls.MANAGE_HOMES_KEY, BoUrls.MANAGE_HOMES_VELOCITY_PAGE, true),
     MANAGE_EDIT_HOME(BoUrls.MANAGE_EDIT_HOME_URL, BoUrls.MANAGE_EDIT_HOME_KEY, BoUrls.MANAGE_EDIT_HOME_VELOCITY_PAGE, true),
     GET_HOME_FOR_MANAGE_HOMES_AJAX(BoUrls.GET_HOME_FOR_MANAGE_HOMES_AJAX_URL, BoUrls.GET_HOME_FOR_MANAGE_HOMES_AJAX_KEY, null, true),
@@ -538,6 +542,17 @@ public enum BoUrls {
 
     public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_KEY   = "get-article-list-for-manage-articles-ajax";
     public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_URL   = "/**/get-article-list-for-manage-articles-ajax.ajax";
+
+    public static final String MANAGE_PAGES_KEY              = "manage-pages";
+    public static final String MANAGE_PAGES_URL              = "/**/admin-pages.html";
+    public static final String MANAGE_PAGES_VELOCITY_PAGE    = "cms/article/manage-articles";
+
+    public static final String MANAGE_EDIT_PAGE_KEY              = "manage-page-edit";
+    public static final String MANAGE_EDIT_PAGE_URL              = "/**/admin-page-edit.html";
+    public static final String MANAGE_EDIT_PAGE_VELOCITY_PAGE    = "cms/article/manage-article-edit";
+
+    public static final String GET_PAGE_FOR_MANAGE_PAGES_AJAX_KEY   = "get-page-list-for-manage-pages-ajax";
+    public static final String GET_PAGE_FOR_MANAGE_PAGES_AJAX_URL   = "/**/get-article-list-for-manage-articles-ajax.ajax";
 
     public static final String MANAGE_HOMES_KEY              = "manage-homes";
     public static final String MANAGE_HOMES_URL              = "/**/admin-homes.html";
