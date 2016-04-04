@@ -522,44 +522,44 @@ public enum BoUrls {
     public static final String COMPANY_EDIT_VELOCITY_PAGE      = "company/company-edit";
 
     public static final String MANAGE_MENUS_KEY             = "manage-menus";
-    public static final String MANAGE_MENUS_URL             = "/**/admin-menus.html";
+    public static final String MANAGE_MENUS_URL             = "/**/manage-menus.html";
     public static final String MANAGE_MENUS_VELOCITY_PAGE   = "cms/menu/manage-menus";
 
     public static final String GET_MENU_FOR_MANAGE_MENUS_AJAX_KEY   = "get-menu-list-for-manage-menus-ajax";
     public static final String GET_MENU_FOR_MANAGE_MENUS_AJAX_URL   = "/**/get-menu-list-for-manage-menus-ajax.ajax";
 
     public static final String MANAGE_EDIT_MENU_KEY             = "manage-menu-edit";
-    public static final String MANAGE_EDIT_MENU_URL             = "/**/admin-menu-edit.html";
+    public static final String MANAGE_EDIT_MENU_URL             = "/**/manage-menu-edit.html";
     public static final String MANAGE_EDIT_MENU_VELOCITY_PAGE   = "cms/menu/manage-menu-edit";
 
     public static final String MANAGE_ARTICLES_KEY              = "manage-articles";
-    public static final String MANAGE_ARTICLES_URL              = "/**/admin-articles.html";
+    public static final String MANAGE_ARTICLES_URL              = "/**/manage-articles.html";
     public static final String MANAGE_ARTICLES_VELOCITY_PAGE    = "cms/article/manage-articles";
 
     public static final String MANAGE_EDIT_ARTICLE_KEY              = "manage-article-edit";
-    public static final String MANAGE_EDIT_ARTICLE_URL              = "/**/admin-article-edit.html";
+    public static final String MANAGE_EDIT_ARTICLE_URL              = "/**/manage-article-edit.html";
     public static final String MANAGE_EDIT_ARTICLE_VELOCITY_PAGE    = "cms/article/manage-article-edit";
 
     public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_KEY   = "get-article-list-for-manage-articles-ajax";
     public static final String GET_ARTICLE_FOR_MANAGE_ARTICLES_AJAX_URL   = "/**/get-article-list-for-manage-articles-ajax.ajax";
 
     public static final String MANAGE_PAGES_KEY              = "manage-pages";
-    public static final String MANAGE_PAGES_URL              = "/**/admin-pages.html";
-    public static final String MANAGE_PAGES_VELOCITY_PAGE    = "cms/article/manage-articles";
+    public static final String MANAGE_PAGES_URL              = "/**/manage-pages.html";
+    public static final String MANAGE_PAGES_VELOCITY_PAGE    = "cms/article/manage-pages";
 
     public static final String MANAGE_EDIT_PAGE_KEY              = "manage-page-edit";
-    public static final String MANAGE_EDIT_PAGE_URL              = "/**/admin-page-edit.html";
-    public static final String MANAGE_EDIT_PAGE_VELOCITY_PAGE    = "cms/article/manage-article-edit";
+    public static final String MANAGE_EDIT_PAGE_URL              = "/**/manage-page-edit.html";
+    public static final String MANAGE_EDIT_PAGE_VELOCITY_PAGE    = "cms/page/manage-page-edit";
 
     public static final String GET_PAGE_FOR_MANAGE_PAGES_AJAX_KEY   = "get-page-list-for-manage-pages-ajax";
     public static final String GET_PAGE_FOR_MANAGE_PAGES_AJAX_URL   = "/**/get-page-list-for-manage-pages-ajax.ajax";
 
     public static final String MANAGE_HOMES_KEY              = "manage-homes";
-    public static final String MANAGE_HOMES_URL              = "/**/admin-homes.html";
+    public static final String MANAGE_HOMES_URL              = "/**/manage-homes.html";
     public static final String MANAGE_HOMES_VELOCITY_PAGE    = "cms/home/manage-homes";
 
     public static final String MANAGE_EDIT_HOME_KEY              = "manage-home-edit";
-    public static final String MANAGE_EDIT_HOME_URL              = "/**/admin-home-edit.html";
+    public static final String MANAGE_EDIT_HOME_URL              = "/**/manage-home-edit.html";
     public static final String MANAGE_EDIT_HOME_VELOCITY_PAGE    = "cms/home/manage-home-edit";
 
     public static final String GET_HOME_FOR_MANAGE_HOMES_AJAX_KEY   = "get-home-list-for-manage-homes-ajax";
