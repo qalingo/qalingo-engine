@@ -173,7 +173,7 @@ public class BackofficeUrlService extends AbstractUrlService {
                         break;
                     } else if (param instanceof CmsContent){ 
                         CmsContent cmsContent = (CmsContent) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_CMS_CONTENT_ID, cmsContent.getId());
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_CMS_CONTENT_ID, cmsContent.getId().toString());
                         break;
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
