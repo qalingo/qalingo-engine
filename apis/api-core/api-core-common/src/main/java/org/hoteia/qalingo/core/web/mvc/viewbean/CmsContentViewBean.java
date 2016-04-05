@@ -118,6 +118,17 @@ public class CmsContentViewBean extends AbstractViewBean {
 		return summary;
 	}
 
+    public String getSummaryTroncatedDefault() {
+        return getSummaryTroncated(300);
+    }
+    
+    public String getSummaryTroncated(int length) {
+        if(summary != null && summary.length() > length){
+            return summary.substring(0, (length - 3 )) + "...";
+        }
+        return summary;
+    }
+	   
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}

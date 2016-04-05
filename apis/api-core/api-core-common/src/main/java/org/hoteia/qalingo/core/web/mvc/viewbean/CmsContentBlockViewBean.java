@@ -76,6 +76,17 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
 		this.text = text;
 	}
 	
+    public String getTextTroncatedDefault() {
+        return getTextTroncated(300);
+    }
+    
+    public String getTextTroncated(int length) {
+        if(text != null && text.length() > length){
+            return text.substring(0, (length - 3 )) + "...";
+        }
+        return text;
+    }
+	
 	public String getParams() {
         return params;
     }
