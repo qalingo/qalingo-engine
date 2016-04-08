@@ -11,7 +11,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CmsContentViewBean.AssetViewBeanComparator;
 
 public class CmsContentBlockViewBean extends AbstractViewBean {
 

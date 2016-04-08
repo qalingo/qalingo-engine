@@ -9,7 +9,8 @@ public class CmsContentBlockForm {
 
     private String type;
     private int ordering;
-
+    private boolean active;
+    
     private String title;
     private String text;
     
@@ -47,7 +48,15 @@ public class CmsContentBlockForm {
 		this.ordering = ordering;
 	}
 	
-	public String getTitle() {
+	public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getTitle() {
 		return title;
 	}
 
