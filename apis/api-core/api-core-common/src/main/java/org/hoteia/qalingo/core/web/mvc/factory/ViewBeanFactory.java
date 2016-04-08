@@ -3225,6 +3225,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         blockViewBean.setId(block.getId().toString());
         blockViewBean.setType(block.getType());
         blockViewBean.setOrdering(block.getOrdering());
+        blockViewBean.setActive(block.isActive());
+
         blockViewBean.setTitle(block.getTitle());
         blockViewBean.setText(block.getText());
         blockViewBean.setParams(block.getParams());

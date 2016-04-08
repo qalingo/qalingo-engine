@@ -51,6 +51,9 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
     @Column(name = "CODE")
     private String code;
     
+    @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean active;
+    
     @Column(name = "TITLE")
     private String title;
 
@@ -123,7 +126,15 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
 		this.code = code;
 	}
 
-	public String getTitle() {
+	public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getTitle() {
 		return title;
 	}
 

@@ -62,6 +62,10 @@ public class CmsContentService {
     	return cmsContentDao.getCmsContentBySeoKey(app, type, marketAreaId, cmsContentSeoKey, params);
     }
 
+    public List<Long> findAllCmsContentIds(final String app, final String type, Object... params) {
+        return cmsContentDao.findAllCmsContentIds(type, params);
+    }
+    
     public List<CmsContent> findCmsContentsBySeoKey(final String app, final String type, final Long marketAreaId, final String cmsContentSeoKey, Object... params) {
         return cmsContentDao.findCmsContentsBySeoKey(app, type, marketAreaId, cmsContentSeoKey, params);
     }

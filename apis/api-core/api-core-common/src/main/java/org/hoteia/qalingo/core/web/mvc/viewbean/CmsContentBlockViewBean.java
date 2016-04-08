@@ -24,7 +24,8 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
 
     private String type;
     private int ordering;
-
+    private boolean active;
+    
     private String title;
     private String text;
     private String params;
@@ -60,6 +61,14 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
 		this.ordering = ordering;
 	}
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
 	public String getTitle() {
 		return title;
 	}
