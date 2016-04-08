@@ -3215,9 +3215,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         return cmsContentViewBean;
     }
 
-    /**
- * 
- */
     public CmsContentBlockViewBean buildViewBeanCmsContentBlock(final RequestData requestData, final AbstractCmsEntity cmsEntity, final CmsContentBlock block) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
 
@@ -3425,6 +3422,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
  */
     public AssetViewBean buildViewBeanCmsContentAsset(final RequestData requestData, final CmsContentAsset asset) throws Exception {
         final AssetViewBean assetViewBean = new AssetViewBean();
+        assetViewBean.setId(asset.getId().toString());
+        assetViewBean.setName(asset.getName());
         assetViewBean.setName(asset.getName());
         assetViewBean.setDescription(asset.getDescription());
         assetViewBean.setScope(asset.getScope());
