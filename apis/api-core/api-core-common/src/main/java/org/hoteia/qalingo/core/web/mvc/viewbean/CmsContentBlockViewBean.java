@@ -32,8 +32,8 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
     private CmsContentLinkViewBean link;
     private Set<AssetViewBean> assets = new HashSet<AssetViewBean>();
 
-    private CmsContentViewBean cmsContent = new CmsContentViewBean();
-    private CmsContentBlockViewBean cmsContentBlock = new CmsContentBlockViewBean();
+    private CmsContentViewBean cmsContent;
+    private CmsContentBlockViewBean cmsContentBlock;
     private List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
     
     private List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
