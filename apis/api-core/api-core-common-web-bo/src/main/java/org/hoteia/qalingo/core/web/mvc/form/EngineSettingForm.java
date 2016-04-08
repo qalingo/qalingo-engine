@@ -17,13 +17,13 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class EngineSettingForm {
 
-    private String id;
-    private int version;
-    private String code;
-    private String name;
-    private String description;
+    protected String id;
+    protected int version;
+    protected String code;
+    protected String name;
+    protected String description;
 
-    private String defaultValue;
+    protected String defaultValue;
 
     public String getId() {
 	    return id;

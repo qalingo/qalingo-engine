@@ -4,24 +4,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class CmsContentForm {
 	
-	private String id;
+	protected String id;
     
-    private String code;
-    private String type;
-    private String title;
-    private String linkTitle;
-    private String seoSegment;
-    private String seoKey;
-    private String summary;
-    private boolean master;
-    private boolean active;
+    protected String code;
+    protected String type;
+    protected String title;
+    protected String linkTitle;
+    protected String seoSegment;
+    protected String seoKey;
+    protected String summary;
+    protected boolean master;
+    protected boolean active;
     
-    private CmsContentBlockForm defaultBlock;
+    protected CmsContentBlockForm defaultBlock;
     
-    private MultipartFile file;
+    protected MultipartFile file;
 
-    private String dateCreate;
-	private String dateUpdate;
+    protected String dateCreate;
+	protected String dateUpdate;
 	
 	public String getId() {
 		return id;

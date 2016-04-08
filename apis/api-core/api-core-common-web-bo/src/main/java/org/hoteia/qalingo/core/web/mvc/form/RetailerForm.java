@@ -18,34 +18,34 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class RetailerForm {
 
-	private String id;
-	private String code;
-	private String name;
-	private String description;
+	protected String id;
+	protected String code;
+	protected String name;
+	protected String description;
 
 	protected boolean isOfficialRetailer;
 	protected boolean isBrand;
 	protected boolean isEcommerce;
 	protected boolean isCorner;
 
-	private String address1;
-	private String address2;
-	private String addressAdditionalInformation;
-	private String postalCode;
-	private String city;
-	private String stateCode;
-	private String areaCode;
-	private String countryCode;
-	private String warehouseId;
+	protected String address1;
+	protected String address2;
+	protected String addressAdditionalInformation;
+	protected String postalCode;
+	protected String city;
+	protected String stateCode;
+	protected String areaCode;
+	protected String countryCode;
+	protected String warehouseId;
 
-	private String longitude;
-	private String latitude;
+	protected String longitude;
+	protected String latitude;
 
-	private String phone;
-	private String fax;
-	private String mobile;
-	private String email;
-	private String website;
+	protected String phone;
+	protected String fax;
+	protected String mobile;
+	protected String email;
+	protected String website;
 
 	MultipartFile file;
 

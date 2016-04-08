@@ -4,12 +4,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class CmsMenuBlockForm {
 	
-	private String cmsMenuId;
+	protected String cmsMenuId;
     
-    private String title;
-    private String text;
+    protected String title;
+    protected String text;
 	
-    private MultipartFile file;
+    protected MultipartFile file;
 
 	public String getCmsMenuId() {
 		return cmsMenuId;

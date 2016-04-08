@@ -20,16 +20,16 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class PaymentGatewayForm {
 
-    private String id;
-    private int version;
-    private String code;
-    private String name;
-    private String description;
-    private boolean active;
+    protected String id;
+    protected int version;
+    protected String code;
+    protected String name;
+    protected String description;
+    protected boolean active;
 
-    private Map<String, String> globalAttributeMap = new HashMap<String, String>();
-    private Map<String, String> marketAreaAttributeMap = new HashMap<String, String>();
-    private Map<String, String> optionMap = new HashMap<String, String>();
+    protected Map<String, String> globalAttributeMap = new HashMap<String, String>();
+    protected Map<String, String> marketAreaAttributeMap = new HashMap<String, String>();
+    protected Map<String, String> optionMap = new HashMap<String, String>();
 
     public String getId() {
         return id;

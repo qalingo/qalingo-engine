@@ -4,17 +4,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class CmsContentBlockForm {
 	
-	private String id;
-	private String cmcContentId;
+	protected String id;
+	protected String cmcContentId;
 
-    private String type;
-    private int ordering;
-    private boolean active;
+    protected String type;
+    protected int ordering;
+    protected boolean active;
     
-    private String title;
-    private String text;
+    protected String title;
+    protected String text;
     
-    private MultipartFile file;
+    protected MultipartFile file;
 	
 	public String getId() {
 		return id;

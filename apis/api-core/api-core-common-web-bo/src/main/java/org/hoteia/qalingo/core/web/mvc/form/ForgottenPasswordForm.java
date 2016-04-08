@@ -20,7 +20,7 @@ public class ForgottenPasswordForm {
 	
 	@NotEmpty(message = "error.form.forgotten.password.email.empty")
 	@Email(message = "error.form.forgotten.password.email.is.not.valid")
-    private String emailOrLogin;
+    protected String emailOrLogin;
     
 	public String getEmailOrLogin() {
 		return emailOrLogin;

@@ -20,14 +20,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class DeliveryMethodForm {
 
-    private String id;
-    private int version;
-    private String code;
-    private String name;
-    private String description;
-    private Long marketAreaId;
+    protected String id;
+    protected int version;
+    protected String code;
+    protected String name;
+    protected String description;
+    protected Long marketAreaId;
 
-    private Map<String, String> prices = new HashMap<String, String>();
+    protected Map<String, String> prices = new HashMap<String, String>();
 
     public String getId() {
         return id;

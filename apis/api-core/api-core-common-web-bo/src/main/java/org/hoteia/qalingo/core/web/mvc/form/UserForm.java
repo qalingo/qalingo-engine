@@ -19,34 +19,34 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class UserForm {
 	
-    private String id;
-    private int version;
-    private String code;
-	private String login;
-    private String password;
-    private String title;
-	private String firstname;
-	private String lastname;
-	private String email;
+    protected String id;
+    protected int version;
+    protected String code;
+	protected String login;
+    protected String password;
+    protected String title;
+	protected String firstname;
+	protected String lastname;
+	protected String email;
 	
-    private String userType;
+    protected String userType;
     
-    private String address1;
-    private String address2;
-    private String postalCode;
-    private String city;
-    private String stateCode;
-    private String areaCode;
-    private String countryCode;
+    protected String address1;
+    protected String address2;
+    protected String postalCode;
+    protected String city;
+    protected String stateCode;
+    protected String areaCode;
+    protected String countryCode;
     
-	private boolean active;
-	private Date dateCreate;
-	private Date dateUpdate;
+	protected boolean active;
+	protected Date dateCreate;
+	protected Date dateUpdate;
 	
-	private String backUrl;
-	private String userDetailsUrl;
-	private String userEditUrl;
-	private String formSubmitUrl;
+	protected String backUrl;
+	protected String userDetailsUrl;
+	protected String userEditUrl;
+	protected String formSubmitUrl;
     
 	@NotEmpty(message = "error.form.user.id.is.empty")
     public String getId() {

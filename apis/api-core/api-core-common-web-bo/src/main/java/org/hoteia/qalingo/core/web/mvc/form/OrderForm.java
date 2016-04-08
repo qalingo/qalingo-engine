@@ -16,13 +16,13 @@ package org.hoteia.qalingo.core.web.mvc.form;
  */
 public class OrderForm {
 
-	private String id;
-	private int version;
-	private String status;
-	private String orderNum;
-	private Long customerId;
-	private Long billingAddressId;
-	private Long shippingAddressId;
+	protected String id;
+	protected int version;
+	protected String status;
+	protected String orderNum;
+	protected Long customerId;
+	protected Long billingAddressId;
+	protected Long shippingAddressId;
 
 	public String getId() {
 		return id;

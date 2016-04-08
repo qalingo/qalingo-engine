@@ -10,24 +10,25 @@ import org.hoteia.qalingo.core.pojo.cms.MenuPojo;
 
 public class CmsMenuForm {
 	
-	private String id;
-    private int version;
+	protected String id;
+    protected int version;
     
-    private String code;
-    private String name;
-    private Long marketAreaId;
-    private boolean external;
-    private String position;
-    private String type;
-    private String params;
-    private String fullURlPath;
-	private int ordering;
+    protected String code;
+    protected String name;
+    protected Long marketAreaId;
+    protected boolean external;
+    protected String position;
+    protected String type;
+    protected String params;
+    protected String fullURlPath;
+	protected int ordering;
+    protected boolean active;
 	
-	private CmsMenu menu;
-    private Set<MenuPojo> subMenus = new HashSet<MenuPojo>();
+	protected CmsMenu menu;
+    protected Set<MenuPojo> subMenus = new HashSet<MenuPojo>();
 	
-    private Date dateCreate;
-	private Date dateUpdate;
+    protected Date dateCreate;
+	protected Date dateUpdate;
 	
 	public String getId() {
 		return id;
@@ -117,7 +118,15 @@ public class CmsMenuForm {
 		this.ordering = ordering;
 	}
 
-	public CmsMenu getMenu() {
+	public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public CmsMenu getMenu() {
 		return menu;
 	}
 

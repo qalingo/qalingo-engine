@@ -16,17 +16,17 @@ package org.hoteia.qalingo.core.web.mvc.form;
  */
 public class CustomerForm {
 
-	private String id;
-	private int version;
-    private String code;
-	private String login;
-	private String title;
-	private String firstname;
-	private String lastname;
-	private String email;
-	private String password;
-	private String defaultLocale;
-	private boolean active;
+	protected String id;
+	protected int version;
+    protected String code;
+	protected String login;
+	protected String title;
+	protected String firstname;
+	protected String lastname;
+	protected String email;
+	protected String password;
+	protected String defaultLocale;
+	protected boolean active;
 
 	public String getId() {
 		return id;

@@ -17,19 +17,19 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class AssetForm {
 
-	private String id;
-	private int version;
-	private String name;
-	private String description;
-	private String path;
-	private String type;
-	private String size;
-	private boolean isDefault;
-	private boolean isGlobal;
-	private Integer ordering;
-	private Long marketAreaId;
+	protected String id;
+	protected int version;
+	protected String name;
+	protected String description;
+	protected String path;
+	protected String type;
+	protected String size;
+	protected boolean isDefault;
+	protected boolean isGlobal;
+	protected Integer ordering;
+	protected Long marketAreaId;
 
-	MultipartFile file;
+	protected MultipartFile file;
 
 	public String getId() {
 		return id;

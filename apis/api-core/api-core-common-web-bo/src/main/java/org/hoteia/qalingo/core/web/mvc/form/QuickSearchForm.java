@@ -16,7 +16,7 @@ package org.hoteia.qalingo.core.web.mvc.form;
  */
 public class QuickSearchForm {
 	
-    private String text;
+    protected String text;
     
 	public String getText() {
 		return text;

@@ -17,31 +17,31 @@ import java.util.Date;
  */
 public class CompanyForm {
 	
-    private String id;
-    private int version;
-    private String code;
-    private String name;
-    private String description;
+    protected String id;
+    protected int version;
+    protected String code;
+    protected String name;
+    protected String description;
 
-    private String address1;
-    private String address2;
-    private String addressAdditionalInformation;
-    private String postalCode;
-    private String city;
-    private String stateCode;
-    private String areaCode;
-    private String countryCode;
+    protected String address1;
+    protected String address2;
+    protected String addressAdditionalInformation;
+    protected String postalCode;
+    protected String city;
+    protected String stateCode;
+    protected String areaCode;
+    protected String countryCode;
     
-    private String email;
-    private String phone;
-    private String fax;
-    private String website;
+    protected String email;
+    protected String phone;
+    protected String fax;
+    protected String website;
     
-    private String legalGuid;
+    protected String legalGuid;
 
-	private boolean active;
-	private Date dateCreate;
-	private Date dateUpdate;
+	protected boolean active;
+	protected Date dateCreate;
+	protected Date dateUpdate;
 	
     public String getId() {
 		return id;

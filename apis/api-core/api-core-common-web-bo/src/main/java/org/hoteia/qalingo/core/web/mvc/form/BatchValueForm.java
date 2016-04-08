@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.form;
 
 public class BatchValueForm {
 
-    private String Id;
+    protected String Id;
     
     public String getId() {
         return Id;

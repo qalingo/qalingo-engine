@@ -20,15 +20,15 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class ProductSkuForm {
 	
-    private String id;
-    private String code;
-	private String name;
-	private String description;
+    protected String id;
+    protected String code;
+	protected String name;
+	protected String description;
 
-    private String productMarketingId;
+    protected String productMarketingId;
 
-	private Map<String, String> globalAttributes = new HashMap<String, String>();
-	private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+	protected Map<String, String> globalAttributes = new HashMap<String, String>();
+	protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
 	
     public String getId() {
 		if(id == null){

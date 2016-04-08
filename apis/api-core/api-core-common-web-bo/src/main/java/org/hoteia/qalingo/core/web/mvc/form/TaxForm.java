@@ -17,12 +17,12 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class TaxForm {
 
-	private String id;
-    private int version;
-	private String code;
-	private String name;
-	private String description;
-    private String percent;
+	protected String id;
+    protected int version;
+	protected String code;
+	protected String name;
+	protected String description;
+    protected String percent;
     
     public String getId() {
 	    return id;

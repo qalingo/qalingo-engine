@@ -15,12 +15,12 @@ package org.hoteia.qalingo.core.web.mvc.form;
  */
 public class RuleForm {
 
-	private Long id;
-	private int version;
-    private String code;
-	private String name;
-	private String description;
-	private String salience;
+	protected Long id;
+	protected int version;
+    protected String code;
+	protected String name;
+	protected String description;
+	protected String salience;
 
 	public Long getId() {
 		return id;
