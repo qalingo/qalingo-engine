@@ -70,7 +70,10 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
 
     @Column(name = "PARAMS")
     private String params;
-    
+
+    @Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+    private int ordering;
+
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
     @JoinColumn(name = "MARKET_AREA_ID", insertable = true, updatable = true)
     private MarketArea marketArea;
@@ -79,8 +82,9 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
     @JoinColumn(name = "CMS_CONTENT_ID", insertable = true, updatable = true)
     private CmsContent cmsContent;
     
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private int ordering;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CmsContentBlock.class)
+    @JoinColumn(name = "CMS_CONTENT_BLOCK_ID", insertable = true, updatable = true)
+    private CmsContentBlock cmsContentBlock;
 	
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentBlockAttribute.class)
     @JoinColumn(name = "CMS_CONTENT_BLOCK_ID")
@@ -173,30 +177,45 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
 	public void setParams(String params) {
 		this.params = params;
 	}
-	
-	public MarketArea getMarketArea() {
-		return marketArea;
-	}
+
+    public int getOrdering() {
+        return ordering;
+    }
+
+    public void setOrdering(int ordering) {
+        this.ordering = ordering;
+    }
+
+    public MarketArea getMarketArea() {
+        return marketArea;
+    }
 	
 	public void setMarketArea(MarketArea marketArea) {
 		this.marketArea = marketArea;
 	}
 	
 	public CmsContent getCmsContent() {
-		return cmsContent;
+	    if(cmsContent != null){
+	        return cmsContent;
+	    } else {
+	        if(cmsContentBlock != null){
+	            return cmsContentBlock.getCmsContent();
+	        }
+	    }
+		return null;
 	}
 	
 	public void setCmsContent(CmsContent cmsContent) {
 		this.cmsContent = cmsContent;
 	}
 	
-	public int getOrdering() {
-		return ordering;
-	}
+	public CmsContentBlock getCmsContentBlock() {
+        return cmsContentBlock;
+    }
 	
-	public void setOrdering(int ordering) {
-		this.ordering = ordering;
-	}
+	public void setCmsContentBlock(CmsContentBlock cmsContentBlock) {
+        this.cmsContentBlock = cmsContentBlock;
+    }
 	
 	public Set<CmsContentBlockAttribute> getAttributes() {
 		return attributes;

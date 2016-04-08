@@ -3228,6 +3228,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         blockViewBean.setText(block.getText());
         blockViewBean.setParams(block.getParams());
 
+        // CMS CONTENT PARENT
+        if (Hibernate.isInitialized(block.getCmsContent()) && block.getCmsContent() != null) {
+            CmsContentViewBean parentViewBean = buildViewBeanCmsContent(requestData, block.getCmsContent());
+            blockViewBean.setCmsContent(parentViewBean);
+        }
+        
         // LINK
         if (Hibernate.isInitialized(block.getLink()) && block.getLink() != null) {
             CmsContentLinkViewBean linkViewBean = buildViewBeanCmsContentLink(requestData, block.getLink());
@@ -3250,6 +3256,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         }
 
         // BLOCK
+        if (Hibernate.isInitialized(block.getCmsContentBlock()) && block.getCmsContentBlock() != null) {
+            CmsContentBlockViewBean parentBlockViewBean = buildViewBeanCmsContentBlock(requestData, cmsEntity, block.getCmsContentBlock());
+            blockViewBean.setCmsContentBlock(parentBlockViewBean);
+        }
         if (Hibernate.isInitialized(block.getBlocks()) && block.getBlocks() != null) {
             for (Iterator<CmsContentBlock> iterator = block.getSortedCmsContentBlocks().iterator(); iterator.hasNext();) {
                 CmsContentBlock subBlock = (CmsContentBlock) iterator.next();

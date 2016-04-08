@@ -31,6 +31,9 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
     
     private CmsContentLinkViewBean link;
     private Set<AssetViewBean> assets = new HashSet<AssetViewBean>();
+
+    private CmsContentViewBean cmsContent = new CmsContentViewBean();
+    private CmsContentBlockViewBean cmsContentBlock = new CmsContentBlockViewBean();
     private List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
     
     private List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
@@ -171,7 +174,23 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
 		this.assets = assets;
 	}
 
-	public List<CmsContentBlockViewBean> getBlocks() {
+	public CmsContentViewBean getCmsContent() {
+        return cmsContent;
+    }
+
+    public void setCmsContent(CmsContentViewBean cmsContent) {
+        this.cmsContent = cmsContent;
+    }
+
+    public CmsContentBlockViewBean getCmsContentBlock() {
+        return cmsContentBlock;
+    }
+
+    public void setCmsContentBlock(CmsContentBlockViewBean cmsContentBlock) {
+        this.cmsContentBlock = cmsContentBlock;
+    }
+
+    public List<CmsContentBlockViewBean> getBlocks() {
 		return blocks;
 	}
 
