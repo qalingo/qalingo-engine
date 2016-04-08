@@ -3231,9 +3231,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         // CMS CONTENT PARENT
         if (Hibernate.isInitialized(block.getCmsContent()) && block.getCmsContent() != null) {
-            CmsContent clonedCmsContent = new CmsContent();
-            org.apache.commons.beanutils.BeanUtils.copyProperties(clonedCmsContent, block.getCmsContent());
-            CmsContentViewBean parentViewBean = buildViewBeanCmsContent(requestData, clonedCmsContent);
+            CmsContentViewBean parentViewBean = buildViewBeanCmsContent(requestData, block.getCmsContent());
             blockViewBean.setCmsContent(parentViewBean);
         }
         
