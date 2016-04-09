@@ -625,6 +625,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
+        requestDataChangecontext.setMarket(marketArea.getMarket());
         requestDataChangecontext.setMarketArea(marketArea);
         marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
         marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
