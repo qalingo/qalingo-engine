@@ -3139,13 +3139,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     }
 
     public CmsContentViewBean buildViewBeanCmsContent(final RequestData requestData, final CmsContent cmsContent) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
         CmsContentViewBean cmsContentViewBean = new CmsContentViewBean();
         if (cmsContent != null) {
             cmsContentViewBean.setId(cmsContent.getId().toString());
             cmsContentViewBean.setCode(cmsContent.getCode());
             cmsContentViewBean.setApp(cmsContent.getApp());
-            cmsContentViewBean.setMarketArea(buildViewBeanMarketArea(requestData, marketArea));
+            
+            if (Hibernate.isInitialized(cmsContent.getMarketArea()) && cmsContent.getMarketArea() != null) {
+                cmsContentViewBean.setMarketArea(buildViewBeanMarketArea(requestData, cmsContent.getMarketArea()));                
+            }
+
             cmsContentViewBean.setType(cmsContent.getType());
             cmsContentViewBean.setTitle(cmsContent.getTitle());
             cmsContentViewBean.setLinkTitle(cmsContent.getLinkTitle());
@@ -3225,6 +3228,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         blockViewBean.setType(block.getType());
         blockViewBean.setOrdering(block.getOrdering());
         blockViewBean.setActive(block.isActive());
+
+        if (Hibernate.isInitialized(block.getMarketArea()) && block.getMarketArea() != null) {
+            blockViewBean.setMarketArea(buildViewBeanMarketArea(requestData, block.getMarketArea()));
+        }
 
         blockViewBean.setTitle(block.getTitle());
         blockViewBean.setText(block.getText());

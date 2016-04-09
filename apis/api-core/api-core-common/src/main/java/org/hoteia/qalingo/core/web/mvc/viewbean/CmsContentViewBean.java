@@ -19,7 +19,6 @@ public class CmsContentViewBean extends AbstractViewBean {
     private int version;
 	private String code;
 	private String app;
-	private MarketAreaViewBean marketArea;
 	private String type;
 	private String title;
 	private String linkTitle;
@@ -31,6 +30,7 @@ public class CmsContentViewBean extends AbstractViewBean {
 	private boolean active;
 
 	private UserViewBean user;
+    private MarketAreaViewBean marketArea;
 
     protected List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
@@ -64,14 +64,6 @@ public class CmsContentViewBean extends AbstractViewBean {
 
 	public void setApp(String app) {
 		this.app = app;
-	}
-
-	public MarketAreaViewBean getMarketArea() {
-		return marketArea;
-	}
-	
-	public void setMarketArea(MarketAreaViewBean marketArea) {
-		this.marketArea = marketArea;
 	}
 
 	public String getType() {
@@ -164,6 +156,14 @@ public class CmsContentViewBean extends AbstractViewBean {
 	public void setUser(UserViewBean user) {
 		this.user = user;
 	}
+
+    public MarketAreaViewBean getMarketArea() {
+        return marketArea;
+    }
+    
+    public void setMarketArea(MarketAreaViewBean marketArea) {
+        this.marketArea = marketArea;
+    }
 	
 	public List<CmsContentBlockViewBean> getBlocks() {
 		return blocks;

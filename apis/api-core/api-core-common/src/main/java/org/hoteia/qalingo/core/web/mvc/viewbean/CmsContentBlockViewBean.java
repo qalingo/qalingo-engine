@@ -32,6 +32,7 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
     private CmsContentLinkViewBean link;
     private Set<AssetViewBean> assets = new HashSet<AssetViewBean>();
 
+    private MarketAreaViewBean marketArea;
     private CmsContentViewBean cmsContent;
     private CmsContentBlockViewBean cmsContentBlock;
     private List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
@@ -174,6 +175,14 @@ public class CmsContentBlockViewBean extends AbstractViewBean {
 		this.assets = assets;
 	}
 
+    public MarketAreaViewBean getMarketArea() {
+        return marketArea;
+    }
+    
+    public void setMarketArea(MarketAreaViewBean marketArea) {
+        this.marketArea = marketArea;
+    }
+    
 	public CmsContentViewBean getCmsContent() {
         return cmsContent;
     }
