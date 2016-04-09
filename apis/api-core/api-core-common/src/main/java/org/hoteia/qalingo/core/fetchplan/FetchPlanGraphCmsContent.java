@@ -22,13 +22,13 @@ public class FetchPlanGraphCmsContent {
     public static FetchPlan defaultCmsContentFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
+        fetchplans.add(new SpecificFetchMode(CmsContent_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.attributes.getName()));
+
+        fetchplans.add(new SpecificFetchMode(CmsContent_.user.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName() + "." + MarketArea_.market.getName()));
 
-        fetchplans.add(new SpecificFetchMode(CmsContent_.assets.getName()));
-        fetchplans.add(new SpecificFetchMode(CmsContent_.attributes.getName()));
-        fetchplans.add(new SpecificFetchMode(CmsContent_.user.getName()));
-        
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName()));
