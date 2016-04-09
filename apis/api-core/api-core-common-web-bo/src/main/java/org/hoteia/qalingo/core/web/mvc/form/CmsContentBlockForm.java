@@ -13,6 +13,7 @@ public class CmsContentBlockForm {
     
     protected String title;
     protected String text;
+    protected String params;
     
     protected MultipartFile file;
 	
@@ -71,6 +72,14 @@ public class CmsContentBlockForm {
 	public void setText(String text) {
 		this.text = text;
 	}
+	
+	public String getParams() {
+        return params;
+    }
+	
+	public void setParams(String params) {
+        this.params = params;
+    }
 	
 	public MultipartFile getFile() {
 		return file;
