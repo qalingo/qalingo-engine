@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.fetchplan;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hoteia.qalingo.core.domain.MarketArea_;
 import org.hoteia.qalingo.core.domain.CmsMenu_;
 import org.hoteia.qalingo.core.domain.CmsContent_;
 import org.hoteia.qalingo.core.domain.CmsContentBlock_;
@@ -22,6 +23,8 @@ public class FetchPlanGraphCmsContent {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName() + "." + MarketArea_.market.getName()));
+
         fetchplans.add(new SpecificFetchMode(CmsContent_.assets.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.user.getName()));
