@@ -117,6 +117,10 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     @JoinTable(name = "TCMS_CONTENT_PRODUCT_BRAND_REL", joinColumns = @JoinColumn(name = "CMS_CONTENT_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"))
     private Set<ProductBrand> productBrands = new HashSet<ProductBrand>();
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DATE_PUBLISH")
+    private Date datePublish;
+    
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -344,6 +348,14 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     
 	public void setProductBrands(Set<ProductBrand> productBrands) {
         this.productBrands = productBrands;
+    }
+	
+	public Date getDatePublish() {
+        return datePublish;
+    }
+	
+	public void setDatePublish(Date datePublish) {
+        this.datePublish = datePublish;
     }
 	
 	public Date getDateCreate() {
