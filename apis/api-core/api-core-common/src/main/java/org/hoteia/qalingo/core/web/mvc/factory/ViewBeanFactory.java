@@ -3160,11 +3160,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             cmsContentViewBean.setMaster(cmsContent.isMaster());
             cmsContentViewBean.setActive(cmsContent.isActive());
 
-            Date createDate = cmsContent.getDateCreate();
+            Date datePublish = cmsContent.getDatePublish();
+            if(datePublish == null){
+                datePublish = cmsContent.getDateCreate();
+            }
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, null);
+            if (datePublish != null) {
+                cmsContentViewBean.setDatePublish(dateFormat.format(datePublish));
+            }
             SimpleDateFormat formatDay = new SimpleDateFormat("dd");
-            cmsContentViewBean.setDateCreateDay(formatDay.format(createDate));
+            cmsContentViewBean.setDateCreateDay(formatDay.format(datePublish));
             SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMM yyyy");
-            cmsContentViewBean.setDateCreateMonthYear(formatMonthYear.format(createDate));
+            cmsContentViewBean.setDateCreateMonthYear(formatMonthYear.format(datePublish));
 
             // USER
             if (Hibernate.isInitialized(cmsContent.getUser()) && cmsContent.getUser() != null) {
@@ -3208,7 +3215,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 }
             }
 
-            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, null);
             if (cmsContent.getDateCreate() != null) {
                 cmsContentViewBean.setDateCreate(dateFormat.format(cmsContent.getDateCreate()));
             }

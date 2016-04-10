@@ -3,6 +3,7 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,8 @@ public class CmsContentViewBean extends AbstractViewBean {
     protected List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
     protected List<ProductBrandViewBean> productBrands = new ArrayList<ProductBrandViewBean>();
+    
+    private String datePublish;
     
 	private String editUrl;
 	private String detailsUrl;
@@ -323,6 +326,14 @@ public class CmsContentViewBean extends AbstractViewBean {
     
     public void setProductBrands(List<ProductBrandViewBean> productBrands) {
         this.productBrands = productBrands;
+    }
+    
+    public String getDatePublish() {
+        return datePublish;
+    }
+    
+    public void setDatePublish(String datePublish) {
+        this.datePublish = datePublish;
     }
     
     public String getEditUrl() {
