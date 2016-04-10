@@ -623,12 +623,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             marketAreaViewBean.setLocalizations(buildListViewBeanLocalizations(requestData, new ArrayList<Localization>(marketArea.getLocalizations())));
         }
         
-        RequestData requestDataChangecontext = new RequestData();
-        BeanUtils.copyProperties(requestData, requestDataChangecontext);
-        requestDataChangecontext.setMarket(marketArea.getMarket());
-        requestDataChangecontext.setMarketArea(marketArea);
-        marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
-        marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
+        if (Hibernate.isInitialized(marketArea.getMarket()) && marketArea.getMarket() != null) {
+            RequestData requestDataChangecontext = new RequestData();
+            BeanUtils.copyProperties(requestData, requestDataChangecontext);
+            requestDataChangecontext.setMarket(marketArea.getMarket());
+            requestDataChangecontext.setMarketArea(marketArea);
+            marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+            marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
+        }
 
         return marketAreaViewBean;
     }
