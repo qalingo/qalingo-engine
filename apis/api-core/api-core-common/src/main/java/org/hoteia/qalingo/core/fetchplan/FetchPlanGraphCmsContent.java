@@ -31,8 +31,10 @@ public class FetchPlanGraphCmsContent {
 
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.attributes.getName()));
         
         return new FetchPlan(fetchplans);
     }
