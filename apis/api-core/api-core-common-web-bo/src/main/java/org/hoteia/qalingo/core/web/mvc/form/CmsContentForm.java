@@ -20,6 +20,7 @@ public class CmsContentForm {
     
     protected MultipartFile file;
 
+    protected String datePublish;
     protected String dateCreate;
 	protected String dateUpdate;
 	
@@ -119,6 +120,14 @@ public class CmsContentForm {
 		this.file = file;
 	}
 
+	public String getDatePublish() {
+        return datePublish;
+    }
+	
+	public void setDatePublish(String datePublish) {
+        this.datePublish = datePublish;
+    }
+	
 	public String getDateCreate() {
 		return dateCreate;
 	}
