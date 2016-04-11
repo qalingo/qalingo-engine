@@ -38,6 +38,7 @@ import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
+import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -206,7 +207,7 @@ public class RequestUtil {
                 if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
 
                     // CHANGE THE MARKET
-                    Market newMarket = marketService.getMarketByCode(marketCode);
+                    Market newMarket = marketService.getMarketByCode(marketCode, FetchPlanGraphMarket.fullMarketFetchPlan());
                     if (newMarket == null) {
                         newMarket = currentMarketPlace.getDefaultMarket();
                     }
@@ -411,7 +412,7 @@ public class RequestUtil {
                 if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
 
                     // CHANGE THE MARKET
-                    Market newMarket = marketService.getMarketByCode(marketCode);
+                    Market newMarket = marketService.getMarketByCode(marketCode, FetchPlanGraphMarket.fullMarketFetchPlan());
                     if (newMarket == null) {
                         newMarket = currentMarketPlace.getDefaultMarket();
                     }
