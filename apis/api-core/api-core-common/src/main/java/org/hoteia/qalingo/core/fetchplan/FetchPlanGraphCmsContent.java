@@ -28,6 +28,7 @@ public class FetchPlanGraphCmsContent {
         fetchplans.add(new SpecificFetchMode(CmsContent_.user.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName() + "." + MarketArea_.market.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.masterCmsContent.getName()));
 
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.link.getName()));
