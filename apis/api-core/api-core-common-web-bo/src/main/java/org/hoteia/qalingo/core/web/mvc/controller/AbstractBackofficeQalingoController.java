@@ -100,7 +100,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
     protected void overrideDefaultPageTitle(final HttpServletRequest request, final ModelAndView modelAndView, String pageTitleKey, Object[] params) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
-        String headerTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        String headerTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         if(StringUtils.isNotEmpty(pageTitleKey)){
             pageTitleKey = pageTitleKey.replace("-", "_");
             if(params != null){
