@@ -3146,11 +3146,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             cmsContentViewBean.setId(cmsContent.getId().toString());
             cmsContentViewBean.setCode(cmsContent.getCode());
             cmsContentViewBean.setApp(cmsContent.getApp());
-            
-            if (Hibernate.isInitialized(cmsContent.getMarketArea()) && cmsContent.getMarketArea() != null) {
-                cmsContentViewBean.setMarketArea(buildViewBeanMarketArea(requestData, cmsContent.getMarketArea()));                
-            }
-
             cmsContentViewBean.setType(cmsContent.getType());
             cmsContentViewBean.setTitle(cmsContent.getTitle());
             cmsContentViewBean.setLinkTitle(cmsContent.getLinkTitle());
@@ -3160,24 +3155,21 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             cmsContentViewBean.setMaster(cmsContent.isMaster());
             cmsContentViewBean.setActive(cmsContent.isActive());
 
-            Date datePublish = cmsContent.getDatePublish();
-            if(datePublish == null){
-                datePublish = cmsContent.getDateCreate();
-            }
-            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, null);
-            if (datePublish != null) {
-                cmsContentViewBean.setDatePublish(dateFormat.format(datePublish));
-            }
-            SimpleDateFormat formatDay = new SimpleDateFormat("dd");
-            cmsContentViewBean.setDateCreateDay(formatDay.format(datePublish));
-            SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMM yyyy");
-            cmsContentViewBean.setDateCreateMonthYear(formatMonthYear.format(datePublish));
-
             // USER
             if (Hibernate.isInitialized(cmsContent.getUser()) && cmsContent.getUser() != null) {
                 cmsContentViewBean.setUser(buildViewBeanUser(requestData, cmsContent.getUser()));
             }
 
+            // MARKET AREA
+            if (Hibernate.isInitialized(cmsContent.getMarketArea()) && cmsContent.getMarketArea() != null) {
+                cmsContentViewBean.setMarketArea(buildViewBeanMarketArea(requestData, cmsContent.getMarketArea()));                
+            }
+            
+            // MASTER CMS CONTENT
+            if (Hibernate.isInitialized(cmsContent.getMasterCmsContent()) && cmsContent.getMasterCmsContent() != null) {
+                cmsContentViewBean.setMasterCmsContent(buildViewBeanCmsContent(requestData, cmsContent.getMasterCmsContent()));                
+            }
+            
             // BLOCK
             if (Hibernate.isInitialized(cmsContent.getBlocks()) && cmsContent.getBlocks() != null) {
                 for (Iterator<CmsContentBlock> iterator = cmsContent.getSortedCmsContentBlocks().iterator(); iterator.hasNext();) {
@@ -3215,6 +3207,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 }
             }
 
+            Date datePublish = cmsContent.getDatePublish();
+            if(datePublish == null){
+                datePublish = cmsContent.getDateCreate();
+            }
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, null);
+            if (datePublish != null) {
+                cmsContentViewBean.setDatePublish(dateFormat.format(datePublish));
+            }
+            SimpleDateFormat formatDay = new SimpleDateFormat("dd");
+            cmsContentViewBean.setDateCreateDay(formatDay.format(datePublish));
+            SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMM yyyy");
+            cmsContentViewBean.setDateCreateMonthYear(formatMonthYear.format(datePublish));
+            
             if (cmsContent.getDateCreate() != null) {
                 cmsContentViewBean.setDateCreate(dateFormat.format(cmsContent.getDateCreate()));
             }

@@ -32,7 +32,8 @@ public class CmsContentViewBean extends AbstractViewBean {
 
 	private UserViewBean user;
     private MarketAreaViewBean marketArea;
-
+    private CmsContentViewBean masterCmsContent;
+    
     protected List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
     protected List<ProductBrandViewBean> productBrands = new ArrayList<ProductBrandViewBean>();
@@ -166,6 +167,14 @@ public class CmsContentViewBean extends AbstractViewBean {
     
     public void setMarketArea(MarketAreaViewBean marketArea) {
         this.marketArea = marketArea;
+    }
+    
+    public CmsContentViewBean getMasterCmsContent() {
+        return masterCmsContent;
+    }
+    
+    public void setMasterCmsContent(CmsContentViewBean masterCmsContent) {
+        this.masterCmsContent = masterCmsContent;
     }
 	
 	public List<CmsContentBlockViewBean> getBlocks() {
