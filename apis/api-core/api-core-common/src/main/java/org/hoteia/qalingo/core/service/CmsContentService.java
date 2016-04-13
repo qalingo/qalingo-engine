@@ -118,6 +118,10 @@ public class CmsContentService {
         return cmsContentDao.findLastActiveCmsContentIds(app, type, marketAreaId, maxResults, params);
     }
 
+    public List<Long> findLastActiveCmsContentIds(final String app, final String type, final Long marketAreaId, final Long localizationId, int maxResults, Object... params) {
+        return cmsContentDao.findLastActiveCmsContentIds(app, type, marketAreaId, localizationId, maxResults, params);
+    }
+    
     public List<CmsContent> findCmsContentsByProductSkuId(final String app, final String type, final Long marketAreaId, long productSkuId, int maxResults, Object... params) {
         return cmsContentDao.findCmsContentsByProductSkuId(app, type, marketAreaId, productSkuId, maxResults, params);
     }
