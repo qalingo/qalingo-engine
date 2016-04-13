@@ -309,18 +309,22 @@ public class MarketArea extends AbstractEntity<MarketArea> {
         return localizations;
     }
 
-    public Localization getLocalization(String localeCode) {
+    public Localization getLocalization(String localizationCode) {
         Localization localeToReturn = null;
         if (localizations != null 
                 && Hibernate.isInitialized(localizations)) {
             for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
                 Localization localization = (Localization) iterator.next();
-                if (localization.getCode().equalsIgnoreCase(localeCode)) {
+                if (localization.getCode().equalsIgnoreCase(localizationCode)) {
                     localeToReturn = localization;
                 }
             }
         }
         return localeToReturn;
+    }
+    
+    public boolean hasLocalization(String localizationCode) {
+        return getLocalization(localizationCode) != null ? true : false;
     }
 
     public void setLocalizations(Set<Localization> localizations) {
