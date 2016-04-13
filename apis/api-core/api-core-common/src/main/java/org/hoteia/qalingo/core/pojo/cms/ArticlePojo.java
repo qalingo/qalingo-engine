@@ -18,28 +18,29 @@ import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 
 public class ArticlePojo {
 
-    private Long id;
-    private int version;
-    private String code;
-    private String app;
-    private String title;
-    private MarketAreaPojo marketArea;
-    private boolean external;
-    private String fullURlPath;
-    private String position;
-    private String type;
-    private String params;
-	private int ordering;
-    private boolean active;
+    protected Long id;
+    protected int version;
+    protected String code;
+    protected String app;
+    protected String title;
+    protected MarketAreaPojo marketArea;
+    protected boolean external;
+    protected String fullURlPath;
+    protected String position;
+    protected String type;
+    protected String params;
+	protected int ordering;
+    protected boolean active;
 	
-	private CmsMenu menu;
-    private Set<ArticlePojo> subMenus = new HashSet<ArticlePojo>();
+	protected CmsMenu menu;
+    protected Set<ArticlePojo> subMenus = new HashSet<ArticlePojo>();
 
-	private String editUrl;
-	private String detailsUrl;
+	protected String editUrl;
+	protected String detailsUrl;
 
-    private Date dateCreate;
-	private Date dateUpdate;
+    protected Date datePublish;
+    protected Date dateCreate;
+	protected Date dateUpdate;
 	
 	public Long getId() {
 		return id;
@@ -183,6 +184,14 @@ public class ArticlePojo {
 	public void setDetailsUrl(String detailsUrl) {
 		this.detailsUrl = detailsUrl;
 	}
+	
+	public Date getDatePublish() {
+        return datePublish;
+    }
+	
+	public void setDatePublish(Date datePublish) {
+        this.datePublish = datePublish;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

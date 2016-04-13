@@ -16,6 +16,9 @@ import org.hoteia.qalingo.core.domain.CmsContent;
 import org.hoteia.qalingo.core.domain.CmsContentAsset;
 import org.hoteia.qalingo.core.domain.CmsContentBlock;
 import org.hoteia.qalingo.core.domain.CmsMenu;
+import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.util.CoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,19 @@ public class CmsContentService {
     @Autowired
     private CmsContentDao cmsContentDao;
 
+    public String buildArticleCode(final MarketArea marketArea, final Localization localization, final CmsContent cmsContent, Object... params) {
+        return buildCmsContentCode(marketArea, localization, cmsContent.getSeoKey(), params);
+    }
+    
+    public String buildArticleCode(final MarketArea marketArea, final Localization localization, final String cmsContentSeoKey, Object... params) {
+        return buildCmsContentCode(marketArea, localization, cmsContentSeoKey, params);
+    }
+    
+    public String buildCmsContentCode(final MarketArea marketArea, final Localization localization, final String cmsContentSeoKey, Object... params) {
+        String code = marketArea.getCode() + "_" +  localization.getCode() + "_" + cmsContentSeoKey;
+        return CoreUtil.cleanEntityCode(code);
+    }
+    
     public CmsContent getCmsContentById(final Long cmsContentId, Object... params) {
         return cmsContentDao.getCmsContentById(cmsContentId, params);
     }
