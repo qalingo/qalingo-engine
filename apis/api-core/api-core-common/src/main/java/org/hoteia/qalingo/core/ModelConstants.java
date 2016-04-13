@@ -80,7 +80,11 @@ public class ModelConstants {
     public static final String STORE_RATES_VIEW_BEAN                = "storeRates";
     public static final String STORE_LIST_URL                       = "storeListUrl";
     
-    public static final String BACKOFFICE_LOCALIZATION_VIEW_BEAN    = "backofficeLocalizations";
+    public static final String LOCALIZATION_VIEW_BEAN               = "localization";
+    public static final String LOCALIZATIONS_VIEW_BEAN              = "localizations";
+    public static final String BACKOFFICE_LOCALIZATION_VIEW_BEAN    = "backofficeLocalization";
+    public static final String BACKOFFICE_LOCALIZATIONS_VIEW_BEAN   = "backofficeLocalizations";
+
     public static final String LEGAl_TERMS_VIEW_BEAN                = "legalTerms";
     public static final String CONDITIONS_OF_USE_VIEW_BEAN          = "conditions";
     public static final String FOLLOW_US_VIEW_BEAN                  = "followUs";
