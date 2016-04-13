@@ -44,6 +44,9 @@ public class Localization extends AbstractEntity<Localization> {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean active;
+    
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
@@ -95,6 +98,14 @@ public class Localization extends AbstractEntity<Localization> {
         this.version = version;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     public String getCode() {
         return code;
     }
