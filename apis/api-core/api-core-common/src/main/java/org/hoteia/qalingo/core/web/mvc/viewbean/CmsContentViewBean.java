@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.Localization;
 
 public class CmsContentViewBean extends AbstractViewBean {
 
@@ -32,6 +33,7 @@ public class CmsContentViewBean extends AbstractViewBean {
 
 	private UserViewBean user;
     private MarketAreaViewBean marketArea;
+    private LocalizationViewBean localization;
     private CmsContentViewBean masterCmsContent;
     
     protected List<CmsContentBlockViewBean> blocks = new ArrayList<CmsContentBlockViewBean>();
@@ -167,6 +169,14 @@ public class CmsContentViewBean extends AbstractViewBean {
     
     public void setMarketArea(MarketAreaViewBean marketArea) {
         this.marketArea = marketArea;
+    }
+    
+    public LocalizationViewBean getLocalization() {
+        return localization;
+    }
+    
+    public void setLocalization(LocalizationViewBean localization) {
+        this.localization = localization;
     }
     
     public CmsContentViewBean getMasterCmsContent() {

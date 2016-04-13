@@ -3165,6 +3165,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 cmsContentViewBean.setMarketArea(buildViewBeanMarketArea(requestData, cmsContent.getMarketArea()));                
             }
             
+            // LOCALIZATION
+            if (Hibernate.isInitialized(cmsContent.getLocalization()) && cmsContent.getLocalization() != null) {
+                cmsContentViewBean.setLocalization(buildViewBeanLocalization(requestData, cmsContent.getLocalization()));                
+            }
+            
             // MASTER CMS CONTENT
             if (Hibernate.isInitialized(cmsContent.getMasterCmsContent()) && cmsContent.getMasterCmsContent() != null) {
                 cmsContentViewBean.setMasterCmsContent(buildViewBeanCmsContent(requestData, cmsContent.getMasterCmsContent()));                
