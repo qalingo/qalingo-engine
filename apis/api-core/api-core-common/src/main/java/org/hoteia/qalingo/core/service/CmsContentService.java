@@ -89,6 +89,10 @@ public class CmsContentService {
     public List<Long> findCmsContentIdByMasterContentIdAndMarketAreaId(final Long cmsContentId, final Long marketAreaId, Object... params) {
         return cmsContentDao.findCmsContentIdByMasterContentIdAndMarketAreaId(cmsContentId, marketAreaId, params);
     }
+
+    public List<Long> findCmsContentIdByMasterContentIdAndMarketAreaIdAndLocalizationId(final Long cmsContentId, final Long marketAreaId, final Long localizationId, Object... params) {
+        return cmsContentDao.findCmsContentIdByMasterContentIdAndMarketAreaIdAndLocalizationId(cmsContentId, marketAreaId, localizationId, params);
+    }
     
     public List<CmsContent> findCmsContentsBySeoKey(final String app, final String type, final Long marketAreaId, final String cmsContentSeoKey, Object... params) {
         return cmsContentDao.findCmsContentsBySeoKey(app, type, marketAreaId, cmsContentSeoKey, params);

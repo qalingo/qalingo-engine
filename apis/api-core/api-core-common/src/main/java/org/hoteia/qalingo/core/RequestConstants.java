@@ -29,6 +29,7 @@ public class RequestConstants {
     public static final String REQUEST_PARAMETER_MARKET_AREA_LANGUAGE       = "market-area-language-code";
     public static final String REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE  = "market-area-retailer-code";
     public static final String REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE  = "market-area-currency-code";
+    public static final String REQUEST_PARAMETER_LOCALIZATION_CODE          = "localization-code";
 	
     public static final String REQUEST_PARAMETER_CATALOG_CODE                   = "catalog-code";
     public static final String REQUEST_PARAMETER_CATALOG_TYPE                   = "catalog-type";
