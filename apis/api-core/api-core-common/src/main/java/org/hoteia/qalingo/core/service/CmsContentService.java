@@ -30,6 +30,14 @@ public class CmsContentService {
     @Autowired
     private CmsContentDao cmsContentDao;
 
+    public String buildPageCode(final MarketArea marketArea, final Localization localization, final CmsContent cmsContent, Object... params) {
+        return buildCmsContentCode(marketArea, localization, cmsContent.getSeoKey(), params);
+    }
+    
+    public String buildPageCode(final MarketArea marketArea, final Localization localization, final String cmsContentSeoKey, Object... params) {
+        return buildCmsContentCode(marketArea, localization, cmsContentSeoKey, params);
+    }
+
     public String buildArticleCode(final MarketArea marketArea, final Localization localization, final CmsContent cmsContent, Object... params) {
         return buildCmsContentCode(marketArea, localization, cmsContent.getSeoKey(), params);
     }
