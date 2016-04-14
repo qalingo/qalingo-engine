@@ -130,6 +130,22 @@ public class CmsContentDao extends AbstractGenericDao {
         List<Long> cmsContentIds = criteria.list();
         return cmsContentIds;
     }
+   
+    public List<Long> findAllCmsContentIds(final String type, final Long marketAreaId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsContent.class);
+        
+        handleSpecificCmsContentFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("type", type));
+        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.desc("dateCreate"));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> cmsContentIds = criteria.list();
+        return cmsContentIds;
+    }
     
     public List<Long> findAllCmsContentIds(final String type, final Long marketAreaId, final Long localizationId, Object... params) {
         Criteria criteria = createDefaultCriteria(CmsContent.class);
