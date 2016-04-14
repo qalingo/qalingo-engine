@@ -82,6 +82,14 @@ public class CmsContentService {
         return cmsContentDao.findAllCmsContentIds(type, params);
     }
 
+    public List<Long> findAllCmsContentIds(final String app, final String type, final Long marketAreaId, Object... params) {
+        return cmsContentDao.findAllCmsContentIds(type, marketAreaId, params);
+    }
+    
+    public List<Long> findAllCmsContentIds(final String app, final String type, final Long marketAreaId, final Long localizationId, Object... params) {
+        return cmsContentDao.findAllCmsContentIds(type, marketAreaId, localizationId, params);
+    }
+    
     public List<Long> findAllCmsContentIdsByMasterContentId(final Long cmsContentId, Object... params) {
         return cmsContentDao.findAllCmsContentIdsByMasterContentId(cmsContentId, params);
     }
@@ -100,10 +108,6 @@ public class CmsContentService {
     
     public List<CmsContent> findAllCmsContents(final String app, final String type, final Long marketAreaId, Object... params) {
         return cmsContentDao.findAllCmsContents(type, marketAreaId, params);
-    }
-
-    public List<Long> findAllCmsContentIds(final String app, final String type, final Long marketAreaId, Object... params) {
-        return cmsContentDao.findAllCmsContentIds(type, marketAreaId, params);
     }
 
     public List<CmsContent> findCmsContents(final String app, final String type, final Long marketAreaId, int maxResults, Object... params) {

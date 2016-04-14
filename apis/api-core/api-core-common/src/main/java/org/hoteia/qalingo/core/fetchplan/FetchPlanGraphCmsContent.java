@@ -43,6 +43,33 @@ public class FetchPlanGraphCmsContent {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan fullCmsContentFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        
+        fetchplans.add(new SpecificFetchMode(CmsContent_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.attributes.getName()));
+
+        fetchplans.add(new SpecificFetchMode(CmsContent_.user.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.marketArea.getName() + "." + MarketArea_.market.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.localization.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.masterCmsContent.getName()));
+
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.link.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.link.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.attributes.getName()));
+
+        fetchplans.add(new SpecificFetchMode(CmsContent_.productSkus.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.productBrands.getName()));
+
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan defaultCmsContentBlockFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         

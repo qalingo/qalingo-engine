@@ -56,14 +56,6 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     @Column(name = "APP")
     private String app;
     
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
-    @JoinColumn(name = "MARKET_AREA_ID", insertable = true, updatable = true)
-    private MarketArea marketArea;
-    
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)
-    @JoinColumn(name = "LOCALIZATION_ID", insertable = true, updatable = true)
-    private Localization localization;
-    
     @Column(name = "TYPE")
     private String type;
     
@@ -92,23 +84,31 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentAttribute.class)
     @JoinColumn(name = "CMS_CONTENT_ID")
     private Set<CmsContentAttribute> attributes = new HashSet<CmsContentAttribute>();
-    
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentBlock.class)
-    @JoinColumn(name = "CMS_CONTENT_ID")
-    private Set<CmsContentBlock> blocks = new HashSet<CmsContentBlock>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentAsset.class)
     @JoinColumn(name = "CMS_CONTENT_ID")
     private Set<CmsContentAsset> assets = new HashSet<CmsContentAsset>();
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CmsContent.class)
-    @JoinColumn(name = "CMS_CONTENT_ID", insertable = true, updatable = true)
-    private CmsContent masterCmsContent;
-
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.User.class)
     @JoinColumn(name = "USER_ID", insertable = true, updatable = true)
     private User user;
     
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
+    @JoinColumn(name = "MARKET_AREA_ID", insertable = true, updatable = true)
+    private MarketArea marketArea;
+    
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)
+    @JoinColumn(name = "LOCALIZATION_ID", insertable = true, updatable = true)
+    private Localization localization;
+    
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CmsContent.class)
+    @JoinColumn(name = "CMS_CONTENT_ID", insertable = true, updatable = true)
+    private CmsContent masterCmsContent;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentBlock.class)
+    @JoinColumn(name = "CMS_CONTENT_ID")
+    private Set<CmsContentBlock> blocks = new HashSet<CmsContentBlock>();
+
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TCMS_CONTENT_PRODUCT_SKU_REL", joinColumns = @JoinColumn(name = "CMS_CONTENT_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"))
     private Set<ProductSku> productSkus = new HashSet<ProductSku>();
@@ -167,22 +167,6 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
 	
 	public void setApp(String app) {
 		this.app = app;
-	}
-	
-	public MarketArea getMarketArea() {
-		return marketArea;
-	}
-	
-	public void setMarketArea(MarketArea marketArea) {
-		this.marketArea = marketArea;
-	}
-	
-	public Localization getLocalization() {
-		return localization;
-	}
-	
-	public void setLocalization(Localization localization) {
-		this.localization = localization;
 	}
 	
 	public String getTitle() {
@@ -249,37 +233,6 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
 		this.attributes = attributes;
 	}
 
-	public Set<CmsContentBlock> getBlocks() {
-		return blocks;
-	}
-
-    public List<CmsContentBlock> getSortedCmsContentBlocks() {
-        List<CmsContentBlock> sortedCmsContentBlocks = null;
-        if (blocks != null 
-                && Hibernate.isInitialized(blocks)) {
-        	sortedCmsContentBlocks = new LinkedList<CmsContentBlock>(blocks);
-            Collections.sort(sortedCmsContentBlocks, new CmsContentBlockComparator());
-        }
-        return sortedCmsContentBlocks;
-    }
-    
-	public CmsContentBlock getBlockByType(String type) {
-		 if (blocks != null 
-	                && Hibernate.isInitialized(blocks)
-	                && StringUtils.isNotEmpty(type)) {
-			for (CmsContentBlock cmsContentBlock : blocks) {
-				if(cmsContentBlock.getType().equals(type)){
-					return cmsContentBlock;
-				}
-			}
-		}
-		return null;
-	}
-	
-	public void setBlocks(Set<CmsContentBlock> blocks) {
-		this.blocks = blocks;
-	}
-    
 	public Set<CmsContentAsset> getAssets() {
 		return assets;
 	}
@@ -298,6 +251,31 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
 		this.assets = assets;
 	}
 	
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    
+    public MarketArea getMarketArea() {
+        return marketArea;
+    }
+    
+    public void setMarketArea(MarketArea marketArea) {
+        this.marketArea = marketArea;
+    }
+    
+    public Localization getLocalization() {
+        return localization;
+    }
+    
+    public void setLocalization(Localization localization) {
+        this.localization = localization;
+    }
+    
 	public CmsContent getMasterCmsContent() {
         return masterCmsContent;
     }
@@ -306,14 +284,37 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
         this.masterCmsContent = masterCmsContent;
     }
 	
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
+    public Set<CmsContentBlock> getBlocks() {
+        return blocks;
+    }
+
+    public List<CmsContentBlock> getSortedCmsContentBlocks() {
+        List<CmsContentBlock> sortedCmsContentBlocks = null;
+        if (blocks != null 
+                && Hibernate.isInitialized(blocks)) {
+            sortedCmsContentBlocks = new LinkedList<CmsContentBlock>(blocks);
+            Collections.sort(sortedCmsContentBlocks, new CmsContentBlockComparator());
+        }
+        return sortedCmsContentBlocks;
+    }
+    
+    public CmsContentBlock getBlockByType(String type) {
+         if (blocks != null 
+                    && Hibernate.isInitialized(blocks)
+                    && StringUtils.isNotEmpty(type)) {
+            for (CmsContentBlock cmsContentBlock : blocks) {
+                if(cmsContentBlock.getType().equals(type)){
+                    return cmsContentBlock;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void setBlocks(Set<CmsContentBlock> blocks) {
+        this.blocks = blocks;
+    }
+    
 	public Set<ProductSku> getProductSkus() {
 		return productSkus;
 	}

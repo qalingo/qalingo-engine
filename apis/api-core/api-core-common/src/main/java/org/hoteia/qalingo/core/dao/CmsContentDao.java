@@ -131,6 +131,24 @@ public class CmsContentDao extends AbstractGenericDao {
         return cmsContentIds;
     }
     
+    public List<Long> findAllCmsContentIds(final String type, final Long marketAreaId, final Long localizationId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsContent.class);
+        
+        handleSpecificCmsContentFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("type", type));
+        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+        criteria.createAlias("localization", "localization", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("localization.id", localizationId));
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.desc("dateCreate"));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> cmsContentIds = criteria.list();
+        return cmsContentIds;
+    }
+    
     public List<Long> findAllCmsContentIdsByMasterContentId(final Long cmsContentId, Object... params) {
         Criteria criteria = createDefaultCriteria(CmsContent.class);
         
@@ -212,22 +230,6 @@ public class CmsContentDao extends AbstractGenericDao {
         @SuppressWarnings("unchecked")
         List<CmsContent> cmsContents = criteria.list();
 		return cmsContents;
-    }
-    
-    public List<Long> findAllCmsContentIds(final String type, final Long marketAreaId, Object... params) {
-        Criteria criteria = createDefaultCriteria(CmsContent.class);
-        
-        handleSpecificCmsContentFetchMode(criteria, params);
-        
-        criteria.add(Restrictions.eq("type", type));
-        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
-        criteria.setProjection(Projections.property("id"));
-        criteria.addOrder(Order.desc("dateCreate"));
-        
-        @SuppressWarnings("unchecked")
-        List<Long> cmsContentIds = criteria.list();
-		return cmsContentIds;
     }
     
     public List<CmsContent> findCmsContents(final String app, final String type, final Long marketAreaId, int maxResults, Object... params) {
