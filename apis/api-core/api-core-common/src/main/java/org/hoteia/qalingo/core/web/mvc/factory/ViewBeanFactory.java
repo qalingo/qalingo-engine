@@ -3114,6 +3114,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMMM yyyy", locale);
             if (cmsContent.getDateCreate() != null) {
                 String key = formatMonthYear.format(cmsContent.getDateCreate());
+                if(cmsContent.getDatePublish() != null){
+                    key = formatMonthYear.format(cmsContent.getDatePublish());
+                }
                 Long longKey = formatMonthYear.parse(key).getTime();
                 Map<String, List<CmsContentViewBean>> subMapCmsContentViewBeans = mapCmsContentViewBeans.get(longKey);
                 if (subMapCmsContentViewBeans == null) {
