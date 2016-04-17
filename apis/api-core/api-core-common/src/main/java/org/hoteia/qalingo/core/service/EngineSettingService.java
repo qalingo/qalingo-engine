@@ -122,6 +122,14 @@ public class EngineSettingService {
     // LIGTH CMS
     public static final String ENGINE_SETTING_CODE_ASSET_CMS_CONTENT_FILE_PATH   = "ASSET_CMS_CONTENT_FILE_PATH";
 
+    // MANGOPAY
+    public static final String ENGINE_SETTING_MANGOPAY_CLIENT_ID                = "MANGOPAY_CLIENT_ID";
+    public static final String ENGINE_SETTING_MANGOPAY_CLIENT_PASSWORD          = "MANGOPAY_CLIENT_PASSWORD";
+    public static final String ENGINE_SETTING_MANGOPAY_BASE_URL                 = "MANGOPAY_DEFAULT_BASE_URL";
+    public static final String ENGINE_SETTING_MANGOPAY_DEFAULT_OWNER_ID         = "MANGOPAY_DEFAULT_OWNER_ID";
+    public static final String ENGINE_SETTING_MANGOPAY_DASHBOARD_URL            = "MANGOPAY_DASHBOARD_URL";
+    public static final String ENGINE_SETTING_MANGOPAY_PAYOUT_FEES_PERCENTAGE   = "MANGOPAY_PAYOUT_FEES_PERCENTAGE";
+    
     public static SimpleDateFormat timestampPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     
     @Autowired
@@ -696,6 +704,14 @@ public class EngineSettingService {
         return handleWebPath(productSkuImageWebPath);
     }
 
+    /**
+     * 
+     */
+    public String getProductSkuImageWebPath(final String productSkuCode, final Asset asset) throws Exception {
+        ProductSku productSkuByCode = productService.getProductSkuByCode(productSkuCode);
+        return getProductSkuImageWebPath(productSkuByCode, asset);
+    }
+    
     /**
      * 
      */
