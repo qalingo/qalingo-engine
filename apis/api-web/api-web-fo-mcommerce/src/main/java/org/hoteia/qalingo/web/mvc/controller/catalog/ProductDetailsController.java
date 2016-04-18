@@ -169,6 +169,8 @@ public class ProductDetailsController extends AbstractMCommerceController {
 
         model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, initSeo(request, model, productMarketingViewBean));
 
+        model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, brandList(request, model));
+
         return modelAndView;
 	}
 	
@@ -206,7 +208,6 @@ public class ProductDetailsController extends AbstractMCommerceController {
         return breadcrumbViewBean;
     }
     
-    @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
     protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
         List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
         List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);

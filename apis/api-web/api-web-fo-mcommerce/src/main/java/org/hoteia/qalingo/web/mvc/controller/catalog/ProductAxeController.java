@@ -111,6 +111,10 @@ public class ProductAxeController extends AbstractMCommerceController {
 
             model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbViewBean(requestData, catalogCategory));
 
+            model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, initSeo(request, catalogCategoryViewBean));
+
+            model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, brandList(request, model));
+            
             return modelAndView;
         }
         final String urlRedirect = urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request));
@@ -149,24 +153,16 @@ public class ProductAxeController extends AbstractMCommerceController {
         return breadcrumbViewBean;
     }
     
-    /**
-     * 
-     */
-    @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
     protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
         List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
         List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
         return productBrandViewBeans;
     }
     
-    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
-    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final CatalogCategoryViewBean catalogCategoryViewBean) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
-        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
-
         // SEO
         String metaOgTitle = catalogCategoryViewBean.getI18nName();
         seoDataViewBean.setMetaOgTitle(metaOgTitle);
