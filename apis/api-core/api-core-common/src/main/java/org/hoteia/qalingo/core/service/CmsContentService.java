@@ -81,11 +81,6 @@ public class CmsContentService {
         return cmsContentDao.findCmsContentByType(app, type, marketAreaId, params);
     }
 
-    public CmsContent findCmsContentBySeoKey(final String app, final String type, final Long marketAreaId, final String cmsContentSeoKey, Object... params) {
-//      return cmsContentDao.findCmsContentBySeoKey(app, type, marketAreaId, cmsContentSeoKey, params);
-    	return cmsContentDao.getCmsContentBySeoKey(app, type, marketAreaId, cmsContentSeoKey, params);
-    }
-
     public List<Long> findAllCmsContentIds(final String app, final String type, Object... params) {
         return cmsContentDao.findAllCmsContentIds(type, params);
     }
@@ -110,8 +105,12 @@ public class CmsContentService {
         return cmsContentDao.findCmsContentIdByMasterContentIdAndMarketAreaIdAndLocalizationId(cmsContentId, marketAreaId, localizationId, params);
     }
     
-    public List<CmsContent> findCmsContentsBySeoKey(final String app, final String type, final Long marketAreaId, final String cmsContentSeoKey, Object... params) {
-        return cmsContentDao.findCmsContentsBySeoKey(app, type, marketAreaId, cmsContentSeoKey, params);
+    public List<Long> findAllCmsContentIdsBySeoKey(final String app, final String type, final String cmsContentSeoKey, Object... params) {
+        return cmsContentDao.findAllCmsContentIdsBySeoKey(app, type, cmsContentSeoKey, params);
+    }
+    
+    public List<CmsContent> findAllCmsContentsBySeoKey(final String app, final String type, final String cmsContentSeoKey, Object... params) {
+        return cmsContentDao.findAllCmsContentsBySeoKey(app, type, cmsContentSeoKey, params);
     }
     
     public List<CmsContent> findAllCmsContents(final String app, final String type, final Long marketAreaId, Object... params) {

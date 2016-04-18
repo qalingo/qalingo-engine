@@ -136,7 +136,7 @@ public class HeadLinkViewBean implements Serializable {
 
     @Override
     public String toString() {
-        return "MetaLinkViewBean [disabled=" + disabled + ", media=" + media + ", methods=" + methods + ", sizes=" + sizes + ", target=" + target + ", type=" + type + ", rel=" + rel + ", hreflang="
+        return "HeadLinkViewBean [disabled=" + disabled + ", media=" + media + ", methods=" + methods + ", sizes=" + sizes + ", target=" + target + ", type=" + type + ", rel=" + rel + ", hreflang="
                 + hreflang + ", href=" + href + "]";
     }
 	

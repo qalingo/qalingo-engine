@@ -99,24 +99,6 @@ public class CmsContentDao extends AbstractGenericDao {
         return cmsContent;
     }
     
-    public CmsContent getCmsContentBySeoKey(final String app, final String type, final Long marketAreaId, final String cmsContentSeoKey, Object... params) {
-    	Criteria criteria = createDefaultCriteria(CmsContent.class);
-        
-    	FetchPlan fetchPlan = handleSpecificCmsContentFetchMode(criteria, params);
-
-        criteria.add(Restrictions.eq("app", app));
-        criteria.add(Restrictions.eq("type", type));
-        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
-        criteria.add(Restrictions.eq("seoKey", cmsContentSeoKey));
-        
-        CmsContent cmsContent = (CmsContent) criteria.uniqueResult();
-        if(cmsContent != null){
-        	cmsContent.setFetchPlan(fetchPlan);
-        }
-        return cmsContent;
-    }
-    
     public List<Long> findAllCmsContentIds(final String type, Object... params) {
         Criteria criteria = createDefaultCriteria(CmsContent.class);
         
@@ -216,15 +198,29 @@ public class CmsContentDao extends AbstractGenericDao {
         return cmsContentIds;
     }
     
-    public List<CmsContent> findCmsContentsBySeoKey(final String app, final String type, final Long marketAreaId, final String cmsContentSeoKey, Object... params) {
+    public List<Long> findAllCmsContentIdsBySeoKey(final String app, final String type, final String cmsContentSeoKey, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsContent.class);
+        
+        handleSpecificCmsContentFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("app", app));
+        criteria.add(Restrictions.eq("type", type));
+        criteria.add(Restrictions.eq("seoKey", cmsContentSeoKey));
+        criteria.setProjection(Projections.property("id"));
+        criteria.addOrder(Order.desc("dateCreate"));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> cmsContentIds = criteria.list();
+        return cmsContentIds;
+    }
+    
+    public List<CmsContent> findAllCmsContentsBySeoKey(final String app, final String type, final String cmsContentSeoKey, Object... params) {
     	Criteria criteria = createDefaultCriteria(CmsContent.class);
         
     	handleSpecificCmsContentFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("app", app));
         criteria.add(Restrictions.eq("type", type));
-        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
         criteria.add(Restrictions.eq("seoKey", cmsContentSeoKey));
         
         @SuppressWarnings("unchecked")
