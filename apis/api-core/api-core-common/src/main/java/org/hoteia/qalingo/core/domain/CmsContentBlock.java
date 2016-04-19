@@ -277,16 +277,15 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
 		this.dateUpdate = dateUpdate;
 	}
 
-	@Override
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (active ? 1231 : 1237);
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ordering;
         result = prime * result + ((type == null) ? 0 : type.hashCode());
-        result = prime * result + version;
         return result;
     }
 
@@ -299,8 +298,6 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
         if (getClass() != obj.getClass())
             return false;
         CmsContentBlock other = (CmsContentBlock) obj;
-        if (active != other.active)
-            return false;
         if (code == null) {
             if (other.code != null)
                 return false;
@@ -316,12 +313,12 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
                 return false;
         } else if (!id.equals(other.id))
             return false;
+        if (ordering != other.ordering)
+            return false;
         if (type == null) {
             if (other.type != null)
                 return false;
         } else if (!type.equals(other.type))
-            return false;
-        if (version != other.version)
             return false;
         return true;
     }
