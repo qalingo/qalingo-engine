@@ -9,11 +9,17 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
@@ -80,6 +86,22 @@ public class CartDao extends AbstractGenericDao {
 	        em.remove(em.merge(cart));
 	    }
 	}
+	
+    public int deleteCart(final Timestamp before) {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM Cart WHERE dateCreate <= :before";
+        Query query = session.createQuery(sql);
+        query.setTimestamp("before", before);
+        List<Cart> sessions = (List<Cart>) query.list();
+        if (sessions != null) {
+            for (Iterator<Cart> iterator = sessions.iterator(); iterator.hasNext();) {
+                Cart cart = (Cart) iterator.next();
+                deleteCart(cart);
+            }
+            return sessions.size();
+        }
+        return 0;
+    }
 	
     @Override
     protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Service("engineSessionService")
@@ -97,6 +98,10 @@ public class EngineSessionService {
         engineSessionDao.deleteEngineEcoSession(engineEcoSession);
     }
 
+    public int deleteEngineEcoSession(final Timestamp before) {
+        return engineSessionDao.deleteEngineEcoSession(before);
+    }
+    
     // BO SESSION
 
     public EngineBoSession getEngineBoSessionById(final Long engineSessionId, Object... params) {
@@ -125,6 +130,10 @@ public class EngineSessionService {
         engineSessionDao.deleteEngineBoSession(engineBoSession);
     }
 
+    public int deleteEngineBoSession(final Timestamp before) {
+        return engineSessionDao.deleteEngineBoSession(before);
+    }
+    
     public EngineEcoSession addNewCart(EngineEcoSession engineEcoSession) {
         Cart cart = new Cart();
         cart.setVersion(1);

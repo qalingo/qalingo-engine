@@ -9,14 +9,20 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -82,6 +88,22 @@ public class EngineSessionDao extends AbstractGenericDao {
     public void deleteEngineEcoSession(EngineEcoSession engineSession) {
         em.remove(em.contains(engineSession) ? engineSession : em.merge(engineSession));
     }
+    
+    public int deleteEngineEcoSession(final Timestamp before) {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM EngineBoSession WHERE dateCreate <= :before";
+        Query query = session.createQuery(sql);
+        query.setTimestamp("before", before);
+        List<EngineEcoSession> sessions = (List<EngineEcoSession>) query.list();
+        if (sessions != null) {
+            for (Iterator<EngineEcoSession> iterator = sessions.iterator(); iterator.hasNext();) {
+                EngineEcoSession engineSession = (EngineEcoSession) iterator.next();
+                deleteEngineEcoSession(engineSession);
+            }
+            return sessions.size();
+        }
+        return 0;
+    }
 
     // BO SESSION
 
@@ -114,6 +136,22 @@ public class EngineSessionDao extends AbstractGenericDao {
 
     public void deleteEngineBoSession(EngineBoSession engineSession) {
         em.remove(engineSession);
+    }
+    
+    public int deleteEngineBoSession(final Timestamp before) {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM EngineBoSession WHERE dateCreate <= :before";
+        Query query = session.createQuery(sql);
+        query.setTimestamp("before", before);
+        List<EngineBoSession> sessions = (List<EngineBoSession>) query.list();
+        if (sessions != null) {
+            for (Iterator<EngineBoSession> iterator = sessions.iterator(); iterator.hasNext();) {
+                EngineBoSession engineSession = (EngineBoSession) iterator.next();
+                deleteEngineBoSession(engineSession);
+            }
+            return sessions.size();
+        }
+        return 0;
     }
 
 }

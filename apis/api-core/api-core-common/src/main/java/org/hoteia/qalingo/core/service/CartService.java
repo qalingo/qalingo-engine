@@ -9,7 +9,7 @@
 package org.hoteia.qalingo.core.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +18,18 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.dao.CartDao;
 import org.hoteia.qalingo.core.dao.ProductDao;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CurrencyReferential;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
+import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -185,6 +196,9 @@ public class CartService {
         cartDao.deleteCart(cart);
     }
 
+    public int deleteCart(final Timestamp before) {
+        return cartDao.deleteCart(before);
+    }
 
     public String getCartTotalWithStandardCurrencySign(final Cart cart) {
         return cart.getCurrency().formatPriceWithStandardCurrencySign(getCartTotal(cart));
