@@ -644,7 +644,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         for (final Localization localization : localizations) {
             localizationViewBeans.add(buildViewBeanLocalization(requestData, localization));
         }
-        return localizationViewBeans;
+        
+        final List<LocalizationViewBean> sortedLocalizationViewBeans = new LinkedList<LocalizationViewBean>(localizationViewBeans);
+        Collections.sort(sortedLocalizationViewBeans, new Comparator<LocalizationViewBean>() {
+            @Override
+            public int compare(LocalizationViewBean o1, LocalizationViewBean o2) {
+                if (o1 != null && o1.getName() != null && o2 != null && o2.getName() != null) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+                return 0;
+            }
+        });
+        
+        return sortedLocalizationViewBeans;
     }
     
     /**
@@ -663,7 +675,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 localizationViewBean.setActive(true);
             }
         }
-        return localizationViewBeans;
+        
+        final List<LocalizationViewBean> sortedLocalizationViewBeans = new LinkedList<LocalizationViewBean>(localizationViewBeans);
+        Collections.sort(sortedLocalizationViewBeans, new Comparator<LocalizationViewBean>() {
+            @Override
+            public int compare(LocalizationViewBean o1, LocalizationViewBean o2) {
+                if (o1 != null && o1.getName() != null && o2 != null && o2.getName() != null) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+                return 0;
+            }
+        });
+        
+        return sortedLocalizationViewBeans;
     }
 
     /**
