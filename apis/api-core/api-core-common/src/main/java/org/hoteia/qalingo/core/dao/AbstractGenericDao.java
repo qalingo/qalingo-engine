@@ -9,6 +9,10 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
@@ -16,6 +20,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -93,4 +98,19 @@ public abstract class AbstractGenericDao {
         return null;
     }
 	
+    public Blob convertObjectToBlobHibernate(Object object) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+        oos.writeObject(object);
+        oos.flush();
+        oos.close();
+        bos.close();
+
+        byte[] data = bos.toByteArray();
+
+        Blob blob = Hibernate.getLobCreator(getSession()).createBlob(data);
+        return blob;
+    }
+    
 }

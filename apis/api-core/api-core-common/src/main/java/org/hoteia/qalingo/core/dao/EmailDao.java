@@ -157,20 +157,7 @@ public class EmailDao extends AbstractGenericDao {
      *      email, Exception e)
      */
     public void handleEmailException(final Email email, final Exception exception) throws IOException {
-        Session session = (Session) em.getDelegate();
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(bos);
-
-        oos.writeObject(exception);
-        oos.flush();
-        oos.close();
-        bos.close();
-
-        byte[] data = bos.toByteArray();
-
-        Blob blob = Hibernate.getLobCreator(session).createBlob(data);
-
+        Blob blob = convertObjectToBlobHibernate(exception);
         email.setExceptionContent(blob);
     }
 
