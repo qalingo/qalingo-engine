@@ -106,6 +106,11 @@ public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
+    public CmsMenu() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+    
 	public Long getId() {
 		return id;
 	}

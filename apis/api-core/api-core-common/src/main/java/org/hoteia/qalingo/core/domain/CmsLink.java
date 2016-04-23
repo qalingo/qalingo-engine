@@ -56,9 +56,11 @@ public class CmsLink extends AbstractEntity<CmsLink> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-	public CmsLink(){
-	}
-	
+    public CmsLink() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+
 	public Long getId() {
 		return id;
 	}

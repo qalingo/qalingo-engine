@@ -72,9 +72,11 @@ public class CmsContentAsset extends AbstractEntity<CmsContentAsset> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-	public CmsContentAsset(){
-	}
-	
+    public CmsContentAsset() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+
 	public Long getId() {
 		return id;
 	}

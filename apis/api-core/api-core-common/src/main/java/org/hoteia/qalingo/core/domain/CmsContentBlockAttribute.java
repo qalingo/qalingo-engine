@@ -87,9 +87,11 @@ public class CmsContentBlockAttribute extends AbstractAttribute<CmsContentBlockA
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	public CmsContentBlockAttribute() {
-	}
-	
+    public CmsContentBlockAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+    
 	public Long getId() {
 		return id;
 	}

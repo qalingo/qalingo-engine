@@ -129,6 +129,11 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
+    public CmsContent() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+	   
 	public Long getId() {
 		return id;
 	}

@@ -87,9 +87,11 @@ public class CmsMenuAttribute extends AbstractAttribute<CmsMenuAttribute> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	public CmsMenuAttribute() {
-	}
-	
+    public CmsMenuAttribute() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+
 	public Long getId() {
 		return id;
 	}
