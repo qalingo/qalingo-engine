@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hoteia.qalingo.core.domain.CmsMenu;
+import org.hoteia.qalingo.core.pojo.LocalizationPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 
 public class ArticlePojo {
@@ -24,6 +25,7 @@ public class ArticlePojo {
     protected String app;
     protected String title;
     protected MarketAreaPojo marketArea;
+    protected LocalizationPojo localization;
     protected boolean external;
     protected String fullURlPath;
     protected String position;
@@ -96,7 +98,22 @@ public class ArticlePojo {
 		}
 		return "";
 	}
+	
+	public LocalizationPojo getLocalization() {
+        return localization;
+    }
+	
+	public void setLocalization(LocalizationPojo localization) {
+        this.localization = localization;
+    }
 
+    public String getLocalizationName() {
+        if (localization != null) {
+            return localization.getName();
+        }
+        return "";
+    }
+	   
 	public boolean isExternal() {
 		return external;
 	}
