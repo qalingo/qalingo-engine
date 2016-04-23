@@ -17,7 +17,7 @@ import org.hoteia.qalingo.core.domain.CmsMenu;
 import org.hoteia.qalingo.core.pojo.LocalizationPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 
-public class ArticlePojo {
+public class CmsContentPojo {
 
     protected Long id;
     protected int version;
@@ -35,7 +35,7 @@ public class ArticlePojo {
     protected boolean active;
 	
 	protected CmsMenu menu;
-    protected Set<ArticlePojo> subMenus = new HashSet<ArticlePojo>();
+    protected Set<CmsContentPojo> crossCmsContents = new HashSet<CmsContentPojo>();
 
 	protected String editUrl;
 	protected String detailsUrl;
@@ -177,14 +177,14 @@ public class ArticlePojo {
 	public void setMenu(CmsMenu menu) {
 		this.menu = menu;
 	}
-
-	public Set<ArticlePojo> getSubMenus() {
-		return subMenus;
-	}
-
-	public void setSubMenus(Set<ArticlePojo> subMenus) {
-		this.subMenus = subMenus;
-	}
+    
+    public Set<CmsContentPojo> getCrossCmsContents() {
+        return crossCmsContents;
+    }
+    
+    public void setCrossCmsContents(Set<CmsContentPojo> crossCmsContents) {
+        this.crossCmsContents = crossCmsContents;
+    }
 
     public String getEditUrl() {
 		return editUrl;
