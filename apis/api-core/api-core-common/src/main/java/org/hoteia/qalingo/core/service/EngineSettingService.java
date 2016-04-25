@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.dao.EngineSettingDao;
 import org.hoteia.qalingo.core.domain.AbstractCmsEntity;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CmsContentAsset;
+import org.hoteia.qalingo.core.domain.CmsContentBlock;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -821,6 +822,32 @@ public class EngineSettingService {
         String cmsContentImageWebPath = getRootAssetWebPath() + prefixPath + "/" + cmsContent.getMarketArea().getName().toLowerCase() + "/" + handleFilePath(cmsContent.getType()) + "/";
         if("MENU".equals(cmsContent.getType()) || "ARTICLE".equals(cmsContent.getType()) || "PAGE".equals(cmsContent.getType())){
             cmsContentImageWebPath += handleFilePath(cmsContent.getCode()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
+        } else {
+            cmsContentImageWebPath += handleFilePath(asset.getScopePathValue()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
+        }
+        if (cmsContentImageWebPath.endsWith("/")) {
+            cmsContentImageWebPath = cmsContentImageWebPath.substring(0, cmsContentImageWebPath.length() - 1);
+        }
+        return handleWebPath(cmsContentImageWebPath);
+    }
+    
+    /**
+     * 
+     */
+    public String getCmsContentImageWebPath(final AbstractCmsEntity cmsContent, final CmsContentBlock cmsContentBlock, final CmsContentAsset asset) throws Exception {
+        EngineSetting engineSetting = getSettingAssetCmsContentFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String cmsContentImageWebPath = getRootAssetWebPath() + prefixPath + "/" + cmsContent.getMarketArea().getName().toLowerCase() + "/" + handleFilePath(cmsContent.getType()) + "/";
+        if("MENU".equals(cmsContent.getType()) || "ARTICLE".equals(cmsContent.getType()) || "PAGE".equals(cmsContent.getType())){
+            if(cmsContentBlock != null){
+                cmsContentImageWebPath += handleFilePath(cmsContent.getCode()) + "/" + cmsContentBlock.getType().toLowerCase() + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
+                
+            } else {
+                cmsContentImageWebPath += handleFilePath(cmsContent.getCode()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
+            }
         } else {
             cmsContentImageWebPath += handleFilePath(asset.getScopePathValue()) + "/" + handleFilePath(asset.getType()) + "/" + asset.getPath();
         }
