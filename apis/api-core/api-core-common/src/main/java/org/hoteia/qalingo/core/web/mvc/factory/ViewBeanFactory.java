@@ -3305,7 +3305,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             for (Iterator<CmsContentAsset> iteratorCmsContentAsset = block.getSortedAssets().iterator(); iteratorCmsContentAsset.hasNext();) {
                 CmsContentAsset asset = (CmsContentAsset) iteratorCmsContentAsset.next();
                 AssetViewBean assetViewBean = buildViewBeanCmsContentAsset(requestData, asset);
-                final String path = engineSettingService.getCmsContentImageWebPath(cmsEntity, asset);
+                final String path = engineSettingService.getCmsContentImageWebPath(cmsEntity, block, asset);
                 assetViewBean.setRelativeWebPath(path);
                 assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
                 blockViewBean.getAssets().add(assetViewBean);
