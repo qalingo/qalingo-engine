@@ -53,18 +53,21 @@ public abstract class AbstractUrlService {
     }
 
     public String buildAbsoluteUrl(final RequestData requestData, final String relativeUrl) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        String cleanedRelativeUrl = relativeUrl.replace(buildDefaultPrefix(requestData), "");
-        String absoluteUrl = buildDomainePathUrl(requestData);
-        if (!cleanedRelativeUrl.startsWith("/")) {
-            absoluteUrl = absoluteUrl + "/" + cleanedRelativeUrl;
-        } else {
-            absoluteUrl = absoluteUrl + cleanedRelativeUrl;
+        if(relativeUrl != null){
+            final HttpServletRequest request = requestData.getRequest();
+            String cleanedRelativeUrl = relativeUrl.replace(buildDefaultPrefix(requestData), "");
+            String absoluteUrl = buildDomainePathUrl(requestData);
+            if (!cleanedRelativeUrl.startsWith("/")) {
+                absoluteUrl = absoluteUrl + "/" + cleanedRelativeUrl;
+            } else {
+                absoluteUrl = absoluteUrl + cleanedRelativeUrl;
+            }
+            if (request != null && !absoluteUrl.startsWith(request.getScheme() + "://")) {
+                absoluteUrl = request.getScheme() + "://" + absoluteUrl;
+            }
+            return absoluteUrl;
         }
-        if (request != null && !absoluteUrl.startsWith(request.getScheme() + "://")) {
-            absoluteUrl = request.getScheme() + "://" + absoluteUrl;
-        }
-        return absoluteUrl;
+        return relativeUrl;
     }
 
     // ALIAS FOR DOMAINE PATH
