@@ -75,7 +75,9 @@ public class SeoDataViewBean extends AbstractViewBean {
 
     public String getMetaDescription() {
         String metaDescriptionEscape = CoreUtil.removeHtmlTag(metaDescription);
-        metaDescriptionEscape = metaDescriptionEscape.replaceAll("\"","&quot;");
+        if(metaDescriptionEscape != null){
+            metaDescriptionEscape = metaDescriptionEscape.replaceAll("\"","&quot;");
+        }
         return CoreUtil.replaceCarriagReturn(metaDescriptionEscape);
     }
 
@@ -98,7 +100,9 @@ public class SeoDataViewBean extends AbstractViewBean {
     public String getMetaOgDescription() {
         // FACEBOOK WILL DISPLAY 300
         String metaOgDescriptionEscape = CoreUtil.removeHtmlTag(metaOgDescription);
-        metaOgDescriptionEscape = metaOgDescriptionEscape.replaceAll("\"","&quot;");
+        if(metaOgDescriptionEscape != null){
+            metaOgDescriptionEscape = metaOgDescriptionEscape.replaceAll("\"","&quot;");
+        }
         return CoreUtil.replaceCarriagReturn(metaOgDescriptionEscape);
     }
 

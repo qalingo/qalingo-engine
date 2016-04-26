@@ -1,12 +1,6 @@
 package org.hoteia.qalingo.core.web.mvc.form;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.hoteia.qalingo.core.domain.CmsMenu;
-
-import org.hoteia.qalingo.core.pojo.cms.MenuPojo;
 
 public class CmsMenuForm {
 	
@@ -24,8 +18,7 @@ public class CmsMenuForm {
 	protected int ordering;
     protected boolean active;
 	
-	protected CmsMenu menu;
-    protected Set<MenuPojo> subMenus = new HashSet<MenuPojo>();
+	protected String rootMenuId;
 	
     protected Date dateCreate;
 	protected Date dateUpdate;
@@ -126,21 +119,13 @@ public class CmsMenuForm {
         this.active = active;
     }
 
-    public CmsMenu getMenu() {
-		return menu;
-	}
-
-	public void setMenu(CmsMenu menu) {
-		this.menu = menu;
-	}
-
-	public Set<MenuPojo> getSubMenus() {
-		return subMenus;
-	}
-
-	public void setSubMenus(Set<MenuPojo> subMenus) {
-		this.subMenus = subMenus;
-	}
+    public String getRootMenuId() {
+        return rootMenuId;
+    }
+    
+    public void setRootMenuId(String rootMenuId) {
+        this.rootMenuId = rootMenuId;
+    }
 
 	public Date getDateCreate() {
 		return dateCreate;
