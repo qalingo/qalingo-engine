@@ -31,6 +31,7 @@ public class MenuPojo {
     protected String params;
 	protected int ordering;
 	
+    protected MenuPojo parentMenu;
     protected Set<MenuPojo> subMenus = new HashSet<MenuPojo>();
 	
     protected Date dateCreate;
@@ -146,6 +147,21 @@ public class MenuPojo {
 		this.ordering = ordering;
 	}
 
+	public MenuPojo getParentMenu() {
+        return parentMenu;
+    }
+	
+	public void setParentMenu(MenuPojo parentMenu) {
+        this.parentMenu = parentMenu;
+    }
+	
+    public String getParentMenuName() {
+        if (parentMenu != null) {
+            return parentMenu.getName();
+        }
+        return "";
+    }
+    
 	public Set<MenuPojo> getSubMenus() {
 		return subMenus;
 	}
