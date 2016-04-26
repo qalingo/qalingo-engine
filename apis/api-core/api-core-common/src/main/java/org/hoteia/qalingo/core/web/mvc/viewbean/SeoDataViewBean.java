@@ -84,7 +84,10 @@ public class SeoDataViewBean extends AbstractViewBean {
     }
 
     public String getMetaOgTitle() {
-        String metaOgTitleEscape = metaOgTitle.replaceAll("\"","&quot;");
+        String metaOgTitleEscape = metaOgTitle;
+        if(metaOgTitleEscape != null){
+            metaOgTitleEscape = metaOgTitleEscape.replaceAll("\"","&quot;");
+        }
         return metaOgTitleEscape;
     }
 
