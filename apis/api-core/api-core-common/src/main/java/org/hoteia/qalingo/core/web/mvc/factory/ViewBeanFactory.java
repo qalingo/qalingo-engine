@@ -3329,29 +3329,46 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if (StringUtils.isNotEmpty(block.getType())) {
             if (block.getType().contains("PRODUCT_SELECTION_SMALL") || block.getType().contains("PRODUCT_SELECTION_MEDIUM")) {
                 String[] productCodes = block.getParams().split(";");
-                List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.assets.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "."
-                        + CatalogCategoryVirtualProductSkuRel_.pk.getName()));
-                fetchplans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "."
-                        + CatalogCategoryVirtualProductSkuRel_.pk.getName() + "." + CatalogCategoryVirtualProductSkuPk_.catalogCategoryVirtual.getName()));
+                List<SpecificFetchMode> fetchplansProductMarketing = new ArrayList<SpecificFetchMode>();
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.assets.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName()));
+                fetchplansProductMarketing.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() + "." + CatalogCategoryVirtualProductSkuPk_.catalogCategoryVirtual.getName()));
+
+                List<SpecificFetchMode> fetchplansProductSku = new ArrayList<SpecificFetchMode>();
+                fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+                fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
+                fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+                fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName()));
+                fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName()));
+                fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() + "." + CatalogCategoryVirtualProductSkuPk_.catalogCategoryVirtual.getName()));
+
                 for (int i = 0; i < productCodes.length; i++) {
                     String productMarketingCode = productCodes[i];
-                    ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(fetchplans));
+                    ProductSku productSku = productService.getProductSkuByCode(productMarketingCode, new FetchPlan(fetchplansProductSku));
+                    ProductMarketing productMarketing = null;
+                    ProductMarketingViewBean productMarketingViewBean = null;
+                    if(productSku != null){
+                        productMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode(), new FetchPlan(fetchplansProductMarketing));
+                        CatalogCategoryVirtual catalogCategoryVirtual = productSku.getDefaultCatalogCategoryVirtual(marketArea.getCatalog());
+                        productMarketingViewBean = buildViewBeanProductMarketing(requestData, catalogCategoryVirtual, productMarketing, productSku);
+                    } else {
+                        productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(fetchplansProductMarketing));
+                        productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);
+                    }
+                    
                     if (productMarketing != null) {
                         if (block.getType().contains("PRODUCT_SELECTION_SMALL")) {
-                            ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);
                             if (productMarketingViewBean != null && StringUtils.isNotEmpty(productMarketingViewBean.getDetailsUrl())) {
                                 blockViewBean.getProductMarketings().add(productMarketingViewBean);
                             } else {
                                 // HACK : CAT EMPTY
-                                ProductSku productSku = productMarketing.getDefaultProductSku();
+                                productSku = productMarketing.getDefaultProductSku();
                                 if (productSku != null) {
                                     CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode("GLASSES", marketArea.getCatalog().getCode());
                                     if (catalogCategory != null) {
@@ -3364,12 +3381,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                             }
                         }
                         if (block.getType().contains("PRODUCT_SELECTION_MEDIUM")) {
-                            ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);
                             if (productMarketingViewBean != null && StringUtils.isNotEmpty(productMarketingViewBean.getDetailsUrl())) {
                                 blockViewBean.getProductMarketings().add(productMarketingViewBean);
                             } else {
                                 // HACK : CAT EMPTY
-                                ProductSku productSku = productMarketing.getDefaultProductSku();
+                                productSku = productMarketing.getDefaultProductSku();
                                 if (productSku != null) {
                                     CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode("GLASSES", marketArea.getCatalog().getCode());
                                     if (catalogCategory != null) {
@@ -3383,6 +3399,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                         }
                     }
                 }
+                
                 if (block.getType().contains("STORE_SELECTION_MEDIUM") || block.getType().contains("STORE_SELECTION_SMALL")) {
                     GeolocData geolocData = requestData.getGeolocData();
 

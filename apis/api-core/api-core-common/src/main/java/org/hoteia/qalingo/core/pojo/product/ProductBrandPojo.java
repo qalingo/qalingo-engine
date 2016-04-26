@@ -18,6 +18,11 @@ public class ProductBrandPojo {
     private String name;
     private String description;
     private String code;
+    
+    private boolean enabled;
+    private boolean enabledB2B;
+    private boolean enabledB2C;
+    
     private Date dateCreate;
     private Date dateUpdate;
 
@@ -59,6 +64,30 @@ public class ProductBrandPojo {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabledB2B() {
+        return enabledB2B;
+    }
+
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
+    }
+
+    public boolean isEnabledB2C() {
+        return enabledB2C;
+    }
+
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
     }
 
     public Date getDateCreate() {
