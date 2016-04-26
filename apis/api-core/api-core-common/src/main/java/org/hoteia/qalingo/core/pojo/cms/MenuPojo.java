@@ -13,26 +13,28 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hoteia.qalingo.core.pojo.LocalizationPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 
 public class MenuPojo {
 
-    private Long id;
-    private int version;
-    private String code;
-    private String name;
-    private MarketAreaPojo marketArea;
-    private boolean external;
-    private String fullURlPath;
-    private String position;
-    private String type;
-    private String params;
-	private int ordering;
+    protected Long id;
+    protected int version;
+    protected String code;
+    protected String name;
+    protected MarketAreaPojo marketArea;
+    protected LocalizationPojo localization;
+    protected boolean external;
+    protected String fullURlPath;
+    protected String position;
+    protected String type;
+    protected String params;
+	protected int ordering;
 	
-    private Set<MenuPojo> subMenus = new HashSet<MenuPojo>();
+    protected Set<MenuPojo> subMenus = new HashSet<MenuPojo>();
 	
-    private Date dateCreate;
-	private Date dateUpdate;
+    protected Date dateCreate;
+	protected Date dateUpdate;
 	
 	public Long getId() {
 		return id;
@@ -81,6 +83,21 @@ public class MenuPojo {
 		return "";
 	}
 
+    public LocalizationPojo getLocalization() {
+        return localization;
+    }
+    
+    public void setLocalization(LocalizationPojo localization) {
+        this.localization = localization;
+    }
+
+    public String getLocalizationName() {
+        if (localization != null) {
+            return localization.getName();
+        }
+        return "";
+    }
+    
 	public boolean isExternal() {
 		return external;
 	}
