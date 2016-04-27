@@ -3356,7 +3356,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     if(productSku != null){
                         productMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode(), new FetchPlan(fetchplansProductMarketing));
                         CatalogCategoryVirtual catalogCategoryVirtual = productSku.getDefaultCatalogCategoryVirtual(marketArea.getCatalog());
+                        ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productSku);
                         productMarketingViewBean = buildViewBeanProductMarketing(requestData, catalogCategoryVirtual, productMarketing, productSku);
+                        // HACK : USE SKU AS DEFAULT ASSET
+                        productMarketingViewBean.getDefaultAsset().setAbsoluteWebPath(productSkuViewBean.getDefaultAsset().getAbsoluteWebPath());
                     } else {
                         productMarketing = productService.getProductMarketingByCode(productMarketingCode, new FetchPlan(fetchplansProductMarketing));
                         productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);

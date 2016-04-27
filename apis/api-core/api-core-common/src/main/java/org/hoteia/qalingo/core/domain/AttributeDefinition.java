@@ -59,7 +59,8 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     public static int OBJECT_TYPE_ORDER = 16;
     public static int OBJECT_TYPE_ORDER_PAYMENT = 17;
     public static int OBJECT_TYPE_COMPANY = 18;
-
+    public static int OBJECT_TYPE_CMS_MENU = 19;
+    
     public static final String CACHE_NAME = "web_cache_settings";
 
     public static SimpleDateFormat fullAttributeDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
