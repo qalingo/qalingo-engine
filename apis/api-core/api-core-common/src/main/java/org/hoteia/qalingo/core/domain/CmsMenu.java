@@ -65,10 +65,6 @@ public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
     @JoinColumn(name = "MARKET_AREA_ID", insertable = true, updatable = true)
     private MarketArea marketArea;
     
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)
-    @JoinColumn(name = "LOCALIZATION_ID", insertable = true, updatable = true)
-    private Localization localization;
-    
     @Column(name = "POSITION")
     private String position;
     
@@ -175,14 +171,6 @@ public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
 		this.marketArea = marketArea;
 	}
 	
-	public Localization getLocalization() {
-		return localization;
-	}
-	
-	public void setLocalization(Localization localization) {
-		this.localization = localization;
-	}
-
 	public CmsLink getLink() {
 		return link;
 	}

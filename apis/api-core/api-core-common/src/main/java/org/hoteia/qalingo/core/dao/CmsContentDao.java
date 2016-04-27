@@ -561,6 +561,38 @@ public class CmsContentDao extends AbstractGenericDao {
         return menu;
     }
     
+    public List<CmsMenu> findAllCmsMenus(final String app, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsMenu.class);
+        
+        handleSpecificCmsMenuFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("app", app));
+        
+        criteria.addOrder(Order.asc("position"));
+        criteria.addOrder(Order.asc("ordering"));
+
+        @SuppressWarnings("unchecked")
+        List<CmsMenu> menus = criteria.list();
+        return menus;
+    }
+    
+    public List<Long> findAllCmsMenuIds(final String app, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsMenu.class);
+        
+        handleSpecificCmsMenuFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("app", app));
+        
+        criteria.setProjection(Projections.property("id"));
+        
+        criteria.addOrder(Order.asc("position"));
+        criteria.addOrder(Order.asc("ordering"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> menuIds = criteria.list();
+        return menuIds;
+    }
+    
     public List<CmsMenu> findAllCmsMenus(final String app, final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CmsMenu.class);
         
@@ -578,6 +610,25 @@ public class CmsContentDao extends AbstractGenericDao {
 		return menus;
     }
     
+    public List<Long> findAllCmsMenuIds(final String app, final Long marketAreaId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsMenu.class);
+        
+        handleSpecificCmsMenuFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("app", app));
+        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+
+        criteria.setProjection(Projections.property("id"));
+        
+        criteria.addOrder(Order.asc("position"));
+        criteria.addOrder(Order.asc("ordering"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> menuIds = criteria.list();
+        return menuIds;
+    }
+    
     public List<CmsMenu> findAllActiveRootCmsMenusByPosition(final String app, final Long marketAreaId, final String position, Object... params) {
         Criteria criteria = createDefaultCriteria(CmsMenu.class);
         
@@ -589,23 +640,6 @@ public class CmsContentDao extends AbstractGenericDao {
         criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
         criteria.add(Restrictions.eq("active", true));
         criteria.add(Restrictions.isNull("menu"));
-        
-        criteria.addOrder(Order.asc("position"));
-        criteria.addOrder(Order.asc("ordering"));
-
-        @SuppressWarnings("unchecked")
-        List<CmsMenu> menus = criteria.list();
-		return menus;
-    }
-    
-    public List<CmsMenu> findAllCmsMenusByMarketAreaId(final String app, final Long marketAreaId, Object... params) {
-        Criteria criteria = createDefaultCriteria(CmsMenu.class);
-        
-        handleSpecificCmsMenuFetchMode(criteria, params);
-
-        criteria.add(Restrictions.eq("app", app));
-        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
         
         criteria.addOrder(Order.asc("position"));
         criteria.addOrder(Order.asc("ordering"));

@@ -90,11 +90,13 @@ public class FetchPlanGraphCmsContent {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode(CmsMenu_.marketArea.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsMenu_.attributes.getName()));
+
         fetchplans.add(new SpecificFetchMode(CmsMenu_.menu.getName()));
         fetchplans.add(new SpecificFetchMode(CmsMenu_.subMenus.getName()));
         fetchplans.add(new SpecificFetchMode(CmsMenu_.link.getName()));
+        
         fetchplans.add(new SpecificFetchMode(CmsMenu_.blocks.getName()));
-
         fetchplans.add(new SpecificFetchMode(CmsMenu_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
 
         return new FetchPlan(fetchplans);

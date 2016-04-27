@@ -3115,7 +3115,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 cmsMenuViewBean.setLink(linkViewBean);
             }
 
-            // ASSETS
+            // BLOCK
             if (Hibernate.isInitialized(cmsMenu.getBlocks()) && cmsMenu.getBlocks() != null) {
                 for (Iterator<CmsContentBlock> iterator = cmsMenu.getBlocks().iterator(); iterator.hasNext();) {
                     CmsContentBlock block = (CmsContentBlock) iterator.next();

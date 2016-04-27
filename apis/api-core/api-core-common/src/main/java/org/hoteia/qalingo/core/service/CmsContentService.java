@@ -205,7 +205,7 @@ public class CmsContentService {
         cmsContentDao.deleteCmsContentAsset(cmsContentAsset);
     }
     
-    // FO MENU
+    // CMS MENU
     
     public CmsMenu getCmsMenuById(final Long menuId, Object... params) {
         return cmsContentDao.getCmsMenuById(menuId, params);
@@ -225,16 +225,24 @@ public class CmsContentService {
         return cmsContentDao.getCmsMenuByCode(menuCode, params);
     }
     
+    public List<CmsMenu> findAllCmsMenus(final String app, Object... params) {
+        return cmsContentDao.findAllCmsMenus(app, params);
+    }
+    
+    public List<Long> findAllCmsMenuIds(final String app, Object... params) {
+        return cmsContentDao.findAllCmsMenuIds(app, params);
+    }
+    
     public List<CmsMenu> findAllCmsMenus(final String app, final Long marketAreaId, Object... params) {
         return cmsContentDao.findAllCmsMenus(app, marketAreaId, params);
     }
 
-    public List<CmsMenu> findAllActiveRootCmsMenusByPosition(final String app, final Long marketAreaId, final String position, Object... params) {
-        return cmsContentDao.findAllActiveRootCmsMenusByPosition(app, marketAreaId, position, params);
+    public List<Long> findAllCmsMenuIds(final String app, final Long marketAreaId, Object... params) {
+        return cmsContentDao.findAllCmsMenuIds(app, marketAreaId, params);
     }
     
-    public List<CmsMenu> findAllCmsMenusByMarketAreaId(final String app, final Long marketAreaId, Object... params) {
-        return cmsContentDao.findAllCmsMenusByMarketAreaId(app, marketAreaId, params);
+    public List<CmsMenu> findAllActiveRootCmsMenusByPosition(final String app, final Long marketAreaId, final String position, Object... params) {
+        return cmsContentDao.findAllActiveRootCmsMenusByPosition(app, marketAreaId, position, params);
     }
     
     public CmsMenu saveOrUpdateCmsMenu(CmsMenu menu) {
