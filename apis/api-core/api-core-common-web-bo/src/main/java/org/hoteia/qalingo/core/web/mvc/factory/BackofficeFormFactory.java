@@ -253,7 +253,11 @@ public class BackofficeFormFactory {
             productBrandForm.setName(productBrand.getName());
             productBrandForm.setCode(productBrand.getCode());
             productBrandForm.setDescription(productBrand.getDescription());
-            
+
+            productBrandForm.setEnabled(productBrand.isEnabled());
+            productBrandForm.setEnabledB2B(productBrand.isEnabledB2B());
+            productBrandForm.setEnabledB2C(productBrand.isEnabledB2C());
+
             List<ProductBrandAttribute> globalAttributes = productBrand.getGlobalAttributes();
             for (Iterator<ProductBrandAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                 ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();

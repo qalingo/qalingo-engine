@@ -26,6 +26,8 @@ public class ProductBrandForm {
 	protected String description;
     
     protected boolean enabled;
+    protected boolean enabledB2B;
+    protected boolean enabledB2C;
     
 	protected Map<String, String> globalAttributes = new HashMap<String, String>();
 	protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
@@ -84,7 +86,23 @@ public class ProductBrandForm {
         this.enabled = enabled;
     }
     
-	public Map<String, String> getGlobalAttributes() {
+	public boolean isEnabledB2B() {
+        return enabledB2B;
+    }
+
+    public void setEnabledB2B(boolean enabledB2B) {
+        this.enabledB2B = enabledB2B;
+    }
+
+    public boolean isEnabledB2C() {
+        return enabledB2C;
+    }
+
+    public void setEnabledB2C(boolean enabledB2C) {
+        this.enabledB2C = enabledB2C;
+    }
+
+    public Map<String, String> getGlobalAttributes() {
 		return globalAttributes;
 	}
 	
