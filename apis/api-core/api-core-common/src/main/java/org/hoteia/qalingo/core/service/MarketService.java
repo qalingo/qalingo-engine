@@ -124,12 +124,16 @@ public class MarketService {
         return marketDao.getMarketAreaByCode(marketAreaCode, params);
     }
     
-    public List<MarketArea> getMarketAreaByGeolocCountryCode(final String countryCode, Object... params) {
-        return marketDao.getMarketAreaByGeolocCountryCode(countryCode, params);
+    public List<Long> findAllMarketAreaIds(Object... params) {
+        return marketDao.findAllMarketAreaIds(params);
+    }
+    
+    public List<MarketArea> findMarketAreaByGeolocCountryCode(final String countryCode, Object... params) {
+        return marketDao.findMarketAreaByGeolocCountryCode(countryCode, params);
     }
 
-    public List<MarketArea> getMarketAreaOpenedByGeolocCountryCode(final String countryCode, Object... params) {
-        return marketDao.getMarketAreaOpenedByGeolocCountryCode(countryCode, params);
+    public List<MarketArea> findMarketAreaOpenedByGeolocCountryCode(final String countryCode, Object... params) {
+        return marketDao.findMarketAreaOpenedByGeolocCountryCode(countryCode, params);
     }
     
     public List<Long> findMarketAreaOpenedByMarketPlace(final MarketPlace marketPlace) {

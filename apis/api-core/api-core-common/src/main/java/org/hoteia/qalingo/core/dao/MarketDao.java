@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Market;
@@ -247,7 +248,17 @@ public class MarketDao extends AbstractGenericDao {
 		return marketArea;
 	}
 
-    public List<MarketArea> getMarketAreaByGeolocCountryCode(final String countryCode, Object... params) {
+    public List<Long> findAllMarketAreaIds(Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
+
+        criteria.setProjection(Projections.property("id"));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> marketAreaIds = criteria.list();
+        return marketAreaIds;
+    }
+    
+    public List<MarketArea> findMarketAreaByGeolocCountryCode(final String countryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
 
         handleSpecificFetchModeMarketArea(criteria, params);
@@ -259,7 +270,7 @@ public class MarketDao extends AbstractGenericDao {
         return marketAreas;
     }
     
-    public List<MarketArea> getMarketAreaOpenedByGeolocCountryCode(final String countryCode, Object... params) {
+    public List<MarketArea> findMarketAreaOpenedByGeolocCountryCode(final String countryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
 
         handleSpecificFetchModeMarketArea(criteria, params);
