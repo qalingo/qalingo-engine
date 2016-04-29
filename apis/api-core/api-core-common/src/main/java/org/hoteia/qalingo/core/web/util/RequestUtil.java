@@ -1712,7 +1712,7 @@ public class RequestUtil {
         if(geolocData != null){
             final GeolocDataCountry country = geolocData.getCountry();
             if(country != null && StringUtils.isNotEmpty(country.getIsoCode())){
-                List<MarketArea> marketAreas = marketService.getMarketAreaOpenedByGeolocCountryCode(country.getIsoCode());
+                List<MarketArea> marketAreas = marketService.findMarketAreaOpenedByGeolocCountryCode(country.getIsoCode());
                 if(marketAreas != null && marketAreas.size() == 1){
                     marketAreaGeoloc = marketAreas.get(0);
                 } else if(marketAreas != null) {
