@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
@@ -103,12 +102,22 @@ public class TagLineController extends AbstractMCommerceController {
     public ModelAndView tagLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_TAG_CODE) final String tagCode, final SearchForm searchForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.TAG_AS_LINE.getVelocityPage());
 
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(tagCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
+        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
+
+        model.addAttribute(ModelConstants.SEO_DATA_VIEW_BEAN, initSeo(request, model, catalogCategoryViewBean));
+
+        List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
+        List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
+        model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
+        
         final String urlRedirect = urlService.generateRedirectUrl(FoUrls.HOME, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
     }
 	
     protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, String tagCode) {
-        final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
         Object[] params = { tagCode };
 
@@ -133,25 +142,11 @@ public class TagLineController extends AbstractMCommerceController {
 
         return breadcrumbViewBean;
     }
-	
-    /**
-     * 
-     */
-    @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
-    protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
-        List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
-        List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
-        return productBrandViewBeans;
-    }
     
-    @ModelAttribute(ModelConstants.SEO_DATA_VIEW_BEAN)
-    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
+    protected SeoDataViewBean initSeo(final HttpServletRequest request, final Model model, CatalogCategoryViewBean catalogCategoryViewBean) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         SeoDataViewBean seoDataViewBean = frontofficeViewBeanFactory.buildViewSeoData(requestData);
         
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
-        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
-
         // SEO
         String metaOgTitle = catalogCategoryViewBean.getI18nName();
         seoDataViewBean.setMetaOgTitle(metaOgTitle);

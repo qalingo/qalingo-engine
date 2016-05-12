@@ -57,7 +57,10 @@ public class StoreSolr {
    	private String type;
     
     @Field
-    private List<String> tags = new ArrayList<String>();
+    private List<String> tagCodes = new ArrayList<String>();
+    
+    @Field
+    private List<String> productBrandCodes = new ArrayList<String>();
     
     @Field
     private String random;
@@ -172,21 +175,38 @@ public class StoreSolr {
         this.type = type;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public List<String> getTagCodes() {
+        return tagCodes;
     }
     
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setTagCodes(List<String> tagCodes) {
+        this.tagCodes = tagCodes;
     }
     
-    public void addTags(String tag){
-        if(this.tags == null){
-            this.tags = new ArrayList<String>();
+    public void addTagCodes(String tag){
+        if(this.tagCodes == null){
+            this.tagCodes = new ArrayList<String>();
         }
-        if(!this.tags.contains(tag)){
-            this.tags.add(tag);
+        if(!this.tagCodes.contains(tag)){
+            this.tagCodes.add(tag);
         }
+    }
+    
+    public List<String> getProductBrandCodes() {
+        return productBrandCodes;
+    }
+    
+    public void addProductBrandCodes(String productBrandCode){
+        if(this.productBrandCodes == null){
+            this.productBrandCodes = new ArrayList<String>();
+        }
+        if(!this.productBrandCodes.contains(productBrandCode)){
+            this.productBrandCodes.add(productBrandCode);
+        }
+    }
+    
+    public void setProductBrandCodes(List<String> productBrandCodes) {
+        this.productBrandCodes = productBrandCodes;
     }
     
     public String getRandom() {

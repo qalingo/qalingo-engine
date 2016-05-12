@@ -151,6 +151,10 @@ public class BrandController extends AbstractMCommerceController {
 
 	        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, buildBreadcrumbBrandDetailsViewBean(requestData, productBrand));
 
+	        List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
+	        List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
+	        model.addAttribute(ModelConstants.BREADCRUMB_VIEW_BEAN, productBrands);
+	        
 	        return modelAndView;
 		}
         final String urlRedirect = urlService.generateRedirectUrl(FoUrls.BRAND_ALL, requestUtil.getRequestData(request));
@@ -187,14 +191,4 @@ public class BrandController extends AbstractMCommerceController {
         return breadcrumbViewBean;
     }
     
-    /**
-     * 
-     */
-    @ModelAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN)
-    protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
-        List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
-        List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
-        return productBrandViewBeans;
-    }
-
 }

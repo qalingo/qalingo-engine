@@ -23,7 +23,9 @@ import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.solr.bean.SolrFields;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
@@ -43,7 +45,22 @@ public class StoreSolrService extends AbstractSolrService {
     @Autowired
     protected SolrServer storeSolrServer;
     
+    public void addOrUpdateStore(final Store store, final List<ProductBrand> productBrands) throws SolrServerException, IOException {
+        StoreSolr storeSolr = populateStoreSolr(store);
+        for (ProductBrand productBrand : productBrands) {
+            storeSolr.addProductBrandCodes(productBrand.getCode());
+        }
+        storeSolrServer.addBean(storeSolr);
+        storeSolrServer.commit();
+    }
+    
     public void addOrUpdateStore(final Store store) throws SolrServerException, IOException {
+        StoreSolr storeSolr = populateStoreSolr(store);
+        storeSolrServer.addBean(storeSolr);
+        storeSolrServer.commit();
+    }
+    
+    protected StoreSolr populateStoreSolr(Store store){
         if (store.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
@@ -58,6 +75,11 @@ public class StoreSolrService extends AbstractSolrService {
                 && Hibernate.isInitialized(store.getRetailer().getCompany()) && store.getRetailer().getCompany() != null){
             storeSolr.setCompanyName(store.getRetailer().getCompany().getName());
         }
+        if(store.getTags() != null){
+            for (Tag tag : store.getTags()) {
+                storeSolr.addTagCodes(tag.getCode());
+            }
+        }
         storeSolr.setActive(store.isActive());
         storeSolr.setB2b(store.isB2b());
         storeSolr.setB2c(store.isB2c());
@@ -67,8 +89,7 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolr.setCity(store.getCity());
         storeSolr.setCountryCode(store.getCountryCode());
         storeSolr.setType(store.getType());
-        storeSolrServer.addBean(storeSolr);
-        storeSolrServer.commit();
+        return storeSolr;
     }
     
     public void removeStore(final StoreSolr storeSolr) throws SolrServerException, IOException {

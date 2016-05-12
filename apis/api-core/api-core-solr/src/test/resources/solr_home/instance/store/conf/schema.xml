@@ -17,73 +17,75 @@
 -->
 
 <schema name="store" version="1.1">
-	<types>
-		<fieldtype name="string"  class="solr.StrField" sortMissingLast="true" omitNorms="true" />
-		<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
-		<fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="random" class="solr.RandomSortField" />
+    <types>
+        <fieldtype name="string"  class="solr.StrField" sortMissingLast="true" omitNorms="true" />
+        <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+        <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="random" class="solr.RandomSortField" />
 
-		<fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
-			<analyzer type="index">
-				<tokenizer class="solr.StandardTokenizerFactory" />
-				<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
-				<filter class="solr.LowerCaseFilterFactory" />
-			</analyzer>
-			<analyzer type="query">
-				<tokenizer class="solr.StandardTokenizerFactory" />
-				<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
-				<filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
-				<filter class="solr.LowerCaseFilterFactory" />
-			</analyzer>
-		</fieldType>
-	</types>
+        <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory" />
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+                <filter class="solr.LowerCaseFilterFactory" />
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.StandardTokenizerFactory" />
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+                <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
+                <filter class="solr.LowerCaseFilterFactory" />
+            </analyzer>
+        </fieldType>
+    </types>
 
-	<fields>
-		<!-- general -->
-		<field name="id"			type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
-		<field name="code"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="name"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="companyname"   type="string"       indexed="true"  stored="true"  multiValued="false" />
+    <fields>
+        <!-- general -->
+        <field name="id"            type="long"         indexed="true"  stored="true"  multiValued="false" required="true" />
+        <field name="code"          type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="name"          type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="companyname"   type="string"       indexed="true"  stored="true"  multiValued="false" />
 
         <field name="active"        type="boolean"      indexed="true"  stored="true"  multiValued="false" />
         <field name="b2b"           type="boolean"      indexed="true"  stored="true"  multiValued="false" />
         <field name="b2c"           type="boolean"      indexed="true"  stored="true"  multiValued="false" />
-		
-		<field name="address"		type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="postalcode"	type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="city"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="countrycode"	type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="type"			type="string"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="text"			type="text_general" indexed="true"  stored="false" multiValued="true" />
-		<field name="_version_" 	type="long" 		indexed="true" 	stored="true"/>
-		
-		<field name="tags"		            type="string"		indexed="true"  stored="true"  multiValued="true" />
+        
+        <field name="address"       type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="postalcode"    type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="city"          type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="countrycode"   type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="type"          type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="text"          type="text_general" indexed="true"  stored="false" multiValued="true" />
+        <field name="_version_"     type="long"         indexed="true"  stored="true"/>
+        
+        <field name="tagCodes"          type="string"       indexed="true"  stored="true"  multiValued="true" />
+        <field name="productBrandCodes" type="string"       indexed="true"  stored="true"  multiValued="true" />
 
-		<field name="datecreate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
-		<field name="dateupdate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
-		<dynamicField name="random_*"   type="random" />
+        <field name="datecreate"         type="date"    indexed="true"  stored="true"  multiValued="false" />
+        <field name="dateupdate"         type="date"    indexed="true"  stored="true"  multiValued="false" />
+        <dynamicField name="random_*"    type="random" />
    </fields>
 
-	<!-- field to use to determine and enforce document uniqueness. -->
-	<uniqueKey>id</uniqueKey>
+    <!-- field to use to determine and enforce document uniqueness. -->
+    <uniqueKey>id</uniqueKey>
 
-	<!-- field for the QueryParser to use when an explicit fieldname is absent -->
-	<defaultSearchField>text</defaultSearchField>
+    <!-- field for the QueryParser to use when an explicit fieldname is absent -->
+    <defaultSearchField>text</defaultSearchField>
 
-	<copyField source="code"		dest="text" />
-	<copyField source="name"		dest="text" />
-	<copyField source="companyname" dest="text" />
-	<copyField source="address"		dest="text" />
-	<copyField source="postalcode"	dest="text" />
-	<copyField source="city"		dest="text" />
-	<copyField source="countrycode"	dest="text" />
-	<copyField source="tags"	    dest="text" />
+    <copyField source="code"              dest="text" />
+    <copyField source="name"              dest="text" />
+    <copyField source="companyname"       dest="text" />
+    <copyField source="address"           dest="text" />
+    <copyField source="postalcode"        dest="text" />
+    <copyField source="city"              dest="text" />
+    <copyField source="countrycode"       dest="text" />
+    <copyField source="tags"              dest="text" />
+    <copyField source="productBrandCodes" dest="text" />
    
-	<!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
-	<solrQueryParser defaultOperator="OR" />
+    <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
+    <solrQueryParser defaultOperator="OR" />
 </schema>
 

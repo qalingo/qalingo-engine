@@ -19,12 +19,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -3131,7 +3131,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
     public Map<Long, Map<String, List<CmsContentViewBean>>> buildMapViewBeanCmsContent(final RequestData requestData, final List<CmsContent> cmsContents) throws Exception {
         final Locale locale = requestData.getLocale();
-        TreeMap<Long, Map<String, List<CmsContentViewBean>>> mapCmsContentViewBeans = new TreeMap<Long, Map<String, List<CmsContentViewBean>>>();
+        Map<Long, Map<String, List<CmsContentViewBean>>> mapCmsContentViewBeans = new LinkedHashMap<Long, Map<String, List<CmsContentViewBean>>>();
         for (Iterator<CmsContent> iterator = cmsContents.iterator(); iterator.hasNext();) {
             CmsContent cmsContent = (CmsContent) iterator.next();
             SimpleDateFormat formatMonthYear = new SimpleDateFormat("MMMM yyyy", locale);
@@ -3154,7 +3154,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 mapCmsContentViewBeans.put(longKey, subMapCmsContentViewBeans);
             }
         }
-        return mapCmsContentViewBeans.descendingMap();
+        return mapCmsContentViewBeans;
     }
 
     public List<CmsContentViewBean> buildListViewBeanCmsContent(final RequestData requestData, final List<CmsContent> cmsContents) throws Exception {
@@ -3342,6 +3342,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
                 List<SpecificFetchMode> fetchplansProductSku = new ArrayList<SpecificFetchMode>();
                 fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+                fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productBrand.getName()));
                 fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
                 fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.assets.getName()));
                 fetchplansProductSku.add(new SpecificFetchMode(ProductSku_.catalogCategoryVirtualProductSkuRels.getName()));
