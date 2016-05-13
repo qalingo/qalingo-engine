@@ -225,6 +225,18 @@ public class ProductBrandViewBean extends AbstractViewBean {
         return null;
     }
     
+    public AttributeValueViewBean getMarketAreaAttribute(String code, String localizationCode) {
+        if(marketAreaAttributes != null){
+            AttributeValueViewBean attributeValue = marketAreaAttributes.get(code);
+            if(attributeValue != null 
+                    && attributeValue.getLocalizationCode() != null 
+                    && attributeValue.getLocalizationCode().equals(localizationCode)){
+                return attributeValue;
+            }
+        }
+        return null;
+    }
+    
     public void setMarketAreaAttributes(Map<String, AttributeValueViewBean> marketAreaAttributes) {
         this.marketAreaAttributes = marketAreaAttributes;
     }
