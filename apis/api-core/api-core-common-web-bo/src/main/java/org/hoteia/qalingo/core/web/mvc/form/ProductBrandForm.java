@@ -29,8 +29,8 @@ public class ProductBrandForm {
     protected boolean enabledB2B;
     protected boolean enabledB2C;
     
-	protected Map<String, String> globalAttributes = new HashMap<String, String>();
-	protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+	protected Map<AttributeContextBean, String> globalAttributes = new HashMap<AttributeContextBean, String>();
+	protected Map<AttributeContextBean, String> marketAreaAttributes = new HashMap<AttributeContextBean, String>();
 	
     public String getId() {
 		if(id == null){
@@ -102,19 +102,20 @@ public class ProductBrandForm {
         this.enabledB2C = enabledB2C;
     }
 
-    public Map<String, String> getGlobalAttributes() {
+    public Map<AttributeContextBean, String> getGlobalAttributes() {
 		return globalAttributes;
 	}
 	
-	public void setGlobalAttributes(Map<String, String> globalAttributes) {
+	public void setGlobalAttributes(Map<AttributeContextBean, String> globalAttributes) {
 		this.globalAttributes = globalAttributes;
 	}
 	
-	public Map<String, String> getMarketAreaAttributes() {
+	public Map<AttributeContextBean, String> getMarketAreaAttributes() {
 		return marketAreaAttributes;
 	}
 	
-	public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
+	public void setMarketAreaAttributes(Map<AttributeContextBean, String> marketAreaAttributes) {
 		this.marketAreaAttributes = marketAreaAttributes;
 	}
+	
 }

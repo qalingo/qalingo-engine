@@ -66,6 +66,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
+import org.hoteia.qalingo.core.web.mvc.form.AttributeContextBean;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CompanyForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
@@ -94,6 +95,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class WebBackofficeService {
 
+    @Autowired
+    protected MarketService marketService;
+    
+    @Autowired
+    protected LocalizationService localizationService;
+    
     @Autowired
     protected UserService userService;
 
@@ -335,26 +342,57 @@ public class WebBackofficeService {
         if(StringUtils.isNotEmpty(brandForm.getName())){
             brand.setName(brandForm.getName());
         }
-        brand.setDescription(brandForm.getDescription());
+        if(StringUtils.isNotEmpty(brandForm.getDescription())){
+            brand.setDescription(brandForm.getDescription());
+        }
 
         brand.setEnabled(brandForm.isEnabled());
 
         if(brandForm.getMarketAreaAttributes() != null) {
-            Map<String, String> attributes = brandForm.getMarketAreaAttributes();
-            for (String attributeKey : attributes.keySet()) {
+            Map<AttributeContextBean, String> attributes = brandForm.getMarketAreaAttributes();
+            for (AttributeContextBean attributeKey : attributes.keySet()) {
                 String value = attributes.get(attributeKey);
                 if (StringUtils.isNotEmpty(value)) {
-                    brand.getMarketAreaAttributes(marketArea.getId()).add(buildProductBrandAttribute(marketArea, localization, attributeKey, value, false));
+                    String marketAreaCode = attributeKey.getMarketAreaCode();
+                    MarketArea marketAreaAttribute = null;
+                    if(StringUtils.isNotEmpty(marketAreaCode)){
+                        marketAreaAttribute = marketService.getMarketAreaByCode(marketAreaCode);
+                    }
+                    String localizationCode = attributeKey.getLocalizationCode();
+                    Localization localizationAttribute = null;
+                    if(StringUtils.isNotEmpty(localizationCode)){
+                        localizationAttribute = localizationService.getLocalizationByCode(localizationCode);
+                    }
+                    ProductBrandAttribute brandAttribute = brand.getAttribute(attributeKey.getCode(), marketAreaAttribute.getId(), localizationAttribute.getCode());
+                    if(brandAttribute != null){
+                        // UPDATE
+                        brandAttribute.setValue(value);
+                    } else {
+                        // CREATE - ADD
+                        brand.getAttributes().add(buildProductBrandAttribute(marketAreaAttribute, localizationAttribute, attributeKey.getCode(), value, false));
+                    }
                 }
             }
         }
         
         if(brandForm.getGlobalAttributes() != null) {
-            Map<String, String> attributes = brandForm.getGlobalAttributes();
-            for (String attributeKey : attributes.keySet()) {
+            Map<AttributeContextBean, String> attributes = brandForm.getGlobalAttributes();
+            for (AttributeContextBean attributeKey : attributes.keySet()) {
                 String value = attributes.get(attributeKey);
                 if (StringUtils.isNotEmpty(value)) {
-                    brand.getGlobalAttributes().add(buildProductBrandAttribute(marketArea, localization, attributeKey, value, true));
+                    String localizationCode = attributeKey.getLocalizationCode();
+                    Localization localizationAttribute = null;
+                    if(StringUtils.isNotEmpty(localizationCode)){
+                        localizationAttribute = localizationService.getLocalizationByCode(localizationCode);
+                    }
+                    ProductBrandAttribute brandAttribute = brand.getAttribute(attributeKey.getCode(), null, localizationAttribute.getCode());
+                    if(brandAttribute != null){
+                        // UPDATE
+                        brandAttribute.setValue(value);
+                    } else {
+                        // CREATE - ADD
+                        brand.getAttributes().add(buildProductBrandAttribute(null, localizationAttribute, attributeKey.getCode(), value, false));
+                    }
                 }
             }
         }
@@ -649,47 +687,52 @@ public class WebBackofficeService {
                 }
             }
 		}
-		
 		return catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 
     private ProductBrandAttribute buildProductBrandAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
-
-        // TODO : denis : 20130125 : add cache
         AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
 
         ProductBrandAttribute productBrandAttribute = new ProductBrandAttribute();
         productBrandAttribute.setAttributeDefinition(attributeDefinition);
-        productBrandAttribute.setLocalizationCode(localization.getCode());
-        productBrandAttribute.setMarketAreaId(marketArea.getId());
+        if(localization != null){
+            productBrandAttribute.setLocalizationCode(localization.getCode());
+        }
+        if(marketArea != null){
+            productBrandAttribute.setMarketAreaId(marketArea.getId());
+        }
         productBrandAttribute.setStartDate(new Date());
         productBrandAttribute.setValue(attributeValue);
         return productBrandAttribute;
     }
 	   
 	private CatalogCategoryMasterAttribute buildCatalogCategoryMasterAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
-		
-		//TODO : denis : 20130125 : add cache
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
 
 		CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = new CatalogCategoryMasterAttribute();
 		catalogCategoryMasterAttribute.setAttributeDefinition(attributeDefinition);
-		catalogCategoryMasterAttribute.setLocalizationCode(localization.getCode());
-		catalogCategoryMasterAttribute.setMarketAreaId(marketArea.getId());
+        if(localization != null){
+            catalogCategoryMasterAttribute.setLocalizationCode(localization.getCode());
+        }
+		if(marketArea != null){
+	        catalogCategoryMasterAttribute.setMarketAreaId(marketArea.getId());
+		}
 		catalogCategoryMasterAttribute.setStartDate(new Date());
 		catalogCategoryMasterAttribute.setValue(attributeValue);
 		return catalogCategoryMasterAttribute;
 	}
 	
 	private CatalogCategoryVirtualAttribute buildCatalogCategoryVirtualAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
-		
-		//TODO : denis : 20130125 : add cache
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
 
 		CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = new CatalogCategoryVirtualAttribute();
 		catalogCategoryVirtualAttribute.setAttributeDefinition(attributeDefinition);
-		catalogCategoryVirtualAttribute.setLocalizationCode(localization.getCode());
-//		catalogCategoryVirtualAttribute.setMarketAreaId(marketArea.getId());
+        if(localization != null){
+            catalogCategoryVirtualAttribute.setLocalizationCode(localization.getCode());
+        }
+        if(marketArea != null){
+	        catalogCategoryVirtualAttribute.setMarketAreaId(marketArea.getId());
+        }
 		catalogCategoryVirtualAttribute.setStartDate(new Date());
 	    catalogCategoryVirtualAttribute.setValue(attributeValue);
 	    

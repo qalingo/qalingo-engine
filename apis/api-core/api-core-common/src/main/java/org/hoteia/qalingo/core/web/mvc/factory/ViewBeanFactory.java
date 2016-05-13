@@ -710,9 +710,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if(localizationCodeTranslation.contains("-")){
             String[] split = localizationCodeTranslation.split("-");
             localizationCodeTranslation = split[0] + "-" + split[1].toUpperCase();
-            localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localizationCodeTranslation, locale));
+            String localizationTrad = getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localizationCodeTranslation, locale);
+            if(localizationTrad != null){
+                localizationViewBean.setName(localizationTrad);
+            }
         } else {
-            localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localizationCodeTranslation.toLowerCase(), locale));
+            String localizationTrad = getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localizationCodeTranslation.toLowerCase(), locale);
         }
 
         if (localization.getLocale().equals(locale)) {
