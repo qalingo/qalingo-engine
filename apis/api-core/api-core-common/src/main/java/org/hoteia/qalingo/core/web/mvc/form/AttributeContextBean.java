@@ -7,6 +7,19 @@ public class AttributeContextBean {
     protected String localizationCode;
     protected boolean global;
     
+    public AttributeContextBean(String code, String marketAreaCode, String localizationCode) {
+        this.code = code;
+        this.marketAreaCode = marketAreaCode;
+        this.localizationCode = localizationCode;
+    }
+    
+    public AttributeContextBean(String code, String marketAreaCode, String localizationCode, boolean global) {
+        this.code = code;
+        this.marketAreaCode = marketAreaCode;
+        this.localizationCode = localizationCode;
+        this.global = global;
+    }
+    
 	public String getCode() {
 		return code;
 	}

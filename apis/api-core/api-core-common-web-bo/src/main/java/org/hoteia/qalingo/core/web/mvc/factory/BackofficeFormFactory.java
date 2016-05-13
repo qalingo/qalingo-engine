@@ -43,7 +43,10 @@ import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.LocalizationService;
+import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
+import org.hoteia.qalingo.core.web.mvc.form.AttributeContextBean;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CompanyForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
@@ -72,6 +75,12 @@ import org.springframework.stereotype.Service;
 @Service("backofficeFormFactory")
 public class BackofficeFormFactory {
 
+    @Autowired
+    protected MarketService marketService;
+    
+    @Autowired
+    protected LocalizationService localizationService;
+    
     @Autowired
     protected CoreMessageSource coreMessageSource;
 
@@ -261,13 +270,23 @@ public class BackofficeFormFactory {
             List<ProductBrandAttribute> globalAttributes = productBrand.getGlobalAttributes();
             for (Iterator<ProductBrandAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                 ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
-                productBrandForm.getGlobalAttributes().put(productBrandAttribute.getAttributeDefinition().getCode(), productBrandAttribute.getValueAsString());
+                MarketArea marketAreaAttribute = null;
+                if(productBrandAttribute.getMarketAreaId() != null){
+                    marketAreaAttribute = marketService.getMarketAreaById(productBrandAttribute.getMarketAreaId());
+                }
+                AttributeContextBean attributeContextBean = new AttributeContextBean(productBrandAttribute.getAttributeDefinition().getCode(), marketAreaAttribute.getCode(), productBrandAttribute.getLocalizationCode());
+                productBrandForm.getGlobalAttributes().put(attributeContextBean, productBrandAttribute.getValueAsString());
             }
             
             List<ProductBrandAttribute> marketAreaAttributes = productBrand.getMarketAreaAttributes(currentMarketArea.getId());
             for (Iterator<ProductBrandAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
                 ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
-                productBrandForm.getMarketAreaAttributes().put(productBrandAttribute.getAttributeDefinition().getCode(), productBrandAttribute.getValueAsString());
+                MarketArea marketAreaAttribute = null;
+                if(productBrandAttribute.getMarketAreaId() != null){
+                    marketAreaAttribute = marketService.getMarketAreaById(productBrandAttribute.getMarketAreaId());
+                }
+                AttributeContextBean attributeContextBean = new AttributeContextBean(productBrandAttribute.getAttributeDefinition().getCode(), marketAreaAttribute.getCode(), productBrandAttribute.getLocalizationCode());
+                productBrandForm.getMarketAreaAttributes().put(attributeContextBean, productBrandAttribute.getValueAsString());
             }
         }
         return productBrandForm;
