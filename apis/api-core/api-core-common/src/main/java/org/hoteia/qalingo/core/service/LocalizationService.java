@@ -45,6 +45,10 @@ public class LocalizationService {
     public List<Localization> findLocalizations(Object... params) {
         return localizationDao.findLocalizations(params);
     }
+    
+    public List<Localization> findActiveLocalizations(Object... params) {
+        return localizationDao.findActiveLocalizations(params);
+    }
 
     public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode, Object... params) {
         return localizationDao.findLocalizationsByMarketAreaCode(marketAreaCode, params);

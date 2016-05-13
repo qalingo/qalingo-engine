@@ -50,6 +50,18 @@ public class LocalizationDao extends AbstractGenericDao {
 		return localizations;
 	}
 	
+    public List<Localization> findActiveLocalizations(Object... params) {
+        Criteria criteria = createDefaultCriteria(Localization.class);
+        
+        criteria.add(Restrictions.eq("active", true));
+        
+        criteria.addOrder(Order.asc("language"));
+
+        @SuppressWarnings("unchecked")
+        List<Localization> localizations = criteria.list();
+        return localizations;
+    }
+	
     public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
