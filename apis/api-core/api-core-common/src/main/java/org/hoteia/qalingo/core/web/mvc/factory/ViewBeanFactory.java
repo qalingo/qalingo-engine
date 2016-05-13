@@ -693,11 +693,17 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public LocalizationViewBean buildViewBeanLocalization(final RequestData requestData, final Localization localization) throws Exception {
+        return buildViewBeanLocalization(requestData, localization, localization);
+    }
+
+    /**
+     * 
+     */
+    public LocalizationViewBean buildViewBeanLocalization(final RequestData requestData, final Localization localization, final Localization currentLocalization) throws Exception {
         final Locale locale = requestData.getLocale();
-        final String localizationCode = localization.getCode();
 
         final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
-        localizationViewBean.setCode(localizationCode);
+        localizationViewBean.setCode(localization.getCode());
         localizationViewBean.setDescription(localization.getDescription());
         localizationViewBean.setCountry(localization.getCountry());
         localizationViewBean.setLanguage(localization.getLanguage());
@@ -706,7 +712,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         localizationViewBean.setFallbackLocaleCode(localization.getFallbackLocaleCode());
 
         localizationViewBean.setName(localization.getName());
-        String localizationCodeTranslation = localizationCode;
+
+        String localizationCodeTranslation = currentLocalization.getCode();
         if(localizationCodeTranslation.contains("-")){
             String[] split = localizationCodeTranslation.split("-");
             localizationCodeTranslation = split[0] + "-" + split[1].toUpperCase();
@@ -716,6 +723,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
         } else {
             String localizationTrad = getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localizationCodeTranslation.toLowerCase(), locale);
+            if(localizationTrad != null){
+                localizationViewBean.setName(localizationTrad);
+            }
         }
 
         if (localization.getLocale().equals(locale)) {

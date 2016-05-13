@@ -5,6 +5,14 @@ public class MultipleTextBean {
 	protected String code;
 	protected String text;
 
+	public MultipleTextBean() {
+    }
+	
+    public MultipleTextBean(String code, String text) {
+        this.code = code;
+        this.text = text;
+    }
+	
 	public String getCode() {
 		return code;
 	}
