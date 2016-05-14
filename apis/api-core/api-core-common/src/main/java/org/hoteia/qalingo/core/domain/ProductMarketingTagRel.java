@@ -69,7 +69,7 @@ public class ProductMarketingTagRel extends AbstractEntity<ProductMarketingTagRe
         return getPk().getTag();
     }
 
-    public void setProductMarketingTagP(final Tag tag) {
+    public void setProductMarketingTag(final Tag tag) {
         pk.setTag(tag);
     }
     
