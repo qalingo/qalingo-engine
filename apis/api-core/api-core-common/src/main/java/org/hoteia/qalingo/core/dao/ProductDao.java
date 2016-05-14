@@ -27,7 +27,23 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
+import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerRate;
+import org.hoteia.qalingo.core.domain.ProductBrandStoreRel;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
+import org.hoteia.qalingo.core.domain.ProductSkuStoreRel;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.slf4j.Logger;
@@ -1105,7 +1121,47 @@ public class ProductDao extends AbstractGenericDao {
         em.remove(productBrand);
     }
 
+    public ProductBrandStoreRel getProductBrandStoreRelById(final ProductBrand productBrand, final Store store, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductBrandStoreRel.class);
+        
+        criteria.createAlias("pk.productBrand", "pk.productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.productBrand.id", productBrand.getId()));
 
+        criteria.createAlias("pk.store", "pk.store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.store.id", store.getId()));
+        
+        ProductBrandStoreRel productBrandStoreRel = (ProductBrandStoreRel) criteria.uniqueResult();
+        return productBrandStoreRel;
+    }
+    
+    public List<Long> findStoreByBrandId(final Long brandId, int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductBrandStoreRel.class);
+        
+        criteria.createAlias("pk.productBrand", "pk.productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.productBrand.id", brandId));
+
+        criteria.createAlias("pk.store", "pk.store", JoinType.LEFT_OUTER_JOIN);
+        criteria.setProjection(Projections.property("pk.store.id"));
+        criteria.addOrder(Order.asc("pk.store.id"));
+
+        if(maxResults != 0){
+            criteria.setMaxResults(maxResults);
+        }
+
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
+    
+    public ProductBrandStoreRel saveOrUpdateProductBrandStoreRel(final ProductBrandStoreRel productBrandStoreRel) {
+        em.persist(productBrandStoreRel);
+        return productBrandStoreRel;
+    }
+
+    public void deleteProductBrandStoreRel(final ProductBrandStoreRel productBrandStoreRel) {
+        em.remove(productBrandStoreRel);
+    }
+    
     // PRODUCT MARKETING COMMENT/RATE
 
     @SuppressWarnings("unchecked")

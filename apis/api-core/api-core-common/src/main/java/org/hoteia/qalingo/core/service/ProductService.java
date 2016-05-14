@@ -14,7 +14,24 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hoteia.qalingo.core.dao.ProductDao;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
+import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductBrandCustomerRate;
+import org.hoteia.qalingo.core.domain.ProductBrandStoreRel;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinitionType;
+import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
+import org.hoteia.qalingo.core.domain.ProductSkuStoreRel;
+import org.hoteia.qalingo.core.domain.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -547,6 +564,25 @@ public class ProductService {
         productDao.deleteProductBrand(productBrand);
     }
     
+    public ProductBrandStoreRel getProductBrandStoreRelById(final ProductBrand productBrand, final Store store, Object... params) {
+        return productDao.getProductBrandStoreRelById(productBrand, store);
+    }
+    
+    public List<Long> findStoreByBrandId(final Long brandId, int maxResults, Object... params) {
+        List<Long> storeIds = productDao.findStoreByBrandId(brandId, maxResults, params);
+        return storeIds;
+    }
+    
+    public ProductBrandStoreRel saveOrUpdateProductBrandStoreRel(final ProductBrand productBrand, final Store store) {
+        ProductBrandStoreRel productBrandStoreRel = new ProductBrandStoreRel(productBrand, store);
+        return productDao.saveOrUpdateProductBrandStoreRel(productBrandStoreRel);
+    }
+    
+    public void deleteProductBrandStoreRel(final ProductBrand productBrand, final Store store) {
+        ProductBrandStoreRel productBrandStoreRel = getProductBrandStoreRelById(productBrand, store);
+        productDao.deleteProductBrandStoreRel(productBrandStoreRel);
+    }
+    
     // PRODUCT BRAND COMMENT/RATE
     
     public ProductBrandCustomerRate saveOrUpdateProductBrandCustomerRate(final ProductBrandCustomerRate customerRate) {
@@ -600,5 +636,5 @@ public class ProductService {
     public List<ProductSkuStorePrice> findProductSkuStorePrices(final Long storeId, final Long productSkuCode) {
         return productDao.findProductSkuStorePrices(storeId, productSkuCode);
     }
-
+    
 }

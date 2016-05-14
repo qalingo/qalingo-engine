@@ -190,7 +190,8 @@ public class UrlService extends AbstractUrlService {
                         urlStr = addFullPrefixUrl(requestData, urlStr, isEncoded) + handleSeoSegmentMain(tag.getI18nName(localizationCode), isEncoded) + "/";
                         
                     } else if (param instanceof Map) {
-                        getParams = (Map<String, String>) param;
+                        Map<String, String> paramMap = (Map<String, String>) param;
+                        getParams.putAll(paramMap);
                     } else {
                         logger.warn("Unknowned url parameter : [{}]", param);
                     }

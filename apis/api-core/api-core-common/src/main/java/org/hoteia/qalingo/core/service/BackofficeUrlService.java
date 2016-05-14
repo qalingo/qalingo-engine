@@ -176,7 +176,8 @@ public class BackofficeUrlService extends AbstractUrlService {
                         getParams.put(RequestConstants.REQUEST_PARAMETER_CMS_CONTENT_ID, cmsContent.getId().toString());
                         break;
                     } else if (param instanceof Map) {
-                        getParams = (Map<String, String>) param;
+                        Map<String, String> paramMap = (Map<String, String>) param;
+                        getParams.putAll(paramMap);
                         break;
                     } else {
                         logger.info("Unknowned url parameter : [{}]", param);
