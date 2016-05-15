@@ -39,6 +39,8 @@ public class ProductBrandViewBean extends AbstractViewBean {
     protected boolean enabledB2B;
     protected boolean enabledB2C;
     
+    protected boolean salable;
+    
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
 	
 	protected Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
@@ -173,6 +175,14 @@ public class ProductBrandViewBean extends AbstractViewBean {
 
     public void setEnabledB2C(boolean enabledB2C) {
         this.enabledB2C = enabledB2C;
+    }
+
+    public boolean isSalable() {
+        return salable;
+    }
+
+    public void setSalable(boolean salable) {
+        this.salable = salable;
     }
 
     public List<ProductMarketingViewBean> getProductMarketings() {

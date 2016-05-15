@@ -79,12 +79,16 @@ public class BrandController extends AbstractMCommerceController {
     public ModelAndView allBrand(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_ALL.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
         overrideDefaultPageTitle(request, modelAndView, FoUrls.BRAND_ALL.getKey());
 
-        final List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled(new FetchPlan(productBrandFetchPlans));
-        final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestData, productBrands);
+        final List<Long> productBrandIds = productService.findAllProductBrandIdsEnabled();
+        final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
+        for (Long productBrandId : productBrandIds) {
+            ProductBrand productBrand = productService.getProductBrandById(productBrandId, new FetchPlan(productBrandFetchPlans));
+            ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestData, productBrand);
+            productBrandViewBeans.add(productBrandViewBean);
+        }
         model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
         
         // BREADCRUMB

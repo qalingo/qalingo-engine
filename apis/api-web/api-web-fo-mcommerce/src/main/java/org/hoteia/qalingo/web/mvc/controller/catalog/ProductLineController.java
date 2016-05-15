@@ -213,8 +213,14 @@ public class ProductLineController extends AbstractMCommerceController {
     }
 	
     protected List<ProductBrandViewBean> brandList(final HttpServletRequest request, final Model model) throws Exception {
-        List<ProductBrand> productBrands = productService.findAllProductBrandsEnabled();
-        List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), productBrands);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final List<Long> productBrandIds = productService.findAllProductBrandIdsEnabled();
+        final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
+        for (Long productBrandId : productBrandIds) {
+            ProductBrand productBrand = productService.getProductBrandById(productBrandId);
+            ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestData, productBrand);
+            productBrandViewBeans.add(productBrandViewBean);
+        }
         return productBrandViewBeans;
     }
     

@@ -568,9 +568,14 @@ public class ProductService {
         return productDao.getProductBrandStoreRelById(productBrand, store);
     }
     
-    public List<Long> findStoreByBrandId(final Long brandId, int maxResults, Object... params) {
-        List<Long> storeIds = productDao.findStoreByBrandId(brandId, maxResults, params);
+    public List<Long> findStoreIdsByBrandId(final Long productBrandId, int maxResults, Object... params) {
+        List<Long> storeIds = productDao.findStoreIdsByBrandId(productBrandId, maxResults, params);
         return storeIds;
+    }
+    
+    public List<Long> findProductBrandIdsByStoreId(final Long storeId, int maxResults, Object... params) {
+        List<Long> productBrandIds = productDao.findProductBrandIdsByStoreId(storeId, maxResults, params);
+        return productBrandIds;
     }
     
     public ProductBrandStoreRel saveOrUpdateProductBrandStoreRel(final ProductBrand productBrand, final Store store) {

@@ -1134,15 +1134,34 @@ public class ProductDao extends AbstractGenericDao {
         return productBrandStoreRel;
     }
     
-    public List<Long> findStoreByBrandId(final Long brandId, int maxResults, Object... params) {
+    public List<Long> findStoreIdsByBrandId(final Long productBrandId, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrandStoreRel.class);
         
         criteria.createAlias("pk.productBrand", "pk.productBrand", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("pk.productBrand.id", brandId));
+        criteria.add(Restrictions.eq("pk.productBrand.id", productBrandId));
 
         criteria.createAlias("pk.store", "pk.store", JoinType.LEFT_OUTER_JOIN);
         criteria.setProjection(Projections.property("pk.store.id"));
         criteria.addOrder(Order.asc("pk.store.id"));
+
+        if(maxResults != 0){
+            criteria.setMaxResults(maxResults);
+        }
+
+        @SuppressWarnings("unchecked")
+        List<Long> storeIds = criteria.list();
+        return storeIds;
+    }
+    
+    public List<Long> findProductBrandIdsByStoreId(final Long storeId, int maxResults, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductBrandStoreRel.class);
+        
+        criteria.createAlias("pk.store", "pk.store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.store.id", storeId));
+
+        criteria.createAlias("pk.productBrand", "pk.productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.setProjection(Projections.property("pk.productBrand.id"));
+        criteria.addOrder(Order.asc("pk.productBrand.id"));
 
         if(maxResults != 0){
             criteria.setMaxResults(maxResults);
