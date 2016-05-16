@@ -21,9 +21,11 @@ public class StoreResponseBean {
     public static final String STORE_SEARCH_FIELD_TAG_CODE              = "tagCodes";
     public static final String STORE_SEARCH_FIELD_PRODUCT_BRAND_CODE    = "productBrandCodes";
     
-    public static final String STORE_CITY_FACET_FIELD       = "city";
-    public static final String STORE_COUNTRY_FACET_FIELD    = "countrycode";
-
+    public static final String STORE_CITY_FACET_FIELD           = "city";
+    public static final String STORE_COUNTRY_FACET_FIELD        = "countryCode";
+    public static final String STORE_PRODUCT_BRAND_FACET_FIELD  = "productBrandCodes";
+    public static final String STORE_TAG_FACET_FIELD            = "tagCodes";
+    
     public static final String STORE_CITY_FACET_FIELD_CODE       = "cities";
     public static final String STORE_COUNTRY_FACET_FIELD_CODE    = "countries";
 

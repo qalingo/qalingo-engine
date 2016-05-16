@@ -29,7 +29,7 @@ public class StoreSolr {
     @Field
 	private String name;
     
-    @Field("companyname")
+    @Field
     private String companyName;
 
     @Field
@@ -41,16 +41,16 @@ public class StoreSolr {
     @Field
     private boolean b2b;
     
-    @Field("address")
+    @Field
     private String address;
     
-    @Field("postalcode")
+    @Field
     private String postalCode;
 
     @Field
    	private String city;
     
-    @Field("countrycode")
+    @Field
    	private String countryCode;
     
     @Field
@@ -65,10 +65,10 @@ public class StoreSolr {
     @Field
     private String random;
     
-    @Field("datecreate")
+    @Field
     private Date dateCreate;
 
-    @Field("dateupdate")
+    @Field
     private Date dateUpdate;
 
 	public Long getId() {

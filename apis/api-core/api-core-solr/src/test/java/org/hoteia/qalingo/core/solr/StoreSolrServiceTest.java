@@ -112,7 +112,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCountry() throws SolrServerException, IOException {
         logger.debug("--------------->search: Country");
-        responseBean = storeSolrService.searchStore("countrycode", "", facetFields);
+        responseBean = storeSolrService.searchStore("countryCode", "", facetFields);
         printData();
     }
 
@@ -122,7 +122,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCountryWithText() throws SolrServerException, IOException {
         logger.debug("--------------->search: Country with text");
-        responseBean = storeSolrService.searchStore("countrycode", "IN", facetFields);
+        responseBean = storeSolrService.searchStore("countryCode", "IN", facetFields);
         printData();
     }
 
@@ -132,7 +132,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCountryWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->search: Country with facet");        
-        responseBean = storeSolrService.searchStore("countrycode", "", Arrays.asList(new String[]{"name"}));
+        responseBean = storeSolrService.searchStore("countryCode", "", Arrays.asList(new String[]{"name"}));
         printData();
     }
 

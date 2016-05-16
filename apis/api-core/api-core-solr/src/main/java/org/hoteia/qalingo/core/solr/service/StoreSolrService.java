@@ -148,7 +148,7 @@ public class StoreSolrService extends AbstractSolrService {
             solrQuery.addFilterQuery(fq.toString());
         }
         if (countries != null && countries.size() > 0) {
-            StringBuilder fq = new StringBuilder("countrycode:(");
+            StringBuilder fq = new StringBuilder("countryCode:(");
             for (int i = 0; i < countries.size(); i++) {
                 String country = countries.get(i);
                 fq.append('"' + country + '"');
@@ -221,7 +221,7 @@ public class StoreSolrService extends AbstractSolrService {
         	solrQuery.addFilterQuery(fq.toString());
         }
         if(countries != null && countries.size() > 0){
-        	StringBuilder fq = new StringBuilder("countrycode:(");
+        	StringBuilder fq = new StringBuilder("countryCode:(");
         	for (int i = 0; i < countries.size(); i++) {
 				String country = countries.get(i);
 				fq.append('"'+country+'"');
