@@ -188,6 +188,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreCustomerCommentViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.UrlBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
@@ -1612,6 +1613,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         
         productBrandViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
         productBrandViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
+        
+        Map<String, String> getParams = new HashMap<String, String>();
+        getParams.put(RequestConstants.REQUEST_PARAMETER_BRAND_CODE, productBrand.getCode());
+        productBrandViewBean.getSpecificUrls().add(new UrlBean("BRAND_STORE_MAP_URL", urlService.generateRedirectUrl(FoUrls.STORE_LOCATION, requestData, getParams)));
+        
         return productBrandViewBean;
     }
 
