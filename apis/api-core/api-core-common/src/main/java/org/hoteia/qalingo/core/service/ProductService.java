@@ -573,6 +573,15 @@ public class ProductService {
         return storeIds;
     }
     
+    public boolean salableBrandInStore(final Long storeId, final Long productBrandId, Object... params) {
+        ProductBrandStoreRel productBrandStoreRel = productDao.findProductBrandStoreRelByStoreIdAndBrandId(storeId, productBrandId, params);
+        if(productBrandStoreRel != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public List<Long> findProductBrandIdsByStoreId(final Long storeId, int maxResults, Object... params) {
         List<Long> productBrandIds = productDao.findProductBrandIdsByStoreId(storeId, maxResults, params);
         return productBrandIds;

@@ -1134,6 +1134,19 @@ public class ProductDao extends AbstractGenericDao {
         return productBrandStoreRel;
     }
     
+    public ProductBrandStoreRel findProductBrandStoreRelByStoreIdAndBrandId(final Long storeId, final Long productBrandId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductBrandStoreRel.class);
+        
+        criteria.createAlias("pk.store", "pk.store", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.store.id", storeId));
+
+        criteria.createAlias("pk.productBrand", "pk.productBrand", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("pk.productBrand.id", productBrandId));
+        
+        ProductBrandStoreRel productBrandStoreRel = (ProductBrandStoreRel) criteria.uniqueResult();
+        return productBrandStoreRel;
+    }
+    
     public List<Long> findStoreIdsByBrandId(final Long productBrandId, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrandStoreRel.class);
         
