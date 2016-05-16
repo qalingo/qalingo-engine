@@ -82,7 +82,7 @@
     <copyField source="postalcode"        dest="text" />
     <copyField source="city"              dest="text" />
     <copyField source="countrycode"       dest="text" />
-    <copyField source="tags"              dest="text" />
+    <copyField source="tagCodes"          dest="text" />
     <copyField source="productBrandCodes" dest="text" />
    
     <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
