@@ -286,7 +286,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductMarketing(final ProductMarketing productMarketing) {
-        em.remove(productMarketing);
+        em.remove(em.contains(productMarketing) ? productMarketing : em.merge(productMarketing));
     }
 
     // PRODUCT MARKETING COMMENT/RATE
@@ -374,7 +374,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
-        em.remove(productMarketingCustomerRate);
+        em.remove(em.contains(productMarketingCustomerRate) ? productMarketingCustomerRate : em.merge(productMarketingCustomerRate));
     }
 
     public ProductMarketingCustomerComment saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
@@ -396,7 +396,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
-        em.remove(productMarketingCustomerComment);
+        em.remove(em.contains(productMarketingCustomerComment) ? productMarketingCustomerComment : em.merge(productMarketingCustomerComment));
     }
 
     // PRODUCT MARKETING ASSET
@@ -427,7 +427,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductMarketingAsset(final Asset productMarketingAsset) {
-        em.remove(productMarketingAsset);
+        em.remove(em.contains(productMarketingAsset) ? productMarketingAsset : em.merge(productMarketingAsset));
     }
 
     protected FetchPlan handleSpecificProductMarketingFetchMode(Criteria criteria, Object... params) {
@@ -708,7 +708,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductSku(final ProductSku productSku) {
-        em.remove(productSku);
+        em.remove(em.contains(productSku) ? productSku : em.merge(productSku));
     }
 
     protected FetchPlan handleSpecificProductSkuFetchMode(Criteria criteria, Object... params) {
@@ -825,7 +825,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
-        em.remove(productSkuStoreRel);
+        em.remove(em.contains(productSkuStoreRel) ? productSkuStoreRel : em.merge(productSkuStoreRel));
     }
 
     protected FetchPlan handleSpecificProductSkuStoreRelFetchMode(Criteria criteria, Object... params) {
@@ -864,7 +864,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductSkuAsset(final Asset productSkuAsset) {
-        em.remove(productSkuAsset);
+        em.remove(em.contains(productSkuAsset) ? productSkuAsset : em.merge(productSkuAsset));
     }
 
     // PRODUCT SKU OPTION
@@ -922,7 +922,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductSkuOptionDefinition(final ProductSkuOptionDefinition productSkuOptionDefinition) {
-        em.remove(productSkuOptionDefinition);
+        em.remove(em.contains(productSkuOptionDefinition) ? productSkuOptionDefinition : em.merge(productSkuOptionDefinition));
     }
 
     protected FetchPlan handleSpecificProductSkuOptionDefinitionFetchMode(Criteria criteria, Object... params) {
@@ -983,7 +983,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductSkuOptionDefinitionType(final ProductSkuOptionDefinitionType productSkuOptionDefinitionType) {
-        em.remove(productSkuOptionDefinitionType);
+        em.remove(em.contains(productSkuOptionDefinitionType) ? productSkuOptionDefinitionType : em.merge(productSkuOptionDefinitionType));
     }
 
     protected FetchPlan handleSpecificProductSkuOptionDefinitionTypeFetchMode(Criteria criteria, Object... params) {
@@ -1118,7 +1118,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductBrand(final ProductBrand productBrand) {
-        em.remove(productBrand);
+        em.remove(em.contains(productBrand) ? productBrand : em.merge(productBrand));
     }
 
     public ProductBrandStoreRel getProductBrandStoreRelById(final ProductBrand productBrand, final Store store, Object... params) {
@@ -1191,7 +1191,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductBrandStoreRel(final ProductBrandStoreRel productBrandStoreRel) {
-        em.remove(productBrandStoreRel);
+        em.remove(em.contains(productBrandStoreRel) ? productBrandStoreRel : em.merge(productBrandStoreRel));
     }
     
     // PRODUCT MARKETING COMMENT/RATE
@@ -1256,7 +1256,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductBrandCustomerRate(final ProductBrandCustomerRate productMarketingCustomerRate) {
-        em.remove(productMarketingCustomerRate);
+        em.remove(em.contains(productMarketingCustomerRate) ? productMarketingCustomerRate : em.merge(productMarketingCustomerRate));
     }
 
     public ProductBrandCustomerComment saveOrUpdateProductBrandCustomerComment(final ProductBrandCustomerComment customerComment) {
@@ -1278,7 +1278,7 @@ public class ProductDao extends AbstractGenericDao {
     }
 
     public void deleteProductBrandCustomerComment(final ProductBrandCustomerComment customerComment) {
-        em.remove(customerComment);
+        em.remove(em.contains(customerComment) ? customerComment : em.merge(customerComment));
     }
 
     protected FetchPlan handleSpecificProductBrandFetchMode(Criteria criteria, Object... params) {

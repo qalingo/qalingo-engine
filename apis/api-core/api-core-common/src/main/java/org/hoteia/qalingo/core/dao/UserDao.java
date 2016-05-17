@@ -20,7 +20,12 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Company;
+import org.hoteia.qalingo.core.domain.CompanyAttribute;
+import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserCredential;
+import org.hoteia.qalingo.core.domain.UserGroup;
+import org.hoteia.qalingo.core.domain.UserToken;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.user.FetchPlanGraphUser;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -138,7 +143,7 @@ public class UserDao extends AbstractGenericDao {
     }
 
     public void deleteUser(final User user) {
-        em.remove(user);
+        em.remove(em.contains(user) ? user : em.merge(user));
     }
     
     @Override
@@ -197,7 +202,7 @@ public class UserDao extends AbstractGenericDao {
     }
 
     public void deleteUserGroup(UserGroup userGroup) {
-        em.remove(userGroup);
+        em.remove(em.contains(userGroup) ? userGroup : em.merge(userGroup));
     }
     
     protected FetchPlan handleSpecificUserGroupFetchMode(Criteria criteria, Object... params) {
@@ -330,7 +335,7 @@ public class UserDao extends AbstractGenericDao {
     }
 
     public void deleteCompany(Company company) {
-        em.remove(company);
+        em.remove(em.contains(company) ? company : em.merge(company));
     }
     
     // CREDENTIAL

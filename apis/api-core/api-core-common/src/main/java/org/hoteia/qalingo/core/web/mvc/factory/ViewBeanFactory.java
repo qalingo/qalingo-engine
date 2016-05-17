@@ -1028,7 +1028,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         StoreViewBean storeViewBean = null; 
         if(store != null){
             storeViewBean = new StoreViewBean();
-            
+            if(store.getId() != null){
+                storeViewBean.setId(store.getId().toString());
+            }
             storeViewBean.setCode(store.getCode());
             storeViewBean.setType(store.getType());
             storeViewBean.setName(store.getName());

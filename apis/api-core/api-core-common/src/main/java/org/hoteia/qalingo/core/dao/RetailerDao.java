@@ -40,6 +40,7 @@ import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("retailerDao")
@@ -47,6 +48,12 @@ public class RetailerDao extends AbstractGenericDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    protected UserDao userDao;
+    
+    @Autowired
+    protected ProductDao productDao;
+    
     // RETAILER
 
     public Retailer getRetailerById(final Long retailerId, Object... params) {
@@ -242,7 +249,7 @@ public class RetailerDao extends AbstractGenericDao {
     }
 
     public void deleteRetailer(final Retailer retailer) {
-        em.remove(retailer);
+    	em.remove(em.contains(retailer) ? retailer : em.merge(retailer));
     }
 
     // RETAILER COMMENT/RATE
@@ -306,8 +313,8 @@ public class RetailerDao extends AbstractGenericDao {
         }
     }
 
-    public void deleteRetailerCustomerRate(final RetailerCustomerRate productMarketingCustomerRate) {
-        em.remove(productMarketingCustomerRate);
+    public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+        em.remove(em.contains(retailerCustomerRate) ? retailerCustomerRate : em.merge(retailerCustomerRate));
     }
 
     public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment customerComment) {
@@ -328,8 +335,8 @@ public class RetailerDao extends AbstractGenericDao {
         }
     }
 
-    public void deleteRetailerCustomerComment(final RetailerCustomerComment customerComment) {
-        em.remove(customerComment);
+    public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+        em.remove(em.contains(retailerCustomerComment) ? retailerCustomerComment : em.merge(retailerCustomerComment));
     }
 
     // STORE
@@ -865,7 +872,7 @@ public class RetailerDao extends AbstractGenericDao {
     }
 
     public void deleteStore(final Store store) {
-        em.remove(store);
+    	em.remove(em.contains(store) ? store : em.merge(store));
     }
 
     // STORE COMMENT/RATE
@@ -929,8 +936,8 @@ public class RetailerDao extends AbstractGenericDao {
         }
     }
 
-    public void deleteStoreCustomerRate(final StoreCustomerRate productMarketingCustomerRate) {
-        em.remove(productMarketingCustomerRate);
+    public void deleteStoreCustomerRate(final StoreCustomerRate storeCustomerRate) {
+        em.remove(em.contains(storeCustomerRate) ? storeCustomerRate : em.merge(storeCustomerRate));
     }
 
     public StoreCustomerComment saveOrUpdateStoreCustomerComment(final StoreCustomerComment customerComment) {
@@ -951,8 +958,8 @@ public class RetailerDao extends AbstractGenericDao {
         }
     }
 
-    public void deleteStoreCustomerComment(final StoreCustomerComment customerComment) {
-        em.remove(customerComment);
+    public void deleteStoreCustomerComment(final StoreCustomerComment storeCustomerComment) {
+        em.remove(em.contains(storeCustomerComment) ? storeCustomerComment : em.merge(storeCustomerComment));
     }
 
     protected FetchPlan handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {

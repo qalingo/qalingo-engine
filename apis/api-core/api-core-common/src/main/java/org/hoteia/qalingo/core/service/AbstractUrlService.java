@@ -151,7 +151,9 @@ public abstract class AbstractUrlService {
             String queryString = "";
             if (getParams != null) {
                 for (Entry<String, String> entry : getParams.entrySet()) {
-                    queryString += "&" + entry.getKey() + "=" + entry.getValue();
+                    if(StringUtils.isNotEmpty(entry.getValue())){
+                        queryString += "&" + entry.getKey() + "=" + entry.getValue();
+                    }
                 }
             }
             return url.toLowerCase() + queryString.replaceFirst("&", "?");
