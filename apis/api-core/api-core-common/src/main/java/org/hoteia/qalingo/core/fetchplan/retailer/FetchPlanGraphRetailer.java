@@ -41,6 +41,7 @@ public class FetchPlanGraphRetailer {
         fetchplans.add(new SpecificFetchMode(Retailer_.customerRates.getName()));
         fetchplans.add(new SpecificFetchMode(Retailer_.customerComments.getName()));
         fetchplans.add(new SpecificFetchMode(Retailer_.warehouses.getName()));
+        fetchplans.add(new SpecificFetchMode(Retailer_.company.getName()));
         return new FetchPlan(fetchplans);
     }
     
