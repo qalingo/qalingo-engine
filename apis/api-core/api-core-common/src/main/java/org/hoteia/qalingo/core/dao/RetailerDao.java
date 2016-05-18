@@ -637,99 +637,17 @@ public class RetailerDao extends AbstractGenericDao {
         return stores;
     }
 
-//    public List<GeolocatedStore> findB2CStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-//        Float latitudeFloat = new Float(latitude);
-//        Float longitudeFloat = new Float(longitude);
-//        String queryString = "SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance " +
-//        		"FROM teco_store store " +
-//        		"WHERE is_b2c = :b2c " +
-//                "AND is_active = :active " +
-//        		"HAVING distance <= :distanceValue " +
-//        		"ORDER BY distance ASC";
-//        Query query = createNativeQuery(queryString);
-//        query.setParameter("latitude", latitudeFloat.floatValue());
-//        query.setParameter("longitude", longitudeFloat.floatValue());
-//        query.setParameter("distanceValue", distance);
-//        query.setParameter("b2c", true);
-//        query.setParameter("active", true);
-//        query.setMaxResults(maxResults);
-//        query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
-//        
-//        @SuppressWarnings("unchecked")
-//        List<Object[]> objects = query.getResultList();
-//        List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
-//        for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
-//            Object[] object = iterator.next();
-//            GeolocatedStore geolocatedStore = new GeolocatedStore();
-//            geolocatedStore.setId((Long)object[0]);
-//            geolocatedStore.setCode((String)object[1]);
-//            geolocatedStore.setDistance((Double)object[2]);
-//            stores.add(geolocatedStore);
-//        }
-//        return stores;
-//    }
-
-//    public List<GeolocatedStore> findB2BStoresByGeoloc(final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
-//        Float latitudeFloat = new Float(latitude);
-//        Float longitudeFloat = new Float(longitude);
-//        StringBuffer queryString = new StringBuffer("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
-//        queryString.append("FROM teco_store store ");
-//        queryString.append("WHERE is_b2b = :b2b ");
-//        if(StringUtils.isNotEmpty(type)){
-//            queryString.append("AND type like '%:type%' ");
-//        }
-//        queryString.append("AND is_active = :active ");
-//        queryString.append("HAVING distance <= :distanceValue ");
-//        queryString.append("ORDER BY distance ASC");
-//        
-//        Query query = createNativeQuery(queryString.toString());
-//        query.setParameter("latitude", latitudeFloat.floatValue());
-//        query.setParameter("longitude", longitudeFloat.floatValue());
-//        query.setParameter("distanceValue", distance);
-//        query.setParameter("b2b", true);
-//        query.setParameter("active", true);
-//        query.setMaxResults(maxResults);
-//        query.unwrap(SQLQuery.class).addScalar("id", LongType.INSTANCE).addScalar("code", StringType.INSTANCE).addScalar("distance", DoubleType.INSTANCE);
-//        
-//        @SuppressWarnings("unchecked")
-//        List<Object[]> objects = query.getResultList();
-//        List<GeolocatedStore> stores = new ArrayList<GeolocatedStore>();
-//        for (Iterator<Object[]> iterator = objects.iterator(); iterator.hasNext();) {
-//            Object[] object = iterator.next();
-//            GeolocatedStore geolocatedStore = new GeolocatedStore();
-//            geolocatedStore.setId((Long)object[0]);
-//            geolocatedStore.setCode((String)object[1]);
-//            geolocatedStore.setDistance((Double)object[2]);
-//            stores.add(geolocatedStore);
-//        }
-//        return stores;
-//    }
-
     public List<GeolocatedStore> findB2CStoresByGeoloc(final String countryCode, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        return findB2CStoresByGeoloc(countryCode, null, types, latitude, longitude, distance, maxResults, params);
+    }
+
+    public List<GeolocatedStore> findB2CStoresByGeoloc(final String countryCode, final String productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         if (StringUtils.isNotEmpty(latitude)
                 && StringUtils.isNotEmpty(longitude)) {
             Float latitudeFloat = new Float(latitude);
             Float longitudeFloat = new Float(longitude);
-            StringBuilder queryString = new StringBuilder("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
-            queryString.append("FROM teco_store store ");
-            queryString.append("WHERE is_b2c = :b2c ");
-            if (StringUtils.isNotEmpty(countryCode)) {
-                queryString.append("AND country_code = :countryCode ");
-            }
-            if (types != null && !types.isEmpty()) {
-                queryString.append("AND (");
-                int count = 1;
-                for (String ignored : types) {
-                    if (count == 1) {
-                        queryString.append("type like :type").append(count).append(" ");
-                    } else {
-                        queryString.append("OR type like :type").append(count).append(" ");
-                    }
-                    count++;
-                }
-                queryString.append(")");
-            }
-            queryString.append("AND is_active = :active ");
+            StringBuilder queryString = buildSQLStoresByGeoloc(countryCode, productBrandId, types, latitude, longitude, distance, maxResults, params);
+            queryString.append("AND is_b2c = :b2c ");
             if (distance != null) {
                 queryString.append("HAVING distance <= :distanceValue ");
             } else {
@@ -746,6 +664,9 @@ public class RetailerDao extends AbstractGenericDao {
             query.setParameter("b2c", true);
             if (StringUtils.isNotEmpty(countryCode)) {
                 query.setParameter("countryCode", countryCode);
+            }
+            if(StringUtils.isNotEmpty(productBrandId)){
+                query.setParameter("productBrandId", productBrandId);
             }
             if (types != null && !types.isEmpty()) {
                 int count = 1;
@@ -774,30 +695,17 @@ public class RetailerDao extends AbstractGenericDao {
     }
 
     public List<GeolocatedStore> findB2BStoresByGeoloc(final String countryCode, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        return findB2BStoresByGeoloc(countryCode, null, types, latitude, longitude, distance, maxResults, params);
+    }
+
+    public List<GeolocatedStore> findB2BStoresByGeoloc(final String countryCode, final String productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         if (StringUtils.isNotEmpty(latitude)
                 && StringUtils.isNotEmpty(longitude)) {
             Float latitudeFloat = new Float(latitude);
             Float longitudeFloat = new Float(longitude);
-            StringBuilder queryString = new StringBuilder("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
-            queryString.append("FROM teco_store store ");
-            queryString.append("WHERE is_b2b = :b2b ");
-            if (StringUtils.isNotEmpty(countryCode)) {
-                queryString.append("AND country_code = :countryCode ");
-            }
-            if (types != null && !types.isEmpty()) {
-                queryString.append("AND (");
-                int count = 1;
-                for (String ignored : types) {
-                    if (count == 1) {
-                        queryString.append("type like :type").append(count).append(" ");
-                    } else {
-                        queryString.append("OR type like :type").append(count).append(" ");
-                    }
-                    count++;
-                }
-                queryString.append(")");
-            }
-            queryString.append("AND is_active = :active ");
+            StringBuilder queryString = buildSQLStoresByGeoloc(countryCode, productBrandId, types, latitude, longitude, distance, maxResults, params);
+            queryString.append("AND is_b2b = :b2b ");
+            
             if (distance != null) {
                 queryString.append("HAVING distance <= :distanceValue ");
             } else {
@@ -815,6 +723,9 @@ public class RetailerDao extends AbstractGenericDao {
             query.setParameter("b2b", true);
             if (StringUtils.isNotEmpty(countryCode)) {
                 query.setParameter("countryCode", countryCode);
+            }
+            if(StringUtils.isNotEmpty(productBrandId)){
+                query.setParameter("productBrandId", productBrandId);
             }
             if (types != null && !types.isEmpty()) {
                 int count = 1;
@@ -842,6 +753,35 @@ public class RetailerDao extends AbstractGenericDao {
         return null;
     }
 
+    protected StringBuilder buildSQLStoresByGeoloc(final String countryCode, final String productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+        StringBuilder queryString = new StringBuilder("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
+        queryString.append("FROM teco_store store ");
+        if(StringUtils.isNotEmpty(productBrandId)){
+            queryString.append("left join teco_product_brand_store_rel pbsrel on pbsrel.store_id = store.id ");
+        }
+        queryString.append("WHERE is_active = :active ");
+        if (StringUtils.isNotEmpty(countryCode)) {
+            queryString.append("AND country_code = :countryCode ");
+        }
+        if(StringUtils.isNotEmpty(productBrandId)){
+            queryString.append("AND pbsrel.product_brand_id = :productBrandId ");
+        }
+        if (types != null && !types.isEmpty()) {
+            queryString.append("AND (");
+            int count = 1;
+            for (String ignored : types) {
+                if (count == 1) {
+                    queryString.append("type like :type").append(count).append(" ");
+                } else {
+                    queryString.append("OR type like :type").append(count).append(" ");
+                }
+                count++;
+            }
+            queryString.append(") ");
+        }
+        return queryString;
+    }
+    
     public Store saveOrUpdateStore(final Store store) {
         if (store.getDateCreate() == null) {
             store.setDateCreate(new Date());
