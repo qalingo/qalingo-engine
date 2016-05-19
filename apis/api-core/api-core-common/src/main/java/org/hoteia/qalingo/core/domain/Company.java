@@ -333,7 +333,9 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     }
 
     public User getDefaultUser() {
-        if(users != null && Hibernate.isInitialized(users)){
+        if(users != null 
+                && Hibernate.isInitialized(users)
+                && !users.isEmpty()){
             return users.iterator().next();
         }
         return null;

@@ -106,7 +106,7 @@ public class MarketDao extends AbstractGenericDao {
     }
 
     public void deleteMarketPlace(final MarketPlace marketPlace) {
-        em.remove(marketPlace);
+        em.remove(em.contains(marketPlace) ? marketPlace : em.merge(marketPlace));
     }
 
     protected FetchPlan handleSpecificFetchModeMarketPlace(Criteria criteria, Object... params) {
@@ -207,7 +207,7 @@ public class MarketDao extends AbstractGenericDao {
 	}
 
 	public void deleteMarket(final Market market) {
-		em.remove(market);
+		em.remove(em.contains(market) ? market : em.merge(market));
 	}
 	
     protected FetchPlan handleSpecificFetchModeMarket(Criteria criteria, Object... params) {
@@ -302,7 +302,7 @@ public class MarketDao extends AbstractGenericDao {
     }
 
     public void deleteMarketArea(final MarketArea marketArea) {
-        em.remove(marketArea);
+        em.remove(em.contains(marketArea) ? marketArea : em.merge(marketArea));
     }
     
     protected FetchPlan handleSpecificFetchModeMarketArea(Criteria criteria, Object... params) {

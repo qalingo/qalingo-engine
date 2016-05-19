@@ -190,7 +190,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
     }
 
     public void deleteOrder(OrderPurchase orderPurchase) {
-        em.remove(orderPurchase);
+        em.remove(em.contains(orderPurchase) ? orderPurchase : em.merge(orderPurchase));
     }
 
     protected FetchPlan handleSpecificOrderFetchMode(Criteria criteria, Object... params) {

@@ -154,7 +154,7 @@ public class CustomerDao extends AbstractGenericDao {
     }
 
 	public void deleteCustomer(final Customer customer) {
-		em.remove(customer);
+		em.remove(em.contains(customer) ? customer : em.merge(customer));
 	}
 	
     // CUSTOMER GROUP
@@ -204,7 +204,7 @@ public class CustomerDao extends AbstractGenericDao {
     }
 
     public void deleteCustomerGroup(CustomerGroup customerGroup) {
-        em.remove(customerGroup);
+        em.remove(em.contains(customerGroup) ? customerGroup : em.merge(customerGroup));
     }
 
     protected FetchPlan handleSpecificCustomerGroupFetchMode(Criteria criteria, Object... params) {

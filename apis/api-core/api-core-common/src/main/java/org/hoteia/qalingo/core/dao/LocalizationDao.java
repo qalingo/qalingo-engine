@@ -87,7 +87,7 @@ public class LocalizationDao extends AbstractGenericDao {
 	}
 
 	public void deleteLocalization(Localization localization) {
-		em.remove(localization);
+		em.remove(em.contains(localization) ? localization : em.merge(localization));
 	}
 
 }

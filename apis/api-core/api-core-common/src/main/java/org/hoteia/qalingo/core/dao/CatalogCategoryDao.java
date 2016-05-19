@@ -126,7 +126,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
 	}
 
 	public void deleteCatalogCategory(final CatalogCategoryMaster catalogCategory) {
-		em.remove(catalogCategory);
+		em.remove(em.contains(catalogCategory) ? catalogCategory : em.merge(catalogCategory));
 	}
 
     protected FetchPlan handleSpecificFetchMasterCategoryMode(Criteria criteria, Object... params) {
@@ -289,7 +289,7 @@ public class CatalogCategoryDao extends AbstractGenericDao {
 	}
 
 	public void deleteCatalogCategory(final CatalogCategoryVirtual catalogCategory) {
-		em.remove(catalogCategory);
+		em.remove(em.contains(catalogCategory) ? catalogCategory : em.merge(catalogCategory));
 	}
 	
 	protected FetchPlan handleSpecificFetchVirtualCategoryMode(Criteria criteria, Object... params){

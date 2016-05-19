@@ -10,15 +10,12 @@
 package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.GeolocAddress;
 import org.hoteia.qalingo.core.domain.GeolocCity;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,11 +86,7 @@ public class GeolocDao extends AbstractGenericDao {
     }
 
     public void deleteGeolocCity(final GeolocCity geolocCity) {
-        if (em.contains(geolocCity)) {
-            em.remove(geolocCity);
-        } else {
-            em.remove(em.merge(geolocCity));
-        }
+        em.remove(em.contains(geolocCity) ? geolocCity : em.merge(geolocCity));
     }
 	    
 	// GEOLOC ADDRESS
@@ -165,11 +158,7 @@ public class GeolocDao extends AbstractGenericDao {
 	}
 
 	public void deleteGeolocAddress(final GeolocAddress geolocAddress) {
-	    if(em.contains(geolocAddress)){
-	        em.remove(geolocAddress);
-	    } else {
-	        em.remove(em.merge(geolocAddress));
-	    }
+	    em.remove(em.contains(geolocAddress) ? geolocAddress : em.merge(geolocAddress));
 	}
 	
 }

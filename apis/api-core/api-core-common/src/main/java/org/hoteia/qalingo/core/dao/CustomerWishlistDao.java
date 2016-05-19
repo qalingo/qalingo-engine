@@ -50,7 +50,7 @@ public class CustomerWishlistDao extends AbstractGenericDao {
     }
 
     public void deleteCustomerWishlist(final CustomerWishlist customerWishlist) {
-        em.remove(customerWishlist);
+        em.remove(em.contains(customerWishlist) ? customerWishlist : em.merge(customerWishlist));
     }
 
 }

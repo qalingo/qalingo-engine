@@ -69,7 +69,7 @@ public class UserConnectionLogDao extends AbstractGenericDao {
 	}
 
 	public void deleteUserConnectionLog(final UserConnectionLog userConnectionLog) {
-		em.remove(userConnectionLog);
+		em.remove(em.contains(userConnectionLog) ? userConnectionLog : em.merge(userConnectionLog));
 	}
 
 }

@@ -116,7 +116,7 @@ public class DeliveryMethodDao extends AbstractGenericDao {
 	}
 
 	public void deleteDeliveryMethod(final DeliveryMethod deliveryMethod) {
-		em.remove(deliveryMethod);
+		em.remove(em.contains(deliveryMethod) ? deliveryMethod : em.merge(deliveryMethod));
 	}
 
     @Override

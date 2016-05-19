@@ -22,7 +22,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -135,7 +134,7 @@ public class EngineSessionDao extends AbstractGenericDao {
     }
 
     public void deleteEngineBoSession(EngineBoSession engineSession) {
-        em.remove(engineSession);
+        em.remove(em.contains(engineSession) ? engineSession : em.merge(engineSession));
     }
     
     public int deleteEngineBoSession(final Timestamp before) {

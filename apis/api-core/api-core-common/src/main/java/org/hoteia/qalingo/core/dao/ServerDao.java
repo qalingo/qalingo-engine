@@ -123,7 +123,7 @@ public class ServerDao extends AbstractGenericDao {
 	}
 
 	public void deleteServerStatus(final ServerStatus serverStatus) {
-		em.remove(serverStatus);
+		em.remove(em.contains(serverStatus) ? serverStatus : em.merge(serverStatus));
 	}
 	
     public int deleteSendedServerStatus(final Timestamp before) {

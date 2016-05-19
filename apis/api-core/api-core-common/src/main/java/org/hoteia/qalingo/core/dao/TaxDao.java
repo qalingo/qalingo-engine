@@ -95,7 +95,7 @@ public class TaxDao extends AbstractGenericDao {
 	}
 
 	public void deleteTax(final Tax tax) {
-		em.remove(tax);
+		em.remove(em.contains(tax) ? tax : em.merge(tax));
 	}
 
     @Override

@@ -100,7 +100,7 @@ public class NotificationDao extends AbstractGenericDao {
 	}
 
 	public void deleteNotification(final Notification notification) {
-		em.remove(notification);
+		em.remove(em.contains(notification) ? notification : em.merge(notification));
 	}
 
 }

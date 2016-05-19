@@ -87,7 +87,7 @@ public class EngineSettingDao extends AbstractGenericDao {
 	}
 
 	public void deleteEngineSetting(EngineSetting engineSetting) {
-		em.remove(engineSetting);
+		em.remove(em.contains(engineSetting) ? engineSetting : em.merge(engineSetting));
 	}
 
 	// Engine Setting Value
@@ -115,7 +115,7 @@ public class EngineSettingDao extends AbstractGenericDao {
 	}
 	
     public void deleteEngineSettingValue(EngineSettingValue engineSettingValue) {
-        em.remove(engineSettingValue);
+        em.remove(em.contains(engineSettingValue) ? engineSettingValue : em.merge(engineSettingValue));
     }
 
     @Override

@@ -95,7 +95,7 @@ public class PaymentGatewayDao extends AbstractGenericDao {
 	}
 
 	public void deletePaymentGateway(AbstractPaymentGateway paymentGateway) {
-		em.remove(paymentGateway);
+		em.remove(em.contains(paymentGateway) ? paymentGateway : em.merge(paymentGateway));
 	}
 	
     @Override

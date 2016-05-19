@@ -19,7 +19,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
@@ -78,13 +77,8 @@ public class CartDao extends AbstractGenericDao {
 	}
 
 	public void deleteCart(final Cart cart) {
-	    if(em.contains(cart)){
-	        cart.deleteAllCartItem();
-	        em.remove(cart);
-	    } else {
-            cart.deleteAllCartItem();
-	        em.remove(em.merge(cart));
-	    }
+	    cart.deleteAllCartItem();
+	    em.remove(em.contains(cart) ? cart : em.merge(cart));
 	}
 	
     public int deleteCart(final Timestamp before) {

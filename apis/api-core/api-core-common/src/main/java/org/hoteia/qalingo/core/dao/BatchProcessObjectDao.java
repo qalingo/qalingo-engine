@@ -77,7 +77,7 @@ public class BatchProcessObjectDao extends AbstractGenericDao {
 	}
 
 	public void deleteBatchProcessObject(final BatchProcessObject batchProcessObject) {
-		em.remove(batchProcessObject);
+		em.remove(em.contains(batchProcessObject) ? batchProcessObject : em.merge(batchProcessObject));
 	}
 
 }

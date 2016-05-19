@@ -370,7 +370,7 @@ public class CmsContentDao extends AbstractGenericDao {
 	}
 	
 	public void deleteCmsContent(final CmsContent cmsContent) {
-		em.remove(cmsContent);
+		em.remove(em.contains(cmsContent) ? cmsContent : em.merge(cmsContent));
 	}
 	
     protected FetchPlan handleSpecificCmsContentFetchMode(Criteria criteria, Object... params) {
@@ -452,7 +452,7 @@ public class CmsContentDao extends AbstractGenericDao {
 	}
 	
 	public void deleteCmsContentBlock(final CmsContentBlock cmsContentBlock) {
-		em.remove(cmsContentBlock);
+		em.remove(em.contains(cmsContentBlock) ? cmsContentBlock : em.merge(cmsContentBlock));
 	}
 	
     protected FetchPlan handleSpecificCmsContentBlockFetchMode(Criteria criteria, Object... params) {
@@ -512,7 +512,7 @@ public class CmsContentDao extends AbstractGenericDao {
 	}
 	
 	public void deleteCmsContentAsset(final CmsContentAsset cmsContentAsset) {
-		em.remove(cmsContentAsset);
+		em.remove(em.contains(cmsContentAsset) ? cmsContentAsset : em.merge(cmsContentAsset));
 	}
 	
     protected FetchPlan handleSpecificCmsContentAssetFetchMode(Criteria criteria, Object... params) {
@@ -668,7 +668,7 @@ public class CmsContentDao extends AbstractGenericDao {
     }
 
     public void deleteCmsMenu(CmsMenu menu) {
-    	em.remove(menu);
+    	em.remove(em.contains(menu) ? menu : em.merge(menu));
     }
     
     protected FetchPlan handleSpecificCmsMenuFetchMode(Criteria criteria, Object... params) {

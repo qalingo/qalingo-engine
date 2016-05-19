@@ -78,7 +78,7 @@ public class AttributeDao extends AbstractGenericDao {
     }
 
     public void deleteAttributeDefinition(final AttributeDefinition attributeDefinition) {
-        em.remove(attributeDefinition);
+        em.remove(em.contains(attributeDefinition) ? attributeDefinition : em.merge(attributeDefinition));
     }
 
 }

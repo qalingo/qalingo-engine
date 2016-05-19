@@ -162,7 +162,7 @@ public class EmailDao extends AbstractGenericDao {
     }
 
     public void deleteEmail(final Email email) {
-        em.remove(email);
+        em.remove(em.contains(email) ? email : em.merge(email));
     }
 
     public int deleteSendedEmail(final Timestamp before) {

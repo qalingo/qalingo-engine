@@ -91,7 +91,7 @@ public class CatalogDao extends AbstractGenericDao {
     }
     
     public void deleteCatalogMaster(final CatalogMaster catalogMaster) {
-        em.remove(catalogMaster);
+        em.remove(em.contains(catalogMaster) ? catalogMaster : em.merge(catalogMaster));
     }
     
     // VIRTUAL CATALOG
@@ -171,7 +171,7 @@ public class CatalogDao extends AbstractGenericDao {
     }
     
     public void deleteCatalogVirtual(final CatalogVirtual catalogVirtual) {
-        em.remove(catalogVirtual);
+        em.remove(em.contains(catalogVirtual) ? catalogVirtual : em.merge(catalogVirtual));
     }
 	
     @Override

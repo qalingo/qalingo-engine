@@ -94,7 +94,7 @@ public class ReferentialDataDao extends AbstractGenericDao {
     }
 
     public void deleteTag(final Tag tag) {
-        em.remove(tag);
+        em.remove(em.contains(tag) ? tag : em.merge(tag));
     }
 
     protected FetchPlan handleSpecificTagFetchMode(Criteria criteria, Object... params) {
@@ -166,7 +166,7 @@ public class ReferentialDataDao extends AbstractGenericDao {
     }
 
     public void deleteDictionary(final Dictionary dictionary) {
-        em.remove(dictionary);
+        em.remove(em.contains(dictionary) ? dictionary : em.merge(dictionary));
     }
 
 }

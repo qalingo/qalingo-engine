@@ -133,7 +133,7 @@ public class WarehouseDao extends AbstractGenericDao {
     }
 
     public void deleteWarehouse(final Warehouse warehouse) {
-        em.remove(warehouse);
+        em.remove(em.contains(warehouse) ? warehouse : em.merge(warehouse));
     }
 
     @Override
@@ -169,7 +169,7 @@ public class WarehouseDao extends AbstractGenericDao {
 	}
 
 	public void deleteStock(ProductSkuStock productSkuStock) {
-		em.remove(productSkuStock);
+		em.remove(em.contains(productSkuStock) ? productSkuStock : em.merge(productSkuStock));
 	}
 
 }

@@ -68,7 +68,7 @@ public class CurrencyReferentialDao extends AbstractGenericDao {
 	}
 
 	public void deleteCurrencyReferential(final CurrencyReferential currencyReferential) {
-		em.remove(currencyReferential);
+		em.remove(em.contains(currencyReferential) ? currencyReferential : em.merge(currencyReferential));
 	}
 
 }
