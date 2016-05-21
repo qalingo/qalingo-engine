@@ -825,8 +825,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
-//        final HttpServletRequest request = requestData.getRequest();
+    public RetailerViewBean buildViewBeanRetailerWithoutStore(final RequestData requestData, final Retailer retailer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
@@ -915,15 +914,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 //            }
 //        }
 
-        // STORES
-        Set<Store> stores = retailer.getStores();
-        if (Hibernate.isInitialized(stores) && stores != null) {
-            for (Store store : stores) {
-                StoreViewBean storeViewBean = buildViewBeanStore(requestData, store);
-                retailerViewBean.getStores().add(storeViewBean);
-            }
-        }
-
         final String contextNameValue = requestUtil.getCurrentContextNameValue();
         List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
         if (shareOptions != null) {
@@ -953,6 +943,28 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         retailerViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
         
+        return retailerViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final Locale locale = requestData.getLocale();
+
+        final RetailerViewBean retailerViewBean = buildViewBeanRetailerWithoutStore(requestData, retailer);
+
+        // STORES
+        Set<Store> stores = retailer.getStores();
+        if (Hibernate.isInitialized(stores) && stores != null) {
+            for (Store store : stores) {
+                StoreViewBean storeViewBean = buildViewBeanStore(requestData, store);
+                retailerViewBean.getStores().add(storeViewBean);
+            }
+        }
         return retailerViewBean;
     }
     
@@ -1077,7 +1089,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             
             // RETAILER
             if (Hibernate.isInitialized(store.getRetailer()) && store.getRetailer() != null) {
-                storeViewBean.setRetailer(buildViewBeanRetailer(requestData, store.getRetailer()));
+                storeViewBean.setRetailer(buildViewBeanRetailerWithoutStore(requestData, store.getRetailer()));
             }
             
             // ASSETS

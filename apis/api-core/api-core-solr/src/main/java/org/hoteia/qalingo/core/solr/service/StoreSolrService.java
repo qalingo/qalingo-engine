@@ -103,7 +103,8 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolrServer.commit();
     }
 
-    public StoreResponseBean searchStore(final String searchQuery, final List<String> facetFields, final List<String> cities, final List<String> countries, final SolrParam solrParam) throws SolrServerException, IOException {
+    public StoreResponseBean searchStore(final String searchQuery, final List<String> facetFields, final List<String> cities, 
+                                         final List<String> countries, final SolrParam solrParam) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         
         if(solrParam != null){

@@ -58,7 +58,8 @@ public class ProductSkuSolrService extends AbstractSolrService {
     @Autowired
     protected ProductService productService;
     
-    public void addOrUpdateProductSku(final ProductMarketing productMarketing, final ProductSku productSku, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
+    public void addOrUpdateProductSku(final ProductMarketing productMarketing, final ProductSku productSku, final List<CatalogCategoryVirtual> catalogCategories, 
+                                      final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productSku.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
