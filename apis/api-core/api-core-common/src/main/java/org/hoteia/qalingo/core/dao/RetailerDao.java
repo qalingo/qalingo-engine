@@ -790,17 +790,19 @@ public class RetailerDao extends AbstractGenericDao {
         if (StringUtils.isEmpty(store.getCode())) {
             store.setCode(CoreUtil.generateEntityCode());
         }
-        if (store.getId() != null) {
-            if (em.contains(store)) {
-                em.refresh(store);
-            }
-            Store mergedStore = em.merge(store);
-            em.flush();
-            return mergedStore;
-        } else {
-            em.persist(store);
-            return store;
-        }
+//        if (store.getId() != null) {
+//            if (em.contains(store)) {
+//                em.refresh(store);
+//            }
+//            Store mergedStore = em.merge(store);
+//            em.flush();
+//            return mergedStore;
+//        } else {
+//            em.persist(store);
+//            return store;
+//        }
+        em.persist(em.contains(store) ? store : em.merge(store));
+        return store;
     }
 
     public Store updateStore(final Store store) {

@@ -406,6 +406,20 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     public Set<User> getUsers() {
         return users;
     }
+ 
+    public boolean hasUser(final User user) {
+        if(users != null
+                && Hibernate.isInitialized(users)
+                && users.size() > 0){
+            for (User userIt : users) {
+                if(user != null
+                        && userIt.getId().equals(user.getId())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     public User getDefaultUser() {
         if(users != null
