@@ -16,6 +16,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.util.CoreUtil;
 
 public class StoreViewBean extends AbstractAddressViewBean {
@@ -44,6 +45,8 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	protected String latitude;
     protected String distance;
 
+    private RetailerViewBean retailer;
+    
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
     
     protected List<StoreCustomerCommentViewBean> comments = new ArrayList<StoreCustomerCommentViewBean>();
@@ -241,6 +244,22 @@ public class StoreViewBean extends AbstractAddressViewBean {
         this.distance = distance;
     }
 
+	public RetailerViewBean getRetailer() {
+        return retailer;
+    }
+	
+	public void setRetailer(RetailerViewBean retailer) {
+        this.retailer = retailer;
+    }
+	
+	public String getCompanyName(){
+	    if(retailer != null
+	            && retailer.getCompany() != null){
+	        return retailer.getCompany().getName();
+	    }
+	    return null;
+	}
+	
     public List<AssetViewBean> getAssets() {
         return assets;
     }

@@ -50,6 +50,8 @@ public class RetailerViewBean extends AbstractViewBean {
 	protected int reviewCount = 0;
 	protected String reviewCountLabel;
 
+    protected CompanyViewBean company = new CompanyViewBean();
+	   
 	protected RetailerAddressViewBean defaultAddress = new RetailerAddressViewBean();
 
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
@@ -256,6 +258,14 @@ public class RetailerViewBean extends AbstractViewBean {
 		this.reviewCountLabel = reviewCountLabel;
 	}
 
+	public CompanyViewBean getCompany() {
+        return company;
+    }
+	
+	public void setCompany(CompanyViewBean company) {
+        this.company = company;
+    }
+	
 	public RetailerAddressViewBean getDefaultAddress() {
 		return defaultAddress;
 	}

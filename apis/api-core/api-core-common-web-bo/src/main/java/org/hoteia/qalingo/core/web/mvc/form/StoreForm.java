@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.web.mvc.form;
 
+import javax.persistence.Column;
+
 /**
  * 
  * 
@@ -20,6 +22,13 @@ public class StoreForm {
     protected String name;
     protected String description;
 
+    protected boolean active = false;
+    protected boolean primary = false;
+    protected boolean b2c = false;
+    protected boolean b2b = false;
+    
+    protected String type;
+    
     protected String address1;
     protected String address2;
     protected String addressAdditionalInformation;
@@ -72,7 +81,47 @@ public class StoreForm {
         this.description = description;
     }
 	
-	public String getAddress1() {
+	public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(boolean primary) {
+        this.primary = primary;
+    }
+
+    public boolean isB2c() {
+        return b2c;
+    }
+
+    public void setB2c(boolean b2c) {
+        this.b2c = b2c;
+    }
+
+    public boolean isB2b() {
+        return b2b;
+    }
+
+    public void setB2b(boolean b2b) {
+        this.b2b = b2b;
+    }
+
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public String getAddress1() {
 		return address1;
 	}
 

@@ -849,6 +849,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         String logo = retailerService.buildRetailerLogoWebPath(retailer.getLogo());
         retailerViewBean.setImg(logo);
         
+        // RETAILER
+        if (Hibernate.isInitialized(retailer.getCompany()) && retailer.getCompany() != null) {
+            retailerViewBean.setCompany(buildViewBeanCompany(requestData, retailer.getCompany()));
+        }
+        
         if (Hibernate.isInitialized(retailer.getAddresses()) && retailer.getAddresses() != null) {
             RetailerAddress defaultAddress = retailer.getDefaultAddress();
             if (defaultAddress != null) {
@@ -1068,6 +1073,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     && StringUtils.isNotEmpty(store.getLongitude()) && StringUtils.isNotEmpty(store.getLongitude())){
                 NumberFormat formatter = new DecimalFormat("#0.00");
                 storeViewBean.setDistance(formatter.format(store.getDistanceFromInKm(geolocData.getLatitude(), geolocData.getLongitude())));
+            }
+            
+            // RETAILER
+            if (Hibernate.isInitialized(store.getRetailer()) && store.getRetailer() != null) {
+                storeViewBean.setRetailer(buildViewBeanRetailer(requestData, store.getRetailer()));
             }
             
             // ASSETS

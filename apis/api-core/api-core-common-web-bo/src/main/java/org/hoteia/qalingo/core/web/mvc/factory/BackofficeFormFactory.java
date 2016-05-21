@@ -497,7 +497,6 @@ public class BackofficeFormFactory {
                     retailerForm.setWebsite(websiteUrl);
                 }
             }
-            
         }
         return retailerForm;
     }
@@ -512,6 +511,13 @@ public class BackofficeFormFactory {
                 storeForm.setRetailerId(store.getRetailer().getId().toString());
             }
 
+            storeForm.setActive(store.isActive());
+            storeForm.setPrimary(store.isPrimary());
+            storeForm.setB2b(store.isB2b());
+            storeForm.setB2c(store.isB2c());
+            
+            storeForm.setType(store.getType());
+            
             storeForm.setAddress1(store.getAddress1());
             storeForm.setAddress2(store.getAddress2());
             storeForm.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
@@ -529,6 +535,7 @@ public class BackofficeFormFactory {
             storeForm.setFax(store.getFax());
             storeForm.setEmail(store.getEmail());
             storeForm.setWebsite(store.getWebsite());
+            
     	} else {
     	    MarketArea marketArea = requestData.getMarketArea();
             storeForm.setCountryCode(marketArea.getGeolocCountryCode());
