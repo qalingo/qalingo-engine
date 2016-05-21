@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
-public class SolrFields extends HashMap<String, ORDER> {
+public class SortField extends HashMap<String, ORDER> {
     
     /**
      * 

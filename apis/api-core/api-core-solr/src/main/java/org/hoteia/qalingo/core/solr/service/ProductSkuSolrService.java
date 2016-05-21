@@ -36,7 +36,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
-import org.hoteia.qalingo.core.solr.bean.SolrFields;
+import org.hoteia.qalingo.core.solr.bean.SortField;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
@@ -153,11 +153,11 @@ public class ProductSkuSolrService extends AbstractSolrService {
                 solrQuery.setParam("rows", getMaxResult());
             }
             
-            if(solrParam.get("solrFields") != null){
-                SolrFields solrFields = (SolrFields) solrParam.get("solrFields");
-                for (Iterator<String> iterator = solrFields.keySet().iterator(); iterator.hasNext();) {
+            if(solrParam.get("sortField") != null){
+                SortField sortField = (SortField) solrParam.get("sortField");
+                for (Iterator<String> iterator = sortField.keySet().iterator(); iterator.hasNext();) {
                     String field = (String) iterator.next();
-                    solrQuery.addSortField(field, solrFields.get(field));
+                    solrQuery.addSortField(field, sortField.get(field));
                 }
             }
         }
