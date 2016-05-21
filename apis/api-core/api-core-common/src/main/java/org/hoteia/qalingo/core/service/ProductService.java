@@ -540,6 +540,14 @@ public class ProductService {
         return productDao.findAllProductBrandIdsEnabled(params);
     }
     
+    public List<Long> findAllProductBrandIdsEnabledB2B(Object... params) {
+        return productDao.findAllProductBrandIdsEnabledB2B(params);
+    }
+    
+    public List<Long> findAllProductBrandIdsEnabledB2C(Object... params) {
+        return productDao.findAllProductBrandIdsEnabledB2C(params);
+    }
+    
     public List<ProductBrand> findAllProductBrandsEnabled(Object... params) {
         return productDao.findAllProductBrandsEnabled(params);
     }
