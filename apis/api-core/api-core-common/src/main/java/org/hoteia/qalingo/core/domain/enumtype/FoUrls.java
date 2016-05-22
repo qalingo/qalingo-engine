@@ -475,8 +475,11 @@ public enum FoUrls {
     public String getUrlPatternKey() {
         if (StringUtils.isNotEmpty(url)) {
             String patternKey = url;
-            patternKey = StringUtils.substringBefore(patternKey, "-{");
-            patternKey = patternKey.replace("/**/", "");
+            patternKey = patternKey.replace("/**", "");
+            patternKey = patternKey.replace(".html", "");
+            if(patternKey.contains("-${")){
+                patternKey = patternKey.replace(patternKey.substring(patternKey.indexOf("-${"), patternKey.indexOf("}") + 1), "");
+            }
             return patternKey;
         }
         return url;

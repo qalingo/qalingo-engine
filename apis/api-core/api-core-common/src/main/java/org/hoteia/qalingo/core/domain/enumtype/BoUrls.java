@@ -595,7 +595,7 @@ public enum BoUrls {
     public String getUrlPatternKey() {
         if (StringUtils.isNotEmpty(url)) {
             String patternKey = url;
-            patternKey = patternKey.replace("/**/", "");
+            patternKey = patternKey.replace("/**", "");
             patternKey = patternKey.replace(".html", "");
             if(patternKey.contains("-${")){
                 patternKey = patternKey.replace(patternKey.substring(patternKey.indexOf("-${"), patternKey.indexOf("}") + 1), "");
