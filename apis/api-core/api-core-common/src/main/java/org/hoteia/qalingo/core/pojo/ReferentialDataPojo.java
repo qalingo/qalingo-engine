@@ -6,6 +6,9 @@ public class ReferentialDataPojo {
     private String value;
     private String locale;
     
+    public ReferentialDataPojo() {
+    }
+    
     public ReferentialDataPojo(String code, String locale, String value) {
         this.code = code;
         this.value = value;

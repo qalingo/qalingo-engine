@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
+import org.hoteia.qalingo.core.pojo.user.CompanyPojo;
+
 public class StorePojo extends LightStorePojo {
 
     protected String address1;
@@ -25,13 +28,16 @@ public class StorePojo extends LightStorePojo {
     protected String countryCode;
     protected String countryLabel;
 
-    protected Date dateCreate;
-    protected Date dateUpdate;
-
+    protected RetailerPojo retailer;
+    protected CompanyPojo company;
+    
     protected List<StoreAttributePojo> attributes = new ArrayList<StoreAttributePojo>();
     protected List<StoreBusinessHourPojo> businessHours = new ArrayList<StoreBusinessHourPojo>();
     protected List<StoreServicePojo> services = new ArrayList<StoreServicePojo>();
 
+    protected Date dateCreate;
+    protected Date dateUpdate;
+    
     public String getAddress1() {
         return address1;
     }
@@ -104,20 +110,27 @@ public class StorePojo extends LightStorePojo {
         this.countryLabel = countryLabel;
     }
 
-    public Date getDateCreate() {
-        return dateCreate;
+    public RetailerPojo getRetailer() {
+        return retailer;
     }
 
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
+    public void setRetailer(RetailerPojo retailer) {
+        this.retailer = retailer;
     }
 
-    public Date getDateUpdate() {
-        return dateUpdate;
+    public CompanyPojo getCompany() {
+        return company;
     }
 
-    public void setDateUpdate(Date dateUpdate) {
-        this.dateUpdate = dateUpdate;
+    public void setCompany(CompanyPojo company) {
+        this.company = company;
+    }
+    
+    public String getCompanyName() {
+        if(company != null){
+            return company.getName();
+        }
+        return null;
     }
 
     public List<StoreAttributePojo> getAttributes() {
@@ -144,4 +157,20 @@ public class StorePojo extends LightStorePojo {
         this.services = services;
     }
     
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
 }

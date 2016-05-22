@@ -30,6 +30,7 @@ public class CatalogCategoryAttributePojo {
     private Long marketAreaId;
     private Date startDate;
     private Date endDate;
+    
     private Date dateCreate;
     private Date dateUpdate;
 

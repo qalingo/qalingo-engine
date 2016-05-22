@@ -15,16 +15,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * 
- * <p>
- * <a href="UserJsonPojo.java.html"><i>View Source</i></a>
- * </p>
- * 
- * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
- * @author Fingy
- * 
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserPojo {
 

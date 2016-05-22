@@ -31,9 +31,6 @@ public class CatalogCategoryPojo {
     private boolean isRoot;
     private int ranking;
 
-    private Date dateCreate;
-    private Date dateUpdate;
-
     private CatalogCategoryTypePojo catalogCategoryType;
     private CatalogCategoryPojo defaultParentCatalogCategory;
 
@@ -44,6 +41,9 @@ public class CatalogCategoryPojo {
     private List<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
     private List<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
 
+    private Date dateCreate;
+    private Date dateUpdate;
+    
     public Long getId() {
         return id;
     }
@@ -106,22 +106,6 @@ public class CatalogCategoryPojo {
     
     public void setRanking(int ranking) {
         this.ranking = ranking;
-    }
-    
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public Date getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(Date dateUpdate) {
-        this.dateUpdate = dateUpdate;
     }
 
     public CatalogCategoryTypePojo getCatalogCategoryType() {
@@ -188,6 +172,22 @@ public class CatalogCategoryPojo {
 
     public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
         this.assetsByMarketArea = assetsByMarketArea;
+    }
+    
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
 
 }

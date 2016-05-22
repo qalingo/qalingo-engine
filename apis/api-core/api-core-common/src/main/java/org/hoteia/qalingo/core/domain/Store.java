@@ -395,6 +395,16 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
         this.retailer = retailer;
     }
     
+    public Company getCompany() {
+        if(retailer != null
+                && Hibernate.isInitialized(retailer)
+                && retailer.getCompany() != null
+                && Hibernate.isInitialized(retailer.getCompany())){
+            return retailer.getCompany();
+        }
+        return null;
+    }
+    
     public Warehouse getWarehouse() {
         return warehouse;
     }

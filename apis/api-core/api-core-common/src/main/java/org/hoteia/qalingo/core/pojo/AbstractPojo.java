@@ -11,15 +11,6 @@ package org.hoteia.qalingo.core.pojo;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
-/**
- *
- * <p>
- * <a href="AbstractPojo.java.html"><i>View Source</i></a>
- * </p>
- *
- * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
- * 
- */
 public abstract class AbstractPojo {
 
 	public AbstractPojo() {

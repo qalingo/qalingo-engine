@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.pojo.tax;
 
-
 public class TaxStatePojo {
 
 	private Long id;

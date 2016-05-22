@@ -10,11 +10,10 @@
 package org.hoteia.qalingo.core.pojo.retailer;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import org.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 
 public class RetailerCustomerCommentPojo {
 

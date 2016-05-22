@@ -32,8 +32,6 @@ public class RetailerPojo {
     private int qualityOfService;
     private int priceScore;
     private int ratioQualityPrice;
-    private Date dateCreate;
-    private Date dateUpdate;
 
     private List<RetailerLinkPojo> links = new ArrayList<RetailerLinkPojo>();
     private List<RetailerAddressPojo> addresses = new ArrayList<RetailerAddressPojo>();
@@ -46,6 +44,9 @@ public class RetailerPojo {
     private List<RetailerCustomerCommentPojo> customerComments = new ArrayList<RetailerCustomerCommentPojo>();
     private List<RetailerTagPojo> retailerTags = new ArrayList<RetailerTagPojo>();
 
+    private Date dateCreate;
+    private Date dateUpdate;
+    
     public Long getId() {
         return id;
     }
@@ -158,22 +159,6 @@ public class RetailerPojo {
         this.ratioQualityPrice = ratioQualityPrice;
     }
 
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public Date getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(Date dateUpdate) {
-        this.dateUpdate = dateUpdate;
-    }
-
     public List<RetailerLinkPojo> getLinks() {
         return links;
     }
@@ -252,6 +237,22 @@ public class RetailerPojo {
 
     public void setRetailerTags(List<RetailerTagPojo> retailerTags) {
         this.retailerTags = retailerTags;
+    }
+    
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
     
 }
