@@ -11,6 +11,7 @@ public class BreadcrumbViewBean extends AbstractViewBean {
     private static final long serialVersionUID = 4594828019275652815L;
     
     protected String name;
+    
     private List<MenuViewBean> menus = new ArrayList<MenuViewBean>();
     
     public String getName() {
@@ -27,6 +28,17 @@ public class BreadcrumbViewBean extends AbstractViewBean {
     
     public void setMenus(List<MenuViewBean> menus) {
         this.menus = menus;
+    }
+    
+    public MenuViewBean getActiveMenu() {
+        if(menus != null){
+            for (MenuViewBean menu : menus) {
+                if(menu.isActive()){
+                    return menu;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
