@@ -270,11 +270,13 @@ public class BackofficeFormFactory {
             List<ProductBrandAttribute> globalAttributes = productBrand.getGlobalAttributes();
             for (Iterator<ProductBrandAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                 ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
-                MarketArea marketAreaAttribute = null;
+                MarketArea marketArea = null;
+                String marketAreaCode = null;
                 if(productBrandAttribute.getMarketAreaId() != null){
-                    marketAreaAttribute = marketService.getMarketAreaById(productBrandAttribute.getMarketAreaId());
+                    marketArea = marketService.getMarketAreaById(productBrandAttribute.getMarketAreaId());
+                    marketAreaCode = marketArea.getCode();
                 }
-                AttributeContextBean attributeContextBean = new AttributeContextBean(productBrandAttribute.getAttributeDefinition().getCode(), marketAreaAttribute.getCode(), productBrandAttribute.getLocalizationCode());
+                AttributeContextBean attributeContextBean = new AttributeContextBean(productBrandAttribute.getAttributeDefinition().getCode(), marketAreaCode, productBrandAttribute.getLocalizationCode());
                 productBrandForm.getGlobalAttributes().put(attributeContextBean, productBrandAttribute.getValueAsString());
             }
             
