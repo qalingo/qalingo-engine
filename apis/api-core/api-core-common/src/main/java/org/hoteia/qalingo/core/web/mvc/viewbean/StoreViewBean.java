@@ -260,6 +260,14 @@ public class StoreViewBean extends AbstractAddressViewBean {
 	    return null;
 	}
 	
+	   public String getCompanyLegalGuid(){
+	        if(retailer != null
+	                && retailer.getCompany() != null){
+	            return retailer.getCompany().getLegalGuid();
+	        }
+	        return null;
+	    }
+	
     public List<AssetViewBean> getAssets() {
         return assets;
     }
