@@ -41,6 +41,10 @@ public class LocalizationService {
     public Localization getLocalizationByCode(final String code, Object... params) {
         return localizationDao.getLocalizationByCode(code, params);
     }
+    
+    public Localization getLocalizationByCountryCode(final String countryCode, Object... params) {
+        return localizationDao.getLocalizationByCountryCode(countryCode, params);
+    }
 
     public List<Localization> findLocalizations(Object... params) {
         return localizationDao.findLocalizations(params);
