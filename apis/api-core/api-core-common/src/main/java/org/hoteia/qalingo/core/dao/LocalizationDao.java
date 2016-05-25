@@ -40,11 +40,22 @@ public class LocalizationDao extends AbstractGenericDao {
         return localization;
 	}
 
-    public Localization getLocalizationByCountryCode(final String countryCode, Object... params) {
+    public Localization getDefaultLocalizationByCountryCode(final String countryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Localization.class);
         criteria.add(Restrictions.eq("country", handleCodeValue(countryCode)));
+        criteria.add(Restrictions.eq("isDefault", true));
+        
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;
+    }
+    
+    public List<Localization> getLocalizationByCountryCode(final String countryCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Localization.class);
+        criteria.add(Restrictions.eq("country", handleCodeValue(countryCode)));
+        
+        @SuppressWarnings("unchecked")
+        List<Localization> localizations = criteria.list();
+        return localizations;
     }
 	
 	public List<Localization> findLocalizations(Object... params) {

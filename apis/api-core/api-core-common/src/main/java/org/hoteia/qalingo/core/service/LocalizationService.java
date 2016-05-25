@@ -42,7 +42,11 @@ public class LocalizationService {
         return localizationDao.getLocalizationByCode(code, params);
     }
     
-    public Localization getLocalizationByCountryCode(final String countryCode, Object... params) {
+    public Localization getDefaultLocalizationByCountryCode(final String code, Object... params) {
+        return localizationDao.getDefaultLocalizationByCountryCode(code, params);
+    }
+    
+    public List<Localization> getLocalizationByCountryCode(final String countryCode, Object... params) {
         return localizationDao.getLocalizationByCountryCode(countryCode, params);
     }
 

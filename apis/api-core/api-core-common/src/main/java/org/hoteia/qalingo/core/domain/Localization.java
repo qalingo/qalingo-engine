@@ -47,6 +47,9 @@ public class Localization extends AbstractEntity<Localization> {
     @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean active;
     
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
+    
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
@@ -106,6 +109,14 @@ public class Localization extends AbstractEntity<Localization> {
         this.active = active;
     }
     
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
     public String getCode() {
         return code;
     }
