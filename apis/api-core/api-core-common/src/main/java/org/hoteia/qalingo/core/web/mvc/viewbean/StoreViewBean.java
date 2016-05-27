@@ -31,6 +31,11 @@ public class StoreViewBean extends AbstractAddressViewBean {
     protected String name;
     protected String description;
 
+    protected boolean active = false;
+    protected boolean primary = false;
+    protected boolean b2c = false;
+    protected boolean b2b = false;
+    
     protected String i18nName;
     protected String i18nDescription;
     protected String i18nShortDescription;
@@ -161,7 +166,39 @@ public class StoreViewBean extends AbstractAddressViewBean {
         return "";
     }
 
-	public String getEmail() {
+	public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(boolean primary) {
+        this.primary = primary;
+    }
+
+    public boolean isB2c() {
+        return b2c;
+    }
+
+    public void setB2c(boolean b2c) {
+        this.b2c = b2c;
+    }
+
+    public boolean isB2b() {
+        return b2b;
+    }
+
+    public void setB2b(boolean b2b) {
+        this.b2b = b2b;
+    }
+
+    public String getEmail() {
         return email;
     }
 

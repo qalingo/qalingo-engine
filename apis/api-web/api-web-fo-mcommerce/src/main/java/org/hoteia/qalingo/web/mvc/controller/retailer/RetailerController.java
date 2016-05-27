@@ -220,9 +220,4 @@ public class RetailerController extends AbstractMCommerceController {
         return seoDataViewBean;
     }
     
-    @ModelAttribute("retailerCreateForm")
-	protected RetailerCreateForm getRetailerCreateForm(final HttpServletRequest request, final Model model) throws Exception {
-    	return new RetailerCreateForm();
-	}
-    
 }

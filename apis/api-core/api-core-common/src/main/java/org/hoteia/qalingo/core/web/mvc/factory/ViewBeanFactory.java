@@ -1052,6 +1052,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             storeViewBean.setType(store.getType());
             storeViewBean.setName(store.getName());
             
+            storeViewBean.setPrimary(store.isPrimary());
+            storeViewBean.setActive(store.isActive());
+            storeViewBean.setB2b(store.isB2b());
+            storeViewBean.setB2c(store.isB2c());
+            
             storeViewBean.setI18nName(store.getI18nName(localizationCode));
             storeViewBean.setI18nDescription(store.getI18nDescription(localizationCode));
             
