@@ -641,7 +641,7 @@ public class RetailerDao extends AbstractGenericDao {
         return findB2CStoresByGeoloc(countryCode, null, types, latitude, longitude, distance, maxResults, params);
     }
 
-    public List<GeolocatedStore> findB2CStoresByGeoloc(final String countryCode, final String productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+    public List<GeolocatedStore> findB2CStoresByGeoloc(final String countryCode, final Long productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         if (StringUtils.isNotEmpty(latitude)
                 && StringUtils.isNotEmpty(longitude)) {
             Float latitudeFloat = new Float(latitude);
@@ -665,7 +665,7 @@ public class RetailerDao extends AbstractGenericDao {
             if (StringUtils.isNotEmpty(countryCode)) {
                 query.setParameter("countryCode", countryCode);
             }
-            if(StringUtils.isNotEmpty(productBrandId)){
+            if(productBrandId != null){
                 query.setParameter("productBrandId", productBrandId);
             }
             if (types != null && !types.isEmpty()) {
@@ -698,7 +698,7 @@ public class RetailerDao extends AbstractGenericDao {
         return findB2BStoresByGeoloc(countryCode, null, types, latitude, longitude, distance, maxResults, params);
     }
 
-    public List<GeolocatedStore> findB2BStoresByGeoloc(final String countryCode, final String productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+    public List<GeolocatedStore> findB2BStoresByGeoloc(final String countryCode, final Long productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         if (StringUtils.isNotEmpty(latitude)
                 && StringUtils.isNotEmpty(longitude)) {
             Float latitudeFloat = new Float(latitude);
@@ -724,7 +724,7 @@ public class RetailerDao extends AbstractGenericDao {
             if (StringUtils.isNotEmpty(countryCode)) {
                 query.setParameter("countryCode", countryCode);
             }
-            if(StringUtils.isNotEmpty(productBrandId)){
+            if(productBrandId != null){
                 query.setParameter("productBrandId", productBrandId);
             }
             if (types != null && !types.isEmpty()) {
@@ -753,17 +753,17 @@ public class RetailerDao extends AbstractGenericDao {
         return null;
     }
 
-    protected StringBuilder buildSQLStoresByGeoloc(final String countryCode, final String productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
+    protected StringBuilder buildSQLStoresByGeoloc(final String countryCode, final Long productBrandId, final List<String> types, final String latitude, final String longitude, final String distance, int maxResults, Object... params) {
         StringBuilder queryString = new StringBuilder("SELECT store.id, store.code, ((ACOS(SIN(:latitude * PI() / 180) * SIN(latitude * PI() / 180) + COS(:latitude * PI() / 180) * COS(latitude * PI() / 180) * COS((:longitude - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance ");
         queryString.append("FROM teco_store store ");
-        if(StringUtils.isNotEmpty(productBrandId)){
+        if(productBrandId != null){
             queryString.append("left join teco_product_brand_store_rel pbsrel on pbsrel.store_id = store.id ");
         }
         queryString.append("WHERE is_active = :active ");
         if (StringUtils.isNotEmpty(countryCode)) {
             queryString.append("AND country_code = :countryCode ");
         }
-        if(StringUtils.isNotEmpty(productBrandId)){
+        if(productBrandId != null){
             queryString.append("AND pbsrel.product_brand_id = :productBrandId ");
         }
         if (types != null && !types.isEmpty()) {

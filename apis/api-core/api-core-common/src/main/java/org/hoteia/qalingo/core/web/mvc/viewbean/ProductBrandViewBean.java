@@ -120,7 +120,19 @@ public class ProductBrandViewBean extends AbstractViewBean {
     }
     
     public String getI18nShortDescription() {
-        return i18nShortDescription;
+        if(i18nShortDescription != null){
+            return i18nShortDescription;
+        } else {
+            int size = Constants.POJO_SHORT_DESCRIPTION_MAX_LENGTH;
+            if (StringUtils.isNotEmpty(getI18nLongDescription())){
+                if(getI18nLongDescription().length() >= size){
+                    return CoreUtil.handleTruncatedString(getI18nLongDescription(), size);
+                } else {
+                    return getI18nName();
+                }
+            }
+            return "";
+        }
     }
     
     public void setI18nShortDescription(String i18nShortDescription) {

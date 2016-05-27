@@ -162,6 +162,8 @@ public class Constants {
     public static final int POJO_DESCRIPTION_MAX_LENGTH = 150;
     public static final String TRUNCATED_SUFFIX = "...";
 
+    public static final int POJO_SHORT_DESCRIPTION_MAX_LENGTH = 150;
+    
     public static final int SHORT_DESCRIPTION_MAX_LENGTH = 50;
 	public static final int SHARE_META_DESCRIPTION_MAX_LENGTH = 150;
 	

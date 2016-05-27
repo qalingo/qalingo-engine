@@ -1015,6 +1015,11 @@ public class WebBackofficeService {
     	if (store == null) {
     		store = new Store();
 	    }
+    	
+        store.setActive(storeForm.isActive());
+        store.setB2b(storeForm.isB2b());
+        store.setB2c(storeForm.isB2c());
+        
         if (StringUtils.isNotEmpty(storeForm.getCode())) {
             store.setCode(CoreUtil.cleanEntityCode(storeForm.getCode()));
         }
