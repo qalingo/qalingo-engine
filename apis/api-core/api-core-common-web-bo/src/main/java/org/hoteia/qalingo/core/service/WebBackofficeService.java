@@ -1016,6 +1016,7 @@ public class WebBackofficeService {
     		store = new Store();
 	    }
     	
+        store.setPrimary(storeForm.isPrimary());
         store.setActive(storeForm.isActive());
         store.setB2b(storeForm.isB2b());
         store.setB2c(storeForm.isB2c());

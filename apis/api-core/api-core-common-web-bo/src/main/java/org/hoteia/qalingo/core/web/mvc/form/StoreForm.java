@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.form;
 
-import javax.persistence.Column;
-
 /**
  * 
  * 
