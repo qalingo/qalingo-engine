@@ -17,10 +17,14 @@ import org.hoteia.qalingo.core.solr.bean.UserSolr;
 
 public class UserResponseBean {
 
+    public static final String USER_SEARCH_FIELD_TEXT          = "text";
+    
     public static final String USER_SEARCH_FIELD_CODE                   = "code";
     public static final String USER_SEARCH_FIELD_FIRSTNAME              = "firstname";
     public static final String USER_SEARCH_FIELD_LASTNAME               = "lastname";
 
+    public static final String USER_DEFAULT_SEARCH_FIELD   = USER_SEARCH_FIELD_TEXT;
+    
     private List<UserSolr> userSolrList = new ArrayList<UserSolr>();
 
     private List<FacetField> userSolrFacetFieldList = new ArrayList<FacetField>();

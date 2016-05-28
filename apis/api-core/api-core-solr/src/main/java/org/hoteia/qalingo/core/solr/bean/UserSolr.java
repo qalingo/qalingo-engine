@@ -17,6 +17,9 @@ public class UserSolr {
 
 	@Field
 	private Long id;
+
+    @Field
+    private Long code;
 	
     @Field
 	private String lastname;
@@ -42,6 +45,38 @@ public class UserSolr {
     @Field("dateupdate")
     private Date dateUpdate;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public Long getCode() {
+        return code;
+    }
+    
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+    
+    public String getFirstname() {
+        return firstname;
+    }
+    
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+    
 	public String getEmail() {
 		return email;
 	}
@@ -65,30 +100,6 @@ public class UserSolr {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getLastname() {
-        return lastname;
-    }
-
-	public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-	
-	public String getFirstname() {
-        return firstname;
-    }
-	
-	public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
 
     public String getRandom() {
         return random;

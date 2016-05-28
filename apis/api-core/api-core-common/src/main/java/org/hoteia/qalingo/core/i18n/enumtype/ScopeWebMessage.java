@@ -153,7 +153,12 @@ public enum ScopeWebMessage {
 	 * 
 	 */
 	USER("user"),
-	
+
+	/**
+     * 
+     */
+    COMPANY("company"),
+    
 	/**
 	 * 
 	 */

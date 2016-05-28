@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class UserPojo {
 
     private Long id;
+    private Long code;
     private int version;
     private String login;
     private String title;
@@ -44,6 +45,14 @@ public class UserPojo {
         this.id = id;
     }
 
+    public Long getCode() {
+        return code;
+    }
+    
+    public void setCode(Long code) {
+        this.code = code;
+    }
+    
     public int getVersion() {
         return version;
     }

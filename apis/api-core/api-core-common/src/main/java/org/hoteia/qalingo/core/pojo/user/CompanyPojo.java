@@ -38,6 +38,7 @@ public class CompanyPojo {
     private String stateCode;
     private String areaCode;
     private String countryCode;
+    private String countryLabel;
     private String legalGuid;
     
     private String email;
@@ -177,6 +178,14 @@ public class CompanyPojo {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+    
+    public String getCountryLabel() {
+        return countryLabel;
+    }
+    
+    public void setCountryLabel(String countryLabel) {
+        this.countryLabel = countryLabel;
     }
 
     public String getLegalGuid() {
