@@ -21,6 +21,14 @@
 
 		<context:component-scan base-package="org.hoteia.qalingo.core.solr" />
 
+        <bean id="userSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+            <constructor-arg value="${solr.server.url}/user" />
+        </bean>
+
+        <bean id="companySolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+            <constructor-arg value="${solr.server.url}/company" />
+        </bean>
+        
 		<bean id="customerSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
 			<constructor-arg value="${solr.server.url}/customer" />
 		</bean>

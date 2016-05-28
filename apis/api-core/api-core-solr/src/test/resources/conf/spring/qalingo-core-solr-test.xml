@@ -67,6 +67,16 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="userSolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
+		<constructor-arg ref="multiCore" />
+		<constructor-arg value="user" />
+	</bean>
+	
+	<bean id="companySolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
+		<constructor-arg ref="multiCore" />
+		<constructor-arg value="company" />
+	</bean>
+	
 	<bean id="customerSolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
 		<constructor-arg ref="multiCore" />
 		<constructor-arg value="customer" />

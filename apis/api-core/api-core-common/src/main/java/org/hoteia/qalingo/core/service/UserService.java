@@ -56,6 +56,10 @@ public class UserService {
         return userDao.getMaxUserId();
     }
 
+    public List<Long> findAllUserIds(Object... params) {
+        return userDao.findAllUserIds(params);
+    }
+    
 	public List<User> findUsers(Object... params) {
 		return userDao.findUsers(params);
 	}
@@ -126,6 +130,10 @@ public class UserService {
 
     public Company getCompanyByName(final String companyName, Object... params) {
         return userDao.getCompanyByName(companyName, params);
+    }
+    
+    public List<Long> findAllCompanyIds(Object... params) {
+        return userDao.findAllCompanyIds(params);
     }
     
     public List<Company> findCompanyByAddress(final String address, Object... params) {

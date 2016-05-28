@@ -92,6 +92,17 @@ public class UserDao extends AbstractGenericDao {
         return (maxId == null) ? new Long(0) : maxId;
     }
     
+    public List<Long> findAllUserIds(Object... params) {
+        Criteria criteria = createDefaultCriteria(User.class);
+        handleSpecificFetchMode(criteria, params);
+        criteria.addOrder(Order.asc("lastname"));
+        criteria.addOrder(Order.asc("firstname"));
+        criteria.setProjection(Projections.max("id"));
+        @SuppressWarnings("unchecked")
+        List<Long> userIds = criteria.list();
+        return userIds;
+    }
+    
     public List<User> findUsers(Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
         handleSpecificFetchMode(criteria, params);
@@ -246,6 +257,15 @@ public class UserDao extends AbstractGenericDao {
             company.setFetchPlan(fetchPlan);
         }
         return company;
+    }
+    
+    public List<Long> findAllCompanyIds(Object... params) {
+        Criteria criteria = createDefaultCriteria(Company.class);
+        handleCompanySpecificFetchMode(criteria, params);
+        criteria.setProjection(Projections.max("id"));        
+        @SuppressWarnings("unchecked")
+        List<Long> companyIds = criteria.list();
+        return companyIds;
     }
     
     public List<Company> findCompanyByAddress(final String address, Object... params) {
