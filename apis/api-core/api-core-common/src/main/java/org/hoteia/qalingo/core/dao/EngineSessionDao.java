@@ -90,7 +90,7 @@ public class EngineSessionDao extends AbstractGenericDao {
     
     public int deleteEngineEcoSession(final Timestamp before) {
         Session session = (Session) em.getDelegate();
-        String sql = "FROM EngineBoSession WHERE dateCreate <= :before";
+        String sql = "FROM EngineEcoSession WHERE dateCreate <= :before";
         Query query = session.createQuery(sql);
         query.setTimestamp("before", before);
         List<EngineEcoSession> sessions = (List<EngineEcoSession>) query.list();
