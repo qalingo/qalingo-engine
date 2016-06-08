@@ -605,6 +605,10 @@ public class ProductService {
         productDao.deleteProductBrandStoreRel(productBrandStoreRel);
     }
     
+    public void deleteAllProductBrandStoreRelByBrandId(final Long productBrandId) {
+        productDao.deleteAllProductBrandStoreRelByBrandId(productBrandId);
+    }
+    
     // PRODUCT BRAND COMMENT/RATE
     
     public ProductBrandCustomerRate saveOrUpdateProductBrandCustomerRate(final ProductBrandCustomerRate customerRate) {

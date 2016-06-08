@@ -1218,6 +1218,16 @@ public class ProductDao extends AbstractGenericDao {
         em.remove(em.contains(productBrandStoreRel) ? productBrandStoreRel : em.merge(productBrandStoreRel));
     }
     
+    public void deleteAllProductBrandStoreRelByBrandId(final Long brandId) {
+        StringBuilder sql = new StringBuilder("delete from teco_product_brand_store_rel ");
+        sql.append("WHERE product_brand_id = :brandId ");
+        
+        Query query = getSession().createQuery(sql.toString());
+        query.setLong("brandId", brandId);
+        
+        query.executeUpdate();
+    }
+    
     // PRODUCT MARKETING COMMENT/RATE
 
     @SuppressWarnings("unchecked")

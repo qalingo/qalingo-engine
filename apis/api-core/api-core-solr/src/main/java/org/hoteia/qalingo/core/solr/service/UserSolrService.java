@@ -55,6 +55,7 @@ public class UserSolrService extends AbstractSolrService {
         }
         UserSolr userSolr = new UserSolr();
         userSolr.setId(user.getId());
+        userSolr.setCode(user.getCode());
         userSolr.setLastname(user.getLastname());
         userSolr.setFirstname(user.getFirstname());
         userSolr.setEmail(user.getEmail());
