@@ -26,6 +26,7 @@ import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tag;
+import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.solr.bean.SortField;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
@@ -44,6 +45,9 @@ public class StoreSolrService extends AbstractSolrService {
 
     @Autowired
     protected SolrServer storeSolrServer;
+    
+    @Autowired
+    protected GeolocService geolocService;
     
     public void addOrUpdateStore(final Store store, final List<ProductBrand> productBrands) throws SolrServerException, IOException {
         StoreSolr storeSolr = populateStoreSolr(store);
@@ -88,6 +92,7 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolr.setPostalCode(store.getPostalCode());
         storeSolr.setCity(store.getCity());
         storeSolr.setCountryCode(store.getCountryCode());
+        storeSolr.setAddressUniqueKey(geolocService.encodeAddress(store.getAddress1(), store.getPostalCode(), store.getCity(), store.getCountryCode()));
         storeSolr.setType(store.getType());
         return storeSolr;
     }

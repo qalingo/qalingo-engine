@@ -57,6 +57,10 @@ public class CustomerSolrService extends AbstractSolrService {
         customerSolr.setEmail(customer.getEmail());
         customerSolr.setGender(customer.getGender());
         customerSolr.setTitle(customer.getTitle());
+//        customerSolr.setAddress(customer.getAddress1());
+//        customerSolr.setPostalCode(customer.getPostalCode());
+//        customerSolr.setCity(customer.getCity());
+//        customerSolr.setCountryCode(customer.getCountryCode());
         customerSolrServer.addBean(customerSolr);
         customerSolrServer.commit();
     }

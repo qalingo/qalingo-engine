@@ -23,6 +23,7 @@ import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.bean.SortField;
 import org.hoteia.qalingo.core.solr.bean.UserSolr;
@@ -42,6 +43,9 @@ public class UserSolrService extends AbstractSolrService {
     @Autowired
     protected SolrServer userSolrServer;
     
+    @Autowired
+    protected GeolocService geolocService;
+    
     public void addOrUpdateUser(final User user) throws SolrServerException, IOException, IllegalArgumentException {
         if (user.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
@@ -55,6 +59,11 @@ public class UserSolrService extends AbstractSolrService {
         userSolr.setFirstname(user.getFirstname());
         userSolr.setEmail(user.getEmail());
         userSolr.setTitle(user.getTitle());
+        userSolr.setAddress(user.getAddress1());
+        userSolr.setPostalCode(user.getPostalCode());
+        userSolr.setCity(user.getCity());
+        userSolr.setCountryCode(user.getCountryCode());
+        userSolr.setAddressUniqueKey(geolocService.encodeAddress(user.getAddress1(), user.getPostalCode(), user.getCity(), user.getCountryCode()));
         userSolrServer.addBean(userSolr);
         userSolrServer.commit();
     }

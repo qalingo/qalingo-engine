@@ -44,6 +44,7 @@
 
     <fields>
         <!-- general -->
+        <field name="_version_"     type="long"         indexed="true"  stored="true"/>
         <field name="id"            type="long"         indexed="true"  stored="true"  multiValued="false" required="true" />
         <field name="code"          type="string"       indexed="true"  stored="true"  multiValued="false" />
         <field name="name"          type="string"       indexed="true"  stored="true"  multiValued="false" />
@@ -54,12 +55,14 @@
         <field name="postalCode"    type="string"       indexed="true"  stored="true"  multiValued="false" />
         <field name="city"          type="string"       indexed="true"  stored="true"  multiValued="false" />
         <field name="countryCode"   type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="addressUniqueKey" type="string"      indexed="true"  stored="true"  multiValued="false" />
+		
         <field name="type"          type="string"       indexed="true"  stored="true"  multiValued="false" />
         <field name="text"          type="text_general" indexed="true"  stored="false" multiValued="true" />
-        <field name="_version_"     type="long"         indexed="true"  stored="true"/>
         
         <field name="dateCreate"         type="date"    indexed="true"  stored="true"  multiValued="false" />
         <field name="dateUpdate"         type="date"    indexed="true"  stored="true"  multiValued="false" />
+		
         <dynamicField name="random_*"    type="random" />
    </fields>
 

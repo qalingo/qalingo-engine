@@ -23,6 +23,7 @@ import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.Company;
+import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.solr.bean.CompanySolr;
 import org.hoteia.qalingo.core.solr.bean.SolrParam;
 import org.hoteia.qalingo.core.solr.bean.SortField;
@@ -41,6 +42,9 @@ public class CompanySolrService extends AbstractSolrService {
 
     @Autowired
     protected SolrServer companySolrServer;
+    
+    @Autowired
+    protected GeolocService geolocService;
     
     public void addOrUpdateCompany(final Company company) throws SolrServerException, IOException {
         CompanySolr companySolr = populateCompanySolr(company);
@@ -65,6 +69,7 @@ public class CompanySolrService extends AbstractSolrService {
         companySolr.setPostalCode(company.getPostalCode());
         companySolr.setCity(company.getCity());
         companySolr.setCountryCode(company.getCountryCode());
+        companySolr.setAddressUniqueKey(geolocService.encodeAddress(company.getAddress1(), company.getPostalCode(), company.getCity(), company.getCountryCode()));
         return companySolr;
     }
     

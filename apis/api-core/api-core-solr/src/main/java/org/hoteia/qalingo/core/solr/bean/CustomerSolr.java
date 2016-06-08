@@ -34,6 +34,21 @@ public class CustomerSolr {
     private String title;
     
     @Field
+    private String address;
+    
+    @Field
+    private String postalCode;
+
+    @Field
+    private String city;
+    
+    @Field
+    private String countryCode;
+    
+    @Field
+    private String addressUniqueKey;
+    
+    @Field
     private String random;
     
     @Field("datecreate")
@@ -90,6 +105,46 @@ public class CustomerSolr {
         this.firstname = firstname;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getAddressUniqueKey() {
+        return addressUniqueKey;
+    }
+    
+    public void setAddressUniqueKey(String addressUniqueKey) {
+        this.addressUniqueKey = addressUniqueKey;
+    }
+    
     public String getRandom() {
         return random;
     }

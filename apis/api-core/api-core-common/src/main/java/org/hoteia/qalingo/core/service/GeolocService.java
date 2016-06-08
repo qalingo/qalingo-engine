@@ -300,6 +300,27 @@ public class GeolocService {
         return encode.toString();
     }
     
+    public String encodeAddress(final String address, final String postalCode, final String city, final String country) {
+        StringBuffer encode  = new StringBuffer();
+        if(StringUtils.isNotEmpty(address)){
+            encode.append(cleanGoogleAddress(address.trim()));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(city)){
+            encode.append(cleanGoogleAddress(city.trim()));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(postalCode)){
+            encode.append(cleanGoogleAddress(postalCode.trim()));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(country)){
+            encode.append(cleanGoogleAddress(country.trim()));
+            encode.append(",");
+        }
+        return encode.toString();
+    }
+    
     protected String cleanGoogleAddress(String value){
         if(StringUtils.isNotEmpty(value)){
             value = CoreUtil.replaceCharactersNotLetterOrDigit(value, "+");

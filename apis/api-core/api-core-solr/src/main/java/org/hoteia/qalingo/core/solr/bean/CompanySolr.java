@@ -43,6 +43,9 @@ public class CompanySolr {
    	private String countryCode;
     
     @Field
+    private String addressUniqueKey;
+    
+    @Field
    	private String type;
     
     @Field
@@ -126,6 +129,14 @@ public class CompanySolr {
         this.countryCode = countryCode;
     }
 
+    public String getAddressUniqueKey() {
+        return addressUniqueKey;
+    }
+    
+    public void setAddressUniqueKey(String addressUniqueKey) {
+        this.addressUniqueKey = addressUniqueKey;
+    }
+    
     public String getType() {
         return type;
     }
