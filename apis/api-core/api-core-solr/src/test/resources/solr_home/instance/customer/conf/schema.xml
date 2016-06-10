@@ -52,6 +52,11 @@
 		<field name="gender"		type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="title"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 
+        <field name="address"       type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="postalCode"    type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="city"          type="string"       indexed="true"  stored="true"  multiValued="false" />
+        <field name="countryCode"   type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="addressUniqueKey" type="string"      indexed="true"  stored="true"  multiValued="false" />
 		
 		<field name="datecreate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
 		<field name="dateupdate"	type="date"			indexed="true"  stored="true"  multiValued="false" />

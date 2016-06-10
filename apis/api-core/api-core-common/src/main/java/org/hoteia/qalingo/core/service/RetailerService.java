@@ -9,11 +9,17 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.hoteia.qalingo.core.dao.RetailerDao;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Company_;
@@ -21,9 +27,9 @@ import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
-import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.StoreCustomerComment;
 import org.hoteia.qalingo.core.domain.StoreCustomerRate;
@@ -32,6 +38,7 @@ import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.bean.GeolocatedStore;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -485,4 +492,95 @@ public class RetailerService {
 		}
     }
     
+    public ByteArrayOutputStream generateExcelBrandRetailers(ProductBrand productBrand) throws Exception {
+        Workbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet("points de vente " + productBrand.getName());
+
+        int rowPosition = 0;
+        Row row = sheet.createRow((short) rowPosition++);
+        int cellPosition = 0;
+        Cell cell = row.createCell(cellPosition++);
+        cell.setCellValue("COLOR OPTICAL CODE");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("NOM");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("ADRESSE");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("CODE POSTAL");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("VILLE");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("PAYS");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("PHONE");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("FAX");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("MOBILE");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("EMAIL");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("SIRET");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("INTERNAL BRAND CODE");
+
+        List<Long> storeIds = productService.findStoreIdsByBrandId(productBrand.getId(), 0);
+        for (Long storeId : storeIds) {
+            Store store = getStoreById(storeId, FetchPlanGraphRetailer.fullStoreFetchPlan());
+
+            row = sheet.createRow((short) rowPosition++);
+            cellPosition = 0;
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCode());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getName());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getAddress1());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getPostalCode());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCity());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCountryCode());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getPhone());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getFax());
+
+            cell = row.createCell(cellPosition++);
+            // ??
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getEmail());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getLegalGuid());
+
+            cell = row.createCell(cellPosition++);
+            // ??
+        }
+
+        ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
+        workbook.write(outByteStream);
+        outByteStream.close();
+        return outByteStream;
+    }
 }

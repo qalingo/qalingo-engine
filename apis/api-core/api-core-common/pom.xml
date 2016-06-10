@@ -205,6 +205,12 @@
             </exclusions>
         </dependency>
 		
+		<!-- POI -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		
 		<!-- JACKSON Libs : JSON -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.jaxrs</groupId>
