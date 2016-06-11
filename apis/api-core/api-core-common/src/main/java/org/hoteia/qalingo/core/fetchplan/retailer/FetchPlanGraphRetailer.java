@@ -54,10 +54,11 @@ public class FetchPlanGraphRetailer {
     
     public static FetchPlan fullStoreFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.assets.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.businessHours.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName() + "." + Retailer_.company.getName()));
         return new FetchPlan(fetchplans);
     }
     

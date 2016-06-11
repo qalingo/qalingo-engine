@@ -303,7 +303,7 @@ public class GeolocService {
     public String encodeAddress(final String address, final String postalCode, final String city, final String country) {
         StringBuffer encode  = new StringBuffer();
         if(StringUtils.isNotEmpty(address)){
-            encode.append(cleanGoogleAddress(address.trim()));
+            encode.append(cleanGoogleAddress(CoreUtil.replaceSpecificAlphabet(address.trim())));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(city)){
@@ -322,6 +322,10 @@ public class GeolocService {
     }
     
     protected String cleanGoogleAddress(String value){
+        return cleanEncodedAddress(value);
+    }
+    
+    protected String cleanEncodedAddress(String value){
         if(StringUtils.isNotEmpty(value)){
             value = CoreUtil.replaceCharactersNotLetterOrDigit(value, "+");
         }

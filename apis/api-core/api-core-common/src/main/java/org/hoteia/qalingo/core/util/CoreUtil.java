@@ -32,21 +32,21 @@ public class CoreUtil {
         return generateUUID().replace("-", "_");
     }
     
-    public static String cleanEntityCode(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = replaceCharactersNotLetterOrDigit(stringToReturn);
-            stringToReturn = stringToReturn.replaceAll("-", "_").toUpperCase();
+    public static String cleanEntityCode(String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = replaceCharactersNotLetterOrDigit(stringOutput);
+            stringOutput = stringOutput.replaceAll("-", "_").toUpperCase();
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String decodeParamCode(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = stringToReturn.replaceAll("-", "_").toUpperCase();
+    public static String decodeParamCode(String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = stringOutput.replaceAll("-", "_").toUpperCase();
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
     public static String handleFileName(String fileName){
@@ -67,129 +67,134 @@ public class CoreUtil {
         return fileName;
     }
     
-    public static String handleTruncatedString(String string, int size) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            return StringUtils.substring(stringToReturn, 0, size).replaceAll(" [^ ]+$", "") + "...";
+    public static String handleTruncatedString(String stringInput, int size) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            return StringUtils.substring(stringOutput, 0, size).replaceAll(" [^ ]+$", "") + "...";
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String handleSeoSpecificEscape(String string) throws UnsupportedEncodingException {
-        return handleSeoSpecificEscape(string, false);
+    public static String handleSeoSpecificEscape(String stringInput) throws UnsupportedEncodingException {
+        return handleSeoSpecificEscape(stringInput, false);
     }
     
-    public static String handleSeoSpecificEscape(String string, boolean isEncoded) throws UnsupportedEncodingException {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = replaceSpaceAndUnderscore(stringToReturn);
-//            stringToReturn = stringToReturn.replaceAll("[àáâãäå]", "a");
-//            stringToReturn = stringToReturn.replaceAll("[ç]", "c");
-//            stringToReturn = stringToReturn.replaceAll("[èéêë]", "e");
-//            stringToReturn = stringToReturn.replaceAll("[ìíîï]", "i");
-//            stringToReturn = stringToReturn.replaceAll("[ðòóôõö]", "o");
-//            stringToReturn = stringToReturn.replaceAll("[ùúûü]", "u");
-//            stringToReturn = stringToReturn.replaceAll("[ýÿ]", "y");
+    public static String handleSeoSpecificEscape(String stringInput, boolean isEncoded) throws UnsupportedEncodingException {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = replaceSpaceAndUnderscore(stringOutput);
 
             // REPLACE WITH DASH
-            stringToReturn = stringToReturn.replaceAll("[&°?(){}<>'\";.,/#]", "-");
+            stringOutput = stringOutput.replaceAll("[&°?(){}<>'\";.,/#]", "-");
 
-            stringToReturn = cleanDash(stringToReturn);
+            stringOutput = cleanDash(stringOutput);
 
             if(isEncoded){
-                return URLEncoder.encode(lowerCase(stringToReturn), "UTF-8");
+                return URLEncoder.encode(lowerCase(stringOutput), "UTF-8");
             }
-            return lowerCase(stringToReturn);
+            return lowerCase(stringOutput);
         }
-        return stringToReturn;
+        return stringOutput;
     }
 
-    public static String removeHtmlTag(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(string)) {
-            stringToReturn = stringToReturn.replaceAll("\\<.*?>","");
+    public static String removeHtmlTag(final String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = stringOutput.replaceAll("\\<.*?>","");
             // HtmlUtils.htmlEscape() not good
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String replaceCharactersNotLetterOrDigit(String string) {
-        return replaceCharactersNotLetterOrDigit(string, "-");
+    public static String replaceSpecificAlphabet(final String stringInput) {
+        String stringOutput = stringInput.toLowerCase();
+        stringOutput = stringOutput.replaceAll("[àáâãäå]", "a");
+        stringOutput = stringOutput.replaceAll("[ç]", "c");
+        stringOutput = stringOutput.replaceAll("[èéêë]", "e");
+        stringOutput = stringOutput.replaceAll("[ìíîï]", "i");
+        stringOutput = stringOutput.replaceAll("[ðòóôõö]", "o");
+        stringOutput = stringOutput.replaceAll("[ùúûü]", "u");
+        stringOutput = stringOutput.replaceAll("[ýÿ]", "y");
+        return stringOutput;
     }
     
-    public static String replaceCharactersNotLetterOrDigit(String string, String replacement) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = stringToReturn.replaceAll("[^\\p{L}\\p{Nd}]+", replacement);
-            stringToReturn = cleanDash(stringToReturn);
+    public static String replaceCharactersNotLetterOrDigit(String stringInput) {
+        return replaceCharactersNotLetterOrDigit(stringInput, "-");
+    }
+    
+    public static String replaceCharactersNotLetterOrDigit(String stringInput, String replacement) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = stringOutput.replaceAll("[^\\p{L}\\p{Nd}]+", replacement);
+            stringOutput = cleanDash(stringOutput);
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String replaceSpaceAndUnderscore(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = stringToReturn.replaceAll(" ", "-");
-            stringToReturn = stringToReturn.replaceAll("_", "-");
+    public static String replaceSpaceAndUnderscore(String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = stringOutput.replaceAll(" ", "-");
+            stringOutput = stringOutput.replaceAll("_", "-");
 
-            stringToReturn = cleanDash(stringToReturn);
+            stringOutput = cleanDash(stringOutput);
 
-            return stringToReturn;
+            return stringOutput;
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String replaceCarriagReturn(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = stringToReturn.replaceAll("\r", " ").replaceAll("\n", "").replaceAll("  ", " ");
+    public static String replaceCarriagReturn(String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = stringOutput.replaceAll("\r", " ").replaceAll("\n", "").replaceAll("  ", " ");
 
-            return stringToReturn;
+            return stringOutput;
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String replaceSpaceAndDash(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            stringToReturn = stringToReturn.replaceAll(" ", "_");
-            stringToReturn = stringToReturn.replaceAll("-", "_");
+    public static String replaceSpaceAndDash(String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = stringOutput.replaceAll(" ", "_");
+            stringOutput = stringOutput.replaceAll("-", "_");
 
-            return stringToReturn;
+            return stringOutput;
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String cleanDash(String stringToReturn) {
+    public static String cleanDash(String stringInput) {
         // SPECIFIC DASH
-//        stringToReturn = stringToReturn.replaceAll("–", "-");// break build for non latin
-
-        while (stringToReturn.contains("--")) {
-            stringToReturn = stringToReturn.replaceAll("--", "-");
+//        stringOutput = stringOutput.replaceAll("–", "-");// break build for non latin
+        String stringOutput = stringInput;
+        while (stringOutput.contains("--")) {
+            stringOutput = stringOutput.replaceAll("--", "-");
         }
-        if (stringToReturn.startsWith("-")) {
-            stringToReturn = stringToReturn.substring(1, stringToReturn.length());
+        if (stringOutput.startsWith("-")) {
+            stringOutput = stringOutput.substring(1, stringOutput.length());
         }
-        if (stringToReturn.endsWith("-")) {
-            stringToReturn = stringToReturn.substring(0, stringToReturn.length() - 1);
+        if (stringOutput.endsWith("-")) {
+            stringOutput = stringOutput.substring(0, stringOutput.length() - 1);
         }
-        return stringToReturn;
+        return stringOutput;
     }
 
-    public static String lowerCase(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            return stringToReturn.toLowerCase().trim();
+    public static String lowerCase(String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            return stringOutput.toLowerCase().trim();
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
-    public static String upperCase(String string) {
-        String stringToReturn = string;
-        if (StringUtils.isNotEmpty(stringToReturn)) {
-            return stringToReturn.toUpperCase().trim();
+    public static String upperCase(String stringInput) {
+        String stringOutput = stringInput;
+        if (StringUtils.isNotEmpty(stringOutput)) {
+            return stringOutput.toUpperCase().trim();
         }
-        return stringToReturn;
+        return stringOutput;
     }
     
 }

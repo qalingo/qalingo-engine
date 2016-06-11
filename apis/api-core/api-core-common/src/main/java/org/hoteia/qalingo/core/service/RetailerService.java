@@ -499,15 +499,25 @@ public class RetailerService {
         int rowPosition = 0;
         Row row = sheet.createRow((short) rowPosition++);
         int cellPosition = 0;
+
         Cell cell = row.createCell(cellPosition++);
-        cell.setCellValue("COLOR OPTICAL CODE");
+        cell.setCellValue("NOM POINT DE VENTE");
 
         cell = row.createCell(cellPosition++);
-        cell.setCellValue("NOM");
+        cell.setCellValue("SIRET POINT DE VENTE");
+        
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("NOM SOCIETE");
 
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("SIRET SOCIETE");
+        
         cell = row.createCell(cellPosition++);
         cell.setCellValue("ADRESSE");
 
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("ADRESSE+");
+        
         cell = row.createCell(cellPosition++);
         cell.setCellValue("CODE POSTAL");
 
@@ -524,16 +534,25 @@ public class RetailerService {
         cell.setCellValue("FAX");
 
         cell = row.createCell(cellPosition++);
-        cell.setCellValue("MOBILE");
-
-        cell = row.createCell(cellPosition++);
         cell.setCellValue("EMAIL");
+        
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("CONTACT PRENOM");
+        
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("CONTACT NOM");
 
         cell = row.createCell(cellPosition++);
-        cell.setCellValue("SIRET");
+        cell.setCellValue("CONTACT MOBILE");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("CONTACT EMAIL");
 
         cell = row.createCell(cellPosition++);
         cell.setCellValue("INTERNAL BRAND CODE");
+
+        cell = row.createCell(cellPosition++);
+        cell.setCellValue("COLOR OPTICAL CODE");
 
         List<Long> storeIds = productService.findStoreIdsByBrandId(productBrand.getId(), 0);
         for (Long storeId : storeIds) {
@@ -541,14 +560,24 @@ public class RetailerService {
 
             row = sheet.createRow((short) rowPosition++);
             cellPosition = 0;
-            cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCode());
 
             cell = row.createCell(cellPosition++);
             cell.setCellValue(store.getName());
 
             cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getLegalGuid());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCompany().getName());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCompany().getLegalGuid());
+
+            cell = row.createCell(cellPosition++);
             cell.setCellValue(store.getAddress1());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getAddress2());
 
             cell = row.createCell(cellPosition++);
             cell.setCellValue(store.getPostalCode());
@@ -566,16 +595,25 @@ public class RetailerService {
             cell.setCellValue(store.getFax());
 
             cell = row.createCell(cellPosition++);
-            // ??
-
-            cell = row.createCell(cellPosition++);
             cell.setCellValue(store.getEmail());
 
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getLegalGuid());
+            cell.setCellValue(store.getCompany().getDefaultUser().getFirstname()));
+            
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCompany().getDefaultUser().getLastname());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCompany().getDefaultUser().getMobile());
+
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCompany().getDefaultUser().getEmail());
 
             cell = row.createCell(cellPosition++);
             // ??
+            
+            cell = row.createCell(cellPosition++);
+            cell.setCellValue(store.getCode());
         }
 
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
