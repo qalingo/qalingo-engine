@@ -598,7 +598,7 @@ public class RetailerService {
             cell.setCellValue(store.getEmail());
 
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCompany().getDefaultUser().getFirstname()));
+            cell.setCellValue(store.getCompany().getDefaultUser().getFirstname());
             
             cell = row.createCell(cellPosition++);
             cell.setCellValue(store.getCompany().getDefaultUser().getLastname());
