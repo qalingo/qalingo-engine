@@ -310,7 +310,7 @@ public class GeolocService {
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(city)){
-            encode.append(cleanGoogleAddress(city.trim()));
+            encode.append(cleanGoogleAddress(CoreUtil.replaceSpecificAlphabet(city.trim())));
             encode.append(",");
         }
         if(StringUtils.isNotEmpty(country)){
