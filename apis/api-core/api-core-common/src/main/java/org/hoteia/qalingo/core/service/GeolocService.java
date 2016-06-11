@@ -285,17 +285,16 @@ public class GeolocService {
             encode.append(cleanGoogleAddress(address.trim()));
             encode.append(",");
         }
-        if(StringUtils.isNotEmpty(city)){
-            encode.append(cleanGoogleAddress(city.trim()));
-            encode.append(",");
-        }
         if(StringUtils.isNotEmpty(postalCode)){
             encode.append(cleanGoogleAddress(postalCode.trim()));
             encode.append(",");
         }
+        if(StringUtils.isNotEmpty(city)){
+            encode.append(cleanGoogleAddress(city.trim()));
+            encode.append(",");
+        }
         if(StringUtils.isNotEmpty(country)){
             encode.append(cleanGoogleAddress(country.trim()));
-            encode.append(",");
         }
         return encode.toString();
     }
@@ -306,17 +305,16 @@ public class GeolocService {
             encode.append(cleanGoogleAddress(CoreUtil.replaceSpecificAlphabet(address.trim())));
             encode.append(",");
         }
-        if(StringUtils.isNotEmpty(city)){
-            encode.append(cleanGoogleAddress(city.trim()));
-            encode.append(",");
-        }
         if(StringUtils.isNotEmpty(postalCode)){
             encode.append(cleanGoogleAddress(postalCode.trim()));
             encode.append(",");
         }
+        if(StringUtils.isNotEmpty(city)){
+            encode.append(cleanGoogleAddress(city.trim()));
+            encode.append(",");
+        }
         if(StringUtils.isNotEmpty(country)){
             encode.append(cleanGoogleAddress(country.trim()));
-            encode.append(",");
         }
         return encode.toString();
     }

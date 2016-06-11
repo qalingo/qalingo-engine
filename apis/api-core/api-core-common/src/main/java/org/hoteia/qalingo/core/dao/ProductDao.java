@@ -1219,8 +1219,8 @@ public class ProductDao extends AbstractGenericDao {
     }
     
     public void deleteAllProductBrandStoreRelByBrandId(final Long brandId) {
-        StringBuilder sql = new StringBuilder("delete from teco_product_brand_store_rel ");
-        sql.append("WHERE product_brand_id = :brandId ");
+        StringBuilder sql = new StringBuilder("delete from ProductBrandStoreRel ");
+        sql.append("WHERE pk.productBrand.id = :brandId ");
         
         Query query = getSession().createQuery(sql.toString());
         query.setLong("brandId", brandId);
