@@ -325,6 +325,7 @@ public class GeolocService {
     
     protected String cleanEncodedAddress(String value){
         if(StringUtils.isNotEmpty(value)){
+            value = value.replace(",", "");
             value = CoreUtil.replaceCharactersNotLetterOrDigit(value, "+");
         }
         return value;

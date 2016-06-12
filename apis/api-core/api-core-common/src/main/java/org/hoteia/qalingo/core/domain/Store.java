@@ -176,6 +176,10 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     private Double distance;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CEASES_TO_EXIST")
+    private Date dateCeasesToExist;
+    
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
 
@@ -595,6 +599,14 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double dist = earthRadius * c;
         return dist;
+    }
+    
+    public Date getDateCeasesToExist() {
+        return dateCeasesToExist;
+    }
+    
+    public void setDateCeasesToExist(Date dateCeasesToExist) {
+        this.dateCeasesToExist = dateCeasesToExist;
     }
     
     public Date getDateCreate() {
