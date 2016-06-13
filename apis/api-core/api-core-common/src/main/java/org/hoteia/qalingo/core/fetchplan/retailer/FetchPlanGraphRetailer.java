@@ -16,6 +16,7 @@ import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.Store_;
+import org.hoteia.qalingo.core.domain.Company_;
 
 public class FetchPlanGraphRetailer {
     
@@ -59,6 +60,7 @@ public class FetchPlanGraphRetailer {
         fetchplans.add(new SpecificFetchMode(Store_.businessHours.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.retailer.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.retailer.getName() + "." + Retailer_.company.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName() + "." + Retailer_.company.getName() + "." + Company_.users.getName()));
         return new FetchPlan(fetchplans);
     }
     
