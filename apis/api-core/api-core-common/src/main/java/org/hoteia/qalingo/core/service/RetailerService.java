@@ -568,10 +568,14 @@ public class RetailerService {
             cell.setCellValue(store.getLegalGuid());
 
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCompany().getName());
+            if(store.getCompany() != null){
+                cell.setCellValue(store.getCompany().getName());
+            }
 
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCompany().getLegalGuid());
+            if(store.getCompany() != null){
+                cell.setCellValue(store.getCompany().getLegalGuid());
+            }
 
             cell = row.createCell(cellPosition++);
             cell.setCellValue(store.getAddress1());
@@ -598,16 +602,24 @@ public class RetailerService {
             cell.setCellValue(store.getEmail());
 
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCompany().getDefaultUser().getFirstname());
+            if(store.getCompany() != null && store.getCompany().getDefaultUser() != null){
+                cell.setCellValue(store.getCompany().getDefaultUser().getFirstname());
+            }
             
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCompany().getDefaultUser().getLastname());
+            if(store.getCompany() != null && store.getCompany().getDefaultUser() != null){
+                cell.setCellValue(store.getCompany().getDefaultUser().getLastname());
+            }
 
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCompany().getDefaultUser().getMobile());
+            if(store.getCompany() != null && store.getCompany().getDefaultUser() != null){
+                cell.setCellValue(store.getCompany().getDefaultUser().getMobile());
+            }
 
             cell = row.createCell(cellPosition++);
-            cell.setCellValue(store.getCompany().getDefaultUser().getEmail());
+            if(store.getCompany() != null && store.getCompany().getDefaultUser() != null){
+                cell.setCellValue(store.getCompany().getDefaultUser().getEmail());
+            }
 
             cell = row.createCell(cellPosition++);
             // ??
