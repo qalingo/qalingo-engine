@@ -293,7 +293,9 @@ public class WebManagementService {
         customer.setLastname(createAccountForm.getLastname());
         customer.setPassword(securityUtil.generateAndEncodePassword());
         
-        customer.setEmail(createAccountForm.getEmail());
+        if(StringUtils.isNotEmpty(createAccountForm.getEmail())){
+            customer.setEmail(createAccountForm.getEmail().toLowerCase());
+        }
 
         return buildAndSaveNewCustomer(request, market, marketArea, customer);
     }
@@ -679,16 +681,12 @@ public class WebManagementService {
 
         customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
         customer.setActive(true);
-        customer.setDateCreate(new Date());
-        customer.setDateUpdate(new Date());
+
+        CustomerGroup customerGroup = customerService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
+        customer.getGroups().add(customerGroup);
 
         // WE SAVE A FIRST TIME TO EVICT DETACH ENTITY ISSUE WITH CUSTOMERGROUP - NOT THE BEST WAY
         Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
-
-        CustomerGroup customerGroup = customerService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
-        savedCustomer.getGroups().add(customerGroup);
-
-        savedCustomer = customerService.saveOrUpdateCustomer(savedCustomer);
 
         requestUtil.updateCurrentCustomer(request, savedCustomer);
 
