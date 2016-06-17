@@ -171,7 +171,7 @@ public class CustomerMarketArea extends AbstractEntity<CustomerMarketArea> {
     }
 	
 	public void addOptins(CustomerOptin customerOptin) {
-		customerOptin.setCustomerMarketAreaId(getId());
+		customerOptin.setCustomerMarketArea(this);
 		customerOptin.setDateCreate(new Date());
 		customerOptin.setDateUpdate(new Date());
 		optins.add(customerOptin);
