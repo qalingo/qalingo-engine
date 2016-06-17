@@ -49,7 +49,6 @@ import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
-import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -358,7 +357,7 @@ public class WebManagementService {
             if(createAccountForm.isOptin()){
                 CustomerOptin optinNewsletter = new CustomerOptin();
                 optinNewsletter.setType(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
-                optinNewsletter.setCustomerMarketAreaId(customerMarketArea.getId());
+                optinNewsletter.setCustomerMarketArea(customerMarketArea);
                 optinNewsletter.setOrigin("STANDARD");
                 customerMarketArea.getOptins().add(optinNewsletter);
             }
@@ -409,7 +408,7 @@ public class WebManagementService {
                 if(optinNewsletter == null){
                     optinNewsletter = new CustomerOptin();
                     optinNewsletter.setType(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
-                    optinNewsletter.setCustomerMarketAreaId(customerMarketArea.getId());
+                    optinNewsletter.setCustomerMarketArea(customerMarketArea);
                     customerMarketArea.getOptins().add(optinNewsletter);
                 }
                 optinNewsletter.setOrigin("STANDARD");
@@ -1028,10 +1027,10 @@ public class WebManagementService {
             customerMarketArea = new CustomerMarketArea();
             customerMarketArea.setMarketAreaId(marketArea.getId());
             customer.getCustomerMarketAreas().add(customerMarketArea);
-            customerService.saveOrUpdateCustomer(customer);
-            if(StringUtils.isNotEmpty(customer.getEmail())){
-                customer = customerService.getCustomerByLoginOrEmail(customer.getEmail(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
-            }
+//            customerService.saveOrUpdateCustomer(customer);
+//            if(StringUtils.isNotEmpty(customer.getEmail())){
+//                customer = customerService.getCustomerByLoginOrEmail(customer.getEmail(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
+//            }
         }
         return customer;
     }

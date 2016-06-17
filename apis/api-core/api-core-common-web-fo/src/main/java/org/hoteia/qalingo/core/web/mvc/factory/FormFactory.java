@@ -125,7 +125,9 @@ public class FormFactory {
 				customerEditForm.setPhone(customerMarketContext.getPhone());
 				customerEditForm.setFax(customerMarketContext.getFax());
 				CustomerOptin optinNewsletter = customerMarketContext.getOptins(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
-				customerEditForm.setOptin(optinNewsletter.isActive());
+				if(optinNewsletter != null){
+	                customerEditForm.setOptin(optinNewsletter.isActive());
+				}
 			}
 		}
 		return customerEditForm;

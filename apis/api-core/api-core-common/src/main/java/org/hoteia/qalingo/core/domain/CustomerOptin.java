@@ -13,9 +13,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,8 +48,9 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean active;
     
-	@Column(name="CUSTOMER_MARKET_AREA_ID")
-	private Long customerMarketAreaId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CustomerMarketArea.class)
+    @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID", insertable = true, updatable = true)
+    private CustomerMarketArea customerMarketArea;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -94,14 +98,14 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
         this.active = active;
     }
 
-    public Long getCustomerMarketAreaId() {
-    	return customerMarketAreaId;
+    public CustomerMarketArea getCustomerMarketArea() {
+        return customerMarketArea;
     }
-
-	public void setCustomerMarketAreaId(Long customerMarketAreaId) {
-    	this.customerMarketAreaId = customerMarketAreaId;
+    
+    public void setCustomerMarketArea(CustomerMarketArea customerMarketArea) {
+        this.customerMarketArea = customerMarketArea;
     }
-
+    
 	public Date getDateCreate() {
     	return dateCreate;
     }
@@ -122,7 +126,6 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -139,11 +142,6 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
         if (getClass() != obj.getClass())
             return false;
         CustomerOptin other = (CustomerOptin) obj;
-        if (customerMarketAreaId == null) {
-            if (other.customerMarketAreaId != null)
-                return false;
-        } else if (!customerMarketAreaId.equals(other.customerMarketAreaId))
-            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -164,7 +162,7 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
 
     @Override
     public String toString() {
-        return "CustomerOptin [id=" + id + ", type=" + type + ", origin=" + origin + ", customerMarketAreaId=" + customerMarketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+        return "CustomerOptin [id=" + id + ", type=" + type + ", origin=" + origin + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
                 + "]";
     }
 
