@@ -42,6 +42,9 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
 	@Column(name="ORIGIN")
 	private String origin;
 	
+    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean active;
+    
 	@Column(name="CUSTOMER_MARKET_AREA_ID")
 	private Long customerMarketAreaId;
 	
@@ -56,6 +59,7 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
 	public CustomerOptin() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
+        this.active = true;
 	}
 	
 	public Long getId() {
@@ -82,7 +86,15 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
     	this.origin = origin;
     }
 
-	public Long getCustomerMarketAreaId() {
+	public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Long getCustomerMarketAreaId() {
     	return customerMarketAreaId;
     }
 

@@ -140,7 +140,7 @@ public class Customer extends AbstractEntity<Customer> {
     private Set<CustomerPayment> payments = new HashSet<CustomerPayment>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerOrderAudit.class)
-    @JoinColumn(name = "CUSTOMER_ID")
+    @JoinColumn(name = "CUSTOMER_ORDER_AUDIT")
     private CustomerOrderAudit customerOrderAudit;
 
     @Column(name = "PLATFORM_ORIGN")

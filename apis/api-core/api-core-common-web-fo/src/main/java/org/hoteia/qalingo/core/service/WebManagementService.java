@@ -9,11 +9,43 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerAddress;
+import org.hoteia.qalingo.core.domain.CustomerCredential;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerOptin;
+import org.hoteia.qalingo.core.domain.CustomerPayment;
+import org.hoteia.qalingo.core.domain.Email;
+import org.hoteia.qalingo.core.domain.EngineEcoSession;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
+import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.email.bean.*;
+import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
+import org.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
+import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
+import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
@@ -21,17 +53,19 @@ import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.util.CoreUtil;
-import org.hoteia.qalingo.core.web.mvc.form.*;
+import org.hoteia.qalingo.core.web.mvc.form.ContactForm;
+import org.hoteia.qalingo.core.web.mvc.form.CreateAccountForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerAddressForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerContactForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerEditForm;
+import org.hoteia.qalingo.core.web.mvc.form.ForgottenPasswordForm;
+import org.hoteia.qalingo.core.web.mvc.form.PaymentForm;
+import org.hoteia.qalingo.core.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.util.*;
 
 @Service("webManagementService")
 @Transactional
@@ -321,15 +355,12 @@ public class WebManagementService {
             customerMarketArea.setMobile(createAccountForm.getMobile());
             customerMarketArea.setPhone(createAccountForm.getPhone());
             customerMarketArea.setFax(createAccountForm.getFax());
-            
             if(createAccountForm.isOptin()){
-                CustomerOptin customerOptin = new CustomerOptin();
-                customerOptin.setType("NEWSLETTER");
-                customerOptin.setOrigin("STANDARD");
-                customerOptin.setDateCreate(new Date());
-                customerOptin.setDateUpdate(new Date());
-                customerOptin.setCustomerMarketAreaId(customerMarketArea.getId());
-                customerMarketArea.getOptins().add(customerOptin);
+                CustomerOptin optinNewsletter = new CustomerOptin();
+                optinNewsletter.setType(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+                optinNewsletter.setCustomerMarketAreaId(customerMarketArea.getId());
+                optinNewsletter.setOrigin("STANDARD");
+                customerMarketArea.getOptins().add(optinNewsletter);
             }
         }
 
@@ -373,15 +404,22 @@ public class WebManagementService {
             customerMarketArea.setMobile(customerEditForm.getMobile());
             customerMarketArea.setPhone(customerEditForm.getPhone());
             customerMarketArea.setFax(customerEditForm.getFax());
-            
             if(customerEditForm.isOptin()){
-                CustomerOptin customerOptin = new CustomerOptin();
-                customerOptin.setType("NEWSLETTER");
-                customerOptin.setOrigin("STANDARD");
-                customerOptin.setDateCreate(new Date());
-                customerOptin.setDateUpdate(new Date());
-                customerOptin.setCustomerMarketAreaId(customerMarketArea.getId());
-                customerMarketArea.getOptins().add(customerOptin);
+                CustomerOptin optinNewsletter = customerMarketArea.getOptins(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+                if(optinNewsletter == null){
+                    optinNewsletter = new CustomerOptin();
+                    optinNewsletter.setType(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+                    optinNewsletter.setCustomerMarketAreaId(customerMarketArea.getId());
+                    customerMarketArea.getOptins().add(optinNewsletter);
+                }
+                optinNewsletter.setOrigin("STANDARD");
+                optinNewsletter.setDateUpdate(new Date());
+            } else {
+                CustomerOptin optinNewsletter = customerMarketArea.getOptins(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+                if(optinNewsletter != null){
+                    optinNewsletter.setActive(true);
+                    optinNewsletter.setDateUpdate(new Date());
+                }
             }
         }
 

@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerOptin;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -123,7 +124,8 @@ public class FormFactory {
 				customerEditForm.setMobile(customerMarketContext.getMobile());
 				customerEditForm.setPhone(customerMarketContext.getPhone());
 				customerEditForm.setFax(customerMarketContext.getFax());
-//				customerEditForm.setOptin(customerMarketContext.isOptin());
+				CustomerOptin optinNewsletter = customerMarketContext.getOptins(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+				customerEditForm.setOptin(optinNewsletter.isActive());
 			}
 		}
 		return customerEditForm;
