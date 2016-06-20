@@ -59,7 +59,7 @@ public class CustomerGroup extends AbstractEntity<CustomerGroup> {
     @Lob
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CustomerRole.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.CustomerRole.class)
     @JoinTable(name = "TECO_GROUP_ROLE_REL", joinColumns = @JoinColumn(name = "GROUP_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<CustomerRole> roles;
     

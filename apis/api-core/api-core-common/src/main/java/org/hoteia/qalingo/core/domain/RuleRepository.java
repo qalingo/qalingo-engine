@@ -64,11 +64,11 @@ public class RuleRepository extends AbstractEntity<RuleRepository> {
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
     private boolean active;
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.AbstractRuleReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.AbstractRuleReferential.class)
     @JoinTable(name = "TECO_RULE_REPOSITORY_REFERENTIAL_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REFERENTIAL_ID"))
     private Set<AbstractRuleReferential> rules = new HashSet<AbstractRuleReferential>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class)
     @JoinTable(name = "TECO_RULE_REPOSITORY_ATTRIBUTE_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REPOSITORY_ATTRIBUTE_ID"))
     private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new HashSet<RuleRepositoryAttribute>();
 

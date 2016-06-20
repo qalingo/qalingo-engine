@@ -74,7 +74,7 @@ public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
     @JoinColumn(name="DELIVERY_METHOD_ID")
     private Set<DeliveryMethodPrice> prices = new HashSet<DeliveryMethodPrice>(); 
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
     @JoinTable(name = "TECO_WAREHOUSE_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"), inverseJoinColumns = @JoinColumn(name = "WAREHOUSE_ID"))
     private Set<Warehouse> warehouses = new HashSet<Warehouse>();
     

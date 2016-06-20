@@ -109,11 +109,11 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     @JoinColumn(name = "CMS_CONTENT_ID")
     private Set<CmsContentBlock> blocks = new HashSet<CmsContentBlock>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
     @JoinTable(name = "TCMS_CONTENT_PRODUCT_SKU_REL", joinColumns = @JoinColumn(name = "CMS_CONTENT_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"))
     private Set<ProductSku> productSkus = new HashSet<ProductSku>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinTable(name = "TCMS_CONTENT_PRODUCT_BRAND_REL", joinColumns = @JoinColumn(name = "CMS_CONTENT_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"))
     private Set<ProductBrand> productBrands = new HashSet<ProductBrand>();
 

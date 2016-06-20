@@ -78,11 +78,11 @@ public abstract class AbstractPaymentGateway<E> extends AbstractEntity<E> {
     @JoinColumn(name = "PAYMENT_GATEWAY_ID")
     private Set<PaymentGatewayAttribute> attributes = new HashSet<PaymentGatewayAttribute>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.PaymentGatewayOption.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.PaymentGatewayOption.class)
     @JoinTable(name = "TECO_PAYMENT_GATEWAY_OPTION_REL", joinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_OPTION_ID"))
     private Set<PaymentGatewayOption> options = new HashSet<PaymentGatewayOption>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
     @JoinTable(name = "TECO_MARKET_AREA_PAYMENT_GATEWAY_REL", joinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"), inverseJoinColumns = @JoinColumn(name = "MARKET_AREA_ID"))
     private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
     

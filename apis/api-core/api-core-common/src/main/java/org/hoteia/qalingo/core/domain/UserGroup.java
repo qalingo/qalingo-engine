@@ -65,7 +65,7 @@ public class UserGroup extends AbstractEntity<UserGroup> {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserRole.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.UserRole.class)
     @JoinTable(name = "TBO_GROUP_ROLE_REL", joinColumns = @JoinColumn(name = "GROUP_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))	
 	private Set<UserRole> roles = new HashSet<UserRole>(); 
 	

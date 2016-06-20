@@ -122,7 +122,7 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerAttribute> attributes = new HashSet<RetailerAttribute>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinTable(name = "TECO_RETAILER_BRAND_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"))
     private Set<ProductBrand> brands = new HashSet<ProductBrand>();
     

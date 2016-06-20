@@ -96,7 +96,7 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
     @JoinColumn(name = "PRODUCT_BRAND_ID")
     private Set<ProductBrandCustomerComment> customerComments = new HashSet<ProductBrandCustomerComment>();
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrandTag.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.ProductBrandTag.class)
     @JoinTable(name = "TECO_PRODUCT_BRAND_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_TAG_ID"))
     private Set<ProductBrandTag> tags = new HashSet<ProductBrandTag>();
     

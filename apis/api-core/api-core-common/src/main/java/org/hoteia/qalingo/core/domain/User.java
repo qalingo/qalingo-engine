@@ -121,7 +121,7 @@ public class User extends AbstractEntity<User> {
     @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
     private Company company;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
     @JoinTable(name = "TBO_USER_STORE_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_ID"))
     private Set<Store> stores = new HashSet<Store>();
     
@@ -137,7 +137,7 @@ public class User extends AbstractEntity<User> {
     @JoinColumn(name = "USER_ID")
     private Set<UserToken> tokens = new HashSet<UserToken>();
     
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class)
     @JoinTable(name = "TBO_USER_GROUP_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
     private Set<UserGroup> groups = new HashSet<UserGroup>();
 

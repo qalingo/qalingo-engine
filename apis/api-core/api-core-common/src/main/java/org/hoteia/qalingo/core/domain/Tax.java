@@ -75,7 +75,7 @@ public class Tax extends AbstractEntity<Tax> {
     @JoinColumn(name = "TAX_ID")
     private Set<TaxAttribute> attributes = new HashSet<TaxAttribute>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
     @JoinTable(name = "TECO_MARKET_AREA_TAX_REL", joinColumns = @JoinColumn(name = "TAX_ID"), inverseJoinColumns = @JoinColumn(name = "MARKET_AREA_ID"))
     private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
 
