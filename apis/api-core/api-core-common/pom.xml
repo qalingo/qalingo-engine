@@ -247,6 +247,11 @@
 			<artifactId>geoip2</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.googlecode.libphonenumber</groupId>
+			<artifactId>libphonenumber</artifactId>
+		</dependency>
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>

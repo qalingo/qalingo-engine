@@ -44,6 +44,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityResponse;
@@ -315,6 +319,39 @@ public class GeolocService {
         }
         if(StringUtils.isNotEmpty(country)){
             encode.append(cleanGoogleAddress(country.trim()));
+        }
+        return encode.toString();
+    }
+    
+    public String encodeAddressWithPhoneAsUniqueKey(final String address, final String postalCode, final String city, final String country, final String phone) {
+        StringBuffer encode  = new StringBuffer();
+        if(StringUtils.isNotEmpty(address)){
+            encode.append(cleanGoogleAddress(CoreUtil.replaceSpecificAlphabet(address.trim())));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(postalCode)){
+            encode.append(cleanGoogleAddress(postalCode.trim()));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(city)){
+            encode.append(cleanGoogleAddress(CoreUtil.replaceSpecificAlphabet(city.trim())));
+            encode.append(",");
+        }
+        if(StringUtils.isNotEmpty(country)){
+            encode.append(cleanGoogleAddress(country.trim()));
+        }
+        if(StringUtils.isNotEmpty(phone)){
+            try {
+                PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                PhoneNumber numberProto = phoneUtil.parse(phone, country);
+                boolean isValid = phoneUtil.isValidNumber(numberProto);
+                if (isValid) {
+                    String formatedPhone = phoneUtil.format(numberProto, PhoneNumberFormat.E164);
+                    encode.append(formatedPhone);
+                }
+            } catch (NumberParseException e) {
+                System.err.println("NumberParseException was thrown: " + e.toString());
+            }
         }
         return encode.toString();
     }

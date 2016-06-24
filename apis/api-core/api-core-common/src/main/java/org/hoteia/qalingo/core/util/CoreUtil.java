@@ -5,9 +5,18 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 public class CoreUtil {
 
+    protected final static Logger logger = LoggerFactory.getLogger(CoreUtil.class);
+    
     public static boolean isLocalHostMode(final String address) throws Exception {
         if(StringUtils.isNotEmpty(address) 
                 && (address.contains("localhost") 
@@ -197,4 +206,37 @@ public class CoreUtil {
         return stringOutput;
     }
     
+    public static String encodePhone(String phone, String countryCode) {
+        try {
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+            PhoneNumber numberProto = phoneUtil.parse(phone, countryCode);
+            boolean isValid = phoneUtil.isValidNumber(numberProto);
+            if (isValid) {
+                String formatedPhone = phoneUtil.format(numberProto, PhoneNumberFormat.E164);
+                return formatedPhone;
+            } else {
+                logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
+            }
+        } catch (NumberParseException e) {
+            logger.error("NumberParseException was thrown.", e);
+        }
+        return phone;
+    }
+    
+    public static String formatPhone(String phone, String countryCode, PhoneNumberFormat phoneNumberFormat) {
+        try {
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+            PhoneNumber numberProto = phoneUtil.parse(phone, countryCode);
+            boolean isValid = phoneUtil.isValidNumber(numberProto);
+            if (isValid) {
+                String formatedPhone = phoneUtil.format(numberProto, phoneNumberFormat);
+                return formatedPhone;
+            } else {
+                logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
+            }
+        } catch (NumberParseException e) {
+            logger.error("NumberParseException was thrown.", e);
+        }
+        return phone;
+    }
 }
