@@ -92,7 +92,7 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolr.setPostalCode(store.getPostalCode());
         storeSolr.setCity(store.getCity());
         storeSolr.setCountryCode(store.getCountryCode());
-        storeSolr.setAddressUniqueKey(geolocService.encodeAddress(store.getAddress1(), store.getPostalCode(), store.getCity(), store.getCountryCode()));
+        storeSolr.setAddressUniqueKey(geolocService.encodeAddressWithPhoneAsUniqueKey(store.getAddress1(), store.getPostalCode(), store.getCity(), store.getCountryCode(), store.getPhone()));
         storeSolr.setType(store.getType());
         return storeSolr;
     }
