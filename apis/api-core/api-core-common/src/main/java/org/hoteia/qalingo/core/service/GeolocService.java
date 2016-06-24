@@ -347,6 +347,9 @@ public class GeolocService {
                 boolean isValid = phoneUtil.isValidNumber(numberProto);
                 if (isValid) {
                     String formatedPhone = phoneUtil.format(numberProto, PhoneNumberFormat.E164);
+                    if(!encode.toString().endsWith(",")){
+                        encode.append(",");
+                    }
                     encode.append(formatedPhone);
                 }
             } catch (NumberParseException e) {
