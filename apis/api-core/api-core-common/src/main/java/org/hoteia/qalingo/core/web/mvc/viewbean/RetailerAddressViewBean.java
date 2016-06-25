@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.util.CoreUtil;
 
 public class RetailerAddressViewBean extends AbstractAddressViewBean {
 
@@ -32,12 +33,28 @@ public class RetailerAddressViewBean extends AbstractAddressViewBean {
 	    this.phone = phone;
     }
 
+    public String getFormatedPhone() {
+        return CoreUtil.formatNationalPhone(phone, countryCode);
+    }
+    
+    public String getPhoneToCall() {
+        return CoreUtil.encodePhone(phone, countryCode);
+    }
+    
 	public String getMobile() {
     	return mobile;
     }
 
 	public void setMobile(String mobile) {
     	this.mobile = mobile;
+    }
+	
+    public String getFormatedMobile() {
+        return CoreUtil.formatNationalPhone(mobile, countryCode);
+    }
+    
+    public String getMobileToCall() {
+        return CoreUtil.encodePhone(mobile, countryCode);
     }
 
 	public String getFax() {
@@ -48,6 +65,14 @@ public class RetailerAddressViewBean extends AbstractAddressViewBean {
     	this.fax = fax;
     }
 
+    public String getFormatedFax() {
+        return CoreUtil.formatNationalPhone(fax, countryCode);
+    }
+    
+    public String getFaxToCall() {
+        return CoreUtil.encodePhone(fax, countryCode);
+    }
+    
 	public String getEmail() {
     	return email;
     }

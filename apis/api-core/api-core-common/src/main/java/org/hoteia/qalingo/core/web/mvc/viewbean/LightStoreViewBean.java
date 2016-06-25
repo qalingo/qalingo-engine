@@ -1,5 +1,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import org.hoteia.qalingo.core.util.CoreUtil;
+
 public class LightStoreViewBean {
 
     protected String code;
@@ -10,11 +12,12 @@ public class LightStoreViewBean {
     protected String longitude;
     protected String latitude;
     protected String addressOnLine;
-    protected String detailsUrl;
+    protected String countryCode;
     protected String phone;
     protected String fax;
     protected String website;
-
+    protected String detailsUrl;
+    
     public String getCode() {
         return code;
     }
@@ -55,14 +58,14 @@ public class LightStoreViewBean {
         this.addressOnLine = addressOnLine;
     }
 
-    public String getDetailsUrl() {
-        return detailsUrl;
+    public String getCountryCode() {
+        return countryCode;
     }
-
-    public void setDetailsUrl(String detailsUrl) {
-        this.detailsUrl = detailsUrl;
+    
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
-
+    
     public String getI18nName() {
         return i18nName;
     }
@@ -103,6 +106,14 @@ public class LightStoreViewBean {
         this.phone = phone;
     }
 
+    public String getFormatedPhone() {
+        return CoreUtil.formatNationalPhone(phone, countryCode);
+    }
+    
+    public String getPhoneToCall() {
+        return CoreUtil.encodePhone(phone, countryCode);
+    }
+    
     public String getFax() {
         return fax;
     }
@@ -110,4 +121,21 @@ public class LightStoreViewBean {
     public void setFax(String fax) {
         this.fax = fax;
     }
+    
+    public String getFormatedFax() {
+        return CoreUtil.formatNationalPhone(fax, countryCode);
+    }
+    
+    public String getFaxToCall() {
+        return CoreUtil.encodePhone(fax, countryCode);
+    }
+    
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
+    
 }

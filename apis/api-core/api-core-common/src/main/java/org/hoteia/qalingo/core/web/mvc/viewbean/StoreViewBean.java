@@ -16,7 +16,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.util.CoreUtil;
 
 public class StoreViewBean extends AbstractAddressViewBean {
@@ -214,12 +213,28 @@ public class StoreViewBean extends AbstractAddressViewBean {
         this.phone = phone;
     }
 
+    public String getFormatedPhone() {
+        return CoreUtil.formatNationalPhone(phone, countryCode);
+    }
+    
+    public String getPhoneToCall() {
+        return CoreUtil.encodePhone(phone, countryCode);
+    }
+    
     public String getFax() {
         return fax;
     }
 
     public void setFax(String fax) {
         this.fax = fax;
+    }
+    
+    public String getFormatedFax() {
+        return CoreUtil.formatNationalPhone(fax, countryCode);
+    }
+    
+    public String getFaxToCall() {
+        return CoreUtil.encodePhone(fax, countryCode);
     }
 
     public String getWebsite() {

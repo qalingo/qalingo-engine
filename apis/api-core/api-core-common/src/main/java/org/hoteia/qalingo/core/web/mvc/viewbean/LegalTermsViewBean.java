@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import org.hoteia.qalingo.core.util.CoreUtil;
+
 public class LegalTermsViewBean extends AbstractViewBean {
 
 	/**
@@ -112,6 +114,14 @@ public class LegalTermsViewBean extends AbstractViewBean {
     	this.companyPhone = companyPhone;
     }
 
+    public String getFormatedPhone() {
+        return CoreUtil.formatNationalPhone(companyPhone, companyCountry);
+    }
+    
+    public String getPhoneToCall() {
+        return CoreUtil.encodePhone(companyPhone, companyCountry);
+    }
+    
 	public String getCompanyFax() {
     	return companyFax;
     }
@@ -119,7 +129,15 @@ public class LegalTermsViewBean extends AbstractViewBean {
 	public void setCompanyFax(String companyFax) {
     	this.companyFax = companyFax;
     }
-
+    
+    public String getFormatedFax() {
+        return CoreUtil.formatNationalPhone(companyFax, companyCountry);
+    }
+    
+    public String getFaxToCall() {
+        return CoreUtil.encodePhone(companyFax, companyCountry);
+    }
+    
 	public String getCompanyEmail() {
     	return companyEmail;
     }

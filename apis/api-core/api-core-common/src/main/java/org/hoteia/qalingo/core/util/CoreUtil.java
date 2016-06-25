@@ -207,20 +207,32 @@ public class CoreUtil {
     }
     
     public static String encodePhone(String phone, String countryCode) {
-        try {
-            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-            PhoneNumber numberProto = phoneUtil.parse(phone, countryCode);
-            boolean isValid = phoneUtil.isValidNumber(numberProto);
-            if (isValid) {
-                String formatedPhone = phoneUtil.format(numberProto, PhoneNumberFormat.E164);
-                return formatedPhone;
-            } else {
-                logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
+        if(StringUtils.isNotEmpty(countryCode)){
+            try {
+                PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                PhoneNumber numberProto = phoneUtil.parse(phone, countryCode);
+                boolean isValid = phoneUtil.isValidNumber(numberProto);
+                if (isValid) {
+                    String formatedPhone = phoneUtil.format(numberProto, PhoneNumberFormat.E164);
+                    return formatedPhone;
+                } else {
+                    logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
+                }
+            } catch (NumberParseException e) {
+                logger.error("NumberParseException was thrown.", e);
             }
-        } catch (NumberParseException e) {
-            logger.error("NumberParseException was thrown.", e);
+        } else {
+            logger.debug("Phone can't be encoded. countryCode is empty, phone: ''" + phone + "'");
         }
         return phone;
+    }
+   
+    public static String formatInternationalPhone(String phone, String countryCode) {
+        return formatPhone(phone, countryCode, PhoneNumberFormat.INTERNATIONAL);
+    }
+    
+    public static String formatNationalPhone(String phone, String countryCode) {
+        return formatPhone(phone, countryCode, PhoneNumberFormat.NATIONAL);
     }
     
     public static String formatPhone(String phone, String countryCode, PhoneNumberFormat phoneNumberFormat) {
