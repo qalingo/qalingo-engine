@@ -25,7 +25,6 @@ public class StorePojo extends LightStorePojo {
     protected String city;
     protected String stateCode;
     protected String areaCode;
-    protected String countryCode;
     protected String countryLabel;
 
     protected RetailerPojo retailer;
@@ -94,14 +93,6 @@ public class StorePojo extends LightStorePojo {
         this.areaCode = areaCode;
     }
 
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-    
     public String getCountryLabel() {
         return countryLabel;
     }

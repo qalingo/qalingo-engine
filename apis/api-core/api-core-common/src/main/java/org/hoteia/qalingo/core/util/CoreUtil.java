@@ -207,7 +207,8 @@ public class CoreUtil {
     }
     
     public static String encodePhone(String phone, String countryCode) {
-        if(StringUtils.isNotEmpty(countryCode)){
+        if(StringUtils.isNotEmpty(phone) 
+                && StringUtils.isNotEmpty(countryCode)){
             try {
                 PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
                 PhoneNumber numberProto = phoneUtil.parse(phone, countryCode);
@@ -236,18 +237,23 @@ public class CoreUtil {
     }
     
     public static String formatPhone(String phone, String countryCode, PhoneNumberFormat phoneNumberFormat) {
-        try {
-            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-            PhoneNumber numberProto = phoneUtil.parse(phone, countryCode);
-            boolean isValid = phoneUtil.isValidNumber(numberProto);
-            if (isValid) {
-                String formatedPhone = phoneUtil.format(numberProto, phoneNumberFormat);
-                return formatedPhone;
-            } else {
-                logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
+        if(StringUtils.isNotEmpty(phone) 
+                && StringUtils.isNotEmpty(countryCode)){
+            try {
+                PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                PhoneNumber numberProto = phoneUtil.parse(phone, countryCode);
+                boolean isValid = phoneUtil.isValidNumber(numberProto);
+                if (isValid) {
+                    String formatedPhone = phoneUtil.format(numberProto, phoneNumberFormat);
+                    return formatedPhone;
+                } else {
+                    logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
+                }
+            } catch (NumberParseException e) {
+                logger.error("NumberParseException was thrown.", e);
             }
-        } catch (NumberParseException e) {
-            logger.error("NumberParseException was thrown.", e);
+        } else {
+            logger.debug("Phone can't be formated. countryCode is empty, phone: ''" + phone + "'");
         }
         return phone;
     }

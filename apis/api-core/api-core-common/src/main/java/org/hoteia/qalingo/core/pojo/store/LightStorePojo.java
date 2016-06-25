@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.pojo.UrlPojo;
+import org.hoteia.qalingo.core.util.CoreUtil;
 
 public class LightStorePojo {
 
@@ -31,6 +32,7 @@ public class LightStorePojo {
     protected String latitude;
     
     protected String addressOnLine;
+    protected String countryCode;
     
     protected String phone;
     protected String fax;
@@ -87,6 +89,14 @@ public class LightStorePojo {
     public void setAddressOnLine(String addressOnLine) {
         this.addressOnLine = addressOnLine;
     }
+    
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
     public String getI18nName() {
         return i18nName;
@@ -127,6 +137,14 @@ public class LightStorePojo {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    
+    public String getFormatedPhone() {
+        return CoreUtil.formatNationalPhone(phone, countryCode);
+    }
+    
+    public String getPhoneToCall() {
+        return CoreUtil.encodePhone(phone, countryCode);
+    }
 
     public String getFax() {
         return fax;
@@ -134,6 +152,14 @@ public class LightStorePojo {
 
     public void setFax(String fax) {
         this.fax = fax;
+    }
+
+    public String getFormatedFax() {
+        return CoreUtil.formatNationalPhone(fax, countryCode);
+    }
+    
+    public String getFaxToCall() {
+        return CoreUtil.encodePhone(fax, countryCode);
     }
 
     public String getDetailsUrl() {
