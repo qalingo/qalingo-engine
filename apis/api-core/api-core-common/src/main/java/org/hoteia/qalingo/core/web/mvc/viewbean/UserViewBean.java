@@ -23,13 +23,14 @@ public class UserViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = -1826858352678981858L;
 	
+    private boolean active;
+    private boolean validated;
+
     private String code;
 	private String login;
 	private String firstname;
 	private String lastname;
 	private String password;
-	private boolean active;
-    private boolean validated;
 
     private String address1;
     private String address2;
@@ -56,7 +57,23 @@ public class UserViewBean extends AbstractViewBean {
 
     private String personalDetailsUrl;
 	private String personalEditUrl;
-	
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
+    }
+
 	public String getCode() {
         return code;
     }
@@ -108,22 +125,6 @@ public class UserViewBean extends AbstractViewBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	public boolean isValidated() {
-        return validated;
-    }
-
-    public void setValidated(boolean validated) {
-        this.validated = validated;
-    }
 
     public String getAddress1() {
         return address1;

@@ -2985,14 +2985,15 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if(user.getId() != null){
             userViewBean.setId(user.getId().toString());
         }
+        userViewBean.setActive(user.isActive());
+        userViewBean.setValidated(user.isValidated());
+
         userViewBean.setCode(user.getCode());
         userViewBean.setLogin(user.getLogin());
         userViewBean.setFirstname(user.getFirstname());
         userViewBean.setLastname(user.getLastname());
         userViewBean.setEmail(user.getEmail());
         userViewBean.setPassword(user.getPassword());
-        userViewBean.setActive(user.isActive());
-        userViewBean.setValidated(user.isValidated());
         
         userViewBean.setAddress1(user.getAddress1());
         userViewBean.setAddress2(user.getAddress2());
@@ -3103,8 +3104,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         if(company.getId() != null){
             companyViewBean.setId(company.getId().toString());
         }
-        companyViewBean.setCode(company.getCode());
         companyViewBean.setActive(company.isActive());
+
+        companyViewBean.setCode(company.getCode());
         companyViewBean.setName(company.getName());
         companyViewBean.setDescription(company.getDescription());
 

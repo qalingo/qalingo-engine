@@ -16,10 +16,10 @@ public class CompanyViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = -1826858352678981858L;
 	
+    private boolean active;
     private String code;
     private String name;
     private String description;
-    private boolean active;
     
     private String address1;
     private String address2;
@@ -43,6 +43,14 @@ public class CompanyViewBean extends AbstractViewBean {
 	private String detailsUrl;
 	private String editUrl;
 	
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
 	public String getCode() {
         return code;
     }
@@ -65,14 +73,6 @@ public class CompanyViewBean extends AbstractViewBean {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public String getAddress1() {
