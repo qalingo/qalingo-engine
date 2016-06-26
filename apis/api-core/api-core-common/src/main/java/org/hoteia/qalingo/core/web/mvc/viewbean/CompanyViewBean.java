@@ -33,6 +33,11 @@ public class CompanyViewBean extends AbstractViewBean {
     private String countryCode;
     private String countryName;
     
+    protected String email;
+    protected String phone;
+    protected String fax;
+    protected String website;
+    
     private String legalGuid;
     
 	private String detailsUrl;
@@ -158,6 +163,38 @@ public class CompanyViewBean extends AbstractViewBean {
         this.countryName = countryName;
     }
     
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
     public String getLegalGuid() {
         return legalGuid;
     }

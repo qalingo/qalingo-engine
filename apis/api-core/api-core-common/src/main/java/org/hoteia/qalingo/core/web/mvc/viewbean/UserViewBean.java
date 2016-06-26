@@ -27,7 +27,6 @@ public class UserViewBean extends AbstractViewBean {
 	private String login;
 	private String firstname;
 	private String lastname;
-	private String email;
 	private String password;
 	private boolean active;
     private boolean validated;
@@ -40,6 +39,10 @@ public class UserViewBean extends AbstractViewBean {
     private String stateCode;
     private String areaCode;
     private String countryCode;
+    
+    protected String email;
+    protected String phone;
+    protected String mobile;
     
     private Map<String, String> groups = new HashMap<String, String>();
     private Map<String, String> roles = new HashMap<String, String>();
@@ -98,14 +101,6 @@ public class UserViewBean extends AbstractViewBean {
 	    return fullScreenName.toString();
 	}
 	
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -192,6 +187,30 @@ public class UserViewBean extends AbstractViewBean {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public List<UserConnectionLogValueBean> getUserConnectionLogs() {

@@ -877,7 +877,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 retailerViewBean.getDefaultAddress().setMobile(defaultAddress.getMobile());
                 retailerViewBean.getDefaultAddress().setFax(defaultAddress.getFax());
                 retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
-                retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
                 retailerViewBean.getDefaultAddress().setWebsite(defaultAddress.getWebsite());
             }
         }
@@ -3004,6 +3003,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         userViewBean.setAreaCode(user.getAreaCode());
         userViewBean.setCountryCode(user.getCountryCode());
         
+        userViewBean.setPhone(user.getPhone());
+        userViewBean.setMobile(user.getMobile());
+        userViewBean.setEmail(user.getEmail());
+        
         if (user.getDateCreate() != null) {
             userViewBean.setDateCreate(buildCommonFormatDate(requestData, user.getDateCreate()));
         }
@@ -3122,6 +3125,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         String countryName = referentialDataService.getCountryByLocale(company.getCountryCode(), locale);
         companyViewBean.setCountryCode(company.getCountryCode());
         companyViewBean.setCountryName(countryName);
+        
+        companyViewBean.setPhone(company.getPhone());
+        companyViewBean.setFax(company.getFax());
+        companyViewBean.setEmail(company.getEmail());
+        companyViewBean.setWebsite(company.getWebsite());
         
         if (company.getDateCreate() != null) {
             companyViewBean.setDateCreate(buildCommonFormatDate(requestData, company.getDateCreate()));
