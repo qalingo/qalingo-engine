@@ -139,7 +139,6 @@ public class BackofficeFormFactory {
             userForm.setTitle(user.getTitle());
             userForm.setFirstname(user.getFirstname());
             userForm.setLastname(user.getLastname());
-            userForm.setEmail(user.getEmail());
             userForm.setActive(user.isActive());
             
             userForm.setAddress1(user.getAddress1());
@@ -148,7 +147,11 @@ public class BackofficeFormFactory {
             userForm.setCity(user.getCity());
             userForm.setStateCode(user.getStateCode());
             userForm.setAreaCode(user.getAreaCode());
-
+            userForm.setCountryCode(user.getCountryCode());
+            
+            userForm.setPhone(user.getPhone());
+            userForm.setMobile(user.getMobile());
+            userForm.setEmail(user.getEmail());
         }
         return userForm;
     }
@@ -169,7 +172,12 @@ public class BackofficeFormFactory {
             companyForm.setCity(company.getCity());
             companyForm.setStateCode(company.getStateCode());
             companyForm.setAreaCode(company.getAreaCode());
+            companyForm.setCountryCode(company.getCountryCode());
 
+            companyForm.setPhone(company.getPhone());
+            companyForm.setFax(company.getFax());
+            companyForm.setEmail(company.getEmail());
+            companyForm.setWebsite(company.getWebsite());
         }
         return companyForm;
     }

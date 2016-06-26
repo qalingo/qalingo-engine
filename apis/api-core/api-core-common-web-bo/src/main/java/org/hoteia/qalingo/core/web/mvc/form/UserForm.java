@@ -18,19 +18,20 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  */
 public class UserForm {
-	
+
     protected String id;
     protected int version;
+    protected boolean active;
+
     protected String code;
-	protected String login;
+    protected String login;
     protected String password;
     protected String title;
-	protected String firstname;
-	protected String lastname;
-	protected String email;
-	
+    protected String firstname;
+    protected String lastname;
+
     protected String userType;
-    
+
     protected String address1;
     protected String address2;
     protected String postalCode;
@@ -38,16 +39,19 @@ public class UserForm {
     protected String stateCode;
     protected String areaCode;
     protected String countryCode;
-    
-	protected boolean active;
-	protected Date dateCreate;
-	protected Date dateUpdate;
-	
-	protected String backUrl;
-	protected String userDetailsUrl;
-	protected String userEditUrl;
-	protected String formSubmitUrl;
-    
+
+    protected String email;
+    protected String phone;
+    protected String mobile;
+
+    protected Date dateCreate;
+    protected Date dateUpdate;
+
+    protected String backUrl;
+    protected String userDetailsUrl;
+    protected String userEditUrl;
+    protected String formSubmitUrl;
+
 	@NotEmpty(message = "error.form.user.id.is.empty")
     public String getId() {
 		return id;
@@ -63,6 +67,14 @@ public class UserForm {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
     @NotEmpty(message = "error.form.user.code.is.empty")
@@ -117,15 +129,6 @@ public class UserForm {
 		this.firstname = firstname;
 	}
 
-	@NotEmpty(message = "error.form.user.email.is.empty")
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
 	public String getUserType() {
         return userType;
     }
@@ -189,31 +192,48 @@ public class UserForm {
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
+    
+    @NotEmpty(message = "error.form.user.email.is.empty")
+    public String getEmail() {
+        return email;
+    }
 
-    public boolean isActive() {
-		return active;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+    
 	public String getBackUrl() {
 		return backUrl;
 	}
