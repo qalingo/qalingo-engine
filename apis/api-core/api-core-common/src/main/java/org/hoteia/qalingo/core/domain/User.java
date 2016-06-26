@@ -590,7 +590,7 @@ public class User extends AbstractEntity<User> {
     @Override
     public String toString() {
         return "User [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", title=" + title + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-                + ", password=" + password + ", active=" + active + ", defaultLocalization=" + defaultLocalization + ", company=" + company + ", userGroups=" + groups + ", connectionLogs="
+                + ", password=" + password + ", active=" + active + ", company=" + company + ", userGroups=" + groups + ", connectionLogs="
                 + connectionLogs + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

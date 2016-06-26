@@ -45,6 +45,8 @@
 		<!-- general -->
 		<field name="_version_" 	type="long" 		indexed="true" 	stored="true"/>
 		<field name="id"			type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
+        <field name="active"        type="boolean"      indexed="true"  stored="true"  multiValued="false" />
+
 		<field name="code"		type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="lastname"		type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="firstname"		type="string"       indexed="true"  stored="true"  multiValued="false" />

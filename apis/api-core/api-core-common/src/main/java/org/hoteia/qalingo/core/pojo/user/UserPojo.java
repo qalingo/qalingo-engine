@@ -19,21 +19,37 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class UserPojo {
 
     private Long id;
-    private Long code;
+    private String code;
     private int version;
     private String login;
     private String title;
     private String firstname;
     private String lastname;
-    private String email;
     private String password;
     private String defaultLocale;
     private boolean active;
-    private Date dateCreate;
-    private Date dateUpdate;
+    
+    private String address1;
+    private String address2;
+    private String addressAdditionalInformation;
+    private String postalCode;
+    private String city;
+    private String stateCode;
+    private String areaCode;
+    private String countryCode;
+    private String countryLabel;
+    private String legalGuid;
+    
+    private String email;
+    private String phone;
+    private String mobile;
+    private String fax;
 
     private List<UserConnectionLogPojo> connectionLogs = new ArrayList<UserConnectionLogPojo>();
     private List<UserGroupPojo> userGroups = new ArrayList<UserGroupPojo>();
+
+    private Date dateCreate;
+    private Date dateUpdate;
 
     public UserPojo() {}
 
@@ -45,11 +61,11 @@ public class UserPojo {
         this.id = id;
     }
 
-    public Long getCode() {
+    public String getCode() {
         return code;
     }
     
-    public void setCode(Long code) {
+    public void setCode(String code) {
         this.code = code;
     }
     
@@ -93,14 +109,6 @@ public class UserPojo {
         this.lastname = lastname;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -125,6 +133,134 @@ public class UserPojo {
         this.active = active;
     }
 
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getAddressAdditionalInformation() {
+        return addressAdditionalInformation;
+    }
+
+    public void setAddressAdditionalInformation(String addressAdditionalInformation) {
+        this.addressAdditionalInformation = addressAdditionalInformation;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getCountryLabel() {
+        return countryLabel;
+    }
+
+    public void setCountryLabel(String countryLabel) {
+        this.countryLabel = countryLabel;
+    }
+
+    public String getLegalGuid() {
+        return legalGuid;
+    }
+
+    public void setLegalGuid(String legalGuid) {
+        this.legalGuid = legalGuid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public List<UserConnectionLogPojo> getConnectionLogs() {
+        return connectionLogs;
+    }
+
+    public void setConnectionLogs(final List<UserConnectionLogPojo> connectionLogs) {
+        this.connectionLogs = connectionLogs;
+    }
+
+    public List<UserGroupPojo> getUserGroups() {
+        return userGroups;
+    }
+
+    public void setUserGroups(final List<UserGroupPojo> userGroups) {
+        this.userGroups = userGroups;
+    }
+
     public Date getDateCreate() {
         return dateCreate;
     }
@@ -140,22 +276,5 @@ public class UserPojo {
     public void setDateUpdate(final Date dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
-
-    public List<UserConnectionLogPojo> getConnectionLogs() {
-        return connectionLogs;
-    }
-
-    public void setConnectionLogs(final List<UserConnectionLogPojo> connectionLogs) {
-        this.connectionLogs = connectionLogs;
-    }
-
-
-    public List<UserGroupPojo> getUserGroups() {
-        return userGroups;
-    }
-
-    public void setUserGroups(final List<UserGroupPojo> userGroups) {
-        this.userGroups = userGroups;
-    }
-
+    
 }

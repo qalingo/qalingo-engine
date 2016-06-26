@@ -19,6 +19,9 @@ public class UserSolr {
 	private Long id;
 
     @Field
+    private boolean active;
+    
+    @Field
     private String code;
 	
     @Field
@@ -66,6 +69,14 @@ public class UserSolr {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
     public String getCode() {

@@ -61,10 +61,9 @@ public class CompanySolrService extends AbstractSolrService {
         }
         CompanySolr companySolr = new CompanySolr();
         companySolr.setId(company.getId());
+        companySolr.setActive(company.isActive());
         companySolr.setCode(company.getCode());
         companySolr.setName(company.getName());
-        companySolr.setActive(company.isActive());
-        companySolr.setActive(company.isActive());
         companySolr.setAddress(company.getAddress1());
         companySolr.setPostalCode(company.getPostalCode());
         companySolr.setCity(company.getCity());

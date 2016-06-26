@@ -19,6 +19,9 @@ public class CompanySolr {
 	private Long id;
 	
     @Field
+    private boolean active;
+    
+    @Field
     private Long scoring;
     
     @Field
@@ -26,9 +29,6 @@ public class CompanySolr {
     
     @Field
 	private String name;
-    
-    @Field
-    private boolean active;
     
     @Field
     private String address;
@@ -65,6 +65,14 @@ public class CompanySolr {
         this.id = id;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
     public Long getScoring() {
         return scoring;
     }
@@ -87,14 +95,6 @@ public class CompanySolr {
 
     public void setName(String name) {
         this.name = name;
-    }
-    
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
     
     public String getAddress() {
