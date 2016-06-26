@@ -109,6 +109,10 @@ public class UserPojo {
         this.lastname = lastname;
     }
 
+    public String getFullName() {
+        return lastname + " " + firstname;
+    }
+    
     public String getPassword() {
         return password;
     }
