@@ -48,8 +48,8 @@ public class UserViewBean extends AbstractViewBean {
     private List<UserConnectionLogValueBean> userConnectionLogs = new ArrayList<UserConnectionLogValueBean>();
 	
 	private String backUrl;
-	private String userDetailsUrl;
-	private String userEditUrl;
+	private String detailsUrl;
+	private String editUrl;
 
     private String personalDetailsUrl;
 	private String personalEditUrl;
@@ -261,21 +261,21 @@ public class UserViewBean extends AbstractViewBean {
 		this.backUrl = backUrl;
 	}
 
-	public String getUserDetailsUrl() {
-		return userDetailsUrl;
-	}
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
 
-	public void setUserDetailsUrl(String userDetailsUrl) {
-		this.userDetailsUrl = userDetailsUrl;
-	}
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
 
-	public String getUserEditUrl() {
-		return userEditUrl;
-	}
+    public String getEditUrl() {
+        return editUrl;
+    }
 
-	public void setUserEditUrl(String userEditUrl) {
-		this.userEditUrl = userEditUrl;
-	}
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
 
     public String getPersonalDetailsUrl() {
         return personalDetailsUrl;

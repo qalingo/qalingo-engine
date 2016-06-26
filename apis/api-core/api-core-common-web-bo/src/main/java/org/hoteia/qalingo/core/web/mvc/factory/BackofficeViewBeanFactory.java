@@ -835,8 +835,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
     public UserViewBean buildViewBeanUser(final RequestData requestData, final User user) throws Exception {
         final UserViewBean userViewBean = super.buildViewBeanUser(requestData, user);
 
-        userViewBean.setUserDetailsUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestData, user));
-        userViewBean.setUserEditUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestData, user));
+        userViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestData, user));
+        userViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestData, user));
 
         userViewBean.setPersonalDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, user));
         userViewBean.setPersonalEditUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_EDIT, requestData, user));
