@@ -168,6 +168,17 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         this.configurations = configurations;
     }
     
+    public ProductSkuStoreConfiguration getConfiguration(final Long marketAreaId) {
+        if (configurations != null && Hibernate.isInitialized(configurations)) {
+            for (ProductSkuStoreConfiguration productSkuStoreConfiguration : configurations) {
+                if (productSkuStoreConfiguration.getMarketAreaId().equals(marketAreaId)) {
+                    return productSkuStoreConfiguration;
+                }
+            }
+        }
+        return null;
+    }
+    
     public boolean isSalableOnlineB2B(final Long marketAreaId) {
         if (configurations != null && Hibernate.isInitialized(configurations)) {
             for (ProductSkuStoreConfiguration productSkuStoreConfiguration : configurations) {
