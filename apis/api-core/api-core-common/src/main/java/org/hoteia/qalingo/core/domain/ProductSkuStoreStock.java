@@ -63,6 +63,9 @@ public class ProductSkuStoreStock extends AbstractEntity<ProductSkuStoreStock> {
     @Column(name = "REORDER_NEXT_DATE")
     private Date reorderNextDate;
 
+    @Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WAREHOUSE_ID", insertable = true, updatable = true)
 	private Warehouse warehouse;
@@ -154,6 +157,14 @@ public class ProductSkuStoreStock extends AbstractEntity<ProductSkuStoreStock> {
 
     public void setReorderNextDate(Date reorderNextDate) {
         this.reorderNextDate = reorderNextDate;
+    }
+    
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+    
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
     }
 
     public Warehouse getWarehouse() {

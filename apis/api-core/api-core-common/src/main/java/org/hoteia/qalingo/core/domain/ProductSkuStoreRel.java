@@ -54,15 +54,6 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     @Column(name = "IS_DEFAULT_STORE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefaultStore;
 
-    @Column(name = "IS_SALABLE_ONLINE_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableOnlineB2B;
-    
-    @Column(name = "IS_SALABLE_ONLINE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableOnlineB2C;
-
-    @Column(name = "IS_SALABLE_STORE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableStoreB2C;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreAttribute.class)
     @JoinColumns({
         @JoinColumn(name = "PRODUCT_SKU_ID"),
@@ -70,13 +61,20 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     })
     private Set<ProductSkuStoreAttribute> attributes = new HashSet<ProductSkuStoreAttribute>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreConfiguration.class)
+    @JoinColumns({
+        @JoinColumn(name = "PRODUCT_SKU_ID"),
+        @JoinColumn(name = "STORE_ID") 
+    })
+    private Set<ProductSkuStoreConfiguration> configurations = new HashSet<ProductSkuStoreConfiguration>();
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStorePrice.class)
     @JoinColumns({
         @JoinColumn(name = "PRODUCT_SKU_ID"),
         @JoinColumn(name = "STORE_ID") 
     })
     private Set<ProductSkuStorePrice> prices = new HashSet<ProductSkuStorePrice>();
-
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreStock.class)
     @JoinColumns({
         @JoinColumn(name = "PRODUCT_SKU_ID"),
@@ -154,30 +152,6 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         this.isDefaultStore = isDefaultStore;
     }
 
-    public boolean isSalableOnlineB2B() {
-        return salableOnlineB2B;
-    }
-
-    public void setSalableOnlineB2B(boolean salableOnlineB2B) {
-        this.salableOnlineB2B = salableOnlineB2B;
-    }
-
-    public boolean isSalableOnlineB2C() {
-        return salableOnlineB2C;
-    }
-
-    public void setSalableOnlineB2C(boolean salableOnlineB2C) {
-        this.salableOnlineB2C = salableOnlineB2C;
-    }
-
-    public boolean isSalableStoreB2C() {
-        return salableStoreB2C;
-    }
-
-    public void setSalableStoreB2C(boolean salableStoreB2C) {
-        this.salableStoreB2C = salableStoreB2C;
-    }
-
     public Set<ProductSkuStoreAttribute> getAttributes() {
         return attributes;
     }
@@ -186,6 +160,47 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         this.attributes = attributes;
     }
 
+    public Set<ProductSkuStoreConfiguration> getConfigurations() {
+        return configurations;
+    }
+    
+    public void setConfigurations(Set<ProductSkuStoreConfiguration> configurations) {
+        this.configurations = configurations;
+    }
+    
+    public boolean isSalableOnlineB2B(final Long marketAreaId) {
+        if (configurations != null && Hibernate.isInitialized(configurations)) {
+            for (ProductSkuStoreConfiguration productSkuStoreConfiguration : configurations) {
+                if (productSkuStoreConfiguration.getMarketAreaId().equals(marketAreaId) && productSkuStoreConfiguration.isSalableOnlineB2B()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isSalableOnlineB2C(final Long marketAreaId) {
+        if (configurations != null && Hibernate.isInitialized(configurations)) {
+            for (ProductSkuStoreConfiguration productSkuStoreConfiguration : configurations) {
+                if (productSkuStoreConfiguration.getMarketAreaId().equals(marketAreaId) && productSkuStoreConfiguration.isSalableOnlineB2C()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isSalableStoreB2C(final Long marketAreaId) {
+        if (configurations != null && Hibernate.isInitialized(configurations)) {
+            for (ProductSkuStoreConfiguration productSkuStoreConfiguration : configurations) {
+                if (productSkuStoreConfiguration.getMarketAreaId().equals(marketAreaId) && productSkuStoreConfiguration.isSalableStoreB2C()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public Set<ProductSkuStorePrice> getPrices() {
         return prices;
     }

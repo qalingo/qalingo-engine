@@ -9,30 +9,26 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_SKU_STORE_PRICE")
-public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
+@Table(name="TECO_PRODUCT_SKU_STORE_CONFIGURATION")
+public class ProductSkuStoreConfiguration extends AbstractEntity<ProductSkuStoreConfiguration> {
 
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = -4776613203202967926L;
+	private static final long serialVersionUID = -4776613113202967926L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,29 +39,18 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
 	
-	@Column(name="SALE_PRICE")
-	private BigDecimal salePrice;
-
-    @Column(name = "IS_CATALOG_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isCatalogPrice;
+    @Column(name = "IS_SALABLE_ONLINE_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableOnlineB2B;
     
-    @Column(name = "IS_DISCOUNT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDiscount;
+    @Column(name = "IS_SALABLE_ONLINE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableOnlineB2C;
 
-    @Column(name = "IS_VAT_INCLUDED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isVATIncluded;
-    
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)
-	private CurrencyReferential currency;
+    @Column(name = "IS_SALABLE_STORE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean salableStoreB2C;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
 	
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
-    private ProductSku productSku;
-    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_START")
     private Date dateStart;
@@ -82,7 +67,7 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-	public ProductSkuStorePrice(Long marketAreaId) {
+	public ProductSkuStoreConfiguration(Long marketAreaId) {
         this.marketAreaId = marketAreaId;
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
@@ -104,64 +89,38 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 		this.version = version;
 	}
 
-	@Override
-	public BigDecimal getSalePrice() {
-		return salePrice;
-	}
-	
-	public void setSalePrice(BigDecimal salePrice) {
-		this.salePrice = salePrice;
-	}
-	
-    public boolean isCatalogPrice() {
-        return isCatalogPrice;
+    public boolean isSalableOnlineB2B() {
+        return salableOnlineB2B;
     }
 
-    public void setCatalogPrice(boolean isCatalogPrice) {
-        this.isCatalogPrice = isCatalogPrice;
+    public void setSalableOnlineB2B(boolean salableOnlineB2B) {
+        this.salableOnlineB2B = salableOnlineB2B;
     }
 
-    public boolean isDiscount() {
-        return isDiscount;
+    public boolean isSalableOnlineB2C() {
+        return salableOnlineB2C;
     }
 
-    public void setDiscount(boolean isDiscount) {
-        this.isDiscount = isDiscount;
+    public void setSalableOnlineB2C(boolean salableOnlineB2C) {
+        this.salableOnlineB2C = salableOnlineB2C;
     }
 
-    public boolean isVATIncluded() {
-        return isVATIncluded;
+    public boolean isSalableStoreB2C() {
+        return salableStoreB2C;
     }
 
-    public void setIsVATIncluded(boolean isVATIncluded) {
-        this.isVATIncluded = isVATIncluded;
+    public void setSalableStoreB2C(boolean salableStoreB2C) {
+        this.salableStoreB2C = salableStoreB2C;
     }
-    
-    @Override
-	public CurrencyReferential getCurrency() {
-		return currency;
-	}
 
-	public void setCurrency(CurrencyReferential currency) {
-		this.currency = currency;
-	}
-
-	public Long getMarketAreaId() {
-		return marketAreaId;
-	}
-
-	public void setMarketAreaId(Long marketAreaId) {
-		this.marketAreaId = marketAreaId;
-	}
-	
-	public ProductSku getProductSku() {
-        return productSku;
+    public Long getMarketAreaId() {
+        return marketAreaId;
     }
-	
-	public void setProductSku(ProductSku productSku) {
-        this.productSku = productSku;
+
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
     }
-	
+
     public Date getDateStart() {
         return dateStart;
     }
@@ -205,15 +164,14 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
     }
 
     @Override
-    public boolean equals(Object sourceObj) {
-        Object obj = deproxy(sourceObj);
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductSkuStorePrice other = (ProductSkuStorePrice) obj;
+        ProductSkuStoreConfiguration other = (ProductSkuStoreConfiguration) obj;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -234,7 +192,8 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 
     @Override
     public String toString() {
-        return "ProductSkuPrice [id=" + id + ", version=" + version + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductSkuStoreConfiguration [id=" + id + ", version=" + version + ", salableOnlineB2B=" + salableOnlineB2B + ", salableOnlineB2C=" + salableOnlineB2C + ", salableStoreB2C="
+                + salableStoreB2C + ", marketAreaId=" + marketAreaId + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }
