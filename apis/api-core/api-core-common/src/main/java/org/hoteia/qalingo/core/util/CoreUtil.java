@@ -94,7 +94,7 @@ public class CoreUtil {
             stringOutput = replaceSpaceAndUnderscore(stringOutput);
 
             // REPLACE WITH DASH
-            stringOutput = stringOutput.replaceAll("[&°?(){}<>'\";.,/#]", "-");
+            stringOutput = stringOutput.replaceAll("[&°?(){}<>'\"“”;.,/#]", "-");
 
             stringOutput = cleanDash(stringOutput);
 
