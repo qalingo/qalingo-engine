@@ -158,6 +158,7 @@ public class FetchPlanGraphProduct {
         fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.pk.getName() + "." + ProductSkuStorePk_.store.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.pk.getName() + "." + ProductSkuStorePk_.productSku.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.configurations.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.prices.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.prices.getName() + "." + ProductSkuStorePrice_.currency.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSkuStoreRel_.stocks.getName()));
