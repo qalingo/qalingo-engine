@@ -82,6 +82,11 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
+    public ProductSkuStorePrice() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+    
 	public ProductSkuStorePrice(Long marketAreaId) {
         this.marketAreaId = marketAreaId;
         this.dateCreate = new Date();

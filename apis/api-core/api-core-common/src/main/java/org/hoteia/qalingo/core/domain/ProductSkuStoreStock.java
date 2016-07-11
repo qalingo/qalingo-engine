@@ -82,14 +82,20 @@ public class ProductSkuStoreStock extends AbstractEntity<ProductSkuStoreStock> {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
     
-	public ProductSkuStoreStock() {
+    public ProductSkuStoreStock() {
         this.dateCreate = new Date();
         this.dateUpdate = new Date();
-	}
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public ProductSkuStoreStock(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+
+    public Long getId() {
+        return id;
+    }
 
 	public void setId(Long id) {
 		this.id = id;
