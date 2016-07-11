@@ -67,6 +67,11 @@ public class ProductSkuStoreConfiguration extends AbstractEntity<ProductSkuStore
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
+    public ProductSkuStoreConfiguration() {
+        this.dateCreate = new Date();
+        this.dateUpdate = new Date();
+    }
+    
 	public ProductSkuStoreConfiguration(Long marketAreaId) {
         this.marketAreaId = marketAreaId;
         this.dateCreate = new Date();
