@@ -69,7 +69,6 @@ public class CartAjaxController extends AbstractMCommerceController {
     @Autowired
     protected CartService cartService;
 
-
     @RequestMapping(value = FoUrls.ADD_TO_WISHLIST_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
     public FoAddToWishlistPojo addProductSkuToWishlist(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

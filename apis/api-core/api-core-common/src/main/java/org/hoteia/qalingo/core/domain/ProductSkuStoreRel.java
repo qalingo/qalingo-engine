@@ -258,9 +258,13 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
         return stocks;
     }
     
-    public ProductSkuStoreStock getStock() {
-        if(Hibernate.isInitialized(stocks) && stocks != null && !stocks.isEmpty()){
-            return stocks.iterator().next();
+    public ProductSkuStoreStock getStock(final Long marketAreaId) {
+        if (stocks != null && Hibernate.isInitialized(stocks)) {
+            for (ProductSkuStoreStock productSkuStoreStock : stocks) {
+                if (productSkuStoreStock.getMarketAreaId().equals(marketAreaId)) {
+                    return productSkuStoreStock;
+                }
+            }
         }
         return null;
     }
