@@ -29,6 +29,18 @@ public class FetchPlanGraphUser {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan fullCompanyFetchPlan() {
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(Company_.localizations.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.users.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.localizations.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.productBrands.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.retailers.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.payments.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan defaultUserFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(User_.defaultLocalization.getName()));

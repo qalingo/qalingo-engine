@@ -110,6 +110,10 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     @Column(name = "CREATED_BY_USER_ID")
     private Long createdByUserId;
     
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyAttribute.class)
+    @JoinColumn(name = "COMPANY_ID")
+    private Set<CompanyAttribute> attributes = new HashSet<CompanyAttribute>();
+    
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
     private Set<User> users = new HashSet<User>();
@@ -141,10 +145,6 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyAttribute.class)
-    @JoinColumn(name = "COMPANY_ID")
-    private Set<CompanyAttribute> attributes = new HashSet<CompanyAttribute>();
 
     public Company() {
         this.dateCreate = new Date();
@@ -328,6 +328,14 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
         this.createdByUserId = createdByUserId;
     }
 
+    public Set<CompanyAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Set<CompanyAttribute> attributes) {
+        this.attributes = attributes;
+    }
+    
     public Set<User> getUsers() {
         return users;
     }
@@ -480,14 +488,6 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
 
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
-    }
-
-    public Set<CompanyAttribute> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Set<CompanyAttribute> attributes) {
-        this.attributes = attributes;
     }
 
     @Override

@@ -131,6 +131,15 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan fullProductBrandFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductBrand_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductBrand_.assets.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductBrand_.tags.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductBrand_.company.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan productSkuOptionDefinitionDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSkuOptionDefinition_.attributes.getName()));
