@@ -138,10 +138,10 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
         return isVATIncluded;
     }
 
-    public void setIsVATIncluded(boolean isVATIncluded) {
+    public void setVATIncluded(boolean isVATIncluded) {
         this.isVATIncluded = isVATIncluded;
     }
-    
+
     @Override
 	public CurrencyReferential getCurrency() {
 		return currency;
