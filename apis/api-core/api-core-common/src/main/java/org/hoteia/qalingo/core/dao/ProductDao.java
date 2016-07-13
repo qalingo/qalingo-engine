@@ -1333,7 +1333,7 @@ public class ProductDao extends AbstractGenericDao {
 
     public List<ProductSkuStorePrice> findProductSkuStorePrices(final Long storeId, final Long productSkuId) {
         Criteria criteria = createDefaultCriteria(ProductSkuStorePrice.class);
-        criteria.add(Restrictions.eq("storeId", storeId));
+        criteria.add(Restrictions.eq("store.id", storeId));
         criteria.add(Restrictions.eq("productSku.id", productSkuId));
         return criteria.list();
     }
