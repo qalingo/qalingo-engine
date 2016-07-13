@@ -62,7 +62,11 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
 	
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @JoinColumn(name="STORE_ID", insertable = true, updatable = true)
+    private Store store;
+    
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
     @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
     private ProductSku productSku;
     
@@ -158,6 +162,14 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 	public void setMarketAreaId(Long marketAreaId) {
 		this.marketAreaId = marketAreaId;
 	}
+	
+	public Store getStore() {
+        return store;
+    }
+	
+	public void setStore(Store store) {
+        this.store = store;
+    }
 	
 	public ProductSku getProductSku() {
         return productSku;

@@ -13,9 +13,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,6 +54,14 @@ public class ProductSkuStoreConfiguration extends AbstractEntity<ProductSkuStore
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
 	
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @JoinColumn(name="STORE_ID", insertable = true, updatable = true)
+    private Store store;
+    
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
+    @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
+    private ProductSku productSku;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_START")
     private Date dateStart;
@@ -126,6 +137,22 @@ public class ProductSkuStoreConfiguration extends AbstractEntity<ProductSkuStore
         this.marketAreaId = marketAreaId;
     }
 
+    public Store getStore() {
+        return store;
+    }
+    
+    public void setStore(Store store) {
+        this.store = store;
+    }
+    
+    public ProductSku getProductSku() {
+        return productSku;
+    }
+    
+    public void setProductSku(ProductSku productSku) {
+        this.productSku = productSku;
+    }
+    
     public Date getDateStart() {
         return dateStart;
     }

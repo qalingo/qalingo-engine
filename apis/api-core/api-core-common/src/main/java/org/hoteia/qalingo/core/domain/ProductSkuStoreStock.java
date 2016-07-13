@@ -70,7 +70,11 @@ public class ProductSkuStoreStock extends AbstractEntity<ProductSkuStoreStock> {
     @JoinColumn(name = "WAREHOUSE_ID", insertable = true, updatable = true)
 	private Warehouse warehouse;
 	
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
+    @JoinColumn(name="STORE_ID", insertable = true, updatable = true)
+    private Store store;
+    
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
     @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
     private ProductSku productSku;
     
@@ -181,6 +185,14 @@ public class ProductSkuStoreStock extends AbstractEntity<ProductSkuStoreStock> {
         this.warehouse = warehouse;
     }
 
+    public Store getStore() {
+        return store;
+    }
+    
+    public void setStore(Store store) {
+        this.store = store;
+    }
+    
     public ProductSku getProductSku() {
         return productSku;
     }
