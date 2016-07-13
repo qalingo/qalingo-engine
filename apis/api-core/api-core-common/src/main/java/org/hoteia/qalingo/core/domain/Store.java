@@ -166,6 +166,10 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @JoinColumn(name = "STORE_ID")
     private Set<StoreTagRel> tagRels = new HashSet<StoreTagRel>();
     
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
+    @JoinTable(name = "TECO_PRODUCT_BRAND_STORE_REL", joinColumns = @JoinColumn(name = "STORE_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"))
+    private Set<ProductBrand> productBrands = new HashSet<ProductBrand>();
+    
     @Column(name = "LONGITUDE")
     private String longitude;
 
@@ -562,6 +566,14 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     
     public void setTagRels(Set<StoreTagRel> tagRels) {
         this.tagRels = tagRels;
+    }
+    
+    public Set<ProductBrand> getProductBrands() {
+        return productBrands;
+    }
+    
+    public void setProductBrands(Set<ProductBrand> productBrands) {
+        this.productBrands = productBrands;
     }
     
     public String getLongitude() {

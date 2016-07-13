@@ -27,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -99,6 +100,10 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.ProductBrandTag.class)
     @JoinTable(name = "TECO_PRODUCT_BRAND_TAG_REL", joinColumns = @JoinColumn(name = "PRODUCT_BRAND_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_BRAND_TAG_ID"))
     private Set<ProductBrandTag> tags = new HashSet<ProductBrandTag>();
+    
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Company.class)
+    @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
+    private Company company;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -263,6 +268,14 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
 	
 	public void setTags(Set<ProductBrandTag> tags) {
         this.tags = tags;
+    }
+	
+	public Company getCompany() {
+        return company;
+    }
+	
+	public void setCompany(Company company) {
+        this.company = company;
     }
 	
 	public Date getDateCreate() {
