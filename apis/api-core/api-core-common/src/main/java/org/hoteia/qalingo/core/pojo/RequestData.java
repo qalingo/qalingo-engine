@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.pojo;
 
 import java.io.Serializable;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -21,9 +22,9 @@ import net.sourceforge.wurfl.core.Device;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
+import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -121,6 +122,19 @@ public class RequestData implements Serializable {
 
     public void setRequest(HttpServletRequest request) {
         this.request = request;
+    }
+    
+    public Map<String, String> getRequestParams() {
+        if(request != null){
+            Map<String, String> params = new HashMap<String, String>();
+            Enumeration<String> parameterNames = request.getParameterNames(); 
+            while(parameterNames.hasMoreElements()){
+             String paramName = (String)parameterNames.nextElement();
+             params.put(paramName, request.getParameter(paramName));
+            }
+            return params;
+        }
+        return null;
     }
 
     public MarketPlace getMarketPlace() {

@@ -220,7 +220,7 @@ public class CoreUtil {
                     logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
                 }
             } catch (NumberParseException e) {
-                logger.error("NumberParseException was thrown.", e);
+                logger.warn("NumberParseException was thrown.", e);
             }
         } else {
             logger.debug("Phone can't be encoded. countryCode is empty, phone: ''" + phone + "'");
@@ -250,7 +250,7 @@ public class CoreUtil {
                     logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
                 }
             } catch (NumberParseException e) {
-                logger.error("NumberParseException was thrown.", e);
+                logger.warn("NumberParseException was thrown.", e);
             }
         } else {
             logger.debug("Phone can't be formated. countryCode is empty, phone: ''" + phone + "'");
