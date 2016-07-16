@@ -25,9 +25,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -72,9 +71,9 @@ public abstract class AbstractRuleReferential<E> extends AbstractEntity<E> {
     @Column(name = "SALIENCE")
     private String salience;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class)
-    @JoinTable(name = "TECO_RULE_REPOSITORY_ATTRIBUTE_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REPOSITORY_ATTRIBUTE_ID"))
-    private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new HashSet<RuleRepositoryAttribute>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RuleReferentialAttribute.class)
+    @JoinColumn(name = "RULE_REFERENTIAL_ID")
+    private Set<RuleReferentialAttribute> attributes = new HashSet<RuleReferentialAttribute>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -139,13 +138,13 @@ public abstract class AbstractRuleReferential<E> extends AbstractEntity<E> {
 		this.salience = salience;
 	}
 
-	public Set<RuleRepositoryAttribute> getRuleRepositoryAttributes() {
-		return ruleRepositoryAttributes;
-	}
+	public Set<RuleReferentialAttribute> getAttributes() {
+        return attributes;
+    }
 	
-	public void setRuleRepositoryAttributes(Set<RuleRepositoryAttribute> ruleRepositoryAttributes) {
-		this.ruleRepositoryAttributes = ruleRepositoryAttributes;
-	}
+	public void setAttributes(Set<RuleReferentialAttribute> attributes) {
+        this.attributes = attributes;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

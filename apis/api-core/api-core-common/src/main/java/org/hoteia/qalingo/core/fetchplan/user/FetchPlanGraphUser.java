@@ -39,6 +39,7 @@ public class FetchPlanGraphUser {
         fetchplans.add(new SpecificFetchMode(Company_.defaultLocalization.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.localizations.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.productBrands.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.companyStoreRels.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.companyStoreRels.getName() + "." + CompanyStoreRel_.pk.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.payments.getName()));
         return new FetchPlan(fetchplans);
@@ -49,12 +50,27 @@ public class FetchPlanGraphUser {
         fetchplans.add(new SpecificFetchMode(User_.defaultLocalization.getName()));
         fetchplans.add(new SpecificFetchMode(User_.companyUserRels.getName()));
         fetchplans.add(new SpecificFetchMode(User_.companyUserRels.getName() + "." + CompanyUserRel_.pk.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.stores.getName()));
         fetchplans.add(new SpecificFetchMode(User_.credentials.getName()));
         fetchplans.add(new SpecificFetchMode(User_.tokens.getName()));
         fetchplans.add(new SpecificFetchMode(User_.groups.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.groups.getName() + "." + UserGroup_.roles.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.groups.getName() + "." + UserGroup_.roles.getName() + "." + UserRole_.permissions.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.connectionLogs.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan loginUserFetchPlan() {
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(User_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.companyUserRels.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.companyUserRels.getName() + "." + CompanyUserRel_.pk.getName()));
         fetchplans.add(new SpecificFetchMode(User_.stores.getName()));
-        fetchplans.add(new SpecificFetchMode(UserGroup_.roles.getName(), new SpecificAlias(User_.groups.getName() + "." + UserGroup_.roles.getName())));
-        fetchplans.add(new SpecificFetchMode(UserRole_.permissions.getName(), new SpecificAlias(User_.groups.getName() + "." + UserGroup_.roles.getName() + "." + UserRole_.permissions.getName())));
+        fetchplans.add(new SpecificFetchMode(User_.credentials.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.tokens.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.groups.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.groups.getName() + "." + UserGroup_.roles.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.groups.getName() + "." + UserGroup_.roles.getName() + "." + UserRole_.permissions.getName()));
         fetchplans.add(new SpecificFetchMode(User_.connectionLogs.getName()));
         return new FetchPlan(fetchplans);
     }

@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -68,9 +69,9 @@ public class RuleRepository extends AbstractEntity<RuleRepository> {
     @JoinTable(name = "TECO_RULE_REPOSITORY_REFERENTIAL_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REFERENTIAL_ID"))
     private Set<AbstractRuleReferential> rules = new HashSet<AbstractRuleReferential>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class)
-    @JoinTable(name = "TECO_RULE_REPOSITORY_ATTRIBUTE_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REPOSITORY_ATTRIBUTE_ID"))
-    private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new HashSet<RuleRepositoryAttribute>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class)
+    @JoinColumn(name = "RULE_REPOSITORY_ID")
+    private Set<RuleRepositoryAttribute> attributes = new HashSet<RuleRepositoryAttribute>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DATE")
@@ -149,12 +150,12 @@ public class RuleRepository extends AbstractEntity<RuleRepository> {
         this.rules = rules;
     }
 
-    public Set<RuleRepositoryAttribute> getRuleRepositoryAttributes() {
-        return ruleRepositoryAttributes;
+    public Set<RuleRepositoryAttribute> getAttributes() {
+        return attributes;
     }
-
-    public void setRuleRepositoryAttributes(Set<RuleRepositoryAttribute> ruleRepositoryAttributes) {
-        this.ruleRepositoryAttributes = ruleRepositoryAttributes;
+    
+    public void setAttributes(Set<RuleRepositoryAttribute> attributes) {
+        this.attributes = attributes;
     }
 	
 	@Transient

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.fetchplan.user.FetchPlanGraphUser;
 import org.hoteia.qalingo.core.security.helper.Assembler;
 import org.hoteia.qalingo.core.service.UserService;
 
@@ -33,7 +34,7 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
 	@Transactional(readOnly = true)
 	public org.springframework.security.core.userdetails.User loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException, DataAccessException {
 		User userDetails = null;
-		userDetails = userService.getUserActivedByLoginOrEmail(usernameOrEmail);
+		userDetails = userService.getUserActivedByLoginOrEmail(usernameOrEmail, FetchPlanGraphUser.loginUserFetchPlan());
 		if (userDetails == null) {
 			throw new UsernameNotFoundException("user not found");
 		}
