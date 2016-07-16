@@ -131,7 +131,7 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     private Retailer retailer;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyStoreRel.class)
-    @JoinColumn(name = "COMPANY_ID")
+    @JoinColumn(name = "STORE_ID")
     private Set<CompanyStoreRel> companyStoreRels = new HashSet<CompanyStoreRel>();
     
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)

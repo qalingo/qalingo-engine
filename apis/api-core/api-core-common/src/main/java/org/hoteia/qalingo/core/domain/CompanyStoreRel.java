@@ -36,7 +36,7 @@ public class CompanyStoreRel extends AbstractEntity<CompanyStoreRel> {
     @Column(name = "RANKING")
     private Integer ranking;
 
-    @Column(name = "IS_PRINCIPAL_USER", nullable = false, columnDefinition = "tinyint(1) default 0")
+    @Column(name = "IS_PRINCIPAL_STORE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isPrincipalStore;
     
     public CompanyStoreRel() {

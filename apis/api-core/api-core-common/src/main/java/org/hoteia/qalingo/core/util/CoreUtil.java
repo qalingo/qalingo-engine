@@ -116,14 +116,17 @@ public class CoreUtil {
     }
     
     public static String replaceSpecificAlphabet(final String stringInput) {
-        String stringOutput = stringInput.toLowerCase();
-        stringOutput = stringOutput.replaceAll("[àáâãäå]", "a");
-        stringOutput = stringOutput.replaceAll("[ç]", "c");
-        stringOutput = stringOutput.replaceAll("[èéêë]", "e");
-        stringOutput = stringOutput.replaceAll("[ìíîï]", "i");
-        stringOutput = stringOutput.replaceAll("[ðòóôõö]", "o");
-        stringOutput = stringOutput.replaceAll("[ùúûü]", "u");
-        stringOutput = stringOutput.replaceAll("[ýÿ]", "y");
+        String stringOutput = stringInput;
+        if(StringUtils.isNotEmpty(stringOutput)){
+            stringOutput = stringOutput.toLowerCase();
+            stringOutput = stringOutput.replaceAll("[àáâãäå]", "a");
+            stringOutput = stringOutput.replaceAll("[ç]", "c");
+            stringOutput = stringOutput.replaceAll("[èéêë]", "e");
+            stringOutput = stringOutput.replaceAll("[ìíîï]", "i");
+            stringOutput = stringOutput.replaceAll("[ðòóôõö]", "o");
+            stringOutput = stringOutput.replaceAll("[ùúûü]", "u");
+            stringOutput = stringOutput.replaceAll("[ýÿ]", "y");
+        }
         return stringOutput;
     }
     
@@ -220,7 +223,7 @@ public class CoreUtil {
                     logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
                 }
             } catch (NumberParseException e) {
-                logger.warn("NumberParseException was thrown.", e);
+                logger.warn("NumberParseException was thrown.", e.getMessage());
             }
         } else {
             logger.debug("Phone can't be encoded. countryCode is empty, phone: ''" + phone + "'");
@@ -250,7 +253,7 @@ public class CoreUtil {
                     logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
                 }
             } catch (NumberParseException e) {
-                logger.warn("NumberParseException was thrown.", e);
+                logger.warn("NumberParseException was thrown.", e.getMessage());
             }
         } else {
             logger.debug("Phone can't be formated. countryCode is empty, phone: ''" + phone + "'");
