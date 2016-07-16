@@ -356,6 +356,16 @@ public class User extends AbstractEntity<User> {
         return null;
     }
 
+    public void setCompany(Company company) {
+        CompanyUserRel companyUserRel = new CompanyUserRel(company, this);
+        if(companyUserRels != null
+                && Hibernate.isInitialized(companyUserRels)){
+            if(!companyUserRels.contains(companyUserRel)){
+                companyUserRels.add(companyUserRel);
+            }
+        }
+    }
+    
     public Set<Store> getStores() {
         return stores;
     }
