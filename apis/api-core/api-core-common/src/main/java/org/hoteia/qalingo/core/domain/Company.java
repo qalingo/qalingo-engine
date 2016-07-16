@@ -9,9 +9,11 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -114,9 +116,9 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     @JoinColumn(name = "COMPANY_ID")
     private Set<CompanyAttribute> attributes = new HashSet<CompanyAttribute>();
     
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyUserRel.class)
     @JoinColumn(name = "COMPANY_ID")
-    private Set<User> users = new HashSet<User>();
+    private Set<CompanyUserRel> companyUserRels = new HashSet<CompanyUserRel>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
@@ -130,9 +132,9 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     @JoinColumn(name = "COMPANY_ID")
     private Set<ProductBrand> productBrands = new HashSet<ProductBrand>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyStoreRel.class)
     @JoinColumn(name = "COMPANY_ID")
-    private Set<Retailer> retailers = new HashSet<Retailer>();
+    private Set<CompanyStoreRel> companyStoreRels = new HashSet<CompanyStoreRel>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyPayment.class)
     @JoinColumn(name = "COMPANY_ID")
@@ -336,33 +338,54 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
         this.attributes = attributes;
     }
     
-    public Set<User> getUsers() {
-        return users;
+    public Set<CompanyUserRel> getCompanyUserRels() {
+        return companyUserRels;
+    }
+    
+    public void setCompanyUserRels(Set<CompanyUserRel> companyUserRels) {
+        this.companyUserRels = companyUserRels;
+    }
+    
+    public List<User> getUsers() {
+        if(companyUserRels != null
+                && Hibernate.isInitialized(companyUserRels)
+                && companyUserRels.size() > 0){
+            List<User> users = new ArrayList<User>();
+            for (CompanyUserRel companyUserRel : companyUserRels) {
+                users.add(companyUserRel.getUser());
+            }
+            return users;
+        }
+        return null;
     }
 
     public User getDefaultUser() {
-        if(users != null 
-                && Hibernate.isInitialized(users)
-                && !users.isEmpty()){
-            return users.iterator().next();
+        if(companyUserRels != null
+                && Hibernate.isInitialized(companyUserRels)
+                && companyUserRels.size() > 0){
+            for (CompanyUserRel companyUserRel : companyUserRels) {
+                if(companyUserRel.isPrincipalUser()){
+                    return companyUserRel.getUser();
+                }
+            }
+            return companyUserRels.iterator().next().getUser();
         }
         return null;
     }
     
     public void addUser(User user) {
-        if(this.users != null){
-            this.users.add(user);
+        CompanyUserRel companyUserRel = new CompanyUserRel(this, user);
+        if(companyUserRels != null
+                && Hibernate.isInitialized(companyUserRels)
+                && companyUserRels.size() > 0){
+            if(!companyUserRels.contains(companyUserRel)){
+                companyUserRels.add(companyUserRel);
+            }
         } else {
-            Set<User> users = new HashSet<User>();
-            users.add(user);
-            this.users = users;
+            companyUserRels.add(companyUserRel);
         }
     }
     
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
     public Localization getDefaultLocalization() {
         return defaultLocalization;
     }
@@ -435,37 +458,54 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
         this.productBrands = brands;
     }
     
-    public Set<Retailer> getRetailers() {
-        return retailers;
+    public Set<CompanyStoreRel> getCompanyStoreRels() {
+        return companyStoreRels;
     }
     
-    public Retailer getRetailer(String code) {
-        if (retailers != null 
-                && Hibernate.isInitialized(retailers)) {
-            for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-                Retailer retailer = (Retailer) iterator.next();
-                if (retailer.getCode().equalsIgnoreCase(code)) {
-                    return retailer;
-                }
+    public void setCompanyStoreRels(Set<CompanyStoreRel> companyStoreRels) {
+        this.companyStoreRels = companyStoreRels;
+    }
+    
+    public List<Store> getStores() {
+        if(companyStoreRels != null
+                && Hibernate.isInitialized(companyStoreRels)
+                && companyStoreRels.size() > 0){
+            List<Store> stores = new ArrayList<Store>();
+            for (CompanyStoreRel companyStoreRel : companyStoreRels) {
+                stores.add(companyStoreRel.getStore());
             }
+            return stores;
         }
         return null;
     }
 
-    public void addRetailer(Retailer retailer) {
-        if(this.retailers != null){
-            this.retailers.add(retailer);
+    public Store getDefaultStore() {
+        if(companyStoreRels != null
+                && Hibernate.isInitialized(companyStoreRels)
+                && companyStoreRels.size() > 0){
+            for (CompanyStoreRel companyStoreRel : companyStoreRels) {
+                if(companyStoreRel.isPrincipalStore()){
+                    return companyStoreRel.getStore();
+                }
+            }
+            return companyStoreRels.iterator().next().getStore();
+        }
+        return null;
+    }
+    
+    public void addStore(Store store) {
+        CompanyStoreRel companyStoreRel = new CompanyStoreRel(this, store);
+        if(companyStoreRels != null
+                && Hibernate.isInitialized(companyStoreRels)
+                && companyStoreRels.size() > 0){
+            if(!companyStoreRels.contains(companyStoreRel)){
+                companyStoreRels.add(companyStoreRel);
+            }
         } else {
-            Set<Retailer> retailers = new HashSet<Retailer>();
-            retailers.add(retailer);
-            this.retailers = retailers;
+            companyStoreRels.add(companyStoreRel);
         }
     }
     
-    public void setRetailers(Set<Retailer> retailers) {
-        this.retailers = retailers;
-    }
-
     public Set<CompanyPayment> getPayments() {
         return payments;
     }

@@ -443,7 +443,6 @@ public class RetailerService {
     	List<SpecificFetchMode> retailerFetchPlans = new ArrayList<SpecificFetchMode>();
     	retailerFetchPlans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
     	retailerFetchPlans.add(new SpecificFetchMode(Retailer_.addresses.getName()));
-    	retailerFetchPlans.add(new SpecificFetchMode(Retailer_.company.getName()));
     	retailerFetchPlans.add(new SpecificFetchMode(Retailer_.stores.getName()));
     	
 		Retailer retailer = getRetailerById(store.getRetailer().getId(), new FetchPlan(retailerFetchPlans));
@@ -451,16 +450,6 @@ public class RetailerService {
 		Company company = null;
 		List<User> users = null;
 		
-		if(retailer.getCompany() != null){
-			List<SpecificFetchMode> companyFetchPlans = new ArrayList<SpecificFetchMode>();
-			companyFetchPlans.add(new SpecificFetchMode(Company_.productBrands.getName()));
-	    	companyFetchPlans.add(new SpecificFetchMode(Company_.localizations.getName()));
-	    	
-			company = userService.getCompanyById(retailer.getCompany().getId(), new FetchPlan(companyFetchPlans));
-	    	logger.debug("Company: " + company.toString());
-			users = userService.findUsersByCompanyId(retailer.getCompany().getId());
-		}
-
 		List<Long> brandIds = productService.findProductBrandIdsByStoreId(store.getId(), 0);
 		if(brandIds != null
 				&& !brandIds.isEmpty()){
@@ -474,22 +463,31 @@ public class RetailerService {
 		if(retailer.getStores() != null
 				&& retailer.getStores().size() == 1){
 			deleteRetailer(retailer);
-		} else {
-			deleteStore(store);
 		}
-		
-		if(retailer.getCompany() != null
-				&& company.getRetailers() != null
-				&& company.getRetailers().size() == 1){
-			
-			userService.deleteCompany(company);
-			if(users != null){
-		    	logger.debug("There is users, users: " + users.toString());
-				for (User user : users) {
-					userService.deleteUser(user);
-				}
-			}
-		}
+//		
+//	      if(store.getCompany() != null){
+//	            List<SpecificFetchMode> companyFetchPlans = new ArrayList<SpecificFetchMode>();
+//	            companyFetchPlans.add(new SpecificFetchMode(Company_.productBrands.getName()));
+//	            companyFetchPlans.add(new SpecificFetchMode(Company_.localizations.getName()));
+//	            
+//	            company = userService.getCompanyById(retailer.getCompany().getId(), new FetchPlan(companyFetchPlans));
+//	            logger.debug("Company: " + company.toString());
+//	            users = userService.findUsersByCompanyId(retailer.getCompany().getId());
+//	        }
+//
+//		
+//		if(retailer.getCompany() != null
+//				&& company.getRetailers() != null
+//				&& company.getRetailers().size() == 1){
+//			
+//			userService.deleteCompany(company);
+//			if(users != null){
+//		    	logger.debug("There is users, users: " + users.toString());
+//				for (User user : users) {
+//					userService.deleteUser(user);
+//				}
+//			}
+//		}
     }
     
     public ByteArrayOutputStream generateExcelBrandRetailers(ProductBrand productBrand) throws Exception {

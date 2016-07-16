@@ -75,9 +75,8 @@ public class StoreSolrService extends AbstractSolrService {
         storeSolr.setId(store.getId());
         storeSolr.setCode(store.getCode());
         storeSolr.setName(store.getName());
-        if(Hibernate.isInitialized(store.getRetailer()) && store.getRetailer() != null
-                && Hibernate.isInitialized(store.getRetailer().getCompany()) && store.getRetailer().getCompany() != null){
-            storeSolr.setCompanyName(store.getRetailer().getCompany().getName());
+        if(store.getCompany() != null){
+            storeSolr.setCompanyName(store.getCompany().getName());
         }
         if(store.getTags() != null){
             for (Tag tag : store.getTags()) {

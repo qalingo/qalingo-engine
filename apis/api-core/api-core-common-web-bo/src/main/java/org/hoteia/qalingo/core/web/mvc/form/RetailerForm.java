@@ -36,7 +36,6 @@ public class RetailerForm {
 	protected String stateCode;
 	protected String areaCode;
 	protected String countryCode;
-	protected String warehouseId;
 
 	protected String longitude;
 	protected String latitude;
@@ -240,14 +239,6 @@ public class RetailerForm {
 		this.isCorner = isCorner;
 	}
 
-	public String getWarehouseId() {
-		return warehouseId;
-	}
-
-	public void setWarehouseId(String warehouseId) {
-		this.warehouseId = warehouseId;
-	}
-
 	public MultipartFile getFile() {
 		return file;
 	}
@@ -255,4 +246,5 @@ public class RetailerForm {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	
 }

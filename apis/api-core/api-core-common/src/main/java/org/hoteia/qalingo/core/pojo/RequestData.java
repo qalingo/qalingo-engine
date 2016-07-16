@@ -125,12 +125,14 @@ public class RequestData implements Serializable {
     }
     
     public Map<String, String> getRequestParams() {
-        if(request != null){
+        if (request != null) {
             Map<String, String> params = new HashMap<String, String>();
-            Enumeration<String> parameterNames = request.getParameterNames(); 
-            while(parameterNames.hasMoreElements()){
-             String paramName = (String)parameterNames.nextElement();
-             params.put(paramName, request.getParameter(paramName));
+            Enumeration<String> parameterNames = request.getParameterNames();
+            if (parameterNames != null) {
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = (String) parameterNames.nextElement();
+                    params.put(paramName, request.getParameter(paramName));
+                }
             }
             return params;
         }

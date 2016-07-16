@@ -17,6 +17,7 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.Store_;
 import org.hoteia.qalingo.core.domain.Company_;
+import org.hoteia.qalingo.core.domain.CompanyStoreRel_;
 
 public class FetchPlanGraphRetailer {
     
@@ -41,8 +42,6 @@ public class FetchPlanGraphRetailer {
         fetchplans.add(new SpecificFetchMode(Retailer_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(Retailer_.customerRates.getName()));
         fetchplans.add(new SpecificFetchMode(Retailer_.customerComments.getName()));
-        fetchplans.add(new SpecificFetchMode(Retailer_.warehouses.getName()));
-        fetchplans.add(new SpecificFetchMode(Retailer_.company.getName()));
         return new FetchPlan(fetchplans);
     }
     
@@ -60,8 +59,8 @@ public class FetchPlanGraphRetailer {
         fetchplans.add(new SpecificFetchMode(Store_.businessHours.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.retailer.getName()));
         fetchplans.add(new SpecificFetchMode(Store_.productBrands.getName()));
-        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName() + "." + Retailer_.company.getName()));
-        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName() + "." + Retailer_.company.getName() + "." + Company_.users.getName()));
+        fetchplans.add(new SpecificFetchMode(Store_.companyStoreRels.getName() + "." + CompanyStoreRel_.pk.getName()));
+//        fetchplans.add(new SpecificFetchMode(Store_.retailer.getName() + "." + Retailer_.company.getName() + "." + Company_.users.getName()));
         return new FetchPlan(fetchplans);
     }
     

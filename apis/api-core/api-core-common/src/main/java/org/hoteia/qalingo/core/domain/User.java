@@ -113,14 +113,14 @@ public class User extends AbstractEntity<User> {
     @Column(name = "MOBILE")
     private String mobile;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)
     @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
     private Localization defaultLocalization;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
-    private Company company;
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyUserRel.class)
+    @JoinColumn(name = "USER_ID")
+    private Set<CompanyUserRel> companyUserRels = new HashSet<CompanyUserRel>();
+    
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.Store.class)
     @JoinTable(name = "TBO_USER_STORE_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "STORE_ID"))
     private Set<Store> stores = new HashSet<Store>();
@@ -334,12 +334,26 @@ public class User extends AbstractEntity<User> {
         this.defaultLocalization = defaultLocalization;
     }
 
-    public Company getCompany() {
-        return company;
+    public Set<CompanyUserRel> getCompanyUserRels() {
+        return companyUserRels;
     }
-
-    public void setCompany(Company company) {
-        this.company = company;
+    
+    public void setCompanyUserRels(Set<CompanyUserRel> companyUserRels) {
+        this.companyUserRels = companyUserRels;
+    }
+    
+    public Company getCompany() {
+        if(companyUserRels != null
+                && Hibernate.isInitialized(companyUserRels)
+                && companyUserRels.size() > 0){
+            for (CompanyUserRel companyUserRel : companyUserRels) {
+                if(companyUserRel.isDefaultCompany()){
+                    return companyUserRel.getCompany();
+                }
+            }
+            return companyUserRels.iterator().next().getCompany();
+        }
+        return null;
     }
 
     public Set<Store> getStores() {
@@ -590,7 +604,7 @@ public class User extends AbstractEntity<User> {
     @Override
     public String toString() {
         return "User [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", title=" + title + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-                + ", password=" + password + ", active=" + active + ", company=" + company + ", userGroups=" + groups + ", connectionLogs="
+                + ", password=" + password + ", active=" + active + ", userGroups=" + groups + ", connectionLogs="
                 + connectionLogs + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

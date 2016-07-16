@@ -19,6 +19,8 @@ import org.hoteia.qalingo.core.domain.User_;
 import org.hoteia.qalingo.core.domain.UserGroup_;
 import org.hoteia.qalingo.core.domain.UserRole_;
 import org.hoteia.qalingo.core.domain.Company_;
+import org.hoteia.qalingo.core.domain.CompanyUserRel_;
+import org.hoteia.qalingo.core.domain.CompanyStoreRel_;
 
 public class FetchPlanGraphUser {
 
@@ -32,11 +34,12 @@ public class FetchPlanGraphUser {
     public static FetchPlan fullCompanyFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(Company_.localizations.getName()));
-        fetchplans.add(new SpecificFetchMode(Company_.users.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.companyUserRels.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.companyUserRels.getName() + "." + CompanyUserRel_.pk.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.defaultLocalization.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.localizations.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.productBrands.getName()));
-        fetchplans.add(new SpecificFetchMode(Company_.retailers.getName()));
+        fetchplans.add(new SpecificFetchMode(Company_.companyStoreRels.getName() + "." + CompanyStoreRel_.pk.getName()));
         fetchplans.add(new SpecificFetchMode(Company_.payments.getName()));
         return new FetchPlan(fetchplans);
     }
@@ -44,7 +47,8 @@ public class FetchPlanGraphUser {
     public static FetchPlan defaultUserFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(User_.defaultLocalization.getName()));
-        fetchplans.add(new SpecificFetchMode(User_.company.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.companyUserRels.getName()));
+        fetchplans.add(new SpecificFetchMode(User_.companyUserRels.getName() + "." + CompanyUserRel_.pk.getName()));
         fetchplans.add(new SpecificFetchMode(User_.credentials.getName()));
         fetchplans.add(new SpecificFetchMode(User_.tokens.getName()));
         fetchplans.add(new SpecificFetchMode(User_.groups.getName()));

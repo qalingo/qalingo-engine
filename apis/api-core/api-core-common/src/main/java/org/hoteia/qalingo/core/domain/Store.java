@@ -130,6 +130,10 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
     private Retailer retailer;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CompanyStoreRel.class)
+    @JoinColumn(name = "COMPANY_ID")
+    private Set<CompanyStoreRel> companyStoreRels = new HashSet<CompanyStoreRel>();
+    
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
     @JoinColumn(name = "WAREHOUSE_ID", insertable = true, updatable = true)
     private Warehouse warehouse;
@@ -403,14 +407,34 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
         this.retailer = retailer;
     }
     
-    public Company getCompany() {
-        if(retailer != null
-                && Hibernate.isInitialized(retailer)
-                && retailer.getCompany() != null
-                && Hibernate.isInitialized(retailer.getCompany())){
-            return retailer.getCompany();
+    public Set<CompanyStoreRel> getCompanyStoreRels() {
+        return companyStoreRels;
+    }
+    
+    public void setCompanyStoreRels(Set<CompanyStoreRel> companyStoreRels) {
+        this.companyStoreRels = companyStoreRels;
+    }
+    
+    public Store getCompany() {
+        if(companyStoreRels != null
+                && Hibernate.isInitialized(companyStoreRels)
+                && companyStoreRels.size() > 0){
+            return companyStoreRels.iterator().next().getStore();
         }
         return null;
+    }
+    
+    public void setCompany(Company company) {
+        CompanyStoreRel companyStoreRel = new CompanyStoreRel(company, this);
+        if(companyStoreRels != null
+                && Hibernate.isInitialized(companyStoreRels)
+                && companyStoreRels.size() > 0){
+            if(!companyStoreRels.contains(companyStoreRel)){
+                companyStoreRels.add(companyStoreRel);
+            }
+        } else {
+            companyStoreRels.add(companyStoreRel);
+        }
     }
     
     public Warehouse getWarehouse() {
