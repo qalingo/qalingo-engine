@@ -342,6 +342,19 @@ public class User extends AbstractEntity<User> {
         this.companyUserRels = companyUserRels;
     }
     
+    public boolean hasCompany(Company company) {
+        if(companyUserRels != null
+                && Hibernate.isInitialized(companyUserRels)
+                && companyUserRels.size() > 0){
+            for (CompanyUserRel companyUserRel : companyUserRels) {
+                if(companyUserRel.getCompany().equals(company)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public Company getCompany() {
         if(companyUserRels != null
                 && Hibernate.isInitialized(companyUserRels)
@@ -377,6 +390,19 @@ public class User extends AbstractEntity<User> {
             return stores.iterator().next();
         }
         return null;
+    }
+    
+    public boolean hasStore(Store store) {
+        if(stores != null
+                && Hibernate.isInitialized(stores)
+                && stores.size() > 0){
+            for (Store storeIt : stores) {
+                if(storeIt.equals(store)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     public void setStores(Set<Store> stores) {
