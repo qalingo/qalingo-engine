@@ -415,11 +415,11 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
         this.companyStoreRels = companyStoreRels;
     }
     
-    public Store getCompany() {
+    public Company getCompany() {
         if(companyStoreRels != null
                 && Hibernate.isInitialized(companyStoreRels)
                 && companyStoreRels.size() > 0){
-            return companyStoreRels.iterator().next().getStore();
+            return companyStoreRels.iterator().next().getCompany();
         }
         return null;
     }
