@@ -220,13 +220,13 @@ public class UrlService extends AbstractUrlService {
     }
 
     public String generateCmsLink(RequestData requestData, CmsLink link, Object... params){
-        try {
-            FoUrls urlType = FoUrls.valueOf(FoUrls.class, link.getType());
-            return generateUrl(urlType, requestData, params);
-            
-        } catch (Exception e) {
-            logger.debug("Can't build link: " + link.toString(), e);
-        }
+//        try {
+//            FoUrls urlType = FoUrls.valueOf(FoUrls.class, link.getType());
+//            return generateUrl(urlType, requestData, params);
+//            
+//        } catch (Exception e) {
+//            logger.debug("Can't build link: " + link.toString(), e);
+//        }
         try {
             FoUrls urlType = FoUrls.valueOf(FoUrls.class, link.getType());
             if(FoUrls.ARTICLE_CMS_CONTENT.equals(urlType) || FoUrls.PAGE_CMS_CONTENT.equals(urlType)){

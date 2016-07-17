@@ -223,7 +223,7 @@ public class CoreUtil {
                     logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
                 }
             } catch (NumberParseException e) {
-                logger.warn("NumberParseException was thrown.", e.getMessage());
+                logger.warn("NumberParseException was thrown: ''" + phone + "'", e.getMessage());
             }
         } else {
             logger.debug("Phone can't be encoded. countryCode is empty, phone: ''" + phone + "'");
@@ -253,7 +253,7 @@ public class CoreUtil {
                     logger.debug("Phone can't be formated. It is not valid: ''" + phone + "'");
                 }
             } catch (NumberParseException e) {
-                logger.warn("NumberParseException was thrown.", e.getMessage());
+                logger.warn("NumberParseException was thrown: ''" + phone + "'", e.getMessage());
             }
         } else {
             logger.debug("Phone can't be formated. countryCode is empty, phone: ''" + phone + "'");
