@@ -28,31 +28,31 @@ public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> ex
     abstract public Set<A> getAttributes();
     
     public List<A> getGlobalAttributes() {
-        List<A> productSkuGlobalAttributes = null;
+        List<A> globalAttributes = null;
         if (getAttributes() != null && Hibernate.isInitialized(getAttributes())) {
-            productSkuGlobalAttributes = new ArrayList<A>();
+            globalAttributes = new ArrayList<A>();
             for (A attribute : getAttributes()) {
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && attributeDefinition.isGlobal()) {
-                    productSkuGlobalAttributes.add(attribute);
+                    globalAttributes.add(attribute);
                 }
             }
         }        
-        return productSkuGlobalAttributes;
+        return globalAttributes;
     }
 
     public List<A> getMarketAreaAttributes(Long marketAreaId) {
-        List<A> productSkuMarketAreaAttributes = null;
+        List<A> marketAreaAttributes = null;
         if (getAttributes() != null && Hibernate.isInitialized(getAttributes())) {
-            productSkuMarketAreaAttributes = new ArrayList<A>();
+            marketAreaAttributes = new ArrayList<A>();
             for (A attribute : getAttributes()) {
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && !attributeDefinition.isGlobal()) {
-                    productSkuMarketAreaAttributes.add(attribute);
+                    marketAreaAttributes.add(attribute);
                 }
             }
         }        
-        return productSkuMarketAreaAttributes;
+        return marketAreaAttributes;
     }
     
     public A getAttribute(String attributeCode, Long marketAreaId, String localizationCode) {

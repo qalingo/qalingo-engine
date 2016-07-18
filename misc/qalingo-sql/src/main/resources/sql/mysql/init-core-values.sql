@@ -181,7 +181,7 @@ VALUES
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(20000, 'CMS Menu: attribute name', 'CMS Menu: attribute name', 'CMS_MENU_ATTRIBUTE_I18N_NAME', 1, 14, 1, 1, 0, 1, 1);
+(20000, 'CMS Menu: attribute name', 'CMS Menu: attribute name', 'CMS_MENU_I18N_NAME', 1, 19, 1, 1, 0, 1, 1);
 
 
 -- CORE ENGINE SETTINGS
