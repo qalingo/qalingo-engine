@@ -1315,7 +1315,7 @@ public class WebBackofficeService {
     }
     
     public CmsMenu updateCmsMenuDescriptions(final MarketArea marketArea, final Localization localization, CmsMenu menu, final List<MultipleTextBean> descriptions) throws Exception {
-        String attributeCode = CmsMenuAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_LONG_DESCRIPTION;
+        String attributeCode = CmsMenuAttribute.CMS_MENU_ATTRIBUTE_I18N_NAME;
         for (MultipleTextBean description : descriptions) {
             String value = description.getText();
             if (StringUtils.isNotEmpty(value)) {
