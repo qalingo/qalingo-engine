@@ -628,6 +628,28 @@ public class CmsContentDao extends AbstractGenericDao {
         List<Long> menuIds = criteria.list();
         return menuIds;
     }
+   
+    public List<Long> findAllActiveRootCmsMenuIdsByPosition(final String app, final Long marketAreaId, final String position, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsMenu.class);
+        
+        handleSpecificCmsMenuFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("app", app));
+        criteria.add(Restrictions.eq("position", position));
+        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+        criteria.add(Restrictions.eq("active", true));
+        criteria.add(Restrictions.isNull("menu"));
+        
+        criteria.setProjection(Projections.property("id"));
+        
+        criteria.addOrder(Order.asc("position"));
+        criteria.addOrder(Order.asc("ordering"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> menuIds = criteria.list();
+        return menuIds;
+    }
     
     public List<CmsMenu> findAllActiveRootCmsMenusByPosition(final String app, final Long marketAreaId, final String position, Object... params) {
         Criteria criteria = createDefaultCriteria(CmsMenu.class);

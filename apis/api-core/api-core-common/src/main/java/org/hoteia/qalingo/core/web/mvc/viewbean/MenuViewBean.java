@@ -25,6 +25,9 @@ public class MenuViewBean extends AbstractViewBean {
     protected String key;
     protected String name;
     protected String description;
+    
+    protected String i18nName;
+
     protected String alt;
     protected String img;
     protected String url;
@@ -65,6 +68,14 @@ public class MenuViewBean extends AbstractViewBean {
         this.description = description;
     }
 
+    public String getI18nName() {
+        return i18nName;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
     public String getAlt() {
         if (StringUtils.isEmpty(alt)) {
             return getName();

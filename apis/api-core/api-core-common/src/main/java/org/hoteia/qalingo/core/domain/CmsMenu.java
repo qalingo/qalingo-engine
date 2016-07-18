@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.comparator.CmsMenuComparator;
 
@@ -260,6 +261,24 @@ public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
+	
+    // Attributes
+
+    public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
+        AbstractAttribute attribute = getAttribute(attributeCode, marketAreaId, localizationCode);
+        if (attribute != null) {
+            return attribute.getValue();
+        }
+        return null;
+    }
+
+    public String getI18nName(String localizationCode) {
+        String i18Name = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        if(StringUtils.isNotEmpty(i18Name)){
+            return i18Name;
+        }
+        return name;
+    }
 
 	@Override
 	public int hashCode() {

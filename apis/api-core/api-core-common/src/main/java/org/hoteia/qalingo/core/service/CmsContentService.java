@@ -254,6 +254,10 @@ public class CmsContentService {
         return cmsContentDao.findAllCmsMenuIds(app, marketAreaId, params);
     }
     
+    public List<Long> findAllActiveRootCmsMenuIdsByPosition(final String app, final Long marketAreaId, final String position, Object... params) {
+        return cmsContentDao.findAllActiveRootCmsMenuIdsByPosition(app, marketAreaId, position, params);
+    }
+    
     public List<CmsMenu> findAllActiveRootCmsMenusByPosition(final String app, final Long marketAreaId, final String position, Object... params) {
         return cmsContentDao.findAllActiveRootCmsMenusByPosition(app, marketAreaId, position, params);
     }
