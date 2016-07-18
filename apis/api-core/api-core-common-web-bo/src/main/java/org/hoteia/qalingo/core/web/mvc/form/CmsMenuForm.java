@@ -27,7 +27,7 @@ public class CmsMenuForm {
     protected Map<AttributeContextBean, String> globalAttributes = new HashMap<AttributeContextBean, String>();
     protected Map<AttributeContextBean, String> marketAreaAttributes = new HashMap<AttributeContextBean, String>();
 	
-    protected List<MultipleTextBean> descriptions = new ArrayList<MultipleTextBean>();
+    protected List<MultipleTextBean> i18nNames = new ArrayList<MultipleTextBean>();
     
     protected Date dateCreate;
 	protected Date dateUpdate;
@@ -152,12 +152,22 @@ public class CmsMenuForm {
         this.marketAreaAttributes = marketAreaAttributes;
     }
     
-    public List<MultipleTextBean> getDescriptions() {
-        return descriptions;
+    public List<MultipleTextBean> getI18nNames() {
+        return i18nNames;
     }
     
-    public void setDescriptions(List<MultipleTextBean> descriptions) {
-        this.descriptions = descriptions;
+    public String getI18nName(String localizationCode) {
+        for (MultipleTextBean multipleTextBean : i18nNames) {
+            if(multipleTextBean.getCode() != null 
+                    && multipleTextBean.getCode().equals(localizationCode)){
+                return multipleTextBean.getText();
+            }
+        }
+        return null;
+    }
+    
+    public void setI18nNames(List<MultipleTextBean> i18nNames) {
+        this.i18nNames = i18nNames;
     }
 
 	public Date getDateCreate() {

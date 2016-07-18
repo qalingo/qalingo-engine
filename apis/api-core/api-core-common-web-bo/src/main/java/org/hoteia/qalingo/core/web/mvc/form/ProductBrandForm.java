@@ -34,7 +34,7 @@ public class ProductBrandForm {
 	protected Map<AttributeContextBean, String> globalAttributes = new HashMap<AttributeContextBean, String>();
 	protected Map<AttributeContextBean, String> marketAreaAttributes = new HashMap<AttributeContextBean, String>();
 	
-    protected List<MultipleTextBean> descriptions = new ArrayList<MultipleTextBean>();
+    protected List<MultipleTextBean> i18nDescriptions = new ArrayList<MultipleTextBean>();
     
     public String getId() {
 		if(id == null){
@@ -122,12 +122,22 @@ public class ProductBrandForm {
 		this.marketAreaAttributes = marketAreaAttributes;
 	}
 	
-	public List<MultipleTextBean> getDescriptions() {
-        return descriptions;
+	public List<MultipleTextBean> getI18nDescriptions() {
+        return i18nDescriptions;
     }
 	
-	public void setDescriptions(List<MultipleTextBean> descriptions) {
-        this.descriptions = descriptions;
+    public String getI18nDescription(String localizationCode) {
+        for (MultipleTextBean multipleTextBean : i18nDescriptions) {
+            if(multipleTextBean.getCode() != null 
+                    && multipleTextBean.getCode().equals(localizationCode)){
+                return multipleTextBean.getText();
+            }
+        }
+        return null;
+    }
+    
+	public void setI18nDescriptions(List<MultipleTextBean> i18nDescriptions) {
+        this.i18nDescriptions = i18nDescriptions;
     }
 	
 }

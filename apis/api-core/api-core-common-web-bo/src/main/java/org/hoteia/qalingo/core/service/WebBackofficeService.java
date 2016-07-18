@@ -1314,12 +1314,12 @@ public class WebBackofficeService {
         return cmsContentService.saveOrUpdateCmsMenu(menu);
     }
     
-    public CmsMenu updateCmsMenuDescriptions(final MarketArea marketArea, final Localization localization, CmsMenu menu, final List<MultipleTextBean> descriptions) throws Exception {
+    public CmsMenu updateCmsMenuNameTranslations(final MarketArea marketArea, final Localization localization, CmsMenu menu, final List<MultipleTextBean> nameTranslations) throws Exception {
         String attributeCode = CmsMenuAttribute.CMS_MENU_ATTRIBUTE_I18N_NAME;
-        for (MultipleTextBean description : descriptions) {
-            String value = description.getText();
+        for (MultipleTextBean nameTranslation : nameTranslations) {
+            String value = nameTranslation.getText();
             if (StringUtils.isNotEmpty(value)) {
-                String localizationCode = description.getCode();
+                String localizationCode = nameTranslation.getCode();
                 Localization attributeLocalization = null;
                 if(StringUtils.isNotEmpty(localizationCode)){
                     attributeLocalization = localizationService.getLocalizationByCode(localizationCode);
