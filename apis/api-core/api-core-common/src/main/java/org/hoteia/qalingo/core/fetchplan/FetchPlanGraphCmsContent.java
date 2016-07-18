@@ -94,6 +94,7 @@ public class FetchPlanGraphCmsContent {
 
         fetchplans.add(new SpecificFetchMode(CmsMenu_.menu.getName()));
         fetchplans.add(new SpecificFetchMode(CmsMenu_.subMenus.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsMenu_.subMenus.getName() + "." + CmsMenu_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(CmsMenu_.link.getName()));
         
         fetchplans.add(new SpecificFetchMode(CmsMenu_.blocks.getName()));

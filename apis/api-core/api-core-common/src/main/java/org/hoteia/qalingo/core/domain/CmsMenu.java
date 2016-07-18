@@ -273,7 +273,7 @@ public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
     }
 
     public String getI18nName(String localizationCode) {
-        String i18Name = (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_NAME, null, localizationCode);
+        String i18Name = (String) getValue(CmsMenuAttribute.CMS_MENU_ATTRIBUTE_I18N_NAME, null, localizationCode);
         if(StringUtils.isNotEmpty(i18Name)){
             return i18Name;
         }

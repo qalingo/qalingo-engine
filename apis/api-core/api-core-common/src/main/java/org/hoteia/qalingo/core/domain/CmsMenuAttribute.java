@@ -1,5 +1,6 @@
 package org.hoteia.qalingo.core.domain;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -258,6 +259,14 @@ public class CmsMenuAttribute extends AbstractAttribute<CmsMenuAttribute> {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CmsMenuAttribute [id=" + id + ", version=" + version + ", attributeDefinition=" + attributeDefinition + ", shortStringValue=" + shortStringValue + ", longStringValue="
+                + longStringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue="
+                + booleanValue + ", dateValue=" + dateValue + ", localizationCode=" + localizationCode + ", marketAreaId=" + marketAreaId + ", startDate=" + startDate + ", endDate=" + endDate
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 	
 }
