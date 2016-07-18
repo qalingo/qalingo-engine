@@ -36,6 +36,8 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
+import org.hoteia.qalingo.core.domain.CmsMenu;
+import org.hoteia.qalingo.core.domain.CmsMenuAttribute;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
@@ -68,12 +70,14 @@ import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.AttributeContextBean;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
+import org.hoteia.qalingo.core.web.mvc.form.CmsMenuForm;
 import org.hoteia.qalingo.core.web.mvc.form.CompanyForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.ForgottenPasswordForm;
+import org.hoteia.qalingo.core.web.mvc.form.MultipleTextBean;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductBrandForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
@@ -134,6 +138,9 @@ public class WebBackofficeService {
     @Autowired
     protected PaymentGatewayService paymentGatewayService;
 
+    @Autowired
+    protected CmsContentService cmsContentService;
+    
     @Autowired
     protected EmailService emailService;
     
@@ -397,6 +404,29 @@ public class WebBackofficeService {
             }
         }
         
+        return productService.saveOrUpdateProductBrand(brand);
+    }
+    
+    public ProductBrand updateProductBrandDescriptions(final MarketArea marketArea, final Localization localization, ProductBrand brand, final List<MultipleTextBean> descriptions) throws Exception {
+        String attributeCode = ProductBrandAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_LONG_DESCRIPTION;
+        for (MultipleTextBean description : descriptions) {
+            String value = description.getText();
+            if (StringUtils.isNotEmpty(value)) {
+                String localizationCode = description.getCode();
+                Localization attributeLocalization = null;
+                if(StringUtils.isNotEmpty(localizationCode)){
+                    attributeLocalization = localizationService.getLocalizationByCode(localizationCode);
+                }
+                ProductBrandAttribute brandAttribute = brand.getAttribute(attributeCode, null, attributeLocalization.getCode());
+                if(brandAttribute != null){
+                    // UPDATE
+                    brandAttribute.setValue(value);
+                } else {
+                    // CREATE - ADD
+                    brand.getAttributes().add(buildProductBrandAttribute(null, attributeLocalization, attributeCode, value, false));
+                }
+            }
+        }
         return productService.saveOrUpdateProductBrand(brand);
     }
     
@@ -693,17 +723,17 @@ public class WebBackofficeService {
     private ProductBrandAttribute buildProductBrandAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
         AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
 
-        ProductBrandAttribute productBrandAttribute = new ProductBrandAttribute();
-        productBrandAttribute.setAttributeDefinition(attributeDefinition);
+        ProductBrandAttribute attribute = new ProductBrandAttribute();
+        attribute.setAttributeDefinition(attributeDefinition);
         if(localization != null){
-            productBrandAttribute.setLocalizationCode(localization.getCode());
+            attribute.setLocalizationCode(localization.getCode());
         }
         if(marketArea != null){
-            productBrandAttribute.setMarketAreaId(marketArea.getId());
+            attribute.setMarketAreaId(marketArea.getId());
         }
-        productBrandAttribute.setStartDate(new Date());
-        productBrandAttribute.setValue(attributeValue);
-        return productBrandAttribute;
+        attribute.setStartDate(new Date());
+        attribute.setValue(attributeValue);
+        return attribute;
     }
 	   
 	private CatalogCategoryMasterAttribute buildCatalogCategoryMasterAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
@@ -1215,4 +1245,112 @@ public class WebBackofficeService {
         String currentContextNameValue = requestUtil.getCurrentContextNameValue();
         return emailService.getEmailFromAddress(requestData, marketArea, currentContextNameValue, targetContextNameValue, emailType);
     }
+    
+    // CMS
+    
+    public CmsMenu createOrUpdateCmsMenu(final MarketArea marketArea, final Localization localization, CmsMenu menu, final CmsMenuForm menuForm) throws Exception {
+        if(menu == null){
+            menu = new CmsMenu();
+        }
+        
+        menu.setCode(menuForm.getCode());
+        menu.setName(menuForm.getName());
+        menu.setPosition(menuForm.getPosition());
+        menu.getLink().setType(menuForm.getType());
+        menu.getLink().setParams(menuForm.getParams());
+        menu.getLink().setExternal(menuForm.isExternal());
+        menu.setOrdering(menuForm.getOrdering());
+        menu.setActive(menuForm.isActive());
+
+        if(menuForm.getMarketAreaAttributes() != null) {
+            Map<AttributeContextBean, String> attributes = menuForm.getMarketAreaAttributes();
+            for (AttributeContextBean attributeKey : attributes.keySet()) {
+                String value = attributes.get(attributeKey);
+                if (StringUtils.isNotEmpty(value)) {
+                    String marketAreaCode = attributeKey.getMarketAreaCode();
+                    MarketArea marketAreaAttribute = null;
+                    if(StringUtils.isNotEmpty(marketAreaCode)){
+                        marketAreaAttribute = marketService.getMarketAreaByCode(marketAreaCode);
+                    }
+                    String localizationCode = attributeKey.getLocalizationCode();
+                    Localization localizationAttribute = null;
+                    if(StringUtils.isNotEmpty(localizationCode)){
+                        localizationAttribute = localizationService.getLocalizationByCode(localizationCode);
+                    }
+                    CmsMenuAttribute menuAttribute = menu.getAttribute(attributeKey.getCode(), marketAreaAttribute.getId(), localizationAttribute.getCode());
+                    if(menuAttribute != null){
+                        // UPDATE
+                        menuAttribute.setValue(value);
+                    } else {
+                        // CREATE - ADD
+                        menu.getAttributes().add(buildCmsMenuAttribute(marketAreaAttribute, localizationAttribute, attributeKey.getCode(), value, false));
+                    }
+                }
+            }
+        }
+        
+        if(menuForm.getGlobalAttributes() != null) {
+            Map<AttributeContextBean, String> attributes = menuForm.getGlobalAttributes();
+            for (AttributeContextBean attributeKey : attributes.keySet()) {
+                String value = attributes.get(attributeKey);
+                if (StringUtils.isNotEmpty(value)) {
+                    String localizationCode = attributeKey.getLocalizationCode();
+                    Localization localizationAttribute = null;
+                    if(StringUtils.isNotEmpty(localizationCode)){
+                        localizationAttribute = localizationService.getLocalizationByCode(localizationCode);
+                    }
+                    CmsMenuAttribute menuAttribute = menu.getAttribute(attributeKey.getCode(), null, localizationAttribute.getCode());
+                    if(menuAttribute != null){
+                        // UPDATE
+                        menuAttribute.setValue(value);
+                    } else {
+                        // CREATE - ADD
+                        menu.getAttributes().add(buildCmsMenuAttribute(null, localizationAttribute, attributeKey.getCode(), value, false));
+                    }
+                }
+            }
+        }
+        
+        return cmsContentService.saveOrUpdateCmsMenu(menu);
+    }
+    
+    public CmsMenu updateCmsMenuDescriptions(final MarketArea marketArea, final Localization localization, CmsMenu menu, final List<MultipleTextBean> descriptions) throws Exception {
+        String attributeCode = CmsMenuAttribute.PRODUCT_BRAND_ATTRIBUTE_I18N_LONG_DESCRIPTION;
+        for (MultipleTextBean description : descriptions) {
+            String value = description.getText();
+            if (StringUtils.isNotEmpty(value)) {
+                String localizationCode = description.getCode();
+                Localization attributeLocalization = null;
+                if(StringUtils.isNotEmpty(localizationCode)){
+                    attributeLocalization = localizationService.getLocalizationByCode(localizationCode);
+                }
+                CmsMenuAttribute menuAttribute = menu.getAttribute(attributeCode, null, attributeLocalization.getCode());
+                if(menuAttribute != null){
+                    // UPDATE
+                    menuAttribute.setValue(value);
+                } else {
+                    // CREATE - ADD
+                    menu.getAttributes().add(buildCmsMenuAttribute(null, attributeLocalization, attributeCode, value, false));
+                }
+            }
+        }
+        return cmsContentService.saveOrUpdateCmsMenu(menu);
+    }
+    
+    private CmsMenuAttribute buildCmsMenuAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) throws ParseException {
+        AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
+
+        CmsMenuAttribute attribute = new CmsMenuAttribute();
+        attribute.setAttributeDefinition(attributeDefinition);
+        if(localization != null){
+            attribute.setLocalizationCode(localization.getCode());
+        }
+        if(marketArea != null){
+            attribute.setMarketAreaId(marketArea.getId());
+        }
+        attribute.setStartDate(new Date());
+        attribute.setValue(attributeValue);
+        return attribute;
+    }
+    
 }

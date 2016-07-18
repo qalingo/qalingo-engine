@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.core.web.mvc.form;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -32,6 +34,8 @@ public class ProductBrandForm {
 	protected Map<AttributeContextBean, String> globalAttributes = new HashMap<AttributeContextBean, String>();
 	protected Map<AttributeContextBean, String> marketAreaAttributes = new HashMap<AttributeContextBean, String>();
 	
+    protected List<MultipleTextBean> descriptions = new ArrayList<MultipleTextBean>();
+    
     public String getId() {
 		if(id == null){
 			return "";
@@ -117,5 +121,13 @@ public class ProductBrandForm {
 	public void setMarketAreaAttributes(Map<AttributeContextBean, String> marketAreaAttributes) {
 		this.marketAreaAttributes = marketAreaAttributes;
 	}
+	
+	public List<MultipleTextBean> getDescriptions() {
+        return descriptions;
+    }
+	
+	public void setDescriptions(List<MultipleTextBean> descriptions) {
+        this.descriptions = descriptions;
+    }
 	
 }

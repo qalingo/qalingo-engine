@@ -1,6 +1,10 @@
 package org.hoteia.qalingo.core.web.mvc.form;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CmsMenuForm {
 	
@@ -20,6 +24,11 @@ public class CmsMenuForm {
 	
 	protected String rootMenuId;
 	
+    protected Map<AttributeContextBean, String> globalAttributes = new HashMap<AttributeContextBean, String>();
+    protected Map<AttributeContextBean, String> marketAreaAttributes = new HashMap<AttributeContextBean, String>();
+	
+    protected List<MultipleTextBean> descriptions = new ArrayList<MultipleTextBean>();
+    
     protected Date dateCreate;
 	protected Date dateUpdate;
 	
@@ -125,6 +134,30 @@ public class CmsMenuForm {
     
     public void setRootMenuId(String rootMenuId) {
         this.rootMenuId = rootMenuId;
+    }
+    
+    public Map<AttributeContextBean, String> getGlobalAttributes() {
+        return globalAttributes;
+    }
+    
+    public void setGlobalAttributes(Map<AttributeContextBean, String> globalAttributes) {
+        this.globalAttributes = globalAttributes;
+    }
+    
+    public Map<AttributeContextBean, String> getMarketAreaAttributes() {
+        return marketAreaAttributes;
+    }
+    
+    public void setMarketAreaAttributes(Map<AttributeContextBean, String> marketAreaAttributes) {
+        this.marketAreaAttributes = marketAreaAttributes;
+    }
+    
+    public List<MultipleTextBean> getDescriptions() {
+        return descriptions;
+    }
+    
+    public void setDescriptions(List<MultipleTextBean> descriptions) {
+        this.descriptions = descriptions;
     }
 
 	public Date getDateCreate() {
