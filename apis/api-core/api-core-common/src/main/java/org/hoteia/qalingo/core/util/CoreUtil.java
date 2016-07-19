@@ -44,8 +44,11 @@ public class CoreUtil {
     public static String cleanEntityCode(String stringInput) {
         String stringOutput = stringInput;
         if (StringUtils.isNotEmpty(stringOutput)) {
+            stringOutput = stringOutput.toLowerCase();
+            stringOutput = replaceSpecificAlphabet(stringOutput);
             stringOutput = replaceCharactersNotLetterOrDigit(stringOutput);
-            stringOutput = stringOutput.replaceAll("-", "_").toUpperCase();
+            stringOutput = stringOutput.replaceAll("-", "_");
+            stringOutput = stringOutput.toUpperCase();
         }
         return stringOutput;
     }
