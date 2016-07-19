@@ -46,7 +46,7 @@ public class CmsLink extends AbstractEntity<CmsLink> {
     private boolean external;
     
     @Column(name = "FULL_URL_PATH")
-    private String fullURlPath;
+    private String fullUrlPath;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -117,12 +117,12 @@ public class CmsLink extends AbstractEntity<CmsLink> {
 		this.external = external;
 	}
 
-	public String getFullURlPath() {
-		return fullURlPath;
+	public String getFullUrlPath() {
+		return fullUrlPath;
 	}
 
-	public void setFullURlPath(String fullURlPath) {
-		this.fullURlPath = fullURlPath;
+	public void setFullUrlPath(String fullUrlPath) {
+		this.fullUrlPath = fullUrlPath;
 	}
 
 	public Date getDateCreate() {

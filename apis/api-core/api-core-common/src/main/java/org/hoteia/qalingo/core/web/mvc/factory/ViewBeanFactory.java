@@ -3609,8 +3609,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             linkViewBean.setUrl(urlService.generateCmsLink(requestData, link));
         }
 
-        if (link.getFullURlPath() == null) {
-            linkViewBean.setFullURlPath(link.getFullURlPath());
+        if (link.getFullUrlPath() == null) {
+            linkViewBean.setFullURlPath(link.getFullUrlPath());
         }
 
         return linkViewBean;

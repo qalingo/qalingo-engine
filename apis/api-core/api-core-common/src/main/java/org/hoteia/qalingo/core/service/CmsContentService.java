@@ -334,7 +334,7 @@ public class CmsContentService {
                 targetCmsLink.setType(sourceCmsLink.getType());
                 targetCmsLink.setParams(sourceCmsLink.getParams());
                 targetCmsLink.setExternal(sourceCmsLink.isExternal());
-                targetCmsLink.setFullURlPath(sourceCmsLink.getFullURlPath());
+                targetCmsLink.setFullUrlPath(sourceCmsLink.getFullUrlPath());
                 targetCmsContentBlock.setLink(targetCmsLink);
             }
             targetCmsContentBlock.setType(sourceCmsContentBlock.getType());
@@ -391,7 +391,7 @@ public class CmsContentService {
                     targetCmsLink.setType(cmsLink.getType());
                     targetCmsLink.setParams(cmsLink.getParams());
                     targetCmsLink.setExternal(cmsLink.isExternal());
-                    targetCmsLink.setFullURlPath(cmsLink.getFullURlPath());
+                    targetCmsLink.setFullUrlPath(cmsLink.getFullUrlPath());
                     targetSubCmsContentBlock.setLink(targetCmsLink);
                 }
                 targetSubCmsContentBlock.setType(sourceSubCmsContentBlock.getType());

@@ -20,6 +20,8 @@ import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CmsContent;
+import org.hoteia.qalingo.core.domain.CmsMenu;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
@@ -48,6 +50,8 @@ import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.AttributeContextBean;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
+import org.hoteia.qalingo.core.web.mvc.form.CmsContentForm;
+import org.hoteia.qalingo.core.web.mvc.form.CmsMenuForm;
 import org.hoteia.qalingo.core.web.mvc.form.CompanyForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
@@ -548,6 +552,59 @@ public class BackofficeFormFactory {
     	}
     	
     	return storeForm;
+    }
+    
+    public CmsContentForm buildArticleForm(final RequestData requestData, final CmsContent article) throws Exception {
+        final CmsContentForm articleForm = new CmsContentForm();
+        if(article != null){
+            articleForm.setId(article.getId().toString());
+            articleForm.setCode(article.getCode());
+            articleForm.setActive(article.isActive());
+            articleForm.setSeoSegment(article.getSeoSegment());
+            articleForm.setSeoKey(article.getSeoKey());
+            articleForm.setTitle(article.getTitle());
+            articleForm.setLinkTitle(article.getLinkTitle());
+            articleForm.setSummary(article.getSummary());
+        }
+        return articleForm;
+    }
+    
+    public CmsContentForm buildHomeForm(final RequestData requestData, final CmsContent article) throws Exception {
+        final CmsContentForm articleForm = new CmsContentForm();
+        if(article != null){
+            articleForm.setId(article.getId().toString());
+            articleForm.setCode(article.getCode());
+            articleForm.setActive(article.isActive());
+            articleForm.setSeoSegment(article.getSeoSegment());
+            articleForm.setSeoKey(article.getSeoKey());
+            articleForm.setTitle(article.getTitle());
+            articleForm.setLinkTitle(article.getLinkTitle());
+            articleForm.setSummary(article.getSummary());
+        }
+        return articleForm;
+    }
+    
+    public CmsMenuForm buildCmsMenuForm(final RequestData requestData, final CmsMenu menu) throws Exception {
+        final CmsMenuForm menuForm = new CmsMenuForm();
+        if(menu != null){
+            menuForm.setId(menu.getId().toString());
+            menuForm.setCode(menu.getCode());
+            menuForm.setName(menu.getName());
+            if(menu.getMenu() != null){
+                menuForm.setRootMenuId(menu.getMenu().getId().toString());
+            }
+            menuForm.setActive(menu.isActive());
+            menuForm.setPosition(menu.getPosition());
+            if(menu.getLink() != null){
+                menuForm.setExternal(menu.getLink().isExternal());
+            }
+            menuForm.setPosition(menu.getPosition());
+            menuForm.setType(menu.getLink().getType());
+            menuForm.setParams(menu.getLink().getParams());
+            menuForm.setOrdering(menu.getOrdering());
+            menuForm.setFullURlPath(menu.getLink().getFullUrlPath());
+        }
+        return menuForm;
     }
     
 }

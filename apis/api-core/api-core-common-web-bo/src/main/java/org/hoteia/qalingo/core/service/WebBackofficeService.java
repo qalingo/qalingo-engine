@@ -1251,16 +1251,32 @@ public class WebBackofficeService {
     public CmsMenu createOrUpdateCmsMenu(final MarketArea marketArea, final Localization localization, CmsMenu menu, final CmsMenuForm menuForm) throws Exception {
         if(menu == null){
             menu = new CmsMenu();
+            if(StringUtils.isEmpty(menuForm.getCode())
+                    && StringUtils.isNotEmpty(menuForm.getName())){
+                String code = CoreUtil.cleanEntityCode(marketArea.getCode() + "_" + menuForm.getName().replace(" ", "_").toUpperCase());
+                menu.setCode(code);
+            }
         }
         
-        menu.setCode(menuForm.getCode());
-        menu.setName(menuForm.getName());
-        menu.setPosition(menuForm.getPosition());
-        menu.getLink().setType(menuForm.getType());
-        menu.getLink().setParams(menuForm.getParams());
-        menu.getLink().setExternal(menuForm.isExternal());
+        if(StringUtils.isNotEmpty(menuForm.getName())){
+            menu.setName(menuForm.getName());
+        }
+        if(StringUtils.isNotEmpty(menuForm.getPosition())){
+            menu.setPosition(menuForm.getPosition());
+        }
+        if(StringUtils.isNotEmpty(menuForm.getType())){
+            menu.getLink().setType(menuForm.getType());
+        }
+        if(StringUtils.isNotEmpty(menuForm.getParams())){
+            menu.getLink().setParams(menuForm.getParams());
+        }
         menu.setOrdering(menuForm.getOrdering());
         menu.setActive(menuForm.isActive());
+        
+        menu.getLink().setExternal(menuForm.isExternal());
+        if(StringUtils.isNotEmpty(menuForm.getFullURlPath())){
+            menu.getLink().setFullUrlPath(menuForm.getFullURlPath());
+        }
 
         if(menuForm.getMarketAreaAttributes() != null) {
             Map<AttributeContextBean, String> attributes = menuForm.getMarketAreaAttributes();
