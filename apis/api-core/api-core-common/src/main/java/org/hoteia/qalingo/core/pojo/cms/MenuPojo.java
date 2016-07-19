@@ -25,7 +25,7 @@ public class MenuPojo {
     protected MarketAreaPojo marketArea;
     protected LocalizationPojo localization;
     protected boolean external;
-    protected String fullURlPath;
+    protected String fullUrlPath;
     protected String position;
     protected String type;
     protected String params;
@@ -107,12 +107,12 @@ public class MenuPojo {
 		this.external = external;
 	}
 	
-	public String getFullURlPath() {
-		return fullURlPath;
+	public String getFullUrlPath() {
+		return fullUrlPath;
 	}
 	
-	public void setFullURlPath(String fullURlPath) {
-		this.fullURlPath = fullURlPath;
+	public void setFullUrlPath(String fullUrlPath) {
+		this.fullUrlPath = fullUrlPath;
 	}
 
 	public String getPosition() {
