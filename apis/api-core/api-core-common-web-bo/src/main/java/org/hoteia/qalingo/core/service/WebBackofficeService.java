@@ -1274,8 +1274,8 @@ public class WebBackofficeService {
         menu.setActive(menuForm.isActive());
         
         menu.getLink().setExternal(menuForm.isExternal());
-        if(StringUtils.isNotEmpty(menuForm.getFullURlPath())){
-            menu.getLink().setFullUrlPath(menuForm.getFullURlPath());
+        if(StringUtils.isNotEmpty(menuForm.getFullUrlPath())){
+            menu.getLink().setFullUrlPath(menuForm.getFullUrlPath());
         }
 
         if(menuForm.getMarketAreaAttributes() != null) {

@@ -18,7 +18,7 @@ public class CmsMenuForm {
     protected String position;
     protected String type;
     protected String params;
-    protected String fullURlPath;
+    protected String fullUrlPath;
 	protected int ordering;
     protected boolean active;
 	
@@ -104,12 +104,12 @@ public class CmsMenuForm {
 		this.params = params;
 	}
 	
-	public String getFullURlPath() {
-		return fullURlPath;
+	public String getFullUrlPath() {
+		return fullUrlPath;
 	}
 	
-	public void setFullURlPath(String fullURlPath) {
-		this.fullURlPath = fullURlPath;
+	public void setFullUrlPath(String fullUrlPath) {
+		this.fullUrlPath = fullUrlPath;
 	}
 
 	public int getOrdering() {

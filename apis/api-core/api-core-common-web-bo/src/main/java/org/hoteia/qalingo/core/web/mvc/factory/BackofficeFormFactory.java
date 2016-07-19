@@ -602,7 +602,7 @@ public class BackofficeFormFactory {
             menuForm.setType(menu.getLink().getType());
             menuForm.setParams(menu.getLink().getParams());
             menuForm.setOrdering(menu.getOrdering());
-            menuForm.setFullURlPath(menu.getLink().getFullUrlPath());
+            menuForm.setFullUrlPath(menu.getLink().getFullUrlPath());
         }
         return menuForm;
     }
