@@ -1258,7 +1258,7 @@ public class WebBackofficeService {
                     CmsMenu parentMenu = cmsContentService.getCmsMenuById(menuForm.getRootMenuId());
                     code += "_" + parentMenu.getName();
                 }
-                code += "_" + menuForm.getName().replace(" ", "_").toUpperCase();
+                code += "_" + menuForm.getName();
                 menu.setCode(CoreUtil.cleanEntityCode(code));
             }
         }
