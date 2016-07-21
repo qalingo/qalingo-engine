@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hoteia.qalingo.core.jms.skucheck.producer.EntityCheckMessageJms;
 import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component(value = "entityChekQueueListener")
@@ -30,6 +31,9 @@ public class EntityCheckQueueListener implements MessageListener, ExceptionListe
 
     protected final Log logger = LogFactory.getLog(getClass());
 
+    @Autowired
+    private ApplicationContext context;
+    
     @Autowired
     protected XmlMapper xmlMapper;
     

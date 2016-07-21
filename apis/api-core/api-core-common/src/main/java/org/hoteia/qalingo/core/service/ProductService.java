@@ -393,6 +393,10 @@ public class ProductService {
         return productDao.findProductSkuStoreRelByProductSkuId(productSkuId, params);
     }
     
+    public List<ProductSkuStoreRel> findProductSkuPriceBySkuIdAndMarketAreaId(final Long productSkuId, final Long marketAreaId, Object... params){
+        return productDao.findProductSkuPriceBySkuIdAndMarketAreaId(productSkuId, marketAreaId, params);
+    }
+    
     public ProductSkuStoreRel findProductSkuStoreRelByStoreIdAndProductId(final Long storeId, final Long productSkuId, Object... params) {
         return productDao.findProductSkuStoreRelByStoreIdAndProductId(storeId, productSkuId, params);
     }
@@ -400,7 +404,6 @@ public class ProductService {
     public List<ProductSkuStoreRel> findProductSkuStoreRelByStoreId(final Long storeId, Object... params) {
         return productDao.findProductSkuStoreRelByStoreId(storeId, params);
     }
-
 
     public List<ProductSkuStoreRel> getProductSkuStoreRelB2B(Object... params) {
         return productDao.getProductSkuStoreRelB2B(params);

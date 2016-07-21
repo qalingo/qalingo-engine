@@ -56,6 +56,13 @@
         <property name="defaultDestinationName" value="${entity.audit.trigger.queue.name}" />
     </bean>
     
+    <bean id="entityCheckJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="sessionTransacted" value="true" />
+        <property name="receiveTimeout" value="-1" />
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultDestinationName" value="${entity.check.trigger.queue.name}" />
+    </bean>
+    
 	<bean id="erpJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="sessionTransacted" value="true" />
 		<property name="receiveTimeout" value="-1" />

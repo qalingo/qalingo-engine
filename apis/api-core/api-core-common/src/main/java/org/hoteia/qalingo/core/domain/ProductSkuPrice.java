@@ -52,6 +52,9 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
     @Column(name = "IS_DISCOUNT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDiscount;
 
+    @Column(name = "IS_VAT_INCLUDED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isVATIncluded;
+    
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)
 	private CurrencyReferential currency;
@@ -123,6 +126,14 @@ public class ProductSkuPrice extends AbstractPrice<ProductSkuPrice> {
 
     public void setDiscount(boolean isDiscount) {
         this.isDiscount = isDiscount;
+    }
+
+    public boolean isVATIncluded() {
+        return isVATIncluded;
+    }
+
+    public void setVATIncluded(boolean isVATIncluded) {
+        this.isVATIncluded = isVATIncluded;
     }
 
     @Override
