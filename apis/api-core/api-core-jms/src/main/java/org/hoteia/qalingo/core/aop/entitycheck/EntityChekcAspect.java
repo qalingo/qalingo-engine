@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.aop.skucheck;
+package org.hoteia.qalingo.core.aop.entitycheck;
 
 import java.net.InetAddress;
 
@@ -16,8 +16,9 @@ import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.jms.skucheck.producer.EntityCheckMessageJms;
-import org.hoteia.qalingo.core.jms.skucheck.producer.EntityCheckMessageProducer;
+import org.hoteia.qalingo.core.domain.ProductSkuStoreRel;
+import org.hoteia.qalingo.core.jms.entitycheck.producer.EntityCheckMessageJms;
+import org.hoteia.qalingo.core.jms.entitycheck.producer.EntityCheckMessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -57,11 +58,11 @@ public class EntityChekcAspect {
             messageJms.setServerName(InetAddress.getLocalHost().getHostName());
             messageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
             
-            if(result instanceof ProductSku){
-                final ProductSku productSku = (ProductSku) result;
-                if(productSku != null
-                        && productSku.getId() != null){
-                    messageJms.setObjectId(productSku.getId());
+            if(result instanceof ProductSkuStoreRel){
+                final ProductSkuStoreRel productSkuStoreRel = (ProductSkuStoreRel) result;
+                if(productSkuStoreRel != null
+                        && productSkuStoreRel.getProductSku() != null){
+                    messageJms.setObjectId(productSkuStoreRel.getProductSku().getId());
                     messageJms.setObjectType("ProductSku");
                 }
             } 

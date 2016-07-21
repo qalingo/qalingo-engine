@@ -7,33 +7,37 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.jms.skucheck.listener;
+package org.hoteia.qalingo.core.jms.entitycheck.listener;
 
 import java.beans.ExceptionListener;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.spring.SpringCamelContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hoteia.qalingo.core.jms.skucheck.producer.EntityCheckMessageJms;
 import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.hoteia.qalingo.core.jms.entitycheck.producer.EntityCheckMessageJms;
 
-@Component(value = "entityChekQueueListener")
+@Component(value = "entityCheckQueueListener")
 public class EntityCheckQueueListener implements MessageListener, ExceptionListener {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    @Autowired
-    private ApplicationContext context;
-    
+	@Autowired
+	private ApplicationContext context;
+	
     @Autowired
     protected XmlMapper xmlMapper;
     
@@ -55,19 +59,19 @@ public class EntityCheckQueueListener implements MessageListener, ExceptionListe
                     if (logger.isDebugEnabled()) {
                         logger.debug("Processed message, value: " + valueJMSMessage);
                     }
-//
+
 //                    try {
 //                        SpringCamelContext camelContext = (SpringCamelContext) context.getBean("camelContext");
 //                        
-//                        if(!camelContext.getRouteStatus("retailerGeolocStoreRoute").isStarted()){
-//                            camelContext.startRoute("retailerGeolocStoreRoute");
+//                        if(!camelContext.getRouteStatus("entityCheckRoute").isStarted()){
+//                            camelContext.startRoute("entityCheckRoute");
 //                        }
 //                        ProducerTemplate template = context.getBean("camelTemplate", ProducerTemplate.class);
 //
 //                        Map<String, Object> params = new HashMap<String, Object>();
 //                        params.put("id", documentMessageJms.getObjectId());
 //                        params.put("type", documentMessageJms.getObjectType());
-//                        template.asyncSendBody("direct:startRetailerGeolocStoreRoute", params);
+//                        template.asyncSendBody("direct:startEntityCheckRoute", params);
 //                        
 //                    } catch (Exception e) {
 //                        e.printStackTrace();

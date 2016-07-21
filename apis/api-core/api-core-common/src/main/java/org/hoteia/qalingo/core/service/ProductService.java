@@ -409,8 +409,8 @@ public class ProductService {
         return productDao.getProductSkuStoreRelB2B(params);
     }
 
-    public void saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel)  {
-        productDao.saveNewProductSkuStoreRel(productSkuStoreRel);
+    public ProductSkuStoreRel saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel)  {
+        return productDao.saveNewProductSkuStoreRel(productSkuStoreRel);
     }
     
     public ProductSkuStoreRel updateProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {

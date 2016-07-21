@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.jms.skucheck.producer;
+package org.hoteia.qalingo.core.jms.entitycheck.producer;
 
 import org.hoteia.qalingo.core.jms.AbstractMessageJms;
 

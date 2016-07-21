@@ -824,10 +824,11 @@ public class ProductDao extends AbstractGenericDao {
         return productSkuStoreRels;
     }
 
-    public void saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
+    public ProductSkuStoreRel saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
         productSkuStoreRel.setDateCreate(new Date());
         productSkuStoreRel.setDateUpdate(new Date());
         em.persist(productSkuStoreRel);
+        return productSkuStoreRel;
     }
 
     public ProductSkuStoreRel updateProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
