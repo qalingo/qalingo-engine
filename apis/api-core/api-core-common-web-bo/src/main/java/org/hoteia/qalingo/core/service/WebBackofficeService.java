@@ -1253,8 +1253,13 @@ public class WebBackofficeService {
             menu = new CmsMenu();
             if(StringUtils.isEmpty(menuForm.getCode())
                     && StringUtils.isNotEmpty(menuForm.getName())){
-                String code = CoreUtil.cleanEntityCode(marketArea.getCode() + "_" + menuForm.getName().replace(" ", "_").toUpperCase());
-                menu.setCode(code);
+                String code = marketArea.getCode();
+                if(menuForm.getRootMenuId() != null){
+                    CmsMenu parentMenu = cmsContentService.getCmsMenuById(menuForm.getRootMenuId());
+                    code += parentMenu.getName();
+                }
+                code += "_" + menuForm.getName().replace(" ", "_").toUpperCase();
+                menu.setCode(CoreUtil.cleanEntityCode(code));
             }
         }
         
