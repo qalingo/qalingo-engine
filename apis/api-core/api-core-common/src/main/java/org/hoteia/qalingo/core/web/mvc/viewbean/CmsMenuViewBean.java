@@ -120,6 +120,13 @@ public class CmsMenuViewBean extends AbstractViewBean {
 		this.catalog = catalog;
 	}
 
+    public boolean isExternal() {
+        if(link != null){
+            return link.isExternal();
+        }
+        return false;
+    }
+
 	public CmsContentLinkViewBean getLink() {
 		return link;
 	}

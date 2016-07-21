@@ -1256,7 +1256,7 @@ public class WebBackofficeService {
                 String code = marketArea.getCode();
                 if(menuForm.getRootMenuId() != null){
                     CmsMenu parentMenu = cmsContentService.getCmsMenuById(menuForm.getRootMenuId());
-                    code += parentMenu.getName();
+                    code += "_" + parentMenu.getName();
                 }
                 code += "_" + menuForm.getName().replace(" ", "_").toUpperCase();
                 menu.setCode(CoreUtil.cleanEntityCode(code));

@@ -3165,7 +3165,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
             // LINK
             if (Hibernate.isInitialized(cmsMenu.getLink()) && cmsMenu.getLink() != null) {
-                CmsContentLinkViewBean linkViewBean = buildViewBeanCmsContentLink(requestData, cmsMenu.getLink());
+                CmsLink link = cmsMenu.getLink();
+                CmsContentLinkViewBean linkViewBean = buildViewBeanCmsContentLink(requestData, link);
                 if (StringUtils.isEmpty(linkViewBean.getName())) {
                     linkViewBean.setName(cmsMenu.getName());
                 }
