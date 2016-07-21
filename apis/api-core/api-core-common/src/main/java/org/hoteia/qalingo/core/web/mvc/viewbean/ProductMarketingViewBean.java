@@ -467,7 +467,8 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
 				if (productSkuViewBean.isDefault()) {
-					if (productSkuViewBean.getBestPriceWithCurrencySign() != null) {
+					if (productSkuViewBean.getBestPriceWithCurrencySign() != null
+					        && !Constants.NOT_AVAILABLE.equals(productSkuViewBean.getBestPriceWithCurrencySign())) {
 						return productSkuViewBean.getBestPriceWithCurrencySign();
 					}
 				}
@@ -475,7 +476,8 @@ public class ProductMarketingViewBean extends AbstractViewBean {
 			if (!productSkus.isEmpty()) {
 				ProductSkuViewBean productSkuViewBean = productSkus.get(0);
 				if (productSkuViewBean != null
-						&& productSkuViewBean.getBestPriceWithCurrencySign() != null) {
+						&& productSkuViewBean.getBestPriceWithCurrencySign() != null
+						&& !Constants.NOT_AVAILABLE.equals(productSkuViewBean.getBestPriceWithCurrencySign())) {
 					return productSkuViewBean.getBestPriceWithCurrencySign();
 				}
 			}

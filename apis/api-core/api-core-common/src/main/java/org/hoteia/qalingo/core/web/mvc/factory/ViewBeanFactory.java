@@ -2281,14 +2281,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 && StringUtils.isNotEmpty(productSkuBestPrice.getPriceWithStandardCurrencySign())){
             productSkuViewBean.setBestPriceWithCurrencySign(productSkuBestPrice.getPriceWithStandardCurrencySign());
         } else {
-            productSkuViewBean.setBestPriceWithCurrencySign("NA");
+            productSkuViewBean.setBestPriceWithCurrencySign(Constants.NOT_AVAILABLE);
         }
         final ProductSkuPrice productSkuSalePrice = productSku.getPublicPrice(marketArea.getId());
         if(productSkuSalePrice != null
                 && StringUtils.isNotEmpty(productSkuSalePrice.getPriceWithStandardCurrencySign())){
             productSkuViewBean.setSalePriceWithCurrencySign(productSkuSalePrice.getPriceWithStandardCurrencySign());
         } else {
-            productSkuViewBean.setSalePriceWithCurrencySign("NA");
+            productSkuViewBean.setSalePriceWithCurrencySign(Constants.NOT_AVAILABLE);
         }
         
         // BRAND

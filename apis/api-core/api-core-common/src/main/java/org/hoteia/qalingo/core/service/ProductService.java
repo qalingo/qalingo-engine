@@ -410,7 +410,7 @@ public class ProductService {
     }
 
     public ProductSkuStoreRel saveNewProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel)  {
-        return productDao.saveNewProductSkuStoreRel(productSkuStoreRel);
+    	return productDao.saveNewProductSkuStoreRel(productSkuStoreRel);
     }
     
     public ProductSkuStoreRel updateProductSkuStoreRel(final ProductSkuStoreRel productSkuStoreRel) {
