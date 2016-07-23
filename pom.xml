@@ -172,12 +172,12 @@
 			<dependency>
 				<groupId>org.hoteia.tools</groupId>
 				<artifactId>rich-snippets-mapping</artifactId>
-				<version>0.2-SNAPSHOT</version>
+				<version>0.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hoteia.tools</groupId>
 				<artifactId>scribe-mapping</artifactId>
-				<version>0.2-SNAPSHOT</version>
+				<version>0.2</version>
 			</dependency>
 
 			<!-- Commons libs -->
