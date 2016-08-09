@@ -36,8 +36,8 @@ public class ProductSkuOptionRel extends AbstractEntity<ProductSkuOptionRel> {
     @Column(name = "RANKING")
     private Integer ranking;
 
-    @Column(name = "IS_DEFAULT_SKU_OPTION", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefaultSkuOption;
+    @Column(name = "IS_DEFAULT_SKU_OPTION", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefaultSkuOption = false;
 
     public ProductSkuOptionRel() {
         this.pk = new ProductSkuOptionPk();

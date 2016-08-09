@@ -39,7 +39,7 @@ public class RetailerAddress extends AbstractAddress<RetailerAddress> {
 	private Long id;
 
 	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
+	@Column(name="VERSION", nullable=false) // , columnDefinition="int(11) default 1"
 	private int version;
 	
 	@Column(name="ADDRESS1")
@@ -81,8 +81,8 @@ public class RetailerAddress extends AbstractAddress<RetailerAddress> {
 	@Column(name="WEBSITE")
     private String website;
 	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
+	@Column(name="IS_DEFAULT", nullable=false) // , columnDefinition="tinyint(1) default 0"
+	private boolean isDefault = false;
 	
 	@Column(name="LONGITUDE")
 	private String longitude;

@@ -27,11 +27,13 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CmsContentAssetComparator;
 import org.hoteia.qalingo.core.comparator.CmsContentBlockComparator;
 
 @Entity
 @Table(name="TCMS_CONTENT")
+@CacheEntityInformation(cacheName="web_cache_cms_content")
 public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribute> {
 
 	/**
@@ -39,15 +41,13 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
 	 */
 	private static final long serialVersionUID = 2371548827810234869L;
 
-    public static final String CACHE_NAME = "web_cache_cms_content";
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE")
@@ -75,11 +75,11 @@ public class CmsContent extends AbstractCmsEntity<CmsContent, CmsContentAttribut
     @Lob
     private String summary;
     
-    @Column(name = "MASTER", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean master;
+    @Column(name = "MASTER", nullable = false) // , columnDefinition = "tinyint(1) default 1"
+    private boolean master = false;
     
-    @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CmsContentAttribute.class)
     @JoinColumn(name = "CMS_CONTENT_ID")

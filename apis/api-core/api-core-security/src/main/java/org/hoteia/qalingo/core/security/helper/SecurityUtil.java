@@ -30,7 +30,7 @@ public class SecurityUtil {
     static final String SPL_CHARS = "!@#$%*";
 
 	@Autowired
-	protected PasswordEncoder encoder;
+	protected PasswordEncoder passwordEncoder;
 	
 	public boolean isAuthenticated(){
 	    if(SecurityContextHolder.getContext().getAuthentication() != null
@@ -54,11 +54,11 @@ public class SecurityUtil {
     }
 	
    public boolean passwordMatches(String rawPassword, String encodedPassword) {
-       return encoder.matches(rawPassword, encodedPassword);
+       return passwordEncoder.matches(rawPassword, encodedPassword);
    }
    
 	public String encodePassword(String clearPassword) {
-		String result = encoder.encode(clearPassword);
+		String result = passwordEncoder.encode(clearPassword);
 		return result;
 	}
 	

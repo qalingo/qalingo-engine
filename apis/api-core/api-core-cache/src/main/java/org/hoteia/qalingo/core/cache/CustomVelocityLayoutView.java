@@ -9,14 +9,8 @@
  */
 package org.hoteia.qalingo.core.cache;
 
-import java.io.StringWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +20,6 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.tools.view.context.ChainedContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.web.servlet.view.velocity.VelocityLayoutView;
 import org.springframework.web.util.NestedServletException;
 
@@ -41,10 +34,10 @@ public class CustomVelocityLayoutView extends VelocityLayoutView {
     @Override
     protected void mergeTemplate(Template template, Context context, HttpServletResponse response) throws Exception {
         try {
-            EhCacheCacheManager ehCacheCacheManager = (EhCacheCacheManager) getAttributesMap().get("ehCacheCacheManager");
-            CacheManager cacheManager = ehCacheCacheManager.getCacheManager();
-            String cacheName = (String) getAttributesMap().get("cacheName");
-            Cache cache = cacheManager != null && StringUtils.isNotEmpty(cacheName) ? cacheManager.getCache(cacheName) : null;
+//            EhCacheCacheManager ehCacheCacheManager = (EhCacheCacheManager) getAttributesMap().get("ehCacheCacheManager");
+//            CacheManager cacheManager = ehCacheCacheManager.getCacheManager();
+//            String cacheName = (String) getAttributesMap().get("cacheName");
+//            Cache cache = cacheManager != null && StringUtils.isNotEmpty(cacheName) ? cacheManager.getCache(cacheName) : null;
 
             HttpServletRequest request = ((ChainedContext) context).getRequest();
             boolean isGet = StringUtils.equals("GET", request.getMethod());
@@ -58,18 +51,18 @@ public class CustomVelocityLayoutView extends VelocityLayoutView {
             }
             boolean cacheable = useCache != null ? useCache : !isAjax(request) && isGet;
 
-            if (!cacheable || cache == null) {
+//            if (!cacheable || cache == null) {
                 template.merge(context, response.getWriter());
-            } else {
-                StringWriter outputWriter = new StringWriter();
-                template.merge(context, outputWriter);
-                outputWriter.close();
-                String output = outputWriter.toString();
-
-                cache.put(new Element(getRequestKey(request), output));
-
-                response.getWriter().write(output);
-            }
+//            } else {
+//                StringWriter outputWriter = new StringWriter();
+//                template.merge(context, outputWriter);
+//                outputWriter.close();
+//                String output = outputWriter.toString();
+//
+//                cache.put(new Element(getRequestKey(request), output));
+//
+//                response.getWriter().write(output);
+//            }
 
         } catch (MethodInvocationException ex) {
             logger.error("Fail to merge template.", ex);

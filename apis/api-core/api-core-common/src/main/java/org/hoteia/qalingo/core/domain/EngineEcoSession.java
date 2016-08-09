@@ -29,8 +29,8 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
-import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
+import org.hoteia.qalingo.core.pojo.GeolocData;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION")
@@ -47,7 +47,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "JSESSION_ID", unique = true)
@@ -65,7 +65,7 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
     private Customer currentCustomer;
 
     @Transient
-    private boolean environmentStagingModeEnabled;
+    private boolean environmentStagingModeEnabled = false;
 
     @Transient
     private EnvironmentType environmentType;

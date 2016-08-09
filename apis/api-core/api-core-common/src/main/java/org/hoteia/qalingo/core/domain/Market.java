@@ -32,17 +32,17 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name="TECO_MARKET")
+@CacheEntityInformation(cacheName="web_cache_market")
 public class Market extends AbstractEntity<Market> {
 
 	/**
 	 * Generated UID
 	 */
     private static final long serialVersionUID = 5759002146568820577L;
-
-    public static final String CACHE_NAME = "web_cache_market";
 
     public final static String MARKET_ATTRIBUTE_DOMAIN_NAME = "MARKET_DOMAIN_NAME";
 
@@ -52,7 +52,7 @@ public class Market extends AbstractEntity<Market> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -65,8 +65,8 @@ public class Market extends AbstractEntity<Market> {
     @Lob
     private String description;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
     @Column(name = "THEME")
     private String theme;

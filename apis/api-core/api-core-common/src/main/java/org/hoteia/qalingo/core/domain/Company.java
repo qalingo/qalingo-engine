@@ -51,7 +51,7 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -67,8 +67,8 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     @Column(name = "THEME")
     private String theme;
 
-    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean active;
+    @Column(name = "IS_ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 1"
+    private boolean active = false;
     
     @Column(name = "ADDRESS1")
     private String address1;
@@ -97,16 +97,16 @@ public class Company extends AbstractExtendEntity<Company, CompanyAttribute> {
     @Column(name = "LEGAL_GUID")
     private String legalGuid;
     
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
     
-    @Column(name = "phone")
+    @Column(name = "PHONE")
     private String phone;
     
-    @Column(name = "fax")
+    @Column(name = "FAX")
     private String fax;
     
-    @Column(name = "website")
+    @Column(name = "WEBSITE")
     private String website;
     
     @Column(name = "CREATED_BY_USER_ID")

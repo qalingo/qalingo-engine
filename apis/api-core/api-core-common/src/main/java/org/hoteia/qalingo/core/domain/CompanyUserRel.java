@@ -36,11 +36,11 @@ public class CompanyUserRel extends AbstractEntity<CompanyUserRel> {
     @Column(name = "RANKING")
     private Integer ranking;
 
-    @Column(name = "IS_DEFAULT_COMPANY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefaultCompany;
+    @Column(name = "IS_DEFAULT_COMPANY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefaultCompany = false;
 
-    @Column(name = "IS_PRINCIPAL_USER", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isPrincipalUser;
+    @Column(name = "IS_PRINCIPAL_USER", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isPrincipalUser = false;
     
     public CompanyUserRel() {
         this.pk = new CompanyUserPk();

@@ -19,6 +19,8 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.annotation.CacheMethodInformation;
+import org.hoteia.qalingo.core.annotation.CacheType;
 import org.hoteia.qalingo.core.dao.EngineSettingDao;
 import org.hoteia.qalingo.core.domain.AbstractCmsEntity;
 import org.hoteia.qalingo.core.domain.Asset;
@@ -193,6 +195,7 @@ public class EngineSettingService {
         return engineSettingDao.saveOrUpdateEngineSettingValue(engineSettingValue);
     }
 
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getEngineSettingValueByCode(final String engineSettingCode, final String engineSettingValueCode) {
         EngineSetting engineSetting = getEngineSettingByCode(engineSettingCode);
         if (engineSetting != null) {
@@ -206,6 +209,7 @@ public class EngineSettingService {
         return null;
     }
 
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getEngineSettingDefaultValueByCode(final String engineSettingCode) {
         EngineSetting engineSetting = getEngineSettingByCode(engineSettingCode);
         if (engineSetting != null) {
@@ -322,6 +326,7 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_GOOGLE_GEOLOC_OVER_QUOTA_KEY);
     }
     
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getGoogleGeolocationApiKey() throws Exception {
         EngineSetting engineSetting = getSettingGoogleGeolocationApiKey();
         String key = "";
@@ -375,6 +380,7 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_GOOGLE_MAP_OVER_QUOTA_KEY);
     }
     
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getGoogleMapApiKey() throws Exception {
         EngineSetting engineSetting = getSettingGoogleMapApiKey();
         String key = "";
@@ -463,6 +469,7 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_EMAIL_FILE_MIRRORING_FOLDER_PATH);
     }
 
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getEmailFileMirroringFolderPath(String context) {
         EngineSetting engineSetting = getSettingEmailFileMirroringFolderPath();
         String emailFileMirroringFolderPath = "";
@@ -480,6 +487,7 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_EMAIL_FILE_MIRRORING_WEB_PATH);
     }
 
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getEmailFileMirroringWebPath(String context) {
         EngineSetting engineSetting = getSettingEmailFileMirroringWebPath();
         String emailFileMirroringWebPath = "";
@@ -497,6 +505,7 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_EMAIL_FILE_MIRRORING_EXTENSION);
     }
 
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getEmailFileMirroringExtension(String context) {
         EngineSetting engineSetting = getSettingEmailFileMirroringExtension();
         String emailFileMirroringPath = "";
@@ -514,6 +523,7 @@ public class EngineSettingService {
         return getEngineSettingByCode(ENGINE_SETTING_DEFAULT_EMAIL_ADDRESS);
     }
     
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getDefaultEmailAddress(String context) {
         EngineSetting engineSetting = getDefaultEmailAddress();
         String defaultEmailAddress = "";
@@ -532,6 +542,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getRootAssetFilePath() throws Exception {
         EngineSetting engineSetting = getSettingAssetFileRootPath();
         String prefixPath = "";
@@ -547,6 +558,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getRootAssetWebPath() throws Exception {
         EngineSetting engineSetting = getSettingAssetWebRootPath();
         String prefixPath = "";
@@ -562,6 +574,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getCatalogImageFilePath(String assetType) throws Exception {
         EngineSetting engineSetting = getSettingAssetCatalogFilePath();
         String prefixPath = "";
@@ -582,6 +595,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getCatalogImageWebPath(final Asset asset) throws Exception {
         EngineSetting engineSetting = getSettingAssetCatalogFilePath();
         String prefixPath = "";
@@ -595,6 +609,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductMarketingImageFilePath(final String assetType) throws Exception {
         EngineSetting engineSetting = getSettingAssetProductMarketingFilePath();
         String prefixPath = "";
@@ -612,6 +627,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductMarketingImageFilePath(final ProductMarketing productMarketing, final String assetType) throws Exception {
         String productMarketingImageFilePath = getProductMarketingImageFilePath(assetType);
         if(productMarketing.getProductBrand() != null){
@@ -624,6 +640,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductMarketingImageFilePath(final ProductMarketing productMarketing, final String assetType, final String filePath) throws Exception {
         String productMarketingImageFilePath = getProductMarketingImageFilePath(productMarketing, assetType) + filePath;
         return handleFilePath(productMarketingImageFilePath);
@@ -632,6 +649,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
         String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset) + asset.getPath();
         return handleWebPath(productMarketingImageWebPath);
@@ -640,6 +658,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductMarketingImageWebPath(final ProductMarketing productMarketing, final Asset asset) throws Exception {
         String productMarketingImageWebPath = getProductMarketingPrefixImageWebPath(asset);
         if (!productMarketingImageWebPath.endsWith("/")) {
@@ -665,6 +684,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductSkuImageFilePath(String assetType) throws Exception {
         EngineSetting engineSetting = getSettingAssetProductSkuFilePath();
         String prefixPath = "";
@@ -682,6 +702,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType) throws Exception {
         String productMarketingImageFilePath = getProductSkuImageFilePath(assetType);
         if(productSku.getProductBrand() != null){
@@ -694,6 +715,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductSkuImageFilePath(final ProductSku productSku, final String assetType, final String filePath) throws Exception {
         String productMarketingImageFilePath = getProductSkuImageFilePath(productSku, assetType) + filePath;
         return handleFilePath(productMarketingImageFilePath);
@@ -702,6 +724,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductSkuImageWebPath(final Asset asset) throws Exception {
         String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset) + asset.getPath();
         return handleWebPath(productSkuImageWebPath);
@@ -710,6 +733,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductSkuImageWebPath(final String productSkuCode, final Asset asset) throws Exception {
         ProductSku productSkuByCode = productService.getProductSkuByCode(productSkuCode);
         return getProductSkuImageWebPath(productSkuByCode, asset);
@@ -718,6 +742,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductSkuImageWebPath(final ProductSku productSku, final Asset asset) throws Exception {
         String productSkuImageWebPath = getProductSkuPrefixImageWebPath(asset);
         if (!productSkuImageWebPath.endsWith("/")) {
@@ -743,6 +768,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductBrandImageFilePath(String assetType) throws Exception {
         EngineSetting engineSetting = getSettingAssetProductBrandFilePath();
         String prefixPath = "";
@@ -763,6 +789,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getProductBrandImageWebPath(final Asset asset) throws Exception {
         EngineSetting engineSetting = getSettingAssetProductBrandFilePath();
         String prefixPath = "";
@@ -776,6 +803,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getRetailerOrStoreImageFilePath(String assetType) throws Exception {
         EngineSetting engineSetting = getSettingAssetRetailerAndStoreFilePath();
         String prefixPath = "";
@@ -796,6 +824,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getRetailerOrStoreImageWebPath(final Asset asset) throws Exception {
         EngineSetting engineSetting = getSettingAssetRetailerAndStoreFilePath();
         String prefixPath = "";
@@ -815,6 +844,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getCmsContentImageFilePath(MarketArea marketArea, CmsContent cmsContent, CmsContentBlock cmsContentBlock, CmsContentAsset asset) throws Exception {
         String assetFileRootPath = getSettingAssetFileRootPath().getDefaultValue();
         assetFileRootPath.replaceAll("\\\\", "/");
@@ -846,6 +876,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getCmsContentImageWebPath(final AbstractCmsEntity cmsContent, final CmsContentAsset asset) throws Exception {
         EngineSetting engineSetting = getSettingAssetCmsContentFilePath();
         String prefixPath = "";
@@ -867,6 +898,7 @@ public class EngineSettingService {
     /**
      * 
      */
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getCmsContentImageWebPath(final AbstractCmsEntity cmsContent, final CmsContentBlock cmsContentBlock, final CmsContentAsset asset) throws Exception {
         EngineSetting engineSetting = getSettingAssetCmsContentFilePath();
         String prefixPath = "";

@@ -39,25 +39,25 @@ public class ProductSkuStock extends AbstractEntity<ProductSkuStock> {
 	private Long id;
 	
 	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
+	@Column(name="VERSION", nullable=false) // , columnDefinition="int(11) default 1"
 	private int version;
 
-    @Column(name="GLOBAL_STOCK_QUANTITY", nullable=false, columnDefinition="int(11) default 0")
+    @Column(name="GLOBAL_STOCK_QUANTITY", nullable=false) // , columnDefinition="int(11) default 0"
     private int globalStockQuantity;
 
-    @Column(name = "RESERVED_STOCK_WHAREHOUSE", nullable=false, columnDefinition="int(11) default 0")
+    @Column(name = "RESERVED_STOCK_WHAREHOUSE", nullable=false) // , columnDefinition="int(11) default 0"
     private int reservedStockWharehouse;
 
-    @Column(name="RESERVED_STOCK_ECO", nullable=false, columnDefinition="int(11) default 0")
+    @Column(name="RESERVED_STOCK_ECO", nullable=false) // , columnDefinition="int(11) default 0"
     private int reservedStockEco;
 
-    @Column(name="STOCK_USED_BY_ACTIVE_CART", nullable=false, columnDefinition="int(11) default 0")
+    @Column(name="STOCK_USED_BY_ACTIVE_CART", nullable=false) // , columnDefinition="int(11) default 0"
     private int stockUsedByActiveCart;
 
-    @Column(name="REORDER_QTY_ALERT", nullable=false, columnDefinition="int(11) default 0")
+    @Column(name="REORDER_QTY_ALERT", nullable=false) // , columnDefinition="int(11) default 0"
     private int reorderQuantityAlert;
 
-	@Column(name="REORDER_QTY_TRIGGER", nullable=false, columnDefinition="int(11) default 0")
+	@Column(name="REORDER_QTY_TRIGGER", nullable=false) // , columnDefinition="int(11) default 0"
 	private int reorderQuantityTrigger;
 
     @Column(name = "REORDER_NEXT_DATE")

@@ -36,7 +36,7 @@ public class OrderAddress extends AbstractAddress<OrderAddress> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "TITLE")

@@ -56,7 +56,7 @@ public class Customer extends AbstractEntity<Customer> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -92,14 +92,14 @@ public class Customer extends AbstractEntity<Customer> {
     @Column(name = "DEFAULT_LOCALE")
     private String defaultLocale;
 
-    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "IS_ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
 
-    @Column(name = "VALIDATED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean validated;
+    @Column(name = "VALIDATED", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean validated = false;
 
-    @Column(name = "IS_ANONYMOUS", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean anonymous;
+    @Column(name = "IS_ANONYMOUS", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean anonymous = false;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CustomerCredential.class)
     @JoinColumn(name = "CUSTOMER_ID")

@@ -22,8 +22,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+
 @Entity
 @Table(name="TECO_GEOLOC_ADDRESS")
+@CacheEntityInformation(cacheName="web_cache_geoloc")
 public class GeolocAddress extends AbstractEntity<GeolocAddress> {
 
     /**
@@ -31,15 +34,13 @@ public class GeolocAddress extends AbstractEntity<GeolocAddress> {
      */
     private static final long serialVersionUID = 9020651155879779713L;
 
-    public static final String CACHE_NAME = "web_cache_geoloc";
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)
 	private Long id;
 	
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "ADDRESS")

@@ -38,17 +38,17 @@ import javax.persistence.Version;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name = "TECO_STORE")
+@CacheEntityInformation(cacheName="web_cache_retailer")
 public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 9020657992879779713L;
-
-    public static final String CACHE_NAME = "web_cache_retailer";
+    private static final long serialVersionUID = 9020658882879779713L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,23 +56,23 @@ public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "SCORING", nullable = false, columnDefinition = "default 1")
+    @Column(name = "SCORING", nullable = false) // , columnDefinition = "default 1"
     private long scoring;
     
-    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "IS_ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
     
-    @Column(name = "IS_PRIMARY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean primary;
+    @Column(name = "IS_PRIMARY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean primary = false;
     
-    @Column(name = "IS_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean b2c;
+    @Column(name = "IS_B2C", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean b2c = false;
     
-    @Column(name = "IS_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean b2b;
+    @Column(name = "IS_B2B", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean b2b = false;
     
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;

@@ -25,7 +25,7 @@
 						   http://www.springframework.org/schema/cache
 						   http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-    <!-- EhCache management and statistics -->
+    <!-- EhCache management and statistics 
 	<bean class="net.sf.ehcache.management.ManagementService" init-method="init">
         <constructor-arg ref="ehcache"/>
         <constructor-arg ref="mbeanServer"/>
@@ -35,5 +35,16 @@
         <constructor-arg value="true"/>
         <constructor-arg value="false"/>
     </bean>
+	-->
+    <cache:annotation-driven/>
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+	   <property name="cacheManager" ref="ehcache"/>
+	</bean>
 	
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	   <property name="configLocation" value="classpath:ehcache.xml"/>
+	   <property name="shared" value="true"/>
+	</bean>
+
 </beans>

@@ -53,7 +53,7 @@ public class CatalogVirtual extends AbstractCatalog<CatalogVirtual, CatalogCateg
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -66,8 +66,8 @@ public class CatalogVirtual extends AbstractCatalog<CatalogVirtual, CatalogCateg
     @Lob
     private String description;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
     @OneToOne(mappedBy = "catalog")
     private MarketArea marketArea;

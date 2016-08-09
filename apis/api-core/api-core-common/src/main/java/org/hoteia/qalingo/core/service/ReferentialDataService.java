@@ -20,9 +20,10 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.annotation.CacheMethodInformation;
+import org.hoteia.qalingo.core.annotation.CacheType;
 import org.hoteia.qalingo.core.dao.ReferentialDataDao;
 import org.hoteia.qalingo.core.domain.Dictionary;
-import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +77,7 @@ public class ReferentialDataService {
         return address.toString();
     }
     
+    @CacheMethodInformation(cacheName="web_cache_referential_data", cacheType=CacheType.CACHE_STRING)
 	public String getTitleByLocale(final String titleCode, final Locale locale) {
 		Map<String, String> titlesResourceByLocale = getTitlesByLocale(locale);
 		String title = titlesResourceByLocale.get(titleCode);
@@ -99,6 +101,7 @@ public class ReferentialDataService {
 		return titlesMapByLocale;
 	}
 	
+	@CacheMethodInformation(cacheName="web_cache_referential_data", cacheType=CacheType.CACHE_STRING)
 	public String getCountryByLocale(final String countryCode, final Locale locale) {
 		Map<String, String> countriesResourceBundle = getCountriesByLocale(locale);
 		String country = countriesResourceBundle.get(countryCode);
@@ -122,6 +125,7 @@ public class ReferentialDataService {
 		return countriesMapByLocale;
 	}
 
+    @CacheMethodInformation(cacheName="web_cache_referential_data", cacheType=CacheType.CACHE_STRING)
     public String getStateByLocale(final String stateCode, final Locale locale) {
         Map<String, String> statesResourceBundle = getStatesByLocale(locale);
         String state = statesResourceBundle.get(stateCode);
@@ -145,6 +149,7 @@ public class ReferentialDataService {
         return statesMapByLocale;
     }
     
+    @CacheMethodInformation(cacheName="web_cache_referential_data", cacheType=CacheType.CACHE_STRING)
     public String getAreaByLocale(final String areaCode, final Locale locale) {
         Map<String, String> areasResourceBundle = getAreasByLocale(locale);
         String area = areasResourceBundle.get(areaCode);

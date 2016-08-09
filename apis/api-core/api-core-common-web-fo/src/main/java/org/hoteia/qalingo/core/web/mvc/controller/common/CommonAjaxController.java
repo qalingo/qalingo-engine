@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
-import org.hoteia.qalingo.core.domain.bean.GeolocData;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.FoMessagePojo;
 import org.hoteia.qalingo.core.pojo.FoNavigatorGeolocationPojo;
+import org.hoteia.qalingo.core.pojo.GeolocData;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;

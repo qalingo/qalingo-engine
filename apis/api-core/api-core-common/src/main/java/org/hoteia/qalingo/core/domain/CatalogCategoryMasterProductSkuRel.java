@@ -36,11 +36,11 @@ public class CatalogCategoryMasterProductSkuRel extends AbstractEntity<CatalogCa
     @Column(name = "RANKING")
     private Integer ranking;
     
-    @Column(name = "IS_DEFAULT_CATEGORY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefaultCategory;
+    @Column(name = "IS_DEFAULT_CATEGORY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefaultCategory = false;
 
-    @Column(name = "IS_DEFAULT_SKU", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefaultSku;
+    @Column(name = "IS_DEFAULT_SKU", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefaultSku = false;
     
     public CatalogCategoryMasterProductSkuRel() {
         this.pk = new CatalogCategoryMasterProductSkuPk();

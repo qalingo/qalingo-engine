@@ -10,10 +10,10 @@
 
 -->
 <dataset>
-	<TECO_CUSTOMER ID="1" VERSION="1" CODE="customer1" EMAIL="customer.qalingo+1@gmail.com" LASTNAME="RT1" FIRSTNAME="FN1" PASSWORD="password" LOGIN="customer1" IS_ACTIVE="1" />
-	<TECO_CUSTOMER ID="2" VERSION="1" CODE="customer2" EMAIL="customer.qalingo+2@gmail.com" LASTNAME="RT2" FIRSTNAME="FN2" PASSWORD="password" LOGIN="customer2" IS_ACTIVE="1" />
-	<TECO_CUSTOMER ID="3" VERSION="1" CODE="customer3" EMAIL="customer.qalingo+3@gmail.com" LASTNAME="RT3" FIRSTNAME="FN3" PASSWORD="password" LOGIN="customer3" IS_ACTIVE="1" />
-	<TECO_CUSTOMER ID="4" VERSION="1" CODE="customer4" EMAIL="customer.qalingo+4@gmail.com" LASTNAME="RT4" FIRSTNAME="FN4" PASSWORD="password" LOGIN="customer4" IS_ACTIVE="1" />
-	<TECO_CUSTOMER ID="5" VERSION="1" CODE="customer5" EMAIL="customer.qalingo+5@gmail.com" LASTNAME="RT5" FIRSTNAME="FN5" PASSWORD="password" LOGIN="customer5" IS_ACTIVE="1" />
-	<TECO_CUSTOMER ID="6" VERSION="1" CODE="customer6" EMAIL="customer.qalingo+7@gmail.com" LASTNAME="RT6" FIRSTNAME="FN6" PASSWORD="password" LOGIN="customer6" IS_ACTIVE="0" />
+	<TECO_CUSTOMER ID="1" VERSION="1" CODE="customer1" EMAIL="customer.qalingo+1@gmail.com" LASTNAME="RT1" FIRSTNAME="FN1" PASSWORD="password" LOGIN="customer1" IS_ACTIVE="1" VALIDATED="0" IS_ANONYMOUS="0"/>
+	<TECO_CUSTOMER ID="2" VERSION="1" CODE="customer2" EMAIL="customer.qalingo+2@gmail.com" LASTNAME="RT2" FIRSTNAME="FN2" PASSWORD="password" LOGIN="customer2" IS_ACTIVE="1" VALIDATED="0" IS_ANONYMOUS="0"/>
+	<TECO_CUSTOMER ID="3" VERSION="1" CODE="customer3" EMAIL="customer.qalingo+3@gmail.com" LASTNAME="RT3" FIRSTNAME="FN3" PASSWORD="password" LOGIN="customer3" IS_ACTIVE="1" VALIDATED="0" IS_ANONYMOUS="0"/>
+	<TECO_CUSTOMER ID="4" VERSION="1" CODE="customer4" EMAIL="customer.qalingo+4@gmail.com" LASTNAME="RT4" FIRSTNAME="FN4" PASSWORD="password" LOGIN="customer4" IS_ACTIVE="1" VALIDATED="0" IS_ANONYMOUS="0"/>
+	<TECO_CUSTOMER ID="5" VERSION="1" CODE="customer5" EMAIL="customer.qalingo+5@gmail.com" LASTNAME="RT5" FIRSTNAME="FN5" PASSWORD="password" LOGIN="customer5" IS_ACTIVE="1" VALIDATED="0" IS_ANONYMOUS="0"/>
+	<TECO_CUSTOMER ID="6" VERSION="1" CODE="customer6" EMAIL="customer.qalingo+7@gmail.com" LASTNAME="RT6" FIRSTNAME="FN6" PASSWORD="password" LOGIN="customer6" IS_ACTIVE="0" VALIDATED="0" IS_ANONYMOUS="0"/>
 </dataset>

@@ -35,9 +35,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING")
+@CacheEntityInformation(cacheName="web_cache_product_marketing")
 public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, ProductMarketingAttribute> {
 
 	/**
@@ -45,18 +47,16 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
 	 */
     private static final long serialVersionUID = 5408836788685407465L;
 
-    public static final String CACHE_NAME = "web_cache_product_marketing";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "SCORING", nullable = false, columnDefinition = "default 1")
+    @Column(name = "SCORING", nullable = false) // , columnDefinition = "default 1"
     private long scoring;
     
     @Column(name = "CODE", unique = true, nullable = false)
@@ -69,14 +69,14 @@ public class ProductMarketing extends AbstractExtendEntity<ProductMarketing, Pro
     @Lob
     private String description;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
-    @Column(name = "IS_ENABLED_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledB2B;
+    @Column(name = "IS_ENABLED_B2B", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabledB2B = false;
 
-    @Column(name = "IS_ENABLED_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledB2C;
+    @Column(name = "IS_ENABLED_B2C", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabledB2C = false;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
     @JoinColumn(name = "PRODUCT_BRAND_ID", insertable = true, updatable = true)

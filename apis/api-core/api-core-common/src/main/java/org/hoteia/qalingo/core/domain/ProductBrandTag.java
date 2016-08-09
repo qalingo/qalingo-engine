@@ -37,7 +37,7 @@ public class ProductBrandTag extends AbstractEntity<ProductBrandTag> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -50,13 +50,13 @@ public class ProductBrandTag extends AbstractEntity<ProductBrandTag> {
     @Lob
     private String description;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
-    @Column(name = "IS_GLOBAL", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isGlobal;
+    @Column(name = "IS_GLOBAL", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isGlobal = false;
 
-    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
+    @Column(name = "ORDERING", nullable = false) // , columnDefinition = "int(11) default 0"
     private Integer ordering;
 
     @Column(name = "MARKET_AREA_ID")

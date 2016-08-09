@@ -51,7 +51,7 @@ public class CatalogMaster extends AbstractCatalog<CatalogMaster, CatalogCategor
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -64,8 +64,8 @@ public class CatalogMaster extends AbstractCatalog<CatalogMaster, CatalogCategor
     @Lob
     private String description;
 	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
+	@Column(name="IS_DEFAULT", nullable=false) // , columnDefinition="tinyint(1) default 0"
+	private boolean isDefault = false;
 	
 //    @OneToMany(targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class, fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 //    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_MASTER_REL", joinColumns = @JoinColumn(name = "MASTER_CATALOG_ID"), inverseJoinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID"))

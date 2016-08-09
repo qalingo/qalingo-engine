@@ -36,8 +36,8 @@ public class ProductMarketingTagRel extends AbstractEntity<ProductMarketingTagRe
     @Column(name = "RANKING")
     private Integer ranking;
 
-    @Column(name = "IS_DEFAULT_TAG", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefaultTag;
+    @Column(name = "IS_DEFAULT_TAG", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefaultTag = false;
 
     public ProductMarketingTagRel() {
         this.pk = new ProductMarketingTagPk();

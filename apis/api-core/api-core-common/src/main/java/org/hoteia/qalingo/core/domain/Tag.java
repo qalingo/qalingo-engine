@@ -29,9 +29,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name="TECO_TAG")
+@CacheEntityInformation(cacheName="web_cache_common")
 public class Tag extends AbstractExtendEntity<Tag, TagAttribute> {
 
 	/**
@@ -45,7 +47,7 @@ public class Tag extends AbstractExtendEntity<Tag, TagAttribute> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -58,13 +60,13 @@ public class Tag extends AbstractExtendEntity<Tag, TagAttribute> {
     @Lob
     private String description;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
-    @Column(name = "IS_GLOBAL", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isGlobal;
+    @Column(name = "IS_GLOBAL", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isGlobal = false;
 
-    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
+    @Column(name = "ORDERING", nullable = false) // , columnDefinition = "int(11) default 0"
     private Integer ordering;
 
     @Column(name = "MARKET_AREA_ID")

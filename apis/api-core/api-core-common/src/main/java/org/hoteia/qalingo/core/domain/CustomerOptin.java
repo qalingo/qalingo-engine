@@ -45,8 +45,8 @@ public class CustomerOptin extends AbstractEntity<CustomerOptin> {
 	@Column(name="ORIGIN")
 	private String origin;
 	
-    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "IS_ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
     
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CustomerMarketArea.class)
     @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID", insertable = true, updatable = true)

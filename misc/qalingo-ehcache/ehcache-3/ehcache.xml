@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache:config
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns:ehcache='http://www.ehcache.org/v3'>
+
+	<ehcache:cache alias="web_cache_common">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">1000</ehcache:heap>
+			<!--
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+			-->
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_common_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">1000</ehcache:heap>
+			<!--
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+			-->
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_referential_data">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.String</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">500</ehcache:heap>
+			<!--
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+			-->
+		</ehcache:resources>
+	</ehcache:cache>
+	
+	<ehcache:cache alias="web_cache_attribute_definition">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">200</ehcache:heap>
+			<!--
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+			-->
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_attribute_definition_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">200</ehcache:heap>
+			<!--
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+			-->
+		</ehcache:resources>
+	</ehcache:cache>
+	
+	<ehcache:cache alias="web_cache_engine_setting">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_engine_setting_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">200</ehcache:heap>
+			<!--
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+			-->
+		</ehcache:resources>
+	</ehcache:cache>
+	
+	<ehcache:cache alias="web_cache_engine_setting_value">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.String</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">200</ehcache:heap>
+			<!--
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+			-->
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_catalog_category">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_catalog_category_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_product_marketing">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_product_marketing_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_product_sku">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_product_sku_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_marketplace">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_marketplace_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+	
+	<ehcache:cache alias="web_cache_market">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_market_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_marketarea">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_marketarea_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+	
+	<ehcache:cache alias="web_cache_localization">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_localization_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_retailer">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_retailer_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+	
+	<ehcache:cache alias="web_cache_store">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_store_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_geoloc">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>	
+	
+	<ehcache:cache alias="web_cache_geoloc_data">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.pojo.AbstractPojo</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_geoloc_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_cms_content">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>org.hoteia.qalingo.core.domain.AbstractEntity</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+	
+	<ehcache:cache alias="web_cache_cms_content_link_code_id">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.Long</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_url">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.String</ehcache:value-type>
+		<ehcache:resources>
+			<!--
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			-->
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+	<ehcache:cache alias="web_cache_html">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.String</ehcache:value-type>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">500</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+
+</ehcache:config>

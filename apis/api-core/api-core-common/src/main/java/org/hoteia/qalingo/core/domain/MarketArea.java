@@ -40,17 +40,17 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name = "TECO_MARKET_AREA")
+@CacheEntityInformation(cacheName="web_cache_market_area")
 public class MarketArea extends AbstractEntity<MarketArea> {
 
     /**
      * Generated UID
      */
     private static final long serialVersionUID = -6237479836764154416L;
-
-    public static final String CACHE_NAME = "web_cache_market";
 
     public final static String MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT = "DEFAULT_CONTEXT";
     
@@ -60,7 +60,7 @@ public class MarketArea extends AbstractEntity<MarketArea> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -73,14 +73,14 @@ public class MarketArea extends AbstractEntity<MarketArea> {
     @Lob
     private String description;
 
-    @Column(name = "IS_OPENED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean opened;
+    @Column(name = "IS_OPENED", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean opened = false;
     
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
-    @Column(name = "IS_ECOMMERCE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isEcommerce;
+    @Column(name = "IS_ECOMMERCE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isEcommerce = false;
 
     @Column(name = "THEME")
     private String theme;

@@ -78,10 +78,10 @@ public class User extends AbstractEntity<User> {
     private String password;
 
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean active;
+    private boolean active = false;
 
     @Column(name = "VALIDATED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean validated;
+    private boolean validated = false;
     
     @Column(name = "ADDRESS1")
     private String address1;

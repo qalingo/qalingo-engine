@@ -13,18 +13,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
     xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:drools="http://drools.org/schema/drools-spring"
+    xmlns:kie="http://drools.org/schema/kie-spring"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-            http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd">
-
+            http://drools.org/schema/kie-spring http://drools.org/schema/kie-spring.xsd">
 
 	<context:component-scan base-package="org.hoteia.qalingo.core.rule.util" />
 	
-    <drools:kbase id="kbaseQalingo" />
+	<kie:kmodule id="kmoduleQalingo">
+		<kie:kbase name="kbaseQalingo">
+			<kie:ksession name="ksessionQalingo" />
+		</kie:kbase>
+	</kie:kmodule>
 
-    <drools:ksession id="ksessionQalingo" type="stateful" kbase="kbaseQalingo" />
+    <bean id="kiePostProcessor" class="org.kie.spring.KModuleBeanFactoryPostProcessor" />
 
 </beans>

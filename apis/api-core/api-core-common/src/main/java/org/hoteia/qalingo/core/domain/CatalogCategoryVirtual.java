@@ -39,10 +39,12 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CatalogCategoryVirtualComparator;
 
 @Entity
 @Table(name = "TECO_CATALOG_VIRTUAL_CATEGORY")
+@CacheEntityInformation(cacheName="web_cache_catalog_category")
 public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtual, CatalogCategoryVirtual, CatalogCategoryVirtualAttribute, CatalogCategoryVirtualProductSkuRel> {
 
     /**
@@ -50,18 +52,16 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
      */
     private static final long serialVersionUID = 4953461049508842305L;
 
-    public static final String CACHE_NAME = "web_cache_category";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "SCORING", nullable = false, columnDefinition = "default 1")
+    @Column(name = "SCORING", nullable = false) // , columnDefinition = "default 1"
     private long scoring;
     
     @Column(name = "CODE", nullable = false)
@@ -74,8 +74,8 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     @Lob
     private String description;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
     @Column(name = "RANKING")
     private Integer ranking;

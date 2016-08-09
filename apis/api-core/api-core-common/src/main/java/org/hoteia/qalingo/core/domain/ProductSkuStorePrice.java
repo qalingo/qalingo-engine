@@ -40,20 +40,20 @@ public class ProductSkuStorePrice extends AbstractPrice<ProductSkuStorePrice> {
 	private Long id;
 	
 	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
+	@Column(name="VERSION", nullable=false) // , columnDefinition="int(11) default 1"
 	private int version;
 	
 	@Column(name="SALE_PRICE")
 	private BigDecimal salePrice;
 
-    @Column(name = "IS_CATALOG_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isCatalogPrice;
+    @Column(name = "IS_CATALOG_PRICE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isCatalogPrice = false;
     
-    @Column(name = "IS_DISCOUNT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDiscount;
+    @Column(name = "IS_DISCOUNT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDiscount = false;
 
-    @Column(name = "IS_VAT_INCLUDED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isVATIncluded;
+    @Column(name = "IS_VAT_INCLUDED", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isVATIncluded = false;
     
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)

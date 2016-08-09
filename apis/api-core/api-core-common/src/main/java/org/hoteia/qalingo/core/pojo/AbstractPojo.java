@@ -9,9 +9,13 @@
  */
 package org.hoteia.qalingo.core.pojo;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
-public abstract class AbstractPojo {
+public abstract class AbstractPojo<P> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
 	public AbstractPojo() {
 	}

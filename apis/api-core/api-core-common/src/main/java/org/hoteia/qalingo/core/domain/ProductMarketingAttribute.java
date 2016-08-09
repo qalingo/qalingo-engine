@@ -41,7 +41,7 @@ public class ProductMarketingAttribute extends AbstractAttribute<ProductMarketin
 	private Long id;
 	
 	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
+	@Column(name="VERSION", nullable=false) // , columnDefinition="int(11) default 1"
 	private int version;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -79,7 +79,7 @@ public class ProductMarketingAttribute extends AbstractAttribute<ProductMarketin
 	private String localizationCode;
 	
 //	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
-//	private boolean isGlobal;
+//	private boolean isGlobal = false;
 //	
 //	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
 //	private Integer ordering;

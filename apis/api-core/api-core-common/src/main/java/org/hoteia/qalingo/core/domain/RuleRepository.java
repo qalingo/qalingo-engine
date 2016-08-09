@@ -49,7 +49,7 @@ public class RuleRepository extends AbstractEntity<RuleRepository> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", unique = true, nullable = false)
@@ -62,8 +62,8 @@ public class RuleRepository extends AbstractEntity<RuleRepository> {
     @Lob
     private String description;
 
-    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean active;
+    @Column(name = "IS_ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 1"
+    private boolean active = false;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.AbstractRuleReferential.class)
     @JoinTable(name = "TECO_RULE_REPOSITORY_REFERENTIAL_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REFERENTIAL_ID"))

@@ -12,23 +12,17 @@ package org.hoteia.qalingo.core.web.mvc.controller.admin;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Statistics;
-
-import org.apache.commons.lang.StringUtils;
+import org.ehcache.xml.model.CacheType;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
+import org.hoteia.qalingo.core.web.cache.util.CacheService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,172 +34,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CacheEntityManagerController extends AbstractQalingoController {
 
     @Autowired
-    private EhCacheCacheManager ehCacheCacheManager;
+    private CacheService cacheService;
     
-    private enum CacheAction {
-        STATISTICS {
-            public void doAction(Cache cache, String value) {
-                cache.setStatisticsAccuracy(Statistics.STATISTICS_ACCURACY_GUARANTEED);
-                cache.setStatisticsEnabled(Boolean.valueOf(value));
-                cache.getCacheConfiguration().statistics(Boolean.valueOf(value));
-            }
-        },
-        MAXELEMENTSINMEMORY {
-            public void doAction(Cache cache, String value) {
-                cache.getCacheConfiguration().setMaxElementsInMemory(Integer.valueOf(value));
-            }
-        },
-        MAXELEMENTSONDISK {
-            public void doAction(Cache cache, String value) {
-                cache.getCacheConfiguration().setMaxElementsOnDisk(Integer.valueOf(value));
-            }
-        },
-        TIMETOIDLESECONDS {
-            public void doAction(Cache cache, String value) {
-                cache.getCacheConfiguration().setTimeToIdleSeconds(Integer.valueOf(value));
-            }
-        },
-        TIMETOLIVESECONDS {
-            public void doAction(Cache cache, String value) {
-                cache.getCacheConfiguration().setTimeToLiveSeconds(Integer.valueOf(value));
-            }
-        },
-        ACTIVE {
-            public void doAction(Cache cache, String value) {
-                cache.setDisabled(!Boolean.valueOf(value));
-            }
-        };
-
-        public abstract void doAction(Cache cache, String value);
-    }
-
     @PostConstruct
     public void init() {
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String displayCacheEntityManager(final HttpServletRequest request, final Model model,
-                @RequestParam(value = "flush", required = false) String flush,
-                @RequestParam(value = "resetStats", required = false) Boolean resetStats,
-                @RequestParam(value = "calculateMemorySize", required = false) Boolean calculateMemorySize,
-                @RequestParam(value = "evictExpiredElements", required = false) Boolean evictExpiredElements,
-                @RequestParam(value = "disable", required = false) String disable,
-                @RequestParam(value = "enable", required = false) String enable,
-                @RequestParam(value = "actions", required = false) String[] actions) throws Exception {
-        List<Cache> caches = getCaches();
-
-        if (actions != null)
-            processActions(actions, caches);
-        if (flush != null)
-            processFlush(flush, caches);
-        if (resetStats == Boolean.TRUE)
-            processResetStats(caches);
-        if (evictExpiredElements == Boolean.TRUE)
-            processEvictElements(caches);
-        if (disable != null)
-            processCachesStatus(disable, caches, true);
-        if (enable != null)
-            processCachesStatus(enable, caches, false);
-
+                @RequestParam(value = "flush", required = false) String flush) throws Exception {
+        
+        List<CacheType> caches = cacheService.getCaches();
+        List<String> cacheNames = new ArrayList<String>();
+        for (CacheType cacheType : caches) {
+            cacheNames.add(cacheType.getAlias());
+        }
+        
+        if("all".equals(flush)){
+            cacheService.flushCaches(caches);
+        }
+        
         model.addAttribute("title", Constants.QALINGO + " Cache Entity Manager");
         model.addAttribute("flushName", flush);
         model.addAttribute("caches", caches);
         model.addAttribute("hostname", getHostname());
-        model.addAttribute("hasMemorySize", calculateMemorySize);
 
         return CommonUrls.ENTITY_CACHE.getVelocityPage();
-    }
-
-    private List<Cache> getCaches() {
-        List<Cache> caches = new ArrayList<Cache>();
-        for (String cacheName : getCacheManager().getCacheNames()) {
-            caches.add(getCacheManager().getCache(cacheName));
-        }
-        Collections.sort(caches, new Comparator<Cache>() {
-            @Override
-            public int compare(Cache o1, Cache o2) {
-                if (o1 != null && o2 != null) {
-                    String order1 = o1.getName();
-                    String order2 = o2.getName();
-                    return order1.compareTo(order2);
-                }
-                return 0;
-            }
-        });
-        return caches;
-    }
-
-    private void processActions(String[] actions, List<Cache> caches) {
-        for (String actionStr : actions) {
-            String[] action = actionStr.split("_");
-            String actionName = action[0].toUpperCase();
-            String cacheName = action[1];
-            String value = action[2];
-            if (StringUtils.equals(cacheName, "all")) {
-                for (Cache cache : caches) {
-                    CacheAction.valueOf(actionName).doAction(cache, value);
-                }
-            } else {
-                Cache cache = getCacheManager().getCache(cacheName);
-                if (cache == null)
-                    cache = CacheManager.getInstance().getCache(cacheName);
-                if (cache != null)
-                    CacheAction.valueOf(actionName).doAction(cache, value);
-            }
-        }
-
-    }
-
-    private void processFlush(String flush, List<Cache> caches) {
-        if ("all".equals(flush) || "awoj".equals(flush) || "allwithopenjpa".equals(flush)) {
-            flushCaches(caches);
-        }
-        if (!("all".equals(flush) || "openjpa".equals(flush) || "awoj".equals(flush) || "allwithopenjpa".equals(flush))) {
-            flushCache(getCacheManager().getCache(flush));
-        }
-    }
-
-    public CacheManager getCacheManager() {
-        return ehCacheCacheManager.getCacheManager();
-    }
-
-    private void flushCaches(List<Cache> caches) {
-        for (Cache cache : caches) {
-            flushCache(cache);
-        }
-    }
-
-    private void flushCache(Cache cache) {
-        if(cache != null){
-            cache.removeAll();
-            cache.clearStatistics();
-        }
-    }
-
-    private void processResetStats(List<Cache> caches) {
-        for (Cache cache : caches) {
-            cache.clearStatistics();
-        }
-    }
-
-    private void processEvictElements(List<Cache> caches) {
-        for (Cache cache : caches) {
-            cache.evictExpiredElements();
-        }
-    }
-
-    private void updateCachesStatus(List<Cache> caches, boolean status) {
-        for (Cache cache : caches) {
-            cache.setDisabled(status);
-        }
-    }
-
-    private void processCachesStatus(String flushScope, List<Cache> caches, boolean status) {
-        if ("all".equals(flushScope)) {
-            updateCachesStatus(caches, status);
-        } else {
-            getCacheManager().getCache(flushScope).setDisabled(status);
-        }
     }
 
     private String getHostname() {

@@ -23,16 +23,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+
 @Entity
 @Table(name="TECO_ENGINE_SETTING_VALUE")
+@CacheEntityInformation(cacheName="web_cache_settings")
 public class EngineSettingValue extends AbstractEntity<EngineSettingValue> {
 
 	/**
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -2115630780792270714L;
-
-    public static final String CACHE_NAME = "web_cache_settings";
     
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

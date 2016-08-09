@@ -11,18 +11,37 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.RuleReferentialDao;
 import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface RuleReferentialService {
+@Transactional
+@Service("ruleReferentialService")
+public class RuleReferentialService {
 
-	AbstractRuleReferential getRuleReferentialByRuleType(String ruleType);
+	@Autowired
+	private RuleReferentialDao ruleReferentialDao;
 
-	AbstractRuleReferential getRuleReferentialByCode(String code);
-
-	List<AbstractRuleReferential> findRuleReferentials();
+	public AbstractRuleReferential getRuleReferentialByRuleType(String ruleType) {
+		return ruleReferentialDao.getRuleReferentialByRuleType(ruleType);
+	}
 	
-	void saveRuleReferential(AbstractRuleReferential ruleReferential);
+	public AbstractRuleReferential getRuleReferentialByCode(String code) {
+		return ruleReferentialDao.getRuleReferentialByCode(code);
+	}
+
+	public List<AbstractRuleReferential> findRuleReferentials() {
+		return ruleReferentialDao.findRuleReferentials();
+	}
 	
-	void deleteRuleReferential(AbstractRuleReferential ruleReferential);
+	public void saveRuleReferential(AbstractRuleReferential ruleReferential) {
+		ruleReferentialDao.saveRuleReferential(ruleReferential);
+	}
+	
+	public void deleteRuleReferential(AbstractRuleReferential ruleReferential) {
+		ruleReferentialDao.deleteRuleReferential(ruleReferential);
+	}
 
 }

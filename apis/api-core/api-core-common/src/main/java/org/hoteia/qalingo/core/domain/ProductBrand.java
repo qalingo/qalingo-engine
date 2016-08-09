@@ -52,10 +52,10 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "SCORING", nullable = false, columnDefinition = "default 1")
+    @Column(name = "SCORING", nullable = false) // , columnDefinition = "default 1"
     private long scoring;
     
     @Column(name = "CODE", unique = true, nullable = false)
@@ -68,14 +68,14 @@ public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBran
     @Lob
     private String description;
 
-    @Column(name = "ENABLED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabled;
+    @Column(name = "ENABLED", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabled = false;
     
-    @Column(name = "IS_ENABLED_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledB2B;
+    @Column(name = "IS_ENABLED_B2B", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabledB2B = false;
 
-    @Column(name = "IS_ENABLED_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledB2C;
+    @Column(name = "IS_ENABLED_B2C", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabledB2C = false;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductBrandAttribute.class)
     @JoinColumn(name = "PRODUCT_BRAND_ID")

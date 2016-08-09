@@ -17,7 +17,7 @@ import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.bean.GeolocData;
+import org.hoteia.qalingo.core.pojo.GeolocData;
 import org.hoteia.qalingo.core.pojo.geoloc.GeolocDataPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPlacePojo;

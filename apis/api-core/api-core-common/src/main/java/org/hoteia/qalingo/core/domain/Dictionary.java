@@ -25,8 +25,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+
 @Entity
 @Table(name="TCOMMON_DICTIONARY")
+@CacheEntityInformation(cacheName="web_cache_common")
 public class Dictionary extends AbstractEntity<Dictionary> {
 
 	/**
@@ -40,7 +43,7 @@ public class Dictionary extends AbstractEntity<Dictionary> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE")

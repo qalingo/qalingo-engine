@@ -36,7 +36,7 @@ public class CustomerAddress extends AbstractAddress<CustomerAddress> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "ADDRESS_NAME")
@@ -75,17 +75,17 @@ public class CustomerAddress extends AbstractAddress<CustomerAddress> {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
     @Column(name = "CUSTOMER_ID")
     private Long customerId;
 
-    @Column(name = "IS_DEFAULT_BILLING", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean isDefaultBilling;
+    @Column(name = "IS_DEFAULT_BILLING", nullable = false) // , columnDefinition = "tinyint(1) default 1"
+    private boolean isDefaultBilling = false;
 
-    @Column(name = "IS_DEFAULT_SHIPPING", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean isDefaultShipping;
+    @Column(name = "IS_DEFAULT_SHIPPING", nullable = false) // , columnDefinition = "tinyint(1) default 1"
+    private boolean isDefaultShipping = false;
 
     @Column(name = "LONGITUDE")
     private String longitude;

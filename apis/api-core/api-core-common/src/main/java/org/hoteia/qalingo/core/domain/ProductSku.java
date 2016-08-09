@@ -37,9 +37,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU")
+@CacheEntityInformation(cacheName="web_cache_product_sku")
 public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttribute> {
 
 	/**
@@ -47,18 +49,16 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
 	 */
 	private static final long serialVersionUID = -2239109542749803870L;
 
-    public static final String CACHE_NAME = "web_cache_product_sku";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "SCORING", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "SCORING", nullable = false) // , columnDefinition = "int(11) default 1"
     private long scoring;
     
     @Column(name = "CODE", unique = true, nullable = false)
@@ -74,20 +74,20 @@ public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttri
     @Lob
     private String description;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
 
-    @Column(name = "IS_ENABLED_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledB2B;
+    @Column(name = "IS_ENABLED_B2B", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabledB2B = false;
     
-    @Column(name = "IS_ENABLED_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabledB2C;
+    @Column(name = "IS_ENABLED_B2C", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabledB2C = false;
     
-    @Column(name = "IS_SALABLE_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableB2B;
+    @Column(name = "IS_SALABLE_B2B", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean salableB2B = false;
     
-    @Column(name = "IS_SALABLE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableB2C;
+    @Column(name = "IS_SALABLE_B2C", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean salableB2C = false;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuAttribute.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")

@@ -30,9 +30,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name="TECO_ENGINE_SETTING")
+@CacheEntityInformation(cacheName="web_cache_engine_setting")
 public class EngineSetting extends AbstractEntity<EngineSetting> {
 
 	/**
@@ -40,15 +42,13 @@ public class EngineSetting extends AbstractEntity<EngineSetting> {
 	 */
 	private static final long serialVersionUID = 1773804870039476505L;
 
-    public static final String CACHE_NAME = "web_cache_settings";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", nullable = false)

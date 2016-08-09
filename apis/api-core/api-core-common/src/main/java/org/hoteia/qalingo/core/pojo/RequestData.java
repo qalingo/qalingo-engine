@@ -34,7 +34,6 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.bean.GeolocData;
 
 public class RequestData implements Serializable {
 

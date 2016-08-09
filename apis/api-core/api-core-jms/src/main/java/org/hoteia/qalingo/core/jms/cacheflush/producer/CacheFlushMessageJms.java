@@ -18,8 +18,8 @@ public class CacheFlushMessageJms extends AbstractMessageJms {
     @JacksonXmlProperty(localName="objectId")
     private Long objectId;
     
-    @JacksonXmlProperty(localName="objectType")
-    private String objectType;
+    @JacksonXmlProperty(localName="objectClass")
+    private String objectClass;
     
     public Long getObjectId() {
         return objectId;
@@ -29,12 +29,12 @@ public class CacheFlushMessageJms extends AbstractMessageJms {
         this.objectId = objectId;
     }
     
-    public String getObjectType() {
-        return objectType;
+    public String getObjectClass() {
+        return objectClass;
     }
     
-    public void setObjectType(String objectType) {
-        this.objectType = objectType;
+    public void setObjectClass(String objectClass) {
+        this.objectClass = objectClass;
     }
     
 }

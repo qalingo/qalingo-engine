@@ -25,9 +25,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name="TECO_LOCALIZATION")
+@CacheEntityInformation(cacheName="web_cache_localization")
 public class Localization extends AbstractEntity<Localization> {
 
 	/**
@@ -41,14 +43,14 @@ public class Localization extends AbstractEntity<Localization> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
     
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
+    @Column(name = "IS_DEFAULT", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefault = false;
     
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;

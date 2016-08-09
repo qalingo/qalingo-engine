@@ -51,8 +51,8 @@ public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel,
     @Column(name = "SPECIFIC_CODE")
     private String specificCode;
 
-    @Column(name = "IS_DEFAULT_STORE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefaultStore;
+    @Column(name = "IS_DEFAULT_STORE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isDefaultStore = false;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuStoreAttribute.class)
     @JoinColumns({

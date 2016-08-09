@@ -25,10 +25,12 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CmsMenuComparator;
 
 @Entity
 @Table(name="TCMS_MENU")
+@CacheEntityInformation(cacheName="web_cache_cms_content")
 public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
 
 	/**
@@ -36,15 +38,13 @@ public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
 	 */
 	private static final long serialVersionUID = 2371543657810234869L;
 
-    public static final String CACHE_NAME = "web_cache_cms_content";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE")
@@ -73,11 +73,11 @@ public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
     @JoinColumn(name = "CMS_LINK_ID")
 	private CmsLink link;
 	
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+	@Column(name="ORDERING", nullable=false) // , columnDefinition="int(11) default 0"
 	private int ordering;
 	
-    @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
 	
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CmsMenu.class)
     @JoinColumn(name="MENU_ID", insertable = true, updatable = true)

@@ -35,9 +35,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 
 @Entity
 @Table(name = "TECO_RETAILER")
+@CacheEntityInformation(cacheName="web_cache_retailer")
 public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> {
 
     /**
@@ -45,19 +47,17 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
      */
     private static final long serialVersionUID = 7735245064467350070L;
 
-    public static final String CACHE_NAME = "web_cache_retailer";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "IS_ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
     
     @Column(name = "CODE", unique = true, nullable = false)
     private String code;
@@ -72,25 +72,25 @@ public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> 
     @Column(name = "LOGO")
     private String logo;
 
-    @Column(name = "IS_OFFICIAL_RETAILER", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isOfficialRetailer;
+    @Column(name = "IS_OFFICIAL_RETAILER", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isOfficialRetailer = false;
 
-    @Column(name = "IS_BRAND", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isBrand;
+    @Column(name = "IS_BRAND", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isBrand = false;
 
-    @Column(name = "IS_ECOMMERCE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isEcommerce;
+    @Column(name = "IS_ECOMMERCE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isEcommerce = false;
 
-    @Column(name = "IS_CORNER", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isCorner;
+    @Column(name = "IS_CORNER", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isCorner = false;
 
-    @Column(name = "QUALITY_OF_SERVICE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    @Column(name = "QUALITY_OF_SERVICE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
     private int qualityOfService;
 
-    @Column(name = "PRICE_SCORE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    @Column(name = "PRICE_SCORE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
     private int priceScore;
 
-    @Column(name = "RATIO_QUALITY_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    @Column(name = "RATIO_QUALITY_PRICE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
     private int ratioQualityPrice;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.RetailerLink.class)

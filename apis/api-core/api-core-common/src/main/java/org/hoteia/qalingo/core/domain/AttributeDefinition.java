@@ -22,8 +22,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+
 @Entity
 @Table(name = "TECO_ATTRIBUTE_DEFINITION")
+@CacheEntityInformation(cacheName="web_cache_attribute_definition")
 public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
 
     /**
@@ -61,8 +64,6 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     public static int OBJECT_TYPE_COMPANY = 18;
     public static int OBJECT_TYPE_CMS_MENU = 19;
     
-    public static final String CACHE_NAME = "web_cache_settings";
-
     public static SimpleDateFormat fullAttributeDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
 
     @Id
@@ -71,7 +72,7 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE", nullable = false)
@@ -90,25 +91,25 @@ public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
     @Column(name = "OBJECT_TYPE")
     private int objectType;
 
-    @Column(name = "ENABLED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean enabled;
+    @Column(name = "ENABLED", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean enabled = false;
 
-    @Column(name = "MANDATORY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean mandatory;
+    @Column(name = "MANDATORY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean mandatory = false;
 
-    @Column(name = "LOCALIZABLE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean localizable;
+    @Column(name = "LOCALIZABLE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean localizable = false;
 
-    @Column(name = "GLOBAL", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean global;
+    @Column(name = "GLOBAL", nullable = false) // , columnDefinition = "tinyint(1) default 1"
+    private boolean global = true;
 
-    @Column(name = "MULTI_VALUE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean multiValue;
+    @Column(name = "MULTI_VALUE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean multiValue = false;
 
-    @Column(name = "WITH_PLANNER", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean withPlanner;
+    @Column(name = "WITH_PLANNER", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean withPlanner = false;
 
-    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
+    @Column(name = "ORDERING", nullable = false) // , columnDefinition = "int(11) default 0"
     private Integer ordering;
 
     @Temporal(TemporalType.TIMESTAMP)

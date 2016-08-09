@@ -11,18 +11,39 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.RuleRepositoryDao;
 import org.hoteia.qalingo.core.domain.RuleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface RuleRepositoryService {
+@Transactional
+@Service("ruleRepositoryService")
+public class RuleRepositoryService {
 
-	RuleRepository getRuleRepositoryByCode(String ruleRepositoryCode);
+	@Autowired
+	private RuleRepositoryDao ruleRepositoryDao;
 
-	List<RuleRepository> findRuleRepositories();
-
-	List<RuleRepository> findActiveRuleRepositories();
-
-	void saveRuleRepository(RuleRepository ruleRepository);
+	// RULE CONDITION
 	
-	void deleteRuleRepository(RuleRepository ruleCondruleRepositoryitionRepository);
+	public RuleRepository getRuleRepositoryByCode(String ruleRepositoryCode) {
+		return ruleRepositoryDao.getRuleRepositoryByCode(ruleRepositoryCode);
+	}
+
+	public List<RuleRepository> findRuleRepositories() {
+		return ruleRepositoryDao.findRuleRepositories();
+	}
+
+	public List<RuleRepository> findActiveRuleRepositories() {
+		return ruleRepositoryDao.findActiveRuleRepositories();
+	}
+	
+	public void saveRuleRepository(RuleRepository ruleRepository) {
+		ruleRepositoryDao.saveRuleRepository(ruleRepository);
+	}
+	
+	public void deleteRuleRepository(RuleRepository ruleRepository) {
+		ruleRepositoryDao.deleteRuleRepository(ruleRepository);
+	}
 
 }

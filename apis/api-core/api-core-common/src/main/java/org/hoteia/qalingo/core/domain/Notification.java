@@ -52,8 +52,8 @@ public class Notification extends AbstractEntity<Notification> {
 	@Column(name="TAG_ID")
 	private Long tagId;
 
-	@Column(name="CHECKED", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isChecked;
+	@Column(name="CHECKED", nullable=false) // , columnDefinition="tinyint(1) default 0"
+	private boolean isChecked = false;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")

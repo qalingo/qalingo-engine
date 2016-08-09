@@ -27,7 +27,7 @@ public class CmsLink extends AbstractEntity<CmsLink> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "NAME")
@@ -42,8 +42,8 @@ public class CmsLink extends AbstractEntity<CmsLink> {
     @Column(name = "PARAMS")
     private String params;
 
-    @Column(name = "EXTERNAL", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean external;
+    @Column(name = "EXTERNAL", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean external = false;
     
     @Column(name = "FULL_URL_PATH")
     private String fullUrlPath;

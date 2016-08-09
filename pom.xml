@@ -23,27 +23,25 @@
 		<qalingo.webservice.url>http://localhost:21080/remote-ws</qalingo.webservice.url>
 
 		<!-- Spring -->
-		<spring.version>3.2.4.RELEASE</spring.version>
+		<spring.version>4.3.2.RELEASE</spring.version>
 		<aspectj.version>1.7.0</aspectj.version>
 		<!-- spring.security -->
-		<spring.security.version>3.1.4.RELEASE</spring.security.version>
-		<!-- Spring-batch -->
-		<spring.batch.version>2.1.9.RELEASE</spring.batch.version>
-		<spring.batch.admin.version>1.2.1.RELEASE</spring.batch.admin.version>
+		<spring.security.version>4.1.1.RELEASE</spring.security.version>
 		<!-- Datas -->
-		<hibernate.version>4.1.8.Final</hibernate.version>
+		<hibernate.version>4.3.11.Final</hibernate.version><!-- difficult migration to Hibernate 5.x -->
 		<!-- CXF -->
 		<cxf.version>3.0.0-milestone1</cxf.version>
 		<!-- SOLR -->
 		<solr.version>4.0.0</solr.version>
 		<!-- DROOLS -->
-		<drools.version>5.4.0.Final</drools.version>
+		<drools.version>6.4.0.Final</drools.version>
+		<drools.integration.version>6.4.0.Final</drools.integration.version>
 		<!-- ACTIVEMQ -->
 		<activemq.version>5.9.0</activemq.version>
 		<!-- LOGS -->
 		<logback.version>1.0.13</logback.version>
 		<slf4j.version>1.7.5</slf4j.version>
-		<jackson.version>2.3.1</jackson.version>
+		<jackson.version>2.8.1</jackson.version>
 	</properties>
 
 	<modules>
@@ -523,9 +521,22 @@
 				<version>${drools.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-spring</artifactId>
+				<version>${drools.integration.version}</version>
+			</dependency>
+			
+			<!--
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-jsr94</artifactId>
+				<version>${drools.version}</version>
+			</dependency>
+			
+			<dependency>
 				<groupId>org.drools</groupId>
 				<artifactId>drools-spring</artifactId>
-				<version>${drools.version}</version>
+				<version>${drools.integration.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>log4j</groupId>
@@ -536,18 +547,14 @@
 			<dependency>
 				<groupId>org.drools</groupId>
 				<artifactId>knowledge-api</artifactId>
-				<version>${drools.version}</version>
+				<version>${drools.integration.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.drools</groupId>
 				<artifactId>knowledge-internal-api</artifactId>
-				<version>${drools.version}</version>
+				<version>${drools.integration.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>jsr94</groupId>
-				<artifactId>jsr94</artifactId>
-				<version>1.1</version>
-			</dependency>
+			-->
 
             <!-- JMS -->
             <dependency>
@@ -583,16 +590,16 @@
 
 			<!-- Cache dependencies -->
 			<dependency>
-				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache-core</artifactId>
-				<version>2.6.8</version>
+				<groupId>org.ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>3.1.1</version>
 			</dependency>
 			<dependency>
-				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache-web</artifactId>
-				<version>2.0.4</version>
+				<groupId>org.ehcache</groupId>
+				<artifactId>jcache</artifactId>
+				<version>1.0.1</version>
 			</dependency>
-
+  
 			<!-- Quartz -->
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
@@ -733,7 +740,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.8.1</version>
+				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -913,12 +920,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
 				<executions>
 					<execution>
-					<id>attach-javadocs</id>
+						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

@@ -47,7 +47,7 @@ public class CartItem extends AbstractEntity<CartItem> {
     @Column(name = "STORE_ID")
     private Long storeId;
     
-    @Column(name = "QUANTITY", nullable = false, columnDefinition = "int(11) default 0")
+    @Column(name = "QUANTITY", nullable = false) // , columnDefinition = "int(11) default 0"
     private int quantity;
 
     @Transient

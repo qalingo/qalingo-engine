@@ -15,7 +15,5 @@ public abstract class AbstractAddress<E> extends AbstractEntity<E> {
 	 * Generated UID
 	 */
     private static final long serialVersionUID = -4335607439396593581L;
-
-
 	
 }

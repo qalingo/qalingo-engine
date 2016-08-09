@@ -58,7 +58,7 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     @Column(name = "PRICE")
     private BigDecimal price;
 
-    @Column(name = "QUANTITY", nullable = false, columnDefinition = "int(11) default 0")
+    @Column(name = "QUANTITY", nullable = false) // , columnDefinition = "int(11) default 0"
     private int quantity;
 
     @Column(name = "PRODUCT_SKU_CODE")
@@ -76,8 +76,8 @@ public class OrderItem extends AbstractEntity<OrderItem> {
     @JoinColumn(name = "ORDER_ITEM_ID")
     private Set<OrderTax> taxes = new HashSet<OrderTax>();
 
-    @Column(name = "IS_VAT_INCLUDED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isVATIncluded;
+    @Column(name = "IS_VAT_INCLUDED", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean isVATIncluded = false;
 
     public OrderItem() {
     }

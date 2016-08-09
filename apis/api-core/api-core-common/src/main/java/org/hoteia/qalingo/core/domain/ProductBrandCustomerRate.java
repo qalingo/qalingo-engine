@@ -49,8 +49,8 @@ public class ProductBrandCustomerRate extends AbstractEntity<ProductBrandCustome
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
 	
-	@Column(name="PROCESSED", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean processed;
+	@Column(name="PROCESSED", nullable=false) // , columnDefinition="tinyint(1) default 0"
+	private boolean processed = false;
 	
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="DATE_CREATE")

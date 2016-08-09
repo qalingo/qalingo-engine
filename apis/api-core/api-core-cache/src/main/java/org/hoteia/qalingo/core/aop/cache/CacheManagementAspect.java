@@ -8,62 +8,72 @@
  */
 package org.hoteia.qalingo.core.aop.cache;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
+import java.lang.reflect.Method;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.ehcache.Cache;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.annotation.CacheMethodInformation;
+import org.hoteia.qalingo.core.annotation.CacheType;
 import org.hoteia.qalingo.core.domain.AbstractEntity;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.pojo.AbstractPojo;
+import org.hoteia.qalingo.core.web.cache.util.CacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 @Component(value = "cacheManagementAspect")
 public class CacheManagementAspect {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public static final String DEFAULT_CACHE_NAME = "web_cache_common";
-
-    public static final String CACHE_NAME = "CACHE_NAME";
-
-    public static final String CACHE_TYPE_MISC = "CACHE_TYPE_MISC";
-    public static final String CACHE_BY_ID = "CACHE_BY_ID";
-    public static final String CACHE_BY_CODE = "CACHE_BY_CODE";
-
     @Autowired
-    private EhCacheCacheManager ehCacheCacheManager;
+    private CacheService cacheService;
 
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Object returnObject = null;
         try {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-            Class classTarget = signature.getReturnType();
+            Class classReturnType = signature.getReturnType();
             Object[] args = joinPoint.getArgs();
-            String suffix = "";
+            String cacheType = null;
+            String cacheName = null;
+            Cache cache = null;
+            String key = null;
+            
+            logger.debug("Start Cache AOP. Call from : '" + joinPoint.getSignature().toShortString() + "'");
+
+            // DEFINE THE CACHE TYPE
+            try {
+                CacheMethodInformation cacheMethodInformation = signature.getMethod().getAnnotation(CacheMethodInformation.class);
+                cacheType = cacheMethodInformation.cacheType();
+                logger.debug("CacheMethodInformation from annotation : cacheType= '" + cacheType + "'");
+                cacheName = cacheMethodInformation.cacheName();
+                logger.debug("CacheEntityInformation from annotation : cacheName= '" + cacheName + "'");
+                
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            if(AbstractEntity.class.isAssignableFrom(classReturnType)){
+                cacheType = CacheType.CACHE_ENTITY;
+                if (joinPoint.getSignature().toShortString().contains("ByCode")) {
+                    // FIRST ARG IS A STRING FOR THE GET METHOD : SO THIS A GET BY CODE
+                    cacheType = CacheType.CACHE_LINK_CODE_ID;
+                }
+            } else if(AbstractPojo.class.isAssignableFrom(classReturnType)){
+                cacheType = CacheType.CACHE_POJO;
+                
+            }
+            logger.debug("Cache Type : '" + cacheType + "'");
+
+            // TARGETED FETCH PLAN
             FetchPlan askedFetchPlan = null;
             FetchPlan loadedFetchPlan = null;
-            String cacheType = CACHE_TYPE_MISC;
-
-            // TOD : Denis : blindé le code pour tester les arg differement entre une method get* et find* et autre
-
-            if (joinPoint.getSignature().toShortString().contains("ById")) {
-                // FIRST ARG IS A LONG FOR THE GET METHOD : SO THIS A GET BY ID
-                cacheType = CACHE_BY_ID;
-            } else if (joinPoint.getSignature().toShortString().contains("ByCode")) {
-                // FIRST ARG IS A STRING FOR THE GET METHOD : SO THIS A GET BY CODE
-                cacheType = CACHE_BY_CODE;
-            }
-
             for (Object arg : args) {
                 if (arg instanceof Object[]) {
                     Object[] objects = (Object[]) arg;
@@ -77,287 +87,179 @@ public class CacheManagementAspect {
                         }
                     }
                 }
-                if (arg instanceof RequestData) {
-                    RequestData requestData = (RequestData) arg;
-                    if (!suffix.endsWith("_")) {
-                        suffix = suffix + "_";
-                    }
-                    suffix = suffix + requestData.getMarketPlace().getCode()
-                            + "_" + requestData.getMarket().getCode()
-                            + "_" + requestData.getMarketArea().getCode()
-                            + "_" + requestData.getMarketAreaLocalization().getCode()
-                            + "_" + requestData.getMarketAreaRetailer().getCode()
-                            + "_" + requestData.getMarketAreaCurrency().getCode();
-
-                } else if (arg instanceof AbstractEntity) {
-                    AbstractEntity argEntity = (AbstractEntity) arg;
-                    if (!suffix.endsWith("_")) {
-                        suffix = suffix + "_";
-                    }
-                    Method[] methods = argEntity.getClass().getMethods();
-                    for (Method methodIt : methods) {
-                        if (methodIt.getName().equals("getId")) {
-                            Long id = (Long) methodIt.invoke(argEntity);
-                            suffix = suffix + id;
-                        }
-                    }
-
-                } else {
-                    if (arg != null && !(arg instanceof Object[]) && !(arg instanceof AbstractEntity)) {
-                        if (!suffix.endsWith("_")) {
-                            suffix = suffix + "_";
-                        }
-                        suffix = suffix + arg.toString();
-                    }
-                }
             }
-            String key;
-            String cacheName = DEFAULT_CACHE_NAME;
-            if (classTarget != null) {
+            
+            if(StringUtils.isNotEmpty(cacheType)){
                 try {
-                    Field cacheField = null;
-                    Field[] fields = classTarget.getFields();
-                    for (Field fieldIt : fields) {
-                        if (fieldIt.getName().equals(CACHE_NAME)) {
-                            cacheField = fieldIt;
+                    CacheEntityInformation cacheEntityInformation = (CacheEntityInformation) classReturnType.getAnnotation(CacheEntityInformation.class);
+                    cacheName = cacheEntityInformation.cacheName();
+                    // CHECK THE NAME OF THE CACHE
+                    if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
+                        cacheName += "_link_code_id";
+                    }
+                    logger.debug("CacheEntityInformation from annotation : cacheName= '" + cacheName + "'");
+
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+                
+                if(StringUtils.isNotEmpty(cacheName)){
+                    // LOAD THE CACHE
+                    if (cacheType.equals(CacheType.CACHE_ENTITY)) {
+                        String id = null;
+                        if(args != null && args.length > 0){
+                            if(args[0] instanceof Long){
+                                id = ((Long) args[0]).toString();
+                            }
                         }
-                    }
-                    if (cacheField != null) {
-                        cacheName = (String) cacheField.get(CACHE_NAME);
-                    }
-                } catch (IllegalAccessException e) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("IllegalAccessException code.", e);
-                    }
-                }
-            }
+                        key = cacheService.buildEntityKey(signature.getReturnType(), id);
+                        if(id == null){
+                            // OVERRIDE THE KEY BY THE METHOD
+                            key = signature.toShortString();
+                        }
+                        cache = cacheService.getCache(cacheName, String.class, AbstractEntity.class);
 
-            // CACHE TYPE
-            if (cacheType.equals(CACHE_TYPE_MISC)) {
-                key = joinPoint.getSignature().toShortString() + suffix;
-                if (!cacheName.contains("_misc")) {
-                    cacheName = cacheName + "_misc";
-                }
-            } else if (cacheType.equals(CACHE_BY_CODE)) {
-                // TODO : Denis : utiliser un cache de type cacheName_link_code_id pour avoir l'id en fonction du code
-                key = classTarget.getName() + suffix;
-                cacheName = cacheName + "_link_code_id";
-            } else {
-                key = classTarget.getName() + suffix;
-            }
-
-            Cache cache = getCacheManager() != null && StringUtils.isNotEmpty(cacheName) ? getCacheManager().getCache(cacheName) : null;
-            if (cache != null) {
-                if (cache.isKeyInCache(key)) {
-                    Element element = cache.get(key);
-                    if (element != null && !element.isExpired()) {
-                        // WE TEST IF THE FETCH PLAN ARE EQUALS
-                        returnObject = element.getObjectValue();
-                        if (returnObject instanceof AbstractEntity) {
-                            AbstractEntity entity = (AbstractEntity) returnObject;
-                            if (entity.getFetchPlan() != null) {
-                                loadedFetchPlan = entity.getFetchPlan();
+                    } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
+                        String code = null;
+                        if(args != null && args.length > 0){
+                            if(args[0] instanceof String){
+                                code = ((String) args[0]).toString();
                             }
-
-                            if (cacheType.equals(CACHE_BY_ID)) {
-                                // ENTITY : UPDATE THE CACHE LINK ID CODE
-                                String cacheNameIdCodeLink = cacheName + "_link_code_id";
-                                Cache cacheLinkIdCode = getCacheManager() != null && StringUtils.isNotEmpty(cacheNameIdCodeLink) ? getCacheManager().getCache(cacheNameIdCodeLink) : null;
-                                if (cacheLinkIdCode != null) {
-                                    String newKey = null;
-                                    String codeValue = null;
-                                    try {
-                                        Method[] methods = classTarget.getMethods();
-                                        for (Method methodIt : methods) {
-                                            if (methodIt.getName().equals("getId")) {
-                                                Long id = (Long) methodIt.invoke(returnObject);
-                                                newKey = classTarget.getName() + "_" + id;
-                                            }
-                                            if (methodIt.getName().equals("getCode")) {
-                                                codeValue = (String) methodIt.invoke(returnObject);
-                                            }
-                                            if (newKey != null && codeValue != null) {
-                                                break;
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        if (logger.isDebugEnabled()) {
-                                            logger.debug("IllegalAccessException.", e);
-                                        }
-                                    }
-                                    if (newKey != null) {
-                                        cacheLinkIdCode.put(new Element(newKey, codeValue));
-                                    }
-                                }
-                            }
-
-                            if (cacheType.equals(CACHE_BY_CODE)) {
-                                String cacheNameEntityById = cacheName.replace("_link_code_id", "");
-                                Cache cacheEntityById = getCacheManager() != null && StringUtils.isNotEmpty(cacheNameEntityById) ? getCacheManager().getCache(cacheNameEntityById) : null;
-
-                                String newKey = null;
-                                Method[] methods = classTarget.getMethods();
-                                for (Method methodIt : methods) {
-                                    if (methodIt.getName().equals("getId")) {
-                                        Long id = (Long) methodIt.invoke(returnObject);
-                                        newKey = classTarget.getName() + "_" + id;
-                                        break;
-                                    }
-                                }
-
-                                if (cacheEntityById != null) {
-                                    if (cacheEntityById.isKeyInCache(newKey)) {
-                                        Element elementEntityById = cacheEntityById.get(newKey);
-                                        if (elementEntityById != null && !elementEntityById.isExpired()) {
-                                            returnObject = elementEntityById.getObjectValue();
-                                        }
-                                    }
-                                }
-
-                            }
-                        } else if (returnObject instanceof Long) {
-                            if (cacheType.equals(CACHE_BY_CODE)) {
-                                String cacheNameEntityById = cacheName.replace("_link_code_id", "");
-                                Cache cacheEntityById = getCacheManager() != null && StringUtils.isNotEmpty(cacheNameEntityById) ? getCacheManager().getCache(cacheNameEntityById) : null;
-                                String newKey = classTarget.getName() + "_" + returnObject;
-                                if (cacheEntityById.isKeyInCache(newKey)) {
-                                    Element finalElement = cacheEntityById.get(newKey);
-                                    if (finalElement != null && !finalElement.isExpired()) {
-                                        // WE WILL TEST IF THE FETCH PLAN ARE EQUALS
-                                        returnObject = finalElement.getObjectValue();
-                                    }
-                                } else {
-                                    // WE RESET THE returnObject WHICH HAS THE LONG VALUE - THIS WILL TRIGGER THE LOAD BY DAO
+                        }
+                        key = cacheService.buildCodeIdKey(signature, code);
+                        if(code == null){
+                            // OVERRIDE THE KEY BY THE METHOD
+                            key = signature.toShortString();
+                        }
+                        cache = cacheService.getCache(cacheName, String.class, Long.class);
+                        
+                    } else if (cacheType.equals(CacheType.CACHE_POJO)) {
+                        key = cacheService.buildCommonKey(signature, args);
+                        cache = cacheService.getCache(cacheName, String.class, AbstractPojo.class);
+                        
+                    } else if (cacheType.equals(CacheType.CACHE_STRING)) {
+                        key = cacheService.buildCommonKey(signature, args);
+                        cache = cacheService.getCache(cacheName, String.class, String.class);
+                    }
+                    
+                    // TEST IF THE VALUE IS IN CACHE
+                    if (cache != null) {
+                        logger.debug("Searching object in cache with : key= '" + key + "'");
+                        if (cache.containsKey(key)) {
+                            logger.debug("Object exist in cache with : key= '" + key + "'");
+                            Object element = cache.get(key);
+                            if (element != null) {
+                                // WE TEST IF THE FETCH PLAN ARE EQUALS
+                                returnObject = element;
+                                
+                                if (cacheType.equals(CacheType.CACHE_ENTITY)) {
+                                    loadedFetchPlan = checkFetchPlan(returnObject, askedFetchPlan, loadedFetchPlan);
+                                    
+                                } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
+                                    String cacheNameEntity = cacheName.replace("_link_code_id", "");
                                     returnObject = null;
+                                    Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, AbstractEntity.class);
+                                    if (cacheEntity.containsKey(key)) {
+                                        Object entity = cacheEntity.get(key);
+                                        returnObject = entity;
+                                        loadedFetchPlan = checkFetchPlan(returnObject, askedFetchPlan, loadedFetchPlan);
+                                    }
                                 }
                             }
+                        } else {
+                            logger.debug("Object doesn't exist in cache with : key= '" + key + "'");
                         }
                     }
                 }
-                if (returnObject == null) {
-                    if (loadedFetchPlan != null) {
-                        args = ArrayUtils.add(args, loadedFetchPlan);
-                        returnObject = joinPoint.proceed(args);
-                    } else {
-                        returnObject = joinPoint.proceed();
-                    }
-                    if (returnObject != null && cacheType.equals(CACHE_BY_CODE)) {
-                        // PUT IN THE RIGHT ENTITY CACHE
-                        String cacheNameEntityById = cacheName.replace("_link_code_id", "");
-                        Cache cacheEntityById = getCacheManager() != null && StringUtils.isNotEmpty(cacheNameEntityById) ? getCacheManager().getCache(cacheNameEntityById) : null;
-                        String newKey = null;
-                        Method[] methods = classTarget.getMethods();
-                        Long value = null;
-                        for (Method methodIt : methods) {
-                            if (methodIt.getName().equals("getId")) {
-                                Long id = (Long) methodIt.invoke(returnObject);
-                                newKey = classTarget.getName() + "_" + id;
-                                value = id;
-                                break;
-                            }
-                        }
-                        if (cacheEntityById != null) {
-                            cacheEntityById.put(new Element(newKey, returnObject));
-                        }
-
-                        cache.put(new Element(key, value));
-
-                    } else {
-                        cache.put(new Element(key, returnObject));
-                    }
+            }
+            
+            // NOTHING IN CACHE - CALL THE TARGET METHOD
+            if (returnObject == null) {
+                if (loadedFetchPlan != null) {
+                    args = ArrayUtils.add(args, loadedFetchPlan);
+                    returnObject = joinPoint.proceed(args);
                 } else {
-                    if (returnObject instanceof AbstractEntity) {
-                        AbstractEntity entity = (AbstractEntity) returnObject;
-                        if (entity.getFetchPlan() != null) {
-                            loadedFetchPlan = entity.getFetchPlan();
-                        }
-                        if (askedFetchPlan != null) {
-                            if (loadedFetchPlan != null && !loadedFetchPlan.containAllTargetFetchPlans(askedFetchPlan)) {
-                                // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
-                                // WE WILL ADD LOADED FETCH PLAN AND ASKED FETCH PLAN TO THE INVOCATED METHOD
-                                returnObject = null;
-
-                            }
-
-//                            for (Iterator<SpecificFetchMode> iterator = askedFetchPlan.iterator(); iterator.hasNext();) {
-//                                SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
-//                                if(loadedFetchPlan == null){
-//                                    // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
-//                                    returnObject = null;
-//                                    break;
-//                                } else if (!loadedFetchPlan.contains(specificFetchMode)){
-//                                    // ENTITY IS LOAD WITH A DIFF FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD
-//                                    returnObject = null;
-//                                    break;
-//                                }
-//                            }
-
-                            if (returnObject == null) {
-                                if (loadedFetchPlan != null) {
-                                    for (int i = 0; i < args.length; i++) {
-                                        Object arg = args[i];
-                                        if (arg instanceof Object[]) {
-                                            Object[] objects = (Object[]) arg;
-                                            for (int j = 0; j < objects.length; j++) {
-                                                Object object = objects[j];
-                                                if (object instanceof FetchPlan) {
-                                                    // WE ARE IN THE FETCHPLAN OBJECT ARRAY
-                                                    objects = ArrayUtils.add(objects, entity.getFetchPlan());
-                                                    args = ArrayUtils.remove(args, i);
-                                                    args = ArrayUtils.add(args, objects);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    returnObject = joinPoint.proceed(args);
-                                }
-//                                else {
-//                                    returnObject = joinPoint.proceed();
-//                                }
-
-                                if (returnObject != null) {
-                                    if (cacheType.equals(CACHE_BY_CODE)) {
-                                        // PUT IN THE RIGHT ENTITY CACHE
-                                        String cacheNameEntityById = cacheName.replace("_link_code_id", "");
-                                        Cache cacheEntityById = getCacheManager() != null && StringUtils.isNotEmpty(cacheNameEntityById) ? getCacheManager().getCache(cacheNameEntityById) : null;
-                                        String newKey = null;
-                                        Method[] methods = classTarget.getMethods();
-                                        Long value = null;
-                                        for (Method methodIt : methods) {
-                                            if (methodIt.getName().equals("getId")) {
-                                                Long id = (Long) methodIt.invoke(returnObject);
-                                                newKey = classTarget.getName() + "_" + id;
-                                                value = id;
-                                                break;
-                                            }
-                                        }
-                                        if (cacheEntityById != null) {
-                                            cacheEntityById.put(new Element(newKey, returnObject));
-                                        }
-
-                                        cache.put(new Element(key, value));
-
-                                    } else {
-                                        cache.put(new Element(key, returnObject));
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    returnObject = joinPoint.proceed();
                 }
+                
+                if (returnObject != null && cache != null) {
+                    // PUT IN CACHE
+                    if (cacheType.equals(CacheType.CACHE_ENTITY)) {
+                        logger.debug("Put in cache '" + cacheName + "'. key : '" + key + "'. value: '" + returnObject + "'");
+                        cache.put(key, returnObject);
 
+                        // PUT THE CODE/ID
+                        String cacheNameCodeId = cacheName + "_link_code_id";
+                        Cache cacheCodeId = cacheService.getCache(cacheNameCodeId, String.class, Long.class);
+                        Long id = (Long) handleClassMethodGetValue(joinPoint, returnObject, classReturnType, "getId");
+                        String code = (String) handleClassMethodGetValue(joinPoint, returnObject, classReturnType, "getCode");
+                        String newKey = key = cacheService.buildCodeIdKey(signature, code);
+                        logger.debug("Put in cache '" + cacheNameCodeId + "'. key : '" + newKey + "'. value: '" + id + "'");
+                        cacheCodeId.put(newKey, id);
+                        
+                    } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
+                        Long id = (Long) handleClassMethodGetValue(joinPoint, returnObject, classReturnType, "getId");
+                        logger.debug("Put in cache '" + cacheName + "'. key : '" + key + "'. value: '" + id + "'");
+                        cache.put(key, id);
+                        
+                        // PUT THE ENTITY
+                        String cacheNameEntity = cacheName.replace("_link_code_id", "");
+                        Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, AbstractEntity.class);
+                        String newKey = cacheService.buildEntityKey(signature.getReturnType(), id.toString());
+                        logger.debug("Put in cache '" + cacheName + "'. key : '" + newKey + "'. value: '" + returnObject + "'");
+                        cacheEntity.put(newKey, returnObject);
+                        
+                    } else if (cacheType.equals(CacheType.CACHE_POJO)) {
+                        logger.debug("Put in cache '" + cacheName + "'. key : '" + key + "'. value: '" + returnObject + "'");
+                        cache.put(key, returnObject);
+                        
+                    }  else if (cacheType.equals(CacheType.CACHE_STRING)) {
+                        logger.debug("Put in cache '" + cacheName + "'. key : '" + key + "'. value: '" + returnObject + "'");
+                        cache.put(key, returnObject);
+                    } 
+                }
             }
 
         } catch (Exception e) {
-            logger.error("Failed to load datas with Cache AOP!", e);
+            logger.error("Failed to load datas with Cache AOP! Call from : '" + joinPoint.getSignature().toShortString() + "'", e);
         }
+        
+        logger.debug("End Cache AOP. Call from : '" + joinPoint.getSignature().toShortString() + "'");
+        logger.debug("---------------------------------------------------------------------------------");
+
         return returnObject;
     }
-
-    public CacheManager getCacheManager() {
-        return ehCacheCacheManager.getCacheManager();
+    
+    protected Object handleClassMethodGetValue(ProceedingJoinPoint joinPoint, Object returnObject, Class classReturnType, String methode) {
+        try {
+            Method[] methods = classReturnType.getMethods();
+            for (Method methodIt : methods) {
+                if (methodIt.getName().equals(methode)) {
+                    return methodIt.invoke(returnObject);
+                }
+            }
+        } catch (Exception e) {
+            logger.debug("Exception code. Call from : '" + joinPoint.getSignature().toShortString() + "'", e);
+        }
+        return null;
     }
-
+    
+    protected FetchPlan checkFetchPlan(Object returnObject, FetchPlan askedFetchPlan, FetchPlan loadedFetchPlan){
+        if (returnObject instanceof AbstractEntity) {
+            AbstractEntity entity = (AbstractEntity) returnObject;
+            if (entity.getFetchPlan() != null) {
+                loadedFetchPlan = entity.getFetchPlan();
+            }
+        }
+        
+        if (askedFetchPlan != null) {
+            if (loadedFetchPlan != null && !loadedFetchPlan.containAllTargetFetchPlans(askedFetchPlan)) {
+                // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
+                // WE WILL ADD LOADED FETCH PLAN AND ASKED FETCH PLAN TO THE INVOCATED METHOD
+                returnObject = null;
+            }
+        }
+        return loadedFetchPlan;
+    }
+    
 }

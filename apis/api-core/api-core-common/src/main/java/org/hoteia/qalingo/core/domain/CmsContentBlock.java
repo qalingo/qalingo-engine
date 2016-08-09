@@ -25,19 +25,19 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CmsContentAssetComparator;
 import org.hoteia.qalingo.core.comparator.CmsContentBlockComparator;
 
 @Entity
 @Table(name="TCMS_CONTENT_BLOCK")
+@CacheEntityInformation(cacheName="web_cache_cms_content")
 public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsContentBlockAttribute> {
 
 	/**
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = 2371541327810234869L;
-
-    public static final String CACHE_NAME = "web_cache_cms_content";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,14 +45,14 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
     @Column(name = "CODE")
     private String code;
     
-    @Column(name = "ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean active;
+    @Column(name = "ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean active = false;
     
     @Column(name = "TITLE")
     private String title;
@@ -71,7 +71,7 @@ public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsConte
     @Column(name = "PARAMS")
     private String params;
 
-    @Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+    @Column(name="ORDERING", nullable=false) // , columnDefinition="int(11) default 0"
     private int ordering;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)

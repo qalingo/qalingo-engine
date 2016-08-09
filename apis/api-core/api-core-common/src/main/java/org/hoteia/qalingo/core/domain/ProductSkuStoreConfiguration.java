@@ -39,17 +39,17 @@ public class ProductSkuStoreConfiguration extends AbstractEntity<ProductSkuStore
 	private Long id;
 	
 	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
+	@Column(name="VERSION", nullable=false) // , columnDefinition="int(11) default 1"
 	private int version;
 	
-    @Column(name = "IS_SALABLE_ONLINE_B2B", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableOnlineB2B;
+    @Column(name = "IS_SALABLE_ONLINE_B2B", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean salableOnlineB2B = false;
     
-    @Column(name = "IS_SALABLE_ONLINE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableOnlineB2C;
+    @Column(name = "IS_SALABLE_ONLINE_B2C", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean salableOnlineB2C = false;
 
-    @Column(name = "IS_SALABLE_STORE_B2C", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean salableStoreB2C;
+    @Column(name = "IS_SALABLE_STORE_B2C", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean salableStoreB2C = false;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;

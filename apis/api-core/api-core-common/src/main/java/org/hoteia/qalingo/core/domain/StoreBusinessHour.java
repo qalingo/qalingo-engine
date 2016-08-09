@@ -38,32 +38,32 @@ public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
     private Long id;
 
     @Version
-    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
-    @Column(name = "MONDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean monday;
+    @Column(name = "MONDAY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean monday = false;
 
-    @Column(name = "TUESDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean tuesday;
+    @Column(name = "TUESDAY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean tuesday = false;
 
-    @Column(name = "WEDNESDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean wednesday;
+    @Column(name = "WEDNESDAY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean wednesday = false;
 
-    @Column(name = "THURSDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean thursday;
+    @Column(name = "THURSDAY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean thursday = false;
 
-    @Column(name = "FRIDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean friday;
+    @Column(name = "FRIDAY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean friday = false;
 
-    @Column(name = "SATURDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean saturday;
+    @Column(name = "SATURDAY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean saturday = false;
 
-    @Column(name = "SUNDAY", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean sunday;
+    @Column(name = "SUNDAY", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean sunday = false;
 
-    @Column(name = "IS_CLOSED", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean closed;
+    @Column(name = "IS_CLOSED", nullable = false) // , columnDefinition = "tinyint(1) default 0"
+    private boolean closed = false;
     
     @Column(name = "START_HOUR")
     private String startHour;

@@ -28,16 +28,8 @@
 						   http://www.springframework.org/schema/cache
 						   http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-	<context:component-scan base-package="org.hoteia.qalingo.core.web.cache" />
-
-	<cache:annotation-driven cache-manager="ehCacheCacheManager" />
-
-	<bean id="ehCacheCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cacheManager-ref="ehcache" />
-
-	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" 
-		  p:shared="true" 
-		  p:config-location="${cache.configuration.location}" />
-
+    <context:component-scan base-package="org.hoteia.qalingo.core.cache" />
     <context:component-scan base-package="org.hoteia.qalingo.core.aop.cache" />
+	<context:component-scan base-package="org.hoteia.qalingo.core.web.cache" />
     
 </beans>

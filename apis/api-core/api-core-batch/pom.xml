@@ -67,12 +67,6 @@
             <artifactId>spring-support</artifactId>
         </dependency>
         -->
-
-		<!-- Spring Batch libs -->
-		<dependency>
-			<groupId>org.springframework.batch</groupId>
-			<artifactId>spring-batch-core</artifactId>
-		</dependency>
 		
 		<!-- Quartz -->
 		<dependency>
