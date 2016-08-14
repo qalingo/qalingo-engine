@@ -15,6 +15,8 @@ public class ModelConstants {
     public static final String APP_NAME         = "appName";
     public static final String APP_NAME_HTML    = "appNameHtml";
 
+    public static final String ALTERNATE_LINKS_VIEW_BEAN        = "alternateLinks";
+
     public static final String KEY                  = "key";
     public static final String LOCALE               = "locale";
     public static final String COUNTRY_CODE         = "countryCode";

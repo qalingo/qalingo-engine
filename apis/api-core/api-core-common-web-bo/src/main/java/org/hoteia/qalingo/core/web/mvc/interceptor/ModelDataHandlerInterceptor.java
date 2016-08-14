@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.interceptor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +24,12 @@ import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
+import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +53,9 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
     @Autowired
     protected LocalizationService localizationService;
     
+    @Autowired
+    protected CoreMessageSource coreMessageSource;
+    
     @Override
     public boolean preHandle(HttpServletRequest request, 
                              HttpServletResponse response, Object handler) throws Exception {
@@ -67,6 +73,8 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
         
         try {
             final RequestData requestData = requestUtil.getRequestData(request);
+            final Locale locale = requestData.getLocale();
+            
             modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanCommon(requestData));
             
             final MarketPlace currentMarketPlace = requestData.getMarketPlace();
@@ -124,6 +132,15 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             // FOOTER
             modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanFooterMenu(requestData));
             
+            String contextName = requestUtil.getContextName();
+            try {
+                String contextValue = PropertiesUtil.getWebappContextKey(contextName);
+                modelAndView.getModelMap().addAttribute(ModelConstants.WORDING, coreMessageSource.loadWordingByContext(contextValue, locale));
+                
+            } catch (Exception e) {
+                logger.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
+            }
+
         } catch (Exception e) {
             logger.error("inject common datas failed", e);
         }

@@ -22,8 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
+import org.hoteia.qalingo.core.domain.CmsContent;
+import org.hoteia.qalingo.core.domain.CmsContentBlock;
+import org.hoteia.qalingo.core.domain.CmsLink;
+import org.hoteia.qalingo.core.domain.CmsMenu;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -47,7 +53,9 @@ import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CmsContentBlockViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ExtendedMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
@@ -256,6 +264,143 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         return menuViewBeans;
     }
     
+    /**
+    *
+    */
+   public List<ExtendedMenuViewBean> buildListViewBeanCmsMenus(final RequestData requestData) throws Exception {
+       final MarketArea marketArea = requestData.getMarketArea();
+       List<Long> menuIds = cmsContentService.findAllActiveRootCmsMenuIdsByPosition(CmsMenu.APP_NAME_FRONTOFFICE_B2C, marketArea.getId(), "HEADER_MENU");
+       List<ExtendedMenuViewBean> menuViewBeans = new ArrayList<ExtendedMenuViewBean>();
+       for (Long menuId : menuIds) {
+           CmsMenu menu = cmsContentService.getCmsMenuById(menuId);
+           if ("MAGAZINE".equalsIgnoreCase(menu.getCode())) {
+               ExtendedMenuViewBean menuMagazine = buildCmsMenuViewBean(requestData, menu);
+               final List<Long> lastCmsContentIds = cmsContentService.findLastActiveCmsContentIds(CmsContent.APP_NAME_FRONTOFFICE_B2C, "ARTICLE", requestData.getMarketArea().getId(), 6);
+               int count = 1;
+               for (Long cmsContentId : lastCmsContentIds) {
+                   CmsContent reloadedCmsContent = cmsContentService.getCmsContentById(cmsContentId);
+
+                   ExtendedMenuViewBean subMenuViewBean = new ExtendedMenuViewBean();
+                   subMenuViewBean.setKey(reloadedCmsContent.getCode());
+                   subMenuViewBean.setName(reloadedCmsContent.getLinkTitle());
+                   subMenuViewBean.setDescription(reloadedCmsContent.getSummary());
+                   subMenuViewBean.setUrl(urlService.generateUrl(FoUrls.ARTICLE_CMS_CONTENT, requestData, reloadedCmsContent));
+                   subMenuViewBean.setAlt(reloadedCmsContent.getTitle());
+                   if (count < 4) {
+                       subMenuViewBean.setOrdering(count);
+                   } else if (count > 3 && count < 7) {
+                       subMenuViewBean.setOrdering(count + 10);
+                   } else if (count > 6 && count < 13) {
+                       subMenuViewBean.setOrdering(count + 20);
+                   }
+                   menuMagazine.getSubMenus().add(subMenuViewBean);
+                   count++;
+               }
+               menuViewBeans.add(menuMagazine);
+
+           } else {
+               menuViewBeans.add(buildCmsMenuViewBean(requestData, menu));
+           }
+       }
+       return menuViewBeans;
+   }
+
+   protected ExtendedMenuViewBean buildCmsMenuViewBean(final RequestData requestData, final CmsMenu menu) throws Exception {
+       final Localization localization = requestData.getMarketAreaLocalization();
+       final String localizationCode = localization.getCode();
+       
+       ExtendedMenuViewBean menuViewBean = new ExtendedMenuViewBean();
+       menuViewBean.setKey(menu.getCode());
+       menuViewBean.setName(menu.getName());
+       menuViewBean.setDescription(menu.getDescription());
+
+       menuViewBean.setI18nName(menu.getI18nName(localizationCode));
+       
+       // LINK
+       if (Hibernate.isInitialized(menu.getLink())
+               && menu.getLink() != null) {
+           CmsLink link = menu.getLink();
+           if (link.isExternal()) {
+               menuViewBean.setExternal(true);
+               menuViewBean.setUrl(link.getFullUrlPath());
+
+           } else if ("#".equals(link.getType())) {
+               menuViewBean.setUrl("#");
+
+           } else {
+               if (FoUrls.ARTICLE_CMS_CONTENT.name().equals(link.getType()) || FoUrls.PAGE_CMS_CONTENT.name().equals(link.getType())) {
+                   CmsContent cmsContent = cmsContentService.getCmsContentById(link.getParams());
+                   if (cmsContent != null) {
+                       menuViewBean.setUrl(urlService.generateCmsLink(requestData, link, cmsContent));
+                       if (StringUtils.isEmpty(menuViewBean.getName())) {
+                           menuViewBean.setName(cmsContent.getLinkTitle());
+                       }
+                       menuViewBean.setAlt(cmsContent.getLinkTitle());
+                   }
+
+               } else if (FoUrls.BRAND_DETAILS.name().equals(link.getType())) {
+                   ProductBrand productBrand = productService.getProductBrandByCode(link.getParams());
+                   if (productBrand != null) {
+                       menuViewBean.setUrl(urlService.generateCmsLink(requestData, link, productBrand));
+                   }
+
+               } else if (FoUrls.BRAND_LINE.name().equals(link.getType())) {
+                   ProductBrand productBrand = productService.getProductBrandByCode(link.getParams());
+                   if (productBrand != null) {
+                       menuViewBean.setUrl(urlService.generateCmsLink(requestData, link, productBrand));
+                   }
+
+               } else if (FoUrls.CAT_TAG_COLLECTION.name().equals(link.getType())) {
+                   if (link.getParams().contains(";")) {
+                       String[] splitParams = link.getParams().split(";");
+                       String catLike = splitParams[0];
+                       String tagCode = splitParams[1];
+                       Map<String, String> getParams = new HashMap<String, String>();
+                       getParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, catLike);
+                       Tag tag = referentialDataService.getTagByCode(tagCode);
+                       menuViewBean.setUrl(urlService.generateCmsLink(requestData, link, getParams, tag));
+                   }
+
+               } else {
+                   menuViewBean.setUrl(urlService.generateCmsLink(requestData, link));
+               }
+           }
+
+           menuViewBean.setName(link.getName());
+           if (StringUtils.isEmpty(menuViewBean.getName())) {
+               menuViewBean.setName(menu.getName());
+               menuViewBean.setI18nName(menu.getI18nName(localizationCode));
+           }
+       }
+
+       // SUB MENU
+       if (menu.getSubMenus() != null
+               && Hibernate.isInitialized(menu.getSubMenus())
+               && menu.getSubMenus().size() > 0) {
+           for (CmsMenu subMenu : menu.getSortedCmsMenus()) {
+               if (subMenu.isActive()) {
+                   ExtendedMenuViewBean extendedMenuViewBean = buildCmsMenuViewBean(requestData, subMenu);
+                   if (StringUtils.isNotEmpty(extendedMenuViewBean.getUrl())) {
+                       menuViewBean.getSubMenus().add(extendedMenuViewBean);
+                   }
+               }
+           }
+       }
+
+       // BLOCK
+       if (menu.getBlocks() != null
+               && Hibernate.isInitialized(menu.getBlocks())
+               && menu.getBlocks().size() > 0) {
+           for (CmsContentBlock block : menu.getBlocks()) {
+               CmsContentBlockViewBean blockViewBean = buildViewBeanCmsContentBlock(requestData, menu, block);
+               menuViewBean.getBlocks().add(blockViewBean);
+           }
+       }
+
+       menuViewBean.setOrdering(menu.getOrdering());
+       return menuViewBean;
+   }
+   
     /**
      * 
      */
