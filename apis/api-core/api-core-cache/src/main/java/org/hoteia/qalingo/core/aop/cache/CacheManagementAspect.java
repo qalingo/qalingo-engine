@@ -118,7 +118,7 @@ public class CacheManagementAspect {
                             // OVERRIDE THE KEY BY THE METHOD
                             key = signature.toShortString();
                         }
-                        cache = cacheService.getCache(cacheName, String.class, DomainEntity.class);
+                        cache = cacheService.getCache(cacheName, String.class, AbstractEntity.class);
 
                     } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
                         String code = null;
@@ -159,7 +159,7 @@ public class CacheManagementAspect {
                                 } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
                                     String cacheNameEntity = cacheName.replace("_link_code_id", "");
                                     returnObject = null;
-                                    Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, DomainEntity.class);
+                                    Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, AbstractEntity.class);
                                     if (cacheEntity.containsKey(key)) {
                                         Object entity = cacheEntity.get(key);
                                         returnObject = entity;
@@ -205,7 +205,7 @@ public class CacheManagementAspect {
                         
                         // PUT THE ENTITY
                         String cacheNameEntity = cacheName.replace("_link_code_id", "");
-                        Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, DomainEntity.class);
+                        Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, AbstractEntity.class);
                         String newKey = cacheService.buildEntityKey(signature.getReturnType(), id.toString());
                         logger.debug("Put in cache '" + cacheName + "'. key : '" + newKey + "'. value: '" + returnObject + "'");
                         cacheEntity.put(newKey, returnObject);

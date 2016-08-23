@@ -130,7 +130,7 @@ public class CacheService {
                 logger.debug("CacheEntityInformation from annotation : cacheName= '" + cacheName + "'");
 
                 String key = buildEntityKey(classObject, id);
-                Cache cache = cacheManager.getCache(cacheName, String.class, DomainEntity.class);
+                Cache cache = cacheManager.getCache(cacheName, String.class, AbstractEntity.class);
                 cache.remove(key);
 
             } catch (ClassNotFoundException e) {
