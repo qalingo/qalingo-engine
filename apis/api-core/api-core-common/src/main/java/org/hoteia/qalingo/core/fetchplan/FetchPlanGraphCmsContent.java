@@ -61,8 +61,8 @@ public class FetchPlanGraphCmsContent {
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.link.getName()));
-        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.attributes.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsContent_.blocks.getName() + "." + CmsContentBlock_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
 
         fetchplans.add(new SpecificFetchMode(CmsContent_.productSkus.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContent_.productBrands.getName()));
@@ -73,6 +73,7 @@ public class FetchPlanGraphCmsContent {
     public static FetchPlan defaultCmsContentBlockFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
+        fetchplans.add(new SpecificFetchMode(CmsContentBlock_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContentBlock_.link.getName()));
         fetchplans.add(new SpecificFetchMode(CmsContentBlock_.assets.getName()));
         
@@ -98,6 +99,7 @@ public class FetchPlanGraphCmsContent {
         fetchplans.add(new SpecificFetchMode(CmsMenu_.link.getName()));
         
         fetchplans.add(new SpecificFetchMode(CmsMenu_.blocks.getName()));
+        fetchplans.add(new SpecificFetchMode(CmsMenu_.blocks.getName() + "." + CmsContentBlock_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(CmsMenu_.blocks.getName() + "." + CmsContentBlock_.assets.getName()));
 
         return new FetchPlan(fetchplans);
