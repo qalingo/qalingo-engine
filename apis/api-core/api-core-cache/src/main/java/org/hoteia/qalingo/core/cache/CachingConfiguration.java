@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 @Configuration
-public class CachingSetupApplication  {
+public class CachingConfiguration  {
 
     @Autowired
     protected ApplicationContext applicationContext;

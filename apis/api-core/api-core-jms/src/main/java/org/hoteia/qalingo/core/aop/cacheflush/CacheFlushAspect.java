@@ -12,11 +12,11 @@ package org.hoteia.qalingo.core.aop.cacheflush;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
 import org.hoteia.qalingo.core.jms.cacheflush.producer.CacheFlushMessageProducer;
+import org.hoteia.qalingo.core.web.cache.util.CacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
 
 @Component(value = "cacheFlushAspect")
@@ -28,7 +28,7 @@ public class CacheFlushAspect {
     protected CacheFlushMessageProducer cacheFlushMessageProducer;
     
     @Autowired
-    protected EhCacheCacheManager ehCacheCacheManager;
+    private CacheService cacheService;
     
     @Value("${env.name}")  
     protected String environmentName;
