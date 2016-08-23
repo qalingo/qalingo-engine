@@ -36,11 +36,12 @@ import javax.persistence.Version;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_RETAILER")
 @CacheEntityInformation(cacheName="web_cache_retailer")
-public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> {
+public class Retailer extends AbstractExtendEntity<Retailer, RetailerAttribute> implements DomainEntity {
 
     /**
      * Generated UID

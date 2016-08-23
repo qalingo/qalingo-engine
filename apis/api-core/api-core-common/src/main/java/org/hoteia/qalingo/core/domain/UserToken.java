@@ -21,9 +21,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TBO_USER_TOKEN")
-public class UserToken extends AbstractEntity<UserToken> {
+public class UserToken extends AbstractEntity<UserToken> implements DomainEntity {
 
 	/**
 	 * Generated UID

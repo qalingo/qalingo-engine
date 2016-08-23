@@ -22,10 +22,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_STORE_BUSINESS_HOUR")
-public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> {
+public class StoreBusinessHour extends AbstractEntity<StoreBusinessHour> implements DomainEntity {
 
     /**
      * Generated UID

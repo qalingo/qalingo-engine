@@ -36,10 +36,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND")
-public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBrandAttribute> {
+public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBrandAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

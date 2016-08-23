@@ -19,6 +19,7 @@ import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.annotation.CacheMethodInformation;
 import org.hoteia.qalingo.core.annotation.CacheType;
 import org.hoteia.qalingo.core.domain.AbstractEntity;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.pojo.AbstractPojo;
 import org.hoteia.qalingo.core.web.cache.util.CacheService;
@@ -59,7 +60,7 @@ public class CacheManagementAspect {
             } catch (Exception e) {
                 // TODO: handle exception
             }
-            if(AbstractEntity.class.isAssignableFrom(classReturnType)){
+            if(DomainEntity.class.isAssignableFrom(classReturnType)){
                 cacheType = CacheType.CACHE_ENTITY;
                 if (joinPoint.getSignature().toShortString().contains("ByCode")) {
                     // FIRST ARG IS A STRING FOR THE GET METHOD : SO THIS A GET BY CODE
@@ -117,7 +118,7 @@ public class CacheManagementAspect {
                             // OVERRIDE THE KEY BY THE METHOD
                             key = signature.toShortString();
                         }
-                        cache = cacheService.getCache(cacheName, String.class, AbstractEntity.class);
+                        cache = cacheService.getCache(cacheName, String.class, DomainEntity.class);
 
                     } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
                         String code = null;
@@ -158,7 +159,7 @@ public class CacheManagementAspect {
                                 } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
                                     String cacheNameEntity = cacheName.replace("_link_code_id", "");
                                     returnObject = null;
-                                    Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, AbstractEntity.class);
+                                    Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, DomainEntity.class);
                                     if (cacheEntity.containsKey(key)) {
                                         Object entity = cacheEntity.get(key);
                                         returnObject = entity;
@@ -204,7 +205,7 @@ public class CacheManagementAspect {
                         
                         // PUT THE ENTITY
                         String cacheNameEntity = cacheName.replace("_link_code_id", "");
-                        Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, AbstractEntity.class);
+                        Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, DomainEntity.class);
                         String newKey = cacheService.buildEntityKey(signature.getReturnType(), id.toString());
                         logger.debug("Put in cache '" + cacheName + "'. key : '" + newKey + "'. value: '" + returnObject + "'");
                         cacheEntity.put(newKey, returnObject);
@@ -245,7 +246,7 @@ public class CacheManagementAspect {
     }
     
     protected FetchPlan checkFetchPlan(Object returnObject, FetchPlan askedFetchPlan, FetchPlan loadedFetchPlan){
-        if (returnObject instanceof AbstractEntity) {
+        if (returnObject instanceof DomainEntity) {
             AbstractEntity entity = (AbstractEntity) returnObject;
             if (entity.getFetchPlan() != null) {
                 loadedFetchPlan = entity.getFetchPlan();

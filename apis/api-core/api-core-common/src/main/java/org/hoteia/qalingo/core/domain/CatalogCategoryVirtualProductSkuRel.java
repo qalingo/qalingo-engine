@@ -18,12 +18,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name = "TECO_CATALOG_VIRTUAL_CATEGORY_PRODUCT_SKU_REL")
 @AssociationOverrides({
     @AssociationOverride(name = "pk.catalogCategoryVirtual", joinColumns = @JoinColumn(name = "VIRTUAL_CATEGORY_ID")),
     @AssociationOverride(name = "pk.productSku", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID")) })
-public class CatalogCategoryVirtualProductSkuRel extends AbstractEntity<CatalogCategoryVirtualProductSkuRel> {
+public class CatalogCategoryVirtualProductSkuRel extends AbstractEntity<CatalogCategoryVirtualProductSkuRel> implements DomainEntity {
 
     /**
      * Generated UID

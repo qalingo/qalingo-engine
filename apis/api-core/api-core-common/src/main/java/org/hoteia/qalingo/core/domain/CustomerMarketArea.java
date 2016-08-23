@@ -31,10 +31,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_CUSTOMER_MARKET_AREA")
-public class CustomerMarketArea extends AbstractEntity<CustomerMarketArea> {
+public class CustomerMarketArea extends AbstractEntity<CustomerMarketArea> implements DomainEntity {
 
 	/**
 	 * Generated UID

@@ -20,9 +20,11 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TBO_SERVER_STATUS")
-public class ServerStatus extends AbstractEntity<ServerStatus> {
+public class ServerStatus extends AbstractEntity<ServerStatus> implements DomainEntity {
 
     /**
      * Generated UID

@@ -18,12 +18,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name = "TBO_COMPANY_STORE_REL")
 @AssociationOverrides({
     @AssociationOverride(name = "pk.company", joinColumns = @JoinColumn(name = "COMPANY_ID")),
     @AssociationOverride(name = "pk.store", joinColumns = @JoinColumn(name = "STORE_ID"))})
-public class CompanyStoreRel extends AbstractEntity<CompanyStoreRel> {
+public class CompanyStoreRel extends AbstractEntity<CompanyStoreRel> implements DomainEntity {
 
     /**
      * Generated UID

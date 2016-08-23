@@ -12,9 +12,11 @@ package org.hoteia.qalingo.core.domain;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @DiscriminatorValue("shippingPromotion")
-public class RuleReferentialShippingPromotion extends AbstractRuleReferential<RuleReferentialShippingPromotion> {
+public class RuleReferentialShippingPromotion extends AbstractRuleReferential<RuleReferentialShippingPromotion> implements DomainEntity {
 
 	/**
 	 * Generated UID

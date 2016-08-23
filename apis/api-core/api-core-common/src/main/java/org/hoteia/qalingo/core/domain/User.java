@@ -37,10 +37,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TBO_USER")
-public class User extends AbstractEntity<User> {
+public class User extends AbstractEntity<User> implements DomainEntity {
 
     /**
      * Generated UID

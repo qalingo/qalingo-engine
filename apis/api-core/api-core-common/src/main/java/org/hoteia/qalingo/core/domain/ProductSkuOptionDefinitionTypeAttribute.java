@@ -27,6 +27,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(
         name = "TECO_PRODUCT_SKU_OPTION_DEFINITION_TYPE_ATTRIBUTE",
@@ -34,7 +36,7 @@ import javax.persistence.Version;
                 @UniqueConstraint(columnNames={"PRODUCT_SKU_OPTION_DEFINITION_TYPE_ID", "ATTRIBUTE_DEFINITION_ID", "MARKET_AREA_ID", "LOCALIZATION_CODE"}),
                 @UniqueConstraint(columnNames={"PRODUCT_SKU_OPTION_DEFINITION_TYPE_ID", "ATTRIBUTE_DEFINITION_ID", "LOCALIZATION_CODE"})}
 )
-public class ProductSkuOptionDefinitionTypeAttribute extends AbstractAttribute<ProductSkuOptionDefinitionTypeAttribute> {
+public class ProductSkuOptionDefinitionTypeAttribute extends AbstractAttribute<ProductSkuOptionDefinitionTypeAttribute> implements DomainEntity {
 
     /**
      * Generated UID

@@ -5,8 +5,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Embeddable
-public class ProductSkuTagPk extends AbstractEntity<ProductSkuTagPk> {
+public class ProductSkuTagPk extends AbstractEntity<ProductSkuTagPk> implements DomainEntity {
 
     /**
      * Generated UID

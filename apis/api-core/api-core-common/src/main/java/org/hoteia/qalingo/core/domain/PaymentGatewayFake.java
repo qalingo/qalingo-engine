@@ -13,9 +13,11 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @DiscriminatorValue("paymentGatewayFake")
-public class PaymentGatewayFake extends AbstractPaymentGateway<PaymentGatewayFake> {
+public class PaymentGatewayFake extends AbstractPaymentGateway<PaymentGatewayFake> implements DomainEntity {
 
 	/**
 	 * Generated UID

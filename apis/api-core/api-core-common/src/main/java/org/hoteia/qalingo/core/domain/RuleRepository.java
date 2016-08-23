@@ -33,10 +33,11 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_RULE_REPOSITORY")
-public class RuleRepository extends AbstractEntity<RuleRepository> {
+public class RuleRepository extends AbstractEntity<RuleRepository> implements DomainEntity {
 
 	/**
 	 * Generated UID

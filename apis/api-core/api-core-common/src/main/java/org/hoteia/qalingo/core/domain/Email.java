@@ -23,9 +23,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TBO_EMAIL")
-public class Email extends AbstractEntity<Email> {
+public class Email extends AbstractEntity<Email> implements DomainEntity {
 
 	/**
 	 * Generated UID

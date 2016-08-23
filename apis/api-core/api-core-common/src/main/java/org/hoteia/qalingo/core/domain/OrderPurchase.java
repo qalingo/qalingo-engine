@@ -30,10 +30,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_ORDER_PURCHASE")
-public class OrderPurchase extends AbstractEntity<OrderPurchase> {
+public class OrderPurchase extends AbstractEntity<OrderPurchase> implements DomainEntity {
 
 	/**
 	 * Generated UID

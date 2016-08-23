@@ -30,11 +30,12 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_TAG")
 @CacheEntityInformation(cacheName="web_cache_common")
-public class Tag extends AbstractExtendEntity<Tag, TagAttribute> {
+public class Tag extends AbstractExtendEntity<Tag, TagAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

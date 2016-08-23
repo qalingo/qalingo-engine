@@ -28,11 +28,12 @@ import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CmsContentAssetComparator;
 import org.hoteia.qalingo.core.comparator.CmsContentBlockComparator;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TCMS_CONTENT_BLOCK")
 @CacheEntityInformation(cacheName="web_cache_cms_content")
-public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsContentBlockAttribute> {
+public class CmsContentBlock extends AbstractCmsEntity<CmsContentBlock, CmsContentBlockAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

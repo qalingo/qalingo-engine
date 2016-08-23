@@ -26,11 +26,12 @@ import javax.persistence.Version;
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_LOCALIZATION")
 @CacheEntityInformation(cacheName="web_cache_localization")
-public class Localization extends AbstractEntity<Localization> {
+public class Localization extends AbstractEntity<Localization> implements DomainEntity {
 
 	/**
 	 * Generated UID

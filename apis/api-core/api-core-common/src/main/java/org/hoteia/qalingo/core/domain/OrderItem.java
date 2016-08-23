@@ -26,10 +26,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_ORDER_ITEM")
-public class OrderItem extends AbstractEntity<OrderItem> {
+public class OrderItem extends AbstractEntity<OrderItem> implements DomainEntity {
 
     /**
      * Generated UID

@@ -41,11 +41,12 @@ import javax.persistence.Version;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_MARKET_AREA")
 @CacheEntityInformation(cacheName="web_cache_market_area")
-public class MarketArea extends AbstractEntity<MarketArea> {
+public class MarketArea extends AbstractEntity<MarketArea> implements DomainEntity {
 
     /**
      * Generated UID

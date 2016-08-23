@@ -21,9 +21,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name = "TECO_ORDER_ADDRESS")
-public class OrderAddress extends AbstractAddress<OrderAddress> {
+public class OrderAddress extends AbstractAddress<OrderAddress> implements DomainEntity {
 
     /**
      * Generated UID

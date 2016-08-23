@@ -25,9 +25,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_DELIVERY_METHOD_PRICE")
-public class DeliveryMethodPrice extends AbstractPrice<DeliveryMethodPrice> {
+public class DeliveryMethodPrice extends AbstractPrice<DeliveryMethodPrice> implements DomainEntity {
 
 	/**
 	 * Generated UID

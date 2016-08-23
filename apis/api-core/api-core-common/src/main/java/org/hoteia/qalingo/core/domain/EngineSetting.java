@@ -31,11 +31,12 @@ import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_ENGINE_SETTING")
 @CacheEntityInformation(cacheName="web_cache_engine_setting")
-public class EngineSetting extends AbstractEntity<EngineSetting> {
+public class EngineSetting extends AbstractEntity<EngineSetting> implements DomainEntity {
 
 	/**
 	 * Generated UID

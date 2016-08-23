@@ -26,9 +26,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_CATALOG_VIRTUAL_CATEGORY_ATTRIBUTE")
-public class CatalogCategoryVirtualAttribute extends AbstractAttribute<CatalogCategoryVirtualAttribute> {
+public class CatalogCategoryVirtualAttribute extends AbstractAttribute<CatalogCategoryVirtualAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

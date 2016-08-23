@@ -27,11 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CmsMenuComparator;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TCMS_MENU")
 @CacheEntityInformation(cacheName="web_cache_cms_content")
-public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> {
+public class CmsMenu extends AbstractCmsEntity<CmsMenu, CmsMenuAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

@@ -40,10 +40,11 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_CUSTOMER")
-public class Customer extends AbstractEntity<Customer> {
+public class Customer extends AbstractEntity<Customer> implements DomainEntity {
 
 	/**
 	 * Generated UID

@@ -29,10 +29,11 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_CART")
-public class Cart extends AbstractExtendEntity<Cart, CartAttribute> {
+public class Cart extends AbstractExtendEntity<Cart, CartAttribute> implements DomainEntity {
 
     /**
      * Generated UID

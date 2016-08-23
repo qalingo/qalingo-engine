@@ -29,13 +29,14 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_STORE_REL")
 @AssociationOverrides({
     @AssociationOverride(name = "pk.productSku", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID")),
     @AssociationOverride(name = "pk.store", joinColumns = @JoinColumn(name = "STORE_ID"))})
-public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel, ProductSkuStoreAttribute> {
+public class ProductSkuStoreRel extends AbstractExtendEntity<ProductSkuStoreRel, ProductSkuStoreAttribute> implements DomainEntity {
 
     /**
      * Generated UID

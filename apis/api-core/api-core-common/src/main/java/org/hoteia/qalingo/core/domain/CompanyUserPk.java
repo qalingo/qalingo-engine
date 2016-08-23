@@ -5,8 +5,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Embeddable
-public class CompanyUserPk extends AbstractEntity<CompanyUserPk> {
+public class CompanyUserPk extends AbstractEntity<CompanyUserPk> implements DomainEntity {
 
     /**
      * Generated UID

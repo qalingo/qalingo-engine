@@ -20,9 +20,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING_CUSTOMER_RATE")
-public class ProductMarketingCustomerRate extends AbstractEntity<ProductMarketingCustomerRate> {
+public class ProductMarketingCustomerRate extends AbstractEntity<ProductMarketingCustomerRate> implements DomainEntity {
 
 	/**
 	 * Generated UID

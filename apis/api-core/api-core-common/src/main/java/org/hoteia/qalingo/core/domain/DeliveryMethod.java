@@ -34,10 +34,11 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_DELIVERY_METHOD")
-public class DeliveryMethod extends AbstractEntity<DeliveryMethod> {
+public class DeliveryMethod extends AbstractEntity<DeliveryMethod> implements DomainEntity {
 
     /**
      * Generated UID

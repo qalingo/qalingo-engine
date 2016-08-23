@@ -13,9 +13,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TCMS_CONTENT_ASSET")
-public class CmsContentAsset extends AbstractEntity<CmsContentAsset> {
+public class CmsContentAsset extends AbstractEntity<CmsContentAsset> implements DomainEntity {
 
 	/**
 	 * Generated UID

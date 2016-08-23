@@ -30,10 +30,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION")
-public class ProductSkuOptionDefinition extends AbstractExtendEntity<ProductSkuOptionDefinition, ProductSkuOptionDefinitionAttribute> {
+public class ProductSkuOptionDefinition extends AbstractExtendEntity<ProductSkuOptionDefinition, ProductSkuOptionDefinitionAttribute> implements DomainEntity {
 
     /**
      * Generated UID

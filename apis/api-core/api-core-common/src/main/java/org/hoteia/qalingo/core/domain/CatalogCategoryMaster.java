@@ -40,11 +40,12 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CatalogCategoryMasterComparator;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_CATALOG_MASTER_CATEGORY")
 @CacheEntityInformation(cacheName="web_cache_catalog_category")
-public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster, CatalogCategoryMaster, CatalogCategoryMasterAttribute, CatalogCategoryMasterProductSkuRel> {
+public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster, CatalogCategoryMaster, CatalogCategoryMasterAttribute, CatalogCategoryMasterProductSkuRel> implements DomainEntity {
 
     /**
      * Generated UID

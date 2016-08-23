@@ -26,9 +26,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_MARKET_ATTRIBUTE")
-public class MarketAttribute extends AbstractAttribute<MarketAttribute> {
+public class MarketAttribute extends AbstractAttribute<MarketAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

@@ -27,10 +27,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_PRODUCT_ASSOCIATION_LINK")
-public class ProductAssociationLink extends AbstractEntity<ProductAssociationLink> {
+public class ProductAssociationLink extends AbstractEntity<ProductAssociationLink> implements DomainEntity {
 
 	/**
 	 * Generated UID

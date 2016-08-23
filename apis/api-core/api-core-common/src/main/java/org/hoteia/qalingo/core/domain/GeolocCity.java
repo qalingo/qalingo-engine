@@ -24,11 +24,12 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_GEOLOC_CITY", uniqueConstraints = @UniqueConstraint(columnNames = { "city", "country" }))
 @CacheEntityInformation(cacheName="web_cache_geoloc")
-public class GeolocCity extends AbstractEntity<GeolocCity> {
+public class GeolocCity extends AbstractEntity<GeolocCity> implements DomainEntity {
 
     /**
      * Generated UID

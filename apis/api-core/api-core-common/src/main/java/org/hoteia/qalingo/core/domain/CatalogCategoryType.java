@@ -28,9 +28,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_CATALOG_CATEGORY_TYPE")
-public class CatalogCategoryType extends AbstractEntity<CatalogCategoryType> {
+public class CatalogCategoryType extends AbstractEntity<CatalogCategoryType> implements DomainEntity {
 
 	/**
 	 * Generated UID

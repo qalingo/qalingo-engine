@@ -26,9 +26,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TBO_COMPANY_PAYMENT_ATTRIBUTE")
-public class CompanyPaymentAttribute extends AbstractAttribute<CompanyPaymentAttribute> {
+public class CompanyPaymentAttribute extends AbstractAttribute<CompanyPaymentAttribute> implements DomainEntity {
 
     /**
      * Generated UID

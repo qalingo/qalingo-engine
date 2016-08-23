@@ -23,11 +23,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_GEOLOC_ADDRESS")
 @CacheEntityInformation(cacheName="web_cache_geoloc")
-public class GeolocAddress extends AbstractEntity<GeolocAddress> {
+public class GeolocAddress extends AbstractEntity<GeolocAddress> implements DomainEntity {
 
     /**
      * Generated UID

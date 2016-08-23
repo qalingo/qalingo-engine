@@ -27,6 +27,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(
         name = "TECO_TAG_ATTRIBUTE",
@@ -34,7 +36,7 @@ import javax.persistence.Version;
                 @UniqueConstraint(columnNames={"TAG_ID", "ATTRIBUTE_DEFINITION_ID", "MARKET_AREA_ID", "LOCALIZATION_CODE"}),
                 @UniqueConstraint(columnNames={"TAG_ID", "ATTRIBUTE_DEFINITION_ID", "LOCALIZATION_CODE"})}
 )
-public class TagAttribute extends AbstractAttribute<TagAttribute> {
+public class TagAttribute extends AbstractAttribute<TagAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

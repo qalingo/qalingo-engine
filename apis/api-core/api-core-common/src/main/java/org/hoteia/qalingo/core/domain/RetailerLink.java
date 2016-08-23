@@ -16,9 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_RETAILER_LINK")
-public class RetailerLink extends AbstractEntity<RetailerLink> {
+public class RetailerLink extends AbstractEntity<RetailerLink> implements DomainEntity {
 
 	/**
 	 * Generated UID

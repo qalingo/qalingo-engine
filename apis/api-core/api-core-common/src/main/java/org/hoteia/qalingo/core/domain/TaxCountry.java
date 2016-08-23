@@ -23,9 +23,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_TAX_COUNTRY")
-public class TaxCountry extends AbstractEntity<TaxCountry> {
+public class TaxCountry extends AbstractEntity<TaxCountry> implements DomainEntity {
 
 	/**
 	 * Generated UID

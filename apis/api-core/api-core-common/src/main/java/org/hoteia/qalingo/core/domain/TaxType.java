@@ -22,9 +22,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_TAX_TYPE")
-public class TaxType extends AbstractEntity<TaxType> {
+public class TaxType extends AbstractEntity<TaxType> implements DomainEntity {
 
 	/**
 	 * Generated UID

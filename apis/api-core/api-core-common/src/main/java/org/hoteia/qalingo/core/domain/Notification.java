@@ -20,9 +20,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_NOTIFICATION")
-public class Notification extends AbstractEntity<Notification> {
+public class Notification extends AbstractEntity<Notification> implements DomainEntity {
 
 	/**
 	 * Generated UID

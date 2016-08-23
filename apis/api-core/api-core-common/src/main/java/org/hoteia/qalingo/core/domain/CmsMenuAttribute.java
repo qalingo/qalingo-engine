@@ -17,9 +17,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TCMS_MENU_ATTRIBUTE")
-public class CmsMenuAttribute extends AbstractAttribute<CmsMenuAttribute> {
+public class CmsMenuAttribute extends AbstractAttribute<CmsMenuAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

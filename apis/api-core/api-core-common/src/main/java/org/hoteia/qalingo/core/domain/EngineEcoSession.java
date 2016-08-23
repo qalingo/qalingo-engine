@@ -30,11 +30,12 @@ import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 import org.hoteia.qalingo.core.pojo.GeolocData;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION")
-public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> {
+public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> implements DomainEntity {
 
     /**
      * Generated UID

@@ -41,11 +41,12 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.comparator.CatalogCategoryVirtualComparator;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_CATALOG_VIRTUAL_CATEGORY")
 @CacheEntityInformation(cacheName="web_cache_catalog_category")
-public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtual, CatalogCategoryVirtual, CatalogCategoryVirtualAttribute, CatalogCategoryVirtualProductSkuRel> {
+public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtual, CatalogCategoryVirtual, CatalogCategoryVirtualAttribute, CatalogCategoryVirtualProductSkuRel> implements DomainEntity {
 
     /**
      * Generated UID

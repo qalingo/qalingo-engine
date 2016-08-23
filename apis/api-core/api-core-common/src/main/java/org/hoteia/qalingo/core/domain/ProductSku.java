@@ -38,11 +38,12 @@ import javax.persistence.Version;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU")
 @CacheEntityInformation(cacheName="web_cache_product_sku")
-public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttribute> {
+public class ProductSku extends AbstractExtendEntity<ProductSku, ProductSkuAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

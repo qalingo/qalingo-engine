@@ -36,10 +36,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_WAREHOUSE")
-public class Warehouse extends AbstractEntity<WarehouseMarketAreaRel> {
+public class Warehouse extends AbstractEntity<WarehouseMarketAreaRel> implements DomainEntity {
 
     /**
      * Generated UID

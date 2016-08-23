@@ -23,11 +23,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_ATTRIBUTE_DEFINITION")
 @CacheEntityInformation(cacheName="web_cache_attribute_definition")
-public class AttributeDefinition extends AbstractEntity<AttributeDefinition> {
+public class AttributeDefinition extends AbstractEntity<AttributeDefinition> implements DomainEntity {
 
     /**
      * Generated UID

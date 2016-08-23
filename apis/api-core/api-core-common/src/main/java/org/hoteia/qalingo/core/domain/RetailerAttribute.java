@@ -26,9 +26,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_RETAILER_ATTRIBUTE")
-public class RetailerAttribute extends AbstractAttribute<RetailerAttribute> {
+public class RetailerAttribute extends AbstractAttribute<RetailerAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

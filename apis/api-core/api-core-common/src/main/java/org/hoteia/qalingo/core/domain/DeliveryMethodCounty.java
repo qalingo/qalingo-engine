@@ -16,9 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_DELIVERY_METHOD_COUNTY")
-public class DeliveryMethodCounty extends AbstractEntity<DeliveryMethodCounty> {
+public class DeliveryMethodCounty extends AbstractEntity<DeliveryMethodCounty> implements DomainEntity {
 
 	/**
 	 * Generated UID

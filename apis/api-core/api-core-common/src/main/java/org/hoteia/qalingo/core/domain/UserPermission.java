@@ -22,9 +22,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TBO_PERMISSION")
-public class UserPermission extends AbstractEntity<UserPermission> {
+public class UserPermission extends AbstractEntity<UserPermission> implements DomainEntity {
 
 	/**
 	 * Generated UID

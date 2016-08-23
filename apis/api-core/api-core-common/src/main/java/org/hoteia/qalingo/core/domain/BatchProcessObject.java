@@ -26,10 +26,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TBO_BATCH_PROCESS_OBJECT")
-public class BatchProcessObject extends AbstractEntity<BatchProcessObject> {
+public class BatchProcessObject extends AbstractEntity<BatchProcessObject> implements DomainEntity {
 
 	/**
 	 * Generated UID

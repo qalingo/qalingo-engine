@@ -28,10 +28,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_CURRENCY_REFERENTIAL")
-public class CurrencyReferential extends AbstractEntity<CurrencyReferential> {
+public class CurrencyReferential extends AbstractEntity<CurrencyReferential> implements DomainEntity {
 
 	/**
 	 * Generated UID

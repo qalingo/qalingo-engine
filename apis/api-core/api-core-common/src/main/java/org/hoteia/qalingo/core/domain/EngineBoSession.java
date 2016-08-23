@@ -23,10 +23,11 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TBO_ENGINE_SESSION")
-public class EngineBoSession extends AbstractEngineSession<EngineBoSession> {
+public class EngineBoSession extends AbstractEngineSession<EngineBoSession> implements DomainEntity {
 
 	/**
 	 * Generated UID

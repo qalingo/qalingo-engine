@@ -12,9 +12,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TCMS_LINK")
-public class CmsLink extends AbstractEntity<CmsLink> {
+public class CmsLink extends AbstractEntity<CmsLink> implements DomainEntity {
 
 	/**
 	 * Generated UID

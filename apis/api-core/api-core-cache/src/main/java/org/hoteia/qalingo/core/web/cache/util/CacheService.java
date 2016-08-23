@@ -29,6 +29,7 @@ import org.ehcache.xml.model.BaseCacheType;
 import org.ehcache.xml.model.CacheType;
 import org.ehcache.xml.model.ConfigType;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -114,7 +115,7 @@ public class CacheService {
     
     public void flushCacheEntity(String cacheAlias) throws ClassNotFoundException {
         if(StringUtils.isNotEmpty(cacheAlias)){
-            Cache cache = getCache(cacheAlias, String.class, AbstractEntity.class);
+            Cache cache = getCache(cacheAlias, String.class, DomainEntity.class);
             cache.clear();
         }
     }
@@ -129,7 +130,7 @@ public class CacheService {
                 logger.debug("CacheEntityInformation from annotation : cacheName= '" + cacheName + "'");
 
                 String key = buildEntityKey(classObject, id);
-                Cache cache = cacheManager.getCache(cacheName, String.class, AbstractEntity.class);
+                Cache cache = cacheManager.getCache(cacheName, String.class, DomainEntity.class);
                 cache.remove(key);
 
             } catch (ClassNotFoundException e) {
@@ -143,7 +144,7 @@ public class CacheService {
         key.append(signature.toShortString());
         if(args != null && args.length > 0){
             for (Object arg : args) {
-                if (arg instanceof AbstractEntity) {
+                if (arg instanceof DomainEntity) {
                     AbstractEntity argEntity = (AbstractEntity) arg;
                     Method[] methods = argEntity.getClass().getMethods();
                     for (Method methodIt : methods) {
@@ -159,7 +160,7 @@ public class CacheService {
                         }
                     }
                 } else {
-                    if (arg != null && !(arg instanceof Object[]) && !(arg instanceof AbstractEntity)&& !(arg instanceof FetchPlan)) {
+                    if (arg != null && !(arg instanceof Object[]) && !(arg instanceof DomainEntity)&& !(arg instanceof FetchPlan)) {
                         key.append("_");
                         key.append(arg.toString());
                     }

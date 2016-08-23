@@ -16,9 +16,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TCMS_CONTENT_BLOCK_ATTRIBUTE")
-public class CmsContentBlockAttribute extends AbstractAttribute<CmsContentBlockAttribute> {
+public class CmsContentBlockAttribute extends AbstractAttribute<CmsContentBlockAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID

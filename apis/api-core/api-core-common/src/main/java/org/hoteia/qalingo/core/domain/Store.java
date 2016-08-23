@@ -39,11 +39,12 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_STORE")
 @CacheEntityInformation(cacheName="web_cache_retailer")
-public class Store extends AbstractExtendEntity<Store, StoreAttribute> {
+public class Store extends AbstractExtendEntity<Store, StoreAttribute> implements DomainEntity {
 
     /**
      * Generated UID

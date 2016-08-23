@@ -35,10 +35,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_CATALOG_MASTER")
-public class CatalogMaster extends AbstractCatalog<CatalogMaster, CatalogCategoryMaster> {
+public class CatalogMaster extends AbstractCatalog<CatalogMaster, CatalogCategoryMaster> implements DomainEntity {
 
 	/**
 	 * Generated UID

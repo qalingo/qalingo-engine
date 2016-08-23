@@ -14,8 +14,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Embeddable
-public class WarehouseMarketAreaPk extends AbstractEntity<WarehouseMarketAreaRel> {
+public class WarehouseMarketAreaPk extends AbstractEntity<WarehouseMarketAreaRel> implements DomainEntity {
 
     /**
      * Generated UID

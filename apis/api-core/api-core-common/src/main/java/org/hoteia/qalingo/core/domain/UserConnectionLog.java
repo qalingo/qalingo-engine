@@ -20,9 +20,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TBO_USER_CONNECTION_LOG")
-public class UserConnectionLog extends AbstractEntity<UserConnectionLog> {
+public class UserConnectionLog extends AbstractEntity<UserConnectionLog> implements DomainEntity {
 
 	/**
 	 * Generated UID

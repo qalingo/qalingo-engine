@@ -26,11 +26,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TCOMMON_DICTIONARY")
 @CacheEntityInformation(cacheName="web_cache_common")
-public class Dictionary extends AbstractEntity<Dictionary> {
+public class Dictionary extends AbstractEntity<Dictionary> implements DomainEntity {
 
 	/**
 	 * Generated UID

@@ -17,9 +17,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_ORDER_NUMBER")
-public class OrderNumber extends AbstractEntity<OrderNumber> {
+public class OrderNumber extends AbstractEntity<OrderNumber> implements DomainEntity {
 
 	/**
 	 * Generated UID

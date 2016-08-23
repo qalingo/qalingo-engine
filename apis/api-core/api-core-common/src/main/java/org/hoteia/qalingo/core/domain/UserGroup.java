@@ -29,9 +29,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TBO_GROUP")
-public class UserGroup extends AbstractEntity<UserGroup> {
+public class UserGroup extends AbstractEntity<UserGroup> implements DomainEntity {
 
 	/**
 	 * Generated UID

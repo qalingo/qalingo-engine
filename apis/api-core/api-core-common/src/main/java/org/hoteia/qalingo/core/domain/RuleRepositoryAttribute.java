@@ -26,9 +26,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hoteia.qalingo.core.domain.impl.DomainEntity;
+
 @Entity
 @Table(name="TECO_RULE_REPOSITORY_ATTRIBUTE")
-public class RuleRepositoryAttribute extends AbstractAttribute<RuleRepositoryAttribute> {
+public class RuleRepositoryAttribute extends AbstractAttribute<RuleRepositoryAttribute> implements DomainEntity {
 
 	/**
 	 * Generated UID
