@@ -1637,13 +1637,13 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         productBrandViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
         productBrandViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
         
-        List<Long> storeIds = productService.findStoreIdsByBrandId(productBrand.getId(), 0);
-        if(storeIds != null 
-                && !storeIds.isEmpty()){
-            Map<String, String> getParams = new HashMap<String, String>();
-            getParams.put(RequestConstants.REQUEST_PARAMETER_BRAND_CODE, productBrand.getCode());
-            productBrandViewBean.getSpecificUrls().add(new UrlBean("BRAND_STORE_MAP_URL", urlService.generateRedirectUrl(FoUrls.STORE_LOCATION, requestData, getParams)));
-        }
+//        List<Long> storeIds = productService.findStoreIdsByBrandId(productBrand.getId(), 0);
+//        if(storeIds != null 
+//                && !storeIds.isEmpty()){
+//            Map<String, String> getParams = new HashMap<String, String>();
+//            getParams.put(RequestConstants.REQUEST_PARAMETER_BRAND_CODE, productBrand.getCode());
+//            productBrandViewBean.getSpecificUrls().add(new UrlBean("BRAND_STORE_MAP_URL", urlService.generateRedirectUrl(FoUrls.STORE_LOCATION, requestData, getParams)));
+//        }
         
         return productBrandViewBean;
     }
