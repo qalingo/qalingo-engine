@@ -36,10 +36,12 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.annotation.CacheEntityInformation;
 import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND")
+@CacheEntityInformation(cacheName="web_cache_product_brand")
 public class ProductBrand extends AbstractExtendEntity<ProductBrand, ProductBrandAttribute> implements DomainEntity {
 
 	/**
