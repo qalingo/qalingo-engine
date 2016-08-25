@@ -12,7 +12,7 @@ package org.hoteia.qalingo.web.mvc.controller.common;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -29,9 +29,11 @@ public class HomeController extends AbstractMCommerceController {
 
 	@RequestMapping(FoUrls.HOME_URL)
 	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.HOME.getVelocityPage());
+	    ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.HOME.getVelocityPage());
 
-        overrideDefaultPageTitle(request, modelAndView, FoUrls.HOME.getKey());
+	    final RequestData requestData = requestUtil.getRequestData(request);
+	    
+        overrideDefaultPageTitle(requestData.getRequest(), modelAndView, FoUrls.HOME.getKey());
 
         return modelAndView;
 	}
@@ -43,9 +45,9 @@ public class HomeController extends AbstractMCommerceController {
 	
     @RequestMapping("/")
     public ModelAndView displayDefaultPage(final HttpServletRequest request, final Model model) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
         
         // DEFAULT HOME
-        RequestData requestData = requestUtil.getRequestData(request);
         String defaultUrl = urlService.generateRedirectUrl(FoUrls.HOME, requestData);
         
         // TODO: GEOLOC AND CHOOSE THE GOOD MARKET

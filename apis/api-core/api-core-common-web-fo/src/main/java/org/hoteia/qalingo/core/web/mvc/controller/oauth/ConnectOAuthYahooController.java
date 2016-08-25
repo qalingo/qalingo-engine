@@ -17,7 +17,7 @@ import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.mapper.JsonMapper;
-import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.YahooApi;
 import org.scribe.model.Token;

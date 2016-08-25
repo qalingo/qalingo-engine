@@ -158,10 +158,12 @@ public class CacheManagementAspect {
                                     
                                 } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
                                     String cacheNameEntity = cacheName.replace("_link_code_id", "");
+                                    Long id = (Long) returnObject;
                                     returnObject = null;
                                     Cache cacheEntity = cacheService.getCache(cacheNameEntity, String.class, AbstractEntity.class);
-                                    if (cacheEntity.containsKey(key)) {
-                                        Object entity = cacheEntity.get(key);
+                                    String keyEntity = cacheService.buildEntityKey(signature.getReturnType(), id.toString());
+                                    if (cacheEntity.containsKey(keyEntity)) {
+                                        Object entity = cacheEntity.get(keyEntity);
                                         returnObject = entity;
                                         loadedFetchPlan = checkFetchPlan(returnObject, askedFetchPlan, loadedFetchPlan);
                                     }

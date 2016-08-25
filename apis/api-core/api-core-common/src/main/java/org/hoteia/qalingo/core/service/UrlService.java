@@ -33,7 +33,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
 import org.springframework.stereotype.Controller;

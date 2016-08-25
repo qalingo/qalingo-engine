@@ -15,13 +15,13 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.springframework.beans.BeanUtils;
 

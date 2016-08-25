@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.domain.ServerStatus;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ServerService;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import org.springframework.beans.factory.annotation.Autowired;

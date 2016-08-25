@@ -46,7 +46,6 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
@@ -67,6 +66,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetValueBean;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

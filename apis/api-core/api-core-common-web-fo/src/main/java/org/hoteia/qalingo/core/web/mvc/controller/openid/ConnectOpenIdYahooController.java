@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.openid.Association;
 import org.hoteia.qalingo.core.service.openid.Endpoint;
 import org.hoteia.qalingo.core.service.openid.OpenProvider;
 import org.hoteia.qalingo.core.service.openid.Utils;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

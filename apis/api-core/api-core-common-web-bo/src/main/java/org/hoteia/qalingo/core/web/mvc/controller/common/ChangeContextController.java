@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

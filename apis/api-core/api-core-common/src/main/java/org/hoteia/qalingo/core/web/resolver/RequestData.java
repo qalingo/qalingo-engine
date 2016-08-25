@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.pojo;
+package org.hoteia.qalingo.core.web.resolver;
 
 import java.io.Serializable;
 import java.util.Enumeration;
@@ -34,6 +34,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.pojo.GeolocData;
 
 public class RequestData implements Serializable {
 

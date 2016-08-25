@@ -29,6 +29,10 @@
 						   http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <aop:config>
+        <aop:aspect id="triggerCachePropertiesUtil" ref="cacheManagementAspect">
+            <aop:pointcut id="propertiesUtilPointcut" expression="execution(* org.hoteia.qalingo.core.web.util.PropertiesUtil.get*(..))" />
+            <aop:around method="around" pointcut-ref="attributeServicePointcut" />
+        </aop:aspect>
         <aop:aspect id="triggerCacheAttributeService" ref="cacheManagementAspect">
             <aop:pointcut id="attributeServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.AttributeService.get*(..))" />
             <aop:around method="around" pointcut-ref="attributeServicePointcut" />

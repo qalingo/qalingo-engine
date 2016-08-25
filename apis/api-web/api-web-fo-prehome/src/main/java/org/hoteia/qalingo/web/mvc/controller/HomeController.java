@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.GeolocService;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -27,8 +27,8 @@ import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.util.CoreUtil;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractUrlService {

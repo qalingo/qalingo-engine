@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
