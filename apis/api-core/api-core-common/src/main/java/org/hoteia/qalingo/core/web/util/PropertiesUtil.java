@@ -12,8 +12,6 @@ package org.hoteia.qalingo.core.web.util;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hoteia.qalingo.core.annotation.CacheMethodInformation;
-import org.hoteia.qalingo.core.annotation.CacheType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -23,7 +21,6 @@ public class PropertiesUtil extends org.springframework.beans.BeanUtils {
     
     private static final Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
     
-    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public static String getWebappContextKey(final String contextName) {
         String webappContextKey = null;
         try {

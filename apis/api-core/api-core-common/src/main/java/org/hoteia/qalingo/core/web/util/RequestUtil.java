@@ -30,6 +30,8 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.annotation.CacheMethodInformation;
+import org.hoteia.qalingo.core.annotation.CacheType;
 import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.domain.enumtype.CommonUrls;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
@@ -846,6 +848,7 @@ public class RequestUtil {
         return engineEcoSession.getGeolocData();
     }
 
+    @CacheMethodInformation(cacheName="web_cache_engine_setting_value", cacheType=CacheType.CACHE_STRING)
     public String getCurrentContextNameValue() throws Exception {
         return PropertiesUtil.getWebappContextKey(getContextName());
     }
@@ -996,7 +999,8 @@ public class RequestUtil {
     }
 
     public boolean isBackOffice() throws Exception {
-        return getCurrentContextNameValue() != null && (getCurrentContextNameValue().contains("BO_") || getCurrentContextNameValue().contains("APP_"));
+        String currentContextNameValue = getCurrentContextNameValue();
+        return isBackOffice(currentContextNameValue);
     }
 
     public static boolean isBackOffice(String currentContextNameValue) throws Exception {
