@@ -30,7 +30,7 @@
 
     <aop:config>
         <aop:aspect id="triggerCacheRequestUtil" ref="cacheManagementAspect">
-            <aop:pointcut id="requestUtilPointcut" expression="execution(* org.hoteia.qalingo.core.web.util.RequestUtil.get*(..))" />
+            <aop:pointcut id="requestUtilPointcut" expression="execution(* org.hoteia.qalingo.core.web.util.RequestUtil.getCurrentContextNameValue(..))" />
             <aop:around method="around" pointcut-ref="requestUtilPointcut" />
         </aop:aspect>
         <aop:aspect id="triggerCacheAttributeService" ref="cacheManagementAspect">

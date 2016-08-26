@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.security.RedirectStrategy;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,5 +98,17 @@ public class LoginUrlAuthenticationEntryPoint extends org.springframework.securi
 		}
 		return null;
 	}
+	
+    public void setBackofficeUrlService(BackofficeUrlService backofficeUrlService) {
+        this.backofficeUrlService = backofficeUrlService;
+    }
+    
+    public void setRequestUtil(RequestUtil requestUtil) {
+        this.requestUtil = requestUtil;
+    }
+    
+    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+        this.redirectStrategy = redirectStrategy;
+    }
 	
 }
