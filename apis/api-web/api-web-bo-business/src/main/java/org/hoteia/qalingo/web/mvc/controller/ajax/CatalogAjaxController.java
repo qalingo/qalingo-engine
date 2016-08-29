@@ -56,6 +56,7 @@ import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeControlle
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -110,7 +111,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
         productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
     }
     
-    @RequestMapping(value = BoUrls.GET_CATALOG_AJAX_URL, method = RequestMethod.GET)
+    @RequestMapping(value = BoUrls.GET_CATALOG_AJAX_URL, method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public CatalogPojo getCatalog(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -178,7 +179,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
         return catalogPojo;
     }
     
-    @RequestMapping(value = BoUrls.GET_PRODUCT_LIST_AJAX_URL, method = RequestMethod.GET)
+    @RequestMapping(value = BoUrls.GET_PRODUCT_LIST_AJAX_URL, method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public BoCatalogCategoryPojo getProductListByCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -210,7 +211,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
         return catalogCategoryPojo;
     }
     
-    @RequestMapping(value = BoUrls.GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, method = RequestMethod.GET)
+    @RequestMapping(value = BoUrls.GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public BoCatalogCategoryPojo getProductListForCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -235,7 +236,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
         return catalogCategoryPojo;
     }
     
-    @RequestMapping(value = BoUrls.SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, method = RequestMethod.GET)
+    @RequestMapping(value = BoUrls.SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public BoCatalogCategoryPojo setProductListForCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);

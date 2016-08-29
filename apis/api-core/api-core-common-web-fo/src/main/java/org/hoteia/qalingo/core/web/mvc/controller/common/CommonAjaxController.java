@@ -16,6 +16,7 @@ import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +33,7 @@ public class CommonAjaxController extends AbstractFrontofficeQalingoController {
 	@Autowired
 	protected GeolocService geolocService;
 	
-    @RequestMapping(value = FoUrls.NAVIGATOR_GEOLOCATION_AJAX_URL, method = RequestMethod.POST)
+    @RequestMapping(value = FoUrls.NAVIGATOR_GEOLOCATION_AJAX_URL, method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public FoNavigatorGeolocationPojo navigatorGeolocation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
