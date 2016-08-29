@@ -35,8 +35,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller("contextController")
 public class ContextController extends AbstractFrontofficeQalingoController {
 
-    @RequestMapping(value=FoUrls.CONTEXT_URL, produces = "application/javascript;charset=UTF-8")
-    public ModelAndView context(final HttpServletRequest request, final Model model) throws Exception {
+    @RequestMapping(value=FoUrls.CONTEXT_URL)
+    public ModelAndView context(final HttpServletRequest request, final HttpServletResponse response, 
+                                final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTEXT.getVelocityPage());
 
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -53,6 +54,9 @@ public class ContextController extends AbstractFrontofficeQalingoController {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+        
+        response.addHeader("Content-Type", "application/javascript;charset=UTF-8");
+        
         return modelAndView;
     }
 
