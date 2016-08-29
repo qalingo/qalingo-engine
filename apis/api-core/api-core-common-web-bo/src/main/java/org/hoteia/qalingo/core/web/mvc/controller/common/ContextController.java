@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller("contextController")
 public class ContextController extends AbstractBackofficeQalingoController {
 
-    @RequestMapping(BoUrls.CONTEXT_URL)
+    @RequestMapping(value = BoUrls.CONTEXT_URL, produces = "application/javascript;charset=UTF-8")
     public ModelAndView context(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CONTEXT.getVelocityPage());
 

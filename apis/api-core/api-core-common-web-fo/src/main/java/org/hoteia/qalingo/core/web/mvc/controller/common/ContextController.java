@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.VelocityPageContextDataPojo;
 import org.hoteia.qalingo.core.pojo.UrlPojo;
-import org.hoteia.qalingo.core.service.UrlService;
+import org.hoteia.qalingo.core.pojo.VelocityPageContextDataPojo;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller("contextController")
 public class ContextController extends AbstractFrontofficeQalingoController {
 
-    @RequestMapping(FoUrls.CONTEXT_URL)
+    @RequestMapping(value=FoUrls.CONTEXT_URL, produces = "application/javascript;charset=UTF-8")
     public ModelAndView context(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTEXT.getVelocityPage());
 
