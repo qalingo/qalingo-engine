@@ -1745,7 +1745,7 @@ public class RequestUtil {
         }
 
         // STEP 3 - DEFAULT MARTKETPLACE
-        marketPlace = marketService.getDefaultMarketPlace();
+        marketPlace = marketService.getDefaultMarketPlace(FetchPlanGraphMarket.requestInitMarketPlaceFetchPlan());
         market = marketPlace.getDefaultMarket();
         marketArea = market.getDefaultMarketArea();
 
@@ -1758,7 +1758,7 @@ public class RequestUtil {
 
         Market market = marketArea.getMarket();
         // RELOAD TO AVOID LAZY EXCEPTION : marketArea.market.marketplace is not load if the marketplace came from a marketplace.market entity
-        market = marketService.getMarketById(market.getId());
+        market = marketService.getMarketById(market.getId(), FetchPlanGraphMarket.requestInitMarketFetchPlan());
 
         MarketPlace marketPlace = market.getMarketPlace();
 

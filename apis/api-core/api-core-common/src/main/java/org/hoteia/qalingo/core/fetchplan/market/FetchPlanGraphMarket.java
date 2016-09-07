@@ -60,6 +60,20 @@ public class FetchPlanGraphMarket {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan requestInitMarketFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        
+        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName()));
+
+        fetchplans.add(new SpecificFetchMode(Market_.marketPlace.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName() + "." + MarketArea_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName() + "." + MarketArea_.localizations.getName()));
+        
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan fullMarketFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
