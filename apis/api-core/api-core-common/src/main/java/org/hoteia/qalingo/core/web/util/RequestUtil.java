@@ -1577,7 +1577,7 @@ public class RequestUtil {
 
     protected void initDefaultBoMarketPlace(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = getCurrentBoSession(request);
-        MarketPlace marketPlace = marketService.getDefaultMarketPlace();
+        MarketPlace marketPlace = marketService.getDefaultMarketPlace(FetchPlanGraphMarket.requestInitMarketPlaceFetchPlan());
         engineBoSession = (EngineBoSession) setSessionMarketPlace(engineBoSession, marketPlace);
 
         Market market = marketPlace.getDefaultMarket();
