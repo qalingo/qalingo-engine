@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 import org.hoteia.qalingo.core.domain.MarketPlace_;
@@ -21,6 +20,9 @@ import org.hoteia.qalingo.core.domain.Market_;
 import org.hoteia.qalingo.core.domain.MarketArea_;
 import org.hoteia.qalingo.core.domain.CatalogVirtual_;
 import org.hoteia.qalingo.core.domain.CatalogMaster_;
+import org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel_;
+import org.hoteia.qalingo.core.domain.WarehouseMarketAreaPk_;
+import org.hoteia.qalingo.core.domain.Warehouse_;
 
 public class FetchPlanGraphMarket {
 
@@ -107,7 +109,28 @@ public class FetchPlanGraphMarket {
     }
     
     public static FetchPlan requestInitMarketAreaFetchPlan(){
-        return fullMarketAreaFetchPlan();
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.catalog.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.catalog.getName() + "." + CatalogVirtual_.catalogMaster.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.market.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.attributes.getName()));
+
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultLocalization.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.localizations.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultRetailer.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.retailers.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.defaultCurrency.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.currencies.getName()));
+
+        fetchplans.add(new SpecificFetchMode(MarketArea_.paymentGateways.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.taxes.getName()));
+
+        return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan fullMarketAreaFetchPlan(){
@@ -134,11 +157,13 @@ public class FetchPlanGraphMarket {
 
         fetchplans.add(new SpecificFetchMode(MarketArea_.warehouseMarketAreaRels.getName()));
 
-        fetchplans.add(new SpecificFetchMode("deliveryMethods", new SpecificAlias("warehouseMarketAreaRel.pk.warehouse.deliveryMethods")));
+        fetchplans.add(new SpecificFetchMode(MarketArea_.warehouseMarketAreaRels.getName()));
+        
+        fetchplans.add(new SpecificFetchMode(MarketArea_.warehouseMarketAreaRels.getName() + "." + WarehouseMarketAreaRel_.pk.getName()+ "." + WarehouseMarketAreaPk_.warehouse.getName()+ "." + Warehouse_.deliveryMethods.getName()));
 
-        fetchplans.add(new SpecificFetchMode("deliveryMethodCountries", new SpecificAlias("warehouseMarketAreaRel.pk.warehouse.deliveryMethods.countries")));
-
-        fetchplans.add(new SpecificFetchMode("deliveryMethodPrices", new SpecificAlias("warehouseMarketAreaRel.pk.warehouse.deliveryMethods.prices")));
+//        fetchplans.add(new SpecificFetchMode("deliveryMethodCountries", new SpecificAlias("warehouseMarketAreaRel.pk.warehouse.deliveryMethods.countries")));
+//
+//        fetchplans.add(new SpecificFetchMode("deliveryMethodPrices", new SpecificAlias("warehouseMarketAreaRel.pk.warehouse.deliveryMethods.prices")));
 
         return new FetchPlan(fetchplans);
     }

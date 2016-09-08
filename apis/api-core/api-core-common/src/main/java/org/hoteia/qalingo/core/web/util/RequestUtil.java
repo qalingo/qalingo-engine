@@ -1732,7 +1732,7 @@ public class RequestUtil {
 
         if (marketAreaGeoloc != null) {
             try {
-                market = marketService.getMarketByCode(marketAreaGeoloc.getMarket().getCode());
+                market = marketService.getMarketByCode(marketAreaGeoloc.getMarket().getCode(), FetchPlanGraphMarket.requestInitMarketFetchPlan());
 
             } catch (Exception e) {
                 // TODO: handle exception
