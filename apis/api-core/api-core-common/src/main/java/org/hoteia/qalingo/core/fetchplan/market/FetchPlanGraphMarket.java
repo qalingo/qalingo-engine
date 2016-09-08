@@ -61,26 +61,17 @@ public class FetchPlanGraphMarket {
     }
     
     public static FetchPlan requestInitMarketFetchPlan(){
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        
-        fetchplans.add(new SpecificFetchMode(Market_.attributes.getName()));
-
-        fetchplans.add(new SpecificFetchMode(Market_.marketPlace.getName()));
-        
-        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName()));
-        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName() + "." + MarketArea_.defaultLocalization.getName()));
-        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName() + "." + MarketArea_.localizations.getName()));
-        
-        return new FetchPlan(fetchplans);
+        return fullMarketFetchPlan();
     }
     
     public static FetchPlan fullMarketFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode(Market_.marketPlace.getName()));
-        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName()));
         fetchplans.add(new SpecificFetchMode(Market_.attributes.getName()));
         
+        fetchplans.add(new SpecificFetchMode(Market_.marketPlace.getName()));
+
+        fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName()));
         fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName() + "." + MarketArea_.defaultLocalization.getName()));
         fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName() + "." + MarketArea_.localizations.getName()));
         fetchplans.add(new SpecificFetchMode(Market_.marketAreas.getName() + "." + MarketArea_.retailers.getName()));
@@ -112,6 +103,10 @@ public class FetchPlanGraphMarket {
     }
     
     public static FetchPlan specificMarketAreaFetchPlanWithCheckoutData(){
+        return fullMarketAreaFetchPlan();
+    }
+    
+    public static FetchPlan requestInitMarketAreaFetchPlan(){
         return fullMarketAreaFetchPlan();
     }
     

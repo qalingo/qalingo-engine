@@ -154,7 +154,7 @@ public class RequestUtil {
             if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
                 // RESET ALL SESSION AND CHANGE THE MARKET PLACE
                 initEcoSession(request);
-                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
+                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode, FetchPlanGraphMarket.requestInitMarketPlaceFetchPlan());
                 if (newMarketPlace == null) {
                     // INIT A DEFAULT MARKET PLACE
                     initEcoMarketPlace(request);
@@ -209,7 +209,7 @@ public class RequestUtil {
                 if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
 
                     // CHANGE THE MARKET
-                    Market newMarket = marketService.getMarketByCode(marketCode, FetchPlanGraphMarket.fullMarketFetchPlan());
+                    Market newMarket = marketService.getMarketByCode(marketCode, FetchPlanGraphMarket.requestInitMarketFetchPlan());
                     if (newMarket == null) {
                         newMarket = currentMarketPlace.getDefaultMarket();
                     }
@@ -258,7 +258,7 @@ public class RequestUtil {
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
                         }
-                        newMarketArea = marketService.getMarketAreaByCode(newMarketArea.getCode());
+                        newMarketArea = marketService.getMarketAreaByCode(newMarketArea.getCode(), FetchPlanGraphMarket.requestInitMarketAreaFetchPlan());
 
                         engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, newMarketArea);
                         marketArea = engineEcoSession.getCurrentMarketArea();
@@ -359,7 +359,7 @@ public class RequestUtil {
             if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
                 // RESET ALL SESSION AND CHANGE THE MARKET PLACE
                 initBoSession(request);
-                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
+                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode, FetchPlanGraphMarket.requestInitMarketPlaceFetchPlan());
                 if (newMarketPlace == null) {
                     // INIT A DEFAULT MARKET PLACE
                     initDefaultBoMarketPlace(request);
@@ -414,7 +414,7 @@ public class RequestUtil {
                 if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
 
                     // CHANGE THE MARKET
-                    Market newMarket = marketService.getMarketByCode(marketCode, FetchPlanGraphMarket.fullMarketFetchPlan());
+                    Market newMarket = marketService.getMarketByCode(marketCode, FetchPlanGraphMarket.requestInitMarketFetchPlan());
                     if (newMarket == null) {
                         newMarket = currentMarketPlace.getDefaultMarket();
                     }
@@ -462,7 +462,7 @@ public class RequestUtil {
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
                         }
-                        newMarketArea = marketService.getMarketAreaByCode(newMarketArea.getCode());
+                        newMarketArea = marketService.getMarketAreaByCode(newMarketArea.getCode(), FetchPlanGraphMarket.requestInitMarketAreaFetchPlan());
 
                         engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, newMarketArea);
                         updateCurrentTheme(request, newMarketArea.getTheme());
@@ -1794,37 +1794,37 @@ public class RequestUtil {
     }
 
     protected AbstractEngineSession setSessionMarketPlace(final AbstractEngineSession session, final MarketPlace marketPlace){
-        session.setCurrentMarketPlace(marketService.getMarketPlaceById(marketPlace.getId().toString()));
+        session.setCurrentMarketPlace(marketService.getMarketPlaceById(marketPlace.getId(), FetchPlanGraphMarket.requestInitMarketPlaceFetchPlan()));
         return session;
     }
 
     protected AbstractEngineSession setSessionMarket(final AbstractEngineSession session, final Market market){
-        session.setCurrentMarket(marketService.getMarketById(market.getId().toString()));
+        session.setCurrentMarket(marketService.getMarketById(market.getId(), FetchPlanGraphMarket.requestInitMarketFetchPlan()));
         return session;
     }
 
     protected AbstractEngineSession setSessionMarketArea(final AbstractEngineSession session, final MarketArea marketArea){
-        session.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
+        session.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId(), FetchPlanGraphMarket.requestInitMarketAreaFetchPlan()));
         return session;
     }
 
     protected AbstractEngineSession setSessionMarketAreaLocalization(final AbstractEngineSession session, final Localization localization){
-        session.setCurrentMarketAreaLocalization(localizationService.getLocalizationById(localization.getId().toString()));
+        session.setCurrentMarketAreaLocalization(localizationService.getLocalizationById(localization.getId()));
         return session;
     }
 
     protected AbstractEngineSession setSessionMarketAreaRetailer(final AbstractEngineSession session, final Retailer retailer){
-        session.setCurrentMarketAreaRetailer(retailerService.getRetailerById(retailer.getId().toString()));
+        session.setCurrentMarketAreaRetailer(retailerService.getRetailerById(retailer.getId()));
         return session;
     }
 
     protected AbstractEngineSession setSessionMarketAreaCurrency(final AbstractEngineSession session, final CurrencyReferential currency){
-        session.setCurrentMarketAreaCurrency(currencyReferentialService.getCurrencyReferentialById(currency.getId().toString()));
+        session.setCurrentMarketAreaCurrency(currencyReferentialService.getCurrencyReferentialById(currency.getId()));
         return session;
     }
 
     protected EngineEcoSession setSessionCustomer(final EngineEcoSession session, final Customer customer){
-        session.setCurrentCustomer(customerService.getCustomerById(customer.getId().toString(), FetchPlanGraphCustomer.fullCustomerFetchPlan()));
+        session.setCurrentCustomer(customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan()));
         return session;
     }
 
