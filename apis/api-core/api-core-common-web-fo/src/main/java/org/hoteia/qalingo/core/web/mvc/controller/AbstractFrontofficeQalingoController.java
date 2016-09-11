@@ -85,9 +85,15 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
         if(StringUtils.isNotEmpty(pageTitleKey)){
             pageTitleKey = pageTitleKey.replace("-", "_");
             if(params != null){
-                headerTitle += " - " + getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
+                String rightPart = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
+                if(StringUtils.isNotEmpty(rightPart)){
+                    headerTitle += " - " + rightPart;
+                }
             } else {
-                headerTitle += " - " + getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
+                String rightPart = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
+                if(StringUtils.isNotEmpty(rightPart)){
+                    headerTitle += " - " + rightPart;
+                }
             }
             modelAndView.addObject(ModelConstants.PAGE_TITLE, headerTitle);
         }
