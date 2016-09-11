@@ -154,7 +154,7 @@ public class CacheManagementAspect {
                                 returnObject = element;
                                 
                                 if (cacheType.equals(CacheType.CACHE_ENTITY)) {
-                                    loadedFetchPlan = checkFetchPlan(returnObject, askedFetchPlan, loadedFetchPlan);
+                                	returnObject = checkFetchPlan(returnObject, askedFetchPlan, loadedFetchPlan);
                                     
                                 } else if (cacheType.equals(CacheType.CACHE_LINK_CODE_ID)) {
                                     String cacheNameEntity = cacheName.replace("_link_code_id", "");
@@ -165,7 +165,7 @@ public class CacheManagementAspect {
                                     if (cacheEntity.containsKey(keyEntity)) {
                                         Object entity = cacheEntity.get(keyEntity);
                                         returnObject = entity;
-                                        loadedFetchPlan = checkFetchPlan(returnObject, askedFetchPlan, loadedFetchPlan);
+                                        returnObject = checkFetchPlan(returnObject, askedFetchPlan, loadedFetchPlan);
                                     }
                                 }
                             }
@@ -247,7 +247,7 @@ public class CacheManagementAspect {
         return null;
     }
     
-    protected FetchPlan checkFetchPlan(Object returnObject, FetchPlan askedFetchPlan, FetchPlan loadedFetchPlan){
+    protected Object checkFetchPlan(Object returnObject, FetchPlan askedFetchPlan, FetchPlan loadedFetchPlan){
         if (returnObject instanceof DomainEntity) {
             AbstractEntity entity = (AbstractEntity) returnObject;
             if (entity.getFetchPlan() != null) {
@@ -262,7 +262,7 @@ public class CacheManagementAspect {
                 returnObject = null;
             }
         }
-        return loadedFetchPlan;
+        return returnObject;
     }
     
 }

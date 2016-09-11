@@ -39,7 +39,7 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
     protected DocumentService documentService;
     
     @RequestMapping(FoUrls.CART_ORDER_CONFIRMATION_URL)
-    public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public ModelAndView displayOrderConfirmation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_ORDER_CONFIRMATION.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
