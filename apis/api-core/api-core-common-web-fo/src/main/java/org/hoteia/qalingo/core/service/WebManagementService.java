@@ -250,7 +250,7 @@ public class WebManagementService {
     /**
      * 
      */
-    public void setShippingAddress(final RequestData requestData, final String customerShippingAddressId) throws Exception {
+    public void setCartShippingAddress(final RequestData requestData, final String customerShippingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Customer customer = requestData.getCustomer();
         Cart cart = requestData.getCart();
@@ -270,7 +270,7 @@ public class WebManagementService {
     /**
      * 
      */
-    public void setBillingAddress(final RequestData requestData, final String customerBillingAddressId) throws Exception {
+    public void setCartBillingAddress(final RequestData requestData, final String customerBillingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Customer customer = requestData.getCustomer();
         Cart cart = requestData.getCart();

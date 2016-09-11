@@ -45,17 +45,21 @@ public class CheckoutService {
         orderPurchase.setLocalizationId(cart.getLocalizationId());
         orderPurchase.setCustomer(customer);
 
-        CustomerAddress cartBillingAddress = customerService.getCustomerAddressById(cart.getBillingAddressId());
-        OrderAddress billingAddress = new OrderAddress();
-        BeanUtils.copyProperties(cartBillingAddress, billingAddress);
-        billingAddress.setId(null);
-        orderPurchase.setBillingAddress(billingAddress);
-
         CustomerAddress cartShippingAddress = customerService.getCustomerAddressById(cart.getShippingAddressId());
         OrderAddress shippingAddress = new OrderAddress();
         BeanUtils.copyProperties(cartShippingAddress, shippingAddress);
         shippingAddress.setId(null);
         orderPurchase.setShippingAddress(shippingAddress);
+        
+        CustomerAddress cartBillingAddress = customerService.getCustomerAddressById(cart.getBillingAddressId());
+        if(cartBillingAddress != null){
+            OrderAddress billingAddress = new OrderAddress();
+            BeanUtils.copyProperties(cartBillingAddress, billingAddress);
+            billingAddress.setId(null);
+            orderPurchase.setBillingAddress(billingAddress);
+        } else {
+            orderPurchase.setBillingAddress(shippingAddress);
+        }
 
         // SHIPMENT
         Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();

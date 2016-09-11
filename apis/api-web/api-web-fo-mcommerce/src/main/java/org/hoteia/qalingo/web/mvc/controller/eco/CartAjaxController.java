@@ -16,7 +16,6 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
-import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.FoMessagePojo;
@@ -282,7 +281,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             webManagementService.updateCart(requestData, store, null, productSkuCode, quantityValue);
 
         } catch (Exception e) {
-            addErrorMessage(checkout, e, "error-update-quantity", e.getMessage());
+            addErrorMessage(checkout, e, "error-cart-update-quantity", e.getMessage());
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -309,7 +308,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             }
 
         } catch (Exception e) {
-            addErrorMessage(checkout, e, "error-delete-item", e.getMessage());
+            addErrorMessage(checkout, e, "error-cart-delete-item", e.getMessage());
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -332,9 +331,13 @@ public class CartAjaxController extends AbstractMCommerceController {
         final String customerShippingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_SHIPPING_ADDRESS_GUID);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-            webManagementService.setShippingAddress(requestData, customerShippingAddressGuid);
+            final Cart cart = requestData.getCart();
+            webManagementService.setCartShippingAddress(requestData, customerShippingAddressGuid);
+            if(cart.getBillingAddressId() == null){
+                webManagementService.setCartBillingAddress(requestData, customerShippingAddressGuid);
+            }
         } catch (Exception e) {
-            addErrorMessage(checkout, e, "error-set-shipping-address", e.getMessage());
+            addErrorMessage(checkout, e, "error-set-cart-shipping-address", e.getMessage());
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -348,9 +351,9 @@ public class CartAjaxController extends AbstractMCommerceController {
         final String customerBillingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_BILLING_ADDRESS_GUID);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-            webManagementService.setBillingAddress(requestData, customerBillingAddressGuid);
+            webManagementService.setCartBillingAddress(requestData, customerBillingAddressGuid);
         } catch (Exception e) {
-            addErrorMessage(checkout, e, "error-set-billing-address", e.getMessage());
+            addErrorMessage(checkout, e, "error-set-cart-billing-address", e.getMessage());
             return checkout;
         }
         injectCart(requestData, checkout);
@@ -366,7 +369,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         try {
             webManagementService.setDeliveryMethod(requestData, deliveryMethodCode);
         } catch (Exception e) {
-            addErrorMessage(checkout, e, "error-set-delivery-method", e.getMessage());
+            addErrorMessage(checkout, e, "error-set-cart-delivery-method", e.getMessage());
             return checkout;
         }
         injectCart(requestData, checkout);
