@@ -45,14 +45,15 @@ public class CheckoutService {
         orderPurchase.setLocalizationId(cart.getLocalizationId());
         orderPurchase.setCustomer(customer);
 
-        Customer reloadedCustomer = customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
+        CustomerAddress cartBillingAddress = customerService.getCustomerAddressById(cart.getBillingAddressId());
         OrderAddress billingAddress = new OrderAddress();
-        BeanUtils.copyProperties(reloadedCustomer.getAddress(cart.getBillingAddressId()), billingAddress);
+        BeanUtils.copyProperties(cartBillingAddress, billingAddress);
         billingAddress.setId(null);
         orderPurchase.setBillingAddress(billingAddress);
 
+        CustomerAddress cartShippingAddress = customerService.getCustomerAddressById(cart.getShippingAddressId());
         OrderAddress shippingAddress = new OrderAddress();
-        BeanUtils.copyProperties(reloadedCustomer.getAddress(cart.getShippingAddressId()), shippingAddress);
+        BeanUtils.copyProperties(cartShippingAddress, shippingAddress);
         shippingAddress.setId(null);
         orderPurchase.setShippingAddress(shippingAddress);
 

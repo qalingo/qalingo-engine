@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.core.dao;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +18,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
@@ -157,6 +157,15 @@ public class CustomerDao extends AbstractGenericDao {
 		em.remove(em.contains(customer) ? customer : em.merge(customer));
 	}
 	
+    // CUSTOMER ADDRESS
+
+    public CustomerAddress getCustomerAddressById(final Long customerAddressId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerAddress.class);
+        criteria.add(Restrictions.eq("id", customerAddressId));
+        CustomerAddress customerAddress = (CustomerAddress) criteria.uniqueResult();
+        return customerAddress;
+    }
+    
     // CUSTOMER GROUP
 
     public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
