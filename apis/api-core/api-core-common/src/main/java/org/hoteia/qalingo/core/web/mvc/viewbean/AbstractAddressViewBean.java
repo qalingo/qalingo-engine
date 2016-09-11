@@ -61,6 +61,40 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean {
         return address.toString();
     }
     
+    public String getAddressHtmlBlock() {
+        StringBuffer address = new StringBuffer();
+        if(StringUtils.isNotEmpty(address1)){
+            address.append(address1);
+        }
+        if(StringUtils.isNotEmpty(address2)){
+            address.append("<br/>" + address2);
+        }
+        if(StringUtils.isNotEmpty(addressAdditionalInformation)){
+            address.append("<br/>" + addressAdditionalInformation);
+        }
+        if(postalCode != null || city != null){
+            address.append("<br/>");
+        }
+        if(StringUtils.isNotEmpty(postalCode)){
+            address.append(postalCode + " ");
+        }
+        if(StringUtils.isNotEmpty(i18nCity)){
+            address.append(i18nCity);
+        } else {
+            if(StringUtils.isNotEmpty(city)){
+                address.append(city);
+            }
+        }
+        if(StringUtils.isNotEmpty(country)){
+            address.append("<br/>" + country);
+        } else {
+            if(countryCode != null){
+                address.append("<br/>" + countryCode);
+            }  
+        }
+        return address.toString();
+    }
+    
     public String getPostalCodeCity() {
         StringBuffer address = new StringBuffer();
         if(StringUtils.isNotEmpty(postalCode)){
