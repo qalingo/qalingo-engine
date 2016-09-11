@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class CheckoutService {
     @Autowired
     protected CartService cartService;
 
+    @Autowired
+    protected CustomerService customerService;
+    
     public OrderPurchase checkout(final Customer customer, final Cart cart) throws Exception {
         OrderPurchase orderPurchase = new OrderPurchase();
         // ORDER NUMBER IS CREATE BY DAO
@@ -41,13 +45,14 @@ public class CheckoutService {
         orderPurchase.setLocalizationId(cart.getLocalizationId());
         orderPurchase.setCustomer(customer);
 
+        Customer reloadedCustomer = customerService.getCustomerById(customer.getId(), FetchPlanGraphCustomer.fullCustomerFetchPlan());
         OrderAddress billingAddress = new OrderAddress();
-        BeanUtils.copyProperties(customer.getAddress(cart.getBillingAddressId()), billingAddress);
+        BeanUtils.copyProperties(reloadedCustomer.getAddress(cart.getBillingAddressId()), billingAddress);
         billingAddress.setId(null);
         orderPurchase.setBillingAddress(billingAddress);
 
         OrderAddress shippingAddress = new OrderAddress();
-        BeanUtils.copyProperties(customer.getAddress(cart.getShippingAddressId()), shippingAddress);
+        BeanUtils.copyProperties(reloadedCustomer.getAddress(cart.getShippingAddressId()), shippingAddress);
         shippingAddress.setId(null);
         orderPurchase.setShippingAddress(shippingAddress);
 
