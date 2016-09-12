@@ -13,7 +13,6 @@ import java.util.Set;
 
 import org.hoteia.qalingo.core.domain.*;
 import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
-import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,7 @@ public class CheckoutService {
         // ORDER NUMBER IS CREATE BY DAO
 
         orderPurchase.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());
+        orderPurchase.setType(cart.getType());
 
         orderPurchase.setCurrency(cart.getCurrency());
         Long marketAreaId = cart.getMarketAreaId();

@@ -133,10 +133,15 @@ public class EngineSessionService {
     public int deleteEngineBoSession(final Timestamp before) {
         return engineSessionDao.deleteEngineBoSession(before);
     }
-    
+
     public EngineEcoSession addNewCart(EngineEcoSession engineEcoSession) {
+        return addNewCart(engineEcoSession, "B2C");
+    }
+
+    public EngineEcoSession addNewCart(EngineEcoSession engineEcoSession, String cartType) {
         Cart cart = new Cart();
         cart.setVersion(1);
+        cart.setType(cartType);
         cart.setMarketAreaId(engineEcoSession.getCurrentMarketArea().getId());
         cart.setLocalizationId(engineEcoSession.getCurrentMarketAreaLocalization().getId());
         cart.setRetailerId(engineEcoSession.getCurrentMarketAreaRetailer().getId());
