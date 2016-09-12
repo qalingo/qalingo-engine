@@ -25,6 +25,8 @@ public class OrderViewBean extends AbstractViewBean {
     private String confirmationMessage;
     private String orderNum;
 
+    private String type;
+    
     private String expectedDeliveryDate;
     
     private String orderItemsTotalWithCurrencySign;
@@ -87,6 +89,14 @@ public class OrderViewBean extends AbstractViewBean {
 		this.orderNum = orderNum;
 	}
 	
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 	public String getExpectedDeliveryDate() {
         return expectedDeliveryDate;
     }

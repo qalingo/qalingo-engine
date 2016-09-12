@@ -2664,6 +2664,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             orderViewBean = new OrderViewBean();
             
             orderViewBean.setOrderNum(order.getOrderNum());
+            orderViewBean.setType(order.getType());
 
             orderViewBean.setStatus(order.getStatus());
             if(order.getStatus() != null){
