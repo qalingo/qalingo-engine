@@ -33,7 +33,6 @@ public abstract class AbstractAttribute<E> extends AbstractEntity<E> {
     public final static String MARKET_AREA_ATTRIBUTE_INVOICE_TEMPLATE               = "MARKET_AREA_INVOICE_TEMPLATE";
 
 	public final static String CUSTOMER_ATTRIBUTE_SCREENAME = "CUSTOMER_SCREENNAME";
-    public final static String CUSTOMER_ATTRIBUTE_MANGOPAY_WALLET_ID = "MANGOPAY_WALLET_ID";
 
 	public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME        = "CATALOG_CATEGORY_I18N_NAME";
     public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_DESCRIPTION = "CATALOG_CATEGORY_I18N_DESCRIPTION";

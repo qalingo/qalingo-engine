@@ -17,9 +17,13 @@ import java.util.Set;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> extends AbstractEntity<E> {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     /**
      * Generated UID
      */
@@ -115,7 +119,8 @@ public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> ex
         if(attributesFilter.size() == 1){
             attributeToReturn = attributesFilter.get(0);
         } else {
-            // TODO : throw error ?
+            attributeToReturn = attributesFilter.get(0);
+            logger.error("Too many values (" + attributesFilter.size() + ") for this attribute, code : " + attributeCode);
         }
         
         return attributeToReturn;
