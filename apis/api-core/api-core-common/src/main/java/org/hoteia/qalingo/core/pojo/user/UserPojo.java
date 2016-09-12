@@ -27,6 +27,7 @@ public class UserPojo {
     private String lastname;
     private String password;
     private String defaultLocale;
+    private String birthday;
     private boolean active;
     
     private String address1;
@@ -127,6 +128,14 @@ public class UserPojo {
 
     public void setDefaultLocale(final String defaultLocale) {
         this.defaultLocale = defaultLocale;
+    }
+    
+    public String getBirthday() {
+        return birthday;
+    }
+    
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public boolean isActive() {

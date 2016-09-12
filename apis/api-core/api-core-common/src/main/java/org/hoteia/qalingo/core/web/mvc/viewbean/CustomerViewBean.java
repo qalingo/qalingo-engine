@@ -33,6 +33,9 @@ public class CustomerViewBean extends AbstractViewBean {
     private String email;
     private String password;
     private String defaultLocale;
+    
+    private String birthday;
+    
     private boolean validated;
     private boolean active;
 
@@ -123,6 +126,14 @@ public class CustomerViewBean extends AbstractViewBean {
         this.defaultLocale = defaultLocale;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
+    
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+    
     public boolean isValidated() {
         return validated;
     }

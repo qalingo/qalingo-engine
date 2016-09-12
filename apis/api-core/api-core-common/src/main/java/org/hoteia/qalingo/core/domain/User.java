@@ -78,6 +78,10 @@ public class User extends AbstractEntity<User> implements DomainEntity {
     @Column(name = "PASSWORD")
     private String password;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_BIRTHDAY")
+    private Date birthday;
+    
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
     private boolean active = false;
 
@@ -231,6 +235,14 @@ public class User extends AbstractEntity<User> implements DomainEntity {
         this.password = password;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+    
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+    
     public boolean isActive() {
         return active;
     }

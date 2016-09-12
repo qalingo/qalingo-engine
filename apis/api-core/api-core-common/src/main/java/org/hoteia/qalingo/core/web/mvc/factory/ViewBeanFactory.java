@@ -1322,6 +1322,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             customerViewBean.setEmail(customer.getEmail());
             customerViewBean.setLogin(customer.getLogin());
 
+            if (customer.getBirthday() != null) {
+                customerViewBean.setBirthday(buildCommonFormatDate(requestData, customer.getBirthday()));
+            }
+
             if (customer.getDateCreate() != null) {
                 customerViewBean.setDateCreate(buildCommonFormatDate(requestData, customer.getDateCreate()));
             }
@@ -2990,6 +2994,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         userViewBean.setLastname(user.getLastname());
         userViewBean.setEmail(user.getEmail());
         userViewBean.setPassword(user.getPassword());
+        
+        if (user.getBirthday() != null) {
+            userViewBean.setBirthday(buildCommonFormatDate(requestData, user.getBirthday()));
+        }
         
         userViewBean.setAddress1(user.getAddress1());
         userViewBean.setAddress2(user.getAddress2());

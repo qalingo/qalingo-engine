@@ -93,6 +93,10 @@ public class Customer extends AbstractEntity<Customer> implements DomainEntity {
     @Column(name = "DEFAULT_LOCALE")
     private String defaultLocale;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_BIRTHDAY")
+    private Date birthday;
+    
     @Column(name = "IS_ACTIVE", nullable = false) // , columnDefinition = "tinyint(1) default 0"
     private boolean active = false;
 
@@ -269,6 +273,14 @@ public class Customer extends AbstractEntity<Customer> implements DomainEntity {
 	public void setDefaultLocale(String defaultLocale) {
 		this.defaultLocale = defaultLocale;
 	}
+	
+    public Date getBirthday() {
+        return birthday;
+    }
+    
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 	
 	public boolean isActive() {
 		return active;

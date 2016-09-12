@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ public class UserViewBean extends AbstractViewBean {
 	private String lastname;
 	private String password;
 
+    private String birthday;
+    
     private String address1;
     private String address2;
     private String addressAdditionalInformation;
@@ -126,6 +129,14 @@ public class UserViewBean extends AbstractViewBean {
 		this.password = password;
 	}
 
+	public String getBirthday() {
+        return birthday;
+    }
+	
+	public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+	
     public String getAddress1() {
         return address1;
     }

@@ -777,7 +777,8 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductSkuStoreRel> getProductSkuStoreRelB2B(Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSkuStoreRel.class);
 
-        criteria.add(Restrictions.eq("salableOnlineB2B", true));
+        criteria.createAlias("configurations", "configurations", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("configurations.salableOnlineB2B", true));
 
         handleSpecificProductSkuStoreRelFetchMode(criteria, params);
 

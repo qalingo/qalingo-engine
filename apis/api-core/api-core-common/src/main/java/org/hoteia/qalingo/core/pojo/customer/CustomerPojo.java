@@ -31,6 +31,7 @@ public class CustomerPojo extends AbstractPojo {
     private String email;
     private String password;
     private String defaultLocale;
+    private String birthday;
     private boolean active;
     private boolean guest;
     private Date dateCreate;
@@ -120,6 +121,14 @@ public class CustomerPojo extends AbstractPojo {
         this.defaultLocale = defaultLocale;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
+    
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+    
     public boolean isActive() {
         return active;
     }
