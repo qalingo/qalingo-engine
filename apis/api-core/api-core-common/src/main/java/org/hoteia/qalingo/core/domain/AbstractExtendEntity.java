@@ -118,9 +118,14 @@ public abstract class AbstractExtendEntity<E, A extends AbstractAttribute<A>> ex
         
         if(attributesFilter.size() == 1){
             attributeToReturn = attributesFilter.get(0);
-        } else {
+            
+        } else if(attributesFilter.size() > 1){
             attributeToReturn = attributesFilter.get(0);
             logger.error("Too many values (" + attributesFilter.size() + ") for this attribute, code : " + attributeCode);
+            
+        } else {
+            // nothing
+            // TODO : throw error ?
         }
         
         return attributeToReturn;
