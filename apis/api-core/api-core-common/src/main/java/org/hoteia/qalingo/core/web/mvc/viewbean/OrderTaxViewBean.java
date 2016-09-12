@@ -16,35 +16,35 @@ public class OrderTaxViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = 5892816934330014830L;
 
-	private String orderTaxCode;
-	private String orderTaxTotalLabel;
-	private String orderTaxTotal;
+	private String code;
+	private String totalLabel;
+	private String total;
 
 	public OrderTaxViewBean() {
 	}
 
-	public String getOrderTaxCode() {
-		return orderTaxCode;
+	public String getCode() {
+		return code;
 	}
 	
-	public void setOrderTaxCode(String orderTaxCode) {
-		this.orderTaxCode = orderTaxCode;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	public String getOrderTaxTotalLabel() {
-		return orderTaxTotalLabel;
+	public String getTotalLabel() {
+		return totalLabel;
 	}
 
-	public void setOrderTaxTotalLabel(String orderTaxTotalLabel) {
-		this.orderTaxTotalLabel = orderTaxTotalLabel;
+	public void setTotalLabel(String totalLabel) {
+		this.totalLabel = totalLabel;
 	}
 
-	public String getOrderTaxTotal() {
-		return orderTaxTotal;
+	public String getTotal() {
+		return total;
 	}
 
-	public void setOrderTaxTotal(String orderTaxTotal) {
-		this.orderTaxTotal = orderTaxTotal;
+	public void setTotal(String total) {
+		this.total = total;
 	}
 
 }

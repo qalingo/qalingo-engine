@@ -16,35 +16,53 @@ public class OrderShippingViewBean extends AbstractViewBean {
 	 */
 	private static final long serialVersionUID = 7409858501276622760L;
 
-	private String orderShippingCode;
-	private String orderShippingTotalLabel;
-	private String orderShippingTotal;
+	private String code;
+    private String name;
+    private String deliveryTime;
+	private String totalLabel;
+	private String total;
 
 	public OrderShippingViewBean() {
 	}
 
-	public String getOrderShippingCode() {
-		return orderShippingCode;
+	public String getCode() {
+		return code;
 	}
 	
-	public void setOrderShippingCode(String orderShippingCode) {
-		this.orderShippingCode = orderShippingCode;
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	public String getName() {
+        return name;
+    }
+	
+	public void setName(String name) {
+        this.name = name;
+    }
+	
+	public String getDeliveryTime() {
+        return deliveryTime;
+    }
+	
+	public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+	public String getTotalLabel() {
+		return totalLabel;
 	}
 
-	public String getOrderShippingTotalLabel() {
-		return orderShippingTotalLabel;
+	public void setTotalLabel(String totalLabel) {
+		this.totalLabel = totalLabel;
 	}
 
-	public void setOrderShippingTotalLabel(String orderShippingTotalLabel) {
-		this.orderShippingTotalLabel = orderShippingTotalLabel;
+	public String getTotal() {
+		return total;
 	}
 
-	public String getOrderShippingTotal() {
-		return orderShippingTotal;
-	}
-
-	public void setOrderShippingTotal(String orderShippingTotal) {
-		this.orderShippingTotal = orderShippingTotal;
+	public void setTotal(String total) {
+		this.total = total;
 	}
 	
 }

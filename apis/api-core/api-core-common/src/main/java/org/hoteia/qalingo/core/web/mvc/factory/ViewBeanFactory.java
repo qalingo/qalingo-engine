@@ -2718,7 +2718,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 for (final OrderShipment orderShipment : orderShipments) {
                     final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
                     Object[] params = {orderShipment.getName()};
-                    orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
+                    orderShippingViewBean.setTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
                     orderShippingViewBeans.add(orderShippingViewBean);
                 }
                 orderViewBean.setOrderShippings(orderShippingViewBeans);
@@ -2731,8 +2731,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 for (final OrderTax orderTax : orderTaxes) {
                     final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
                     Object[] params = {orderTax.getAmount()};
-                    orderTaxViewBean.setOrderTaxTotal(order.getCurrency().formatPriceWithStandardCurrencySign(orderTax.getAmount()));
-                    orderTaxViewBean.setOrderTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
+                    orderTaxViewBean.setTotal(order.getCurrency().formatPriceWithStandardCurrencySign(orderTax.getAmount()));
+                    orderTaxViewBean.setTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
                     orderTaxViewBeans.add(orderTaxViewBean);
                 }
                 orderViewBean.setOrderTaxes(orderTaxViewBeans);
