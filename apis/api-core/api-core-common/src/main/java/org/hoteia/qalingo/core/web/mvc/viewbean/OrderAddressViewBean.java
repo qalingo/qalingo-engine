@@ -17,6 +17,7 @@ public class OrderAddressViewBean extends AbstractAddressViewBean {
 	private static final long serialVersionUID = 2347791718108024528L;
 	
     private String addressName;
+    private String companyName;
     private String titleCode;
     private String titleLabel;
     private String lastname;
@@ -35,6 +36,14 @@ public class OrderAddressViewBean extends AbstractAddressViewBean {
 	public void setAddressName(String addressName) {
 		this.addressName = addressName;
 	}
+	
+	public String getCompanyName() {
+        return companyName;
+    }
+	
+	public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 	
 	public String getTitleCode() {
     	return titleCode;

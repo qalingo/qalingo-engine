@@ -41,6 +41,9 @@ public class OrderAddress extends AbstractAddress<OrderAddress> implements Domai
     @Column(name = "VERSION", nullable = false) // , columnDefinition = "int(11) default 1"
     private int version;
 
+    @Column(name = "COMPANY_NAME")
+    private String companyName;
+    
     @Column(name = "TITLE")
     private String title;
 
@@ -101,6 +104,14 @@ public class OrderAddress extends AbstractAddress<OrderAddress> implements Domai
         this.id = id;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+    
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+    
     public String getTitle() {
         return title;
     }
