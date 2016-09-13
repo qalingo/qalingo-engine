@@ -15,7 +15,6 @@ import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
@@ -31,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
@@ -90,6 +88,8 @@ public class SimpleUrlAuthenticationSuccessHandler extends org.springframework.s
                 SavedRequest savedRequest = (SavedRequest) requestCache.getRequest(request, response);
                 if(savedRequest != null) {
                     savedRequestUrl = savedRequest.getRedirectUrl();
+                    // CLEAN CONTEXT FROM URL
+                    savedRequestUrl = requestUtil.cleanUrlWebappContextPath(request, savedRequestUrl);
                 }
             }
             

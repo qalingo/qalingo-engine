@@ -763,12 +763,18 @@ public class RequestUtil {
             }
         }
         // CLEAN CONTEXT FROM URL
-        if (StringUtils.isNotEmpty(url) && !isLocalHostMode(request) && url.contains(request.getContextPath())) {
-            url = url.replace(request.getContextPath(), "");
-        }
+        url = cleanUrlWebappContextPath(request, url);
         return handleUrl(url);
     }
 
+    public String cleanUrlWebappContextPath(final HttpServletRequest request, String url) throws Exception{
+        // CLEAN CONTEXT FROM URL
+        if (StringUtils.isNotEmpty(url) && !isLocalHostMode(request) && url.contains(request.getContextPath())) {
+            url = url.replace(request.getContextPath(), "");
+        }
+        return url;
+    }
+    
     public String getRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns, int position) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);
@@ -814,9 +820,7 @@ public class RequestUtil {
         }
 
         // CLEAN CONTEXT FROM URL
-        if (StringUtils.isNotEmpty(url) && !isLocalHostMode(request) && url.contains(request.getContextPath())) {
-            url = url.replace(request.getContextPath(), "");
-        }
+        url = cleanUrlWebappContextPath(request, url);
         return handleUrl(url);
     }
 
