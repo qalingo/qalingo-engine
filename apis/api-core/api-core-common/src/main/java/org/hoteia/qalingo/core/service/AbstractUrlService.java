@@ -69,6 +69,15 @@ public abstract class AbstractUrlService {
         }
         return relativeUrl;
     }
+    
+    public String cleanAbsoluteUrl(final RequestData requestData, String absoluteUrl) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        if(absoluteUrl != null && absoluteUrl.startsWith(request.getScheme())){
+            String domainePathUrl = buildDomainePathUrl(requestData);
+            absoluteUrl = absoluteUrl.replace(domainePathUrl, "");
+        }
+        return absoluteUrl;
+    }
 
     // ALIAS FOR DOMAINE PATH
     public String buildBaseUrl(final RequestData requestData) throws Exception {

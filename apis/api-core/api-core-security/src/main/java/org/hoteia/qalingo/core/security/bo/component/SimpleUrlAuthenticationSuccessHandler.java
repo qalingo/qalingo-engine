@@ -25,6 +25,7 @@ import org.hoteia.qalingo.core.security.RedirectStrategy;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.UserConnectionLogService;
 import org.hoteia.qalingo.core.service.UserService;
+import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,14 +96,15 @@ public class SimpleUrlAuthenticationSuccessHandler extends org.springframework.s
             
             String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
 
+            RequestData requestData = requestUtil.getRequestData(request);
             // SANITY CHECK
             if (StringUtils.isNotEmpty(savedRequestUrl)) {
-                targetUrl = savedRequestUrl;
+                targetUrl = backofficeUrlService.cleanAbsoluteUrl(requestData, savedRequestUrl);;
             } else if (StringUtils.isNotEmpty(lastUrl)) {
                 // && (lastUrl.contains("cart") || lastUrl.contains("checkout"))
                 targetUrl = lastUrl;
             } else {
-                targetUrl = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestUtil.getRequestData(request));
+                targetUrl = backofficeUrlService.generateRedirectUrl(BoUrls.HOME, requestData);
             }
 
             setDefaultTargetUrl(targetUrl);
