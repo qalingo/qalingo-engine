@@ -771,7 +771,7 @@ public class RequestUtil {
         // CLEAN CONTEXT FROM URL
         if (StringUtils.isNotEmpty(url) && !isLocalHostMode(request) && url.contains(request.getContextPath())) {
             // USE / TO NOT REPLACE OTHER PART LIKE DOMAIN NAME AFTER SCHEMA : https://bo-xxx.dev.xxx.com/bo-xxx/...
-            String contextPath = "/" + request.getContextPath() + "/";
+            String contextPath = request.getContextPath() + "/";
             url = url.replace(contextPath, "/");
         }
         return url;
