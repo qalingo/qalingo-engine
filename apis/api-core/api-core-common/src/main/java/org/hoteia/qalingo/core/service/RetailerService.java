@@ -277,6 +277,10 @@ public class RetailerService {
     public List<Long> findStoreIdsByCompanyId(final Long companyId, Object... params) {
         return retailerDao.findStoreIdsByCompanyId(companyId, params);
     }
+    
+    public List<Long> findStoreIdsByUserId(final Long userId, Object... params) {
+        return retailerDao.findStoreIdsByUserId(userId, params);
+    }
 
     public List<Long> findStoreIdsByRetailerId(final Long retailerId, Object... params) {
         return retailerDao.findStoreIdsByRetailerId(retailerId, params);
