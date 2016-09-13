@@ -15,6 +15,7 @@ import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
@@ -30,6 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 @Component(value="simpleUrlAuthenticationSuccessHandler")
@@ -51,6 +55,9 @@ public class SimpleUrlAuthenticationSuccessHandler extends org.springframework.s
 	
 	@Autowired
     protected RedirectStrategy redirectStrategy;
+
+    @Autowired
+    protected HttpSessionRequestCache requestCache;
 	
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -78,10 +85,20 @@ public class SimpleUrlAuthenticationSuccessHandler extends org.springframework.s
 	    	
             setUseReferer(false);
             String targetUrl = null;
+            String savedRequestUrl = null;
+            if(requestCache != null) {
+                SavedRequest savedRequest = (SavedRequest) requestCache.getRequest(request, response);
+                if(savedRequest != null) {
+                    savedRequestUrl = savedRequest.getRedirectUrl();
+                }
+            }
+            
             String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
 
             // SANITY CHECK
-            if (StringUtils.isNotEmpty(lastUrl)) {
+            if (StringUtils.isNotEmpty(savedRequestUrl)) {
+                targetUrl = savedRequestUrl;
+            } else if (StringUtils.isNotEmpty(lastUrl)) {
                 // && (lastUrl.contains("cart") || lastUrl.contains("checkout"))
                 targetUrl = lastUrl;
             } else {
