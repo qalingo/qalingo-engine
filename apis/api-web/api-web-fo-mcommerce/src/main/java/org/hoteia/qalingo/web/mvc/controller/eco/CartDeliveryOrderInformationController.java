@@ -104,7 +104,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         if (billingAddressId == null) {
             billingAddressId = shippingAddressId;
         }
-        webManagementService.updateCart(requestData, Long.parseLong(billingAddressId), Long.parseLong(shippingAddressId));
+        webManagementService.updateCartAddresses(requestData, Long.parseLong(billingAddressId), Long.parseLong(shippingAddressId));
 
         final String urlRedirect = urlService.generateRedirectUrl(FoUrls.CART_ORDER_PAYMENT, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

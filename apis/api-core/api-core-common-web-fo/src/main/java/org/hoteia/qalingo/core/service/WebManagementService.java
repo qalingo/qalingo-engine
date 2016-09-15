@@ -112,17 +112,11 @@ public class WebManagementService {
     @Autowired
     protected SecurityUtil securityUtil;
     
-    /**
-     * 
-     */
     public void addToCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final Retailer retailer = requestData.getMarketAreaRetailer();
         addToCart(requestData, retailer.getPrimaryStore(), catalogCategoryCode, productSkuCode, quantity);
     }
     
-    /**
-     * 
-     */
     public void addToCart(final RequestData requestData, final Store store, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         // SANITY CHECK : sku code is empty or null : no sense
         if (StringUtils.isEmpty(productSkuCode)) {
@@ -143,23 +137,13 @@ public class WebManagementService {
         }
         cart = cartService.addProductSkuToCart(cart, store, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
-        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
-        
-        requestUtil.updateCurrentCart(request, newCart);
+        updateRequestCart(requestData, cart);
     }
 
-    /**
-     * 
-     */
     public void updateCart(final RequestData requestData, final Store store, final String productSkuCode, final int quantity) throws Exception {
         updateCart(requestData, store, null, productSkuCode, quantity);
     }
     
-    /**
-     * 
-     */
     public void updateCart(final RequestData requestData, final Store store, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         
@@ -182,16 +166,46 @@ public class WebManagementService {
 
         cartService.updateCartItem(cart, store, requestData.getVirtualCatalogCode(), catalogCategoryCode, productSkuCode, quantity);
         
+        updateRequestCart(requestData, cart);
+    }
+    
+    public void updateCartAddresses(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        Cart cart = requestData.getCart();
+        if(cart == null) {
+            return;
+        }
+        cart.setBillingAddressId(billingAddressId);
+        cart.setShippingAddressId(shippingAddressId);
+        
+        saveCartAndUpdateRequestCart(requestData, cart);
+    }
+    
+    public Cart saveCartAndUpdateRequestCart(final RequestData requestData, Cart cart) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        cartService.saveOrUpdateCart(cart);
+
         // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
         Cart newCart = cartService.getCartById(cart.getId());
         newCart.copyTransient(cart);
-        
+
         requestUtil.updateCurrentCart(request, newCart);
+        requestData.setCart(newCart);
+        return newCart;
     }
     
-    /**
-     * 
-     */
+    public Cart updateRequestCart(final RequestData requestData, Cart cart) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+
+        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
+        Cart newCart = cartService.getCartById(cart.getId());
+        newCart.copyTransient(cart);
+
+        requestUtil.updateCurrentCart(request, newCart);
+        requestData.setCart(newCart);
+        return newCart;
+    }
+    
     public void linkAndUpdateCartWithCustomer(final RequestData requestData, final Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
@@ -201,38 +215,10 @@ public class WebManagementService {
         cart.setCustomerId(customer.getId());
         cart.setBillingAddressId(customer.getDefaultBillingAddressId());
         cart.setShippingAddressId(customer.getDefaultShippingAddressId());
-        cartService.saveOrUpdateCart(cart);
         
-        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
-        
-        requestUtil.updateCurrentCart(request, newCart);
+        updateCurrentCart(requestData, cart);
     }
     
-    /**
-     * 
-     */
-    public void updateCart(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        Cart cart = requestData.getCart();
-        if(cart == null) {
-            return;
-        }
-        cart.setBillingAddressId(billingAddressId);
-        cart.setShippingAddressId(shippingAddressId);
-        cartService.saveOrUpdateCart(cart);
-        
-        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
-        
-        requestUtil.updateCurrentCart(request, newCart);
-    }
-
-    /**
-     * 
-     */
     public void deleteCartItem(final RequestData requestData, final Store store, final String productSkuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
@@ -240,16 +226,10 @@ public class WebManagementService {
             return;
         }
         cartService.deleteCartItem(cart, store, productSkuCode);
-        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
         
-        requestUtil.updateCurrentCart(request, newCart);
+        updateCurrentCart(requestData, cart);
     }
     
-    /**
-     * 
-     */
     public void setCartShippingAddress(final RequestData requestData, final String customerShippingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Customer customer = requestData.getCustomer();
@@ -260,16 +240,9 @@ public class WebManagementService {
         Long customerAddressId = Long.parseLong(customerShippingAddressId);
         cartService.setShippingAddress(cart, customer, customerAddressId);
         
-        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
-        
-        requestUtil.updateCurrentCart(request, newCart);
+        updateCurrentCart(requestData, cart);
     }
     
-    /**
-     * 
-     */
     public void setCartBillingAddress(final RequestData requestData, final String customerBillingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Customer customer = requestData.getCustomer();
@@ -280,16 +253,9 @@ public class WebManagementService {
         Long customerAddressId = Long.parseLong(customerBillingAddressId);
         cartService.setBillingAddress(cart, customer, customerAddressId);
         
-        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
-        
-        requestUtil.updateCurrentCart(request, newCart);
+        updateCurrentCart(requestData, cart);
     }
     
-    /**
-     * 
-     */
     public void setDeliveryMethod(final RequestData requestData, final String deliveryMethodCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
@@ -298,24 +264,14 @@ public class WebManagementService {
         }
         cartService.setDeliveryMethod(cart, deliveryMethodCode);
         
-        // RELOAD BECAUSE PREVIOUS PERSIT BREAK THE FETCHPLAN
-        Cart newCart = cartService.getCartById(cart.getId());
-        newCart.copyTransient(cart);
-        
-        requestUtil.updateCurrentCart(request, newCart);
+        updateCurrentCart(requestData, cart);
     }
     
-    /**
-     * 
-     */
     public void cleanCart(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         requestUtil.resetCurrentCart(request);
     }    
     
-    /**
-     * 
-     */
     public Customer buildAndSaveQuickNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, final CreateAccountForm createAccountForm) throws Exception {
         return buildAndSaveQuickNewCustomer(requestData.getRequest(), market, marketArea, createAccountForm);
     }
@@ -333,9 +289,6 @@ public class WebManagementService {
         return buildAndSaveNewCustomer(request, market, marketArea, customer);
     }
     
-    /**
-     * 
-     */
     public Customer buildAndSaveNewCustomer(final RequestData requestData, final Market market, final MarketArea marketArea, 
                                             final CreateAccountForm createAccountForm) throws Exception {
         Customer customer = new Customer();
@@ -487,9 +440,6 @@ public class WebManagementService {
         return customer;
     }
     
-    /**
-     * 
-     */
     public void buildAndSaveContactMail(final RequestData requestData, final ContactForm contactForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
@@ -504,9 +454,6 @@ public class WebManagementService {
         buildAndSaveContactMail(requestData, contactEmailBean);
     }
     
-    /**
-     * 
-     */
     public void buildAndSaveRetailerContactMail(final RequestData requestData, final CustomerContactForm customerContactForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
@@ -525,9 +472,6 @@ public class WebManagementService {
         buildAndSaveRetailerContactMail(requestData, retailerToContact, retailerContactEmailBean);
     }
     
-    /**
-     * 
-     */
     public void buildAndSaveStoreContactMail(final RequestData requestData, final CustomerContactForm customerContactForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
@@ -545,9 +489,6 @@ public class WebManagementService {
         buildAndSaveRetailerContactMail(requestData, retailerToContact, retailerContactEmailBean);
     }
     
-    /**
-     * 
-     */
     public void saveAndBuildNewsletterSubscriptionConfirmationMail(final RequestData requestData, final String email) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
@@ -560,10 +501,7 @@ public class WebManagementService {
 
         saveAndBuildNewsletterSubscriptionConfirmationMail(requestData, newsletterEmailBean);
     }
-    
-    /**
-     * 
-     */
+
     public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String email) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
@@ -577,9 +515,6 @@ public class WebManagementService {
         saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, newsletterEmailBean);
     }
 
-    /**
-     *
-     */
     public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final Customer customer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
@@ -601,9 +536,6 @@ public class WebManagementService {
         buildAndSaveCustomerNewAccountMail(requestData, customerNewAccountConfirmationEmailBean);
     }
     
-    /**
-     * 
-     */
     public void buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final CustomerCredential customerCredential, final ForgottenPasswordForm forgottenPasswordForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
@@ -624,9 +556,6 @@ public class WebManagementService {
         buildAndSaveCustomerForgottenPasswordMail(requestData, customer, customerCredential, customerForgottenPasswordEmailBean);
     }
 
-    /**
-     * 
-     */
     public void resetCustomerCredential(final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
         // FLAG LAST CURRENT CREDENTIEL
         CustomerCredential customerCredential = customer.getCurrentCredential();
@@ -639,9 +568,6 @@ public class WebManagementService {
         addNewCustomerCredential(customer, resetPasswordForm.getNewPassword());
     }
     
-    /**
-     * 
-     */
     public CustomerCredential flagCustomerCredentialWithToken(final RequestData requestData, final Customer customer) throws Exception {
         if(customer != null){
             String token = UUID.randomUUID().toString();
@@ -663,9 +589,6 @@ public class WebManagementService {
         return null;
     }
     
-    /**
-     * 
-     */
     public void cancelCustomerCredentialToken(final RequestData requestData, final Customer customer) throws Exception {
         if(customer != null){
             CustomerCredential customerCredential = customer.getCurrentCredential();
@@ -678,9 +601,6 @@ public class WebManagementService {
         }
     }
     
-    /**
-     * 
-     */
     public void addNewCustomerCredential(final Customer customer, final String newPassword) throws Exception {
         if(customer != null){
             String encodePassword = securityUtil.encodePassword(newPassword);
@@ -700,9 +620,6 @@ public class WebManagementService {
         return buildAndSaveNewCustomer(requestData.getRequest(), market, marketArea, customer);
     }
 
-    /**
-     *
-     */
     public Customer buildAndSaveNewCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, Customer customer) throws Exception {
         if(customer.getCode() == null){
             customer.setCode(CoreUtil.generateEntityCode());

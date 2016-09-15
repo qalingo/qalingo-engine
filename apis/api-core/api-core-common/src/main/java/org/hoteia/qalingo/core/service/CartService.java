@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.dao.CartDao;
@@ -152,9 +154,16 @@ public class CartService {
             cart.getDeliveryMethods().clear();
         }
         cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
-        return saveOrUpdateCart(cart);
+        
+        // NO SAVE : Cart DeliveryMethods is @Transient
+        return cart;
     }
 
+    public Cart addDeliveryMethod(Cart cart, String deliveryMethodCode) throws Exception {
+        cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
+        return saveOrUpdateCart(cart);
+    }
+    
     public Cart newCustomerCart(final MarketArea marketArea, Customer customer) {
         Cart cart = new Cart();
         cart.setMarketAreaId(marketArea.getId());
