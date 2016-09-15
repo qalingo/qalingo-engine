@@ -49,6 +49,7 @@ public class FetchPlanGraphMarket {
         fetchplans.add(new SpecificFetchMode(MarketPlace_.markets.getName() + "." + Market_.marketAreas.getName() + "." + MarketArea_.defaultLocalization.getName()));
         fetchplans.add(new SpecificFetchMode(MarketPlace_.markets.getName() + "." + Market_.marketAreas.getName() + "." + MarketArea_.localizations.getName()));
         fetchplans.add(new SpecificFetchMode(MarketPlace_.markets.getName() + "." + Market_.marketAreas.getName() + "." + MarketArea_.defaultRetailer.getName()));
+        fetchplans.add(new SpecificFetchMode(MarketPlace_.markets.getName() + "." + Market_.marketAreas.getName() + "." + MarketArea_.defaultCurrency.getName()));
 
         return new FetchPlan(fetchplans);
     }
