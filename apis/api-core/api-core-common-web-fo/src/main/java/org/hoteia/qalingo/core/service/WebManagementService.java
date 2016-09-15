@@ -216,7 +216,7 @@ public class WebManagementService {
         cart.setBillingAddressId(customer.getDefaultBillingAddressId());
         cart.setShippingAddressId(customer.getDefaultShippingAddressId());
         
-        updateCurrentCart(requestData, cart);
+        updateRequestCart(requestData, cart);
     }
     
     public void deleteCartItem(final RequestData requestData, final Store store, final String productSkuCode) throws Exception {
@@ -227,7 +227,7 @@ public class WebManagementService {
         }
         cartService.deleteCartItem(cart, store, productSkuCode);
         
-        updateCurrentCart(requestData, cart);
+        updateRequestCart(requestData, cart);
     }
     
     public void setCartShippingAddress(final RequestData requestData, final String customerShippingAddressId) throws Exception {
@@ -240,7 +240,7 @@ public class WebManagementService {
         Long customerAddressId = Long.parseLong(customerShippingAddressId);
         cartService.setShippingAddress(cart, customer, customerAddressId);
         
-        updateCurrentCart(requestData, cart);
+        updateRequestCart(requestData, cart);
     }
     
     public void setCartBillingAddress(final RequestData requestData, final String customerBillingAddressId) throws Exception {
@@ -253,7 +253,7 @@ public class WebManagementService {
         Long customerAddressId = Long.parseLong(customerBillingAddressId);
         cartService.setBillingAddress(cart, customer, customerAddressId);
         
-        updateCurrentCart(requestData, cart);
+        updateRequestCart(requestData, cart);
     }
     
     public void setDeliveryMethod(final RequestData requestData, final String deliveryMethodCode) throws Exception {
@@ -264,7 +264,7 @@ public class WebManagementService {
         }
         cartService.setDeliveryMethod(cart, deliveryMethodCode);
         
-        updateCurrentCart(requestData, cart);
+        updateRequestCart(requestData, cart);
     }
     
     public void cleanCart(final RequestData requestData) throws Exception {
