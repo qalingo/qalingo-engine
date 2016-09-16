@@ -42,6 +42,7 @@ public class FetchPlanGraphProduct {
     
     public static FetchPlan productMarketingDisplayFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
         fetchplans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
         return new FetchPlan(fetchplans);
@@ -69,6 +70,7 @@ public class FetchPlanGraphProduct {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productMarketingType.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productBrand.getName()));
         return new FetchPlan(fetchplans);
     }
@@ -79,6 +81,7 @@ public class FetchPlanGraphProduct {
         fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
         
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productMarketingType.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productBrand.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.assets.getName()));
@@ -92,6 +95,7 @@ public class FetchPlanGraphProduct {
         fetchplans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
 
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productMarketingType.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName() + "." + ProductMarketing_.productBrand.getName()));
 
         fetchplans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
