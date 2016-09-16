@@ -2773,10 +2773,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 orderViewBean.setStates(orderStateViewBeans);
             }
             
-            orderViewBean.setOrderItemsTotalWithCurrencySign(orderPurchaseService.getOrderItemTotalWithTaxesWithStandardCurrencySign(order));
-            orderViewBean.setOrderShippingTotalWithCurrencySign(orderPurchaseService.getDeliveryMethodTotalWithStandardCurrencySign(order));
-            orderViewBean.setOrderTaxesTotalWithCurrencySign(orderPurchaseService.getTaxTotalWithStandardCurrencySign(order));
-            orderViewBean.setOrderTotalWithCurrencySign(orderPurchaseService.getOrderTotalWithStandardCurrencySign(order));
+            orderViewBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithTaxesWithStandardCurrencySign());
+            orderViewBean.setOrderShippingTotalWithCurrencySign(order.getDeliveryMethodTotalWithStandardCurrencySign());
+            orderViewBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
+            orderViewBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
 
             Map<String, String> getParams = new HashMap<String, String>();
             getParams.put(RequestConstants.REQUEST_PARAMETER_ORDER_NUM, order.getOrderNum());
@@ -2860,9 +2860,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             orderItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
             orderItemViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
         }
-        orderItemViewBean.setPrice(orderPurchaseService.getOrderItemPriceWithTaxesWithStandardCurrencySign(orderItem));
+        orderItemViewBean.setPrice(orderItem.getOrderItemPriceWithTaxesWithStandardCurrencySign());
         orderItemViewBean.setQuantity(orderItem.getQuantity());
-        orderItemViewBean.setAmount(orderPurchaseService.getOrderItemTotalPriceWithTaxesWithStandardCurrencySign(orderItem));
+        orderItemViewBean.setAmount(orderItem.getOrderItemTotalPriceWithTaxesWithStandardCurrencySign());
         return orderItemViewBean;
     }
     

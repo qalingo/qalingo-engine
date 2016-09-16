@@ -339,6 +339,67 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> implements Doma
         return stores;
     }
     
+    public String getOrderTotalWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getOrderTotal());
+    }
+
+    public BigDecimal getOrderTotal() {
+        BigDecimal total = new BigDecimal(0);
+        Set<OrderItem> orderItems = getOrderItems();
+        for (OrderItem orderItem : orderItems) {
+            total = total.add(orderItem.getOrderItemTotalPriceWithTaxes());
+        }
+        return total;
+    }
+
+    public String getDeliveryMethodTotalWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getDeliveryMethodTotal());
+    }
+
+    public BigDecimal getDeliveryMethodTotal() {
+        Set<OrderShipment> shipments = getShipments();
+        BigDecimal shippingTotal = new BigDecimal("0");
+        if (shipments != null && Hibernate.isInitialized(shipments)) {
+            for (final OrderShipment orderShipment : shipments) {
+                BigDecimal price = orderShipment.getPrice();
+                if (price != null) {
+                    shippingTotal = shippingTotal.add(price);
+                }
+            }
+        }
+        return shippingTotal;
+    }
+
+    public String getTaxTotalWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getTaxTotal());
+    }
+
+    public String getOrderItemTotalWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getOrderItemTotal());
+    }
+
+    public BigDecimal getOrderItemTotal() {
+        BigDecimal cartItemsTotal = new BigDecimal(0);
+        Set<OrderItem> orderItems = getOrderItems();
+        for (OrderItem orderItem : orderItems) {
+            cartItemsTotal = cartItemsTotal.add(orderItem.getOrderItemTotalPrice());
+        }
+        return cartItemsTotal;
+    }
+
+    public String getOrderItemTotalWithTaxesWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getOrderItemTotalWithTaxes());
+    }
+
+    public BigDecimal getOrderItemTotalWithTaxes() {
+        BigDecimal cartItemsTotal = new BigDecimal(0);
+        Set<OrderItem> orderItems = getOrderItems();
+        for (OrderItem orderItem : orderItems) {
+            cartItemsTotal = cartItemsTotal.add(orderItem.getOrderItemTotalPriceWithTaxes());
+        }
+        return cartItemsTotal;
+    }
+    
     public BigDecimal getTaxTotal() {
         BigDecimal totalAmount = new BigDecimal(0);
         for (OrderItem orderItem : getOrderItems()) {

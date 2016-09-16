@@ -178,6 +178,60 @@ public class OrderItem extends AbstractEntity<OrderItem> implements DomainEntity
         isVATIncluded = VATIncluded;
     }
 
+    public String getOrderItemPriceWithStandardCurrencySign(final OrderItem orderItem) {
+        return orderItem.getCurrency().formatPriceWithStandardCurrencySign(orderItem.getOrderItemPrice());
+    }
+
+    public BigDecimal getOrderItemPrice() {
+        BigDecimal totalAmount = getPrice();
+        Set<OrderTax> taxes = getTaxes();
+        if (isVATIncluded()) {
+            if (taxes != null && taxes.size() > 0) {
+                for (OrderTax tax : taxes) {
+                    BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                    totalAmount = totalAmount.divide(taxAmount, 5, BigDecimal.ROUND_CEILING).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                }
+            }
+        }
+        return totalAmount;
+    }
+
+    public String getOrderItemPriceWithTaxesWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getOrderItemPriceWithTaxes());
+    }
+
+    public String getOrderItemTotalPriceWithStandardCurrencySign() {
+        BigDecimal result = getOrderItemPrice().multiply(new BigDecimal(getQuantity()));
+        return getCurrency().formatPriceWithStandardCurrencySign(result);
+    }
+
+    public BigDecimal getOrderItemTotalPrice() {
+        return getOrderItemPrice().multiply(new BigDecimal(getQuantity()));
+    }
+
+    public String getOrderItemTotalPriceWithTaxesWithStandardCurrencySign() {
+        BigDecimal result = getOrderItemPriceWithTaxes().multiply(new BigDecimal(getQuantity()));
+        return getCurrency().formatPriceWithStandardCurrencySign(result);
+    }
+
+    public BigDecimal getOrderItemTotalPriceWithTaxes() {
+        return getOrderItemPriceWithTaxes().multiply(new BigDecimal(getQuantity()));
+    }
+    
+    public BigDecimal getOrderItemPriceWithTaxes() {
+        BigDecimal totalAmount = getPrice();
+        Set<OrderTax> taxes = getTaxes();
+        if (!isVATIncluded()) {
+            if (taxes != null && taxes.size() > 0) {
+                for (OrderTax tax : taxes) {
+                    BigDecimal taxAmount = totalAmount.multiply(tax.getPercent());
+                    totalAmount = totalAmount.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                }
+            }
+        }
+        return totalAmount;
+    }
+    
     public BigDecimal getOrderItemTaxesAmount() {
         BigDecimal salePrice = getPrice();
         Set<OrderTax> taxes = getTaxes();

@@ -8,13 +8,11 @@
  */
 package org.hoteia.qalingo.core.service;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.dao.OrderPurchaseDao;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,154 +81,5 @@ public class OrderPurchaseService {
     public void deleteOrder(final OrderPurchase orderPurchase) {
         orderDao.deleteOrder(orderPurchase);
     }
-
-    public String getOrderTotalWithStandardCurrencySign(final OrderPurchase orderPurchase) {
-        return orderPurchase.getCurrency().formatPriceWithStandardCurrencySign(getOrderTotal(orderPurchase));
-    }
-
-    public BigDecimal getOrderTotal(final OrderPurchase orderPurchase) {
-        BigDecimal total = new BigDecimal(0);
-        Set<OrderItem> orderItems = orderPurchase.getOrderItems();
-        for (OrderItem orderItem : orderItems) {
-            total = total.add(getOrderItemTotalPriceWithTaxes(orderItem));
-        }
-        return total;
-    }
-
-    public String getDeliveryMethodTotalWithStandardCurrencySign(final OrderPurchase orderPurchase) {
-        return orderPurchase.getCurrency().formatPriceWithStandardCurrencySign(getDeliveryMethodTotal(orderPurchase));
-    }
-
-    public BigDecimal getDeliveryMethodTotal(final OrderPurchase orderPurchase) {
-        Set<OrderShipment> shipments = orderPurchase.getShipments();
-        BigDecimal shippingTotal = new BigDecimal("0");
-        if (shipments != null && Hibernate.isInitialized(shipments)) {
-            for (final OrderShipment orderShipment : shipments) {
-                BigDecimal price = orderShipment.getPrice();
-                if (price != null) {
-                    shippingTotal = shippingTotal.add(price);
-                }
-            }
-        }
-        return shippingTotal;
-    }
-
-    public String getTaxTotalWithStandardCurrencySign(final OrderPurchase orderPurchase) {
-        return orderPurchase.getCurrency().formatPriceWithStandardCurrencySign(orderPurchase.getTaxTotal());
-    }
-
-    public String getOrderItemTotalWithStandardCurrencySign(final OrderPurchase orderPurchase) {
-        return orderPurchase.getCurrency().formatPriceWithStandardCurrencySign(getOrderItemTotal(orderPurchase));
-    }
-
-    public BigDecimal getOrderItemTotal(final OrderPurchase orderPurchase) {
-        BigDecimal cartItemsTotal = new BigDecimal(0);
-        Set<OrderItem> orderItems = orderPurchase.getOrderItems();
-        for (OrderItem orderItem : orderItems) {
-            cartItemsTotal = cartItemsTotal.add(getOrderItemTotalPrice(orderItem));
-        }
-        return cartItemsTotal;
-    }
-
-    public String getOrderItemTotalWithTaxesWithStandardCurrencySign(final OrderPurchase orderPurchase) {
-        return orderPurchase.getCurrency().formatPriceWithStandardCurrencySign(getOrderItemTotalWithTaxes(orderPurchase));
-    }
-
-    public BigDecimal getOrderItemTotalWithTaxes(final OrderPurchase orderPurchase) {
-        BigDecimal cartItemsTotal = new BigDecimal(0);
-        Set<OrderItem> orderItems = orderPurchase.getOrderItems();
-        for (OrderItem orderItem : orderItems) {
-            cartItemsTotal = cartItemsTotal.add(getOrderItemTotalPriceWithTaxes(orderItem));
-        }
-        return cartItemsTotal;
-    }
-
-    public String getOrderItemPriceWithStandardCurrencySign(final OrderItem orderItem) {
-        return orderItem.getCurrency().formatPriceWithStandardCurrencySign(getOrderItemPrice(orderItem));
-    }
-
-    public BigDecimal getOrderItemPrice(final OrderItem orderItem) {
-        BigDecimal totalAmount = orderItem.getPrice();
-        Set<OrderTax> taxes = orderItem.getTaxes();
-        if (orderItem.isVATIncluded()) {
-            if (taxes != null && taxes.size() > 0) {
-                for (OrderTax tax : taxes) {
-                    BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                    totalAmount = totalAmount.divide(taxAmount, 5, BigDecimal.ROUND_CEILING).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                }
-            }
-        }
-        return totalAmount;
-    }
-
-    public String getOrderItemPriceWithTaxesWithStandardCurrencySign(final OrderItem orderItem) {
-        return orderItem.getCurrency().formatPriceWithStandardCurrencySign(getOrderItemPriceWithTaxes(orderItem));
-    }
-
-    public BigDecimal getOrderItemPriceWithTaxes(final OrderItem orderItem) {
-        BigDecimal totalAmount = orderItem.getPrice();
-        Set<OrderTax> taxes = orderItem.getTaxes();
-        if (!orderItem.isVATIncluded()) {
-            if (taxes != null && taxes.size() > 0) {
-                for (OrderTax tax : taxes) {
-                    BigDecimal taxAmount = totalAmount.multiply(tax.getPercent());
-                    totalAmount = totalAmount.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                }
-            }
-        }
-        return totalAmount;
-    }
-
-
-    public String getOrderItemTotalPriceWithStandardCurrencySign(final OrderItem orderItem) {
-        BigDecimal result = getOrderItemPrice(orderItem).multiply(new BigDecimal(orderItem.getQuantity()));
-        return orderItem.getCurrency().formatPriceWithStandardCurrencySign(result);
-    }
-
-    public BigDecimal getOrderItemTotalPrice(final OrderItem orderItem) {
-        return getOrderItemPrice(orderItem).multiply(new BigDecimal(orderItem.getQuantity()));
-    }
-
-    public String getOrderItemTotalPriceWithTaxesWithStandardCurrencySign(final OrderItem orderItem) {
-        BigDecimal result = getOrderItemPriceWithTaxes(orderItem).multiply(new BigDecimal(orderItem.getQuantity()));
-        return orderItem.getCurrency().formatPriceWithStandardCurrencySign(result);
-    }
-
-    public BigDecimal getOrderItemTotalPriceWithTaxes(final OrderItem orderItem) {
-        return getOrderItemPriceWithTaxes(orderItem).multiply(new BigDecimal(orderItem.getQuantity()));
-    }
-
-//    public BigDecimal getTaxTotal(final OrderPurchase orderPurchase) {
-//        BigDecimal totalAmount = new BigDecimal(0);
-//        for (OrderItem orderItem : orderPurchase.getOrderItems()) {
-//            BigDecimal orderItemTaxesAmount = getOrderItemTaxesAmount(orderItem);
-//            totalAmount = totalAmount.add(orderItemTaxesAmount);
-//        }
-//        return totalAmount;
-//    }
-//
-//    public static BigDecimal getOrderItemTaxesAmount(OrderItem orderItem) {
-//        BigDecimal salePrice = orderItem.getPrice();
-//        Set<OrderTax> taxes = orderItem.getTaxes();
-//        int quantity = orderItem.getQuantity();
-//
-//        BigDecimal totalAmount = new BigDecimal(0);
-//        if (taxes == null || taxes.size() == 0) {
-//            return totalAmount;
-//        }
-//        boolean vatIncluded = orderItem.isVATIncluded();
-//        for (OrderTax tax : taxes) {
-//            if (vatIncluded) {
-//                BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-//                taxAmount = salePrice.subtract(salePrice.divide(taxAmount, 5, BigDecimal.ROUND_CEILING)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-//                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
-//            } else {
-//                BigDecimal taxAmount = salePrice.multiply(tax.getPercent());
-//                taxAmount = salePrice.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-//                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
-//            }
-//        }
-//        return totalAmount;
-//    }
 
 }
