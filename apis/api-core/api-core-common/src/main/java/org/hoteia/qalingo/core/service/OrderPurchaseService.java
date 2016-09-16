@@ -116,7 +116,7 @@ public class OrderPurchaseService {
     }
 
     public String getTaxTotalWithStandardCurrencySign(final OrderPurchase orderPurchase) {
-        return orderPurchase.getCurrency().formatPriceWithStandardCurrencySign(getTaxTotal(orderPurchase));
+        return orderPurchase.getCurrency().formatPriceWithStandardCurrencySign(orderPurchase.getTaxTotal());
     }
 
     public String getOrderItemTotalWithStandardCurrencySign(final OrderPurchase orderPurchase) {
@@ -200,37 +200,37 @@ public class OrderPurchaseService {
         return getOrderItemPriceWithTaxes(orderItem).multiply(new BigDecimal(orderItem.getQuantity()));
     }
 
-    public BigDecimal getTaxTotal(final OrderPurchase orderPurchase) {
-        BigDecimal totalAmount = new BigDecimal(0);
-        for (OrderItem orderItem : orderPurchase.getOrderItems()) {
-            BigDecimal orderItemTaxesAmount = getOrderItemTaxesAmount(orderItem);
-            totalAmount = totalAmount.add(orderItemTaxesAmount);
-        }
-        return totalAmount;
-    }
-
-    public static BigDecimal getOrderItemTaxesAmount(OrderItem orderItem) {
-        BigDecimal salePrice = orderItem.getPrice();
-        Set<OrderTax> taxes = orderItem.getTaxes();
-        int quantity = orderItem.getQuantity();
-
-        BigDecimal totalAmount = new BigDecimal(0);
-        if (taxes == null || taxes.size() == 0) {
-            return totalAmount;
-        }
-        boolean vatIncluded = orderItem.isVATIncluded();
-        for (OrderTax tax : taxes) {
-            if (vatIncluded) {
-                BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                taxAmount = salePrice.subtract(salePrice.divide(taxAmount, 5, BigDecimal.ROUND_CEILING)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
-            } else {
-                BigDecimal taxAmount = salePrice.multiply(tax.getPercent());
-                taxAmount = salePrice.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
-            }
-        }
-        return totalAmount;
-    }
+//    public BigDecimal getTaxTotal(final OrderPurchase orderPurchase) {
+//        BigDecimal totalAmount = new BigDecimal(0);
+//        for (OrderItem orderItem : orderPurchase.getOrderItems()) {
+//            BigDecimal orderItemTaxesAmount = getOrderItemTaxesAmount(orderItem);
+//            totalAmount = totalAmount.add(orderItemTaxesAmount);
+//        }
+//        return totalAmount;
+//    }
+//
+//    public static BigDecimal getOrderItemTaxesAmount(OrderItem orderItem) {
+//        BigDecimal salePrice = orderItem.getPrice();
+//        Set<OrderTax> taxes = orderItem.getTaxes();
+//        int quantity = orderItem.getQuantity();
+//
+//        BigDecimal totalAmount = new BigDecimal(0);
+//        if (taxes == null || taxes.size() == 0) {
+//            return totalAmount;
+//        }
+//        boolean vatIncluded = orderItem.isVATIncluded();
+//        for (OrderTax tax : taxes) {
+//            if (vatIncluded) {
+//                BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+//                taxAmount = salePrice.subtract(salePrice.divide(taxAmount, 5, BigDecimal.ROUND_CEILING)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+//                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
+//            } else {
+//                BigDecimal taxAmount = salePrice.multiply(tax.getPercent());
+//                taxAmount = salePrice.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+//                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
+//            }
+//        }
+//        return totalAmount;
+//    }
 
 }

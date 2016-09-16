@@ -233,5 +233,4 @@ public class Tax extends AbstractEntity<Tax> implements DomainEntity {
                 + taxCountries + ", attributes=" + attributes + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
-
 }

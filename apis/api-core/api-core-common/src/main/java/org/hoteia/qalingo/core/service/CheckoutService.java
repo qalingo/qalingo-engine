@@ -127,6 +127,7 @@ public class CheckoutService {
                         for (CartItemTax cartItemTax : cartItemTaxes) {
                             Tax tax = cartItemTax.getTax();
                             OrderTax orderTax = new OrderTax();
+                            orderTax.setTaxId(tax.getId());
                             orderTax.setName(tax.getName());
                             orderTax.setPercent(tax.getPercent());
                             orderTax.setAmount(cartService.getCartItemTaxesAmount(cartItem, marketAreaId));

@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -336,6 +337,15 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> implements Doma
             }
         }
         return stores;
+    }
+    
+    public BigDecimal getTaxTotal() {
+        BigDecimal totalAmount = new BigDecimal(0);
+        for (OrderItem orderItem : getOrderItems()) {
+            BigDecimal orderItemTaxesAmount = orderItem.getOrderItemTaxesAmount();
+            totalAmount = totalAmount.add(orderItemTaxesAmount);
+        }
+        return totalAmount;
     }
 
     @Override

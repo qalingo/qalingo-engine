@@ -178,6 +178,30 @@ public class OrderItem extends AbstractEntity<OrderItem> implements DomainEntity
         isVATIncluded = VATIncluded;
     }
 
+    public BigDecimal getOrderItemTaxesAmount() {
+        BigDecimal salePrice = getPrice();
+        Set<OrderTax> taxes = getTaxes();
+        int quantity = getQuantity();
+
+        BigDecimal totalAmount = new BigDecimal(0);
+        if (taxes == null || taxes.size() == 0) {
+            return totalAmount;
+        }
+        boolean vatIncluded = isVATIncluded();
+        for (OrderTax tax : taxes) {
+            if (vatIncluded) {
+                BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                taxAmount = salePrice.subtract(salePrice.divide(taxAmount, 5, BigDecimal.ROUND_CEILING)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
+            } else {
+                BigDecimal taxAmount = salePrice.multiply(tax.getPercent());
+                taxAmount = salePrice.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
+            }
+        }
+        return totalAmount;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

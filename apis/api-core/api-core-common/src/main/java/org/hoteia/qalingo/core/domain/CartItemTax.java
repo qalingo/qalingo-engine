@@ -71,7 +71,7 @@ public class CartItemTax extends AbstractEntity<CartItemTax> implements DomainEn
 
     @Override
     public String toString() {
-        return "CartItemTax [taxAmount=" + taxAmount + "]";
+        return "CartItemTax [tax=" + tax + ", taxAmount=" + taxAmount + "]";
     }
 
 }
