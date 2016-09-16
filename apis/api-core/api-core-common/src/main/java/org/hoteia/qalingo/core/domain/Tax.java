@@ -65,7 +65,7 @@ public class Tax extends AbstractEntity<Tax> implements DomainEntity {
     private BigDecimal percent;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.TaxType.class)
-    @JoinTable(name = "TECO_MARKET_AREA_TAX_REL", joinColumns = @JoinColumn(name = "TAX_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_TYPE_ID"))
+    @JoinTable(name = "TECO_TAX_TYPE_REL", joinColumns = @JoinColumn(name = "TAX_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_TYPE_ID"))
     private Set<TaxType> taxTypes = new HashSet<TaxType>();
     
     @OneToMany(fetch = FetchType.LAZY)
