@@ -119,7 +119,7 @@ public class CartService {
                 
                 // TAXES
 //                List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(store.getId(), productSku.getId());
-                ProductMarketingType productMarketingType = productSku.getProductMarketing().getProductMarketingType();
+                ProductMarketingType productMarketingType = reloadedProductMarketing.getProductMarketingType();
                 List<Tax> taxes = taxService.findTaxesByMarketAreaIdAndProductType(cart.getMarketAreaId(), productMarketingType.getCode());
                 List<CartItemTax> cartItemTaxes = new ArrayList<CartItemTax>();
                 for (Tax tax : taxes) {
