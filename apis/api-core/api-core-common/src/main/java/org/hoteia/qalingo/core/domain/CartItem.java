@@ -9,9 +9,8 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +23,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
@@ -88,7 +86,7 @@ public class CartItem extends AbstractEntity<CartItem> implements DomainEntity {
     private DeliveryMethod deliveryMethod;
 
     @Transient
-    private Set<CartItemTax> taxes = new HashSet<CartItemTax>();
+    private List<CartItemTax> taxes = new ArrayList<CartItemTax>();
 
     public CartItem() {
     }
@@ -170,49 +168,49 @@ public class CartItem extends AbstractEntity<CartItem> implements DomainEntity {
         this.deliveryMethod = deliveryMethod;
     }
 
-    public Set<CartItemTax> getTaxes() {
+    public List<CartItemTax> getTaxes() {
         return taxes;
     }
 
-    public void setTaxes(Set<CartItemTax> taxes) {
+    public void setTaxes(List<CartItemTax> taxes) {
         this.taxes = taxes;
     }
 
-    @Deprecated
-    public ProductSkuPrice getPrice(final Long marketAreaId) {
-        if (productSku != null 
-                && Hibernate.isInitialized(productSku)
-                && productSku.getPrices() != null 
-                && Hibernate.isInitialized(productSku.getPrices())) {
-            for (final ProductSkuPrice productSkuPrice : productSku.getPrices()) {
-                if (productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId)) {
-                    return productSkuPrice;
-                }
-            }
-        }
-        return null;
-    }
-
-    @Deprecated
-    public String getPriceWithStandardCurrencySign(final Long marketAreaId) {
-        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
-        if (productSkuPrice != null) {
-            return productSkuPrice.getPriceWithStandardCurrencySign();
-        }
-        return null;
-    }
-
-    @Deprecated
-    public String getTotalAmountWithStandardCurrencySign(final Long marketAreaId) {
-        BigDecimal totalAmount = new BigDecimal("0");
-        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
-        if (productSkuPrice != null) {
-            totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
-            totalAmount = totalAmount.multiply(new BigDecimal(quantity));
-            return productSkuPrice.getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
-        }
-        return "0";
-    }
+//    @Deprecated
+//    public ProductSkuPrice getPrice(final Long marketAreaId) {
+//        if (productSku != null 
+//                && Hibernate.isInitialized(productSku)
+//                && productSku.getPrices() != null 
+//                && Hibernate.isInitialized(productSku.getPrices())) {
+//            for (final ProductSkuPrice productSkuPrice : productSku.getPrices()) {
+//                if (productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId)) {
+//                    return productSkuPrice;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @Deprecated
+//    public String getPriceWithStandardCurrencySign(final Long marketAreaId) {
+//        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
+//        if (productSkuPrice != null) {
+//            return productSkuPrice.getPriceWithStandardCurrencySign();
+//        }
+//        return null;
+//    }
+//
+//    @Deprecated
+//    public String getTotalAmountWithStandardCurrencySign(final Long marketAreaId) {
+//        BigDecimal totalAmount = new BigDecimal("0");
+//        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId);
+//        if (productSkuPrice != null) {
+//            totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
+//            totalAmount = totalAmount.multiply(new BigDecimal(quantity));
+//            return productSkuPrice.getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
+//        }
+//        return "0";
+//    }
 
     @Override
     public int hashCode() {

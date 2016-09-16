@@ -190,8 +190,13 @@ public class OrderShipment extends AbstractEntity<OrderShipment> implements Doma
 
     @Override
     public String toString() {
-        return "OrderShipment [id=" + id + ", name=" + name + ", price=" + price + ", deliveryMethodId=" + deliveryMethodId + ", expectedDeliveryDate=" + expectedDeliveryDate + ", dateCreate="
-                + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        String value = "OrderShipment [id=" + id + ", name=" + name + ", price=" + price + ", deliveryMethodId=" + deliveryMethodId + ", expectedDeliveryDate=" + expectedDeliveryDate + ", dateCreate="
+                + dateCreate + ", dateUpdate=" + dateUpdate;
+        if(orderPurchase != null){
+            value = value + ", orderId=" + orderPurchase.getId() + "]";
+        }
+        value = value + "]";
+        return value;
     }
 
 }

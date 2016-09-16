@@ -2593,6 +2593,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
+        final Cart cart = requestData.getCart();
         
         final CartItemViewBean cartItemViewBean = new CartItemViewBean();
 
@@ -2626,14 +2627,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         cartItemViewBean.getAssets().add(assetViewBean);
         
         // UNIT PRICE
-        cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId()));
+        String unitPriceWithCurrencySign = cartService.getCartItemPriceWithStandardCurrencySign(cartItem, marketArea.getId());
+        cartItemViewBean.setUnitPriceWithCurrencySign(unitPriceWithCurrencySign);
 
         // FEES AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
         
         //...
         
         // TOTAL AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
-        cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId()));
+        String amountWithCurrencySign = cartService.getCartItemTotalPriceWithTaxesWithStandardCurrencySign(cartItem, marketArea.getId());
+        cartItemViewBean.setAmountWithCurrencySign(amountWithCurrencySign);
 
         Map<String, String> getParams = new HashMap<String, String>();
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSku().getCode());

@@ -119,7 +119,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         return orderPurchase;
     }
 
-    private OrderPurchase createNewOrderWithRightOrderNumber(final OrderPurchase orderPurchase) {
+    protected OrderPurchase createNewOrderWithRightOrderNumber(final OrderPurchase orderPurchase) {
         OrderPurchase mergedOrSavedOrderPurchase = null;
         try {
             Session session = (Session) em.getDelegate();

@@ -25,7 +25,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -65,10 +64,10 @@ public class Tax extends AbstractEntity<Tax> implements DomainEntity {
     @Column(name = "PERCENT")
     private BigDecimal percent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TAX_TYPE_ID", insertable = true, updatable = true)
-    private TaxType taxType;
-
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, targetEntity = org.hoteia.qalingo.core.domain.TaxType.class)
+    @JoinTable(name = "TECO_MARKET_AREA_TAX_REL", joinColumns = @JoinColumn(name = "TAX_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_TYPE_ID"))
+    private Set<TaxType> taxTypes = new HashSet<TaxType>();
+    
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "TAX_ID")
     private Set<TaxCountry> taxCountries = new HashSet<TaxCountry>();
@@ -142,12 +141,12 @@ public class Tax extends AbstractEntity<Tax> implements DomainEntity {
         this.percent = percent;
     }
 
-    public TaxType getTaxType() {
-        return taxType;
+    public Set<TaxType> getTaxTypes() {
+        return taxTypes;
     }
 
-    public void setTaxType(TaxType taxType) {
-        this.taxType = taxType;
+    public void setTaxTypes(Set<TaxType> taxTypes) {
+        this.taxTypes = taxTypes;
     }
 
     public Date getDateCreate() {
@@ -230,7 +229,7 @@ public class Tax extends AbstractEntity<Tax> implements DomainEntity {
 
     @Override
     public String toString() {
-        return "Tax [id=" + id + ", version=" + version + ", code=" + code + ", name=" + name + ", description=" + description + ", percent=" + percent + ", taxType=" + taxType + ", taxCountries="
+        return "Tax [id=" + id + ", version=" + version + ", code=" + code + ", name=" + name + ", description=" + description + ", percent=" + percent + ", taxCountries="
                 + taxCountries + ", attributes=" + attributes + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

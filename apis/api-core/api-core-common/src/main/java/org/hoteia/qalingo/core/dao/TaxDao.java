@@ -80,6 +80,24 @@ public class TaxDao extends AbstractGenericDao {
         return taxes;
     }
     
+    public List<Tax> findTaxesByMarketAreaIdAndProductType(Long marketAreaId, String productType, Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
+
+        handleSpecificFetchMode(criteria, params);
+
+        criteria.createAlias("marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+
+        criteria.createAlias("taxTypes", "taxType", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("taxType.id", productType));
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Tax> taxes = criteria.list();
+        return taxes;
+    }
+    
 	public Tax saveOrUpdateTax(final Tax tax) {
         if (tax.getId() != null) {
             if(em.contains(tax)){

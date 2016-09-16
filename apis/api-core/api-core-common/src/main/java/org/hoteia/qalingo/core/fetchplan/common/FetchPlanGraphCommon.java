@@ -83,7 +83,7 @@ public class FetchPlanGraphCommon {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(Tax_.taxCountries.getName()));
         fetchplans.add(new SpecificFetchMode(Tax_.attributes.getName()));
-        fetchplans.add(new SpecificFetchMode(Tax_.taxType.getName()));
+        fetchplans.add(new SpecificFetchMode(Tax_.taxTypes.getName()));
         return new FetchPlan(fetchplans);
     }
     

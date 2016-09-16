@@ -8,8 +8,12 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -83,9 +87,6 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> implements D
 
     @Transient
     private Set<DeliveryMethod> deliveryMethods = new HashSet<DeliveryMethod>();
-
-    @Transient
-    private Set<Tax> taxes = new HashSet<Tax>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -195,6 +196,17 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> implements D
     public Set<CartItem> getCartItems() {
         return cartItems;
     }
+    
+    public CartItem getCartItem(ProductSku productSku) {
+        if (cartItems != null && Hibernate.isInitialized(cartItems)) {
+            for (CartItem cartItem : cartItems) {
+                if (productSku != null && cartItem.getProductSku().equals(productSku)) {
+                    return cartItem;
+                }
+            }
+        }
+        return null;
+    }
 
     public void setCartItems(Set<CartItem> cartItems) {
         this.cartItems = cartItems;
@@ -232,12 +244,19 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> implements D
         this.deliveryMethods = deliveryMethods;
     }
 
-    public Set<Tax> getTaxes() {
-        return taxes;
-    }
-
-    public void setTaxes(Set<Tax> taxes) {
-        this.taxes = taxes;
+    public List<Tax> getTaxes() {
+        if (cartItems != null && Hibernate.isInitialized(cartItems)) {
+            Map<String, Tax> mapTaxes = new HashMap<String, Tax>();
+            for (CartItem cartItem : cartItems) {
+                for (CartItemTax tax : cartItem.getTaxes()) {
+                    mapTaxes.put(tax.getTax().getCode(), tax.getTax());
+                }
+            }
+            if(!mapTaxes.isEmpty()){
+                return new ArrayList<Tax>(mapTaxes.values());
+            }
+        }
+        return null;
     }
 
     public Date getDateCreate() {
@@ -266,7 +285,11 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> implements D
 
     public void copyTransient(Cart cart) {
         this.deliveryMethods = cart.getDeliveryMethods();
-        this.taxes = cart.getTaxes();
+        if (cartItems != null && Hibernate.isInitialized(cartItems)) {
+            for (CartItem cartItem : cartItems) {
+                cartItem.setTaxes(cart.getCartItem(cartItem.getProductSku()).getTaxes());
+            }
+        }
     }
 
     @Override

@@ -49,6 +49,10 @@ public class TaxService {
     public List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params) {
         return taxDao.findTaxesByMarketAreaId(marketAreaId, params);
     }
+    
+    public List<Tax> findTaxesByMarketAreaIdAndProductType(Long marketAreaId, String productType, Object... params) {
+        return taxDao.findTaxesByMarketAreaIdAndProductType(marketAreaId, productType, params);
+    }
 
     public Tax saveOrUpdateTax(Tax tax) {
         return taxDao.saveOrUpdateTax(tax);

@@ -760,7 +760,7 @@ public class WebManagementService {
         final HttpServletRequest request = requestData.getRequest();
         final Customer customer = requestData.getCustomer();
         final Cart cart = requestData.getCart();
-        OrderPurchase orderPurchase = checkoutService.checkout(customer, cart);
+        OrderPurchase orderPurchase = checkoutService.checkoutB2C(customer, cart);
         
         requestUtil.deleteCurrentCartAndSaveEngineSession(request);
 

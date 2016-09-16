@@ -173,7 +173,6 @@ public class EngineEcoSession extends AbstractEngineSession<EngineEcoSession> im
         cart.getCartItems().clear();
         cart.setStatus(null);
         cart.setDeliveryMethods(null);
-        cart.setTaxes(null);
         cart.setMarketAreaId(getCurrentMarketArea().getId());
         cart.setLocalizationId(getCurrentMarketAreaLocalization().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());

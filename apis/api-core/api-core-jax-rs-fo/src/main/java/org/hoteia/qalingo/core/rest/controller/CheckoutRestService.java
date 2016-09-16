@@ -85,7 +85,7 @@ public class CheckoutRestService {
                 Cart cart = cartService.getCartByMarketAreaIdAndCustomerId(marketArea.getId(), customer.getId());
                 
                 // Create and Save a new order
-                checkoutService.checkout(customer, cart);
+                checkoutService.checkoutB2C(customer, cart);
                 
                 // WebManagementService.buildAndSaveNewOrderConfirmationMail
 

@@ -8,10 +8,26 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.eco;
 
-import org.apache.commons.lang3.StringUtils;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -19,9 +35,17 @@ import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.FoMessagePojo;
-import org.hoteia.qalingo.core.pojo.cart.*;
+import org.hoteia.qalingo.core.pojo.cart.FoAddToCartPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoAddToWishlistPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoCartItemPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoCartPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoCheckoutPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.FoDeliveryMethodPojo;
-import org.hoteia.qalingo.core.service.*;
+import org.hoteia.qalingo.core.service.CartService;
+import org.hoteia.qalingo.core.service.DeliveryMethodService;
+import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.service.TaxService;
 import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
 import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.hoteia.qalingo.core.web.resolver.RequestData;
@@ -34,11 +58,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  *
@@ -426,9 +445,9 @@ public class CartAjaxController extends AbstractMCommerceController {
             int quantity = cartItem.getQuantity();
             totalCartItems += quantity;
             cartItemPojo.setQuantity(quantity);
-            cartItemPojo.setPrice(cartService.getCartItemPriceWithTaxesWithStandardCurrencySign(cartItem, marketAreaId, cart.getTaxes()));
+            cartItemPojo.setPrice(cartService.getCartItemPriceWithTaxesWithStandardCurrencySign(cartItem, marketAreaId));
             cartItemPojo.setSkuCode(productSku.getCode());
-            cartItemPojo.setTotalPrice(cartService.getCartItemTotalPriceWithTaxesWithStandardCurrencySign(cartItem, marketAreaId, cart.getTaxes()));
+            cartItemPojo.setTotalPrice(cartService.getCartItemTotalPriceWithTaxesWithStandardCurrencySign(cartItem, marketAreaId));
             cartItemPojo.setSummaryImage(buildDefaultAsset(requestData, productSku));
             cartItemPojo.setUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), productSku));
             cartItemPojos.add(cartItemPojo);

@@ -10,11 +10,10 @@ package org.hoteia.qalingo.core.service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
@@ -22,12 +21,14 @@ import org.hoteia.qalingo.core.dao.CartDao;
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CartItemTax;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketingType;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Store;
@@ -100,7 +101,9 @@ public class CartService {
 
                 final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
                 cartItem.setProductMarketing(reloadedProductMarketing);
+                
                 cartItem.setQuantity(quantity);
+
                 if (store != null) {
                     cartItem.setStoreId(store.getId());
                 }
@@ -113,7 +116,21 @@ public class CartService {
                     final CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(reloadedProductMarketing, catalogCategories, true);
                     cartItem.setCatalogCategory(defaultVirtualCatalogCategory);
                 }
+                
+                // TAXES
+//                List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(store.getId(), productSku.getId());
+                ProductMarketingType productMarketingType = productSku.getProductMarketing().getProductMarketingType();
+                List<Tax> taxes = taxService.findTaxesByMarketAreaIdAndProductType(cart.getMarketAreaId(), productMarketingType.getCode());
+                List<CartItemTax> cartItemTaxes = new ArrayList<CartItemTax>();
+                for (Tax tax : taxes) {
+                    CartItemTax cartItemTax = new CartItemTax();
+                    cartItemTax.setTax(tax);
+                    cartItemTaxes.add(cartItemTax);
+                }
+                cartItem.setTaxes(cartItemTaxes);
+                
                 cart.getCartItems().add(cartItem);
+                
             } else {
                 // TODO : throw ??
             }
@@ -217,7 +234,7 @@ public class CartService {
         BigDecimal total = new BigDecimal(0);
         Long marketAreaId = cart.getMarketAreaId();
         for (CartItem cartItem : cart.getCartItems()) {
-            total = total.add(getCartItemTotalPriceWithTaxes(cartItem, marketAreaId, cart.getTaxes()));
+            total = total.add(getCartItemTotalPriceWithTaxes(cartItem, marketAreaId));
         }
         return total;
     }
@@ -257,7 +274,7 @@ public class CartService {
         Set<CartItem> cartItems = cart.getCartItems();
         if (cartItems != null && Hibernate.isInitialized(cartItems)) {
             for (final CartItem cartItem : cartItems) {
-                cartItemsTotal = cartItemsTotal.add(getCartItemTotalPrice(cartItem, marketAreaId, cart.getTaxes()));
+                cartItemsTotal = cartItemsTotal.add(getCartItemTotalPrice(cartItem, marketAreaId));
             }
         }
         return cartItemsTotal;
@@ -273,37 +290,18 @@ public class CartService {
         Set<CartItem> cartItems = cart.getCartItems();
         if (cartItems != null && Hibernate.isInitialized(cartItems)) {
             for (final CartItem cartItem : cartItems) {
-                cartItemsTotal = cartItemsTotal.add(getCartItemTotalPriceWithTaxes(cartItem, marketAreaId, cart.getTaxes()));
+                cartItemsTotal = cartItemsTotal.add(getCartItemTotalPriceWithTaxes(cartItem, marketAreaId));
             }
         }
         return cartItemsTotal;
     }
 
-    public String getCartItemPriceWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
-        List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
-        for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
-            if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                return productSkuStorePrice.getCurrency().formatPriceWithStandardCurrencySign(getCartItemPrice(productSkuStorePrice, taxes));
-            }
-        }
-        return null;
-    }
-
-    public BigDecimal getCartItemPrice(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
-        List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
-        for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
-            if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                return getCartItemPrice(productSkuStorePrice, taxes);
-            }
-        }
-        return null;
-    }
-
-    public BigDecimal getCartItemPrice(final ProductSkuStorePrice productSkuStorePrice, final Set<Tax> taxes) {
+    public BigDecimal getCartItemPrice(final ProductSkuStorePrice productSkuStorePrice, final List<CartItemTax> taxes) {
         BigDecimal totalAmount = productSkuStorePrice.getSalePrice();
         if (productSkuStorePrice.isVATIncluded()) {
             if (taxes != null && taxes.size() > 0) {
-                for (Tax tax : taxes) {
+                for (CartItemTax cartItemTax : taxes) {
+                    Tax tax = cartItemTax.getTax();
                     BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
                     totalAmount = totalAmount.divide(taxAmount, 5, BigDecimal.ROUND_CEILING).setScale(2, BigDecimal.ROUND_HALF_EVEN);
                 }
@@ -312,31 +310,52 @@ public class CartService {
         return totalAmount;
     }
 
-    public String getCartItemPriceWithTaxesWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
+    public String getCartItemPriceWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId) {
         List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
         for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
             if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                return productSkuStorePrice.getCurrency().formatPriceWithStandardCurrencySign(getCartItemPriceWithTaxes(productSkuStorePrice, taxes));
+                return productSkuStorePrice.getCurrency().formatPriceWithStandardCurrencySign(getCartItemPrice(productSkuStorePrice, cartItem.getTaxes()));
             }
         }
         return null;
     }
 
-    public BigDecimal getCartItemPriceWithTaxes(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
+    public BigDecimal getCartItemPrice(final CartItem cartItem, final Long marketAreaId) {
         List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
         for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
             if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                return getCartItemPriceWithTaxes(productSkuStorePrice, taxes);
+                return getCartItemPrice(productSkuStorePrice, cartItem.getTaxes());
             }
         }
         return null;
     }
 
-    public BigDecimal getCartItemPriceWithTaxes(final ProductSkuStorePrice productSkuStorePrice, final Set<Tax> taxes) {
+    public String getCartItemPriceWithTaxesWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId) {
+        List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
+        for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
+            if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
+                return productSkuStorePrice.getCurrency().formatPriceWithStandardCurrencySign(getCartItemPriceWithTaxes(productSkuStorePrice, cartItem.getTaxes()));
+            }
+        }
+        return null;
+    }
+
+    public BigDecimal getCartItemPriceWithTaxes(final CartItem cartItem, final Long marketAreaId) {
+        List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
+        for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
+            if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
+                return getCartItemPriceWithTaxes(productSkuStorePrice, cartItem.getTaxes());
+            }
+        }
+        return null;
+    }
+
+    public BigDecimal getCartItemPriceWithTaxes(final ProductSkuStorePrice productSkuStorePrice, final List<CartItemTax> taxes) {
         BigDecimal totalAmount = productSkuStorePrice.getSalePrice();
         if (!productSkuStorePrice.isVATIncluded()) {
             if (taxes != null && taxes.size() > 0) {
-                for (Tax tax : taxes) {
+                for (CartItemTax cartItemTax : taxes) {
+                    Tax tax = cartItemTax.getTax();
                     BigDecimal taxAmount = totalAmount.multiply(tax.getPercent());
                     totalAmount = totalAmount.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
                 }
@@ -346,7 +365,7 @@ public class CartService {
     }
 
 
-    public String getCartItemTotalPriceWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
+    public String getCartItemTotalPriceWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId, final List<CartItemTax> taxes) {
         List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
         for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
             if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
@@ -357,32 +376,32 @@ public class CartService {
         return null;
     }
 
-    public BigDecimal getCartItemTotalPrice(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
+    public BigDecimal getCartItemTotalPrice(final CartItem cartItem, final Long marketAreaId) {
         List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
         for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
             if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                return getCartItemPrice(productSkuStorePrice, taxes).multiply(new BigDecimal(cartItem.getQuantity()));
+                return getCartItemPrice(productSkuStorePrice, cartItem.getTaxes()).multiply(new BigDecimal(cartItem.getQuantity()));
             }
         }
         return null;
     }
 
-    public String getCartItemTotalPriceWithTaxesWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
+    public String getCartItemTotalPriceWithTaxesWithStandardCurrencySign(final CartItem cartItem, final Long marketAreaId) {
         List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
         for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
             if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                BigDecimal result = getCartItemPriceWithTaxes(productSkuStorePrice, taxes).multiply(new BigDecimal(cartItem.getQuantity()));
+                BigDecimal result = getCartItemPriceWithTaxes(productSkuStorePrice, cartItem.getTaxes()).multiply(new BigDecimal(cartItem.getQuantity()));
                 return productSkuStorePrice.getCurrency().formatPriceWithStandardCurrencySign(result);
             }
         }
         return null;
     }
 
-    public BigDecimal getCartItemTotalPriceWithTaxes(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
+    public BigDecimal getCartItemTotalPriceWithTaxes(final CartItem cartItem, final Long marketAreaId) {
         List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
         for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
             if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                return getCartItemPriceWithTaxes(productSkuStorePrice, taxes).multiply(new BigDecimal(cartItem.getQuantity()));
+                return getCartItemPriceWithTaxes(productSkuStorePrice, cartItem.getTaxes()).multiply(new BigDecimal(cartItem.getQuantity()));
             }
         }
         return null;
@@ -398,11 +417,11 @@ public class CartService {
         return null;
     }
 
-    public BigDecimal getCartItemTaxesAmount(final CartItem cartItem, final Long marketAreaId, final Set<Tax> taxes) {
+    public BigDecimal getCartItemTaxesAmount(final CartItem cartItem, final Long marketAreaId) {
         List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
         for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
             if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                return getCartItemTaxesAmount(productSkuStorePrice, cartItem.getQuantity(), taxes);
+                return getCartItemTaxesAmount(productSkuStorePrice, cartItem.getQuantity(), cartItem.getTaxes());
             }
         }
         return null;
@@ -411,15 +430,14 @@ public class CartService {
     public BigDecimal getTaxTotal(final Cart cart) {
         BigDecimal total = new BigDecimal(0);
         Long marketAreaId = cart.getMarketAreaId();
-        Set<Tax> taxes = cart.getTaxes();
-        if (taxes == null || taxes.size() == 0) {
+        if (cart.getCartItems() == null || cart.getCartItems().isEmpty()) {
             return total;
         }
         for (final CartItem cartItem : cart.getCartItems()) {
             List<ProductSkuStorePrice> productSkuStorePrices = productDao.findProductSkuStorePrices(cartItem.getStoreId(), cartItem.getProductSku().getId());
             for (ProductSkuStorePrice productSkuStorePrice : productSkuStorePrices) {
                 if (productSkuStorePrice.getMarketAreaId().equals(marketAreaId)) {
-                    BigDecimal cartItemTaxesAmount = getCartItemTaxesAmount(productSkuStorePrice, cartItem.getQuantity(), taxes);
+                    BigDecimal cartItemTaxesAmount = getCartItemTaxesAmount(productSkuStorePrice, cartItem.getQuantity(), cartItem.getTaxes());
                     total = total.add(cartItemTaxesAmount);
                     break;
                 }
@@ -428,14 +446,12 @@ public class CartService {
         return total;
     }
 
-    public static BigDecimal getCartItemTaxesAmount(final ProductSkuStorePrice productSkuStorePrice, int quantity, final Set<Tax> taxes) {
+    public BigDecimal getCartItemTaxesAmount(final ProductSkuStorePrice productSkuStorePrice, int quantity, final List<CartItemTax> taxes) {
         BigDecimal salePrice = productSkuStorePrice.getSalePrice();
         BigDecimal totalAmount = new BigDecimal(0);
-        if (taxes == null || taxes.size() == 0) {
-            return totalAmount;
-        }
         boolean vatIncluded = productSkuStorePrice.isVATIncluded();
-        for (Tax tax : taxes) {
+        for (CartItemTax cartItemTax : taxes) {
+            Tax tax = cartItemTax.getTax();
             if (vatIncluded) {
                 BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
                 taxAmount = salePrice.subtract(salePrice.divide(taxAmount, 5, BigDecimal.ROUND_CEILING)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
