@@ -178,8 +178,8 @@ public class OrderItem extends AbstractEntity<OrderItem> implements DomainEntity
         isVATIncluded = VATIncluded;
     }
 
-    public String getOrderItemPriceWithStandardCurrencySign(final OrderItem orderItem) {
-        return orderItem.getCurrency().formatPriceWithStandardCurrencySign(orderItem.getOrderItemPrice());
+    public String getOrderItemPriceWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getOrderItemPrice());
     }
 
     public BigDecimal getOrderItemPrice() {
@@ -201,8 +201,8 @@ public class OrderItem extends AbstractEntity<OrderItem> implements DomainEntity
     }
 
     public String getOrderItemTotalPriceWithStandardCurrencySign() {
-        BigDecimal result = getOrderItemPrice().multiply(new BigDecimal(getQuantity()));
-        return getCurrency().formatPriceWithStandardCurrencySign(result);
+        BigDecimal orderItemTotalPrice = getOrderItemPrice().multiply(new BigDecimal(getQuantity()));
+        return getCurrency().formatPriceWithStandardCurrencySign(orderItemTotalPrice);
     }
 
     public BigDecimal getOrderItemTotalPrice() {
@@ -210,8 +210,8 @@ public class OrderItem extends AbstractEntity<OrderItem> implements DomainEntity
     }
 
     public String getOrderItemTotalPriceWithTaxesWithStandardCurrencySign() {
-        BigDecimal result = getOrderItemPriceWithTaxes().multiply(new BigDecimal(getQuantity()));
-        return getCurrency().formatPriceWithStandardCurrencySign(result);
+        BigDecimal orderItemTotalPrice = getOrderItemPriceWithTaxes().multiply(new BigDecimal(getQuantity()));
+        return getCurrency().formatPriceWithStandardCurrencySign(orderItemTotalPrice);
     }
 
     public BigDecimal getOrderItemTotalPriceWithTaxes() {
@@ -249,7 +249,7 @@ public class OrderItem extends AbstractEntity<OrderItem> implements DomainEntity
                 totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
             } else {
                 BigDecimal taxAmount = salePrice.multiply(tax.getPercent());
-                taxAmount = salePrice.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                taxAmount = taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN);
                 totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
             }
         }

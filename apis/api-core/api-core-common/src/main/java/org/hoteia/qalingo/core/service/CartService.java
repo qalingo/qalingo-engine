@@ -458,7 +458,7 @@ public class CartService {
                 totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
             } else {
                 BigDecimal taxAmount = salePrice.multiply(tax.getPercent());
-                taxAmount = salePrice.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                taxAmount = taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN);
                 totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
             }
         }

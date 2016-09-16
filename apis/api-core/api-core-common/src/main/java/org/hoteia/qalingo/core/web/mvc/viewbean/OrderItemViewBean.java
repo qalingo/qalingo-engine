@@ -32,6 +32,7 @@ public class OrderItemViewBean extends AbstractViewBean {
     
     protected int quantity;
     protected String price;
+    protected String priceWithTaxes;
     protected String amount;
 
     private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
@@ -123,6 +124,14 @@ public class OrderItemViewBean extends AbstractViewBean {
         this.price = price;
     }
 
+    public String getPriceWithTaxes() {
+        return priceWithTaxes;
+    }
+    
+    public void setPriceWithTaxes(String priceWithTaxes) {
+        this.priceWithTaxes = priceWithTaxes;
+    }
+    
     public String getAmount() {
         return amount;
     }

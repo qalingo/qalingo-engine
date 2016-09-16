@@ -2860,7 +2860,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             orderItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
             orderItemViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
         }
-        orderItemViewBean.setPrice(orderItem.getOrderItemPriceWithTaxesWithStandardCurrencySign());
+        orderItemViewBean.setPrice(orderItem.getOrderItemPriceWithStandardCurrencySign());
+        orderItemViewBean.setPriceWithTaxes(orderItem.getOrderItemPriceWithTaxesWithStandardCurrencySign());
         orderItemViewBean.setQuantity(orderItem.getQuantity());
         orderItemViewBean.setAmount(orderItem.getOrderItemTotalPriceWithTaxesWithStandardCurrencySign());
         return orderItemViewBean;
