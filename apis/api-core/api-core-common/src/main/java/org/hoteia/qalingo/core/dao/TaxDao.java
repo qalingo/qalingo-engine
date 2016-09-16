@@ -89,7 +89,7 @@ public class TaxDao extends AbstractGenericDao {
         criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
 
         criteria.createAlias("taxTypes", "taxType", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("taxType.id", productType));
+        criteria.add(Restrictions.eq("taxType.code", productType));
         
         criteria.addOrder(Order.asc("code"));
 
