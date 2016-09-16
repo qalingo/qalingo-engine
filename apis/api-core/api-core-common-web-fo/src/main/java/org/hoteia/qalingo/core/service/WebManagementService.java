@@ -927,10 +927,10 @@ public class WebManagementService {
                 orderConfirmationEmailBean.setExpectedDeliveryDate("NA");
             }
 
-            orderConfirmationEmailBean.setOrderItemsTotalWithCurrencySign(orderPurchaseService.getOrderItemTotalWithTaxesWithStandardCurrencySign(order));
-            orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(orderPurchaseService.getDeliveryMethodTotalWithStandardCurrencySign(order));
-            orderConfirmationEmailBean.setOrderTaxesTotalWithCurrencySign(orderPurchaseService.getTaxTotalWithStandardCurrencySign(order));
-            orderConfirmationEmailBean.setOrderTotalWithCurrencySign(orderPurchaseService.getOrderTotalWithStandardCurrencySign(order));
+            orderConfirmationEmailBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithTaxesWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(order.getDeliveryMethodTotalWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
         }
         
         emailService.buildAndSaveNewOrderConfirmationMail(requestData, customer, velocityPath, orderConfirmationEmailBean);
