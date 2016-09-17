@@ -94,9 +94,7 @@ public class OrderPurchaseDao extends AbstractGenericDao {
         criteria.setProjection(Projections.property("id"));
         handleSpecificOrderFetchMode(criteria, params);
         
-        criteria.createAlias("shipments", "shipment", JoinType.LEFT_OUTER_JOIN);
-        criteria.createAlias("shipment.orderItems", "orderItem", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("orderItem." + OrderItem_.storeId.getName(), storeId));
+        criteria.add(Restrictions.eq("userStoreId", storeId));
 
         criteria.addOrder(Order.asc("dateCreate"));
         
