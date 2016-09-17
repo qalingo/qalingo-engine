@@ -8,6 +8,7 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -290,6 +291,27 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> implements D
                 cartItem.setTaxes(cart.getCartItem(cartItem.getProductSku()).getTaxes());
             }
         }
+    }
+    
+    public String getDeliveryMethodTotalWithStandardCurrencySign() {
+        return getCurrency().formatPriceWithStandardCurrencySign(getDeliveryMethodTotal());
+    }
+
+    public BigDecimal getDeliveryMethodTotal() {
+        final Set<DeliveryMethod> deliveryMethods = getDeliveryMethods();
+        BigDecimal cartDeliveryMethodTotal = new BigDecimal("0");
+        CurrencyReferential currency = getCurrency();
+        if (deliveryMethods != null && Hibernate.isInitialized(deliveryMethods)) {
+            for (final DeliveryMethod deliveryMethod : deliveryMethods) {
+                if (deliveryMethod != null) {
+                    BigDecimal price = deliveryMethod.getPrice(currency.getId());
+                    if (price != null) {
+                        cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(price);
+                    }
+                }
+            }
+        }
+        return cartDeliveryMethodTotal;
     }
 
     @Override

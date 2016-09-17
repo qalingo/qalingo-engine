@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.web.mvc.factory;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -2507,8 +2508,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      * 
      */
     public CartViewBean buildViewBeanCart(final RequestData requestData, final Cart cart) throws Exception {
-//        final MarketArea marketArea = requestData.getMarketArea();
-//        final Retailer retailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
         
         List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
@@ -2578,7 +2577,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             
             
             cartViewBean.setCartItemsTotalWithCurrencySign(cartService.getCartItemTotalWithStandardCurrencySign(cart));
-            cartViewBean.setCartShippingTotalWithCurrencySign(cartService.getDeliveryMethodTotalWithStandardCurrencySign(cart));
+            cartViewBean.setCartShippingTotalWithCurrencySign(cart.getDeliveryMethodTotalWithStandardCurrencySign());
+            if(BigDecimal.ZERO.compareTo(cart.getDeliveryMethodTotal()) == 0){
+                cartViewBean.setCartShippingTotalWithCurrencySign(coreMessageSource.getCommonMessage("label", "free", locale));
+            }
             cartViewBean.setCartFeesTotalWithCurrencySign(cartService.getTaxTotalWithStandardCurrencySign(cart));
             cartViewBean.setCartTotalWithCurrencySign(cartService.getCartTotalWithStandardCurrencySign(cart));
         }
@@ -2721,6 +2723,10 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 for (final OrderShipment orderShipment : orderShipments) {
                     final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
                     Object[] params = {orderShipment.getName()};
+                    orderShippingViewBean.setTotal(order.getCurrency().formatPriceWithStandardCurrencySign(orderShipment.getPrice()));
+                    if(BigDecimal.ZERO.compareTo(orderShipment.getPrice()) == 0){
+                        orderShippingViewBean.setTotal(coreMessageSource.getCommonMessage("label", "free", locale));
+                    }
                     orderShippingViewBean.setTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
                     orderShippingViewBeans.add(orderShippingViewBean);
                 }
@@ -2854,12 +2860,19 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final String localizationCode = localization.getCode();
         final OrderItemViewBean orderItemViewBean = new OrderItemViewBean();
         orderItemViewBean.setSkuCode(orderItem.getProductSkuCode());
+
         if(StringUtils.isNotEmpty(orderItem.getProductSkuCode())){
             ProductSku productSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
             orderItemViewBean.setEan(productSku.getEan());
             orderItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
             orderItemViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
         }
+        
+        if(orderItem.getStoreId() != null){
+            Store store = retailerService.getStoreById(orderItem.getStoreId());
+            orderItemViewBean.setStore(buildViewBeanStore(requestData, store));
+        }
+        
         orderItemViewBean.setPrice(orderItem.getOrderItemPriceWithStandardCurrencySign());
         orderItemViewBean.setPriceWithTaxes(orderItem.getOrderItemPriceWithTaxesWithStandardCurrencySign());
         orderItemViewBean.setQuantity(orderItem.getQuantity());

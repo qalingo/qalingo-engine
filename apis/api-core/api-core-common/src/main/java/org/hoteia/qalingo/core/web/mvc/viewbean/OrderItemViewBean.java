@@ -29,7 +29,9 @@ public class OrderItemViewBean extends AbstractViewBean {
     protected String i18nName;
     protected String i18nDescription;
     protected String i18nShortDescription;
-    
+
+    private StoreViewBean store;
+
     protected int quantity;
     protected String price;
     protected String priceWithTaxes;
@@ -106,6 +108,14 @@ public class OrderItemViewBean extends AbstractViewBean {
             }
         }
         return "";
+    }
+    
+    public StoreViewBean getStore() {
+        return store;
+    }
+    
+    public void setStore(StoreViewBean store) {
+        this.store = store;
     }
     
     public int getQuantity() {

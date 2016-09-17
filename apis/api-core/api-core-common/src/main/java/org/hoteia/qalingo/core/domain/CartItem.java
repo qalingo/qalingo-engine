@@ -9,8 +9,10 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
@@ -176,6 +179,53 @@ public class CartItem extends AbstractEntity<CartItem> implements DomainEntity {
         this.taxes = taxes;
     }
 
+    public BigDecimal getCartItemPrice(final ProductSkuStorePrice productSkuStorePrice, final List<CartItemTax> taxes) {
+        BigDecimal totalAmount = productSkuStorePrice.getSalePrice();
+        if (productSkuStorePrice.isVATIncluded()) {
+            if (taxes != null && taxes.size() > 0) {
+                for (CartItemTax cartItemTax : taxes) {
+                    Tax tax = cartItemTax.getTax();
+                    BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                    totalAmount = totalAmount.divide(taxAmount, 5, BigDecimal.ROUND_CEILING).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                }
+            }
+        }
+        return totalAmount;
+    }
+
+    public BigDecimal getCartItemPriceWithTaxes(final ProductSkuStorePrice productSkuStorePrice, final List<CartItemTax> taxes) {
+        BigDecimal totalAmount = productSkuStorePrice.getSalePrice();
+        if (!productSkuStorePrice.isVATIncluded()) {
+            if (taxes != null && taxes.size() > 0) {
+                for (CartItemTax cartItemTax : taxes) {
+                    Tax tax = cartItemTax.getTax();
+                    BigDecimal taxAmount = totalAmount.multiply(tax.getPercent());
+                    totalAmount = totalAmount.add(taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                }
+            }
+        }
+        return totalAmount;
+    }
+
+    public BigDecimal getCartItemTaxesAmount(final ProductSkuStorePrice productSkuStorePrice, int quantity, final List<CartItemTax> taxes) {
+        BigDecimal salePrice = productSkuStorePrice.getSalePrice();
+        BigDecimal totalAmount = new BigDecimal(0);
+        boolean vatIncluded = productSkuStorePrice.isVATIncluded();
+        for (CartItemTax cartItemTax : taxes) {
+            Tax tax = cartItemTax.getTax();
+            if (vatIncluded) {
+                BigDecimal taxAmount = tax.getPercent().divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN).add(new BigDecimal(1)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                taxAmount = salePrice.subtract(salePrice.divide(taxAmount, 5, BigDecimal.ROUND_CEILING)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
+            } else {
+                BigDecimal taxAmount = salePrice.multiply(tax.getPercent());
+                taxAmount = taxAmount.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_EVEN);
+                totalAmount = totalAmount.add(taxAmount.multiply(new BigDecimal(quantity)));
+            }
+        }
+        return totalAmount;
+    }
+    
 //    @Deprecated
 //    public ProductSkuPrice getPrice(final Long marketAreaId) {
 //        if (productSku != null 

@@ -425,6 +425,7 @@ public class CartAjaxController extends AbstractMCommerceController {
     }
 
     private FoCartPojo buildCart(RequestData requestData, Cart cart) throws Exception {
+        final Locale locale = requestData.getLocale();
         final Long marketAreaId = requestData.getMarketArea().getId();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
@@ -456,12 +457,10 @@ public class CartAjaxController extends AbstractMCommerceController {
         cartPojo.setTotalCartItems(totalCartItems);
         cartPojo.setTotalPrice(cartService.getCartTotalWithStandardCurrencySign(cart));
         String deliveryPrice;
-        if (BigDecimal.ZERO.compareTo(cartService.getDeliveryMethodTotal(cart)) == 0) {
-            deliveryPrice = "Gratuit";
-        } else {
-            deliveryPrice = cartService.getDeliveryMethodTotalWithStandardCurrencySign(cart);
+        cartPojo.setDeliveryPrice(cart.getDeliveryMethodTotalWithStandardCurrencySign());
+        if (BigDecimal.ZERO.compareTo(cart.getDeliveryMethodTotal()) == 0) {
+            cartPojo.setDeliveryPrice(coreMessageSource.getCommonMessage("label", "free", locale));
         }
-        cartPojo.setDeliveryPrice(deliveryPrice);
         cartPojo.setSubTotalPrice(cartService.getCartItemTotalWithTaxesWithStandardCurrencySign(cart));
         cartPojo.setTvaPrice(cartService.getTaxTotalWithStandardCurrencySign(cart));
         return cartPojo;
