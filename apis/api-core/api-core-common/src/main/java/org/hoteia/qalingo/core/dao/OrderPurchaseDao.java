@@ -18,9 +18,14 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.domain.*;
+import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderItem_;
+import org.hoteia.qalingo.core.domain.OrderPurchase_;
+import org.hoteia.qalingo.core.domain.OrderNumber;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.order.FetchPlanGraphOrder;
 import org.hoteia.qalingo.core.util.CoreUtil;
@@ -68,8 +73,36 @@ public class OrderPurchaseDao extends AbstractGenericDao {
 
         @SuppressWarnings("unchecked")
         List<OrderPurchase> orderPurchases = criteria.list();
-
         return orderPurchases;
+    }
+
+    public List<Long> findOrderIds(Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderPurchase.class);
+        criteria.setProjection(Projections.property("id"));
+        
+        handleSpecificOrderFetchMode(criteria, params);
+
+        criteria.addOrder(Order.asc("dateCreate"));
+
+        @SuppressWarnings("unchecked")
+        List<Long> orderIds = criteria.list();
+        return orderIds;
+    }
+    
+    public List<Long> findOrderIdsByStoreId(final Long storeId, Object... params) {
+        Criteria criteria = createDefaultCriteria(OrderPurchase.class);
+        criteria.setProjection(Projections.property("id"));
+        handleSpecificOrderFetchMode(criteria, params);
+        
+        criteria.createAlias("shipments", "shipment", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("shipment.orderItems", "orderItem", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("orderItem." + OrderItem_.storeId.getName(), storeId));
+
+        criteria.addOrder(Order.asc("dateCreate"));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> orderIds = criteria.list();
+        return orderIds;
     }
     
     public List<OrderItem> findOrderItemsByStoreId(final Long storeId, Object... params) {

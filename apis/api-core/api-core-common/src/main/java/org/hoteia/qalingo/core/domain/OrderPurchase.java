@@ -80,6 +80,9 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> implements Doma
     @JoinColumn(name = "USER_ID", insertable = true, updatable = true)
     private User user;
     
+    @Column(name = "USER_STORE_ID")
+    private Long userStoreId;
+    
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  targetEntity = org.hoteia.qalingo.core.domain.OrderAddress.class)
     @JoinColumn(name="BILLING_ORDER_ADDRESS_ID")
 	private OrderAddress billingAddress;
@@ -207,6 +210,14 @@ public class OrderPurchase extends AbstractEntity<OrderPurchase> implements Doma
     
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public Long getUserStoreId() {
+        return userStoreId;
+    }
+    
+    public void setUserStoreId(Long userStoreId) {
+        this.userStoreId = userStoreId;
     }
 	
 	public OrderAddress getBillingAddress() {

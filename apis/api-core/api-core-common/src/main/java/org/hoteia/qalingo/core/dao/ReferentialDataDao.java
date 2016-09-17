@@ -9,7 +9,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Dictionary;
-import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Tag;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;

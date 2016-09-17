@@ -49,6 +49,10 @@ public class OrderPurchaseService {
     public List<OrderPurchase> findOrders(Object... params) {
         return orderDao.findOrders(params);
     }
+    
+    public List<Long> findOrderIdsByStoreId(final Long storeId, Object... params) {
+        return orderDao.findOrderIdsByStoreId(storeId, params);
+    }
 
     public List<OrderItem> findOrderItemsByStoreId(final Long storeId, Object... params) {
         return orderDao.findOrderItemsByStoreId(storeId, params);
