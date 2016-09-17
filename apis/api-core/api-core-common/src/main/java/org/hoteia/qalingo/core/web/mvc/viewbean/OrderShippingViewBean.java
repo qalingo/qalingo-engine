@@ -18,7 +18,7 @@ public class OrderShippingViewBean extends AbstractViewBean {
 
 	private String code;
     private String name;
-    private String deliveryTime;
+    private String expectedDeliveryDate;
 	private String totalLabel;
 	private String total;
 
@@ -41,12 +41,12 @@ public class OrderShippingViewBean extends AbstractViewBean {
         this.name = name;
     }
 	
-	public String getDeliveryTime() {
-        return deliveryTime;
+	public String getExpectedDeliveryDate() {
+        return expectedDeliveryDate;
     }
 	
-	public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime;
+	public void setExpectedDeliveryDate(String expectedDeliveryDate) {
+        this.expectedDeliveryDate = expectedDeliveryDate;
     }
 
 	public String getTotalLabel() {

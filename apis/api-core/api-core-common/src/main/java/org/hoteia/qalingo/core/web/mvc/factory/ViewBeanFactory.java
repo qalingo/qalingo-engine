@@ -123,6 +123,7 @@ import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
 import org.hoteia.qalingo.core.service.CmsContentService;
+import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.OrderPurchaseService;
@@ -226,6 +227,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     @Autowired
     protected ProductService productService;
 
+    @Autowired
+    protected DeliveryMethodService deliveryMethodService;
+    
     @Autowired
     protected RetailerService retailerService;
     
@@ -1534,6 +1538,8 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             addressViewBean.setId(address.getId().toString());
         }
 
+        addressViewBean.setCompanyName(address.getCompanyName());
+        
         addressViewBean.setTitleCode(address.getTitle());
         String titleLabel = referentialDataService.getTitleByLocale(address.getTitle(), locale);
         addressViewBean.setTitleLabel(titleLabel);
@@ -2722,6 +2728,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             if (Hibernate.isInitialized(orderShipments) && orderShipments != null) {
                 for (final OrderShipment orderShipment : orderShipments) {
                     final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
+                    DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodById(orderShipment.getDeliveryMethodId());
+                    orderShippingViewBean.setCode(deliveryMethod.getCode());
+                    orderShippingViewBean.setName(deliveryMethod.getName());
                     Object[] params = {orderShipment.getName()};
                     orderShippingViewBean.setTotal(order.getCurrency().formatPriceWithStandardCurrencySign(orderShipment.getPrice()));
                     if(BigDecimal.ZERO.compareTo(orderShipment.getPrice()) == 0){
