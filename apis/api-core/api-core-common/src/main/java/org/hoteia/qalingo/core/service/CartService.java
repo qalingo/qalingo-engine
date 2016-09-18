@@ -23,9 +23,7 @@ import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CartItemTax;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingType;
@@ -76,7 +74,7 @@ public class CartService {
                 }
             }
         }
-        cart = updateCartItem(cart, store, virtualCatalogCode, catalogCategoryCode, productSkuCode, finalQuantity);
+        updateCartItem(cart, store, virtualCatalogCode, catalogCategoryCode, productSkuCode, finalQuantity);
         return cart;
     }
 
@@ -135,7 +133,8 @@ public class CartService {
                 // TODO : throw ??
             }
         }
-        return saveOrUpdateCart(cart);
+        saveOrUpdateCart(cart);
+        return cart;
     }
 
     public Cart deleteCartItem(Cart cart, Store store, final String productSkuCode) throws Exception {
@@ -147,7 +146,7 @@ public class CartService {
                 }
             }
             cart.setCartItems(cartItems);
-            return saveOrUpdateCart(cart);
+            saveOrUpdateCart(cart);
         }
         return cart;
     }
@@ -156,14 +155,16 @@ public class CartService {
         if (customer.getAddress(customerAddressId) != null) {
             cart.setShippingAddressId(customerAddressId);
         }
-        return saveOrUpdateCart(cart);
+        saveOrUpdateCart(cart);
+        return cart;
     }
 
     public Cart setBillingAddress(Cart cart, Customer customer, Long customerAddressId) throws Exception {
         if (customer.getAddress(customerAddressId) != null) {
             cart.setShippingAddressId(customerAddressId);
         }
-        return saveOrUpdateCart(cart);
+        saveOrUpdateCart(cart);
+        return cart;
     }
 
     public Cart setDeliveryMethod(Cart cart, String deliveryMethodCode) throws Exception {
@@ -178,7 +179,8 @@ public class CartService {
 
     public Cart addDeliveryMethod(Cart cart, String deliveryMethodCode) throws Exception {
         cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
-        return saveOrUpdateCart(cart);
+        saveOrUpdateCart(cart);
+        return cart;
     }
     
     public Cart newCustomerCart(final MarketArea marketArea, Customer customer) {
