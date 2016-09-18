@@ -288,7 +288,9 @@ public class Cart extends AbstractExtendEntity<Cart, CartAttribute> implements D
         this.deliveryMethods = cart.getDeliveryMethods();
         if (cartItems != null && Hibernate.isInitialized(cartItems)) {
             for (CartItem cartItem : cartItems) {
-                cartItem.setTaxes(cart.getCartItem(cartItem.getProductSku()).getTaxes());
+                if(cart.getCartItem(cartItem.getProductSku()) != null){
+                    cartItem.setTaxes(cart.getCartItem(cartItem.getProductSku()).getTaxes());
+                }
             }
         }
     }
