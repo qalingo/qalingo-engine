@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuStorePrice;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,7 +98,7 @@ public class CartService {
                 CartItem cartItem = new CartItem();
                 cartItem.setProductSku(productSku);
 
-                final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+                final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode(), FetchPlanGraphProduct.productMarketingDefaultFetchPlan());
                 cartItem.setProductMarketing(reloadedProductMarketing);
                 
                 cartItem.setQuantity(quantity);
