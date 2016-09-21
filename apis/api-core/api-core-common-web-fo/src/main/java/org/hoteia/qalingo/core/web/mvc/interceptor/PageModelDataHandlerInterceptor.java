@@ -246,22 +246,9 @@ public class PageModelDataHandlerInterceptor implements HandlerInterceptor {
                 }
                 modelAndView.getModelMap().put("displayHttpsNavBarMessage", displayHttpsNavBarMessage);
                 
-            	modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanCommon(requestData));
-            	modelAndView.getModelMap().put(ModelConstants.SECURITY_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request)));
-            	
-                modelAndView.getModelMap().put("requestScheme", request.getScheme());
-
                 if(geolocData != null && geolocData.getCity() != null && StringUtils.isNotEmpty(geolocData.getCity().getName())){
                     modelAndView.getModelMap().addAttribute("cityName", geolocData.getCity().getName());
                     modelAndView.getModelMap().addAttribute("isGeolocated", true);
-                }
-
-                if(customer != null){
-                    modelAndView.getModelMap().put(ModelConstants.CUSTOMER_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanCustomer(requestData, customer));
-                }
-
-                if(requestData.getGeolocData() != null){
-                    modelAndView.getModelMap().put(ModelConstants.GEOLOC_DATA_VIEW_BEAN, requestData.getGeolocData());
                 }
 
                 modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanLegalTerms(requestData));
