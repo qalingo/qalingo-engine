@@ -23,14 +23,12 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -129,11 +127,6 @@ public class LoginController extends AbstractMCommerceController {
         }
 
         return modelAndView;
-    }
-
-    @ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
-    protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
-        return frontofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request));
     }
 
 }

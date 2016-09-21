@@ -247,7 +247,8 @@ public class PageModelDataHandlerInterceptor implements HandlerInterceptor {
                 modelAndView.getModelMap().put("displayHttpsNavBarMessage", displayHttpsNavBarMessage);
                 
             	modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanCommon(requestData));
-
+            	modelAndView.getModelMap().put(ModelConstants.SECURITY_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request)));
+            	
                 modelAndView.getModelMap().put("requestScheme", request.getScheme());
 
                 if(geolocData != null && geolocData.getCity() != null && StringUtils.isNotEmpty(geolocData.getCity().getName())){

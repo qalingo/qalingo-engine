@@ -27,7 +27,6 @@ import org.hoteia.qalingo.core.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.core.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -223,11 +222,6 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
     	return resetPasswordForm;
 	}
     
-	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
-	protected SecurityViewBean initSecurity(final HttpServletRequest request, final Model model) throws Exception {
-		return frontofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request));
-	}
-	
     protected BreadcrumbViewBean buildBreadcrumbViewBean(final RequestData requestData, FoUrls urlContext) {
         final Locale locale = requestData.getLocale();
 

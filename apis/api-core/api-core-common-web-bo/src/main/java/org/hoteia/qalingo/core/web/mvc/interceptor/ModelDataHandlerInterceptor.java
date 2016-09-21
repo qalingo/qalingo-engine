@@ -76,6 +76,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             final Locale locale = requestData.getLocale();
             
             modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanCommon(requestData));
+            modelAndView.getModelMap().put(ModelConstants.SECURITY_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanSecurity(requestUtil.getRequestData(request)));
             
             final MarketPlace currentMarketPlace = requestData.getMarketPlace();
             final Market currentMarket = requestData.getMarket();
