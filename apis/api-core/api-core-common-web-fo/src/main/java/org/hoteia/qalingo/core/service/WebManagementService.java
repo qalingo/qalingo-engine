@@ -320,7 +320,7 @@ public class WebManagementService {
         if(StringUtils.isNotEmpty(createAccountForm.getAddressName())){
             defaultAddress.setAddressName(createAccountForm.getAddressName());
         } else {
-            defaultAddress.setAddressName(createAccountForm.getAddress1() + "(" + createAccountForm.getCity() + ")");
+            defaultAddress.setAddressName(createAccountForm.getAddress1() + " (" + createAccountForm.getCity() + ")");
         }
         defaultAddress.setTitle(createAccountForm.getTitle());
         defaultAddress.setLastname(createAccountForm.getLastname());
@@ -400,7 +400,7 @@ public class WebManagementService {
         if(StringUtils.isNotEmpty(customerAddressForm.getAddressName())){
             customerAddress.setAddressName(customerAddressForm.getAddressName());
         } else {
-            customerAddress.setAddressName(customerAddressForm.getAddress1() + "(" + customerAddressForm.getCity() + ")");
+            customerAddress.setAddressName(customerAddressForm.getAddress1() + " (" + customerAddressForm.getCity() + ")");
         }
         customerAddress.setTitle(customerAddressForm.getTitle());
         customerAddress.setLastname(customerAddressForm.getLastname());

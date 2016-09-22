@@ -69,13 +69,13 @@ public class DocumentService {
     // ORDER CONFIRMATION CONFIRMATION
     
     public String getOrderConfirmationFilePath(final OrderPurchase order) {
-        final String filePathPrefix = buildFilePathSegment(order);
+        final String filePathPrefix = buildDocumentFileRootPath(order);
         final String fullFilePath = filePathPrefix + OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullFilePath;
     }
     
     public String getOrderConfirmationWebPath(final OrderPurchase order) {
-        final String documentWebRootPath = buildWebPathSegment(order);
+        final String documentWebRootPath = buildDocumentWebRootPath(order);
         final String fullPath = documentWebRootPath + "/" + order.getPrefixHashFolder() + "/" + OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullPath;
     }
@@ -157,13 +157,13 @@ public class DocumentService {
     // ORDER SHIPPING CONFIRMATION
     
     public String getShippingConfirmationFilePath(final OrderPurchase order) {
-        final String filePathPrefix = buildFilePathSegment(order);
+        final String filePathPrefix = buildDocumentFileRootPath(order);
         final String fullFilePath = filePathPrefix + OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullFilePath;
     }
     
     public String getShippingConfirmationWebPath(final OrderPurchase order) {
-        final String documentWebRootPath = buildWebPathSegment(order);
+        final String documentWebRootPath = buildDocumentWebRootPath(order);
         String fullPath = documentWebRootPath + "/" + order.getPrefixHashFolder() + "/" + OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullPath;
     }
@@ -245,13 +245,13 @@ public class DocumentService {
     // INVOICE
     
     public String getInvoiceFilePath(final OrderPurchase order) {
-        final String filePathPrefix = buildFilePathSegment(order);
+        final String filePathPrefix = buildDocumentFileRootPath(order);
         final String fullFilePath = filePathPrefix + OrderDocumentType.INVOICE.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullFilePath;
     }
     
     public String getInvoiceWebPath(final OrderPurchase order) {
-        final String documentWebRootPath = buildWebPathSegment(order);
+        final String documentWebRootPath = buildDocumentWebRootPath(order);
         final String fullPath = documentWebRootPath + "/" + order.getPrefixHashFolder() + "/" + OrderDocumentType.INVOICE.getPropertyKey() + "-" + order.getOrderNum() + ".pdf";
         return fullPath;
     }
@@ -330,7 +330,7 @@ public class DocumentService {
         return defaultInvoiceTemplate;
     }
     
-    private String buildFilePathSegment(final OrderPurchase order){
+    private String buildDocumentFileRootPath(final OrderPurchase order){
         final EngineSetting documentFileRootPathEngineSetting = engineSettingService.getSettingDocumentFileRootPath();
         String documentFileRootPath = documentFileRootPathEngineSetting.getDefaultValue();
         String filePathSegment = documentFileRootPath + "/" + order.getPrefixHashFolder() + "/";
@@ -341,7 +341,7 @@ public class DocumentService {
         return filePathSegment;
     }
     
-    private String buildWebPathSegment(final OrderPurchase order){
+    private String buildDocumentWebRootPath(final OrderPurchase order){
         EngineSetting documentWebRootPathEngineSetting = engineSettingService.getSettingDocumentWebRootPath();
         String documentWebRootPath = documentWebRootPathEngineSetting.getDefaultValue();
         if (documentWebRootPath != null && documentWebRootPath.endsWith("/")) {
