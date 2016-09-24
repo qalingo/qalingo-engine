@@ -39,6 +39,7 @@ import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -916,7 +917,7 @@ public class WebManagementService {
         final String contextNameValue = requestData.getContextNameValue();
         final String velocityPath = requestData.getVelocityEmailPrefix();
         final Locale locale = requestData.getLocale();
-        final String localizationCode = localization.getCode();
+        final String localizationCode = requestData.getMarketAreaLocalization().getCode();
         
         final OrderConfirmationEmailBean orderConfirmationEmailBean = new OrderConfirmationEmailBean();
         orderConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
