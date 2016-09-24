@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,15 +31,16 @@ public class OrderItemViewBean extends AbstractViewBean {
     protected String i18nDescription;
     protected String i18nShortDescription;
 
-    private StoreViewBean store;
+    protected StoreViewBean store;
 
     protected int quantity;
     protected String price;
     protected String priceWithTaxes;
     protected String amount;
 
-    private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
-    private List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    protected List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
+    protected List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
 
     public String getSkuCode() {
         return skuCode;
@@ -150,6 +152,80 @@ public class OrderItemViewBean extends AbstractViewBean {
         this.amount = amount;
     }
 
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public List<AssetViewBean> getAssets(String type) {
+        List<AssetViewBean> assetsByType = new ArrayList<AssetViewBean>();
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                assetsByType.add(assetViewBean);
+            }
+        }
+        if(assetsByType.size() == 0){
+            assetsByType.add(getDefaultAsset());
+        }
+        return assetsByType;
+    }
+    
+    public String getAssetPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getPath();
+            }
+        }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getPath();
+        }
+        return null;
+    }
+    
+    public String getAssetAbsoluteWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getAbsoluteWebPath();
+            }
+        }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getAbsoluteWebPath();
+        }
+        return null;
+    }
+    
+    public String getAssetRelativeWebPath(String type) {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if(assetViewBean.getType().equals(type)){
+                return assetViewBean.getRelativeWebPath();
+            }
+        }
+        AssetViewBean assetViewBean = getDefaultAsset();
+        if(assetViewBean != null){
+            return assetViewBean.getRelativeWebPath();
+        }
+        return null;
+    }
+
+    public AssetViewBean getDefaultAsset() {
+        for (Iterator<AssetViewBean> iterator = assets.iterator(); iterator.hasNext();) {
+            AssetViewBean assetViewBean = (AssetViewBean) iterator.next();
+            if("default".equals(assetViewBean.getType())){
+                return assetViewBean;
+            }
+        }
+        return null;
+    }
+    
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
+    }
+    
     public List<OrderShippingViewBean> getOrderShippings() {
         return orderShippings;
     }

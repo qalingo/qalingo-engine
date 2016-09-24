@@ -2875,12 +2875,33 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             orderItemViewBean.setEan(productSku.getEan());
             orderItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
             orderItemViewBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
+            
+            // ASSETS
+            if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+                for (Asset asset : productSku.getAssets()) {
+                    AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+                    final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                    assetViewBean.setRelativeWebPath(path);
+                    assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+                    orderItemViewBean.getAssets().add(assetViewBean);
+                }
+            } 
         }
         
         if(orderItem.getStoreId() != null){
             Store store = retailerService.getStoreById(orderItem.getStoreId());
             orderItemViewBean.setStore(buildViewBeanStore(requestData, store));
         }
+        
+        // FALLBACK ASSET
+        Asset asset = new Asset();
+        asset.setType(Asset.ASSET_TYPE_DEFAULT);
+        asset.setPath("default-cart-item.png");
+        AssetViewBean assetViewBean = buildViewBeanAsset(requestData, asset);
+        final String path = engineSettingService.getProductSkuImageWebPath(asset);
+        assetViewBean.setRelativeWebPath(path);
+        assetViewBean.setAbsoluteWebPath(urlService.buildAbsoluteUrl(requestData, path));
+        orderItemViewBean.getAssets().add(assetViewBean);
         
         orderItemViewBean.setPrice(orderItem.getOrderItemPriceWithStandardCurrencySign());
         orderItemViewBean.setPriceWithTaxes(orderItem.getOrderItemPriceWithTaxesWithStandardCurrencySign());

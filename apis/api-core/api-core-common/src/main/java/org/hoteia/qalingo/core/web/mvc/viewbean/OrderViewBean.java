@@ -17,42 +17,42 @@ public class OrderViewBean extends AbstractViewBean {
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = -7481342045685333815L;
+	protected static final long serialVersionUID = -7481342045685333815L;
 	
-    private String status;
-    private String statusLabel;
+    protected String status;
+    protected String statusLabel;
 
-    private String confirmationMessage;
-    private String orderNum;
+    protected String confirmationMessage;
+    protected String orderNum;
 
-    private String type;
+    protected String type;
     
-    private String expectedDeliveryDate;
+    protected String expectedDeliveryDate;
     
-    private String orderItemsTotalWithCurrencySign;
-    private String orderShippingTotalWithCurrencySign;
-    private String orderTaxesTotalWithCurrencySign;
-    private String orderTotalWithCurrencySign;
+    protected String orderItemsTotalWithCurrencySign;
+    protected String orderShippingTotalWithCurrencySign;
+    protected String orderTaxesTotalWithCurrencySign;
+    protected String orderTotalWithCurrencySign;
 
-    private String cardHolder;
-    private String cardNumber;
-    private String cardCrypto;
-    private String cardExpirationDate;
-    private String cardExpirationMonth;
-    private String cardExpirationYear;
+    protected String cardHolder;
+    protected String cardNumber;
+    protected String cardCrypto;
+    protected String cardExpirationDate;
+    protected String cardExpirationMonth;
+    protected String cardExpirationYear;
 
-    private CustomerViewBean customer;
-    private UserViewBean user;
-    private OrderAddressViewBean billingAddress;
-    private OrderAddressViewBean shippingAddress;
+    protected CustomerViewBean customer;
+    protected UserViewBean user;
+    protected OrderAddressViewBean billingAddress;
+    protected OrderAddressViewBean shippingAddress;
 
-    private List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
-    private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
-    private List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
-    private List<OrderPaymentViewBean> payments = new ArrayList<OrderPaymentViewBean>();
-    private List<OrderStateViewBean> states = new ArrayList<OrderStateViewBean>();
+    protected List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
+    protected List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
+    protected List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
+    protected List<OrderPaymentViewBean> payments = new ArrayList<OrderPaymentViewBean>();
+    protected List<OrderStateViewBean> states = new ArrayList<OrderStateViewBean>();
 
-    private String detailsUrl;
+    protected String detailsUrl;
 
 	public OrderViewBean() {
 	}
