@@ -934,29 +934,33 @@ public class WebManagementService {
             } else {
                 orderConfirmationEmailBean.setExpectedDeliveryDate("NA");
             }
-            
-            orderConfirmationEmailBean.setCompanyName(order.getShippingAddress().getCompanyName());
-            
-            orderConfirmationEmailBean.setTitleCode(order.getShippingAddress().getTitle());
-            String titleLabel = referentialDataService.getTitleByLocale(order.getShippingAddress().getTitle(), locale);
-            orderConfirmationEmailBean.setTitleLabel(titleLabel);
 
-            orderConfirmationEmailBean.setLastname(order.getShippingAddress().getLastname());
-            orderConfirmationEmailBean.setFirstname(order.getShippingAddress().getFirstname());
+            if (Hibernate.isInitialized(order.getShippingAddress()) 
+                    && order.getShippingAddress() != null) {
+                orderConfirmationEmailBean.setCompanyName(order.getShippingAddress().getCompanyName());
+                
+                orderConfirmationEmailBean.setTitleCode(order.getShippingAddress().getTitle());
+                String titleLabel = referentialDataService.getTitleByLocale(order.getShippingAddress().getTitle(), locale);
+                orderConfirmationEmailBean.setTitleLabel(titleLabel);
 
-            orderConfirmationEmailBean.setAddress1(order.getShippingAddress().getAddress1());
-            orderConfirmationEmailBean.setAddress2(order.getShippingAddress().getAddress2());
-            orderConfirmationEmailBean.setAddressAdditionalInformation(order.getShippingAddress().getAddressAdditionalInformation());
-            orderConfirmationEmailBean.setPostalCode(order.getShippingAddress().getPostalCode());
-            orderConfirmationEmailBean.setCity(order.getShippingAddress().getCity());
-            orderConfirmationEmailBean.setStateCode(order.getShippingAddress().getStateCode());
-            orderConfirmationEmailBean.setAreaCode(order.getShippingAddress().getAreaCode());
-            orderConfirmationEmailBean.setCountryCode(order.getShippingAddress().getCountryCode());
+                orderConfirmationEmailBean.setLastname(order.getShippingAddress().getLastname());
+                orderConfirmationEmailBean.setFirstname(order.getShippingAddress().getFirstname());
 
-            String coutryLabel = referentialDataService.getCountryByLocale(order.getShippingAddress().getCountryCode(), locale);
-            orderConfirmationEmailBean.setCountry(coutryLabel);
+                orderConfirmationEmailBean.setAddress1(order.getShippingAddress().getAddress1());
+                orderConfirmationEmailBean.setAddress2(order.getShippingAddress().getAddress2());
+                orderConfirmationEmailBean.setAddressAdditionalInformation(order.getShippingAddress().getAddressAdditionalInformation());
+                orderConfirmationEmailBean.setPostalCode(order.getShippingAddress().getPostalCode());
+                orderConfirmationEmailBean.setCity(order.getShippingAddress().getCity());
+                orderConfirmationEmailBean.setStateCode(order.getShippingAddress().getStateCode());
+                orderConfirmationEmailBean.setAreaCode(order.getShippingAddress().getAreaCode());
+                orderConfirmationEmailBean.setCountryCode(order.getShippingAddress().getCountryCode());
 
-            if (Hibernate.isInitialized(order.getOrderItems()) && order.getOrderItems() != null) {
+                String coutryLabel = referentialDataService.getCountryByLocale(order.getShippingAddress().getCountryCode(), locale);
+                orderConfirmationEmailBean.setCountry(coutryLabel);
+            }
+
+            if (Hibernate.isInitialized(order.getOrderItems()) 
+                    && order.getOrderItems() != null) {
                 for (OrderItem orderItem : order.getOrderItems()) {
                     OrderItemEmailBean orderItemEmailBean = new OrderItemEmailBean();
                     orderItemEmailBean.setSkuCode(orderItem.getProductSkuCode());

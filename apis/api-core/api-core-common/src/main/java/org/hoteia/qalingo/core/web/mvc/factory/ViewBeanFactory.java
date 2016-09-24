@@ -2789,7 +2789,12 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
             
             orderViewBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithTaxesWithStandardCurrencySign());
+            
             orderViewBean.setOrderShippingTotalWithCurrencySign(order.getDeliveryMethodTotalWithStandardCurrencySign());
+            if (BigDecimal.ZERO.compareTo(order.getDeliveryMethodTotal()) == 0) {
+                orderViewBean.setOrderShippingTotalWithCurrencySign(coreMessageSource.getCommonMessage(ScopeWebMessage.LABEL.getPropertyKey(), "free", requestData.getLocale()));
+            }
+            
             orderViewBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
             orderViewBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
 
