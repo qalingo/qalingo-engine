@@ -2715,18 +2715,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             }
 
             // ITEMS PART
-            final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
-            final Set<OrderItem> orderItems = order.getOrderItems();
-            for (OrderItem orderItem : orderItems) {
-                orderItemViewBeans.add(buildViewBeanOrderItem(requestData, orderItem));
+            if (Hibernate.isInitialized(order.getOrderItems()) && order.getOrderItems() != null) {
+                final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
+                for (OrderItem orderItem : order.getOrderItems()) {
+                    orderItemViewBeans.add(buildViewBeanOrderItem(requestData, orderItem));
+                }
+                orderViewBean.setOrderItems(orderItemViewBeans);
             }
-            orderViewBean.setOrderItems(orderItemViewBeans);
 
             // SHIPPINGS
             final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
-            final Set<OrderShipment> orderShipments = order.getShipments();
-            if (Hibernate.isInitialized(orderShipments) && orderShipments != null) {
-                for (final OrderShipment orderShipment : orderShipments) {
+            if (Hibernate.isInitialized(order.getShipments()) && order.getShipments() != null) {
+                for (final OrderShipment orderShipment : order.getShipments()) {
                     final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
                     DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodById(orderShipment.getDeliveryMethodId());
                     orderShippingViewBean.setCode(deliveryMethod.getCode());

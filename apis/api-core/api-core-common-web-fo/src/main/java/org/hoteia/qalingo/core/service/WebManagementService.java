@@ -21,6 +21,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
+import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
@@ -33,9 +35,10 @@ import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderPurchase;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.Retailer_;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -45,6 +48,7 @@ import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBea
 import org.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.OrderItemEmailBean;
 import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -59,6 +63,7 @@ import org.hoteia.qalingo.core.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.core.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.core.web.mvc.form.ResetPasswordForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
 import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.springframework.beans.BeanUtils;
@@ -910,7 +915,9 @@ public class WebManagementService {
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
         final String velocityPath = requestData.getVelocityEmailPrefix();
-
+        final Locale locale = requestData.getLocale();
+        final String localizationCode = localization.getCode();
+        
         final OrderConfirmationEmailBean orderConfirmationEmailBean = new OrderConfirmationEmailBean();
         orderConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
         orderConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
@@ -926,7 +933,59 @@ public class WebManagementService {
             } else {
                 orderConfirmationEmailBean.setExpectedDeliveryDate("NA");
             }
+            
+            orderConfirmationEmailBean.setCompanyName(order.getShippingAddress().getCompanyName());
+            
+            orderConfirmationEmailBean.setTitleCode(order.getShippingAddress().getTitle());
+            String titleLabel = referentialDataService.getTitleByLocale(order.getShippingAddress().getTitle(), locale);
+            orderConfirmationEmailBean.setTitleLabel(titleLabel);
 
+            orderConfirmationEmailBean.setLastname(order.getShippingAddress().getLastname());
+            orderConfirmationEmailBean.setFirstname(order.getShippingAddress().getFirstname());
+
+            orderConfirmationEmailBean.setAddress1(order.getShippingAddress().getAddress1());
+            orderConfirmationEmailBean.setAddress2(order.getShippingAddress().getAddress2());
+            orderConfirmationEmailBean.setAddressAdditionalInformation(order.getShippingAddress().getAddressAdditionalInformation());
+            orderConfirmationEmailBean.setPostalCode(order.getShippingAddress().getPostalCode());
+            orderConfirmationEmailBean.setCity(order.getShippingAddress().getCity());
+            orderConfirmationEmailBean.setStateCode(order.getShippingAddress().getStateCode());
+            orderConfirmationEmailBean.setAreaCode(order.getShippingAddress().getAreaCode());
+            orderConfirmationEmailBean.setCountryCode(order.getShippingAddress().getCountryCode());
+
+            String coutryLabel = referentialDataService.getCountryByLocale(order.getShippingAddress().getCountryCode(), locale);
+            orderConfirmationEmailBean.setCountry(coutryLabel);
+
+            if (Hibernate.isInitialized(order.getOrderItems()) && order.getOrderItems() != null) {
+                for (OrderItem orderItem : order.getOrderItems()) {
+                    OrderItemEmailBean orderItemEmailBean = new OrderItemEmailBean();
+                    orderItemEmailBean.setSkuCode(orderItem.getProductSkuCode());
+                    if(StringUtils.isNotEmpty(orderItem.getProductSkuCode())){
+                        ProductSku productSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
+                        orderItemEmailBean.setEan(productSku.getEan());
+                        orderItemEmailBean.setI18nName(productSku.getI18nName(localizationCode));
+                        orderItemEmailBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
+                        if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+                            for (Asset asset : productSku.getAssets()) {
+                                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                                orderItemEmailBean.setDefaultAssetFullPath(urlService.buildAbsoluteUrl(requestData, path));
+                            }
+                        } 
+                    }
+                    if(orderItem.getStoreId() != null){
+                        Store store = retailerService.getStoreById(orderItem.getStoreId());
+                        orderItemEmailBean.setStoreCode(store.getCode());
+                        orderItemEmailBean.setStoreName(store.getName());
+                    }
+                    
+                    orderItemEmailBean.setPrice(orderItem.getOrderItemPriceWithStandardCurrencySign());
+                    orderItemEmailBean.setPriceWithTaxes(orderItem.getOrderItemPriceWithTaxesWithStandardCurrencySign());
+                    orderItemEmailBean.setQuantity(orderItem.getQuantity());
+                    orderItemEmailBean.setAmount(orderItem.getOrderItemTotalPriceWithTaxesWithStandardCurrencySign());
+                    
+                    orderConfirmationEmailBean.getOrderItems().add(orderItemEmailBean);
+                }
+            }
+            
             orderConfirmationEmailBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithTaxesWithStandardCurrencySign());
             orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(order.getDeliveryMethodTotalWithStandardCurrencySign());
             orderConfirmationEmailBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
