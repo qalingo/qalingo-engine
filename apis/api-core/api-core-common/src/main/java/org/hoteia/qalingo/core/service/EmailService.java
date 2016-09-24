@@ -69,6 +69,7 @@ public class EmailService {
     public static final String CURRENT_DATE = "currentDate";
     public static final String WORDING      = "wording";
     public static final String CUSTOMER     = "customer";
+    public static final String USER         = "user";
 
 	@Autowired
 	protected EmailDao emailDao;
@@ -789,7 +790,7 @@ public class EmailService {
     /**
      * @throws Exception 
      */
-    public Email buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
+    public Email buildAndSaveNewOrderB2CConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												  final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
         Email email = null;
         try {
@@ -837,6 +838,61 @@ public class EmailService {
         } catch (IOException e) {
         	logger.error("Error, can't serializable the message :", e);
         	throw e;
+        }
+        return email;
+    }
+    
+    /**
+     * @throws Exception 
+     */
+    public Email buildAndSaveNewOrderB2BConfirmationMail(final RequestData requestData, final User user, final String velocityPath, 
+                                                      final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
+        Email email = null;
+        try {
+            final String contextNameValue = requestData.getContextNameValue();
+            final Localization localization = requestData.getMarketAreaLocalization();
+            final Locale locale = localization.getLocale();
+            
+            // SANITY CHECK
+            checkEmailAddresses(orderConfirmationEmailBean);
+            
+            Map<String, Object> model = new HashMap<String, Object>();
+          
+            DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
+            java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
+            model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+            model.put(USER, user);
+            model.put("orderConfirmationEmailBean", orderConfirmationEmailBean);
+            model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+
+            String fromAddress = handleFromAddress(orderConfirmationEmailBean.getFromAddress(), contextNameValue);
+            String fromName = handleFromName(orderConfirmationEmailBean.getFromName(), locale);
+            String toEmail = user.getEmail();
+            
+            MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_ORDER_CONFIRMATION, model);
+            mimeMessagePreparator.setTo(toEmail);
+            mimeMessagePreparator.setFrom(fromAddress);
+            mimeMessagePreparator.setFromName(fromName);
+            mimeMessagePreparator.setReplyTo(fromAddress);
+            Object[] parameters = {user.getLastname(), user.getFirstname()};
+            mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.store_new_order.confirmation_email_subject", parameters, locale));
+            mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-confirmation-html-content.vm", model));
+            mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), velocityPath + "order-confirmation-text-content.vm", model));
+            
+            email = new Email();
+            email.setType(Email.EMAIl_TYPE_ORDER_CONFIRMATION);
+            email.setStatus(Email.EMAIl_STATUS_PENDING);
+            saveOrUpdateEmail(email, mimeMessagePreparator);
+            
+        } catch (MailException e) {
+            logger.error("Error, can't save the message :", e);
+            throw e;
+        } catch (VelocityException e) {
+            logger.error("Error, can't build the message :", e);
+            throw e;
+        } catch (IOException e) {
+            logger.error("Error, can't serializable the message :", e);
+            throw e;
         }
         return email;
     }

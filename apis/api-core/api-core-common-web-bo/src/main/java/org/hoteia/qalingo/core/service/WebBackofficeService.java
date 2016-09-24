@@ -15,7 +15,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -29,9 +31,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CartItemTax;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
@@ -46,6 +52,11 @@ import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.OrderAddress;
+import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderPurchase;
+import org.hoteia.qalingo.core.domain.OrderShipment;
+import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
@@ -59,11 +70,23 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserCredential;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel;
+
+import org.hoteia.qalingo.core.domain.Store_;
+import org.hoteia.qalingo.core.domain.CompanyStoreRel_;
+import org.hoteia.qalingo.core.domain.CompanyStorePk_;
+
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
+import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.OrderItemEmailBean;
 import org.hoteia.qalingo.core.email.bean.UserForgottenPasswordEmailBean;
 import org.hoteia.qalingo.core.email.bean.UserNewAccountConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.UserResetPasswordConfirmationEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
@@ -89,6 +112,8 @@ import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 import org.hoteia.qalingo.core.web.resolver.RequestData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +124,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class WebBackofficeService {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     @Autowired
     protected MarketService marketService;
     
@@ -127,6 +154,12 @@ public class WebBackofficeService {
     protected DeliveryMethodService deliveryMethodService;
 
     @Autowired
+    protected CartService cartService;
+    
+    @Autowired
+    protected OrderPurchaseService orderPurchaseService;
+    
+    @Autowired
     protected TaxService taxService;
 
     @Autowired
@@ -145,6 +178,9 @@ public class WebBackofficeService {
     protected EmailService emailService;
     
     @Autowired
+    protected CoreMessageSource coreMessageSource;
+    
+    @Autowired
     protected BackofficeUrlService backofficeUrlService;
     
     @Autowired
@@ -155,6 +191,132 @@ public class WebBackofficeService {
     
     @Autowired
     protected SecurityUtil securityUtil;
+    
+    public OrderPurchase checkoutB2B(final User user, final Cart cart) throws Exception {
+        Long marketAreaId = cart.getMarketAreaId();
+        Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
+        Set<CartItem> cartItems = cart.getCartItems();
+        
+        OrderPurchase orderPurchase = new OrderPurchase();
+        // ORDER NUMBER IS CREATE BY DAO
+
+        orderPurchase.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());
+        orderPurchase.setType(cart.getType());
+        
+        orderPurchase.setCurrency(cart.getCurrency());
+        orderPurchase.setMarketAreaId(cart.getMarketAreaId());
+        orderPurchase.setRetailerId(cart.getRetailerId());
+        orderPurchase.setLocalizationId(cart.getLocalizationId());
+        
+        orderPurchase.setUser(user);
+
+        List<SpecificFetchMode> storeSpecificFetchplans = new ArrayList<SpecificFetchMode>();
+        storeSpecificFetchplans.add(new SpecificFetchMode(Store_.attributes.getName()));
+        storeSpecificFetchplans.add(new SpecificFetchMode(Store_.companyStoreRels.getName() ));
+        storeSpecificFetchplans.add(new SpecificFetchMode(Store_.companyStoreRels.getName() + "." + CompanyStoreRel_.pk.getName()));
+        storeSpecificFetchplans.add(new SpecificFetchMode(Store_.companyStoreRels.getName() + "." + CompanyStoreRel_.pk.getName() + "." + CompanyStorePk_.company.getName()));
+        FetchPlan storeFetchPlan = new FetchPlan(storeSpecificFetchplans);
+        
+        List<Long> storeIds = retailerService.findStoreIdsByUserId(user.getId());
+        List<Store> stores = new ArrayList<Store>();
+        for (Long storeId : storeIds) {
+            stores.add(retailerService.getStoreById(storeId, storeFetchPlan));
+        }
+        
+        // SANITY CHECK
+        if(stores == null || stores.isEmpty()){
+            logger.error("Checkout an order with a user who has no stores! User id: " + user.getId() + ", Cart id: " + cart.getId());
+        }
+        
+        for (Store store : stores) {
+            if (store.getId().equals(cart.getBillingAddressId())) {
+                OrderAddress billingAddress = new OrderAddress();
+                BeanUtils.copyProperties(store, billingAddress);
+                billingAddress.setId(null);
+                billingAddress.setCompanyName(store.getName());
+                orderPurchase.setBillingAddress(billingAddress);
+                orderPurchase.setUserStoreId(store.getId());
+            }
+            if (store.getId().equals(cart.getShippingAddressId())) {
+                OrderAddress shippingAddress = new OrderAddress();
+                BeanUtils.copyProperties(store, shippingAddress);
+                shippingAddress.setId(null);
+                shippingAddress.setCompanyName(store.getCompany().getName());
+                orderPurchase.setShippingAddress(shippingAddress);
+            }
+        }
+
+        // SHIPMENT
+        Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
+        
+        // SANITY CHECK
+        if(deliveryMethods == null || deliveryMethods.isEmpty()){
+            logger.error("Checkout an order with a cart who has no deliveryMethods! User id: " + user.getId() + ", Cart id: " + cart.getId());
+        }
+        
+        if (deliveryMethods != null) {
+            for (DeliveryMethod deliveryMethod : deliveryMethods) {
+                OrderShipment orderShipment = new OrderShipment();
+                orderShipment.setName(deliveryMethod.getName());
+                orderShipment.setExpectedDeliveryDate(null);
+                orderShipment.setDeliveryMethodId(deliveryMethod.getId());
+                orderShipment.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
+
+                Set<OrderItem> orderItems = new HashSet<OrderItem>();
+                for (CartItem cartItem : cartItems) {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setCurrency(cart.getCurrency());
+                    orderItem.setProductSkuCode(cartItem.getProductSku().getCode());
+                    orderItem.setProductSku(cartItem.getProductSku());
+                    
+                    Boolean cartItemVATIncluded = cartService.isCartItemVATIncluded(cartItem, marketAreaId);
+                    orderItem.setVATIncluded(cartItemVATIncluded);
+//                    if(cartItemVATIncluded) {
+//                        orderItem.setPrice(cartService.getCartItemPriceWithTaxes(cartItem, marketAreaId, taxes));
+//                    } else {
+//                        orderItem.setPrice(cartService.getCartItemPrice(cartItem, marketAreaId, taxes));
+//                    }
+                    
+                    orderItem.setPrice(cartService.getCartItemPrice(cartItem, marketAreaId));
+//                    cartItemPojo.setTotalPrice(cartService.getCartItemPriceWithStandardCurrencySign(cartItem, marketAreaId, cart.getTaxes()));
+                    
+                    orderItem.setQuantity(cartItem.getQuantity());
+                    orderItem.setStoreId(cartItem.getStoreId());
+                    
+                    // TAXES
+                    List<CartItemTax> cartItemTaxes = cartItem.getTaxes(); 
+                    
+                    // SANITY CHECK
+                    if(cartItemTaxes == null || cartItemTaxes.isEmpty()){
+                        logger.error("Checkout an order with an item who has no taxes! Cart id: " + cart.getId() + ", CartItem id: " + cartItem.getId());
+                    }
+                    
+                    if (cartItemTaxes != null) {
+                        for (CartItemTax cartItemTax : cartItemTaxes) {
+                            Tax tax = cartItemTax.getTax();
+                            OrderTax orderTax = new OrderTax();
+                            orderTax.setTaxId(tax.getId());
+                            orderTax.setName(tax.getName());
+                            orderTax.setPercent(tax.getPercent());
+                            orderTax.setAmount(cartService.getCartItemTaxesAmount(cartItem, marketAreaId));
+                            orderItem.getTaxes().add(orderTax);
+                        }
+                    }
+                    
+                    orderItem.setShipment(orderShipment);
+                    orderItems.add(orderItem);
+                }
+                orderShipment.setOrderItems(orderItems);
+                orderShipment.setOrderPurchase(orderPurchase);
+                orderShipments.add(orderShipment);
+            }
+        }
+        orderPurchase.setShipments(orderShipments);
+
+        orderPurchase = orderPurchaseService.createNewOrder(orderPurchase);
+
+        return orderPurchase;
+    }
     
     // USER
     
@@ -174,18 +336,12 @@ public class WebBackofficeService {
         return userService.saveOrUpdateUser(user);
     }
 
-    /**
-     * 
-     */
     public User buildNewUser(final UserForm userForm) throws Exception {
         User user = new User();
         user = handleUserForm(user, userForm);
         return user;
     }
 
-    /**
-     * 
-     */
     public User buildAndRegisterNewActiveUser(final RequestData requestData, final UserForm userForm) throws Exception {
         User user = buildNewUser(userForm);
         // FORCE TO ACTIVE A REGISTER USER
@@ -193,25 +349,16 @@ public class WebBackofficeService {
         return user;
     }
     
-    /**
-     * 
-     */
     public User validateNewUser(final RequestData requestData, User user) throws Exception {
         user.setValidated(true);
         return updateCurrentUser(requestData, user);
     }
     
-    /**
-     * 
-     */
     public User activeNewUser(final RequestData requestData, User user) throws Exception {
         user.setActive(true);
         return updateCurrentUser(requestData, user);
     }
     
-    /**
-     * 
-     */
     public User updateCurrentUser(final RequestData requestData, User user) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         user.setDateUpdate(new Date());
@@ -1080,6 +1227,101 @@ public class WebBackofficeService {
     	}
 		
     	return retailerService.saveOrUpdateStore(store);
+    }
+    
+    /**
+     * 
+     */
+    public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final User user, final OrderPurchase order) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final String contextNameValue = requestData.getContextNameValue();
+        final String velocityPath = requestData.getVelocityEmailPrefix();
+        final Locale locale = requestData.getLocale();
+        final String localizationCode = requestData.getMarketAreaLocalization().getCode();
+        
+        final OrderConfirmationEmailBean orderConfirmationEmailBean = new OrderConfirmationEmailBean();
+        orderConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_ORDER_CONFIRMATION));
+        orderConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_ORDER_CONFIRMATION));
+        orderConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_ORDER_CONFIRMATION));
+        orderConfirmationEmailBean.setToEmail(user.getEmail());
+        
+        if (order != null) {
+            orderConfirmationEmailBean.setOrderNumber(order.getOrderNum());
+            
+            DateFormat dateFormat = requestUtil.getCommonFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            if (order.getExpectedDeliveryDate() != null) {
+                orderConfirmationEmailBean.setExpectedDeliveryDate(dateFormat.format(order.getExpectedDeliveryDate()));
+            } else {
+                orderConfirmationEmailBean.setExpectedDeliveryDate("NA");
+            }
+
+            if (Hibernate.isInitialized(order.getShippingAddress()) 
+                    && order.getShippingAddress() != null) {
+                orderConfirmationEmailBean.setCompanyName(order.getShippingAddress().getCompanyName());
+                
+                orderConfirmationEmailBean.setTitleCode(order.getShippingAddress().getTitle());
+                String titleLabel = referentialDataService.getTitleByLocale(order.getShippingAddress().getTitle(), locale);
+                orderConfirmationEmailBean.setTitleLabel(titleLabel);
+
+                orderConfirmationEmailBean.setLastname(order.getShippingAddress().getLastname());
+                orderConfirmationEmailBean.setFirstname(order.getShippingAddress().getFirstname());
+
+                orderConfirmationEmailBean.setAddress1(order.getShippingAddress().getAddress1());
+                orderConfirmationEmailBean.setAddress2(order.getShippingAddress().getAddress2());
+                orderConfirmationEmailBean.setAddressAdditionalInformation(order.getShippingAddress().getAddressAdditionalInformation());
+                orderConfirmationEmailBean.setPostalCode(order.getShippingAddress().getPostalCode());
+                orderConfirmationEmailBean.setCity(order.getShippingAddress().getCity());
+                orderConfirmationEmailBean.setStateCode(order.getShippingAddress().getStateCode());
+                orderConfirmationEmailBean.setAreaCode(order.getShippingAddress().getAreaCode());
+                orderConfirmationEmailBean.setCountryCode(order.getShippingAddress().getCountryCode());
+
+                String coutryLabel = referentialDataService.getCountryByLocale(order.getShippingAddress().getCountryCode(), locale);
+                orderConfirmationEmailBean.setCountry(coutryLabel);
+            }
+
+            if (Hibernate.isInitialized(order.getOrderItems()) 
+                    && order.getOrderItems() != null) {
+                for (OrderItem orderItem : order.getOrderItems()) {
+                    OrderItemEmailBean orderItemEmailBean = new OrderItemEmailBean();
+                    orderItemEmailBean.setSkuCode(orderItem.getProductSkuCode());
+                    if(StringUtils.isNotEmpty(orderItem.getProductSkuCode())){
+                        ProductSku productSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
+                        orderItemEmailBean.setEan(productSku.getEan());
+                        orderItemEmailBean.setI18nName(productSku.getI18nName(localizationCode));
+                        orderItemEmailBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
+                        if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
+                            for (Asset asset : productSku.getAssets()) {
+                                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                                orderItemEmailBean.setDefaultAssetFullPath(backofficeUrlService.buildAbsoluteUrl(requestData, path));
+                            }
+                        } 
+                    }
+                    if(orderItem.getStoreId() != null){
+                        Store store = retailerService.getStoreById(orderItem.getStoreId());
+                        orderItemEmailBean.setStoreCode(store.getCode());
+                        orderItemEmailBean.setStoreName(store.getName());
+                    }
+                    
+                    orderItemEmailBean.setPrice(orderItem.getOrderItemPriceWithStandardCurrencySign());
+                    orderItemEmailBean.setPriceWithTaxes(orderItem.getOrderItemPriceWithTaxesWithStandardCurrencySign());
+                    orderItemEmailBean.setQuantity(orderItem.getQuantity());
+                    orderItemEmailBean.setAmount(orderItem.getOrderItemTotalPriceWithTaxesWithStandardCurrencySign());
+                    
+                    orderConfirmationEmailBean.getOrderItems().add(orderItemEmailBean);
+                }
+            }
+            
+            orderConfirmationEmailBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithTaxesWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(order.getDeliveryMethodTotalWithStandardCurrencySign());
+            if (BigDecimal.ZERO.compareTo(order.getDeliveryMethodTotal()) == 0) {
+                orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(coreMessageSource.getCommonMessage(ScopeWebMessage.LABEL.getPropertyKey(), "free", requestData.getLocale()));
+            }
+            
+            orderConfirmationEmailBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
+        }
+        
+        emailService.buildAndSaveNewOrderB2BConfirmationMail(requestData, user, velocityPath, orderConfirmationEmailBean);
     }
     
     /**

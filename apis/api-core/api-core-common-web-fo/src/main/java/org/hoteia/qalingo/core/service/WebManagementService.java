@@ -926,9 +926,9 @@ public class WebManagementService {
         final String localizationCode = requestData.getMarketAreaLocalization().getCode();
         
         final OrderConfirmationEmailBean orderConfirmationEmailBean = new OrderConfirmationEmailBean();
-        orderConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
-        orderConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
-        orderConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        orderConfirmationEmailBean.setFromAddress(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_ORDER_CONFIRMATION));
+        orderConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_ORDER_CONFIRMATION));
+        orderConfirmationEmailBean.setReplyToEmail(getEmailFromAddress(requestData, marketArea, contextNameValue, Email.EMAIl_TYPE_ORDER_CONFIRMATION));
         orderConfirmationEmailBean.setToEmail(customer.getEmail());
         
         if (order != null) {
@@ -1007,7 +1007,7 @@ public class WebManagementService {
             orderConfirmationEmailBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
         }
         
-        emailService.buildAndSaveNewOrderConfirmationMail(requestData, customer, velocityPath, orderConfirmationEmailBean);
+        emailService.buildAndSaveNewOrderB2CConfirmationMail(requestData, customer, velocityPath, orderConfirmationEmailBean);
     }
     
     public Customer checkCustomerMarketArea(final RequestData requestData, Customer customer) throws Exception {
