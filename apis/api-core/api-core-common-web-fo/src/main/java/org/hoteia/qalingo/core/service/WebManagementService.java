@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -54,6 +55,8 @@ import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.security.helper.SecurityUtil;
 import org.hoteia.qalingo.core.util.CoreUtil;
 import org.hoteia.qalingo.core.web.mvc.form.ContactForm;
@@ -105,6 +108,9 @@ public class WebManagementService {
     
     @Autowired
     protected ReferentialDataService referentialDataService;
+    
+    @Autowired
+    protected CoreMessageSource coreMessageSource;
     
     @Autowired
     protected UrlService urlService;
@@ -993,6 +999,10 @@ public class WebManagementService {
             
             orderConfirmationEmailBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithTaxesWithStandardCurrencySign());
             orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(order.getDeliveryMethodTotalWithStandardCurrencySign());
+            if (BigDecimal.ZERO.compareTo(order.getDeliveryMethodTotal()) == 0) {
+                orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(coreMessageSource.getCommonMessage(ScopeWebMessage.LABEL.getPropertyKey(), "free", requestData.getLocale()));
+            }
+            
             orderConfirmationEmailBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
             orderConfirmationEmailBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
         }
