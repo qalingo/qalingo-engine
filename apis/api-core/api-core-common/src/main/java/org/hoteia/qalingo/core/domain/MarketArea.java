@@ -45,7 +45,7 @@ import org.hoteia.qalingo.core.domain.impl.DomainEntity;
 
 @Entity
 @Table(name = "TECO_MARKET_AREA")
-@CacheEntityInformation(cacheName="web_cache_market_area")
+@CacheEntityInformation(cacheName="web_cache_market")
 public class MarketArea extends AbstractEntity<MarketArea> implements DomainEntity {
 
     /**
