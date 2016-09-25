@@ -17,28 +17,32 @@ public class MarketAreaViewBean extends AbstractViewBean {
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = -8350224752431629863L;
+	protected static final long serialVersionUID = -8350224752431629863L;
 
 	// ENTITY
-    private String code;
-	private String name;
-	private String description;
+    protected String code;
+	protected String name;
+	protected String description;
     
-    private boolean opened;
-	private boolean isDefault;
-	private boolean isEcommerce;
-	private String theme;
-	private String domainName;
+    protected boolean opened;
+	protected boolean isDefault;
+	protected boolean isEcommerce;
+	protected String theme;
+	protected String domainName;
 	
-	private String longitude;
-	private String latitude;
+	protected String longitude;
+	protected String latitude;
 	
-	private List<LocalizationViewBean> localizations = new ArrayList<LocalizationViewBean>();
+	protected LocalizationViewBean defaultLocalization;
+	protected List<LocalizationViewBean> localizations = new ArrayList<LocalizationViewBean>();
 
+    protected CurrencyReferentialViewBean defaultCurrency;
+    protected List<CurrencyReferentialViewBean> currencies = new ArrayList<CurrencyReferentialViewBean>();
+    
     // MENU
-	private String changeContextUrl;
-	private String homeUrl;
-	private boolean active;
+	protected String changeContextUrl;
+	protected String homeUrl;
+	protected boolean active;
 
     public String getCode() {
         return code;
@@ -120,14 +124,38 @@ public class MarketAreaViewBean extends AbstractViewBean {
     	this.latitude = latitude;
     }
 
-	public List<LocalizationViewBean> getLocalizations() {
-		return localizations;
-	}
-	
-	public void setLocalizations(List<LocalizationViewBean> localizations) {
-		this.localizations = localizations;
-	}
-	
+    public LocalizationViewBean getDefaultLocalization() {
+        return defaultLocalization;
+    }
+
+    public void setDefaultLocalization(LocalizationViewBean defaultLocalization) {
+        this.defaultLocalization = defaultLocalization;
+    }
+
+    public List<LocalizationViewBean> getLocalizations() {
+        return localizations;
+    }
+
+    public void setLocalizations(List<LocalizationViewBean> localizations) {
+        this.localizations = localizations;
+    }
+
+    public CurrencyReferentialViewBean getDefaultCurrency() {
+        return defaultCurrency;
+    }
+
+    public void setDefaultCurrency(CurrencyReferentialViewBean defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
+    }
+
+    public List<CurrencyReferentialViewBean> getCurrencies() {
+        return currencies;
+    }
+
+    public void setCurrencies(List<CurrencyReferentialViewBean> currencies) {
+        this.currencies = currencies;
+    }
+
     public String getChangeContextUrl() {
         return changeContextUrl;
     }

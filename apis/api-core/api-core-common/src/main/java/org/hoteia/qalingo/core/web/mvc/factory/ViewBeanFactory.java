@@ -624,8 +624,18 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         marketAreaViewBean.setLatitude(marketArea.getLatitude());
         marketAreaViewBean.setLongitude(marketArea.getLongitude());
 
+        if (Hibernate.isInitialized(marketArea.getDefaultLocalization()) && marketArea.getDefaultLocalization() != null) {
+            marketAreaViewBean.setDefaultLocalization(buildViewBeanLocalization(requestData, marketArea.getDefaultLocalization()));
+        }
         if (Hibernate.isInitialized(marketArea.getLocalizations()) && marketArea.getLocalizations() != null) {
             marketAreaViewBean.setLocalizations(buildListViewBeanLocalizations(requestData, new ArrayList<Localization>(marketArea.getLocalizations())));
+        }
+        
+        if (Hibernate.isInitialized(marketArea.getDefaultCurrency()) && marketArea.getDefaultCurrency() != null) {
+            marketAreaViewBean.setDefaultCurrency(buildViewBeanCurrencyReferential(requestData, marketArea.getDefaultCurrency()));
+        }
+        if (Hibernate.isInitialized(marketArea.getCurrencies()) && marketArea.getCurrencies() != null) {
+            marketAreaViewBean.setCurrencies(buildListViewBeanCurrencyReferential(requestData, new ArrayList<CurrencyReferential>(marketArea.getCurrencies())));
         }
         
         if (Hibernate.isInitialized(marketArea.getMarket()) && marketArea.getMarket() != null) {
