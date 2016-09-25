@@ -977,7 +977,7 @@ public class WebManagementService {
                         orderItemEmailBean.setI18nDescription(productSku.getI18nDescription(localizationCode));
                         if (Hibernate.isInitialized(productSku.getAssets()) && productSku.getAssets() != null) {
                             for (Asset asset : productSku.getAssets()) {
-                                final String path = engineSettingService.getProductSkuImageWebPath(asset);
+                                final String path = engineSettingService.getProductSkuImageWebPath(productSku.getCode(), asset);
                                 orderItemEmailBean.setDefaultAssetFullPath(urlService.buildAbsoluteUrl(requestData, path));
                             }
                         } 

@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
+import org.apache.commons.lang.StringUtils;
+
 public class OrderAddressViewBean extends AbstractAddressViewBean {
 
 	/**
@@ -116,5 +118,53 @@ public class OrderAddressViewBean extends AbstractAddressViewBean {
 	public void setDeleteUrl(String deleteUrl) {
 		this.deleteUrl = deleteUrl;
 	}
+	
+	@Override
+    public String getAddressOnLine() {
+        StringBuffer address = new StringBuffer(super.getAddressOnLine());
+        if(StringUtils.isNotEmpty(companyName)){
+            address.append(companyName);
+            address.append(" - ");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)){
+            address.append(titleLabel + " ");
+        }
+        if(StringUtils.isNotEmpty(lastname)){
+            address.append(lastname + " ");
+        }
+        if(StringUtils.isNotEmpty(firstname)){
+            address.append(firstname + " ");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)
+                || StringUtils.isNotEmpty(lastname)
+                || StringUtils.isNotEmpty(firstname)){
+            address.append(" - ");
+        }
+        return address.toString();
+    }
+    
+    @Override
+    public String getAddressHtmlBlock() {
+        StringBuffer address = new StringBuffer(super.getAddressHtmlBlock());
+        if(StringUtils.isNotEmpty(companyName)){
+            address.append(companyName);
+            address.append("<br/>");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)){
+            address.append(titleLabel + " ");
+        }
+        if(StringUtils.isNotEmpty(lastname)){
+            address.append(lastname + " ");
+        }
+        if(StringUtils.isNotEmpty(firstname)){
+            address.append(firstname + " ");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)
+                || StringUtils.isNotEmpty(lastname)
+                || StringUtils.isNotEmpty(firstname)){
+            address.append("<br/>");
+        }
+        return address.toString();
+    }
 	
 }

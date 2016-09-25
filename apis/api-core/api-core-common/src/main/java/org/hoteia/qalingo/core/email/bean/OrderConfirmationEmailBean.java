@@ -206,6 +206,24 @@ public class OrderConfirmationEmailBean extends AbstractEmailBean implements Ser
 
     public String getAddressOnLine() {
         StringBuffer address = new StringBuffer();
+        if(StringUtils.isNotEmpty(companyName)){
+            address.append(companyName);
+            address.append(" - ");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)){
+            address.append(titleLabel + " ");
+        }
+        if(StringUtils.isNotEmpty(lastname)){
+            address.append(lastname + " ");
+        }
+        if(StringUtils.isNotEmpty(firstname)){
+            address.append(firstname + " ");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)
+                || StringUtils.isNotEmpty(lastname)
+                || StringUtils.isNotEmpty(firstname)){
+            address.append(" - ");
+        }
         if(StringUtils.isNotEmpty(address1)){
             address.append(address1);
         }
@@ -234,6 +252,24 @@ public class OrderConfirmationEmailBean extends AbstractEmailBean implements Ser
     
     public String getAddressHtmlBlock() {
         StringBuffer address = new StringBuffer();
+        if(StringUtils.isNotEmpty(companyName)){
+            address.append(companyName);
+            address.append("<br/>");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)){
+            address.append(titleLabel + " ");
+        }
+        if(StringUtils.isNotEmpty(lastname)){
+            address.append(lastname + " ");
+        }
+        if(StringUtils.isNotEmpty(firstname)){
+            address.append(firstname + " ");
+        }
+        if(StringUtils.isNotEmpty(titleLabel)
+                || StringUtils.isNotEmpty(lastname)
+                || StringUtils.isNotEmpty(firstname)){
+            address.append("<br/>");
+        }
         if(StringUtils.isNotEmpty(address1)){
             address.append(address1);
         }
