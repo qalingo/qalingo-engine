@@ -26,7 +26,7 @@
 		<spring.version>4.3.2.RELEASE</spring.version>
 		<aspectj.version>1.7.0</aspectj.version>
 		<!-- spring.security -->
-		<spring.security.version>4.1.1.RELEASE</spring.security.version>
+		<spring.security.version>5.2.10.RELEASE</spring.security.version>
 		<!-- Datas -->
 		<hibernate.version>4.3.11.Final</hibernate.version><!-- difficult migration to Hibernate 5.x -->
 		<!-- CXF -->
