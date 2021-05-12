@@ -32,7 +32,7 @@
 		<!-- CXF -->
 		<cxf.version>3.0.0-milestone1</cxf.version>
 		<!-- SOLR -->
-		<solr.version>4.0.0</solr.version>
+		<solr.version>8.8.2</solr.version>
 		<!-- DROOLS -->
 		<drools.version>6.4.0.Final</drools.version>
 		<drools.integration.version>6.4.0.Final</drools.integration.version>
