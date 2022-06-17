@@ -34,7 +34,7 @@
 		<!-- SOLR -->
 		<solr.version>4.0.0</solr.version>
 		<!-- DROOLS -->
-		<drools.version>6.4.0.Final</drools.version>
+		<drools.version>7.60.0.Final</drools.version>
 		<drools.integration.version>6.4.0.Final</drools.integration.version>
 		<!-- ACTIVEMQ -->
 		<activemq.version>5.9.0</activemq.version>
