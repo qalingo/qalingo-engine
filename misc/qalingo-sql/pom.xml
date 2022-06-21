@@ -51,7 +51,7 @@
 					<dependency>
 						<groupId>mysql</groupId>
 						<artifactId>mysql-connector-java</artifactId>
-						<version>5.1.9</version>
+						<version>8.0.28</version>
 					</dependency>
 				</dependencies>
 				<configuration>
@@ -171,7 +171,7 @@
 						<dependency>
 							<groupId>mysql</groupId>
 							<artifactId>mysql-connector-java</artifactId>
-							<version>5.1.9</version>
+							<version>8.0.28</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -183,7 +183,7 @@
 						<dependency>
 							<groupId>mysql</groupId>
 							<artifactId>mysql-connector-java</artifactId>
-							<version>5.1.9</version>
+							<version>8.0.28</version>
 						</dependency>
 					</dependencies>
 				</plugin>
