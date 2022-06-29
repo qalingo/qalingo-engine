@@ -631,7 +631,7 @@
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>
-				<version>3.11</version>
+				<version>4.1.1</version>
 			</dependency>
             
 			<!-- JACKSON Libs -->
