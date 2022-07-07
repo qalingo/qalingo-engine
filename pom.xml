@@ -23,7 +23,7 @@
 		<qalingo.webservice.url>http://localhost:21080/remote-ws</qalingo.webservice.url>
 
 		<!-- Spring -->
-		<spring.version>4.3.2.RELEASE</spring.version>
+		<spring.version>5.2.21.RELEASE</spring.version>
 		<aspectj.version>1.7.0</aspectj.version>
 		<!-- spring.security -->
 		<spring.security.version>4.1.1.RELEASE</spring.security.version>
