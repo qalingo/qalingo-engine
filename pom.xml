@@ -28,7 +28,7 @@
 		<!-- spring.security -->
 		<spring.security.version>4.1.1.RELEASE</spring.security.version>
 		<!-- Datas -->
-		<hibernate.version>4.3.11.Final</hibernate.version><!-- difficult migration to Hibernate 5.x -->
+		<hibernate.version>5.3.20.Final</hibernate.version><!-- difficult migration to Hibernate 5.x -->
 		<!-- CXF -->
 		<cxf.version>3.0.0-milestone1</cxf.version>
 		<!-- SOLR -->
